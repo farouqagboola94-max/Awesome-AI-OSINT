@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CATALYST: The Awakening — A Lagos Noir Comic Universe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #06060d;
+    --deep-navy: #0a0a1f;
+    --danfo-gold: #F4B800;
+    --neon-orange: #FF6B1A;
+    --blood-red: #C41E3A;
+    --electric-purple: #7B2FFF;
+    --orisha-teal: #00C9B1;
+    --adire-indigo: #1a1a6e;
+    --bone-white: #F0EDE5;
+    --ash-grey: #8a8a9a;
+    --iron-grey: #2a2a3a;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--bone-white);
+    font-family: 'Space Grotesk', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--danfo-gold);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease, width 0.3s, height 0.3s, background 0.3s;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--danfo-gold);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease, width 0.3s, height 0.3s;
+    opacity: 0.6;
+  }
+
+  #particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    padding: 1.2rem 4rem;
+    display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(to bottom, rgba(6,6,13,0.98), transparent);
+    backdrop-filter: blur(2px);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.15em;
+    color: var(--danfo-gold);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--blood-red); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--bone-white);
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+    opacity: 0.7;
+    transition: opacity 0.3s, color 0.3s;
+  }
+  .nav-links a:hover { opacity: 1; color: var(--danfo-gold); }
+  .nav-cta {
+    background: var(--blood-red);
+    color: #fff !important;
+    opacity: 1 !important;
+    padding: 0.5rem 1.4rem;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    font-size: 0.7rem !important;
+  }
+  .nav-cta:hover { background: var(--danfo-gold) !important; color: var(--black) !important; }
+
+  #hero {
+    position: relative; min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    background: radial-gradient(ellipse 80% 60% at 50% 80%, #1a0033 0%, var(--black) 70%);
+  }
+  .hero-skyline { position: absolute; bottom: 0; left: 0; width: 100%; height: 60%; opacity: 0.18; }
+  .hero-glow {
+    position: absolute; width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(123,47,255,0.35) 0%, transparent 70%);
+    top: 10%; left: 50%; transform: translateX(-50%);
+    pointer-events: none;
+    animation: pulse-glow 4s ease-in-out infinite;
+  }
+  .hero-glow-2 {
+    position: absolute; width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(244,184,0,0.2) 0%, transparent 70%);
+    bottom: 20%; right: 10%;
+    pointer-events: none;
+    animation: pulse-glow 5s ease-in-out infinite reverse;
+  }
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0.8; transform: translateX(-50%) scale(1); }
+    50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+  }
+  .hero-content { position: relative; z-index: 2; text-align: center; padding: 0 2rem; }
+  .hero-eyebrow {
+    font-size: 0.7rem; letter-spacing: 0.5em; text-transform: uppercase;
+    color: var(--danfo-gold); margin-bottom: 1.5rem;
+    display: flex; align-items: center; justify-content: center; gap: 1rem;
+    opacity: 0; animation: fadeUp 0.8s ease 0.3s forwards;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after { content: ''; width: 40px; height: 1px; background: var(--danfo-gold); opacity: 0.5; }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 14vw, 12rem);
+    line-height: 0.88; letter-spacing: -0.02em;
+    color: var(--bone-white);
+    text-shadow: 0 0 80px rgba(244,184,0,0.15);
+    opacity: 0; animation: fadeUp 0.9s ease 0.5s forwards;
+  }
+  .hero-title .line-gold { color: var(--danfo-gold); display: block; }
+  .hero-title .line-outline { -webkit-text-stroke: 2px var(--bone-white); color: transparent; display: block; }
+  .hero-subtitle {
+    font-family: 'Crimson Pro', serif; font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-style: italic; color: var(--ash-grey);
+    margin-top: 1.5rem; max-width: 600px; margin-left: auto; margin-right: auto;
+    line-height: 1.7; opacity: 0; animation: fadeUp 0.9s ease 0.7s forwards;
+  }
+  .hero-actions {
+    margin-top: 3rem; display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.9s ease 0.9s forwards;
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    background: var(--danfo-gold); color: var(--black);
+    padding: 1rem 2.5rem; font-family: 'Oswald', sans-serif;
+    font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase;
+    text-decoration: none; font-weight: 700;
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .btn-primary::before { content: ''; position: absolute; inset: 0; background: var(--blood-red); transform: translateX(-100%); transition: transform 0.3s ease; }
+  .btn-primary:hover::before { transform: translateX(0); }
+  .btn-primary:hover { color: #fff; }
+  .btn-primary span { position: relative; z-index: 1; }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    border: 1.5px solid rgba(240,237,229,0.3); color: var(--bone-white);
+    padding: 1rem 2.5rem; font-family: 'Oswald', sans-serif;
+    font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase;
+    text-decoration: none; font-weight: 600;
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    transition: all 0.3s;
+  }
+  .btn-secondary:hover { border-color: var(--danfo-gold); color: var(--danfo-gold); }
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    opacity: 0; animation: fadeIn 1s ease 1.5s forwards; z-index: 2;
+  }
+  .hero-scroll span { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ash-grey); }
+  .scroll-line { width: 1px; height: 60px; background: linear-gradient(to bottom, var(--danfo-gold), transparent); animation: scroll-pulse 2s ease-in-out infinite; }
+  @keyframes scroll-pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+  .marquee-section { background: var(--danfo-gold); padding: 0.9rem 0; overflow: hidden; position: relative; z-index: 2; }
+  .marquee-track { display: flex; gap: 3rem; animation: marquee 20s linear infinite; white-space: nowrap; }
+  .marquee-item { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 0.15em; color: var(--black); display: flex; align-items: center; gap: 1.5rem; flex-shrink: 0; }
+  .marquee-dot { width: 6px; height: 6px; background: var(--black); border-radius: 50%; opacity: 0.4; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  section { position: relative; z-index: 1; }
+  #universe { padding: 8rem 4rem; background: var(--deep-navy); position: relative; overflow: hidden; }
+  #universe::before { content: ''; position: absolute; top: -200px; left: -200px; width: 700px; height: 700px; background: radial-gradient(circle, rgba(26,26,110,0.4) 0%, transparent 70%); pointer-events: none; }
+
+  .section-label { font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--danfo-gold); margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; }
+  .section-label::before { content: ''; width: 30px; height: 1px; background: var(--danfo-gold); }
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 7vw, 6rem); line-height: 0.9; margin-bottom: 2rem; color: var(--bone-white); }
+  .section-title em { font-style: normal; color: var(--danfo-gold); }
+
+  .universe-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; max-width: 1200px; margin: 0 auto; }
+  .universe-text p { font-size: 1.05rem; line-height: 1.8; color: rgba(240,237,229,0.75); margin-bottom: 1.5rem; }
+  .universe-text p strong { color: var(--danfo-gold); font-weight: 600; }
+  .universe-text p em { color: var(--orisha-teal); font-style: italic; }
+  .universe-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3rem; }
+  .stat-box { border: 1px solid rgba(244,184,0,0.2); padding: 1.5rem; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%); background: rgba(244,184,0,0.03); transition: all 0.3s; }
+  .stat-box:hover { border-color: rgba(244,184,0,0.6); background: rgba(244,184,0,0.07); }
+  .stat-box .num { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: var(--danfo-gold); line-height: 1; }
+  .stat-box .label { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ash-grey); margin-top: 0.3rem; }
+  .world-map-container { background: rgba(26,26,110,0.3); border: 1px solid rgba(123,47,255,0.3); padding: 2rem; clip-path: polygon(20px 0%, 100% 0%, calc(100% - 20px) 100%, 0% 100%); position: relative; overflow: hidden; }
+  .world-map-container::before { content: 'NEO-LAGOS'; position: absolute; top: 1rem; right: 1.5rem; font-size: 0.6rem; letter-spacing: 0.3em; color: var(--electric-purple); opacity: 0.5; }
+  .world-map-svg { width: 100%; }
+
+  #locations { padding: 6rem 4rem; background: var(--black); }
+  .locations-header { max-width: 1200px; margin: 0 auto 4rem; text-align: center; }
+  .locations-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; max-width: 1200px; margin: 0 auto; background: rgba(244,184,0,0.1); }
+  .location-card { background: var(--black); padding: 2.5rem 2rem; position: relative; overflow: hidden; cursor: pointer; transition: background 0.4s; }
+  .location-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 0; background: var(--danfo-gold); transition: height 0.4s ease; }
+  .location-card:hover::before { height: 100%; }
+  .location-card:hover { background: rgba(244,184,0,0.04); }
+  .location-number { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: rgba(244,184,0,0.1); line-height: 1; margin-bottom: 1rem; transition: color 0.4s; }
+  .location-card:hover .location-number { color: rgba(244,184,0,0.25); }
+  .location-name { font-family: 'Oswald', sans-serif; font-size: 1.1rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--bone-white); margin-bottom: 0.5rem; }
+  .location-yoruba { font-family: 'Crimson Pro', serif; font-style: italic; font-size: 0.85rem; color: var(--danfo-gold); margin-bottom: 1rem; opacity: 0.7; }
+  .location-desc { font-size: 0.85rem; line-height: 1.6; color: var(--ash-grey); }
+  .location-tag { display: inline-block; margin-top: 1.2rem; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; padding: 0.3rem 0.8rem; border: 1px solid rgba(196,30,58,0.4); color: var(--blood-red); clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%); }
+
+  #characters { padding: 8rem 4rem; background: linear-gradient(to bottom, var(--black), var(--deep-navy)); overflow: hidden; }
+  .chars-header { max-width: 1200px; margin: 0 auto 5rem; }
+  .chars-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; max-width: 1200px; margin: 0 auto; }
+  .char-card { position: relative; cursor: pointer; overflow: hidden; clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px)); background: var(--iron-grey); aspect-ratio: 3/4; transition: transform 0.4s ease; }
+  .char-card:hover { transform: translateY(-8px); }
+  .char-bg { position: absolute; inset: 0; transition: transform 0.5s ease; }
+  .char-card:hover .char-bg { transform: scale(1.05); }
+  .char-bg-catalyst { background: linear-gradient(160deg, #1a0033 0%, #4a1200 50%, #0a0a1f 100%); }
+  .char-bg-thunderstrike { background: linear-gradient(160deg, #001a33 0%, #0d0d33 50%, #1a0a00 100%); }
+  .char-bg-iron { background: linear-gradient(160deg, #0d1a00 0%, #1a1200 50%, #0a0a0a 100%); }
+  .char-bg-oracle { background: linear-gradient(160deg, #1a1a00 0%, #2d1a00 50%, #0a0a0a 100%); }
+  .char-adire-bg { position: absolute; inset: 0; opacity: 0.08; }
+  .char-silhouette { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 90%; opacity: 0.9; }
+  .char-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 2rem 1.5rem 1.5rem; background: linear-gradient(to top, rgba(6,6,13,0.98) 60%, transparent); }
+  .char-alias { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.05em; color: var(--bone-white); line-height: 1; }
+  .char-real-name { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ash-grey); margin-bottom: 0.5rem; margin-top: 0.2rem; }
+  .char-power { font-size: 0.75rem; color: var(--orisha-teal); font-family: 'Crimson Pro', serif; font-style: italic; }
+  .char-orisha-badge { position: absolute; top: 1rem; right: 1rem; font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; padding: 0.3rem 0.7rem; clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%); font-weight: 700; }
+  .badge-catalyst { background: var(--blood-red); color: #fff; }
+  .badge-orisha { background: var(--electric-purple); color: #fff; }
+  .badge-vessel { background: var(--danfo-gold); color: var(--black); }
+  .chars-featured { grid-column: span 2; aspect-ratio: 3/2; }
+  .chars-featured .char-silhouette { width: 50%; right: 0; left: auto; transform: none; }
+  .chars-featured .char-alias { font-size: 3rem; }
+
+  #comics { padding: 8rem 4rem; background: var(--black); position: relative; }
+  #comics::before { content: ''; position: absolute; top: 0; right: 0; width: 500px; height: 500px; background: radial-gradient(circle, rgba(196,30,58,0.1) 0%, transparent 70%); }
+  .comics-header { max-width: 1200px; margin: 0 auto 4rem; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 2rem; }
+  .comics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+  .issue-card { position: relative; cursor: pointer; }
+  .issue-cover { aspect-ratio: 2/3; position: relative; overflow: hidden; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); margin-bottom: 1.2rem; transition: clip-path 0.4s ease; }
+  .issue-card:hover .issue-cover { clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px)); }
+  .issue-bg { position: absolute; inset: 0; transition: transform 0.5s ease; }
+  .issue-card:hover .issue-bg { transform: scale(1.03); }
+  .issue-bg-1 { background: linear-gradient(135deg, #0d0021 0%, #2d0033 30%, #6b0020 60%, #1a0a00 100%); }
+  .issue-bg-2 { background: linear-gradient(135deg, #001133 0%, #000d26 30%, #002233 60%, #001a1a 100%); }
+  .issue-bg-3 { background: linear-gradient(135deg, #1a1200 0%, #2d1a00 30%, #1a0d00 60%, #0d0d00 100%); }
+  .issue-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 2rem 1.5rem; background: linear-gradient(to top, rgba(6,6,13,0.9) 40%, transparent 70%); }
+  .issue-num { font-family: 'Bebas Neue', sans-serif; font-size: 5rem; line-height: 1; color: rgba(255,255,255,0.06); position: absolute; top: 1rem; left: 1.5rem; }
+  .issue-status { display: inline-block; font-size: 0.55rem; letter-spacing: 0.3em; text-transform: uppercase; padding: 0.25rem 0.75rem; margin-bottom: 0.8rem; font-weight: 700; align-self: flex-start; clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%); }
+  .status-out { background: var(--danfo-gold); color: var(--black); }
+  .status-new { background: var(--blood-red); color: #fff; }
+  .issue-title-main { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; line-height: 1; color: var(--bone-white); letter-spacing: 0.05em; }
+  .issue-arc { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--danfo-gold); opacity: 0.8; margin-top: 0.3rem; }
+  .issue-meta { display: flex; justify-content: space-between; align-items: center; }
+  .issue-synopsis { font-size: 0.82rem; color: var(--ash-grey); line-height: 1.6; margin-bottom: 1rem; }
+  .issue-pages { font-family: 'Oswald', sans-serif; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ash-grey); }
+  .issue-read-btn { font-family: 'Oswald', sans-serif; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--danfo-gold); text-decoration: none; display: flex; align-items: center; gap: 0.4rem; transition: gap 0.3s; }
+  .issue-read-btn:hover { gap: 0.8rem; }
+  .issue-art { position: absolute; inset: 0; }
+
+  #lore { padding: 8rem 4rem; background: linear-gradient(to bottom, var(--deep-navy), var(--black)); position: relative; overflow: hidden; }
+  .lore-bg-pattern { position: absolute; inset: 0; opacity: 0.03; }
+  .lore-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 6rem; align-items: start; max-width: 1200px; margin: 4rem auto 0; }
+  .orisha-list { display: flex; flex-direction: column; gap: 1rem; }
+  .orisha-item { display: flex; align-items: flex-start; gap: 1.5rem; padding: 1.5rem; border: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: all 0.3s; clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); }
+  .orisha-item:hover { border-color: rgba(244,184,0,0.3); background: rgba(244,184,0,0.03); }
+  .orisha-item.active { border-color: var(--danfo-gold); background: rgba(244,184,0,0.06); }
+  .orisha-icon { width: 48px; height: 48px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; border-radius: 50%; border: 1px solid rgba(244,184,0,0.3); }
+  .orisha-name { font-family: 'Oswald', sans-serif; font-size: 1rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--bone-white); margin-bottom: 0.2rem; }
+  .orisha-domain { font-size: 0.72rem; color: var(--danfo-gold); letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+  .orisha-desc { font-size: 0.82rem; color: var(--ash-grey); line-height: 1.5; }
+  .lore-panel { position: sticky; top: 6rem; }
+  .lore-panel-inner { background: rgba(26,26,110,0.15); border: 1px solid rgba(123,47,255,0.2); padding: 3rem; clip-path: polygon(20px 0%, 100% 0%, calc(100% - 20px) 100%, 0% 100%); }
+  .lore-panel h3 { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--electric-purple); margin-bottom: 0.5rem; }
+  .lore-panel .subtitle { font-family: 'Crimson Pro', serif; font-style: italic; font-size: 1rem; color: var(--danfo-gold); margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(244,184,0,0.2); }
+  .lore-panel p { font-size: 0.95rem; line-height: 1.8; color: rgba(240,237,229,0.75); margin-bottom: 1.2rem; }
+  .realm-divider { display: flex; align-items: center; gap: 1rem; margin: 2rem 0; font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ash-grey); }
+  .realm-divider::before, .realm-divider::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
+
+  #community { padding: 6rem 4rem; background: var(--black); text-align: center; position: relative; overflow: hidden; }
+  .community-glow { position: absolute; width: 800px; height: 400px; background: radial-gradient(ellipse, rgba(244,184,0,0.06) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; }
+  .quotes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 1100px; margin: 4rem auto 0; text-align: left; }
+  .quote-card { border: 1px solid rgba(255,255,255,0.07); padding: 2rem; clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%); background: rgba(255,255,255,0.02); transition: all 0.3s; }
+  .quote-card:hover { border-color: rgba(244,184,0,0.2); background: rgba(244,184,0,0.02); }
+  .quote-text { font-family: 'Crimson Pro', serif; font-size: 1rem; font-style: italic; line-height: 1.7; color: rgba(240,237,229,0.8); margin-bottom: 1.5rem; }
+  .quote-text::before { content: '\201C'; color: var(--danfo-gold); font-size: 1.4rem; }
+  .quote-author { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--danfo-gold); }
+  .quote-location { font-size: 0.65rem; color: var(--ash-grey); margin-top: 0.2rem; }
+
+  #newsletter { padding: 8rem 4rem; background: var(--adire-indigo); position: relative; overflow: hidden; text-align: center; }
+  #newsletter::before { content: ''; position: absolute; inset: 0; background-image: repeating-linear-gradient(45deg, rgba(244,184,0,0.03) 0px, rgba(244,184,0,0.03) 1px, transparent 1px, transparent 20px); }
+  .newsletter-inner { position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
+  .newsletter-inner .section-title { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+  .newsletter-sub { font-size: 1rem; color: rgba(240,237,229,0.65); line-height: 1.7; margin-bottom: 3rem; }
+  .newsletter-form { display: flex; gap: 0; max-width: 480px; margin: 0 auto; }
+  .newsletter-input { flex: 1; background: rgba(255,255,255,0.07); border: 1px solid rgba(244,184,0,0.3); border-right: none; color: var(--bone-white); padding: 1rem 1.5rem; font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; outline: none; clip-path: polygon(10px 0%, 100% 0%, 100% 100%, 0% 100%); }
+  .newsletter-input::placeholder { color: rgba(240,237,229,0.35); }
+  .newsletter-input:focus { border-color: var(--danfo-gold); background: rgba(244,184,0,0.05); }
+  .newsletter-btn { background: var(--danfo-gold); color: var(--black); border: none; padding: 1rem 2rem; font-family: 'Oswald', sans-serif; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 700; cursor: pointer; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 100%, 0% 100%); transition: all 0.3s; }
+  .newsletter-btn:hover { background: var(--blood-red); color: #fff; }
+  .newsletter-pidgin { margin-top: 1.5rem; font-family: 'Crimson Pro', serif; font-style: italic; font-size: 0.9rem; color: rgba(244,184,0,0.6); }
+
+  footer { padding: 4rem 4rem 2rem; background: var(--black); border-top: 1px solid rgba(255,255,255,0.05); }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; max-width: 1200px; margin: 0 auto 3rem; }
+  .footer-brand .nav-logo { font-size: 2rem; display: block; margin-bottom: 1rem; }
+  .footer-brand p { font-size: 0.82rem; color: var(--ash-grey); line-height: 1.6; max-width: 260px; }
+  .footer-col h4 { font-family: 'Oswald', sans-serif; font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--danfo-gold); margin-bottom: 1.2rem; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+  .footer-col ul a { color: var(--ash-grey); text-decoration: none; font-size: 0.85rem; transition: color 0.3s; }
+  .footer-col ul a:hover { color: var(--bone-white); }
+  .footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem; color: var(--ash-grey); flex-wrap: wrap; gap: 1rem; }
+  .footer-tagline { font-family: 'Crimson Pro', serif; font-style: italic; color: rgba(244,184,0,0.5); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  .glitch { position: relative; }
+  .glitch:hover::before { content: attr(data-text); position: absolute; top: 0; left: 0; color: var(--blood-red); clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%); animation: glitch-anim 0.3s infinite; opacity: 0.7; }
+  @keyframes glitch-anim { 0% { transform: translate(-2px, 0); } 25% { transform: translate(2px, 0); } 50% { transform: translate(-2px, 2px); } 75% { transform: translate(2px, -2px); } 100% { transform: translate(0, 0); } }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    #universe, #locations, #characters, #comics, #lore, #community, #newsletter { padding: 5rem 1.5rem; }
+    .universe-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .locations-grid { grid-template-columns: 1fr 1fr; }
+    .chars-grid { grid-template-columns: 1fr 1fr; }
+    .chars-featured { grid-column: span 2; }
+    .comics-grid { grid-template-columns: 1fr 1fr; }
+    .lore-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .lore-panel { position: static; }
+    .quotes-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    footer { padding: 3rem 1.5rem 1.5rem; }
+  }
+  @media (max-width: 600px) {
+    .chars-grid { grid-template-columns: 1fr; }
+    .chars-featured { grid-column: span 1; aspect-ratio: 3/4; }
+    .chars-featured .char-silhouette { width: 90%; right: auto; left: 50%; transform: translateX(-50%); }
+    .comics-grid { grid-template-columns: 1fr; }
+    .locations-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .newsletter-form { flex-direction: column; }
+    .newsletter-input { clip-path: none; border-right: 1px solid rgba(244,184,0,0.3); }
+    .newsletter-btn { clip-path: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<canvas id="particles"></canvas>
+
+<nav>
+  <a href="#hero" class="nav-logo">CATALYST<span>:</span>TA</a>
+  <ul class="nav-links">
+    <li><a href="#universe">Universe</a></li>
+    <li><a href="#characters">Characters</a></li>
+    <li><a href="#comics">Issues</a></li>
+    <li><a href="#lore">Lore</a></li>
+    <li><a href="#newsletter" class="nav-cta">Read Now</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow-2"></div>
+  <svg class="hero-skyline" viewBox="0 0 1440 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax slice">
+    <rect x="0" y="400" width="1440" height="100" fill="#F4B800" opacity="0.15"/>
+    <path d="M0,380 Q180,340 360,380 Q540,420 720,380 Q900,340 1080,380 Q1260,420 1440,380 L1440,500 L0,500 Z" fill="#0a0a1f" opacity="0.8"/>
+    <rect x="50" y="280" width="40" height="200" fill="#0d0d1a"/>
+    <rect x="100" y="250" width="55" height="230" fill="#0d0d1a"/>
+    <rect x="120" y="200" width="20" height="280" fill="#0d0d1a"/>
+    <rect x="170" y="260" width="70" height="220" fill="#0d0d1a"/>
+    <rect x="260" y="220" width="80" height="260" fill="#0d0d1a"/>
+    <rect x="280" y="180" width="30" height="300" fill="#0d0d1a"/>
+    <rect x="360" y="300" width="60" height="180" fill="#0d0d1a"/>
+    <rect x="430" y="200" width="100" height="280" fill="#0d0d1a"/>
+    <rect x="470" y="150" width="20" height="330" fill="#0d0d1a"/>
+    <polygon points="560,100 590,100 600,480 550,480" fill="#0d0d1a"/>
+    <rect x="555" y="90" width="50" height="15" fill="#0d0d1a"/>
+    <rect x="563" y="75" width="34" height="20" fill="#0d0d1a"/>
+    <rect x="572" y="60" width="16" height="20" fill="#0d0d1a"/>
+    <line x1="580" y1="20" x2="580" y2="60" stroke="#F4B800" stroke-width="2" opacity="0.4"/>
+    <rect x="620" y="240" width="90" height="240" fill="#0d0d1a"/>
+    <rect x="650" y="200" width="30" height="280" fill="#0d0d1a"/>
+    <rect x="730" y="280" width="50" height="200" fill="#0d0d1a"/>
+    <rect x="800" y="220" width="80" height="260" fill="#0d0d1a"/>
+    <rect x="830" y="170" width="20" height="310" fill="#0d0d1a"/>
+    <rect x="900" y="260" width="70" height="220" fill="#0d0d1a"/>
+    <rect x="990" y="240" width="90" height="240" fill="#0d0d1a"/>
+    <rect x="1020" y="190" width="25" height="290" fill="#0d0d1a"/>
+    <rect x="1100" y="260" width="60" height="220" fill="#0d0d1a"/>
+    <rect x="1180" y="220" width="80" height="260" fill="#0d0d1a"/>
+    <rect x="1280" y="280" width="60" height="200" fill="#0d0d1a"/>
+    <rect x="1360" y="250" width="80" height="230" fill="#0d0d1a"/>
+    <rect x="104" y="260" width="6" height="6" fill="#F4B800" opacity="0.6"/>
+    <rect x="114" y="270" width="6" height="6" fill="#7B2FFF" opacity="0.5"/>
+    <rect x="265" y="230" width="6" height="6" fill="#F4B800" opacity="0.7"/>
+    <rect x="440" y="210" width="8" height="6" fill="#F4B800" opacity="0.6"/>
+    <rect x="460" y="220" width="6" height="6" fill="#C41E3A" opacity="0.7"/>
+    <rect x="800" y="250" width="8" height="6" fill="#F4B800" opacity="0.5"/>
+    <rect x="835" y="180" width="4" height="8" fill="#7B2FFF" opacity="0.6"/>
+  </svg>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Lagos Noir Comic Universe &#xB7; Est. 2024</div>
+    <h1 class="hero-title" data-text="CATALYST">
+      <span class="line-gold">CATALYST</span>
+      <span class="line-outline">THE AWAKENING</span>
+    </h1>
+    <p class="hero-subtitle">
+      Where the blood of Orishas meets the concrete of Lagos.<br>
+      The city breathes. The city hungers. The city awakens.
+    </p>
+    <div class="hero-actions">
+      <a href="#comics" class="btn-primary"><span>Read Issue #1</span></a>
+      <a href="#universe" class="btn-secondary">Explore the Universe</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item">Catalyst: The Awakening <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Lagos Noir Comic Universe <span class="marquee-dot"></span></div>
+    <div class="marquee-item">&#x12C0;&#x12F5;&#x130A;&#x1270; Tuntun &#x2014; New Light <span class="marquee-dot"></span></div>
+    <div class="marquee-item">The Orishas Walk Among Us <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Issue #1 &#x2014; Out Now <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Naija Superheroes Dey Here <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Catalyst: The Awakening <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Lagos Noir Comic Universe <span class="marquee-dot"></span></div>
+    <div class="marquee-item">The Orishas Walk Among Us <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Issue #1 &#x2014; Out Now <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Naija Superheroes Dey Here <span class="marquee-dot"></span></div>
+  </div>
+</div>
+
+<section id="universe">
+  <div class="universe-grid">
+    <div class="universe-text">
+      <p class="section-label reveal">The World</p>
+      <h2 class="section-title reveal">A CITY<br>BETWEEN <em>TWO</em><br>WORLDS</h2>
+      <p class="reveal"><strong>Neo-Lagos, 2047.</strong> The megacity pulses with 40 million souls, danfo buses hurtling through rain-slicked streets, the sweet smoke of suya cutting through petrol fumes. On the surface &#x2014; chaos. Beneath it &#x2014; <em>the Ancient War</em> is rekindling.</p>
+      <p class="reveal reveal-delay-1">The <strong>Orun</strong> &#x2014; the Yoruba spirit world &#x2014; has begun bleeding into the physical. Markets shimmer. The Third Mainland Bridge whispers names at 3 AM. Old women in Mushin see things that aren&#x27;t there. Or perhaps things that have always been there, finally <em>choosing to be seen</em>.</p>
+      <p class="reveal reveal-delay-2">Into this fracture steps <strong>Adebayo &#x22;Bayo&#x22; Adeyemi</strong> &#x2014; a 19-year-old area boy from Mushin with an overdue NEPA bill, a dead phone, and the ancient power of a Catalyst pulsing through his blood. He didn&#x27;t ask for any of this. Lagos doesn&#x27;t care.</p>
+      <div class="universe-stats reveal reveal-delay-3">
+        <div class="stat-box"><div class="num">40M</div><div class="label">Souls in Neo-Lagos</div></div>
+        <div class="stat-box"><div class="num">7</div><div class="label">Orishas Reawakened</div></div>
+        <div class="stat-box"><div class="num">3</div><div class="label">Issues Released</div></div>
+        <div class="stat-box"><div class="num">&#x221E;</div><div class="label">Stories to Tell</div></div>
+      </div>
+    </div>
+    <div class="universe-visual reveal">
+      <div class="world-map-container">
+        <svg class="world-map-svg" viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="lagosGlow" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#7B2FFF" stop-opacity="0.3"/><stop offset="100%" stop-color="#7B2FFF" stop-opacity="0"/></radialGradient>
+            <filter id="neonBlur"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <rect x="0" y="0" width="500" height="400" fill="#030310"/>
+          <ellipse cx="250" cy="350" rx="280" ry="80" fill="#0a1a2e" opacity="0.8"/>
+          <path d="M100,200 Q150,160 250,170 Q350,180 400,200 Q420,230 380,260 Q320,290 200,280 Q120,270 100,240 Z" fill="#0f0f20"/>
+          <path d="M180,240 Q230,220 300,235 Q340,250 320,270 Q280,285 220,275 Q180,265 180,240 Z" fill="#15152a"/>
+          <path d="M60,160 Q120,140 200,150 Q220,145 240,155 Q220,200 150,210 Q80,215 60,190 Z" fill="#0f0f20"/>
+          <line x1="250" y1="170" x2="250" y2="150" stroke="#F4B800" stroke-width="1.5" opacity="0.4" filter="url(#neonBlur)"/>
+          <path d="M150,210 Q180,240 210,250" stroke="#FF6B1A" stroke-width="2.5" fill="none" opacity="0.6" stroke-dasharray="4,2" filter="url(#neonBlur)"/>
+          <circle cx="250" cy="210" r="6" fill="#F4B800" opacity="0.9" filter="url(#neonBlur)"/>
+          <text x="258" y="208" fill="#F4B800" font-size="7" font-family="monospace" opacity="0.9">NEO-LAGOS CENTRAL</text>
+          <circle cx="200" cy="255" r="4" fill="#7B2FFF" opacity="0.9" filter="url(#neonBlur)"/>
+          <text x="208" y="253" fill="#7B2FFF" font-size="7" font-family="monospace" opacity="0.7">BALOGUN NEXUS</text>
+          <circle cx="140" cy="180" r="4" fill="#00C9B1" opacity="0.9" filter="url(#neonBlur)"/>
+          <text x="148" y="178" fill="#00C9B1" font-size="7" font-family="monospace" opacity="0.7">MUSHIN</text>
+          <circle cx="310" cy="245" r="4" fill="#C41E3A" opacity="0.9" filter="url(#neonBlur)"/>
+          <text x="318" y="243" fill="#C41E3A" font-size="7" font-family="monospace" opacity="0.7">EKO ATLANTIC</text>
+          <circle cx="250" cy="210" r="25" fill="url(#lagosGlow)" opacity="0.5"/>
+          <circle cx="250" cy="210" r="50" fill="url(#lagosGlow)" opacity="0.2"/>
+          <pattern id="adireGrid" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M0,10 L10,0 L20,10 L10,20 Z" fill="none" stroke="#F4B800" stroke-width="0.2" opacity="0.15"/></pattern>
+          <rect x="0" y="0" width="500" height="400" fill="url(#adireGrid)"/>
+          <rect x="10" y="360" width="8" height="8" fill="#F4B800" opacity="0.7"/>
+          <text x="22" y="368" fill="#8a8a9a" font-size="8" font-family="monospace">KEY LOCATION</text>
+          <rect x="120" y="360" width="8" height="8" fill="#7B2FFF" opacity="0.7"/>
+          <text x="132" y="368" fill="#8a8a9a" font-size="8" font-family="monospace">ORUN BREACH</text>
+          <rect x="240" y="360" width="8" height="8" fill="#C41E3A" opacity="0.7"/>
+          <text x="252" y="368" fill="#8a8a9a" font-size="8" font-family="monospace">DANGER ZONE</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="locations">
+  <div class="locations-header">
+    <p class="section-label reveal" style="justify-content:center">The Streets</p>
+    <h2 class="section-title reveal" style="text-align:center">WHERE THE<br>STORY <em>LIVES</em></h2>
+  </div>
+  <div class="locations-grid">
+    <div class="location-card reveal"><div class="location-number">01</div><div class="location-name">Balogun Nexus</div><div class="location-yoruba">Ọjà Bálógún</div><p class="location-desc">The ancient market hums on two frequencies — the physical bustle of traders and hawkers, and the hidden Orun-channel where spiritual energy pools and shifts. Every transaction here has a double meaning.</p><span class="location-tag">Spiritual Nexus</span></div>
+    <div class="location-card reveal reveal-delay-1"><div class="location-number">02</div><div class="location-name">Third Mainland Bridge</div><div class="location-yoruba">Ọ̀nà Ẹkọ̀</div><p class="location-desc">At 3:26 AM, when the traffic stills, the Bridge becomes a crossing between worlds. The Orishas first made contact here. Bayo's awakening began on these water-framed suspended lanes at dawn.</p><span class="location-tag">Gateway</span></div>
+    <div class="location-card reveal reveal-delay-2"><div class="location-number">03</div><div class="location-name">Mushin — The Iron Quarter</div><div class="location-yoruba">Mushin, Ìlà Ìjà</div><p class="location-desc">Bayo's home turf. Dense, loud, real. Ogun's iron spirit runs through the streets here — the mechanics, the welders, the fighters. A place where muscle and metal speak louder than words.</p><span class="location-tag">Origin District</span></div>
+    <div class="location-card reveal"><div class="location-number">04</div><div class="location-name">Eko Atlantic — The Glass Citadel</div><div class="location-yoruba">Ìlú Gilasi</div><p class="location-desc">The Pale Council's domain. Gleaming towers built on reclaimed land — land stolen from the Lagos Lagoon spirits. Every tower is a spiritual anchor, extracting Aṣẹ from the soil to power corporate supremacy.</p><span class="location-tag">Antagonist HQ</span></div>
+    <div class="location-card reveal reveal-delay-1"><div class="location-number">05</div><div class="location-name">Idumota — The Mirror Market</div><div class="location-yoruba">Ìdúmọ̀tà, Ojú Digi</div><p class="location-desc">Among counterfeit goods and pirated films, a different kind of copy trade runs: stolen Orisha essence bottled and sold to the highest bidder. The Oracle's spies are everywhere here.</p><span class="location-tag">Black Market</span></div>
+    <div class="location-card reveal reveal-delay-2"><div class="location-number">06</div><div class="location-name">Shrine of the Crossroads</div><div class="location-yoruba">Ojú-Ọ̀nà Ẹ̀ṣù</div><p class="location-desc">Hidden beneath a danfo bus terminal in Oshodi, this is where Ẹṣù — Orisha of crossroads and choices — holds court. Nothing passes through Lagos without his tax. Every hero has to pay.</p><span class="location-tag">Sacred Ground</span></div>
+  </div>
+</section>
+
+<section id="characters">
+  <div class="chars-header">
+    <p class="section-label reveal">The Heroes</p>
+    <h2 class="section-title reveal">VESSELS OF<br><em>ANCIENT POWER</em></h2>
+  </div>
+  <div class="chars-grid">
+    <div class="char-card chars-featured reveal">
+      <div class="char-bg char-bg-catalyst"></div>
+      <svg class="char-adire-bg" viewBox="0 0 400 270" xmlns="http://www.w3.org/2000/svg"><pattern id="adirePat" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M0,20 L20,0 L40,20 L20,40 Z" fill="none" stroke="#F4B800" stroke-width="0.5"/><circle cx="20" cy="20" r="5" fill="none" stroke="#F4B800" stroke-width="0.5"/></pattern><rect x="0" y="0" width="400" height="270" fill="url(#adirePat)"/></svg>
+      <svg class="char-silhouette" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
+        <defs><radialGradient id="catGlow" cx="50%" cy="40%" r="60%"><stop offset="0%" stop-color="#F4B800" stop-opacity="0.4"/><stop offset="100%" stop-color="#F4B800" stop-opacity="0"/></radialGradient><filter id="catBlur"><feGaussianBlur stdDeviation="8"/></filter></defs>
+        <ellipse cx="100" cy="140" rx="80" ry="140" fill="url(#catGlow)"/>
+        <ellipse cx="100" cy="60" rx="22" ry="26" fill="#F4B800" opacity="0.9"/>
+        <path d="M78,85 Q100,95 122,85 L130,180 Q100,195 70,180 Z" fill="#F4B800" opacity="0.85"/>
+        <path d="M70,90 Q30,130 20,200 Q60,180 78,155 Z" fill="#C41E3A" opacity="0.9"/>
+        <path d="M130,90 Q170,130 180,200 Q140,180 122,155 Z" fill="#C41E3A" opacity="0.9"/>
+        <rect x="80" y="178" width="15" height="80" rx="5" fill="#F4B800" opacity="0.8"/>
+        <rect x="105" y="178" width="15" height="80" rx="5" fill="#F4B800" opacity="0.8"/>
+        <line x1="100" y1="50" x2="60" y2="10" stroke="#F4B800" stroke-width="1.5" opacity="0.5"/>
+        <line x1="100" y1="50" x2="140" y2="10" stroke="#F4B800" stroke-width="1.5" opacity="0.5"/>
+        <line x1="100" y1="50" x2="100" y2="5" stroke="#F4B800" stroke-width="2" opacity="0.7"/>
+        <path d="M80,120 L100,100 L120,120 L100,140 Z" fill="#C41E3A" opacity="0.6"/>
+      </svg>
+      <span class="char-orisha-badge badge-catalyst">Catalyst</span>
+      <div class="char-info"><div class="char-real-name">Adebayo &quot;Bayo&quot; Adeyemi</div><div class="char-alias glitch" data-text="CATALYST">CATALYST</div><div class="char-power">Vessel of All Orishas &#xB7; A&#x1E63;&#x1EB9; Amplifier</div></div>
+    </div>
+    <div class="char-card reveal reveal-delay-1">
+      <div class="char-bg char-bg-thunderstrike"></div>
+      <svg class="char-adire-bg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg"><pattern id="thunderPat" x="0" y="0" width="25" height="25" patternUnits="userSpaceOnUse"><path d="M12,0 L25,12 L12,25 L0,12 Z" fill="none" stroke="#7B2FFF" stroke-width="0.4"/></pattern><rect x="0" y="0" width="200" height="320" fill="url(#thunderPat)"/></svg>
+      <svg class="char-silhouette" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="100" cy="140" rx="70" ry="130" fill="#7B2FFF" opacity="0.15"/>
+        <ellipse cx="100" cy="60" rx="20" ry="24" fill="#00C9B1" opacity="0.9"/>
+        <path d="M80,82 Q100,92 120,82 L126,175 Q100,190 74,175 Z" fill="#00C9B1" opacity="0.8"/>
+        <ellipse cx="50" cy="140" rx="12" ry="25" fill="#8B4513" opacity="0.9"/>
+        <path d="M38,115 Q50,105 62,115 L62,165 Q50,175 38,165 Z" fill="#6B3410" opacity="0.8"/>
+        <path d="M50,115 L30,80 L45,85 L25,50" stroke="#F4B800" stroke-width="2" fill="none" opacity="0.8" stroke-linecap="round"/>
+        <path d="M62,115 L80,80 L68,85 L88,50" stroke="#7B2FFF" stroke-width="2" fill="none" opacity="0.8" stroke-linecap="round"/>
+        <rect x="85" y="173" width="13" height="75" rx="4" fill="#00C9B1" opacity="0.8"/>
+        <rect x="102" y="173" width="13" height="75" rx="4" fill="#00C9B1" opacity="0.8"/>
+        <path d="M80,36 Q100,20 120,36 Q125,48 100,45 Q75,48 80,36 Z" fill="#7B2FFF" opacity="0.9"/>
+      </svg>
+      <span class="char-orisha-badge badge-orisha">&#x1E62;&#xe0;ng&#xF3;'s Chosen</span>
+      <div class="char-info"><div class="char-real-name">Amara Okafor</div><div class="char-alias">THUNDERSTRIKE</div><div class="char-power">Lightning Drummer &#xB7; Talking Drum Conduit</div></div>
+    </div>
+    <div class="char-card reveal reveal-delay-2">
+      <div class="char-bg char-bg-iron"></div>
+      <svg class="char-adire-bg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg"><pattern id="ironPat" x="0" y="0" width="15" height="15" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="15" height="15" fill="none" stroke="#FF6B1A" stroke-width="0.3"/><line x1="0" y1="7" x2="15" y2="7" stroke="#FF6B1A" stroke-width="0.2"/></pattern><rect x="0" y="0" width="200" height="320" fill="url(#ironPat)"/></svg>
+      <svg class="char-silhouette" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="100" cy="140" rx="70" ry="130" fill="#FF6B1A" opacity="0.1"/>
+        <ellipse cx="100" cy="55" rx="24" ry="28" fill="#2a2a2a" opacity="0.95"/>
+        <path d="M76,35 Q100,15 124,35 L126,55 Q100,65 74,55 Z" fill="#3a3a3a" opacity="0.95"/>
+        <path d="M76,35 L66,20 L80,32 Z" fill="#1a1a1a" opacity="0.9"/>
+        <path d="M124,35 L134,20 L120,32 Z" fill="#1a1a1a" opacity="0.9"/>
+        <ellipse cx="88" cy="48" rx="5" ry="4" fill="#FF6B1A" opacity="0.9"/>
+        <ellipse cx="112" cy="48" rx="5" ry="4" fill="#FF6B1A" opacity="0.9"/>
+        <path d="M76,82 Q100,90 124,82 L132,185 Q100,200 68,185 Z" fill="#2a2a2a" opacity="0.95"/>
+        <path d="M80,95 L100,80 L120,95 L100,110 Z" fill="#FF6B1A" opacity="0.4"/>
+        <path d="M82,130 L100,115 L118,130 L100,145 Z" fill="#FF6B1A" opacity="0.3"/>
+        <rect x="85" y="183" width="14" height="85" rx="5" fill="#2a2a2a" opacity="0.9"/>
+        <rect x="101" y="183" width="14" height="85" rx="5" fill="#2a2a2a" opacity="0.9"/>
+      </svg>
+      <span class="char-orisha-badge badge-orisha">&#xD2;g&#xFA;n's Iron</span>
+      <div class="char-info"><div class="char-real-name">Ikenna Chukwuemeka</div><div class="char-alias">IRON WOLF</div><div class="char-power">Living Iron Armor &#xB7; Ogun's Embodiment</div></div>
+    </div>
+    <div class="char-card reveal reveal-delay-3">
+      <div class="char-bg char-bg-oracle"></div>
+      <svg class="char-adire-bg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg"><pattern id="oraclePat" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse"><circle cx="15" cy="15" r="12" fill="none" stroke="#D4AF37" stroke-width="0.3"/><circle cx="15" cy="15" r="6" fill="none" stroke="#D4AF37" stroke-width="0.3"/><circle cx="15" cy="15" r="1" fill="#D4AF37" opacity="0.5"/></pattern><rect x="0" y="0" width="200" height="320" fill="url(#oraclePat)"/></svg>
+      <svg class="char-silhouette" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
+        <defs><radialGradient id="goldGlow" cx="50%" cy="40%" r="60%"><stop offset="0%" stop-color="#D4AF37" stop-opacity="0.3"/><stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/></radialGradient></defs>
+        <ellipse cx="100" cy="150" rx="65" ry="130" fill="url(#goldGlow)"/>
+        <ellipse cx="100" cy="65" rx="18" ry="22" fill="#D4AF37" opacity="0.85"/>
+        <path d="M82,85 Q100,92 118,85 L140,280 Q100,295 60,280 Z" fill="#1a1200" opacity="0.95"/>
+        <path d="M60,95 Q40,160 45,280 Q70,260 82,220 L82,85 Z" fill="#2d1a00" opacity="0.9"/>
+        <path d="M140,95 Q160,160 155,280 Q130,260 118,220 L118,85 Z" fill="#2d1a00" opacity="0.9"/>
+        <path d="M82,120 L100,105 L118,120 L100,135 Z" fill="#D4AF37" opacity="0.5"/>
+        <path d="M75,160 L100,140 L125,160 L100,180 Z" fill="#D4AF37" opacity="0.4"/>
+        <rect x="147" y="80" width="5" height="200" rx="2" fill="#D4AF37" opacity="0.7"/>
+        <circle cx="149" cy="75" r="10" fill="#D4AF37" opacity="0.8"/>
+        <ellipse cx="149" cy="75" rx="20" ry="8" fill="none" stroke="#D4AF37" stroke-width="1" opacity="0.4"/>
+      </svg>
+      <span class="char-orisha-badge badge-vessel">The Keeper</span>
+      <div class="char-info"><div class="char-real-name">Chief Adesanya Adewale</div><div class="char-alias">THE ORACLE</div><div class="char-power">Ancient Keeper &#xB7; Master of If&#xE1; Wisdom</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="comics">
+  <div class="comics-header">
+    <div><p class="section-label reveal">The Stories</p><h2 class="section-title reveal">READ THE<br><em>ISSUES</em></h2></div>
+    <a href="#newsletter" class="btn-secondary reveal">All Issues &#x2192;</a>
+  </div>
+  <div class="comics-grid">
+    <div class="issue-card reveal">
+      <div class="issue-cover">
+        <div class="issue-bg issue-bg-1">
+          <svg class="issue-art" viewBox="0 0 300 450" xmlns="http://www.w3.org/2000/svg">
+            <defs><radialGradient id="i1g" cx="50%" cy="30%" r="70%"><stop offset="0%" stop-color="#F4B800" stop-opacity="0.3"/><stop offset="100%" stop-color="#7B2FFF" stop-opacity="0.1"/></radialGradient></defs>
+            <rect x="0" y="0" width="300" height="450" fill="url(#i1g)"/>
+            <circle cx="150" cy="180" r="80" fill="none" stroke="#F4B800" stroke-width="1.5" opacity="0.5"/>
+            <circle cx="150" cy="180" r="60" fill="none" stroke="#C41E3A" stroke-width="1" opacity="0.3"/>
+            <circle cx="150" cy="180" r="40" fill="none" stroke="#7B2FFF" stroke-width="0.8" opacity="0.4"/>
+            <path d="M130,230 Q150,130 170,230 Q180,280 150,320 Q120,280 130,230 Z" fill="#F4B800" opacity="0.7"/>
+            <path d="M0,50 L30,0 L60,50 L30,100 Z" fill="#F4B800" opacity="0.08"/>
+            <path d="M240,350 L270,300 L300,350 L270,400 Z" fill="#C41E3A" opacity="0.08"/>
+            <rect x="0" y="380" width="300" height="70" fill="#F4B800" opacity="0.15" rx="5"/>
+            <text x="15" y="415" fill="#F4B800" font-size="8" opacity="0.5" font-family="monospace">OSHODI &#x2014; MUSHIN</text>
+          </svg>
+        </div>
+        <div class="issue-overlay"><span class="issue-status status-out">Out Now</span><div class="issue-num">01</div><div class="issue-title-main">AWAKEN, O CITY</div><div class="issue-arc">Arc I: The Catalyst</div></div>
+      </div>
+      <p class="issue-synopsis">Bayo is 19, broke, and ducking landlord wahala when the city itself reaches out and grabs him by the soul. One danfo ride across the Third Mainland Bridge changes everything. The Orun is bleeding, and he is the bandage — or the wound.</p>
+      <div class="issue-meta"><span class="issue-pages">48 Pages</span><a href="#newsletter" class="issue-read-btn">Read Now &#x2192;</a></div>
+    </div>
+    <div class="issue-card reveal reveal-delay-1">
+      <div class="issue-cover">
+        <div class="issue-bg issue-bg-2">
+          <svg class="issue-art" viewBox="0 0 300 450" xmlns="http://www.w3.org/2000/svg">
+            <path d="M200,0 L170,150 L195,150 L130,350 L165,350 L100,450" stroke="#7B2FFF" stroke-width="3" fill="none" opacity="0.6"/>
+            <path d="M200,0 L170,150 L195,150 L130,350 L165,350 L100,450" stroke="#F4B800" stroke-width="1" fill="none" opacity="0.8"/>
+            <ellipse cx="150" cy="220" rx="50" ry="90" fill="none" stroke="#00C9B1" stroke-width="1.5" opacity="0.4"/>
+            <ellipse cx="150" cy="220" rx="35" ry="65" fill="none" stroke="#00C9B1" stroke-width="1" opacity="0.3"/>
+          </svg>
+        </div>
+        <div class="issue-overlay"><span class="issue-status status-new">New</span><div class="issue-num">02</div><div class="issue-title-main">SANGO'S DAUGHTER</div><div class="issue-arc">Arc I: The Catalyst</div></div>
+      </div>
+      <p class="issue-synopsis">Amara Okafor busks her talking drum outside National Theatre when S&#xE0;ng&#xF3;'s storm-spirit tears through Lagos. Her ancestral gift ignites in one thunderclap — but power without control is a danfo with no brakes on the expressway.</p>
+      <div class="issue-meta"><span class="issue-pages">52 Pages</span><a href="#newsletter" class="issue-read-btn">Read Now &#x2192;</a></div>
+    </div>
+    <div class="issue-card reveal reveal-delay-2">
+      <div class="issue-cover">
+        <div class="issue-bg issue-bg-3">
+          <svg class="issue-art" viewBox="0 0 300 450" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="300" width="300" height="150" fill="#FF6B1A" opacity="0.1"/>
+            <circle cx="80" cy="300" r="2" fill="#FF6B1A" opacity="0.7"/>
+            <circle cx="140" cy="280" r="1.5" fill="#F4B800" opacity="0.8"/>
+            <circle cx="200" cy="310" r="2" fill="#FF6B1A" opacity="0.6"/>
+            <circle cx="250" cy="290" r="1" fill="#F4B800" opacity="0.9"/>
+            <path d="M120,150 L150,100 L180,150 L165,200 L135,200 Z" fill="#2a2a2a" opacity="0.8" stroke="#FF6B1A" stroke-width="0.8" stroke-opacity="0.5"/>
+            <circle cx="138" cy="135" r="4" fill="#FF6B1A" opacity="0.9"/>
+            <circle cx="162" cy="135" r="4" fill="#FF6B1A" opacity="0.9"/>
+            <path d="M0,400 Q150,350 300,400 L300,450 L0,450 Z" fill="#FF6B1A" opacity="0.08"/>
+          </svg>
+        </div>
+        <div class="issue-overlay"><span class="issue-status status-out">Out Now</span><div class="issue-num">03</div><div class="issue-title-main">IRON IN THE BLOOD</div><div class="issue-arc">Arc I: The Catalyst</div></div>
+      </div>
+      <p class="issue-synopsis">In the Mushin mechanic workshop where Ikenna apprentices, the iron comes alive. Òg&#xFA;n has been waiting in every welding rod, every car chassis, every nail. When The Pale Council strikes, the metal strikes back.</p>
+      <div class="issue-meta"><span class="issue-pages">44 Pages</span><a href="#newsletter" class="issue-read-btn">Read Now &#x2192;</a></div>
+    </div>
+  </div>
+</section>
+
+<section id="lore">
+  <svg class="lore-bg-pattern" viewBox="0 0 1440 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <pattern id="lorePat" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M0,30 L30,0 L60,30 L30,60 Z" fill="none" stroke="#F4B800" stroke-width="0.5"/><circle cx="30" cy="30" r="5" fill="none" stroke="#F4B800" stroke-width="0.5"/></pattern>
+    <rect x="0" y="0" width="1440" height="800" fill="url(#lorePat)"/>
+  </svg>
+  <div style="max-width:1200px; margin:0 auto;">
+    <p class="section-label reveal">Yoruba Cosmology</p>
+    <h2 class="section-title reveal">THE ORISHAS<br>WHO <em>WALK</em><br>LAGOS</h2>
+  </div>
+  <div class="lore-grid">
+    <div class="orisha-list">
+      <div class="orisha-item active reveal" data-orisha="esu"><div class="orisha-icon">&#x1F500;</div><div><div class="orisha-name">&#x1EB8;&#x1E63;&#xF9; &#x2014; The Trickster</div><div class="orisha-domain">Crossroads &#xB7; Chance &#xB7; Communication</div><p class="orisha-desc">Keeper of the crossroads, &#x1EB8;&#x1E63;&#xF9; controls every junction — physical and spiritual. He taxes every transaction in Lagos, seen and unseen.</p></div></div>
+      <div class="orisha-item reveal reveal-delay-1" data-orisha="sango"><div class="orisha-icon">&#x26A1;</div><div><div class="orisha-name">&#x1E62;&#xE0;ng&#xF3; &#x2014; Thunder King</div><div class="orisha-domain">Lightning &#xB7; Justice &#xB7; Royalty</div><p class="orisha-desc">The double-headed axe cuts through injustice. Sango's power moves through Amara's talking drum, answering the city's unheard cries for equity.</p></div></div>
+      <div class="orisha-item reveal reveal-delay-2" data-orisha="ogun"><div class="orisha-icon">&#x2699;&#xFE0F;</div><div><div class="orisha-name">&#xD2;g&#xFA;n &#x2014; Lord of Iron</div><div class="orisha-domain">Iron &#xB7; War &#xB7; Labour &#xB7; Technology</div><p class="orisha-desc">In every forge, every mechanic's wrench, every danfo engine, Ogun lives. He chose Ikenna not for his strength but for his hands that know how to build — and tear down.</p></div></div>
+      <div class="orisha-item reveal reveal-delay-3" data-orisha="oya"><div class="orisha-icon">&#x1F32A;&#xFE0F;</div><div><div class="orisha-name">Oy&#xE1; &#x2014; Lady of Storms</div><div class="orisha-domain">Wind &#xB7; Change &#xB7; Death &#xB7; Markets</div><p class="orisha-desc">She rules Balogun Market — its winds of change, its sudden economic storms. Her vessel is yet unnamed. She is choosing. The stories say she prefers women who never back down.</p></div></div>
+      <div class="orisha-item reveal" data-orisha="osun"><div class="orisha-icon">&#x1F30A;</div><div><div class="orisha-name">&#x1ECC;&#x1E63;un &#x2014; River Goddess</div><div class="orisha-domain">Water &#xB7; Love &#xB7; Fertility &#xB7; Art</div><p class="orisha-desc">The Lagos Lagoon is &#x1ECC;&#x1E63;un's bloodstream. When Eko Atlantic was built on reclaimed land, her rage began the Orun-bleed that now tears the world open.</p></div></div>
+    </div>
+    <div class="lore-panel reveal">
+      <div class="lore-panel-inner">
+        <h3>THE TWO REALMS</h3>
+        <p class="subtitle">Aye &#xE0;ti Orun &#x2014; The World and the Beyond</p>
+        <p>Every Yoruba child is taught that existence runs on two parallel tracks: <strong style="color:var(--danfo-gold)">&#xC0;iy&#xE9;</strong> — the physical world of Lagos, concrete and exhaust and hunger and joy — and <strong style="color:var(--electric-purple)">&#x1ECC;&#x300;run</strong> — the spirit realm where the Orishas reign, where the dead hold court, and where A&#x1E63;&#x1EB9; — the divine power underlying all things — flows like electricity through a copper wire.</p>
+        <p>For centuries, the membrane between them held. Prayers went up; blessings came down. E&#xE9;gun masquerades briefly opened the door on festival days. This was the covenant.</p>
+        <div class="realm-divider">The Pale Council broke the covenant</div>
+        <p>When <strong style="color:var(--blood-red)">The Pale Council</strong> — a consortium of tech oligarchs — discovered that &#x1ECC;&#x300;run energy could be harvested and converted to data currency, they built Eko Atlantic as a spiritual extraction engine. The towers don't just house offices. They drill down through the Lagos Lagoon floor, through &#x1ECC;&#x1E63;un's domain, siphoning A&#x1E63;&#x1EB9; at industrial scale.</p>
+        <p>The membrane is now in tatters. &#x1ECC;&#x300;run bleeds into &#xC0;iy&#xE9;. Spirits walk Balogun Market. Dead ancestors appear at wedding celebrations. And the Orishas — who cannot fully manifest in the physical without human vessels — have begun choosing their champions.</p>
+        <p><strong style="color:var(--danfo-gold)">Bayo is the Catalyst.</strong> Not a vessel for one Orisha — but the living junction point where all divine energy can be focused, amplified, and directed. He is what the Orishas have been waiting for. And The Pale Council knows it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="community">
+  <div class="community-glow"></div>
+  <div style="position:relative;z-index:1;max-width:1100px;margin:0 auto;">
+    <p class="section-label reveal" style="justify-content:center">The Readers</p>
+    <h2 class="section-title reveal" style="text-align:center">THE STREETS<br>ARE <em>TALKING</em></h2>
+    <div class="quotes-grid">
+      <div class="quote-card reveal"><p class="quote-text">This is the comic I didn't know I was starving for. Bayo is literally every Lagos boy who's ever been told his background is a limitation. Finally, e don reach our turn.</p><div class="quote-author">Temi A.</div><div class="quote-location">Yaba, Lagos</div></div>
+      <div class="quote-card reveal reveal-delay-1"><p class="quote-text">The Adire patterns in the art direction — the way Yoruba cosmology is woven into the action — this isn't African-inspired. This IS African. The difference matters.</p><div class="quote-author">Dr. Chidi O.</div><div class="quote-location">Ibadan / Toronto</div></div>
+      <div class="quote-card reveal reveal-delay-2"><p class="quote-text">I read Issue #2 and immediately sent the link to all my daughters. Amara's talking drum is my heritage. This story made it feel like a superpower. Because it IS one.</p><div class="quote-author">Mrs. Folake B.</div><div class="quote-location">Mushin, Lagos</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="newsletter">
+  <div class="newsletter-inner">
+    <p class="section-label reveal" style="justify-content:center">Stay Connected</p>
+    <h2 class="section-title reveal">JOIN THE<br><em>MOVEMENT</em></h2>
+    <p class="newsletter-sub reveal">Be the first to know when new issues drop, get behind-the-scenes lore, and unlock exclusive character art. Na you sabi, but make you no miss this one.</p>
+    <div class="reveal">
+      <form class="newsletter-form" onsubmit="handleSignup(event)">
+        <input type="email" class="newsletter-input" placeholder="Enter your email address..." required>
+        <button type="submit" class="newsletter-btn">Awaken</button>
+      </form>
+      <p class="newsletter-pidgin">&#x201C;&#x1EB8;ni t&#xF3; b&#xE1; j&#x1EB9;&#x301; or&#xED; &#x1EB9;l&#xF2;m&#xED;r&#xE0;n, k&#xF2; n&#xED; j&#x1EB9; or&#xED; &#x1EB9;ni.&#x201D;<br><span style="font-size:0.78rem; color: rgba(240,237,229,0.4); font-style:normal; font-family:'Space Grotesk',sans-serif;">&#x201C;One who eats another's head will not eat one's own.&#x201D; — Yoruba Proverb</span></p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand"><a href="#hero" class="nav-logo">CATALYST<span>:</span>TA</a><p>A Lagos noir comic universe rooted in Yoruba mythology, street culture, and the eternal tension between ancient power and modern ambition. Built in Lagos. For the world.</p></div>
+    <div class="footer-col"><h4>Universe</h4><ul><li><a href="#universe">The World</a></li><li><a href="#locations">Locations</a></li><li><a href="#lore">Mythology</a></li><li><a href="#characters">Characters</a></li></ul></div>
+    <div class="footer-col"><h4>Stories</h4><ul><li><a href="#comics">Issue #1</a></li><li><a href="#comics">Issue #2</a></li><li><a href="#comics">Issue #3</a></li><li><a href="#newsletter">Coming Next</a></li></ul></div>
+    <div class="footer-col"><h4>Connect</h4><ul><li><a href="#newsletter">Newsletter</a></li><li><a href="#">Instagram</a></li><li><a href="#">X (Twitter)</a></li><li><a href="#">Contact</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>&#xA9; 2024 Catalyst: The Awakening. All rights reserved.</span>
+    <span class="footer-tagline">Lagos dey breathe. Lagos dey awaken.</span>
+    <span>Made with A&#x1E63;&#x1EB9; in Lagos</span>
+  </div>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  const cursorRing = document.getElementById('cursorRing');
+  let cursorX = 0, cursorY = 0, ringX = 0, ringY = 0;
+  document.addEventListener('mousemove', e => { cursorX = e.clientX; cursorY = e.clientY; cursor.style.left = cursorX + 'px'; cursor.style.top = cursorY + 'px'; });
+  function animateCursorRing() { ringX += (cursorX - ringX) * 0.12; ringY += (cursorY - ringY) * 0.12; cursorRing.style.left = ringX + 'px'; cursorRing.style.top = ringY + 'px'; requestAnimationFrame(animateCursorRing); }
+  animateCursorRing();
+  document.querySelectorAll('a, button, .char-card, .location-card, .orisha-item').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.style.width = '20px'; cursor.style.height = '20px'; cursorRing.style.width = '52px'; cursorRing.style.height = '52px'; });
+    el.addEventListener('mouseleave', () => { cursor.style.width = '12px'; cursor.style.height = '12px'; cursorRing.style.width = '36px'; cursorRing.style.height = '36px'; });
+  });
+
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  window.addEventListener('resize', resize); resize();
+  const colors = ['#F4B800', '#7B2FFF', '#C41E3A', '#00C9B1', '#FF6B1A'];
+  for (let i = 0; i < 80; i++) { particles.push({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.5 + 0.3, vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3, color: colors[Math.floor(Math.random() * colors.length)], opacity: Math.random() * 0.4 + 0.1 }); }
+  function drawParticles() { ctx.clearRect(0, 0, W, H); particles.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fillStyle = p.color; ctx.globalAlpha = p.opacity; ctx.fill(); p.x += p.vx; p.y += p.vy; if (p.x < 0) p.x = W; if (p.x > W) p.x = 0; if (p.y < 0) p.y = H; if (p.y > H) p.y = 0; }); ctx.globalAlpha = 1; requestAnimationFrame(drawParticles); }
+  drawParticles();
+
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  document.querySelectorAll('.orisha-item').forEach(item => { item.addEventListener('click', () => { document.querySelectorAll('.orisha-item').forEach(i => i.classList.remove('active')); item.classList.add('active'); }); });
+
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => { if (window.scrollY > 60) { nav.style.background = 'rgba(6,6,13,0.97)'; nav.style.backdropFilter = 'blur(12px)'; } else { nav.style.background = 'linear-gradient(to bottom, rgba(6,6,13,0.98), transparent)'; nav.style.backdropFilter = 'blur(2px)'; } });
+
+  function handleSignup(e) { e.preventDefault(); const input = e.target.querySelector('input'); const btn = e.target.querySelector('button'); btn.textContent = 'Aṣẹ!'; btn.style.background = '#00C9B1'; input.value = ''; setTimeout(() => { btn.textContent = 'Awaken'; btn.style.background = ''; }, 3000); }
+
+  window.addEventListener('scroll', () => { const y = window.scrollY; const skyline = document.querySelector('.hero-skyline'); const heroContent = document.querySelector('.hero-content'); if (skyline) skyline.style.transform = `translateY(${y * 0.3}px)`; if (heroContent) heroContent.style.transform = `translateY(${y * 0.15}px)`; });
+
+  const track = document.querySelector('.marquee-track');
+  const clone = track.cloneNode(true);
+  track.parentElement.appendChild(clone);
+</script>
+</body>
+</html>
