@@ -1602,8 +1602,435 @@
   #access, #ase-system { padding: 5rem 1.5rem; }
 }
 </style>
+
+<!-- ====================================================== LEGENDARY UPDATE STYLES -->
+<style>
+/* LOADER */
+#loader {
+  position: fixed;
+  inset: 0;
+  background: #06060d;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+#loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.loader-logo {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--bone-white);
+  text-transform: uppercase;
+  animation: loaderPulse 1.2s ease-in-out infinite alternate;
+}
+.loader-logo span { color: var(--danfo-gold); }
+.loader-sub {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.4em;
+  color: rgba(240,237,229,0.4);
+  margin-top: 1rem;
+  text-transform: uppercase;
+  animation: fadeIn 0.8s ease 0.5s both;
+}
+.loader-bar-wrap {
+  width: 240px;
+  height: 2px;
+  background: rgba(240,237,229,0.1);
+  margin-top: 2.5rem;
+  overflow: hidden;
+  border-radius: 2px;
+}
+.loader-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--danfo-gold), var(--electric-purple));
+  animation: loaderFill 3s ease forwards;
+}
+@keyframes loaderFill { from { width: 0%; } to { width: 100%; } }
+@keyframes loaderPulse {
+  from { text-shadow: 0 0 30px rgba(244,184,0,0.3); }
+  to   { text-shadow: 0 0 60px rgba(244,184,0,0.8), 0 0 120px rgba(123,47,255,0.4); }
+}
+.loader-orbs { display: flex; gap: 0.8rem; margin-top: 2rem; }
+.loader-orb { width: 8px; height: 8px; border-radius: 50%; animation: orbBounce 1.4s ease-in-out infinite; }
+.loader-orb:nth-child(1) { background: var(--danfo-gold);      animation-delay: 0s;   }
+.loader-orb:nth-child(2) { background: var(--electric-purple); animation-delay: 0.2s; }
+.loader-orb:nth-child(3) { background: var(--blood-red);       animation-delay: 0.4s; }
+.loader-orb:nth-child(4) { background: var(--orisha-teal);     animation-delay: 0.6s; }
+.loader-orb:nth-child(5) { background: var(--neon-orange);     animation-delay: 0.8s; }
+@keyframes orbBounce {
+  0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+  40%           { transform: scale(1); opacity: 1; }
+}
+
+/* MANIFESTO */
+#manifesto {
+  position: relative;
+  padding: 8rem 2rem;
+  background: linear-gradient(180deg, #06060d 0%, #0a0a1f 50%, #06060d 100%);
+  overflow: hidden;
+  text-align: center;
+}
+.manifesto-bg-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(8rem, 25vw, 22rem);
+  font-weight: 900;
+  color: rgba(244,184,0,0.03);
+  white-space: nowrap;
+  pointer-events: none;
+  letter-spacing: -0.05em;
+  user-select: none;
+}
+.manifesto-inner { position: relative; max-width: 900px; margin: 0 auto; }
+.manifesto-declaration {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(2.8rem, 7vw, 6.5rem);
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: var(--bone-white);
+  margin-bottom: 2.5rem;
+}
+.manifesto-declaration .gold   { color: var(--danfo-gold); }
+.manifesto-declaration .purple { color: var(--electric-purple); }
+.manifesto-declaration .red    { color: var(--blood-red); }
+.manifesto-body {
+  font-size: clamp(1rem, 2.2vw, 1.25rem);
+  line-height: 1.9;
+  color: rgba(240,237,229,0.75);
+  max-width: 720px;
+  margin: 0 auto 2rem;
+}
+.manifesto-body strong { color: var(--bone-white); }
+.manifesto-signature {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.3em;
+  color: rgba(240,237,229,0.35);
+  text-transform: uppercase;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(244,184,0,0.15);
+}
+.manifesto-signature strong {
+  color: var(--danfo-gold);
+  display: block;
+  font-size: 1rem;
+  letter-spacing: 0.2em;
+  margin-top: 0.4rem;
+}
+.manifesto-orisha-row {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 3rem 0 1.5rem;
+}
+.manifesto-orisha-pill {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  padding: 0.5rem 1.2rem;
+  border: 1px solid rgba(244,184,0,0.25);
+  color: rgba(240,237,229,0.5);
+  text-transform: uppercase;
+  clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+  transition: all 0.3s;
+}
+.manifesto-orisha-pill:hover { border-color: var(--danfo-gold); color: var(--danfo-gold); background: rgba(244,184,0,0.05); }
+
+/* VILLAINS */
+#villains {
+  padding: 7rem 2rem;
+  background: linear-gradient(180deg, #06060d 0%, #0d0006 50%, #06060d 100%);
+  position: relative;
+  overflow: hidden;
+}
+#villains::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(196,30,58,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.villains-header { text-align: center; margin-bottom: 5rem; position: relative; }
+.villains-subtitle {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.35em;
+  color: var(--blood-red);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+.villain-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+@media (max-width: 768px) { .villain-grid { grid-template-columns: 1fr; } }
+.villain-card {
+  position: relative;
+  padding: 2.5rem;
+  background: #0a0005;
+  border: 1px solid rgba(196,30,58,0.15);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+.villain-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--blood-red), transparent);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.villain-card:hover::before { opacity: 1; }
+.villain-card:hover { border-color: rgba(196,30,58,0.5); background: #0f0008; transform: translateY(-3px); }
+.villain-card.featured { grid-column: span 2; border-color: rgba(196,30,58,0.3); background: linear-gradient(135deg, #0f0008, #0a0005); }
+@media (max-width: 768px) { .villain-card.featured { grid-column: span 1; } }
+.villain-rank {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.4em;
+  color: var(--blood-red);
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+  opacity: 0.7;
+}
+.villain-name {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 700;
+  color: var(--bone-white);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.3rem;
+  line-height: 1.1;
+}
+.villain-alias {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  color: rgba(196,30,58,0.8);
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+.villain-power-bar { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.2rem; }
+.villain-power-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  color: rgba(240,237,229,0.35);
+  white-space: nowrap;
+}
+.villain-power-fill {
+  flex: 1;
+  height: 2px;
+  background: rgba(240,237,229,0.08);
+  position: relative;
+  overflow: hidden;
+}
+.villain-power-pct { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--blood-red); }
+.villain-desc { font-size: 0.9rem; line-height: 1.7; color: rgba(240,237,229,0.55); margin-bottom: 1.5rem; }
+.villain-ability-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.villain-ability-list li {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid rgba(196,30,58,0.25);
+  color: rgba(196,30,58,0.7);
+  text-transform: uppercase;
+  clip-path: polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%);
+}
+.villain-art-bg {
+  position: absolute;
+  right: -20px;
+  bottom: -20px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 10rem;
+  font-weight: 900;
+  color: rgba(196,30,58,0.04);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+.villain-quote {
+  font-style: italic;
+  font-size: 0.95rem;
+  color: rgba(240,237,229,0.45);
+  border-left: 2px solid var(--blood-red);
+  padding-left: 1rem;
+  margin: 1.2rem 0;
+}
+.dark-assembly-seal { text-align: center; margin-top: 4rem; padding-top: 3rem; border-top: 1px solid rgba(196,30,58,0.1); }
+.seal-text {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  color: rgba(196,30,58,0.4);
+  text-transform: uppercase;
+}
+
+/* REALMS */
+#realms {
+  padding: 7rem 2rem;
+  background: var(--black);
+  position: relative;
+  overflow: hidden;
+}
+.realms-header { text-align: center; margin-bottom: 5rem; }
+.realms-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+@media (max-width: 900px) { .realms-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 580px) { .realms-grid { grid-template-columns: 1fr; } }
+.realm-card {
+  position: relative;
+  padding: 2.5rem 2rem;
+  border: 1px solid rgba(240,237,229,0.07);
+  overflow: hidden;
+  transition: all 0.4s ease;
+  clip-path: polygon(0 0,calc(100% - 20px) 0,100% 20px,100% 100%,20px 100%,0 calc(100% - 20px));
+  background: rgba(6,6,13,0.9);
+}
+.realm-card:hover { border-color: rgba(240,237,229,0.2); transform: translateY(-4px); }
+.realm-num {
+  font-family: 'Oswald', sans-serif;
+  font-size: 5rem;
+  font-weight: 900;
+  line-height: 1;
+  opacity: 0.05;
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  pointer-events: none;
+  color: var(--bone-white);
+}
+.realm-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
+.realm-name { font-family: 'Oswald', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--bone-white); margin-bottom: 0.3rem; }
+.realm-native { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 1rem; opacity: 0.6; }
+.realm-desc { font-size: 0.875rem; line-height: 1.75; color: rgba(240,237,229,0.55); margin-bottom: 1.2rem; }
+.realm-access {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.8rem;
+  border: 1px solid;
+  display: inline-block;
+  clip-path: polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%);
+}
+.realm-card.realm-neolagos  { border-color: rgba(244,184,0,0.2); }
+.realm-card.realm-neolagos  .realm-native, .realm-card.realm-neolagos  .realm-access { color: var(--danfo-gold);      border-color: rgba(244,184,0,0.4); }
+.realm-card.realm-orun      { border-color: rgba(0,201,177,0.2); }
+.realm-card.realm-orun      .realm-native, .realm-card.realm-orun      .realm-access { color: var(--orisha-teal);    border-color: rgba(0,201,177,0.4); }
+.realm-card.realm-void      { border-color: rgba(123,47,255,0.2); }
+.realm-card.realm-void      .realm-native, .realm-card.realm-void      .realm-access { color: var(--electric-purple); border-color: rgba(123,47,255,0.4); }
+.realm-card.realm-ironmarket{ border-color: rgba(255,107,26,0.2); }
+.realm-card.realm-ironmarket .realm-native, .realm-card.realm-ironmarket .realm-access { color: var(--neon-orange); border-color: rgba(255,107,26,0.4); }
+.realm-card.realm-abyss     { border-color: rgba(196,30,58,0.2); }
+.realm-card.realm-abyss     .realm-native, .realm-card.realm-abyss     .realm-access { color: var(--blood-red);      border-color: rgba(196,30,58,0.4); }
+.realm-card.realm-apex      { border-color: rgba(244,184,0,0.35); background: rgba(244,184,0,0.03); }
+.realm-card.realm-apex      .realm-native, .realm-card.realm-apex      .realm-access { color: var(--danfo-gold);      border-color: rgba(244,184,0,0.6); }
+
+/* CODEX */
+#codex {
+  padding: 7rem 2rem;
+  background: linear-gradient(180deg, #06060d 0%, #080012 50%, #06060d 100%);
+  position: relative;
+  overflow: hidden;
+}
+.codex-header { text-align: center; margin-bottom: 5rem; }
+.codex-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+@media (max-width: 700px) { .codex-grid { grid-template-columns: 1fr; } }
+.codex-entry {
+  padding: 2.5rem;
+  background: rgba(8,0,18,0.9);
+  border-left: 2px solid rgba(240,237,229,0.08);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s ease;
+}
+.codex-entry:hover { background: rgba(12,0,25,0.95); border-left-color: var(--electric-purple); }
+.codex-tier-num {
+  font-family: 'Oswald', sans-serif;
+  font-size: 4rem;
+  font-weight: 900;
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  opacity: 0.05;
+  line-height: 1;
+  pointer-events: none;
+  color: var(--bone-white);
+}
+.codex-tier-label { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.35em; text-transform: uppercase; margin-bottom: 0.5rem; }
+.codex-power-name { font-family: 'Oswald', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--bone-white); letter-spacing: 0.05em; margin-bottom: 0.25rem; line-height: 1.1; }
+.codex-yoruba { font-style: italic; font-size: 0.8rem; margin-bottom: 1rem; opacity: 0.5; color: var(--bone-white); }
+.codex-desc { font-size: 0.875rem; line-height: 1.75; color: rgba(240,237,229,0.55); margin-bottom: 1.2rem; }
+.codex-examples { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; color: rgba(240,237,229,0.35); text-transform: uppercase; }
+.codex-examples span { display: inline-block; margin-right: 0.75rem; margin-bottom: 0.3rem; }
+.codex-examples span::before { content: '— '; }
+.codex-entry.tier-pulse     .codex-tier-label { color: #888; }
+.codex-entry.tier-pulse:hover     { border-left-color: #888; }
+.codex-entry.tier-channel   .codex-tier-label { color: var(--orisha-teal); }
+.codex-entry.tier-channel:hover   { border-left-color: var(--orisha-teal); }
+.codex-entry.tier-avatar    .codex-tier-label { color: var(--danfo-gold); }
+.codex-entry.tier-avatar:hover    { border-left-color: var(--danfo-gold); }
+.codex-entry.tier-sovereign .codex-tier-label { color: var(--electric-purple); }
+.codex-entry.tier-sovereign:hover { border-left-color: var(--electric-purple); }
+.codex-entry.tier-ascendant .codex-tier-label { color: var(--blood-red); }
+.codex-entry.tier-ascendant:hover { border-left-color: var(--blood-red); }
+.codex-entry.tier-catalyst  .codex-tier-label { color: var(--danfo-gold); }
+.codex-entry.tier-catalyst  { background: rgba(12,8,0,0.95); }
+.codex-entry.tier-catalyst:hover  { border-left-color: var(--danfo-gold); background: rgba(15,10,0,0.98); }
+
+@media (max-width: 768px) {
+  #manifesto { padding: 5rem 1.5rem; }
+  #villains, #realms, #codex { padding: 5rem 1.5rem; }
+}
+</style>
 </head>
 <body>
+
+<!-- ============================================================ LOADING SCREEN -->
+<div id="loader">
+  <div class="loader-logo">CATALYST<span>:</span>TA</div>
+  <div class="loader-sub">The Awakening — Loading the Universe</div>
+  <div class="loader-bar-wrap">
+    <div class="loader-bar"></div>
+  </div>
+  <div class="loader-orbs">
+    <div class="loader-orb"></div>
+    <div class="loader-orb"></div>
+    <div class="loader-orb"></div>
+    <div class="loader-orb"></div>
+    <div class="loader-orb"></div>
+  </div>
+</div>
 
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
@@ -1614,8 +2041,11 @@
   <a href="#hero" class="nav-logo">CATALYST<span>:</span>TA</a>
   <ul class="nav-links">
     <li><a href="#arcs">Arcs</a></li>
-    <li><a href="#read">Read Free</a></li>
+    <li><a href="#villains">Villains</a></li>
     <li><a href="#characters">Heroes</a></li>
+    <li><a href="#realms">Realms</a></li>
+    <li><a href="#codex">Codex</a></li>
+    <li><a href="#read">Read Free</a></li>
     <li><a href="#lore">Lore</a></li>
     <li><a href="#access" class="nav-cta">Subscribe</a></li>
   </ul>
@@ -1710,6 +2140,41 @@
     <div class="marquee-item">Naija Superheroes Dey Here <span class="marquee-dot"></span></div>
   </div>
 </div>
+
+<!-- ============================================================ MANIFESTO -->
+<section id="manifesto">
+  <div class="manifesto-bg-text">ASẸ</div>
+  <div class="manifesto-inner">
+    <p class="section-label reveal" style="justify-content:center">Creator's Declaration</p>
+    <div class="manifesto-declaration reveal">
+      THIS IS<br>
+      <span class="gold">NOT A COMIC.</span><br>
+      THIS IS A<br>
+      <span class="purple">LEGACY.</span>
+    </div>
+    <p class="manifesto-body reveal">
+      I built this universe for <strong>the young ones coming</strong> — for every child in Mushin who looks at the sky and wonders if someone who looks like them can save the world. For every Lagos street kid who has never seen their power reflected in a hero. For my lineage, and theirs.
+    </p>
+    <p class="manifesto-body reveal reveal-delay-1">
+      <strong>Catalyst: The Awakening</strong> is not borrowed mythology. It is not a Western hero dropped into African clothes. This is <strong>ours</strong> — the Orishas, the Aṣẹ, the danfo dust, the 3 AM electricity that crackles through old Mushin streets. The ancient war that never ended. The boy who never asked for power but refuses to waste it.
+    </p>
+    <p class="manifesto-body reveal reveal-delay-2">
+      We will not stop until <em>every arc is told</em>. Every villain faces their reckoning. Every Orisha gets their justice. Every child who ever felt invisible sees themselves in Bayo Adeyemi and knows: <strong>Aṣẹ flows in us all.</strong>
+    </p>
+    <div class="manifesto-orisha-row reveal">
+      <div class="manifesto-orisha-pill">Ṣàngó</div>
+      <div class="manifesto-orisha-pill">Ògún</div>
+      <div class="manifesto-orisha-pill">Ọ̀ṣun</div>
+      <div class="manifesto-orisha-pill">Oya</div>
+      <div class="manifesto-orisha-pill">Obatala</div>
+      <div class="manifesto-orisha-pill">Eshu</div>
+    </div>
+    <div class="manifesto-signature reveal">
+      Written in blood, iron &amp; gold —
+      <strong>The Creator of Catalyst Universe</strong>
+    </div>
+  </div>
+</section>
 
 <!-- ============================================================ UNIVERSE -->
 <section id="universe">
@@ -2027,6 +2492,137 @@
         <div class="char-power">Ancient Keeper · Master of Ifá Wisdom</div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ============================================================ DARK ASSEMBLY — VILLAINS -->
+<section id="villains">
+  <div class="villains-header">
+    <p class="section-label reveal" style="justify-content:center">The Opposition</p>
+    <div class="villains-subtitle reveal">The Dark Assembly</div>
+    <h2 class="section-title reveal">THOSE WHO<br>WOULD END<br><em>EVERYTHING</em></h2>
+    <p class="reveal" style="max-width:580px;margin:1.5rem auto 0;font-size:0.9rem;line-height:1.8;color:rgba(240,237,229,0.5);">Every legend needs an opposition worthy of the name. The Dark Assembly does not want power. They want oblivion — and they are older, smarter, and far more patient than any hero has ever been prepared for.</p>
+  </div>
+
+  <div class="villain-grid">
+
+    <!-- THE ARCHITECT (Featured — spans full width) -->
+    <div class="villain-card featured reveal">
+      <div class="villain-art-bg">Ì</div>
+      <div class="villain-rank">Grand Sovereign · Rank I</div>
+      <div class="villain-name">THE ARCHITECT</div>
+      <div class="villain-alias">Ìgbàlódé — "The Eternal Planner"</div>
+      <div class="villain-power-bar">
+        <div class="villain-power-label">Threat Level</div>
+        <div class="villain-power-fill">
+          <div style="width:98%;height:100%;background:linear-gradient(90deg,var(--blood-red),var(--electric-purple))"></div>
+        </div>
+        <div class="villain-power-pct">98%</div>
+      </div>
+      <div class="villain-quote">"I have watched Lagos burn and rebuild seven hundred times. I am not your enemy, Bayo. I am your inevitable future."</div>
+      <p class="villain-desc">Once the first human to achieve Sovereign-tier Aṣẹ mastery, The Architect has spent six centuries engineering the collapse of the Orisha-Human accord. He does not fight battles — he <em>writes</em> them. Every war, every Ọ̀run-bleed, every hero's death has been a chapter in his plan. His true name has been erased from every Ifá text in existence. That alone should terrify you.</p>
+      <ul class="villain-ability-list">
+        <li>Reality Rewriting</li>
+        <li>Aṣẹ Siphoning</li>
+        <li>Timeline Manipulation</li>
+        <li>Orisha Corruption</li>
+        <li>Memory Erasure</li>
+      </ul>
+    </div>
+
+    <!-- HOLLOW KING -->
+    <div class="villain-card reveal reveal-delay-1">
+      <div class="villain-art-bg">Ọ</div>
+      <div class="villain-rank">Dark Assembly · Rank II</div>
+      <div class="villain-name">HOLLOW KING</div>
+      <div class="villain-alias">Ọba Àṣàlọ — "King of the Empty Path"</div>
+      <div class="villain-power-bar">
+        <div class="villain-power-label">Threat Level</div>
+        <div class="villain-power-fill">
+          <div style="width:84%;height:100%;background:linear-gradient(90deg,var(--blood-red),var(--electric-purple))"></div>
+        </div>
+        <div class="villain-power-pct">84%</div>
+      </div>
+      <p class="villain-desc">A former Yoruba king who bargained with the Void for immortality and lost his soul in the process. He rules the Ẹ̀gbẹ́ Òkùnkùn — the Shadow Brotherhood — from inside a palace that exists between realms. He feeds on the Aṣẹ of fallen warriors and grows stronger with every hero's death.</p>
+      <ul class="villain-ability-list">
+        <li>Soul Harvest</li>
+        <li>Void Armour</li>
+        <li>Death Immunity</li>
+        <li>Army Command</li>
+      </ul>
+    </div>
+
+    <!-- MOTHER STORM -->
+    <div class="villain-card reveal reveal-delay-2">
+      <div class="villain-art-bg">Ẹ</div>
+      <div class="villain-rank">Dark Assembly · Rank III</div>
+      <div class="villain-name">MOTHER STORM</div>
+      <div class="villain-alias">Ẹlẹ́ṣin Ọ̀yà — "Rider of Oya's Wrath"</div>
+      <div class="villain-power-bar">
+        <div class="villain-power-label">Threat Level</div>
+        <div class="villain-power-fill">
+          <div style="width:79%;height:100%;background:linear-gradient(90deg,var(--blood-red),var(--electric-purple))"></div>
+        </div>
+        <div class="villain-power-pct">79%</div>
+      </div>
+      <p class="villain-desc">She was an Oya priestess who refused to accept her goddess's silence during the Biafran War. When Oya would not answer her prayers, she tore open the Ọ̀run herself — and something else answered. Now she wields storm-power corrupted at the source: beautiful, devastating, and wrong in ways that make veteran Orishas look away.</p>
+      <ul class="villain-ability-list">
+        <li>Corrupted Storm</li>
+        <li>Ọ̀run Rift</li>
+        <li>Lightning Drain</li>
+        <li>Weather Control</li>
+      </ul>
+    </div>
+
+    <!-- IRON PREACHER -->
+    <div class="villain-card reveal">
+      <div class="villain-art-bg">Í</div>
+      <div class="villain-rank">Dark Assembly · Rank IV</div>
+      <div class="villain-name">IRON PREACHER</div>
+      <div class="villain-alias">Ìjọsìn Ògún — "The Prophet of Iron Judgment"</div>
+      <div class="villain-power-bar">
+        <div class="villain-power-label">Threat Level</div>
+        <div class="villain-power-fill">
+          <div style="width:72%;height:100%;background:linear-gradient(90deg,var(--blood-red),var(--electric-purple))"></div>
+        </div>
+        <div class="villain-power-pct">72%</div>
+      </div>
+      <p class="villain-desc">He believes humans have corrupted the Earth enough. A fallen Ògún Avatar who now commands the Iron Verdict — a doctrine that all technology must be dismantled, all cities razed, humanity returned to pre-colonial nature. His sermons heal the wounded and convert the faithful. His iron constructs destroy everything else.</p>
+      <ul class="villain-ability-list">
+        <li>Iron Constructs</li>
+        <li>Tech Nullification</li>
+        <li>Mass Conversion</li>
+        <li>Ògún Wrath</li>
+      </ul>
+    </div>
+
+    <!-- THE MIRROR -->
+    <div class="villain-card reveal reveal-delay-1">
+      <div class="villain-art-bg">Ẹ</div>
+      <div class="villain-rank">Dark Assembly · Rank V · Danger: Extreme</div>
+      <div class="villain-name">THE MIRROR</div>
+      <div class="villain-alias">Ẹ̀dá Àfọ́jú — "The Reflection That Sees"</div>
+      <div class="villain-power-bar">
+        <div class="villain-power-label">Threat Level</div>
+        <div class="villain-power-fill">
+          <div style="width:90%;height:100%;background:linear-gradient(90deg,var(--blood-red),var(--electric-purple))"></div>
+        </div>
+        <div class="villain-power-pct">90%</div>
+      </div>
+      <p class="villain-desc">No one has ever seen The Mirror's true form. It copies. Perfectly. It has assumed the identities of seven heroes over three decades, learned their techniques, loved their families, and then destroyed everything they built. Its threat level exceeds the Hollow King's because it has already won. It just hasn't announced itself yet.</p>
+      <ul class="villain-ability-list">
+        <li>Perfect Mimicry</li>
+        <li>Power Duplication</li>
+        <li>Memory Theft</li>
+        <li>Identity Erasure</li>
+        <li>Long Con</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="dark-assembly-seal reveal">
+    <div class="seal-text">— The Dark Assembly · Active since 1420 CE · Total confirmed casualties: classified —</div>
   </div>
 </section>
 
@@ -2711,6 +3307,165 @@
 
 </section>
 
+<!-- ============================================================ THE KNOWN REALMS -->
+<section id="realms">
+  <div class="realms-header">
+    <p class="section-label reveal" style="justify-content:center">The Multiverse</p>
+    <h2 class="section-title reveal">THE KNOWN<br><em>REALMS</em></h2>
+    <p class="reveal" style="max-width:560px;margin:1.5rem auto 0;font-size:0.9rem;line-height:1.8;color:rgba(240,237,229,0.55);">The Catalyst universe spans six distinct realms — each with its own laws of physics, Aṣẹ concentration, and political factions. Mastery of inter-realm travel is Arc III's central conflict.</p>
+  </div>
+  <div class="realms-grid">
+
+    <div class="realm-card realm-neolagos reveal">
+      <div class="realm-num">01</div>
+      <span class="realm-icon">🏙️</span>
+      <div class="realm-name">Neo-Lagos</div>
+      <div class="realm-native">Ìlú Àgbáyé — The World City</div>
+      <p class="realm-desc">The primary realm. A 40-million-soul megacity layered over an ancient Yoruba energy grid. The Balogun Nexus sits at the exact intersection of nine Orisha ley lines, making Neo-Lagos the most Aṣẹ-dense location in the mortal world. Where the story begins. Where it will likely end.</p>
+      <div class="realm-access">Primary Realm · All Issues</div>
+    </div>
+
+    <div class="realm-card realm-orun reveal reveal-delay-1">
+      <div class="realm-num">02</div>
+      <span class="realm-icon">✨</span>
+      <div class="realm-name">Ọ̀run</div>
+      <div class="realm-native">Ilé Àwọn Òrìṣà — Home of the Orishas</div>
+      <p class="realm-desc">The spirit world — ancient, vast, and structured like a celestial Lagos. Seventeen districts, each ruled by a different Orisha court. Time moves at 7× the speed of the mortal realm. A week in Ọ̀run is an hour in Neo-Lagos. Bayo's visits will age him in ways that cannot be undone.</p>
+      <div class="realm-access">Arc II Onwards · Subscribe</div>
+    </div>
+
+    <div class="realm-card realm-void reveal reveal-delay-2">
+      <div class="realm-num">03</div>
+      <span class="realm-icon">🌑</span>
+      <div class="realm-name">The Void</div>
+      <div class="realm-native">Àgbègbè Òfò — Territory of Loss</div>
+      <p class="realm-desc">Neither Ọ̀run nor Earth. The space between worlds — where things go when forgotten, where destroyed Aṣẹ falls, where The Architect draws his true power. Entering the Void without a Sovereign-tier anchor is a death sentence. The Void is also where The Mirror was born.</p>
+      <div class="realm-access">Arc III Onwards · Subscribe</div>
+    </div>
+
+    <div class="realm-card realm-ironmarket reveal">
+      <div class="realm-num">04</div>
+      <span class="realm-icon">⚙️</span>
+      <div class="realm-name">Iron Market</div>
+      <div class="realm-native">Ọjà Irin — Forge of the Fallen</div>
+      <p class="realm-desc">A realm built entirely from salvaged materials — collapsed buildings from every dimension, stolen tech from dead civilizations, re-forged Orisha weapons. Run by the Ògún Forgeborn: humans who weaponized iron-Aṣẹ to become half-machine. Morally complex. They will sell to anyone. Including the Dark Assembly.</p>
+      <div class="realm-access">Arc II Onwards · Subscribe</div>
+    </div>
+
+    <div class="realm-card realm-abyss reveal reveal-delay-1">
+      <div class="realm-num">05</div>
+      <span class="realm-icon">🔴</span>
+      <div class="realm-name">The Abyss</div>
+      <div class="realm-native">Àpọ̀nlé — The Bottomless Pit</div>
+      <p class="realm-desc">Where corrupted Orishas are imprisoned. Six of the oldest, most powerful divine beings ever to exist are sealed here — not dead, not free, and growing angrier with each century. The Dark Assembly's endgame is to tear the Abyss open. The Architect has a key. He has had it for four hundred years.</p>
+      <div class="realm-access">Arc IV Onwards · Subscribe</div>
+    </div>
+
+    <div class="realm-card realm-apex reveal reveal-delay-2">
+      <div class="realm-num">06</div>
+      <span class="realm-icon">⚡</span>
+      <div class="realm-name">The Apex</div>
+      <div class="realm-native">Orí Àgbáyé — Crown of All Worlds</div>
+      <p class="realm-desc">The realm above all realms. A place that should not exist, that maps to nothing in Ifá cosmology, that the oldest Orishas refuse to discuss. It is where Bayo goes at the end of Arc V. No one who has reached the Apex has ever returned. Until now.</p>
+      <div class="realm-access">Arc V — The Finale</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================ THE ASẸ CODEX -->
+<section id="codex">
+  <div class="codex-header">
+    <p class="section-label reveal" style="justify-content:center">Power Classification</p>
+    <h2 class="section-title reveal">THE ASẸ<br><em>CODEX</em></h2>
+    <p class="reveal" style="max-width:560px;margin:1.5rem auto 0;font-size:0.9rem;line-height:1.8;color:rgba(240,237,229,0.55);">The six tiers of Aṣẹ mastery, maintained by the Council of Ifá since the First Awakening. Most humans never surpass Pulse. Bayo is the only known being to traverse all six in a single lifetime.</p>
+  </div>
+  <div class="codex-grid">
+
+    <div class="codex-entry tier-pulse reveal">
+      <div class="codex-tier-num">I</div>
+      <div class="codex-tier-label">Tier I</div>
+      <div class="codex-power-name">PULSE</div>
+      <div class="codex-yoruba">Ìmọ́lẹ̀ Àkọ́kọ́ — "The First Light"</div>
+      <p class="codex-desc">The baseline. Every human carries a dormant Aṣẹ pulse — most never feel it. At Tier I, the user becomes aware of energy flows, can sense Orisha presence, and manifests minor environmental effects: plants grow faster, electronics glitch, animals are unnaturally calm. Children of Orisha-blooded families often manifest at birth without triggering.</p>
+      <div class="codex-examples">
+        <span>Sensing Ọ̀run bleeds</span>
+        <span>Minor telekinesis</span>
+        <span>Emotional Aura</span>
+      </div>
+    </div>
+
+    <div class="codex-entry tier-channel reveal reveal-delay-1">
+      <div class="codex-tier-num">II</div>
+      <div class="codex-tier-label">Tier II</div>
+      <div class="codex-power-name">CHANNEL</div>
+      <div class="codex-yoruba">Ipa Ọ̀run — "The Divine Path"</div>
+      <p class="codex-desc">The user begins channelling a specific Orisha's domain. A Ṣàngó channel emits electrical discharge involuntarily. An Ọ̀ṣun channel finds their tears have healing properties. Power is real but unstable — users burn out frequently, and prolonged use without training causes cellular damage. Most trained warriors operate at upper Tier II.</p>
+      <div class="codex-examples">
+        <span>Orisha Domain Access (30%)</span>
+        <span>Combat-viable output</span>
+        <span>Burnout risk: High</span>
+      </div>
+    </div>
+
+    <div class="codex-entry tier-avatar reveal">
+      <div class="codex-tier-num">III</div>
+      <div class="codex-tier-label">Tier III</div>
+      <div class="codex-power-name">AVATAR</div>
+      <div class="codex-yoruba">Ara Àwọn Òrìṣà — "Body of the Divine"</div>
+      <p class="codex-desc">A full Avatar state: the user becomes a temporary vessel for an Orisha's power. Tier III practitioners are city-level threats. The Orisha can speak through them and access memories. The risk: the Orisha may not want to leave. Most Tier III practitioners develop dual personalities — their own, and their Orisha's. The Oracle is a permanent Tier III.</p>
+      <div class="codex-examples">
+        <span>Full Orisha embodiment</span>
+        <span>City-level power</span>
+        <span>Dual consciousness</span>
+      </div>
+    </div>
+
+    <div class="codex-entry tier-sovereign reveal reveal-delay-1">
+      <div class="codex-tier-num">IV</div>
+      <div class="codex-tier-label">Tier IV</div>
+      <div class="codex-power-name">SOVEREIGN</div>
+      <div class="codex-yoruba">Ọba Àṣẹ — "King of Divine Will"</div>
+      <p class="codex-desc">Sovereignty inverts the relationship: the practitioner commands Orisha aspects rather than requests them. Realm travel becomes possible. Tier IV Sovereigns alter local physics, command armies of Aṣẹ constructs, and exist simultaneously in two realms. Six known in all of recorded history. The Architect corrupted three of them.</p>
+      <div class="codex-examples">
+        <span>Orisha Command</span>
+        <span>Realm Travel</span>
+        <span>Physics Alteration</span>
+        <span>Continent-level threat</span>
+      </div>
+    </div>
+
+    <div class="codex-entry tier-ascendant reveal">
+      <div class="codex-tier-num">V</div>
+      <div class="codex-tier-label">Tier V</div>
+      <div class="codex-power-name">ASCENDANT</div>
+      <div class="codex-yoruba">Ìdìde Àgbáyé — "The World-Riser"</div>
+      <p class="codex-desc">The threshold between mortal and divine. An Ascendant does not channel Orishas — they become one. The body transforms. Time perception shifts: past, present, and future become simultaneous, making them nearly impossible to surprise. The price is isolation — Ascendants can no longer maintain normal human connection. Two known to exist. Both enemies of each other.</p>
+      <div class="codex-examples">
+        <span>Divine Transformation</span>
+        <span>Temporal Perception</span>
+        <span>Multi-realm existence</span>
+        <span>Planetary-level threat</span>
+      </div>
+    </div>
+
+    <div class="codex-entry tier-catalyst reveal reveal-delay-1">
+      <div class="codex-tier-num">VI</div>
+      <div class="codex-tier-label">Tier VI — Singular</div>
+      <div class="codex-power-name">CATALYST</div>
+      <div class="codex-yoruba">Ìmọ̀lára Ọ̀run — "The Feeling of Heaven"</div>
+      <p class="codex-desc">Not a tier that can be trained toward. A Catalyst is a being whose Aṣẹ doesn't channel or embody — it <em>multiplies</em>. Near a Tier II warrior, a Catalyst temporarily elevates them to Tier IV. Near an Orisha, a Catalyst can trigger transcendence. Near The Architect, they are an existential threat. There has only ever been one Catalyst. He is 19 years old. He lives in Mushin. He has an overdue NEPA bill.</p>
+      <div class="codex-examples">
+        <span>Aṣẹ Multiplication</span>
+        <span>Reality Anchoring</span>
+        <span>All-realm presence</span>
+        <span>Unknown ceiling</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 <!-- ============================================================ ACCESS / FREEMIUM -->
 <section id="access">
   <div class="access-header">
@@ -2922,6 +3677,10 @@
 </footer>
 
 <script>
+  // ─── LOADING SCREEN ──────────────────────────────────────────
+  const loader = document.getElementById('loader');
+  if (loader) { setTimeout(() => loader.classList.add('hidden'), 3400); }
+
   // ─── CUSTOM CURSOR ───────────────────────────────────────────
   const cursor = document.getElementById('cursor');
   const cursorRing = document.getElementById('cursorRing');
