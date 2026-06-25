@@ -1603,7 +1603,726 @@
 }
 </style>
 
-<!-- ====================================================== LEGENDARY UPDATE STYLES -->
+<!-- ====================================================== AUTH / PAYMENT / TOAST STYLES -->
+<style>
+/* ─── TOAST NOTIFICATIONS ─── */
+#toast-container {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 20000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  pointer-events: none;
+}
+.toast {
+  padding: 1rem 1.5rem;
+  background: rgba(10,10,31,0.97);
+  border: 1px solid rgba(244,184,0,0.3);
+  color: var(--bone-white);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  clip-path: polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);
+  transform: translateX(120%);
+  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+  pointer-events: auto;
+  max-width: 340px;
+  line-height: 1.5;
+}
+.toast.show { transform: translateX(0); }
+.toast.toast-success { border-color: rgba(0,201,177,0.5); }
+.toast.toast-error   { border-color: rgba(196,30,58,0.5); }
+
+/* ─── MODAL BACKDROP ─── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(6,6,13,0.92);
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s, visibility 0.35s;
+  backdrop-filter: blur(8px);
+}
+.modal-backdrop.open { opacity: 1; visibility: visible; }
+
+/* ─── AUTH MODAL ─── */
+.auth-modal {
+  background: #0a0a1f;
+  border: 1px solid rgba(244,184,0,0.2);
+  width: 100%;
+  max-width: 440px;
+  padding: 3rem 2.5rem;
+  position: relative;
+  clip-path: polygon(0 0,calc(100% - 24px) 0,100% 24px,100% 100%,24px 100%,0 calc(100% - 24px));
+  animation: modalSlideIn 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+@keyframes modalSlideIn {
+  from { transform: translateY(30px) scale(0.96); opacity: 0; }
+  to   { transform: translateY(0) scale(1); opacity: 1; }
+}
+.modal-close {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  color: rgba(240,237,229,0.4);
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.2s;
+}
+.modal-close:hover { color: var(--bone-white); }
+.auth-logo {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.2rem;
+  letter-spacing: 0.15em;
+  color: var(--danfo-gold);
+  margin-bottom: 0.5rem;
+}
+.auth-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--bone-white);
+  margin-bottom: 0.3rem;
+  letter-spacing: 0.03em;
+}
+.auth-sub {
+  font-size: 0.82rem;
+  color: rgba(240,237,229,0.5);
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+.auth-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(240,237,229,0.1);
+}
+.auth-tab {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 0.75rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(240,237,229,0.35);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.2s;
+}
+.auth-tab.active { color: var(--danfo-gold); border-bottom-color: var(--danfo-gold); }
+.auth-form { display: flex; flex-direction: column; gap: 1rem; }
+.auth-form.hidden { display: none; }
+.auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.auth-field label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(240,237,229,0.5);
+}
+.auth-input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background: rgba(240,237,229,0.04);
+  border: 1px solid rgba(240,237,229,0.12);
+  color: var(--bone-white);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+.auth-input:focus { border-color: var(--danfo-gold); }
+.auth-input::placeholder { color: rgba(240,237,229,0.25); }
+.auth-submit {
+  width: 100%;
+  padding: 1rem;
+  background: var(--danfo-gold);
+  color: #06060d;
+  border: none;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  clip-path: polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);
+  transition: background 0.2s, transform 0.1s;
+  margin-top: 0.5rem;
+}
+.auth-submit:hover { background: #f5c400; }
+.auth-submit:active { transform: scale(0.98); }
+.auth-submit:disabled { background: rgba(244,184,0,0.3); cursor: not-allowed; }
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+.auth-divider::before, .auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(240,237,229,0.1);
+}
+.auth-divider span {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  color: rgba(240,237,229,0.3);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.auth-google {
+  width: 100%;
+  padding: 0.85rem;
+  background: rgba(240,237,229,0.05);
+  border: 1px solid rgba(240,237,229,0.12);
+  color: var(--bone-white);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  transition: background 0.2s, border-color 0.2s;
+}
+.auth-google:hover { background: rgba(240,237,229,0.08); border-color: rgba(240,237,229,0.25); }
+.auth-footer {
+  margin-top: 1.5rem;
+  font-size: 0.78rem;
+  color: rgba(240,237,229,0.4);
+  text-align: center;
+  line-height: 1.6;
+}
+.auth-footer a { color: var(--danfo-gold); text-decoration: none; }
+
+/* ─── PAYMENT MODAL ─── */
+.payment-modal {
+  background: #0a0005;
+  border: 1px solid rgba(196,30,58,0.25);
+  width: 100%;
+  max-width: 520px;
+  padding: 3rem 2.5rem;
+  position: relative;
+  clip-path: polygon(0 0,calc(100% - 24px) 0,100% 24px,100% 100%,24px 100%,0 calc(100% - 24px));
+  animation: modalSlideIn 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+.payment-header {
+  margin-bottom: 2rem;
+}
+.payment-badge {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.4em;
+  color: var(--danfo-gold);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.payment-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--bone-white);
+  letter-spacing: 0.03em;
+  line-height: 1.1;
+}
+.payment-plans {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.payment-plan {
+  padding: 1.5rem;
+  border: 2px solid rgba(240,237,229,0.1);
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+.payment-plan.selected {
+  border-color: var(--danfo-gold);
+  background: rgba(244,184,0,0.05);
+}
+.payment-plan.selected::after {
+  content: '✓';
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 20px;
+  height: 20px;
+  background: var(--danfo-gold);
+  color: #06060d;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 900;
+  line-height: 20px;
+  text-align: center;
+}
+.plan-period {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(240,237,229,0.5);
+  margin-bottom: 0.4rem;
+}
+.plan-price {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--bone-white);
+}
+.plan-price span { font-size: 0.9rem; color: rgba(240,237,229,0.5); }
+.plan-saving {
+  font-size: 0.72rem;
+  color: var(--orisha-teal);
+  margin-top: 0.3rem;
+  font-family: 'Space Mono', monospace;
+}
+.payment-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.payment-features li {
+  font-size: 0.85rem;
+  color: rgba(240,237,229,0.65);
+  display: flex;
+  gap: 0.6rem;
+}
+.payment-features li::before {
+  content: '✓';
+  color: var(--orisha-teal);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.payment-btn {
+  width: 100%;
+  padding: 1.2rem;
+  background: linear-gradient(135deg, var(--danfo-gold), #f5a500);
+  color: #06060d;
+  border: none;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  clip-path: polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);
+  transition: opacity 0.2s, transform 0.1s;
+}
+.payment-btn:hover { opacity: 0.9; }
+.payment-btn:active { transform: scale(0.98); }
+.payment-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.payment-security {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  color: rgba(240,237,229,0.3);
+  letter-spacing: 0.1em;
+}
+.payment-security::before { content: '🔒'; }
+
+/* ─── NAV USER STATE ─── */
+.nav-auth-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(244,184,0,0.4);
+  color: var(--danfo-gold);
+  background: none;
+  cursor: pointer;
+  clip-path: polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
+  transition: all 0.2s;
+  text-decoration: none;
+}
+.nav-auth-btn:hover { background: rgba(244,184,0,0.1); border-color: var(--danfo-gold); }
+.nav-user-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  color: rgba(240,237,229,0.6);
+  cursor: pointer;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid rgba(240,237,229,0.12);
+  transition: all 0.2s;
+}
+.nav-user-pill:hover { border-color: rgba(240,237,229,0.3); }
+.nav-user-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--orisha-teal);
+}
+.nav-premium-dot { background: var(--danfo-gold); }
+
+/* ─── PREMIUM LOCK GATE ─── */
+.premium-gate {
+  position: relative;
+}
+.premium-lock-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 0%, rgba(6,6,13,0.7) 30%, rgba(6,6,13,0.97) 60%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 2rem;
+  text-align: center;
+}
+.premium-lock-icon {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+.premium-lock-label {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--bone-white);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.4rem;
+}
+.premium-lock-sub {
+  font-size: 0.78rem;
+  color: rgba(240,237,229,0.5);
+  margin-bottom: 1rem;
+  font-family: 'Space Mono', monospace;
+}
+.premium-unlock-btn {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.65rem 1.5rem;
+  background: var(--danfo-gold);
+  color: #06060d;
+  border: none;
+  cursor: pointer;
+  clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+  transition: opacity 0.2s;
+}
+.premium-unlock-btn:hover { opacity: 0.85; }
+
+/* ─── COVER ART UPGRADES ─── */
+.issue-cover svg.issue-art { width: 100%; height: 100%; }
+.cover-premium-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--danfo-gold);
+  color: #06060d;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  padding: 0.3rem 0.6rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  z-index: 5;
+}
+.cover-free-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--orisha-teal);
+  color: #06060d;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  padding: 0.3rem 0.6rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  z-index: 5;
+}
+
+/* ─── AUTH MODAL LOGO / SUB ─── */
+.auth-modal-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 0.2em;
+  color: var(--danfo-gold);
+  margin-bottom: 0.3rem;
+}
+.auth-modal-logo span { color: var(--blood-red); }
+.auth-modal-sub {
+  font-size: 0.78rem;
+  color: rgba(240,237,229,0.4);
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 0.05em;
+  margin-bottom: 1.8rem;
+}
+
+/* ─── AUTH PANEL SHOW/HIDE ─── */
+.auth-panel { display: none; }
+.auth-panel.active { display: block; }
+
+/* ─── SOCIAL SIGN-IN BUTTON ─── */
+.social-btn {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background: rgba(240,237,229,0.04);
+  border: 1px solid rgba(240,237,229,0.12);
+  color: var(--bone-white);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, border-color 0.2s;
+  margin-bottom: 0.75rem;
+}
+.social-btn:hover { background: rgba(240,237,229,0.08); border-color: rgba(240,237,229,0.25); }
+
+/* ─── AUTH OR DIVIDER ─── */
+.auth-or {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0.5rem 0 1rem;
+}
+.auth-or::before, .auth-or::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(240,237,229,0.1);
+}
+.auth-or span {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  color: rgba(240,237,229,0.3);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* ─── AUTH FORM SUBMIT BUTTON ─── */
+.auth-submit-btn {
+  width: 100%;
+  padding: 1rem;
+  background: var(--danfo-gold);
+  color: #06060d;
+  border: none;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  clip-path: polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);
+  transition: background 0.2s, transform 0.1s;
+  margin-top: 0.75rem;
+}
+.auth-submit-btn:hover { background: #f5c400; }
+.auth-submit-btn:active { transform: scale(0.98); }
+.auth-submit-btn:disabled { background: rgba(244,184,0,0.3); cursor: not-allowed; }
+
+/* ─── FORGOT PASSWORD LINK ─── */
+.auth-forgot {
+  display: block;
+  text-align: right;
+  font-size: 0.78rem;
+  color: rgba(244,184,0,0.6);
+  text-decoration: none;
+  margin-top: -0.25rem;
+  transition: color 0.2s;
+}
+.auth-forgot:hover { color: var(--danfo-gold); }
+
+/* ─── PAYMENT ICON ─── */
+.payment-icon {
+  font-size: 2rem;
+  color: var(--danfo-gold);
+  margin-bottom: 0.5rem;
+  font-family: 'Bebas Neue', sans-serif;
+}
+.payment-header h3 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--bone-white);
+  margin-bottom: 0.3rem;
+}
+.payment-header p {
+  font-size: 0.82rem;
+  color: rgba(240,237,229,0.5);
+}
+
+/* ─── PLAN TOGGLE ─── */
+.plan-toggle {
+  display: flex;
+  gap: 0;
+  margin: 1.5rem 0;
+  border: 1px solid rgba(240,237,229,0.12);
+}
+.plan-btn {
+  flex: 1;
+  padding: 0.65rem;
+  background: none;
+  border: none;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(240,237,229,0.4);
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+.plan-btn.active {
+  background: rgba(244,184,0,0.12);
+  color: var(--danfo-gold);
+}
+.save-badge {
+  display: inline-block;
+  background: var(--blood-red);
+  color: #fff;
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  padding: 0.15rem 0.4rem;
+  margin-left: 0.4rem;
+  vertical-align: middle;
+}
+
+/* ─── PAYMENT PRICE DISPLAY ─── */
+.payment-price-wrap {
+  text-align: center;
+  margin: 1.5rem 0;
+  padding: 1.5rem;
+  border: 1px solid rgba(244,184,0,0.15);
+  background: rgba(244,184,0,0.04);
+}
+.payment-price {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3rem;
+  color: var(--danfo-gold);
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+.payment-period {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  color: rgba(240,237,229,0.4);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-top: 0.3rem;
+}
+
+/* ─── PAYMENT FEATURES LIST ─── */
+.payment-features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 1.5rem 0;
+}
+.pf {
+  display: flex;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+  color: rgba(240,237,229,0.75);
+  line-height: 1.4;
+}
+.pf span {
+  color: var(--orisha-teal);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ─── PAYMENT CTA BUTTON ─── */
+.payment-cta-btn {
+  width: 100%;
+  padding: 1.1rem;
+  background: linear-gradient(135deg, var(--danfo-gold), var(--neon-orange));
+  color: #06060d;
+  border: none;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  clip-path: polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);
+  transition: opacity 0.2s, transform 0.1s;
+  margin-bottom: 1rem;
+}
+.payment-cta-btn:hover { opacity: 0.92; }
+.payment-cta-btn:active { transform: scale(0.98); }
+
+/* ─── PAYMENT FOOTER NOTE ─── */
+.payment-note {
+  text-align: center;
+  font-size: 0.72rem;
+  font-family: 'Space Mono', monospace;
+  color: rgba(240,237,229,0.3);
+  letter-spacing: 0.05em;
+  line-height: 1.6;
+}
+
+/* ─── NAV USER INITIAL PILL ─── */
+.nav-user-initial {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: var(--danfo-gold);
+  color: #06060d;
+  font-size: 0.7rem;
+  font-weight: 900;
+  border-radius: 50%;
+  font-family: 'Oswald', sans-serif;
+  margin-right: 0.1rem;
+}
+.nav-premium-dot {
+  color: var(--danfo-gold);
+  font-size: 0.65rem;
+}
+
+@media (max-width: 500px) {
+  .payment-plans { grid-template-columns: 1fr; }
+  .auth-modal, .payment-modal { padding: 2rem 1.5rem; }
+  .plan-toggle { flex-direction: column; }
+}
+</style>
+
+<!-- Supabase & Paystack SDKs -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
 <style>
 /* LOADER */
 #loader {
@@ -2036,6 +2755,79 @@
 <div class="cursor-ring" id="cursorRing"></div>
 <canvas id="particles"></canvas>
 
+<!-- ============================================================ AUTH MODAL -->
+<div class="modal-backdrop" id="authBackdrop">
+  <div class="auth-modal">
+    <button class="modal-close" onclick="closeAuthModal()" aria-label="Close">✕</button>
+    <div class="auth-modal-logo">CATALYST<span>:</span>TA</div>
+    <p class="auth-modal-sub">Enter the Ọ̀run. Own the universe.</p>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-signup" onclick="switchAuthTab('signup',this)">Join Free</button>
+      <button class="auth-tab" id="tab-signin" onclick="switchAuthTab('signin',this)">Sign In</button>
+    </div>
+    <div id="auth-signup" class="auth-panel active">
+      <button class="social-btn google-btn" onclick="signInWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 48 48" style="margin-right:0.6rem;flex-shrink:0"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+        Continue with Google
+      </button>
+      <div class="auth-or"><span>or</span></div>
+      <form id="signup-form" onsubmit="handleSignUp(event)">
+        <input type="text" class="auth-input" name="fullname" placeholder="Full Name" required autocomplete="name">
+        <input type="email" class="auth-input" name="email" placeholder="Email Address" required autocomplete="email">
+        <input type="password" class="auth-input" name="password" placeholder="Password (min 8 characters)" minlength="8" required autocomplete="new-password">
+        <button type="submit" class="auth-submit-btn" id="signup-btn">Join the Universe →</button>
+      </form>
+    </div>
+    <div id="auth-signin" class="auth-panel">
+      <button class="social-btn google-btn" onclick="signInWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 48 48" style="margin-right:0.6rem;flex-shrink:0"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+        Continue with Google
+      </button>
+      <div class="auth-or"><span>or</span></div>
+      <form id="signin-form" onsubmit="handleSignIn(event)">
+        <input type="email" class="auth-input" name="email" placeholder="Email Address" required autocomplete="email">
+        <input type="password" class="auth-input" name="password" placeholder="Password" required autocomplete="current-password">
+        <a href="#" class="auth-forgot" onclick="handleForgotPassword(event)">Forgot password?</a>
+        <button type="submit" class="auth-submit-btn" id="signin-btn">Enter the Universe →</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ PAYMENT MODAL -->
+<div class="modal-backdrop" id="paymentBackdrop">
+  <div class="payment-modal">
+    <button class="modal-close" onclick="closePaymentModal()" aria-label="Close">✕</button>
+    <div class="payment-header">
+      <div class="payment-icon">✦</div>
+      <h3>Ìmọ̀lẹ̀ Circle</h3>
+      <p>Premium access to the full Catalyst universe</p>
+    </div>
+    <div class="plan-toggle">
+      <button class="plan-btn active" id="monthlyBtn" onclick="selectPlan('monthly')">Monthly</button>
+      <button class="plan-btn" id="yearlyBtn" onclick="selectPlan('yearly')">Yearly <span class="save-badge">Save ₦5,000</span></button>
+    </div>
+    <div class="payment-price-wrap">
+      <div class="payment-price" id="paymentPrice">₦2,500</div>
+      <div class="payment-period" id="paymentPeriod">per month</div>
+    </div>
+    <div class="payment-features">
+      <div class="pf"><span>✓</span> Full illustrated issues 5–12 (Arc II) + beyond</div>
+      <div class="pf"><span>✓</span> Motion comics — key scenes fully animated</div>
+      <div class="pf"><span>✓</span> Behind-the-scenes: creator notes &amp; art process</div>
+      <div class="pf"><span>✓</span> Early access — 2 weeks before public release</div>
+      <div class="pf"><span>✓</span> Exclusive lore expansions &amp; deleted scenes</div>
+      <div class="pf"><span>✓</span> Full-resolution downloadable cover art</div>
+      <div class="pf"><span>✓</span> Your name in the Ọ̀run Hall of Supporters</div>
+    </div>
+    <button class="payment-cta-btn" id="paystackBtn" onclick="initiatePayment()">Activate Ìmọ̀lẹ̀ Access ⚡</button>
+    <p class="payment-note">Secured by Paystack · Cancel anytime · Supports Nigerian creators directly</p>
+  </div>
+</div>
+
+<!-- ============================================================ TOAST CONTAINER -->
+<div id="toast-container"></div>
+
 <!-- ============================================================ NAV -->
 <nav>
   <a href="#hero" class="nav-logo">CATALYST<span>:</span>TA</a>
@@ -2049,6 +2841,7 @@
     <li><a href="#lore">Lore</a></li>
     <li><a href="#access" class="nav-cta">Subscribe</a></li>
   </ul>
+  <button class="nav-auth-btn" id="navAuthBtn" onclick="openAuthModal()">Sign In</button>
 </nav>
 
 <!-- ============================================================ HERO -->
@@ -2746,6 +3539,73 @@
       <div class="issue-meta">
         <span class="issue-pages">44 Pages</span>
         <a href="#newsletter" class="issue-read-btn">Read Now →</a>
+      </div>
+    </div>
+
+    <!-- Issue 4 -->
+    <div class="issue-card reveal">
+      <div class="issue-cover premium-gate">
+        <div class="issue-bg issue-bg-4" style="background:linear-gradient(135deg,#0a0a1f,#1a0a0a,#06060d)">
+          <svg class="issue-art" viewBox="0 0 300 450" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="i4g" cx="50%" cy="40%" r="55%">
+                <stop offset="0%" stop-color="#7B2FFF" stop-opacity="0.4"/>
+                <stop offset="100%" stop-color="#06060d" stop-opacity="0"/>
+              </radialGradient>
+              <filter id="glow4">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <rect x="0" y="0" width="300" height="450" fill="url(#i4g)"/>
+            <!-- Convergence rings — all 4 powers merging -->
+            <circle cx="150" cy="200" r="120" fill="none" stroke="#7B2FFF" stroke-width="0.6" opacity="0.15"/>
+            <circle cx="150" cy="200" r="95" fill="none" stroke="#F4B800" stroke-width="0.6" opacity="0.2"/>
+            <circle cx="150" cy="200" r="70" fill="none" stroke="#00C9B1" stroke-width="0.6" opacity="0.25"/>
+            <circle cx="150" cy="200" r="48" fill="none" stroke="#C41E3A" stroke-width="0.8" opacity="0.35"/>
+            <!-- Four orisha energy streams converging -->
+            <path d="M150,80 L150,152" stroke="#F4B800" stroke-width="2.5" opacity="0.7" filter="url(#glow4)"/>
+            <path d="M220,200 L198,200" stroke="#00C9B1" stroke-width="2.5" opacity="0.7" filter="url(#glow4)"/>
+            <path d="M150,320 L150,248" stroke="#7B2FFF" stroke-width="2.5" opacity="0.7" filter="url(#glow4)"/>
+            <path d="M80,200 L102,200" stroke="#C41E3A" stroke-width="2.5" opacity="0.7" filter="url(#glow4)"/>
+            <!-- Central convergence point — Bayo ascending -->
+            <circle cx="150" cy="200" r="22" fill="none" stroke="#F4B800" stroke-width="1.5" opacity="0.9" filter="url(#glow4)"/>
+            <circle cx="150" cy="200" r="10" fill="#F4B800" opacity="0.6" filter="url(#glow4)"/>
+            <!-- Figure silhouette — arms outstretched -->
+            <path d="M150,165 L150,240" stroke="#F0EDE5" stroke-width="3" opacity="0.8"/>
+            <path d="M115,190 L185,190" stroke="#F0EDE5" stroke-width="2.5" opacity="0.7"/>
+            <circle cx="150" cy="162" r="8" fill="#F0EDE5" opacity="0.8"/>
+            <!-- Adire grid -->
+            <line x1="0" y1="50" x2="300" y2="50" stroke="#F4B800" stroke-width="0.3" opacity="0.08"/>
+            <line x1="0" y1="350" x2="300" y2="350" stroke="#7B2FFF" stroke-width="0.3" opacity="0.08"/>
+            <line x1="50" y1="0" x2="50" y2="450" stroke="#C41E3A" stroke-width="0.3" opacity="0.08"/>
+            <line x1="250" y1="0" x2="250" y2="450" stroke="#00C9B1" stroke-width="0.3" opacity="0.08"/>
+            <!-- Bottom Lagos horizon -->
+            <rect x="0" y="390" width="300" height="60" fill="#0a0a1f" opacity="0.7"/>
+            <rect x="20" y="370" width="15" height="80" fill="#F4B800" opacity="0.08"/>
+            <rect x="55" y="360" width="12" height="90" fill="#F4B800" opacity="0.06"/>
+            <rect x="90" y="375" width="20" height="75" fill="#F4B800" opacity="0.07"/>
+            <rect x="200" y="365" width="18" height="85" fill="#F4B800" opacity="0.06"/>
+            <rect x="240" y="372" width="14" height="78" fill="#F4B800" opacity="0.08"/>
+          </svg>
+        </div>
+        <div class="issue-overlay">
+          <span class="issue-status status-new">Free</span>
+          <div class="issue-num">04</div>
+          <div class="issue-title-main">THE CHOSEN FOUR</div>
+          <div class="issue-arc">Arc I: The Catalyst</div>
+        </div>
+        <div class="premium-lock-overlay">
+          <div class="premium-lock-icon">✦</div>
+          <div class="premium-lock-label">Full Illustrated Edition</div>
+          <div class="premium-lock-sub">Text version free · Art locked</div>
+          <button class="premium-unlock-btn" onclick="openPaymentModal()">Unlock Premium</button>
+        </div>
+      </div>
+      <p class="issue-synopsis">All four chosen — Bayo, Amara, Ikenna, and Zara — converge at the Balogun Nexus as the Ọ̀run tears open above Lagos Island. The Architect reveals his face for the first time. Arc I ends not with a victory, but with a choice that will define the next three arcs.</p>
+      <div class="issue-meta">
+        <span class="issue-pages">56 Pages</span>
+        <a href="#newsletter" class="issue-read-btn">Read Free Text →</a>
       </div>
     </div>
   </div>
@@ -3501,7 +4361,7 @@
       <div class="access-feature"><span class="check">✓</span> Exclusive lore expansions & deleted scenes</div>
       <div class="access-feature"><span class="check">✓</span> Full-resolution downloadable cover art</div>
       <div class="access-feature"><span class="check">✓</span> Name in the Ọ̀run Hall of Supporters</div>
-      <a href="#newsletter" class="access-cta premium-cta">Join the Ìmọ̀lẹ̀ Circle</a>
+      <button class="access-cta premium-cta" onclick="openPaymentModal()">Join the Ìmọ̀lẹ̀ Circle ✦</button>
     </div>
   </div>
 
@@ -3625,9 +4485,12 @@
     <h2 class="section-title reveal">JOIN THE<br><em>MOVEMENT</em></h2>
     <p class="newsletter-sub reveal">Be the first to know when new issues drop, get behind-the-scenes lore, and unlock exclusive character art. Na you sabi, but make you no miss this one.</p>
     <div class="reveal">
-      <form class="newsletter-form" onsubmit="handleSignup(event)">
-        <input type="email" class="newsletter-input" placeholder="Enter your email address..." required>
-        <button type="submit" class="newsletter-btn">Awaken</button>
+      <form class="newsletter-form" onsubmit="handleSignup(event)" style="flex-direction:column;max-width:500px">
+        <input type="text" name="nl_name" class="newsletter-input" placeholder="Your name..." autocomplete="name" style="border-right:1px solid rgba(244,184,0,0.3);clip-path:polygon(10px 0%,100% 0%,100% 100%,0% 100%);margin-bottom:0.6rem">
+        <div style="display:flex;gap:0;width:100%">
+          <input type="email" name="nl_email" class="newsletter-input" placeholder="Enter your email address..." required autocomplete="email" style="flex:1">
+          <button type="submit" class="newsletter-btn">Awaken</button>
+        </div>
       </form>
       <p class="newsletter-pidgin">"Ẹni tó bá jẹ́ orí ẹlòmíràn, kò ní jẹ orí ẹni."<br><span style="font-size:0.78rem; color: rgba(240,237,229,0.4); font-style:normal; font-family:'Space Grotesk',sans-serif;">"One who eats another's head will not eat one's own." — Yoruba Proverb</span></p>
     </div>
@@ -3794,18 +4657,35 @@
     }
   });
 
-  // ─── NEWSLETTER SIGNUP ────────────────────────────────────────
-  function handleSignup(e) {
+  // ─── NEWSLETTER SIGNUP (Supabase-wired) ──────────────────────
+  async function handleSignup(e) {
     e.preventDefault();
-    const input = e.target.querySelector('input');
-    const btn = e.target.querySelector('button');
-    btn.textContent = 'Àṣẹ!';
-    btn.style.background = '#00C9B1';
-    input.value = '';
-    setTimeout(() => {
-      btn.textContent = 'Awaken';
-      btn.style.background = '';
-    }, 3000);
+    const form = e.target;
+    const nameInput = form.querySelector('input[name="nl_name"]');
+    const emailInput = form.querySelector('input[name="nl_email"]') || form.querySelector('input[type="email"]');
+    const btn = form.querySelector('button[type="submit"]');
+    const name = nameInput ? nameInput.value.trim() : '';
+    const email = emailInput ? emailInput.value.trim() : '';
+    if (!email) return;
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    try {
+      if (window._supabase) {
+        await window._supabase.from('newsletter_subscribers').upsert(
+          { email, full_name: name || null, subscribed_at: new Date().toISOString(), source: 'footer_form' },
+          { onConflict: 'email' }
+        );
+      }
+      btn.textContent = 'Àṣẹ! ✓';
+      btn.style.background = '#00C9B1';
+      if (emailInput) emailInput.value = '';
+      if (nameInput) nameInput.value = '';
+      showToast('You\'re in the movement! New issues drop to your inbox first.', 'success');
+      setTimeout(() => { btn.textContent = 'Awaken'; btn.style.background = ''; btn.disabled = false; }, 3500);
+    } catch (err) {
+      showToast('Could not subscribe right now. Try again.', 'error');
+      btn.textContent = 'Awaken'; btn.disabled = false;
+    }
   }
 
   // ─── PARALLAX HERO ───────────────────────────────────────────
@@ -3829,6 +4709,289 @@
   const track = document.querySelector('.marquee-track');
   const clone = track.cloneNode(true);
   track.parentElement.appendChild(clone);
+
+  // ═══════════════════════════════════════════════════════════════
+  // CATALYST: THE AWAKENING — AUTH / PAYMENT / DATA SYSTEM
+  // ═══════════════════════════════════════════════════════════════
+  //
+  // ⚡ SETUP REQUIRED: Replace these three values with your real credentials.
+  // 1. Create a Supabase project at https://supabase.com
+  // 2. Get SUPABASE_URL and SUPABASE_ANON_KEY from Project Settings → API
+  // 3. Get PAYSTACK_KEY from https://dashboard.paystack.com/#/settings/developer
+  //
+  const SUPABASE_URL     = 'YOUR_SUPABASE_URL';
+  const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+  const PAYSTACK_KEY     = 'YOUR_PAYSTACK_PUBLIC_KEY';
+  // ═══════════════════════════════════════════════════════════════
+
+  // ─── SUPABASE INIT ───────────────────────────────────────────
+  let _sb = null;
+  if (SUPABASE_URL !== 'YOUR_SUPABASE_URL' && window.supabase) {
+    try {
+      _sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      window._supabase = _sb;
+    } catch(e) { console.warn('Supabase init failed:', e); }
+  }
+
+  // ─── AUTH STATE ───────────────────────────────────────────────
+  let _currentUser = null;
+  let _currentPlan = 'monthly';
+
+  async function initAuth() {
+    if (!_sb) return;
+    try {
+      const { data: { session } } = await _sb.auth.getSession();
+      if (session) { _currentUser = session.user; _applyUserState(_currentUser); }
+      _sb.auth.onAuthStateChange((event, session) => {
+        _currentUser = session ? session.user : null;
+        _applyUserState(_currentUser);
+        if (event === 'SIGNED_IN') {
+          const name = (_currentUser.user_metadata && _currentUser.user_metadata.full_name)
+            ? _currentUser.user_metadata.full_name.split(' ')[0] : 'Catalyst';
+          showToast('Ẹ káàbọ̀, ' + name + '! Welcome to the universe.', 'success');
+        }
+        if (event === 'SIGNED_OUT') showToast('You have left the universe. Come back soon.', 'info');
+      });
+    } catch(e) { console.warn('Auth init error:', e); }
+  }
+
+  function _applyUserState(user) {
+    const btn = document.getElementById('navAuthBtn');
+    if (!btn) return;
+    if (user) {
+      const meta = user.user_metadata || {};
+      const name = meta.full_name || user.email.split('@')[0];
+      const isPremium = meta.is_premium;
+      const initial = name.charAt(0).toUpperCase();
+      btn.innerHTML = '<span class="nav-user-initial">' + initial + '</span> ' +
+        name.split(' ')[0] +
+        (isPremium ? ' <span class="nav-premium-dot" title="Premium">✦</span>' : '');
+      btn.onclick = openUserMenu;
+      if (isPremium) unlockPremiumUI();
+    } else {
+      btn.innerHTML = 'Sign In';
+      btn.onclick = function(){ openAuthModal('signup'); };
+    }
+  }
+
+  function openUserMenu() {
+    if (!_currentUser) return openAuthModal('signup');
+    const meta = _currentUser.user_metadata || {};
+    const isPremium = meta.is_premium;
+    if (isPremium) {
+      showToast('You are a Ìmọ̀lẹ̀ member. ✦ Full universe unlocked.', 'success');
+    } else {
+      if (confirm('Upgrade to Ìmọ̀lẹ̀ Circle for premium access?')) openPaymentModal();
+    }
+  }
+
+  // ─── AUTH MODAL ───────────────────────────────────────────────
+  function openAuthModal(tab) {
+    document.getElementById('authBackdrop').classList.add('open');
+    const t = tab || 'signup';
+    const tabEl = document.getElementById('tab-' + t);
+    if (tabEl) switchAuthTab(t, tabEl);
+    document.body.style.overflow = 'hidden';
+  }
+  function closeAuthModal() {
+    document.getElementById('authBackdrop').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function switchAuthTab(tab, el) {
+    document.querySelectorAll('.auth-tab').forEach(function(t){ t.classList.remove('active'); });
+    document.querySelectorAll('.auth-panel').forEach(function(p){ p.classList.remove('active'); });
+    el.classList.add('active');
+    var panel = document.getElementById('auth-' + tab);
+    if (panel) panel.classList.add('active');
+  }
+
+  async function handleSignUp(e) {
+    e.preventDefault();
+    if (!_sb) { showToast('Auth system loading. Refresh and try again.', 'error'); return; }
+    var form = e.target;
+    var name  = form.querySelector('input[name="fullname"]').value.trim();
+    var email = form.querySelector('input[name="email"]').value.trim();
+    var pass  = form.querySelector('input[name="password"]').value;
+    var btn   = document.getElementById('signup-btn');
+    btn.textContent = 'Creating account...'; btn.disabled = true;
+    try {
+      var r = await _sb.auth.signUp({ email, password: pass, options: { data: { full_name: name } } });
+      if (r.error) throw r.error;
+      if (r.data && r.data.user) {
+        try {
+          await _sb.from('user_profiles').upsert({
+            id: r.data.user.id, email, full_name: name,
+            is_premium: false, created_at: new Date().toISOString()
+          });
+        } catch(dbErr) { /* non-fatal */ }
+      }
+      showToast('Account created! Check your email to confirm.', 'success');
+      closeAuthModal();
+    } catch(err) {
+      showToast(err.message || 'Sign up failed. Try again.', 'error');
+    } finally {
+      btn.textContent = 'Join the Universe →'; btn.disabled = false;
+    }
+  }
+
+  async function handleSignIn(e) {
+    e.preventDefault();
+    if (!_sb) { showToast('Auth system loading. Refresh and try again.', 'error'); return; }
+    var form  = e.target;
+    var email = form.querySelector('input[name="email"]').value.trim();
+    var pass  = form.querySelector('input[name="password"]').value;
+    var btn   = document.getElementById('signin-btn');
+    btn.textContent = 'Entering...'; btn.disabled = true;
+    try {
+      var r = await _sb.auth.signInWithPassword({ email, password: pass });
+      if (r.error) throw r.error;
+      closeAuthModal();
+    } catch(err) {
+      showToast(err.message || 'Sign in failed. Check your credentials.', 'error');
+    } finally {
+      btn.textContent = 'Enter the Universe →'; btn.disabled = false;
+    }
+  }
+
+  async function signInWithGoogle() {
+    if (!_sb) { showToast('Auth not configured yet.', 'error'); return; }
+    var r = await _sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.href } });
+    if (r.error) showToast(r.error.message, 'error');
+  }
+
+  async function handleForgotPassword(e) {
+    e.preventDefault();
+    if (!_sb) return;
+    var emailEl = document.querySelector('#auth-signin input[name="email"]');
+    var email = emailEl ? emailEl.value.trim() : '';
+    if (!email) { showToast('Enter your email in the field above first.', 'error'); return; }
+    var r = await _sb.auth.resetPasswordForEmail(email, { redirectTo: window.location.href });
+    if (r.error) showToast(r.error.message, 'error');
+    else showToast('Reset link sent to ' + email + '! Check your inbox.', 'success');
+  }
+
+  // Close auth modal on backdrop click / Escape
+  document.getElementById('authBackdrop').addEventListener('click', function(e){
+    if (e.target === e.currentTarget) closeAuthModal();
+  });
+
+  // ─── PAYMENT MODAL ───────────────────────────────────────────
+  function openPaymentModal() {
+    if (!_currentUser) { openAuthModal('signup'); return; }
+    document.getElementById('paymentBackdrop').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closePaymentModal() {
+    document.getElementById('paymentBackdrop').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function selectPlan(plan) {
+    _currentPlan = plan;
+    document.querySelectorAll('.plan-btn').forEach(function(b){ b.classList.remove('active'); });
+    document.getElementById(plan + 'Btn').classList.add('active');
+    var priceEl  = document.getElementById('paymentPrice');
+    var periodEl = document.getElementById('paymentPeriod');
+    if (plan === 'monthly') {
+      priceEl.textContent = '₦2,500'; periodEl.textContent = 'per month';
+    } else {
+      priceEl.textContent = '₦25,000'; periodEl.textContent = 'per year (save ₦5,000)';
+    }
+  }
+
+  function initiatePayment() {
+    if (!_currentUser) { openAuthModal('signup'); return; }
+    if (PAYSTACK_KEY === 'YOUR_PAYSTACK_PUBLIC_KEY') {
+      showToast('Payment system not configured yet. Add your Paystack key to activate.', 'error');
+      return;
+    }
+    if (!window.PaystackPop) { showToast('Payment system loading. Please wait.', 'error'); return; }
+    var amount = _currentPlan === 'monthly' ? 250000 : 2500000;
+    var handler = PaystackPop.setup({
+      key: PAYSTACK_KEY,
+      email: _currentUser.email,
+      amount: amount,
+      currency: 'NGN',
+      ref: 'CATALYST_' + Date.now(),
+      metadata: {
+        custom_fields: [
+          { display_name: 'Plan', variable_name: 'plan', value: _currentPlan },
+          { display_name: 'User ID', variable_name: 'user_id', value: _currentUser.id }
+        ]
+      },
+      callback: async function(response) {
+        var paystackRef = response.reference;
+        try {
+          if (_sb) {
+            await _sb.from('user_profiles').upsert({
+              id: _currentUser.id, email: _currentUser.email,
+              is_premium: true, premium_plan: _currentPlan,
+              premium_since: new Date().toISOString(),
+              paystack_ref: paystackRef
+            });
+            await _sb.auth.updateUser({ data: { is_premium: true, premium_plan: _currentPlan } });
+          }
+        } catch(dbErr) { /* log server-side via webhook */ }
+        closePaymentModal();
+        showToast('Ìmọ̀lẹ̀ activated! The full universe is now yours. ✦', 'success');
+        unlockPremiumUI();
+        _applyUserState(_currentUser);
+      },
+      onClose: function() {
+        showToast('Payment cancelled. Return anytime you\'re ready.', 'info');
+      }
+    });
+    handler.openIframe();
+  }
+
+  function unlockPremiumUI() {
+    document.querySelectorAll('.premium-lock-overlay').forEach(function(el){ el.remove(); });
+    document.querySelectorAll('.premium-gate').forEach(function(el){ el.classList.add('unlocked'); });
+  }
+
+  document.getElementById('paymentBackdrop').addEventListener('click', function(e){
+    if (e.target === e.currentTarget) closePaymentModal();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') { closeAuthModal(); closePaymentModal(); }
+  });
+
+  // ─── TOAST NOTIFICATION ──────────────────────────────────────
+  function showToast(message, type) {
+    var container = document.getElementById('toast-container');
+    if (!container) return;
+    var toast = document.createElement('div');
+    toast.className = 'toast toast-' + (type || 'info');
+    toast.textContent = message;
+    container.appendChild(toast);
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){ toast.classList.add('show'); });
+    });
+    setTimeout(function(){
+      toast.classList.remove('show');
+      setTimeout(function(){ if (toast.parentNode) toast.remove(); }, 500);
+    }, 4500);
+  }
+
+  // ─── SAVE ALL FORM SUBMISSIONS ────────────────────────────────
+  // Capture every form on the page and log submissions to Supabase
+  document.querySelectorAll('form').forEach(function(form) {
+    if (form.dataset.tracked) return;
+    form.dataset.tracked = 'true';
+    form.addEventListener('submit', async function(e) {
+      if (!_sb) return;
+      var data = {};
+      new FormData(form).forEach(function(v, k){ data[k] = v; });
+      data._page_url = window.location.href;
+      data._submitted_at = new Date().toISOString();
+      data._form_id = form.id || form.className || 'unknown';
+      try {
+        await _sb.from('form_submissions').insert(data);
+      } catch(err) { /* non-fatal */ }
+    });
+  });
+
+  // ─── BOOT AUTH ────────────────────────────────────────────────
+  initAuth();
 </script>
 </body>
 </html>
