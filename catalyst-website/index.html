@@ -56,8 +56,8 @@
   }
   a:hover ~ .cursor, button:hover ~ .cursor { width: 20px; height: 20px; }
 
-  /* CANVAS PARTICLES */
-  #particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+  /* 3D BACKGROUND CANVAS */
+  #bg3d { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
 
   /* NAV */
   nav {
@@ -2725,6 +2725,7 @@
 <!-- Supabase & Paystack SDKs -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="https://js.paystack.co/v1/inline.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 
 <style>
 /* LOADER */
@@ -3134,6 +3135,373 @@
   #manifesto { padding: 5rem 1.5rem; }
   #villains, #realms, #codex { padding: 5rem 1.5rem; }
 }
+
+/* ============================================================
+   3D BACKGROUND + LEGENDARY VISUAL EFFECTS SYSTEM
+============================================================ */
+
+/* 3D Background Canvas */
+#bg3d { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+
+/* ── HERO PORTAL / ORISHA EYE ──────────────────────────── */
+.hero-portal-wrap {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: min(680px, 92vw);
+  height: min(680px, 92vw);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  animation: portal-materialize 2.8s cubic-bezier(0.22, 1, 0.36, 1) 0.7s forwards;
+}
+@keyframes portal-materialize {
+  from { opacity: 0; transform: translate(-50%,-50%) scale(0.65) rotate(-15deg); filter: blur(18px); }
+  to   { opacity: 0.55; transform: translate(-50%,-50%) scale(1) rotate(0deg); filter: blur(0); }
+}
+.hero-portal-svg { width: 100%; height: 100%; overflow: visible; }
+
+.portal-ring-outer { transform-box: fill-box; transform-origin: center; animation: p-cw 90s linear infinite; }
+.portal-ring-mid   { transform-box: fill-box; transform-origin: center; animation: p-ccw 54s linear infinite; }
+.portal-ring-inner { transform-box: fill-box; transform-origin: center; animation: p-cw 26s linear infinite; }
+.portal-pulse-ring { transform-box: fill-box; transform-origin: center; }
+.portal-pulse-1 { animation: p-pulse 4.8s ease-out infinite; }
+.portal-pulse-2 { animation: p-pulse 4.8s ease-out 1.6s infinite; }
+.portal-pulse-3 { animation: p-pulse 4.8s ease-out 3.2s infinite; }
+
+@keyframes p-cw  { to { transform: rotate(360deg); } }
+@keyframes p-ccw { to { transform: rotate(-360deg); } }
+@keyframes p-pulse {
+  0%   { opacity: 0.65; transform: scale(0.65); }
+  100% { opacity: 0;    transform: scale(2.1); }
+}
+
+/* ── HERO ENERGY SPARKS ───────────────────────────────── */
+.hero-sparks { position: absolute; inset: 0; pointer-events: none; z-index: 2; overflow: hidden; }
+.energy-spark {
+  position: absolute;
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: spark-rise linear infinite;
+  box-shadow: 0 0 6px currentColor;
+}
+@keyframes spark-rise {
+  0%   { opacity: 0; transform: translateY(0) scale(0); }
+  8%   { opacity: 1; transform: translateY(-10px) scale(1); }
+  85%  { opacity: 0.5; transform: translateY(-110px) scale(0.55); }
+  100% { opacity: 0; transform: translateY(-140px) scale(0); }
+}
+
+/* ── HERO LIGHTNING BOLTS ─────────────────────────────── */
+.hero-lightning {
+  position: absolute;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  filter: drop-shadow(0 0 8px currentColor);
+}
+.hero-lightning-1 { animation: lf 9s ease-in-out 1.2s infinite; }
+.hero-lightning-2 { animation: lf 7.5s ease-in-out 3.8s infinite; }
+.hero-lightning-3 { animation: lf 11s ease-in-out 6.5s infinite; }
+@keyframes lf {
+  0%, 95%, 100% { opacity: 0; }
+  96%   { opacity: 0.75; }
+  97%   { opacity: 0.1; }
+  97.5% { opacity: 0.6; }
+  98%   { opacity: 0; }
+}
+
+/* ── HERO TITLE GLITCH ────────────────────────────────── */
+.hero-title-glitch { position: relative; display: block; }
+.hero-title-glitch::after {
+  content: 'CATALYST';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: inherit; line-height: inherit; letter-spacing: inherit;
+  color: var(--electric-purple);
+  opacity: 0;
+  animation: title-glitch 14s linear infinite;
+}
+@keyframes title-glitch {
+  0%,88%,100% { opacity:0; transform:none; clip-path:none; }
+  89%   { opacity:0.5; transform:translateX(-4px) skewX(-3deg); clip-path:polygon(0 12%,100% 12%,100% 18%,0 18%); }
+  89.4% { opacity:0; }
+  90%   { opacity:0.4; transform:translateX(4px) skewX(2deg); clip-path:polygon(0 52%,100% 52%,100% 60%,0 60%); }
+  90.4% { opacity:0; }
+  91%   { opacity:0.35; transform:translateX(-2px); clip-path:polygon(0 75%,100% 75%,100% 80%,0 80%); }
+  91.4% { opacity:0; }
+}
+
+/* ── MANIFESTO FLOATING ORISHA SYMBOLS ────────────────── */
+.manifesto-float-symbols {
+  position: absolute; inset: 0;
+  pointer-events: none; overflow: hidden; z-index: 0;
+}
+.float-sym {
+  position: absolute;
+  opacity: 0.05;
+  animation: fsym linear infinite;
+}
+.float-sym:nth-child(1) { animation-duration: 16s; animation-delay: 0s; }
+.float-sym:nth-child(2) { animation-duration: 21s; animation-delay: 4.5s; }
+.float-sym:nth-child(3) { animation-duration: 18s; animation-delay: 9s; }
+.float-sym:nth-child(4) { animation-duration: 24s; animation-delay: 2.5s; }
+.float-sym:nth-child(5) { animation-duration: 14s; animation-delay: 12s; }
+@keyframes fsym {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 0.04; }
+  25%  { transform: translateY(-28px) rotate(9deg); opacity: 0.09; }
+  50%  { transform: translateY(-14px) rotate(-4deg); opacity: 0.055; }
+  75%  { transform: translateY(-38px) rotate(14deg); opacity: 0.1; }
+  100% { transform: translateY(0) rotate(0deg); opacity: 0.04; }
+}
+
+/* ── ENERGY BEAM DIVIDERS ─────────────────────────────── */
+.energy-beam-divider {
+  height: 1px; background: transparent;
+  position: relative; overflow: hidden; width: 100%;
+}
+.energy-beam-divider::before, .energy-beam-divider::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -250%;
+  width: 350%; height: 100%;
+}
+.energy-beam-divider::before {
+  background: linear-gradient(to right, transparent 0%, rgba(244,184,0,0.7) 18%, rgba(123,47,255,0.9) 38%, rgba(0,201,177,0.7) 58%, rgba(244,184,0,0.6) 78%, transparent 100%);
+  animation: beam-flow 3.5s linear infinite;
+}
+.energy-beam-divider::after {
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.18), transparent);
+  animation: beam-flow 3.5s linear 1.75s infinite;
+}
+@keyframes beam-flow {
+  from { left: -250%; }
+  to   { left: 100%; }
+}
+
+/* ── HOLOGRAPHIC ISSUE COVER SHIMMER ──────────────────── */
+.issue-cover { position: relative; overflow: hidden; }
+.issue-cover::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(128deg, transparent 0%, transparent 28%, rgba(255,255,255,0.1) 48%, rgba(244,184,0,0.055) 51%, transparent 72%, transparent 100%);
+  background-size: 280% 280%;
+  animation: holo-sweep 5.5s ease-in-out infinite;
+  pointer-events: none; z-index: 5;
+}
+@keyframes holo-sweep {
+  0%   { background-position: -80% -80%; }
+  50%  { background-position: 180% 180%; }
+  100% { background-position: -80% -80%; }
+}
+
+/* ── ARC II SCAN LINE EFFECT ──────────────────────────── */
+.scan-line-overlay {
+  position: absolute; inset: 0;
+  pointer-events: none; overflow: hidden;
+  z-index: 3; border-radius: inherit;
+}
+.scan-line-bar {
+  position: absolute;
+  left: 0; right: 0; top: -3px;
+  height: 3px;
+  background: linear-gradient(to right, transparent, rgba(0,201,177,0.55), rgba(0,201,177,0.9), rgba(0,201,177,0.55), transparent);
+  box-shadow: 0 0 10px rgba(0,201,177,0.5);
+  animation: scan-sweep 4.2s linear infinite;
+}
+@keyframes scan-sweep {
+  0%   { top: -3px; opacity: 0; }
+  3%   { opacity: 1; }
+  97%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* ── CLASSIFIED STAMP ON ARC II CARDS ────────────────── */
+.arc2-classified-stamp {
+  position: absolute; top: 12px; right: -25px;
+  background: rgba(196,30,58,0.12);
+  border: 1.5px solid rgba(196,30,58,0.55);
+  color: var(--blood-red);
+  font-family: 'Oswald', sans-serif; font-size: 0.52rem;
+  letter-spacing: 0.35em; padding: 0.15rem 0.6rem;
+  transform: rotate(12deg);
+  animation: stamp-breathe 3.5s ease-in-out infinite;
+  text-transform: uppercase; z-index: 5;
+}
+@keyframes stamp-breathe {
+  0%,100% { opacity: 0.55; }
+  50%      { opacity: 1; }
+}
+
+/* ── CHARACTER CARD FEATURED AURA ─────────────────────── */
+.char-card.chars-featured {
+  animation: featured-pulse 4.5s ease-in-out infinite;
+}
+@keyframes featured-pulse {
+  0%,100% { box-shadow: 0 0 22px rgba(244,184,0,0.07), 0 10px 40px rgba(0,0,0,0.55); }
+  50%      { box-shadow: 0 0 55px rgba(244,184,0,0.24), 0 0 110px rgba(244,184,0,0.07), 0 10px 40px rgba(0,0,0,0.55); }
+}
+
+/* ── VILLAIN CARD DARK ENERGY SWIRL ──────────────────── */
+.villain-card { position: relative; overflow: hidden; }
+.villain-card::before {
+  content: '';
+  position: absolute;
+  width: 200%; height: 200%; top: -50%; left: -50%;
+  background: conic-gradient(from 0deg at 50% 50%,
+    transparent 0%, rgba(196,30,58,0.035) 22%,
+    transparent 42%, rgba(123,47,255,0.03) 68%, transparent 88%);
+  animation: v-swirl 11s linear infinite;
+  pointer-events: none; z-index: 0;
+}
+@keyframes v-swirl { to { transform: rotate(360deg); } }
+
+/* ── STAT BAR SHINE ───────────────────────────────────── */
+.char-card.stat-animated .stat-bar-fill {
+  position: relative; overflow: hidden;
+}
+.char-card.stat-animated .stat-bar-fill::after {
+  content: '';
+  position: absolute; top: 0; left: -60%; width: 50%; height: 100%;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.45), transparent);
+  animation: bar-shine 0.9s ease 0.3s forwards;
+}
+@keyframes bar-shine {
+  from { left: -60%; }
+  to   { left: 160%; }
+}
+
+/* ── ACCESS SECTION ENERGY FIELD ─────────────────────── */
+#access { position: relative; overflow: hidden; }
+#access::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 40% at 18% 65%, rgba(123,47,255,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 82% 28%, rgba(244,184,0,0.055) 0%, transparent 60%);
+  pointer-events: none; z-index: 0;
+}
+
+/* ── ACCESS CARD ANIMATED BORDER ─────────────────────── */
+.access-card {
+  position: relative;
+  overflow: hidden;
+}
+.access-card::after {
+  content: '';
+  position: absolute; inset: 0;
+  border: 1px solid transparent;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(244,184,0,0.0), rgba(123,47,255,0.0)) border-box;
+  animation: access-card-glow 6s ease-in-out infinite;
+  pointer-events: none; z-index: 0;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.access-card:hover::after { opacity: 1; }
+@keyframes access-card-glow {
+  0%,100% { box-shadow: 0 0 0 rgba(244,184,0,0); }
+  50%      { box-shadow: 0 0 30px rgba(244,184,0,0.12), inset 0 0 20px rgba(244,184,0,0.04); }
+}
+
+/* ── ISSUE NUMBER GLOW ────────────────────────────────── */
+.issue-number, .issue-num {
+  animation: num-glow 3.5s ease-in-out infinite;
+}
+@keyframes num-glow {
+  0%,100% { text-shadow: 0 0 8px rgba(244,184,0,0.25); }
+  50%      { text-shadow: 0 0 22px rgba(244,184,0,0.7), 0 0 45px rgba(244,184,0,0.3); }
+}
+
+/* ── MARQUEE ENHANCED ─────────────────────────────────── */
+.marquee-section { position: relative; overflow: hidden; }
+.marquee-section::before, .marquee-section::after {
+  content: '';
+  position: absolute; top: 0; bottom: 0;
+  width: 80px; z-index: 2; pointer-events: none;
+}
+.marquee-section::before { left: 0; background: linear-gradient(to right, var(--danfo-gold), transparent); }
+.marquee-section::after  { right: 0; background: linear-gradient(to left, var(--danfo-gold), transparent); }
+
+/* ── NAV LOGO SHIMMER ─────────────────────────────────── */
+.nav-logo {
+  position: relative;
+  background: linear-gradient(90deg, var(--danfo-gold) 0%, #fff8d6 40%, var(--danfo-gold) 80%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: logo-shimmer 5s linear infinite;
+}
+.nav-logo span {
+  -webkit-text-fill-color: var(--blood-red);
+  background: none;
+}
+@keyframes logo-shimmer {
+  from { background-position: 0% center; }
+  to   { background-position: 200% center; }
+}
+
+/* ── SECTION LABEL LINE ───────────────────────────────── */
+.section-label {
+  position: relative;
+  overflow: visible;
+}
+.section-label::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: -2px;
+  height: 1px; width: 0;
+  background: var(--danfo-gold);
+  opacity: 0.6;
+  transition: width 1.2s ease;
+}
+.section-label.visible::after { width: 100%; }
+
+/* ── MANIFESTO FLOATING SYMBOLS ──────────────────────────── */
+#manifesto { position: relative; overflow: hidden; }
+.manifesto-float-symbols {
+  position: absolute; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+}
+.mfs {
+  position: absolute;
+  opacity: 0;
+  animation: mfs-drift linear infinite;
+}
+.mfs-1 { width:55px; height:72px; top:8%;  left:5%;  animation-duration:28s; animation-delay:0s; }
+.mfs-2 { width:48px; height:48px; top:22%; right:8%; animation-duration:35s; animation-delay:4s; }
+.mfs-3 { width:62px; height:62px; top:55%; left:3%;  animation-duration:24s; animation-delay:8s; }
+.mfs-4 { width:70px; height:35px; bottom:15%; right:6%; animation-duration:32s; animation-delay:2s; }
+.mfs-5 { width:50px; height:50px; top:40%; right:3%; animation-duration:29s; animation-delay:11s; }
+.mfs-6 { width:46px; height:46px; bottom:25%; left:7%; animation-duration:38s; animation-delay:6s; }
+@keyframes mfs-drift {
+  0%   { opacity:0;    transform: translateY(0px) rotate(0deg)   scale(1); }
+  5%   { opacity:0.22; }
+  50%  { opacity:0.14; transform: translateY(-22px) rotate(18deg)  scale(1.05); }
+  95%  { opacity:0.2; }
+  100% { opacity:0;    transform: translateY(-45px) rotate(36deg)  scale(0.95); }
+}
+
+/* ── ENERGY BEAM DIVIDERS ─────────────────────────────────── */
+.energy-beam-divider {
+  width: 100%; height: 2px; position: relative; overflow: hidden; margin: 0;
+}
+.energy-beam-divider::before {
+  content: '';
+  position: absolute; top: 0; left: -250%; width: 350%; height: 100%;
+  background: linear-gradient(to right, transparent 0%, rgba(244,184,0,0.7) 18%, rgba(123,47,255,0.9) 38%, rgba(0,201,177,0.7) 58%, rgba(244,184,0,0.6) 78%, transparent 100%);
+  animation: beam-flow 3.5s linear infinite;
+}
+.energy-beam-divider::after {
+  content: '';
+  position: absolute; top: 0; left: -250%; width: 350%; height: 100%;
+  background: linear-gradient(to right, transparent 0%, rgba(0,201,177,0.5) 20%, rgba(196,30,58,0.8) 45%, rgba(255,107,26,0.6) 65%, transparent 100%);
+  animation: beam-flow 5.8s linear 1.75s infinite;
+}
+@keyframes beam-flow { from { left: -250%; } to { left: 100%; } }
 </style>
 </head>
 <body>
@@ -3156,7 +3524,7 @@
 
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
-<canvas id="particles"></canvas>
+<canvas id="bg3d"></canvas>
 
 <!-- ============================================================ AUTH MODAL -->
 <div class="modal-backdrop" id="authBackdrop">
@@ -3320,6 +3688,163 @@
     <rect x="835" y="180" width="4" height="8" fill="#7B2FFF" opacity="0.6"/>
   </svg>
 
+  <!-- ✦ ORISHA PORTAL — animated SVG mandala ✦ -->
+  <div class="hero-portal-wrap" aria-hidden="true">
+    <svg class="hero-portal-svg" viewBox="-350 -350 700 700" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="eyeGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#F4B800" stop-opacity="0.15"/>
+          <stop offset="100%" stop-color="#F4B800" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <!-- RING 1 — outermost, slow clockwise -->
+      <g class="portal-ring-outer">
+        <circle r="295" fill="none" stroke="#F4B800" stroke-width="0.6" stroke-dasharray="8,18" opacity="0.18"/>
+        <path d="M-3,-298 L0,-292 L3,-298" fill="#F4B800" opacity="0.38" transform="rotate(0)"/>
+        <path d="M-3,-298 L0,-292 L3,-298" fill="#F4B800" opacity="0.38" transform="rotate(45)"/>
+        <path d="M-3,-298 L0,-292 L3,-298" fill="#F4B800" opacity="0.38" transform="rotate(90)"/>
+        <path d="M-3,-298 L0,-292 L3,-298" fill="#F4B800" opacity="0.38" transform="rotate(135)"/>
+        <path d="M-3,-298 L0,-292 L3,-298" fill="#F4B800" opacity="0.38" transform="rotate(180)"/>
+        <path d="M-3,-298 L0,-292 L3,-298" fill="#F4B800" opacity="0.38" transform="rotate(225)"/>
+        <path d="M-3,-298 L0,-292 L3,-298" fill="#F4B800" opacity="0.38" transform="rotate(270)"/>
+        <path d="M-3,-298 L0,-292 L3,-298" fill="#F4B800" opacity="0.38" transform="rotate(315)"/>
+        <!-- Long radial spokes -->
+        <line x1="0" y1="-295" x2="0" y2="-200" stroke="#F4B800" stroke-width="0.35" opacity="0.1" transform="rotate(0)"/>
+        <line x1="0" y1="-295" x2="0" y2="-200" stroke="#F4B800" stroke-width="0.35" opacity="0.1" transform="rotate(90)"/>
+        <line x1="0" y1="-295" x2="0" y2="-200" stroke="#F4B800" stroke-width="0.35" opacity="0.1" transform="rotate(180)"/>
+        <line x1="0" y1="-295" x2="0" y2="-200" stroke="#F4B800" stroke-width="0.35" opacity="0.1" transform="rotate(270)"/>
+      </g>
+      <!-- RING 2 — counter-clockwise medium -->
+      <g class="portal-ring-mid">
+        <circle r="242" fill="none" stroke="#7B2FFF" stroke-width="0.5" stroke-dasharray="2,24" opacity="0.24"/>
+        <path d="M0,-245 L4,-241 L0,-237 L-4,-241 Z" fill="#7B2FFF" opacity="0.4" transform="rotate(0)"/>
+        <path d="M0,-245 L4,-241 L0,-237 L-4,-241 Z" fill="#7B2FFF" opacity="0.4" transform="rotate(30)"/>
+        <path d="M0,-245 L4,-241 L0,-237 L-4,-241 Z" fill="#7B2FFF" opacity="0.4" transform="rotate(60)"/>
+        <path d="M0,-245 L4,-241 L0,-237 L-4,-241 Z" fill="#7B2FFF" opacity="0.4" transform="rotate(90)"/>
+        <path d="M0,-245 L4,-241 L0,-237 L-4,-241 Z" fill="#7B2FFF" opacity="0.4" transform="rotate(120)"/>
+        <path d="M0,-245 L4,-241 L0,-237 L-4,-241 Z" fill="#7B2FFF" opacity="0.4" transform="rotate(150)"/>
+        <path d="M0,-245 L4,-241 L0,-237 L-4,-241 Z" fill="#7B2FFF" opacity="0.4" transform="rotate(180)"/>
+        <path d="M0,-245 L4,-241 L0,-237 L-4,-241 Z" fill="#7B2FFF" opacity="0.4" transform="rotate(210)"/>
+        <path d="M0,-245 L4,-241 L0,-237 L-4,-241 Z" fill="#7B2FFF" opacity="0.4" transform="rotate(240)"/>
+        <path d="M0,-245 L4,-241 L0,-237 L-4,-241 Z" fill="#7B2FFF" opacity="0.4" transform="rotate(270)"/>
+        <path d="M0,-245 L4,-241 L0,-237 L-4,-241 Z" fill="#7B2FFF" opacity="0.4" transform="rotate(300)"/>
+        <path d="M0,-245 L4,-241 L0,-237 L-4,-241 Z" fill="#7B2FFF" opacity="0.4" transform="rotate(330)"/>
+        <!-- Connecting spokes at 60° -->
+        <line x1="0" y1="-242" x2="0" y2="-192" stroke="#7B2FFF" stroke-width="0.4" opacity="0.11" transform="rotate(0)"/>
+        <line x1="0" y1="-242" x2="0" y2="-192" stroke="#7B2FFF" stroke-width="0.4" opacity="0.11" transform="rotate(60)"/>
+        <line x1="0" y1="-242" x2="0" y2="-192" stroke="#7B2FFF" stroke-width="0.4" opacity="0.11" transform="rotate(120)"/>
+        <line x1="0" y1="-242" x2="0" y2="-192" stroke="#7B2FFF" stroke-width="0.4" opacity="0.11" transform="rotate(180)"/>
+        <line x1="0" y1="-242" x2="0" y2="-192" stroke="#7B2FFF" stroke-width="0.4" opacity="0.11" transform="rotate(240)"/>
+        <line x1="0" y1="-242" x2="0" y2="-192" stroke="#7B2FFF" stroke-width="0.4" opacity="0.11" transform="rotate(300)"/>
+      </g>
+      <!-- RING 3 — inner, fast clockwise -->
+      <g class="portal-ring-inner">
+        <circle r="185" fill="none" stroke="#00C9B1" stroke-width="0.8" opacity="0.17"/>
+        <!-- 24 tick marks at 15° intervals -->
+        <line x1="0" y1="-190" x2="0" y2="-180" stroke="#00C9B1" stroke-width="1.8" opacity="0.55" transform="rotate(0)"/>
+        <line x1="0" y1="-188" x2="0" y2="-181" stroke="#00C9B1" stroke-width="1" opacity="0.3" transform="rotate(15)"/>
+        <line x1="0" y1="-190" x2="0" y2="-180" stroke="#00C9B1" stroke-width="1.8" opacity="0.55" transform="rotate(30)"/>
+        <line x1="0" y1="-188" x2="0" y2="-181" stroke="#00C9B1" stroke-width="1" opacity="0.3" transform="rotate(45)"/>
+        <line x1="0" y1="-190" x2="0" y2="-180" stroke="#00C9B1" stroke-width="1.8" opacity="0.55" transform="rotate(60)"/>
+        <line x1="0" y1="-188" x2="0" y2="-181" stroke="#00C9B1" stroke-width="1" opacity="0.3" transform="rotate(75)"/>
+        <line x1="0" y1="-190" x2="0" y2="-180" stroke="#00C9B1" stroke-width="1.8" opacity="0.55" transform="rotate(90)"/>
+        <line x1="0" y1="-188" x2="0" y2="-181" stroke="#00C9B1" stroke-width="1" opacity="0.3" transform="rotate(105)"/>
+        <line x1="0" y1="-190" x2="0" y2="-180" stroke="#00C9B1" stroke-width="1.8" opacity="0.55" transform="rotate(120)"/>
+        <line x1="0" y1="-188" x2="0" y2="-181" stroke="#00C9B1" stroke-width="1" opacity="0.3" transform="rotate(135)"/>
+        <line x1="0" y1="-190" x2="0" y2="-180" stroke="#00C9B1" stroke-width="1.8" opacity="0.55" transform="rotate(150)"/>
+        <line x1="0" y1="-188" x2="0" y2="-181" stroke="#00C9B1" stroke-width="1" opacity="0.3" transform="rotate(165)"/>
+        <line x1="0" y1="-190" x2="0" y2="-180" stroke="#00C9B1" stroke-width="1.8" opacity="0.55" transform="rotate(180)"/>
+        <line x1="0" y1="-188" x2="0" y2="-181" stroke="#00C9B1" stroke-width="1" opacity="0.3" transform="rotate(195)"/>
+        <line x1="0" y1="-190" x2="0" y2="-180" stroke="#00C9B1" stroke-width="1.8" opacity="0.55" transform="rotate(210)"/>
+        <line x1="0" y1="-188" x2="0" y2="-181" stroke="#00C9B1" stroke-width="1" opacity="0.3" transform="rotate(225)"/>
+        <line x1="0" y1="-190" x2="0" y2="-180" stroke="#00C9B1" stroke-width="1.8" opacity="0.55" transform="rotate(240)"/>
+        <line x1="0" y1="-188" x2="0" y2="-181" stroke="#00C9B1" stroke-width="1" opacity="0.3" transform="rotate(255)"/>
+        <line x1="0" y1="-190" x2="0" y2="-180" stroke="#00C9B1" stroke-width="1.8" opacity="0.55" transform="rotate(270)"/>
+        <line x1="0" y1="-188" x2="0" y2="-181" stroke="#00C9B1" stroke-width="1" opacity="0.3" transform="rotate(285)"/>
+        <line x1="0" y1="-190" x2="0" y2="-180" stroke="#00C9B1" stroke-width="1.8" opacity="0.55" transform="rotate(300)"/>
+        <line x1="0" y1="-188" x2="0" y2="-181" stroke="#00C9B1" stroke-width="1" opacity="0.3" transform="rotate(315)"/>
+        <line x1="0" y1="-190" x2="0" y2="-180" stroke="#00C9B1" stroke-width="1.8" opacity="0.55" transform="rotate(330)"/>
+        <line x1="0" y1="-188" x2="0" y2="-181" stroke="#00C9B1" stroke-width="1" opacity="0.3" transform="rotate(345)"/>
+      </g>
+      <!-- Diagonal radial energy lines (static) -->
+      <line x1="0" y1="-255" x2="0" y2="-95" stroke="#F4B800" stroke-width="0.4" opacity="0.1" transform="rotate(0)"/>
+      <line x1="0" y1="-255" x2="0" y2="-95" stroke="#F4B800" stroke-width="0.4" opacity="0.1" transform="rotate(60)"/>
+      <line x1="0" y1="-255" x2="0" y2="-95" stroke="#F4B800" stroke-width="0.4" opacity="0.1" transform="rotate(120)"/>
+      <line x1="0" y1="-255" x2="0" y2="-95" stroke="#F4B800" stroke-width="0.4" opacity="0.1" transform="rotate(180)"/>
+      <line x1="0" y1="-255" x2="0" y2="-95" stroke="#F4B800" stroke-width="0.4" opacity="0.1" transform="rotate(240)"/>
+      <line x1="0" y1="-255" x2="0" y2="-95" stroke="#F4B800" stroke-width="0.4" opacity="0.1" transform="rotate(300)"/>
+      <!-- Central glow ellipse -->
+      <ellipse cx="0" cy="0" rx="80" ry="80" fill="url(#eyeGlow)"/>
+      <!-- ORISHA EYE ─── -->
+      <!-- Eye outline (wide ellipse) -->
+      <ellipse cx="0" cy="0" rx="138" ry="52" fill="none" stroke="#F4B800" stroke-width="1" opacity="0.22"/>
+      <!-- Eye corners fade-in curves -->
+      <path d="M-138,0 Q-112,-28 -80,-11" fill="none" stroke="#F4B800" stroke-width="0.6" opacity="0.18"/>
+      <path d="M-138,0 Q-112,28 -80,11" fill="none" stroke="#F4B800" stroke-width="0.6" opacity="0.18"/>
+      <path d="M138,0 Q112,-28 80,-11" fill="none" stroke="#F4B800" stroke-width="0.6" opacity="0.18"/>
+      <path d="M138,0 Q112,28 80,11" fill="none" stroke="#F4B800" stroke-width="0.6" opacity="0.18"/>
+      <!-- Iris circles -->
+      <circle r="44" fill="none" stroke="#F4B800" stroke-width="1.5" opacity="0.28"/>
+      <circle r="34" fill="none" stroke="#7B2FFF" stroke-width="0.55" stroke-dasharray="4,5" opacity="0.38"/>
+      <circle r="22" fill="none" stroke="#C41E3A" stroke-width="0.5" opacity="0.28"/>
+      <!-- Pupil -->
+      <circle r="10" fill="#F4B800" opacity="0.07"/>
+      <circle r="5"  fill="#F4B800" opacity="0.2"/>
+      <!-- Iris detail cross-hair lines -->
+      <line x1="0" y1="-44" x2="0" y2="-22" stroke="#F4B800" stroke-width="0.4" opacity="0.25"/>
+      <line x1="0" y1="22"  x2="0" y2="44"  stroke="#F4B800" stroke-width="0.4" opacity="0.25"/>
+      <line x1="-44" y1="0" x2="-22" y2="0" stroke="#F4B800" stroke-width="0.4" opacity="0.25"/>
+      <line x1="22"  y1="0" x2="44"  y2="0" stroke="#F4B800" stroke-width="0.4" opacity="0.25"/>
+      <!-- Expanding pulse rings (CSS animated) -->
+      <circle r="58"  class="portal-pulse-ring portal-pulse-1" fill="none" stroke="#7B2FFF"  stroke-width="0.9" opacity="0"/>
+      <circle r="78"  class="portal-pulse-ring portal-pulse-2" fill="none" stroke="#F4B800"  stroke-width="0.9" opacity="0"/>
+      <circle r="100" class="portal-pulse-ring portal-pulse-3" fill="none" stroke="#00C9B1" stroke-width="0.9" opacity="0"/>
+      <!-- ── Yoruba Orisha glyphs at cardinal points ── -->
+      <!-- North: Sàngó lightning bolt -->
+      <path d="M-7,-150 L3,-133 L-3,-133 L8,-115" stroke="#F4B800" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+      <!-- South: Yemọja triple wave -->
+      <path d="M-22,122 Q-10,113 4,122 Q16,131 30,122" stroke="#00C9B1" stroke-width="2" fill="none" opacity="0.5"/>
+      <path d="M-18,130 Q-6,121 8,130"                 stroke="#00C9B1" stroke-width="1.2" fill="none" opacity="0.3"/>
+      <!-- East: Ògún iron cross -->
+      <line x1="138" y1="-8"  x2="156" y2="-8"  stroke="#FF6B1A" stroke-width="2" opacity="0.52"/>
+      <line x1="147" y1="-17" x2="147" y2="1"    stroke="#FF6B1A" stroke-width="2" opacity="0.52"/>
+      <!-- West: Ọ̀ṣun water drops -->
+      <circle cx="-152" cy="-5"  r="3.2" fill="#F4B800" opacity="0.52"/>
+      <circle cx="-144" cy="5.5" r="2.5" fill="#F4B800" opacity="0.4"/>
+      <circle cx="-159" cy="5.5" r="2.5" fill="#F4B800" opacity="0.4"/>
+    </svg>
+  </div>
+
+  <!-- ✦ ENERGY SPARKS — floating ember particles ✦ -->
+  <div class="hero-sparks" aria-hidden="true">
+    <span class="energy-spark" style="left:21%;bottom:36%;color:#F4B800;background:#F4B800;animation-delay:0s;animation-duration:3.8s;"></span>
+    <span class="energy-spark" style="left:34%;bottom:24%;color:#7B2FFF;background:#7B2FFF;animation-delay:0.8s;animation-duration:4.2s;"></span>
+    <span class="energy-spark" style="left:50%;bottom:18%;color:#00C9B1;background:#00C9B1;animation-delay:1.5s;animation-duration:3.2s;"></span>
+    <span class="energy-spark" style="left:64%;bottom:28%;color:#F4B800;background:#F4B800;animation-delay:0.4s;animation-duration:5.1s;"></span>
+    <span class="energy-spark" style="left:80%;bottom:42%;color:#C41E3A;background:#C41E3A;animation-delay:2.1s;animation-duration:3.6s;"></span>
+    <span class="energy-spark" style="left:26%;bottom:52%;color:#FF6B1A;background:#FF6B1A;animation-delay:1.1s;animation-duration:4.7s;"></span>
+    <span class="energy-spark" style="left:74%;bottom:58%;color:#7B2FFF;background:#7B2FFF;animation-delay:1.9s;animation-duration:3.3s;"></span>
+    <span class="energy-spark" style="left:44%;bottom:68%;color:#F4B800;background:#F4B800;animation-delay:0.6s;animation-duration:4.4s;"></span>
+    <span class="energy-spark" style="left:57%;bottom:46%;color:#00C9B1;background:#00C9B1;animation-delay:2.5s;animation-duration:3.9s;"></span>
+    <span class="energy-spark" style="left:13%;bottom:62%;color:#C41E3A;background:#C41E3A;animation-delay:1.7s;animation-duration:5.3s;"></span>
+    <span class="energy-spark" style="left:88%;bottom:33%;color:#F4B800;background:#F4B800;animation-delay:1s;animation-duration:3.5s;"></span>
+    <span class="energy-spark" style="left:40%;bottom:78%;color:#7B2FFF;background:#7B2FFF;animation-delay:3.2s;animation-duration:4.1s;"></span>
+    <span class="energy-spark" style="left:7%;bottom:44%;color:#00C9B1;background:#00C9B1;animation-delay:2.8s;animation-duration:4.9s;"></span>
+    <span class="energy-spark" style="left:91%;bottom:70%;color:#FF6B1A;background:#FF6B1A;animation-delay:0.2s;animation-duration:3.7s;"></span>
+    <span class="energy-spark" style="left:68%;bottom:80%;color:#F4B800;background:#F4B800;animation-delay:3.6s;animation-duration:4.3s;"></span>
+  </div>
+
+  <!-- ✦ LIGHTNING BOLTS — periodic flashes ✦ -->
+  <svg class="hero-lightning hero-lightning-1" style="top:10%;left:13%;width:34px;height:105px;" viewBox="0 0 34 105" fill="#F4B800">
+    <path d="M22,0 L9,44 L17,44 L3,105 L25,36 L17,36 Z"/>
+  </svg>
+  <svg class="hero-lightning hero-lightning-2" style="top:18%;right:16%;width:26px;height:82px;" viewBox="0 0 26 82" fill="#7B2FFF">
+    <path d="M17,0 L7,35 L13,35 L2,82 L19,28 L13,28 Z"/>
+  </svg>
+  <svg class="hero-lightning hero-lightning-3" style="top:6%;right:32%;width:18px;height:65px;" viewBox="0 0 18 65" fill="#00C9B1">
+    <path d="M12,0 L4,26 L9,26 L1,65 L13,21 L9,21 Z"/>
+  </svg>
+
   <div class="hero-content">
     <div class="hero-eyebrow">Lagos Noir Comic Universe · Est. 2024</div>
     <h1 class="hero-title" data-text="CATALYST">
@@ -3363,6 +3888,45 @@
 <!-- ============================================================ MANIFESTO -->
 <section id="manifesto">
   <div class="manifesto-bg-text">ASẸ</div>
+  <!-- Floating orisha energy symbols -->
+  <div class="manifesto-float-symbols" aria-hidden="true">
+    <!-- Ṣàngó lightning double-axe -->
+    <svg class="mfs mfs-1" viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M30,0 L38,28 L60,22 L42,40 L55,75 L30,54 L5,75 L18,40 L0,22 L22,28 Z" fill="#F4B800" opacity="0.22"/>
+      <line x1="30" y1="8" x2="30" y2="72" stroke="#F4B800" stroke-width="1.5" opacity="0.4"/>
+    </svg>
+    <!-- Ògún iron cross -->
+    <svg class="mfs mfs-2" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="26" y="4" width="8" height="52" rx="1" fill="#C41E3A" opacity="0.25"/>
+      <rect x="4" y="26" width="52" height="8" rx="1" fill="#C41E3A" opacity="0.25"/>
+      <rect x="16" y="16" width="28" height="28" rx="2" fill="none" stroke="#C41E3A" stroke-width="1.5" opacity="0.35"/>
+    </svg>
+    <!-- Ọ̀ṣun spiral -->
+    <svg class="mfs mfs-3" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="35" cy="35" r="28" stroke="#FF6B1A" stroke-width="1" opacity="0.3" stroke-dasharray="6 4"/>
+      <circle cx="35" cy="35" r="19" stroke="#FF6B1A" stroke-width="1" opacity="0.22" stroke-dasharray="3 5"/>
+      <circle cx="35" cy="35" r="10" stroke="#FF6B1A" stroke-width="1.5" opacity="0.4"/>
+      <circle cx="35" cy="35" r="4" fill="#FF6B1A" opacity="0.35"/>
+    </svg>
+    <!-- Yemọja waves -->
+    <svg class="mfs mfs-4" viewBox="0 0 80 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,20 Q10,8 20,20 Q30,32 40,20 Q50,8 60,20 Q70,32 80,20" stroke="#00C9B1" stroke-width="2" fill="none" opacity="0.4"/>
+      <path d="M0,30 Q10,18 20,30 Q30,42 40,30 Q50,18 60,30 Q70,42 80,30" stroke="#00C9B1" stroke-width="1.5" fill="none" opacity="0.25"/>
+      <path d="M0,10 Q10,-2 20,10 Q30,22 40,10 Q50,-2 60,10 Q70,22 80,10" stroke="#00C9B1" stroke-width="1" fill="none" opacity="0.2"/>
+    </svg>
+    <!-- Oya wind spiral -->
+    <svg class="mfs mfs-5" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M30,30 Q30,12 18,12 Q6,12 6,24 Q6,36 18,36 Q30,36 30,30 Q30,22 22,22 Q14,22 14,28 Q14,34 20,34" stroke="#7B2FFF" stroke-width="1.5" fill="none" opacity="0.45"/>
+      <circle cx="30" cy="30" r="3" fill="#7B2FFF" opacity="0.5"/>
+    </svg>
+    <!-- Eshu crossroads -->
+    <svg class="mfs mfs-6" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="30" y1="0" x2="30" y2="60" stroke="#F4B800" stroke-width="1.5" opacity="0.4"/>
+      <line x1="0" y1="30" x2="60" y2="30" stroke="#F4B800" stroke-width="1.5" opacity="0.4"/>
+      <circle cx="30" cy="30" r="8" stroke="#F4B800" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <circle cx="30" cy="30" r="3" fill="#F4B800" opacity="0.6"/>
+    </svg>
+  </div>
   <div class="manifesto-inner">
     <p class="section-label reveal" style="justify-content:center">Creator's Declaration</p>
     <div class="manifesto-declaration reveal">
@@ -3394,6 +3958,8 @@
     </div>
   </div>
 </section>
+
+<div class="energy-beam-divider" aria-hidden="true"></div>
 
 <!-- ============================================================ UNIVERSE -->
 <section id="universe">
@@ -3709,6 +4275,8 @@
     </div>
   </div>
 </section>
+
+<div class="energy-beam-divider" aria-hidden="true"></div>
 
 <!-- ============================================================ CHARACTERS -->
 <section id="characters">
@@ -4034,6 +4602,8 @@
     <div class="seal-text">— The Dark Assembly · Active since 1420 CE · Total confirmed casualties: classified —</div>
   </div>
 </section>
+
+<div class="energy-beam-divider" aria-hidden="true"></div>
 
 <!-- ============================================================ COMICS / ISSUES -->
 <section id="comics">
@@ -4783,6 +5353,8 @@
 
 </section>
 
+<div class="energy-beam-divider" aria-hidden="true"></div>
+
 <!-- ============================================================ ARC II PREMIUM TEASER -->
 <section id="arc2-teaser">
   <div class="arc2-header reveal">
@@ -4798,18 +5370,21 @@
 
   <div class="arc2-grid">
     <div class="arc2-card reveal">
+      <div class="scan-line-overlay"><div class="scan-line-bar"></div></div>
       <div class="arc2-card-num">05</div>
       <div class="arc2-card-label">Issue 05 — Premium</div>
       <div class="arc2-card-title">The Architect Arrives</div>
       <div class="arc2-card-desc">The Pale Council's most dangerous operative. She doesn't fight. She builds — systems, traps, narratives. She's been in Lagos six months before anyone notices, and by then the trap is complete.</div>
     </div>
     <div class="arc2-card reveal reveal-delay-1">
+      <div class="scan-line-overlay"><div class="scan-line-bar"></div></div>
       <div class="arc2-card-num">06</div>
       <div class="arc2-card-label">Issue 06 — Premium</div>
       <div class="arc2-card-title">Amara's Choice</div>
       <div class="arc2-card-desc">Thunderstrike receives an offer from the Global Orisha Regulatory Authority. Full legitimacy. Full equipment. Full betrayal. She has 48 hours. The drum says one thing. Her loyalty says another.</div>
     </div>
     <div class="arc2-card reveal reveal-delay-2">
+      <div class="scan-line-overlay"><div class="scan-line-bar"></div></div>
       <div class="arc2-card-num">07</div>
       <div class="arc2-card-label">Issue 07 — Premium</div>
       <div class="arc2-card-title">Iron in the Council</div>
@@ -4990,6 +5565,8 @@
 
   </div>
 </section>
+
+<div class="energy-beam-divider" aria-hidden="true"></div>
 
 <!-- ============================================================ ACCESS / FREEMIUM -->
 <section id="access">
@@ -5247,51 +5824,208 @@
     });
   });
 
-  // ─── PARTICLES ───────────────────────────────────────────────
-  const canvas = document.getElementById('particles');
-  const ctx = canvas.getContext('2d');
-  let W, H, particles = [];
+  // ─── 3D BACKGROUND (Three.js) ────────────────────────────────
+  (function init3DBackground() {
+    const bgCanvas = document.getElementById('bg3d');
+    if (!bgCanvas || typeof THREE === 'undefined') {
+      // Fallback: simple 2D canvas particles
+      const ctx2 = bgCanvas ? bgCanvas.getContext('2d') : null;
+      if (!ctx2) return;
+      let W2, H2, pts = [];
+      const cols = ['#F4B800','#7B2FFF','#C41E3A','#00C9B1','#FF6B1A'];
+      const resizeFb = () => { W2 = bgCanvas.width = innerWidth; H2 = bgCanvas.height = innerHeight; };
+      addEventListener('resize', resizeFb); resizeFb();
+      for (let i=0;i<80;i++) pts.push({x:Math.random()*W2,y:Math.random()*H2,r:Math.random()*1.5+0.3,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,c:cols[0|Math.random()*cols.length],o:Math.random()*.4+.1});
+      (function fb(){ctx2.clearRect(0,0,W2,H2);pts.forEach(p=>{ctx2.beginPath();ctx2.arc(p.x,p.y,p.r,0,Math.PI*2);ctx2.fillStyle=p.c;ctx2.globalAlpha=p.o;ctx2.fill();p.x=(p.x+p.vx+W2)%W2;p.y=(p.y+p.vy+H2)%H2;});ctx2.globalAlpha=1;requestAnimationFrame(fb);})();
+      return;
+    }
 
-  function resize() {
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  }
-  window.addEventListener('resize', resize);
-  resize();
+    // ── Three.js Scene ──────────────────────────────────────────
+    const scene    = new THREE.Scene();
+    const camera   = new THREE.PerspectiveCamera(65, innerWidth/innerHeight, 0.1, 600);
+    camera.position.set(0, 0, 55);
 
-  const colors = ['#F4B800', '#7B2FFF', '#C41E3A', '#00C9B1', '#FF6B1A'];
+    const renderer = new THREE.WebGLRenderer({ canvas: bgCanvas, antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.setClearColor(0x000000, 0);
 
-  for (let i = 0; i < 80; i++) {
-    particles.push({
-      x: Math.random() * W,
-      y: Math.random() * H,
-      r: Math.random() * 1.5 + 0.3,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      opacity: Math.random() * 0.4 + 0.1
+    // Palette
+    const C = {
+      gold:   new THREE.Color('#F4B800'),
+      purple: new THREE.Color('#7B2FFF'),
+      red:    new THREE.Color('#C41E3A'),
+      teal:   new THREE.Color('#00C9B1'),
+      orange: new THREE.Color('#FF6B1A'),
+    };
+    const palette = [C.gold, C.purple, C.red, C.teal, C.orange];
+
+    // ── Ambient + directional light ──────────────────────────────
+    scene.add(new THREE.AmbientLight(0xffffff, 0.25));
+    const dLight = new THREE.DirectionalLight(0xF4B800, 1.4);
+    dLight.position.set(10, 20, 30);
+    scene.add(dLight);
+    const dLight2 = new THREE.DirectionalLight(0x7B2FFF, 0.8);
+    dLight2.position.set(-15, -10, 20);
+    scene.add(dLight2);
+    const pLight = new THREE.PointLight(0x00C9B1, 1.8, 120);
+    pLight.position.set(0, 0, 30);
+    scene.add(pLight);
+
+    // ── Helper: glowing material ─────────────────────────────────
+    function glowMat(color, opacity) {
+      return new THREE.MeshStandardMaterial({
+        color,
+        emissive: color,
+        emissiveIntensity: 0.45,
+        metalness: 0.6,
+        roughness: 0.3,
+        transparent: true,
+        opacity: opacity || 0.55,
+        wireframe: Math.random() > 0.55,
+      });
+    }
+
+    // ── Floating geometric shapes ─────────────────────────────────
+    const shapes = [];
+    const geoPool = [
+      new THREE.OctahedronGeometry(1),
+      new THREE.TetrahedronGeometry(1),
+      new THREE.IcosahedronGeometry(1),
+      new THREE.BoxGeometry(1,1,1),
+      new THREE.TorusGeometry(0.7, 0.28, 8, 18),
+      new THREE.OctahedronGeometry(1.2, 1),
+    ];
+
+    for (let i = 0; i < 110; i++) {
+      const geo  = geoPool[Math.floor(Math.random() * geoPool.length)].clone();
+      const col  = palette[Math.floor(Math.random() * palette.length)];
+      const mesh = new THREE.Mesh(geo, glowMat(col, Math.random() * 0.35 + 0.12));
+      const s    = Math.random() * 1.8 + 0.4;
+      mesh.scale.setScalar(s);
+      mesh.position.set(
+        (Math.random() - 0.5) * 130,
+        (Math.random() - 0.5) * 80,
+        (Math.random() - 0.5) * 90
+      );
+      mesh.rotation.set(Math.random()*Math.PI*2, Math.random()*Math.PI*2, Math.random()*Math.PI*2);
+      mesh.userData = {
+        vy:   (Math.random() - 0.5) * 0.006,
+        vx:   (Math.random() - 0.5) * 0.004,
+        vz:   (Math.random() - 0.5) * 0.003,
+        rx:   (Math.random() - 0.5) * 0.006,
+        ry:   (Math.random() - 0.5) * 0.007,
+        rz:   (Math.random() - 0.5) * 0.005,
+        pulse: Math.random() * Math.PI * 2,
+      };
+      scene.add(mesh);
+      shapes.push(mesh);
+    }
+
+    // ── Large torus rings ─────────────────────────────────────────
+    const rings = [];
+    const ringDefs = [
+      { r:28, tube:0.18, col:C.gold,   op:0.22, rx:Math.PI/3,  ry:0.3 },
+      { r:22, tube:0.12, col:C.purple, op:0.18, rx:-Math.PI/4, ry:-0.5 },
+      { r:35, tube:0.1,  col:C.teal,   op:0.13, rx:Math.PI/5,  ry:0.8 },
+      { r:18, tube:0.22, col:C.red,    op:0.16, rx:Math.PI/6,  ry:-0.2 },
+    ];
+    ringDefs.forEach(d => {
+      const mesh = new THREE.Mesh(
+        new THREE.TorusGeometry(d.r, d.tube, 6, 80),
+        new THREE.MeshStandardMaterial({ color: d.col, emissive: d.col, emissiveIntensity:0.7, transparent:true, opacity:d.op })
+      );
+      mesh.rotation.x = d.rx;
+      mesh.rotation.y = d.ry;
+      mesh.userData = { spin: (Math.random()-0.5)*0.0012 };
+      scene.add(mesh);
+      rings.push(mesh);
     });
-  }
 
-  function drawParticles() {
-    ctx.clearRect(0, 0, W, H);
-    particles.forEach(p => {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = p.color;
-      ctx.globalAlpha = p.opacity;
-      ctx.fill();
-      p.x += p.vx;
-      p.y += p.vy;
-      if (p.x < 0) p.x = W;
-      if (p.x > W) p.x = 0;
-      if (p.y < 0) p.y = H;
-      if (p.y > H) p.y = 0;
+    // ── Energy line segments ──────────────────────────────────────
+    const lines3d = [];
+    const lineMat = new THREE.LineBasicMaterial({ color: C.gold, transparent: true, opacity: 0.12 });
+    for (let i = 0; i < 20; i++) {
+      const pts2 = [
+        new THREE.Vector3((Math.random()-.5)*140, (Math.random()-.5)*90, (Math.random()-.5)*80),
+        new THREE.Vector3((Math.random()-.5)*140, (Math.random()-.5)*90, (Math.random()-.5)*80),
+      ];
+      const lg = new THREE.BufferGeometry().setFromPoints(pts2);
+      const lm = new THREE.LineBasicMaterial({ color: palette[Math.floor(Math.random()*palette.length)], transparent:true, opacity: Math.random()*.15+.04 });
+      const line = new THREE.Line(lg, lm);
+      line.userData = { speed: (Math.random()-.5)*.008, phase: Math.random()*Math.PI*2 };
+      scene.add(line);
+      lines3d.push(line);
+    }
+
+    // ── Mouse parallax ────────────────────────────────────────────
+    let mouseX = 0, mouseY = 0;
+    document.addEventListener('mousemove', e => {
+      mouseX = (e.clientX / innerWidth  - 0.5) * 2;
+      mouseY = (e.clientY / innerHeight - 0.5) * 2;
     });
-    ctx.globalAlpha = 1;
-    requestAnimationFrame(drawParticles);
-  }
-  drawParticles();
+
+    // ── Scroll parallax ───────────────────────────────────────────
+    let scrollY3d = 0;
+    window.addEventListener('scroll', () => { scrollY3d = window.scrollY; });
+
+    // ── Resize ────────────────────────────────────────────────────
+    window.addEventListener('resize', () => {
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+    });
+
+    // ── Animate ───────────────────────────────────────────────────
+    let frame3d = 0;
+    function animate3d() {
+      requestAnimationFrame(animate3d);
+      frame3d++;
+      const t = frame3d * 0.012;
+
+      // Shapes
+      shapes.forEach(m => {
+        const u = m.userData;
+        m.position.x += u.vx;
+        m.position.y += u.vy;
+        m.position.z += u.vz;
+        m.rotation.x += u.rx;
+        m.rotation.y += u.ry;
+        m.rotation.z += u.rz;
+        // Boundary wrap
+        if (m.position.x >  65) m.position.x = -65;
+        if (m.position.x < -65) m.position.x =  65;
+        if (m.position.y >  40) m.position.y = -40;
+        if (m.position.y < -40) m.position.y =  40;
+        if (m.position.z >  45) m.position.z = -45;
+        if (m.position.z < -45) m.position.z =  45;
+        // Pulse opacity
+        u.pulse += 0.008;
+        m.material.opacity = (Math.sin(u.pulse) * 0.12) + 0.18;
+      });
+
+      // Rings
+      rings.forEach(r => { r.rotation.z += r.userData.spin; });
+
+      // Energy lines flicker
+      lines3d.forEach(l => {
+        l.userData.phase += l.userData.speed;
+        l.material.opacity = (Math.sin(l.userData.phase) * 0.07) + 0.08;
+      });
+
+      // Pulsing point light
+      pLight.intensity = 1.6 + Math.sin(t * 0.8) * 0.5;
+
+      // Camera parallax
+      camera.position.x += (mouseX * 4 - camera.position.x) * 0.04;
+      camera.position.y += (-mouseY * 3 - camera.position.y) * 0.04;
+      camera.position.z = 55 + scrollY3d * 0.008;
+      camera.lookAt(0, 0, 0);
+
+      renderer.render(scene, camera);
+    }
+    animate3d();
+  })();
 
   // ─── SCROLL REVEAL ───────────────────────────────────────────
   const reveals = document.querySelectorAll('.reveal');
