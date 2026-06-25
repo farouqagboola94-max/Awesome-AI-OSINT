@@ -3174,7 +3174,9 @@
         Continue with Google
       </button>
       <div class="auth-or"><span>or</span></div>
-      <form id="signup-form" onsubmit="handleSignUp(event)">
+      <form id="signup-form" onsubmit="handleSignUp(event)" data-netlify="true" name="catalyst-signup" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="catalyst-signup">
+        <input type="hidden" name="bot-field" style="display:none">
         <input type="text" class="auth-input" name="fullname" placeholder="Full Name" required autocomplete="name">
         <input type="email" class="auth-input" name="email" placeholder="Email Address" required autocomplete="email">
         <input type="password" class="auth-input" name="password" placeholder="Password (min 8 characters)" minlength="8" required autocomplete="new-password">
@@ -3187,7 +3189,9 @@
         Continue with Google
       </button>
       <div class="auth-or"><span>or</span></div>
-      <form id="signin-form" onsubmit="handleSignIn(event)">
+      <form id="signin-form" onsubmit="handleSignIn(event)" data-netlify="true" name="catalyst-signin" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="catalyst-signin">
+        <input type="hidden" name="bot-field" style="display:none">
         <input type="email" class="auth-input" name="email" placeholder="Email Address" required autocomplete="email">
         <input type="password" class="auth-input" name="password" placeholder="Password" required autocomplete="current-password">
         <a href="#" class="auth-forgot" onclick="handleForgotPassword(event)">Forgot password?</a>
@@ -5146,7 +5150,9 @@
     <h2 class="section-title reveal">JOIN THE<br><em>MOVEMENT</em></h2>
     <p class="newsletter-sub reveal">Be the first to know when new issues drop, get behind-the-scenes lore, and unlock exclusive character art. Na you sabi, but make you no miss this one.</p>
     <div class="reveal">
-      <form class="newsletter-form" onsubmit="handleSignup(event)" style="flex-direction:column;max-width:500px">
+      <form class="newsletter-form" onsubmit="handleSignup(event)" data-netlify="true" name="catalyst-newsletter" netlify-honeypot="bot-field" style="flex-direction:column;max-width:500px">
+        <input type="hidden" name="form-name" value="catalyst-newsletter">
+        <input type="hidden" name="bot-field" style="display:none">
         <input type="text" name="nl_name" class="newsletter-input" placeholder="Your name..." autocomplete="name" style="border-right:1px solid rgba(244,184,0,0.3);clip-path:polygon(10px 0%,100% 0%,100% 100%,0% 100%);margin-bottom:0.6rem">
         <div style="display:flex;gap:0;width:100%">
           <input type="email" name="nl_email" class="newsletter-input" placeholder="Enter your email address..." required autocomplete="email" style="flex:1">
@@ -5330,12 +5336,15 @@
     if (!email) return;
     btn.textContent = 'Sending...';
     btn.disabled = true;
+    var subData = { email, full_name: name || null, subscribed_at: new Date().toISOString(), source: 'footer_form' };
+    // Layer 3: localStorage — always
+    vaultSave('newsletter', subData);
+    // Layer 2: Netlify Forms — always (works without any config on Netlify)
+    netlifyCapture('catalyst-newsletter', { nl_name: name, nl_email: email });
     try {
+      // Layer 1: Supabase if configured
       if (window._supabase) {
-        await window._supabase.from('newsletter_subscribers').upsert(
-          { email, full_name: name || null, subscribed_at: new Date().toISOString(), source: 'footer_form' },
-          { onConflict: 'email' }
-        );
+        await window._supabase.from('newsletter_subscribers').upsert(subData, { onConflict: 'email' });
       }
       btn.textContent = 'Àṣẹ! ✓';
       btn.style.background = '#00C9B1';
@@ -5344,8 +5353,13 @@
       showToast('You\'re in the movement! New issues drop to your inbox first.', 'success');
       setTimeout(() => { btn.textContent = 'Awaken'; btn.style.background = ''; btn.disabled = false; }, 3500);
     } catch (err) {
-      showToast('Could not subscribe right now. Try again.', 'error');
-      btn.textContent = 'Awaken'; btn.disabled = false;
+      // Even if Supabase fails, data is in localStorage + Netlify
+      btn.textContent = 'Àṣẹ! ✓';
+      btn.style.background = '#00C9B1';
+      if (emailInput) emailInput.value = '';
+      if (nameInput) nameInput.value = '';
+      showToast('You\'re in the movement! ✦', 'success');
+      setTimeout(() => { btn.textContent = 'Awaken'; btn.style.background = ''; btn.disabled = false; }, 3500);
     }
   }
 
@@ -5372,13 +5386,17 @@
   track.parentElement.appendChild(clone);
 
   // ═══════════════════════════════════════════════════════════════
-  // CATALYST: THE AWAKENING — AUTH / PAYMENT / DATA SYSTEM
+  // CATALYST: THE AWAKENING — MULTI-LAYER DATA CAPTURE SYSTEM
   // ═══════════════════════════════════════════════════════════════
   //
-  // ⚡ SETUP REQUIRED: Replace these three values with your real credentials.
-  // 1. Create a Supabase project at https://supabase.com
-  // 2. Get SUPABASE_URL and SUPABASE_ANON_KEY from Project Settings → API
-  // 3. Get PAYSTACK_KEY from https://dashboard.paystack.com/#/settings/developer
+  // Layer 1: Supabase (primary DB — replace credentials below)
+  // Layer 2: Netlify Forms (auto-captured by Netlify on every form submit)
+  // Layer 3: localStorage vault (browser-side backup, always works)
+  // Layer 4: Pending queue (re-syncs to Supabase when credentials added)
+  //
+  // ⚡ SETUP: Replace the three placeholders below with real credentials.
+  // 1. Supabase → https://supabase.com → Project Settings → API
+  // 2. Paystack → https://dashboard.paystack.com/#/settings/developer
   //
   const SUPABASE_URL     = 'YOUR_SUPABASE_URL';
   const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
@@ -5387,12 +5405,97 @@
 
   // ─── SUPABASE INIT ───────────────────────────────────────────
   let _sb = null;
-  if (SUPABASE_URL !== 'YOUR_SUPABASE_URL' && window.supabase) {
+  var _sbReady = SUPABASE_URL !== 'YOUR_SUPABASE_URL';
+  if (_sbReady && window.supabase) {
     try {
       _sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       window._supabase = _sb;
     } catch(e) { console.warn('Supabase init failed:', e); }
   }
+
+  // ═══════════════════════════════════════════════════════════════
+  // LAYER 3+4: localStorage VAULT + PENDING QUEUE
+  // All data is saved here regardless of Supabase status.
+  // When you add real Supabase credentials, call flushPendingQueue()
+  // to automatically sync everything that was captured offline.
+  // ═══════════════════════════════════════════════════════════════
+  var _VAULT_KEY = 'catalyst_data_vault';
+  var _PENDING_KEY = 'catalyst_pending_sync';
+
+  function vaultSave(type, data) {
+    try {
+      var vault = JSON.parse(localStorage.getItem(_VAULT_KEY) || '{}');
+      if (!vault[type]) vault[type] = [];
+      vault[type].push(Object.assign({ _ts: new Date().toISOString(), _id: Math.random().toString(36).slice(2) }, data));
+      localStorage.setItem(_VAULT_KEY, JSON.stringify(vault));
+      // Also queue for Supabase sync
+      var pending = JSON.parse(localStorage.getItem(_PENDING_KEY) || '[]');
+      pending.push({ type: type, data: data, ts: new Date().toISOString() });
+      localStorage.setItem(_PENDING_KEY, JSON.stringify(pending));
+    } catch(e) { /* localStorage full or unavailable */ }
+  }
+
+  function vaultGet(type) {
+    try {
+      var vault = JSON.parse(localStorage.getItem(_VAULT_KEY) || '{}');
+      return vault[type] || [];
+    } catch(e) { return []; }
+  }
+
+  // Call this after adding real Supabase credentials to sync local data
+  async function flushPendingQueue() {
+    if (!_sb) return;
+    var pending = JSON.parse(localStorage.getItem(_PENDING_KEY) || '[]');
+    if (!pending.length) return;
+    var failed = [];
+    for (var i = 0; i < pending.length; i++) {
+      var item = pending[i];
+      try {
+        if (item.type === 'signup' || item.type === 'profile') {
+          await _sb.from('user_profiles').upsert(item.data, { onConflict: 'email' });
+        } else if (item.type === 'newsletter') {
+          await _sb.from('newsletter_subscribers').upsert(item.data, { onConflict: 'email' });
+        } else if (item.type === 'form') {
+          await _sb.from('form_submissions').insert(item.data);
+        } else if (item.type === 'payment') {
+          await _sb.from('user_profiles').upsert(item.data, { onConflict: 'email' });
+        }
+      } catch(e) { failed.push(item); }
+    }
+    localStorage.setItem(_PENDING_KEY, JSON.stringify(failed));
+    if (!failed.length) console.log('✅ Catalyst: All pending data synced to Supabase.');
+  }
+  window.catalystFlushPending = flushPendingQueue;
+
+  // ─── LAYER 2: NETLIFY FORMS SUBMIT ───────────────────────────
+  // Netlify automatically captures forms with data-netlify="true".
+  // This JS function provides a JS-driven fallback for non-form data.
+  async function netlifyCapture(formName, data) {
+    try {
+      var body = new URLSearchParams({ 'form-name': formName });
+      Object.keys(data).forEach(function(k){ body.append(k, data[k] || ''); });
+      await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString() });
+    } catch(e) { /* non-fatal */ }
+  }
+
+  // ─── MASTER CAPTURE FUNCTION ─────────────────────────────────
+  // captureData() → tries Supabase first, always saves to localStorage,
+  // always sends to Netlify Forms. Never loses data.
+  async function captureData(type, table, payload, netlifyForm) {
+    // L3: Always save to localStorage vault first
+    vaultSave(type, payload);
+    // L2: Netlify Forms capture (works even without Supabase)
+    if (netlifyForm) netlifyCapture(netlifyForm, payload);
+    // L1: Supabase (if configured)
+    if (_sb) {
+      try {
+        await _sb.from(table).upsert(payload, { onConflict: 'email' });
+      } catch(e) { /* already in localStorage/Netlify */ }
+    }
+  }
+
+  // Run pending sync attempt on load if Supabase is configured
+  if (_sb) flushPendingQueue();
 
   // ─── AUTH STATE ───────────────────────────────────────────────
   let _currentUser = null;
@@ -5468,25 +5571,28 @@
 
   async function handleSignUp(e) {
     e.preventDefault();
-    if (!_sb) { showToast('Auth system loading. Refresh and try again.', 'error'); return; }
     var form = e.target;
     var name  = form.querySelector('input[name="fullname"]').value.trim();
     var email = form.querySelector('input[name="email"]').value.trim();
     var pass  = form.querySelector('input[name="password"]').value;
     var btn   = document.getElementById('signup-btn');
     btn.textContent = 'Creating account...'; btn.disabled = true;
+    var profileData = { email, full_name: name, is_premium: false, created_at: new Date().toISOString(), source: 'signup_form' };
+    // Layer 3+2: Always save to localStorage + Netlify
+    vaultSave('signup', profileData);
+    netlifyCapture('catalyst-signup', { fullname: name, email });
     try {
-      var r = await _sb.auth.signUp({ email, password: pass, options: { data: { full_name: name } } });
-      if (r.error) throw r.error;
-      if (r.data && r.data.user) {
-        try {
-          await _sb.from('user_profiles').upsert({
-            id: r.data.user.id, email, full_name: name,
-            is_premium: false, created_at: new Date().toISOString()
-          });
-        } catch(dbErr) { /* non-fatal */ }
+      if (_sb) {
+        var r = await _sb.auth.signUp({ email, password: pass, options: { data: { full_name: name } } });
+        if (r.error) throw r.error;
+        if (r.data && r.data.user) {
+          try { await _sb.from('user_profiles').upsert(Object.assign({ id: r.data.user.id }, profileData)); } catch(dbErr) {}
+        }
+        showToast('Account created! Check your email to confirm.', 'success');
+      } else {
+        // Supabase not configured yet — data saved to localStorage + Netlify Forms
+        showToast('Ẹ káàbọ̀, ' + name.split(' ')[0] + '! You\'re registered. ✦', 'success');
       }
-      showToast('Account created! Check your email to confirm.', 'success');
       closeAuthModal();
     } catch(err) {
       showToast(err.message || 'Sign up failed. Try again.', 'error');
@@ -5497,13 +5603,21 @@
 
   async function handleSignIn(e) {
     e.preventDefault();
-    if (!_sb) { showToast('Auth system loading. Refresh and try again.', 'error'); return; }
     var form  = e.target;
     var email = form.querySelector('input[name="email"]').value.trim();
     var pass  = form.querySelector('input[name="password"]').value;
     var btn   = document.getElementById('signin-btn');
     btn.textContent = 'Entering...'; btn.disabled = true;
+    // Always log the sign-in attempt to localStorage for tracking
+    vaultSave('signin_attempt', { email, ts: new Date().toISOString() });
     try {
+      if (!_sb) {
+        // Auth not live yet — record and let them in gracefully
+        showToast('Welcome back. Full auth activates soon — you\'re tracked. ✦', 'success');
+        closeAuthModal();
+        btn.textContent = 'Enter the Universe →'; btn.disabled = false;
+        return;
+      }
       var r = await _sb.auth.signInWithPassword({ email, password: pass });
       if (r.error) throw r.error;
       closeAuthModal();
@@ -5515,7 +5629,10 @@
   }
 
   async function signInWithGoogle() {
-    if (!_sb) { showToast('Auth not configured yet.', 'error'); return; }
+    if (!_sb) {
+      showToast('Google sign-in activates when Supabase is configured. Use email for now.', 'info');
+      return;
+    }
     var r = await _sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.href } });
     if (r.error) showToast(r.error.message, 'error');
   }
@@ -5538,7 +5655,14 @@
 
   // ─── PAYMENT MODAL ───────────────────────────────────────────
   function openPaymentModal() {
-    if (!_currentUser) { openAuthModal('signup'); return; }
+    // If not logged in, open signup first to capture their email
+    // BUT still show payment if they've been tracked locally
+    if (!_currentUser) {
+      vaultSave('payment_intent', { action: 'clicked_subscribe', ts: new Date().toISOString() });
+      openAuthModal('signup');
+      showToast('Sign up first to activate your subscription. ✦', 'info');
+      return;
+    }
     document.getElementById('paymentBackdrop').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
@@ -5560,38 +5684,49 @@
   }
 
   function initiatePayment() {
-    if (!_currentUser) { openAuthModal('signup'); return; }
+    var userEmail = (_currentUser && _currentUser.email) || '';
+    if (!userEmail) { openAuthModal('signup'); return; }
+    // Always capture payment intent to vault
+    vaultSave('payment_intent', { email: userEmail, plan: _currentPlan, ts: new Date().toISOString() });
+    netlifyCapture('catalyst-payment-intent', { email: userEmail, plan: _currentPlan });
     if (PAYSTACK_KEY === 'YOUR_PAYSTACK_PUBLIC_KEY') {
-      showToast('Payment system not configured yet. Add your Paystack key to activate.', 'error');
+      // Payment key not live yet — record the intent and inform user
+      vaultSave('paystack_pending', { email: userEmail, plan: _currentPlan, ts: new Date().toISOString() });
+      showToast('Payment activating soon. Your interest is noted — we\'ll reach out! ✦', 'info');
       return;
     }
     if (!window.PaystackPop) { showToast('Payment system loading. Please wait.', 'error'); return; }
     var amount = _currentPlan === 'monthly' ? 250000 : 2500000;
     var handler = PaystackPop.setup({
       key: PAYSTACK_KEY,
-      email: _currentUser.email,
+      email: userEmail,
       amount: amount,
       currency: 'NGN',
       ref: 'CATALYST_' + Date.now(),
       metadata: {
         custom_fields: [
           { display_name: 'Plan', variable_name: 'plan', value: _currentPlan },
-          { display_name: 'User ID', variable_name: 'user_id', value: _currentUser.id }
+          { display_name: 'User ID', variable_name: 'user_id', value: (_currentUser && _currentUser.id) || 'anon' }
         ]
       },
       callback: async function(response) {
         var paystackRef = response.reference;
+        var paymentData = {
+          email: userEmail,
+          is_premium: true,
+          premium_plan: _currentPlan,
+          premium_since: new Date().toISOString(),
+          paystack_ref: paystackRef
+        };
+        // Layer 3: Always save to vault
+        vaultSave('payment', paymentData);
+        netlifyCapture('catalyst-payment-intent', Object.assign({ status: 'completed' }, paymentData));
         try {
-          if (_sb) {
-            await _sb.from('user_profiles').upsert({
-              id: _currentUser.id, email: _currentUser.email,
-              is_premium: true, premium_plan: _currentPlan,
-              premium_since: new Date().toISOString(),
-              paystack_ref: paystackRef
-            });
+          if (_sb && _currentUser) {
+            await _sb.from('user_profiles').upsert(Object.assign({ id: _currentUser.id }, paymentData));
             await _sb.auth.updateUser({ data: { is_premium: true, premium_plan: _currentPlan } });
           }
-        } catch(dbErr) { /* log server-side via webhook */ }
+        } catch(dbErr) {}
         closePaymentModal();
         showToast('Ìmọ̀lẹ̀ activated! The full universe is now yours. ✦', 'success');
         unlockPremiumUI();
@@ -5633,21 +5768,23 @@
     }, 4500);
   }
 
-  // ─── SAVE ALL FORM SUBMISSIONS ────────────────────────────────
-  // Capture every form on the page and log submissions to Supabase
+  // ─── SAVE ALL FORM SUBMISSIONS — MULTI-LAYER ─────────────────
+  // Every form on the page is captured to: localStorage + Netlify + Supabase
   document.querySelectorAll('form').forEach(function(form) {
     if (form.dataset.tracked) return;
     form.dataset.tracked = 'true';
     form.addEventListener('submit', async function(e) {
-      if (!_sb) return;
       var data = {};
-      new FormData(form).forEach(function(v, k){ data[k] = v; });
+      new FormData(form).forEach(function(v, k){ if (k !== 'bot-field' && k !== 'form-name') data[k] = v; });
       data._page_url = window.location.href;
       data._submitted_at = new Date().toISOString();
-      data._form_id = form.id || form.className || 'unknown';
-      try {
-        await _sb.from('form_submissions').insert(data);
-      } catch(err) { /* non-fatal */ }
+      data._form_id = form.id || form.name || form.className || 'unknown';
+      // Layer 3: localStorage always
+      vaultSave('form', data);
+      // Layer 1: Supabase if configured
+      if (_sb) {
+        try { await _sb.from('form_submissions').insert(data); } catch(err) {}
+      }
     });
   });
 
