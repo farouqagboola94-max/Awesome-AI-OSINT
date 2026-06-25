@@ -3459,6 +3459,198 @@
   opacity: 0.6;
   transition: width 1.2s ease;
 }
+/* ────────────────────────────────────────────────────────────────
+   COMIC PANELS SECTION
+   ──────────────────────────────────────────────────────────────── */
+#panels {
+  padding: 100px 0 120px;
+  position: relative;
+  overflow: hidden;
+  background: #06060d;
+}
+#panels::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 50%, rgba(123,47,255,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 85% 50%, rgba(244,184,0,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.panels-header {
+  text-align: center;
+  padding: 0 5%;
+  margin-bottom: 64px;
+}
+.panels-scene-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(244,184,0,0.55);
+  margin-bottom: 10px;
+}
+.panels-strip {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1.6fr;
+  gap: 3px;
+  padding: 0 3%;
+  position: relative;
+}
+.panel-wrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 2/3;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s;
+}
+.panel-wrap:hover {
+  transform: scale(1.03) translateY(-4px);
+  z-index: 5;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 30px rgba(244,184,0,0.12);
+}
+.panel-wrap svg {
+  width: 100%; height: 100%;
+  display: block;
+}
+/* Panel ink-border effect */
+.panel-wrap::after {
+  content: '';
+  position: absolute; inset: 0;
+  border: 2.5px solid rgba(240,237,229,0.08);
+  pointer-events: none;
+  transition: border-color 0.3s;
+}
+.panel-wrap:hover::after { border-color: rgba(244,184,0,0.3); }
+
+/* Panel caption bar */
+.panel-caption {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(to top, rgba(6,6,13,0.92), transparent);
+  padding: 24px 14px 12px;
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: rgba(240,237,229,0.7);
+  line-height: 1.5;
+  pointer-events: none;
+}
+.panels-caption-box {
+  background: rgba(6,6,13,0.65);
+  border-left: 2px solid #F4B800;
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.82rem;
+  font-style: italic;
+  color: rgba(240,237,229,0.75);
+  padding: 10px 14px;
+  max-width: 360px;
+  margin: 0 auto 0 3%;
+  line-height: 1.6;
+}
+.panels-scene-title {
+  font-family: 'Bebas Neue', display;
+  font-size: 1.6rem;
+  letter-spacing: 0.08em;
+  color: var(--danfo-gold);
+  margin-bottom: 4px;
+}
+.panels-meta-row {
+  display: flex; gap: 24px; align-items: center;
+  padding: 18px 3% 0;
+  margin-top: 14px;
+}
+.panels-issue-tag {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(240,237,229,0.35);
+  background: rgba(240,237,229,0.05);
+  border: 1px solid rgba(240,237,229,0.1);
+  padding: 5px 12px;
+}
+
+/* ── PANELS GRID LAYOUT ───────────────────────────────────── */
+.panels-title {
+  font-family: 'Bebas Neue', display;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  letter-spacing: 0.08em;
+  color: var(--danfo-gold);
+  margin-bottom: 10px;
+}
+.panels-subtitle {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1rem;
+  font-style: italic;
+  color: rgba(240,237,229,0.5);
+}
+.panels-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 4px;
+  padding: 0 4%;
+}
+.comic-panel {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s;
+}
+.comic-panel:hover {
+  transform: scale(1.02) translateY(-3px);
+  z-index: 5;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 30px rgba(244,184,0,0.15);
+}
+.comic-panel::after {
+  content: '';
+  position: absolute; inset: 0;
+  border: 2px solid rgba(240,237,229,0.07);
+  pointer-events: none;
+  transition: border-color 0.3s;
+}
+.comic-panel:hover::after { border-color: rgba(244,184,0,0.35); }
+.panel-svg {
+  width: 100%; height: 100%; display: block;
+}
+.panel-wide {
+  grid-column: 1 / -1;
+}
+.panel-tall {
+  grid-row: 2 / 3;
+}
+.panel-medium {
+  grid-row: 2 / 3;
+}
+@media (max-width: 680px) {
+  .panels-grid {
+    grid-template-columns: 1fr;
+  }
+  .panel-wide, .panel-tall, .panel-medium {
+    grid-column: auto; grid-row: auto;
+  }
+}
+
+/* Halftone dot overlay on panels for print feel */
+.panel-halftone {
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(240,237,229,0.06) 1px, transparent 1px);
+  background-size: 5px 5px;
+  pointer-events: none; z-index: 1; mix-blend-mode: overlay;
+}
+
+/* ── VILLAIN PORTRAIT CARDS ───────────────────────────────── */
+.villain-portrait-svg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  opacity: 0.55; transition: opacity 0.4s;
+  pointer-events: none;
+}
+.villain-card:hover .villain-portrait-svg { opacity: 0.8; }
+.villain-card.featured .villain-portrait-svg { opacity: 0.45; }
+.villain-card.featured:hover .villain-portrait-svg { opacity: 0.7; }
+
+/* ── IMPROVED CHAR SILHOUETTE ─────────────────────────────── */
+.char-card { overflow: hidden; }
+
 .section-label.visible::after { width: 100%; }
 
 /* ── MANIFESTO FLOATING SYMBOLS ──────────────────────────── */
@@ -4296,33 +4488,96 @@
         </pattern>
         <rect x="0" y="0" width="400" height="270" fill="url(#adirePat)"/>
       </svg>
-      <!-- Catalyst silhouette -->
-      <svg class="char-silhouette" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
+      <!-- Catalyst silhouette — detailed comic portrait -->
+      <svg class="char-silhouette" viewBox="0 0 200 340" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <radialGradient id="catGlow" cx="50%" cy="40%" r="60%">
-            <stop offset="0%" stop-color="#F4B800" stop-opacity="0.4"/>
-            <stop offset="100%" stop-color="#F4B800" stop-opacity="0"/>
-          </radialGradient>
-          <filter id="catBlur"><feGaussianBlur stdDeviation="8"/></filter>
+          <radialGradient id="c1skin" cx="42%" cy="35%" r="60%"><stop offset="0%" stop-color="#C4874A"/><stop offset="100%" stop-color="#6B3010"/></radialGradient>
+          <radialGradient id="c1aura" cx="50%" cy="40%" r="65%"><stop offset="0%" stop-color="#F4B800" stop-opacity="0.35"/><stop offset="100%" stop-color="#F4B800" stop-opacity="0"/></radialGradient>
+          <filter id="c1glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          <filter id="c1hg" x="-70%" y="-70%" width="240%" height="240%"><feGaussianBlur stdDeviation="11" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
         </defs>
-        <!-- Glow aura -->
-        <ellipse cx="100" cy="140" rx="80" ry="140" fill="url(#catGlow)"/>
-        <!-- Body -->
-        <ellipse cx="100" cy="60" rx="22" ry="26" fill="#F4B800" opacity="0.9"/>
-        <path d="M78,85 Q100,95 122,85 L130,180 Q100,195 70,180 Z" fill="#F4B800" opacity="0.85"/>
-        <!-- Cape / Agbada flowing -->
-        <path d="M70,90 Q30,130 20,200 Q60,180 78,155 Z" fill="#C41E3A" opacity="0.9"/>
-        <path d="M130,90 Q170,130 180,200 Q140,180 122,155 Z" fill="#C41E3A" opacity="0.9"/>
+        <ellipse cx="100" cy="155" rx="85" ry="160" fill="url(#c1aura)"/>
+        <!-- Ground energy cracks -->
+        <ellipse cx="100" cy="330" rx="50" ry="8" fill="#F4B800" opacity="0.1" filter="url(#c1glow)"/>
+        <path d="M65,315 L72,330 L82,322 L88,336 L100,315 L112,336 L118,322 L128,330 L135,315" stroke="#F4B800" stroke-width="1" fill="none" opacity="0.28" filter="url(#c1glow)"/>
         <!-- Legs -->
-        <rect x="80" y="178" width="15" height="80" rx="5" fill="#F4B800" opacity="0.8"/>
-        <rect x="105" y="178" width="15" height="80" rx="5" fill="#F4B800" opacity="0.8"/>
-        <!-- Power emanation lines -->
-        <line x1="100" y1="50" x2="60" y2="10" stroke="#F4B800" stroke-width="1.5" opacity="0.5"/>
-        <line x1="100" y1="50" x2="140" y2="10" stroke="#F4B800" stroke-width="1.5" opacity="0.5"/>
-        <line x1="100" y1="50" x2="100" y2="5" stroke="#F4B800" stroke-width="2" opacity="0.7"/>
-        <circle cx="100" cy="50" r="8" fill="#F4B800" opacity="0.3" filter="url(#catBlur)"/>
-        <!-- Adire pattern on costume -->
-        <path d="M80,120 L100,100 L120,120 L100,140 Z" fill="#C41E3A" opacity="0.6"/>
+        <path d="M82,212 Q77,260 73,318 L86,320 Q90,265 95,218 Z" fill="#2a1008"/>
+        <path d="M118,212 Q123,260 127,318 L114,320 Q110,265 105,218 Z" fill="#2a1008"/>
+        <path d="M69,316 Q58,324 64,330 L86,326 L86,315 Z" fill="#111"/>
+        <path d="M131,315 L114,315 L114,326 L136,330 Q142,324 131,316 Z" fill="#111"/>
+        <!-- Torso - Lagos street agbada-style top -->
+        <path d="M70,98 Q52,108 48,135 L46,212 L154,212 L152,135 Q148,108 130,98 Z" fill="#5C2D0E"/>
+        <path d="M84,100 L116,100 L118,212 L82,212 Z" fill="#7A3C14" opacity="0.7"/>
+        <path d="M88,135 L100,118 L112,135 L100,152 Z" fill="none" stroke="#F4B800" stroke-width="1.4" opacity="0.45"/>
+        <circle cx="100" cy="135" r="3" fill="#F4B800" opacity="0.35"/>
+        <rect x="46" y="204" width="108" height="10" rx="2" fill="#1a0a04"/>
+        <rect x="88" y="202" width="24" height="14" rx="2" fill="#0a0503"/>
+        <!-- Left arm down, crackling energy to ground -->
+        <path d="M70,100 Q50,122 44,158 Q40,180 45,202" stroke="#7A3C14" stroke-width="20" stroke-linecap="round" fill="none"/>
+        <path d="M45,202 Q43,224 46,242" stroke="#7A3C14" stroke-width="16" stroke-linecap="round" fill="none"/>
+        <ellipse cx="47" cy="250" rx="10" ry="12" fill="#7A3C14"/>
+        <rect x="36" y="254" width="6" height="14" rx="3" fill="#7A3C14"/>
+        <rect x="43" y="256" width="6" height="16" rx="3" fill="#7A3C14"/>
+        <rect x="50" y="257" width="6" height="16" rx="3" fill="#7A3C14"/>
+        <!-- Right arm raised, POWER BURST -->
+        <path d="M130,100 Q150,115 157,145 Q162,168 160,195" stroke="#7A3C14" stroke-width="20" stroke-linecap="round" fill="none"/>
+        <path d="M160,195 Q165,172 170,155 Q174,140 180,126" stroke="#7A3C14" stroke-width="17" stroke-linecap="round" fill="none"/>
+        <rect x="172" y="108" width="18" height="22" rx="6" fill="#8B4513"/>
+        <!-- GOLD ENERGY EXPLOSION from fist -->
+        <g filter="url(#c1hg)">
+          <circle cx="181" cy="112" r="22" fill="#F4B800" opacity="0.45"/>
+          <circle cx="181" cy="112" r="12" fill="#FFF8D0" opacity="0.65"/>
+          <path d="M181,112 L164,90 L172,97 L162,72" stroke="#F4B800" stroke-width="2.5" fill="none"/>
+          <path d="M181,112 L198,92 L191,100 L204,78" stroke="#F4B800" stroke-width="2.2" fill="none"/>
+          <path d="M181,112 L202,110 L196,115 L212,112" stroke="#F4B800" stroke-width="2" fill="none"/>
+          <path d="M181,112 L197,127 L190,124 L204,140" stroke="#F4B800" stroke-width="1.8" fill="none"/>
+          <path d="M181,112 L165,128 L172,124 L158,140" stroke="#F4B800" stroke-width="1.6" fill="none"/>
+          <circle cx="162" cy="72" r="3" fill="white"/><circle cx="204" cy="78" r="2.5" fill="#F4B800"/>
+          <circle cx="212" cy="112" r="2" fill="white"/><circle cx="204" cy="140" r="2" fill="#F4B800"/>
+        </g>
+        <!-- Energy from left hand to ground -->
+        <g filter="url(#c1glow)" opacity="0.55">
+          <path d="M47,262 L37,284 L43,280 L32,308" stroke="#F4B800" stroke-width="1.5" fill="none"/>
+          <path d="M50,265 L50,292 L46,296 L50,320" stroke="#F4B800" stroke-width="1.2" fill="none"/>
+          <circle cx="47" cy="255" r="7" fill="#F4B800" opacity="0.3"/>
+        </g>
+        <!-- Neck -->
+        <path d="M88,78 Q100,74 112,78 L111,100 Q100,96 89,100 Z" fill="url(#c1skin)"/>
+        <!-- HEAD -->
+        <path d="M75,60 Q76,38 100,35 Q124,38 125,60 Q126,82 118,90 Q110,98 100,99 Q90,98 82,90 Q74,82 75,60 Z" fill="url(#c1skin)"/>
+        <!-- Natural coil hair -->
+        <path d="M76,55 Q75,28 100,22 Q125,28 124,55 Q122,38 100,36 Q78,38 76,55 Z" fill="#1a0800"/>
+        <path d="M80,38 Q84,31 89,38 M89,33 Q93,26 98,33 M98,31 Q102,24 106,31 M106,33 Q110,26 115,33 M115,38 Q119,31 123,38" stroke="#2a1400" stroke-width="2" fill="none" opacity="0.7"/>
+        <path d="M76,52 Q76,42 79,35 Q82,29 87,27" stroke="#1a0800" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        <path d="M124,52 Q124,42 121,35 Q118,29 113,27" stroke="#1a0800" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        <!-- Brow -->
+        <path d="M82,52 Q88,47 95,50" stroke="#5a2808" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+        <path d="M105,50 Q112,47 118,52" stroke="#5a2808" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+        <!-- Eyes — gold lit, determined -->
+        <path d="M81,57 Q88,52 95,57 Q88,63 81,57 Z" fill="#1a0800"/>
+        <ellipse cx="88" cy="57" rx="4" ry="3.5" fill="#F4B800" opacity="0.9" filter="url(#c1glow)"/>
+        <ellipse cx="88" cy="57" rx="2.2" ry="2" fill="#110800"/>
+        <circle cx="86" cy="56" r="1" fill="white" opacity="0.7"/>
+        <path d="M105,57 Q112,52 119,57 Q112,63 105,57 Z" fill="#1a0800"/>
+        <ellipse cx="112" cy="57" rx="4" ry="3.5" fill="#F4B800" opacity="0.9" filter="url(#c1glow)"/>
+        <ellipse cx="112" cy="57" rx="2.2" ry="2" fill="#110800"/>
+        <circle cx="110" cy="56" r="1" fill="white" opacity="0.7"/>
+        <!-- Nose -->
+        <path d="M97,64 Q100,70 103,64" fill="none" stroke="#5a2808" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M94,68 Q100,73 106,68" fill="none" stroke="#4a2005" stroke-width="1.2"/>
+        <!-- Mouth - set hard -->
+        <path d="M88,78 Q100,82 112,78" fill="none" stroke="#5a2808" stroke-width="2" stroke-linecap="round"/>
+        <!-- Power crown rings -->
+        <g filter="url(#c1glow)">
+          <circle cx="100" cy="58" r="36" fill="none" stroke="#F4B800" stroke-width="1.2" opacity="0.5" stroke-dasharray="5 4"/>
+          <circle cx="100" cy="58" r="44" fill="none" stroke="#F4B800" stroke-width="0.7" opacity="0.25" stroke-dasharray="7 6"/>
+        </g>
+        <!-- Floating Aṣẹ particles -->
+        <g fill="#F4B800" filter="url(#c1glow)" opacity="0.65">
+          <circle cx="28" cy="92" r="2.2"/><circle cx="22" cy="145" r="1.8"/>
+          <circle cx="172" cy="78" r="2"/><circle cx="182" cy="162" r="1.5"/>
+          <circle cx="38" cy="198" r="1.8"/><circle cx="160" cy="200" r="2"/>
+        </g>
       </svg>
       <span class="char-orisha-badge badge-catalyst">Catalyst</span>
       <div class="char-info">
@@ -4347,20 +4602,158 @@
         </pattern>
         <rect x="0" y="0" width="200" height="320" fill="url(#thunderPat)"/>
       </svg>
-      <svg class="char-silhouette" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="100" cy="140" rx="70" ry="130" fill="#7B2FFF" opacity="0.15"/>
-        <ellipse cx="100" cy="60" rx="20" ry="24" fill="#00C9B1" opacity="0.9"/>
-        <path d="M80,82 Q100,92 120,82 L126,175 Q100,190 74,175 Z" fill="#00C9B1" opacity="0.8"/>
-        <!-- Talking drum -->
-        <ellipse cx="50" cy="140" rx="12" ry="25" fill="#8B4513" opacity="0.9"/>
-        <path d="M38,115 Q50,105 62,115 L62,165 Q50,175 38,165 Z" fill="#6B3410" opacity="0.8"/>
-        <!-- Lightning from drum -->
-        <path d="M50,115 L30,80 L45,85 L25,50" stroke="#F4B800" stroke-width="2" fill="none" opacity="0.8" stroke-linecap="round"/>
-        <path d="M62,115 L80,80 L68,85 L88,50" stroke="#7B2FFF" stroke-width="2" fill="none" opacity="0.8" stroke-linecap="round"/>
-        <rect x="85" y="173" width="13" height="75" rx="4" fill="#00C9B1" opacity="0.8"/>
-        <rect x="102" y="173" width="13" height="75" rx="4" fill="#00C9B1" opacity="0.8"/>
-        <!-- Head wrap / gele -->
-        <path d="M80,36 Q100,20 120,36 Q125,48 100,45 Q75,48 80,36 Z" fill="#7B2FFF" opacity="0.9"/>
+      <svg class="char-silhouette" viewBox="0 0 200 340" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="c2-bg" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#1a0a2e"/>
+      <stop offset="100%" stop-color="#06060d"/>
+    </radialGradient>
+    <radialGradient id="c2-skin" cx="45%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#8B4513"/>
+      <stop offset="55%" stop-color="#5C2D0E"/>
+      <stop offset="100%" stop-color="#3a1a08"/>
+    </radialGradient>
+    <radialGradient id="c2-skin-arm" cx="50%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#7a3a10"/>
+      <stop offset="70%" stop-color="#4a2008"/>
+    </radialGradient>
+    <radialGradient id="c2-lightning-core" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="25%" stop-color="#F4B800"/>
+      <stop offset="60%" stop-color="#7B2FFF" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#7B2FFF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="c2-glow">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="c2-glow-soft">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="c2-glow-hard">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="c2-gele-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6b25e0"/>
+      <stop offset="50%" stop-color="#7B2FFF"/>
+      <stop offset="100%" stop-color="#4a1aaa"/>
+    </linearGradient>
+    <linearGradient id="c2-top-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5a1ecc"/>
+      <stop offset="100%" stop-color="#3a0e99"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="340" fill="url(#c2-bg)"/>
+  <g opacity="0.7">
+    <ellipse cx="30" cy="60" rx="45" ry="30" fill="#1a0a2e"/>
+    <ellipse cx="10" cy="45" rx="30" ry="22" fill="#160825"/>
+    <ellipse cx="60" cy="40" rx="40" ry="25" fill="#1a0a2e"/>
+    <ellipse cx="165" cy="55" rx="50" ry="32" fill="#1a0a2e"/>
+    <ellipse cx="190" cy="40" rx="32" ry="24" fill="#160825"/>
+    <ellipse cx="140" cy="35" rx="38" ry="22" fill="#1a0a2e"/>
+    <ellipse cx="100" cy="20" rx="55" ry="28" fill="#12061e"/>
+  </g>
+  <g filter="url(#c2-glow-soft)" opacity="0.6">
+    <line x1="20" y1="30" x2="35" y2="50" stroke="#F4B800" stroke-width="1.5"/>
+    <line x1="35" y1="50" x2="28" y2="65" stroke="#F4B800" stroke-width="1"/>
+    <line x1="170" y1="25" x2="158" y2="45" stroke="#7B2FFF" stroke-width="1.5"/>
+    <line x1="158" y1="45" x2="165" y2="60" stroke="#F4B800" stroke-width="1"/>
+    <line x1="15" y1="140" x2="28" y2="160" stroke="#7B2FFF" stroke-width="1"/>
+    <line x1="185" y1="120" x2="175" y2="145" stroke="#F4B800" stroke-width="1"/>
+    <circle cx="22" cy="68" r="1.5" fill="#F4B800"/>
+    <circle cx="168" cy="63" r="1.5" fill="#7B2FFF"/>
+    <circle cx="30" cy="155" r="1" fill="#F4B800"/>
+    <circle cx="178" cy="148" r="1" fill="#7B2FFF"/>
+  </g>
+  <path d="M83 240 L78 310 L88 312 L95 260" fill="#2a0e88" stroke="#1a0855" stroke-width="0.5"/>
+  <path d="M117 240 L122 310 L112 312 L105 260" fill="#2a0e88" stroke="#1a0855" stroke-width="0.5"/>
+  <ellipse cx="82" cy="278" rx="9" ry="7" fill="#00C9B1" stroke="#009988" stroke-width="1"/>
+  <ellipse cx="118" cy="278" rx="9" ry="7" fill="#00C9B1" stroke="#009988" stroke-width="1"/>
+  <path d="M75 308 Q78 320 90 322 L92 312 L80 310Z" fill="#1a0855"/>
+  <path d="M125 308 Q122 320 110 322 L108 312 L120 310Z" fill="#1a0855"/>
+  <path d="M73 145 Q72 175 75 210 Q85 218 100 220 Q115 218 125 210 Q128 175 127 145 Q113 138 100 137 Q87 138 73 145Z" fill="url(#c2-top-grad)"/>
+  <path d="M78 148 L80 215" stroke="#00C9B1" stroke-width="2.5"/>
+  <path d="M122 148 L120 215" stroke="#00C9B1" stroke-width="2.5"/>
+  <path d="M90 140 Q100 137 110 140" fill="none" stroke="#00C9B1" stroke-width="2"/>
+  <path d="M95 145 L95 195 Q100 200 105 195 L105 145" fill="#4a1aaa" opacity="0.5"/>
+  <rect x="74" y="205" width="52" height="8" rx="3" fill="#00C9B1"/>
+  <g transform="translate(55 195) rotate(-15)">
+    <path d="M5 0 Q0 12 5 25 Q15 30 25 25 Q30 12 25 0 Q15 -5 5 0Z" fill="#5a3008" stroke="#3a1a04" stroke-width="1"/>
+    <line x1="10" y1="0" x2="8" y2="24" stroke="#F4B800" stroke-width="1"/>
+    <line x1="15" y1="-4" x2="15" y2="28" stroke="#F4B800" stroke-width="1"/>
+    <line x1="20" y1="0" x2="22" y2="24" stroke="#F4B800" stroke-width="1"/>
+    <ellipse cx="15" cy="0" rx="11" ry="5" fill="#8a5520"/>
+    <ellipse cx="15" cy="25" rx="11" ry="5" fill="#8a5520"/>
+  </g>
+  <g transform="translate(120 60) rotate(20)">
+    <path d="M5 0 Q0 14 5 28 Q15 33 25 28 Q30 14 25 0 Q15 -5 5 0Z" fill="#5a3008" stroke="#3a1a04" stroke-width="1"/>
+    <line x1="10" y1="0" x2="8" y2="27" stroke="#F4B800" stroke-width="1"/>
+    <line x1="15" y1="-4" x2="15" y2="31" stroke="#F4B800" stroke-width="1"/>
+    <line x1="20" y1="0" x2="22" y2="27" stroke="#F4B800" stroke-width="1"/>
+    <ellipse cx="15" cy="0" rx="11" ry="5" fill="#8a5520"/>
+    <ellipse cx="15" cy="28" rx="11" ry="5" fill="#8a5520"/>
+    <g filter="url(#c2-glow-hard)">
+      <path d="M5 -5 Q-5 -20 -8 -40 Q-2 -35 0 -50 Q-5 -45 -6 -60" stroke="#ffffff" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M15 -6 Q10 -22 14 -42" stroke="#F4B800" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M25 -5 Q32 -20 35 -40 Q30 -35 32 -52" stroke="#7B2FFF" stroke-width="2" fill="none" stroke-linecap="round"/>
+    </g>
+  </g>
+  <rect x="93" y="120" width="14" height="20" rx="3" fill="url(#c2-skin)"/>
+  <ellipse cx="100" cy="108" rx="20" ry="23" fill="url(#c2-skin)"/>
+  <path d="M84 115 Q100 130 116 115" fill="#3a1a08" opacity="0.3"/>
+  <ellipse cx="87" cy="108" rx="5" ry="3" fill="#8B4513" opacity="0.4"/>
+  <ellipse cx="113" cy="108" rx="5" ry="3" fill="#8B4513" opacity="0.4"/>
+  <g filter="url(#c2-glow-soft)">
+    <path d="M87 105 Q92 101 97 105 Q92 110 87 105Z" fill="#7B2FFF"/>
+    <path d="M103 105 Q108 101 113 105 Q108 110 103 105Z" fill="#7B2FFF"/>
+    <ellipse cx="92" cy="105" rx="3" ry="3.5" fill="#1a0030"/>
+    <ellipse cx="108" cy="105" rx="3" ry="3.5" fill="#1a0030"/>
+    <circle cx="92.5" cy="104" r="1" fill="#7B2FFF" opacity="0.9"/>
+    <circle cx="108.5" cy="104" r="1" fill="#7B2FFF" opacity="0.9"/>
+    <path d="M86 101 Q92 98 97 102" fill="none" stroke="#3a1a08" stroke-width="2" stroke-linecap="round"/>
+    <path d="M103 102 Q108 98 114 101" fill="none" stroke="#3a1a08" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <path d="M97 113 Q100 117 103 113" fill="none" stroke="#3a1a08" stroke-width="1.5"/>
+  <path d="M93 121 Q100 125 107 121" fill="#2a0e06"/>
+  <path d="M94 121 Q100 119 106 121" fill="none" stroke="#5C2D0E" stroke-width="0.8"/>
+  <ellipse cx="100" cy="90" rx="26" ry="14" fill="url(#c2-gele-grad)"/>
+  <rect x="74" y="85" width="52" height="12" rx="3" fill="#5a1ecc"/>
+  <path d="M74 90 Q80 82 92 80 Q100 78 108 80 Q120 82 126 90" fill="#7B2FFF"/>
+  <path d="M76 86 Q88 76 100 74 Q112 76 124 86" fill="#6b25e0"/>
+  <path d="M80 80 Q90 68 100 66 Q110 68 120 80" fill="#7B2FFF"/>
+  <path d="M82 80 Q88 60 92 50 Q100 44 108 50 Q112 60 118 80" fill="url(#c2-gele-grad)"/>
+  <path d="M86 75 Q92 58 100 53 Q108 58 114 75" fill="#5a1ecc" opacity="0.7"/>
+  <path d="M88 70 Q94 55 100 52 Q106 55 112 70" fill="#7B2FFF" opacity="0.5"/>
+  <path d="M92 50 Q96 38 100 35 Q104 38 108 50" fill="#6b25e0"/>
+  <path d="M95 45 Q100 36 105 45" fill="#8a40ff"/>
+  <path d="M76 90 Q60 95 50 105 Q55 110 65 108 Q72 100 80 96Z" fill="url(#c2-gele-grad)" opacity="0.8"/>
+  <path d="M75 150 Q68 165 62 185 Q64 188 70 188" fill="none" stroke="url(#c2-skin-arm)" stroke-width="13" stroke-linecap="round"/>
+  <ellipse cx="65" cy="193" rx="8" ry="6" fill="url(#c2-skin-arm)"/>
+  <path d="M125 150 Q138 135 143 115 Q146 100 142 85" fill="none" stroke="url(#c2-skin-arm)" stroke-width="13" stroke-linecap="round"/>
+  <path d="M142 85 Q140 72 138 65" fill="none" stroke="url(#c2-skin-arm)" stroke-width="11" stroke-linecap="round"/>
+  <ellipse cx="138" cy="62" rx="8" ry="6" fill="url(#c2-skin-arm)"/>
+  <g filter="url(#c2-glow-hard)">
+    <path d="M138 62 Q125 45 130 28 Q138 15 128 5 Q120 -5 130 -15" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M142 60 Q155 40 148 22 Q142 8 152 0" fill="none" stroke="#F4B800" stroke-width="3" stroke-linecap="round"/>
+    <path d="M140 58 Q152 38 145 18 Q138 2 150 -8" fill="none" stroke="#7B2FFF" stroke-width="2" stroke-linecap="round"/>
+    <path d="M107 80 Q115 70 122 65" fill="none" stroke="#7B2FFF" stroke-width="2" stroke-linecap="round"/>
+    <path d="M110 78 Q120 68 125 62" fill="none" stroke="#F4B800" stroke-width="1.5" stroke-linecap="round"/>
+    <circle cx="140" cy="62" r="14" fill="url(#c2-lightning-core)" opacity="0.8"/>
+    <path d="M130 5 L118 -5 M130 5 L135 -8" stroke="#F4B800" stroke-width="2" fill="none"/>
+    <path d="M128 -15 L115 -22 M128 -15 L132 -25" stroke="#ffffff" stroke-width="1.5" fill="none"/>
+  </g>
+  <g filter="url(#c2-glow-soft)" opacity="0.8">
+    <circle cx="160" cy="40" r="2" fill="#F4B800"/>
+    <circle cx="175" cy="20" r="1.5" fill="#7B2FFF"/>
+    <circle cx="110" cy="15" r="2" fill="#ffffff"/>
+    <circle cx="95" cy="8" r="1.5" fill="#F4B800"/>
+    <circle cx="125" cy="25" r="1" fill="#7B2FFF"/>
+    <circle cx="155" cy="55" r="1.5" fill="#F4B800"/>
+    <circle cx="40" cy="90" r="1" fill="#7B2FFF"/>
+    <circle cx="28" cy="75" r="1.5" fill="#F4B800"/>
+  </g>
       </svg>
       <span class="char-orisha-badge badge-orisha">Ṣàngó's Chosen</span>
       <div class="char-info">
@@ -4386,26 +4779,155 @@
         </pattern>
         <rect x="0" y="0" width="200" height="320" fill="url(#ironPat)"/>
       </svg>
-      <svg class="char-silhouette" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="100" cy="140" rx="70" ry="130" fill="#FF6B1A" opacity="0.1"/>
-        <!-- Armored body -->
-        <ellipse cx="100" cy="55" rx="24" ry="28" fill="#2a2a2a" opacity="0.95"/>
-        <!-- Helmet with wolf motif -->
-        <path d="M76,35 Q100,15 124,35 L126,55 Q100,65 74,55 Z" fill="#3a3a3a" opacity="0.95"/>
-        <path d="M76,35 L66,20 L80,32 Z" fill="#1a1a1a" opacity="0.9"/>
-        <path d="M124,35 L134,20 L120,32 Z" fill="#1a1a1a" opacity="0.9"/>
-        <!-- Glowing eyes -->
-        <ellipse cx="88" cy="48" rx="5" ry="4" fill="#FF6B1A" opacity="0.9"/>
-        <ellipse cx="112" cy="48" rx="5" ry="4" fill="#FF6B1A" opacity="0.9"/>
-        <!-- Armored torso -->
-        <path d="M76,82 Q100,90 124,82 L132,185 Q100,200 68,185 Z" fill="#2a2a2a" opacity="0.95"/>
-        <!-- Adire-pattern iron plates -->
-        <path d="M80,95 L100,80 L120,95 L100,110 Z" fill="#FF6B1A" opacity="0.4"/>
-        <path d="M82,130 L100,115 L118,130 L100,145 Z" fill="#FF6B1A" opacity="0.3"/>
-        <!-- Clawed hands -->
-        <path d="M68,185 L50,160 L58,155 L42,130 L55,138 L70,115 L75,125 L90,108 L90,125 Q75,140 70,155 L82,185 Z" fill="#2a2a2a" opacity="0.9"/>
-        <rect x="85" y="183" width="14" height="85" rx="5" fill="#2a2a2a" opacity="0.9"/>
-        <rect x="101" y="183" width="14" height="85" rx="5" fill="#2a2a2a" opacity="0.9"/>
+      <svg class="char-silhouette" viewBox="0 0 200 340" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="c3-bg" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#1a0800"/>
+      <stop offset="100%" stop-color="#06060d"/>
+    </radialGradient>
+    <radialGradient id="c3-armor-main" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#555566"/>
+      <stop offset="50%" stop-color="#333344"/>
+      <stop offset="100%" stop-color="#1a1a22"/>
+    </radialGradient>
+    <radialGradient id="c3-armor-lit" cx="40%" cy="25%" r="55%">
+      <stop offset="0%" stop-color="#6a6a7a"/>
+      <stop offset="60%" stop-color="#444455"/>
+      <stop offset="100%" stop-color="#222230"/>
+    </radialGradient>
+    <radialGradient id="c3-fire-glow" cx="50%" cy="80%" r="60%">
+      <stop offset="0%" stop-color="#FF6B1A"/>
+      <stop offset="40%" stop-color="#FF6B1A" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#FF6B1A" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="c3-eye-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="40%" stop-color="#FF6B1A"/>
+      <stop offset="100%" stop-color="#FF6B1A" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="c3-fire-filter">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="c3-glow-soft">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="c3-glow-hard">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="c3-rune-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF6B1A" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#FF6B1A"/>
+      <stop offset="100%" stop-color="#FF6B1A" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="340" fill="url(#c3-bg)"/>
+  <ellipse cx="100" cy="260" rx="90" ry="70" fill="#FF6B1A" opacity="0.12" filter="url(#c3-fire-filter)"/>
+  <ellipse cx="100" cy="300" rx="70" ry="50" fill="#FF6B1A" opacity="0.2" filter="url(#c3-fire-filter)"/>
+  <g opacity="0.15" stroke="#FF6B1A" stroke-width="0.8" fill="none">
+    <path d="M10 200 L25 185 L40 200 L25 215Z"/>
+    <path d="M160 180 L175 165 L190 180 L175 195Z"/>
+    <path d="M5 130 L18 118 L30 130 L18 142Z"/>
+    <path d="M170 230 L182 218 L195 230 L182 242Z"/>
+    <line x1="15" y1="250" x2="45" y2="250"/>
+    <line x1="155" y1="270" x2="185" y2="270"/>
+    <circle cx="20" cy="300" r="8"/>
+    <circle cx="180" cy="300" r="8"/>
+  </g>
+  <g filter="url(#c3-glow-soft)" opacity="0.8">
+    <circle cx="25" cy="180" r="2" fill="#FF6B1A"/>
+    <circle cx="175" cy="200" r="1.5" fill="#FF6B1A"/>
+    <circle cx="35" cy="250" r="2.5" fill="#FF6B1A"/>
+    <circle cx="168" cy="240" r="2" fill="#FF6B1A"/>
+    <circle cx="15" cy="290" r="1.5" fill="#ffe0a0"/>
+    <circle cx="185" cy="280" r="2" fill="#FF6B1A"/>
+    <circle cx="50" cy="310" r="1.5" fill="#FF6B1A"/>
+    <circle cx="155" cy="315" r="1" fill="#ffe0a0"/>
+    <circle cx="40" cy="220" r="1" fill="#FF6B1A"/>
+    <circle cx="160" cy="160" r="1.5" fill="#FF6B1A"/>
+  </g>
+  <path d="M80 230 Q75 260 72 300" fill="none" stroke="#444455" stroke-width="22" stroke-linecap="round"/>
+  <path d="M120 230 Q125 260 128 300" fill="none" stroke="#444455" stroke-width="22" stroke-linecap="round"/>
+  <ellipse cx="76" cy="268" rx="13" ry="10" fill="#555566"/>
+  <ellipse cx="124" cy="268" rx="13" ry="10" fill="#555566"/>
+  <circle cx="76" cy="268" r="3" fill="#FF6B1A" filter="url(#c3-glow-soft)"/>
+  <circle cx="124" cy="268" r="3" fill="#FF6B1A" filter="url(#c3-glow-soft)"/>
+  <path d="M62 295 Q70 315 88 318 L90 300 L68 297Z" fill="#333344"/>
+  <path d="M138 295 Q130 315 112 318 L110 300 L132 297Z" fill="#333344"/>
+  <path d="M68 314 Q78 320 90 318" fill="none" stroke="#555566" stroke-width="3"/>
+  <path d="M112 318 Q122 320 132 314" fill="none" stroke="#555566" stroke-width="3"/>
+  <path d="M73 280 L80 285 L78 293 L72 288Z" fill="none" stroke="url(#c3-rune-grad)" stroke-width="1"/>
+  <path d="M127 280 L120 285 L122 293 L128 288Z" fill="none" stroke="url(#c3-rune-grad)" stroke-width="1"/>
+  <path d="M68 150 Q65 180 68 220 Q80 232 100 234 Q120 232 132 220 Q135 180 132 150 Q116 140 100 139 Q84 140 68 150Z" fill="url(#c3-armor-main)"/>
+  <path d="M75 152 Q72 185 76 215 Q88 225 100 226 Q112 225 124 215 Q128 185 125 152 Q112 144 100 143 Q88 144 75 152Z" fill="url(#c3-armor-lit)"/>
+  <path d="M95 170 L100 160 L105 170 L112 172 L107 180 L108 190 L100 185 L92 190 L93 180 L88 172Z" fill="none" stroke="#FF6B1A" stroke-width="1.5" filter="url(#c3-glow-soft)"/>
+  <ellipse cx="68" cy="152" rx="16" ry="12" fill="#444455"/>
+  <path d="M55 145 Q62 138 78 145 Q72 160 60 155Z" fill="#555566"/>
+  <ellipse cx="132" cy="152" rx="16" ry="12" fill="#444455"/>
+  <path d="M145 145 Q138 138 122 145 Q128 160 140 155Z" fill="#555566"/>
+  <path d="M78 152 L78 222" stroke="#666677" stroke-width="1" opacity="0.5"/>
+  <path d="M122 152 L122 222" stroke="#666677" stroke-width="1" opacity="0.5"/>
+  <path d="M78 185 Q100 188 122 185" stroke="#666677" stroke-width="1" opacity="0.5"/>
+  <path d="M68 150 Q65 180 68 220" fill="none" stroke="#FF6B1A" stroke-width="1" opacity="0.5" filter="url(#c3-glow-soft)"/>
+  <path d="M132 150 Q135 180 132 220" fill="none" stroke="#FF6B1A" stroke-width="1" opacity="0.5" filter="url(#c3-glow-soft)"/>
+  <rect x="90" y="125" width="20" height="22" rx="4" fill="#444455"/>
+  <rect x="92" y="126" width="16" height="10" rx="2" fill="#555566"/>
+  <path d="M70 105 Q70 75 100 68 Q130 75 130 105 Q125 125 100 130 Q75 125 70 105Z" fill="url(#c3-armor-main)"/>
+  <path d="M75 105 Q74 78 100 72 Q126 78 125 105" fill="url(#c3-armor-lit)"/>
+  <path d="M74 88 Q68 72 72 60 Q78 68 82 80Z" fill="#444455"/>
+  <path d="M75 86 Q70 73 73 63 Q78 70 81 80Z" fill="#555566"/>
+  <path d="M126 88 Q132 72 128 60 Q122 68 118 80Z" fill="#444455"/>
+  <path d="M125 86 Q130 73 127 63 Q122 70 119 80Z" fill="#555566"/>
+  <path d="M80 110 Q88 118 100 120 Q112 118 120 110 Q112 128 100 130 Q88 128 80 110Z" fill="#333344"/>
+  <path d="M78 102 Q100 98 122 102 Q118 112 100 114 Q82 112 78 102Z" fill="#1a1a08"/>
+  <g filter="url(#c3-glow-hard)">
+    <ellipse cx="89" cy="106" rx="7" ry="4.5" fill="url(#c3-eye-glow)"/>
+    <ellipse cx="111" cy="106" rx="7" ry="4.5" fill="url(#c3-eye-glow)"/>
+    <ellipse cx="89" cy="106" rx="4" ry="3" fill="#FF6B1A"/>
+    <ellipse cx="111" cy="106" rx="4" ry="3" fill="#FF6B1A"/>
+    <ellipse cx="89" cy="106" rx="2" ry="1.5" fill="#ffffff"/>
+    <ellipse cx="111" cy="106" rx="2" ry="1.5" fill="#ffffff"/>
+  </g>
+  <circle cx="80" cy="90" r="2" fill="#666677"/>
+  <circle cx="120" cy="90" r="2" fill="#666677"/>
+  <circle cx="100" cy="75" r="2.5" fill="#666677"/>
+  <path d="M95 82 L100 76 L105 82 L100 88Z" fill="none" stroke="#FF6B1A" stroke-width="1.5" filter="url(#c3-glow-soft)"/>
+  <path d="M70 155 Q52 162 42 178 Q40 192 42 200" fill="none" stroke="#444455" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="55" cy="172" r="10" fill="#555566"/>
+  <path d="M36 195 Q30 200 32 210 Q40 215 48 210 Q52 205 50 198Z" fill="#444455"/>
+  <g filter="url(#c3-glow-soft)">
+    <path d="M33 208 Q28 205 24 198" stroke="#888899" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <path d="M36 210 Q32 208 30 200" stroke="#888899" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <path d="M39 211 Q36 210 35 202" stroke="#888899" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <path d="M43 210 Q41 210 40 202" stroke="#888899" stroke-width="3" stroke-linecap="round" fill="none"/>
+  </g>
+  <path d="M38 198 L44 195 L48 200 L44 205 L38 202Z" fill="none" stroke="#FF6B1A" stroke-width="1" filter="url(#c3-glow-soft)" opacity="0.7"/>
+  <path d="M130 155 Q148 162 156 175 Q160 188 158 200" fill="none" stroke="#444455" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="147" cy="172" r="10" fill="#555566"/>
+  <path d="M152 196 Q158 200 160 210 Q152 218 144 212 Q140 205 142 198Z" fill="#444455"/>
+  <g filter="url(#c3-glow-soft)">
+    <path d="M163 207 Q168 204 172 197" stroke="#888899" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <path d="M161 210 Q166 208 168 200" stroke="#888899" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <path d="M158 211 Q162 210 163 202" stroke="#888899" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <path d="M155 210 Q158 210 158 202" stroke="#888899" stroke-width="3" stroke-linecap="round" fill="none"/>
+  </g>
+  <g filter="url(#c3-fire-filter)" opacity="0.6">
+    <path d="M68 150 Q55 145 58 135 Q65 142 68 150" fill="#FF6B1A"/>
+    <path d="M132 150 Q145 145 142 135 Q135 142 132 150" fill="#FF6B1A"/>
+    <path d="M74 222 Q68 235 72 250 Q80 240 76 228Z" fill="#FF6B1A"/>
+    <path d="M126 222 Q132 235 128 250 Q120 240 124 228Z" fill="#FF6B1A"/>
+    <path d="M100 234 Q95 248 100 262 Q105 248 100 234Z" fill="#FF6B1A"/>
+  </g>
+  <g filter="url(#c3-glow-soft)">
+    <rect x="15" y="160" width="14" height="5" rx="1" fill="#555566" transform="rotate(-30 15 160)"/>
+    <rect x="20" y="200" width="10" height="4" rx="1" fill="#444455" transform="rotate(15 20 200)"/>
+    <rect x="170" y="155" width="12" height="4" rx="1" fill="#555566" transform="rotate(25 170 155)"/>
+    <rect x="175" y="195" width="10" height="3" rx="1" fill="#444455" transform="rotate(-20 175 195)"/>
+    <rect x="10" y="240" width="16" height="4" rx="1" fill="#555566" transform="rotate(10 10 240)"/>
+    <rect x="178" y="240" width="14" height="4" rx="1" fill="#555566" transform="rotate(-15 178 240)"/>
+  </g>
       </svg>
       <span class="char-orisha-badge badge-orisha">Ògún's Iron</span>
       <div class="char-info">
@@ -4432,29 +4954,173 @@
         </pattern>
         <rect x="0" y="0" width="200" height="320" fill="url(#oraclePat)"/>
       </svg>
-      <svg class="char-silhouette" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="goldGlow" cx="50%" cy="40%" r="60%">
-            <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.3"/>
-            <stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
-          </radialGradient>
-        </defs>
-        <ellipse cx="100" cy="150" rx="65" ry="130" fill="url(#goldGlow)"/>
-        <ellipse cx="100" cy="65" rx="18" ry="22" fill="#D4AF37" opacity="0.85"/>
-        <!-- Agbada / robes -->
-        <path d="M82,85 Q100,92 118,85 L140,280 Q100,295 60,280 Z" fill="#1a1200" opacity="0.95"/>
-        <path d="M60,95 Q40,160 45,280 Q70,260 82,220 L82,85 Z" fill="#2d1a00" opacity="0.9"/>
-        <path d="M140,95 Q160,160 155,280 Q130,260 118,220 L118,85 Z" fill="#2d1a00" opacity="0.9"/>
-        <!-- Gold patterns on robe -->
-        <path d="M82,120 L100,105 L118,120 L100,135 Z" fill="#D4AF37" opacity="0.5"/>
-        <path d="M75,160 L100,140 L125,160 L100,180 Z" fill="#D4AF37" opacity="0.4"/>
-        <!-- Staff -->
-        <rect x="147" y="80" width="5" height="200" rx="2" fill="#D4AF37" opacity="0.7"/>
-        <circle cx="149" cy="75" r="10" fill="#D4AF37" opacity="0.8"/>
-        <!-- Orbital rings -->
-        <ellipse cx="149" cy="75" rx="20" ry="8" fill="none" stroke="#D4AF37" stroke-width="1" opacity="0.4"/>
-        <!-- White beard -->
-        <path d="M88,82 Q100,105 112,82" fill="#f0ede5" opacity="0.5"/>
+      <svg class="char-silhouette" viewBox="0 0 200 340" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="c4-bg" cx="50%" cy="50%" r="65%">
+      <stop offset="0%" stop-color="#1a1200"/>
+      <stop offset="100%" stop-color="#06060d"/>
+    </radialGradient>
+    <radialGradient id="c4-skin" cx="45%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#9a5010"/>
+      <stop offset="50%" stop-color="#6a3508"/>
+      <stop offset="100%" stop-color="#3a1a04"/>
+    </radialGradient>
+    <radialGradient id="c4-aura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F4B800" stop-opacity="0.15"/>
+      <stop offset="70%" stop-color="#F4B800" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#F4B800" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="c4-orb" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="30%" stop-color="#ffe080"/>
+      <stop offset="70%" stop-color="#F4B800"/>
+      <stop offset="100%" stop-color="#c08000"/>
+    </radialGradient>
+    <radialGradient id="c4-board-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffe8a0"/>
+      <stop offset="50%" stop-color="#F4B800" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#F4B800" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="c4-glow-soft">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="c4-glow-orb">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="c4-glow-aura">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="c4-agbada-main" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a1600"/>
+      <stop offset="50%" stop-color="#0e0e00"/>
+      <stop offset="100%" stop-color="#060606"/>
+    </linearGradient>
+    <linearGradient id="c4-agbada-trim" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F4B800" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#F4B800"/>
+      <stop offset="100%" stop-color="#F4B800" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="340" fill="url(#c4-bg)"/>
+  <g opacity="0.08" stroke="#F4B800" stroke-width="0.6" fill="none">
+    <circle cx="100" cy="170" r="80"/>
+    <circle cx="100" cy="170" r="60"/>
+    <circle cx="100" cy="170" r="40"/>
+    <line x1="20" y1="170" x2="180" y2="170"/>
+    <line x1="100" y1="90" x2="100" y2="250"/>
+    <line x1="43" y1="113" x2="157" y2="227"/>
+    <line x1="157" y1="113" x2="43" y2="227"/>
+    <path d="M60 110 L100 90 L140 110 L140 130 L100 150 L60 130Z"/>
+    <path d="M65 210 L100 190 L135 210 L135 230 L100 250 L65 230Z"/>
+  </g>
+  <ellipse cx="100" cy="200" rx="85" ry="130" fill="url(#c4-aura)" filter="url(#c4-glow-aura)"/>
+  <g filter="url(#c4-glow-soft)" opacity="0.7">
+    <circle cx="25" cy="100" r="6" fill="none" stroke="#F4B800" stroke-width="1.5"/>
+    <line x1="19" y1="100" x2="31" y2="100" stroke="#F4B800" stroke-width="1.5"/>
+    <line x1="25" y1="94" x2="25" y2="106" stroke="#F4B800" stroke-width="1.5"/>
+    <path d="M168 88 L178 78 L188 88 L178 98Z" fill="none" stroke="#F4B800" stroke-width="1.5"/>
+    <circle cx="178" cy="88" r="3" fill="#F4B800"/>
+    <rect x="12" y="180" width="14" height="14" rx="2" fill="none" stroke="#F4B800" stroke-width="1.5"/>
+    <rect x="16" y="184" width="6" height="6" fill="#F4B800" opacity="0.6"/>
+    <circle cx="182" cy="185" r="8" fill="none" stroke="#F4B800" stroke-width="1.5"/>
+    <path d="M176 185 L188 185 M182 179 L182 191" stroke="#F4B800" stroke-width="1.5"/>
+    <path d="M18 255 L26 248 L34 255 L26 262Z" fill="none" stroke="#F4B800" stroke-width="1.5"/>
+    <path d="M170 265 L185 265 M170 272 L185 272 M177 258 L177 279" stroke="#F4B800" stroke-width="1.5"/>
+  </g>
+  <path d="M138 50 Q136 170 135 310" fill="none" stroke="#5a3008" stroke-width="7" stroke-linecap="round"/>
+  <path d="M138 50 Q137 170 136 310" fill="none" stroke="#8a5020" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+  <line x1="133" y1="100" x2="140" y2="100" stroke="#F4B800" stroke-width="1" opacity="0.5"/>
+  <line x1="133" y1="130" x2="140" y2="130" stroke="#F4B800" stroke-width="1" opacity="0.5"/>
+  <line x1="133" y1="160" x2="140" y2="160" stroke="#F4B800" stroke-width="1" opacity="0.5"/>
+  <line x1="133" y1="190" x2="140" y2="190" stroke="#F4B800" stroke-width="1" opacity="0.5"/>
+  <line x1="133" y1="220" x2="140" y2="220" stroke="#F4B800" stroke-width="1" opacity="0.5"/>
+  <circle cx="138" cy="48" r="14" fill="url(#c4-orb)" filter="url(#c4-glow-orb)"/>
+  <circle cx="138" cy="48" r="10" fill="#F4B800" filter="url(#c4-glow-soft)"/>
+  <circle cx="136" cy="45" r="3" fill="#ffffff" opacity="0.8"/>
+  <ellipse cx="138" cy="48" rx="20" ry="6" fill="none" stroke="#F4B800" stroke-width="1.5" opacity="0.6" filter="url(#c4-glow-soft)"/>
+  <ellipse cx="138" cy="48" rx="6" ry="20" fill="none" stroke="#F4B800" stroke-width="1.5" opacity="0.6" filter="url(#c4-glow-soft)" transform="rotate(45 138 48)"/>
+  <ellipse cx="138" cy="48" rx="6" ry="20" fill="none" stroke="#F4B800" stroke-width="1" opacity="0.4" filter="url(#c4-glow-soft)" transform="rotate(-45 138 48)"/>
+  <ellipse cx="136" cy="316" rx="12" ry="4" fill="#F4B800" opacity="0.3" filter="url(#c4-glow-soft)"/>
+  <path d="M55 145 Q40 200 38 310 Q65 315 100 315 Q135 315 162 310 Q160 200 145 145 Q125 132 100 130 Q75 132 55 145Z" fill="url(#c4-agbada-main)"/>
+  <path d="M55 150 Q40 205 38 310" fill="none" stroke="url(#c4-agbada-trim)" stroke-width="2.5"/>
+  <path d="M145 150 Q160 205 162 310" fill="none" stroke="url(#c4-agbada-trim)" stroke-width="2.5"/>
+  <path d="M38 310 Q100 320 162 310" fill="none" stroke="#F4B800" stroke-width="2" opacity="0.6"/>
+  <path d="M72 180 Q100 178 128 180" fill="none" stroke="#F4B800" stroke-width="1" opacity="0.3"/>
+  <path d="M68 210 Q100 208 132 210" fill="none" stroke="#F4B800" stroke-width="1" opacity="0.3"/>
+  <path d="M66 240 Q100 238 134 240" fill="none" stroke="#F4B800" stroke-width="1" opacity="0.3"/>
+  <path d="M82 145 Q80 200 82 290 Q100 298 118 290 Q120 200 118 145 Q110 140 100 140 Q90 140 82 145Z" fill="#0e0e18"/>
+  <path d="M78 145 Q76 172 78 200 Q88 210 100 212 Q112 210 122 200 Q124 172 122 145 Q112 136 100 135 Q88 136 78 145Z" fill="#0a0a15"/>
+  <path d="M82 148 Q100 140 118 148" fill="none" stroke="#F4B800" stroke-width="2.5"/>
+  <path d="M97 150 L97 200 M103 150 L103 200" fill="none" stroke="#F4B800" stroke-width="0.7" opacity="0.4"/>
+  <path d="M82 165 Q100 163 118 165" fill="none" stroke="#F4B800" stroke-width="0.7" opacity="0.4"/>
+  <path d="M82 182 Q100 180 118 182" fill="none" stroke="#F4B800" stroke-width="0.7" opacity="0.4"/>
+  <rect x="92" y="118" width="16" height="20" rx="3" fill="url(#c4-skin)"/>
+  <ellipse cx="100" cy="103" rx="21" ry="24" fill="url(#c4-skin)"/>
+  <path d="M84 100 Q88 97 93 100" fill="none" stroke="#3a1a04" stroke-width="1" opacity="0.7"/>
+  <path d="M107 100 Q112 97 116 100" fill="none" stroke="#3a1a04" stroke-width="1" opacity="0.7"/>
+  <path d="M88 110 Q100 108 112 110" fill="none" stroke="#3a1a04" stroke-width="0.8" opacity="0.6"/>
+  <path d="M86 92 Q94 88 100 90 Q106 88 114 92" fill="none" stroke="#3a1a04" stroke-width="1" opacity="0.5"/>
+  <path d="M88 87 Q100 85 112 87" fill="none" stroke="#3a1a04" stroke-width="0.7" opacity="0.6"/>
+  <path d="M90 82 Q100 80 110 82" fill="none" stroke="#3a1a04" stroke-width="0.7" opacity="0.5"/>
+  <path d="M84 105 Q82 112 85 118" fill="none" stroke="#3a1a04" stroke-width="0.8" opacity="0.5"/>
+  <path d="M116 105 Q118 112 115 118" fill="none" stroke="#3a1a04" stroke-width="0.8" opacity="0.5"/>
+  <g filter="url(#c4-glow-soft)">
+    <path d="M87 100 Q93 96 99 100 Q93 105 87 100Z" fill="#F4B800"/>
+    <path d="M101 100 Q107 96 113 100 Q107 105 101 100Z" fill="#F4B800"/>
+    <ellipse cx="93" cy="100" rx="3" ry="3" fill="#1a0800"/>
+    <ellipse cx="107" cy="100" rx="3" ry="3" fill="#1a0800"/>
+    <circle cx="93.5" cy="99" r="1" fill="#F4B800" opacity="0.9"/>
+    <circle cx="107.5" cy="99" r="1" fill="#F4B800" opacity="0.9"/>
+  </g>
+  <path d="M86 95 Q93 91 99 95" fill="#8a8070" stroke="#6a6050" stroke-width="0.5"/>
+  <path d="M101 95 Q107 91 114 95" fill="#8a8070" stroke="#6a6050" stroke-width="0.5"/>
+  <path d="M96 108 Q100 113 104 108" fill="none" stroke="#3a1a04" stroke-width="1.5"/>
+  <ellipse cx="94" cy="110" rx="4" ry="2.5" fill="#5C2D0E" opacity="0.5"/>
+  <ellipse cx="106" cy="110" rx="4" ry="2.5" fill="#5C2D0E" opacity="0.5"/>
+  <path d="M91 118 Q100 123 109 118" fill="#2a0e06"/>
+  <path d="M92 118 Q100 122 108 118" fill="none" stroke="#5C2D0E" stroke-width="1"/>
+  <path d="M82 120 Q78 135 76 155 Q80 175 88 185 Q100 192 112 185 Q120 175 124 155 Q122 135 118 120 Q108 116 100 115 Q92 116 82 120Z" fill="#e8e4d8"/>
+  <path d="M88 125 Q85 145 86 165" fill="none" stroke="#c8c4b8" stroke-width="1"/>
+  <path d="M93 122 Q91 148 93 172" fill="none" stroke="#c8c4b8" stroke-width="1"/>
+  <path d="M100 122 Q100 150 100 178" fill="none" stroke="#c8c4b8" stroke-width="1"/>
+  <path d="M107 122 Q109 148 107 172" fill="none" stroke="#c8c4b8" stroke-width="1"/>
+  <path d="M112 125 Q115 145 114 165" fill="none" stroke="#c8c4b8" stroke-width="1"/>
+  <path d="M85 150 Q100 185 112 175" fill="none" stroke="#c8c4b8" stroke-width="1" opacity="0.6"/>
+  <path d="M88 185 Q100 198 112 185" fill="#d8d4c8" opacity="0.7"/>
+  <path d="M88 120 Q100 117 112 120 Q108 126 100 124 Q92 126 88 120Z" fill="#e0dcd0"/>
+  <path d="M78 78 Q80 86 100 88 Q120 86 122 78 Q115 72 100 70 Q85 72 78 78Z" fill="#1a1600"/>
+  <path d="M80 78 Q76 65 78 52 Q88 44 100 43 Q112 44 122 52 Q124 65 120 78" fill="#1a1600"/>
+  <path d="M82 75 Q80 60 82 48 Q90 42 100 41 Q110 42 118 48 Q120 60 118 75" fill="#2a2200"/>
+  <path d="M82 78 Q100 75 118 78" fill="none" stroke="#F4B800" stroke-width="2"/>
+  <path d="M83 68 Q100 65 117 68" fill="none" stroke="#F4B800" stroke-width="1.5"/>
+  <path d="M86 58 Q100 55 114 58" fill="none" stroke="#F4B800" stroke-width="1.2"/>
+  <path d="M94 50 L100 44 L106 50 L100 56Z" fill="none" stroke="#F4B800" stroke-width="1.5" filter="url(#c4-glow-soft)"/>
+  <path d="M96 43 Q100 36 104 43" fill="#2a2200"/>
+  <path d="M97 42 Q100 36 103 42" fill="none" stroke="#F4B800" stroke-width="1.5"/>
+  <path d="M78 145 Q64 155 58 168 Q55 180 57 192" fill="none" stroke="#1a1600" stroke-width="18" stroke-linecap="round"/>
+  <path d="M78 145 Q65 158 60 172 Q58 183 60 194" fill="none" stroke="#0e0e18" stroke-width="12" stroke-linecap="round"/>
+  <ellipse cx="60" cy="196" rx="9" ry="6" fill="url(#c4-skin)"/>
+  <path d="M122 145 Q132 155 135 170 Q136 185 136 200" fill="none" stroke="#1a1600" stroke-width="18" stroke-linecap="round"/>
+  <path d="M122 145 Q131 158 134 173 Q135 188 135 200" fill="none" stroke="#0e0e18" stroke-width="12" stroke-linecap="round"/>
+  <ellipse cx="135" cy="202" rx="9" ry="6" fill="url(#c4-skin)"/>
+  <g transform="translate(40 165) rotate(-5)" filter="url(#c4-glow-orb)">
+    <rect x="0" y="0" width="40" height="32" rx="5" fill="#3a2008"/>
+    <rect x="0" y="0" width="40" height="32" rx="5" fill="url(#c4-board-glow)" opacity="0.7"/>
+    <rect x="2" y="2" width="36" height="28" rx="3" fill="none" stroke="#F4B800" stroke-width="1.5"/>
+    <line x1="8" y1="8" x2="8" y2="24" stroke="#F4B800" stroke-width="1.5"/>
+    <line x1="8" y1="10" x2="14" y2="10" stroke="#F4B800" stroke-width="1.5"/>
+    <line x1="8" y1="16" x2="14" y2="16" stroke="#F4B800" stroke-width="1.5"/>
+    <line x1="8" y1="22" x2="14" y2="22" stroke="#F4B800" stroke-width="1.5"/>
+    <circle cx="27" cy="16" r="6" fill="none" stroke="#F4B800" stroke-width="1.5"/>
+    <circle cx="27" cy="16" r="3" fill="#F4B800" opacity="0.6"/>
+    <ellipse cx="20" cy="5" rx="5" ry="3.5" fill="#5a3008"/>
+    <circle cx="18" cy="5" r="1" fill="#F4B800" opacity="0.8"/>
+    <circle cx="22" cy="5" r="1" fill="#F4B800" opacity="0.8"/>
+    <rect x="-3" y="-3" width="46" height="38" rx="8" fill="none" stroke="#F4B800" stroke-width="1" opacity="0.3"/>
+  </g>
       </svg>
       <span class="char-orisha-badge badge-vessel">The Keeper</span>
       <div class="char-info">
@@ -4472,6 +5138,509 @@
   </div>
 </section>
 
+<!-- ============================================================ COMIC PANELS — SEQUENTIAL ART -->
+<section id="panels" class="panels-section">
+  <div class="panels-header">
+    <p class="section-label reveal" style="justify-content:center">Sequential Art</p>
+    <div class="panels-title reveal">Issue #01 — The Bridge Scene</div>
+    <p class="panels-subtitle reveal">Pages 14–17. Bayo sees the tear for the first time.</p>
+  </div>
+
+  <div class="panels-grid">
+
+    <!-- PANEL 1: Establishing shot — Third Mainland Bridge at night -->
+    <div class="comic-panel panel-wide reveal">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 380" class="panel-svg">
+        <defs>
+          <radialGradient id="p1-sky" cx="50%" cy="0%" r="80%">
+            <stop offset="0%" stop-color="#1A1030"/>
+            <stop offset="60%" stop-color="#0A0818"/>
+            <stop offset="100%" stop-color="#04030C"/>
+          </radialGradient>
+          <radialGradient id="p1-moon" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#F0E8C0"/>
+            <stop offset="70%" stop-color="#D4C880"/>
+            <stop offset="100%" stop-color="#B0A060" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="p1-lagoon" cx="50%" cy="0%" r="100%">
+            <stop offset="0%" stop-color="#0A1A2E"/>
+            <stop offset="100%" stop-color="#03080F"/>
+          </radialGradient>
+          <filter id="p1-stars">
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" result="noise"/>
+            <feColorMatrix type="matrix" values="0 0 0 0 0.8  0 0 0 0 0.8  0 0 0 0 1  0 0 0 60 -55" in="noise" result="stars"/>
+            <feComposite in="stars" in2="SourceGraphic" operator="over"/>
+          </filter>
+          <filter id="p1-glow">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <linearGradient id="p1-water-reflect" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#1E3A5F" stop-opacity="0.6"/>
+            <stop offset="100%" stop-color="#03080F" stop-opacity="0.9"/>
+          </linearGradient>
+        </defs>
+        <!-- Night sky -->
+        <rect width="800" height="380" fill="url(#p1-sky)"/>
+        <!-- Stars scattered -->
+        <g fill="#E8E0C0" opacity="0.7">
+          <circle cx="45" cy="22" r="1"/><circle cx="120" cy="8" r="1.2"/><circle cx="200" cy="35" r="0.8"/>
+          <circle cx="310" cy="12" r="1"/><circle cx="420" cy="28" r="1.3"/><circle cx="530" cy="15" r="0.9"/>
+          <circle cx="650" cy="40" r="1.1"/><circle cx="740" cy="18" r="0.8"/><circle cx="780" cy="55" r="1"/>
+          <circle cx="80" cy="60" r="0.7"/><circle cx="180" cy="70" r="1"/><circle cx="350" cy="50" r="0.8"/>
+          <circle cx="470" cy="65" r="1.2"/><circle cx="600" cy="45" r="0.9"/><circle cx="720" cy="75" r="1"/>
+          <circle cx="25" cy="90" r="0.8"/><circle cx="240" cy="85" r="0.7"/><circle cx="560" cy="80" r="1.1"/>
+          <circle cx="690" cy="95" r="0.8"/><circle cx="760" cy="88" r="0.9"/>
+        </g>
+        <!-- Moon -->
+        <circle cx="680" cy="55" r="28" fill="url(#p1-moon)" opacity="0.9"/>
+        <circle cx="680" cy="55" r="32" fill="#D4C880" opacity="0.08" filter="url(#p1-glow)"/>
+        <!-- Distant Lagos skyline silhouette -->
+        <g fill="#0E0C1E">
+          <!-- Left buildings -->
+          <rect x="0" y="200" width="20" height="80"/>
+          <rect x="5" y="185" width="12" height="95"/>
+          <rect x="22" y="195" width="18" height="85"/>
+          <rect x="45" y="175" width="22" height="105"/>
+          <rect x="50" y="160" width="8" height="120"/>
+          <rect x="72" y="188" width="16" height="92"/>
+          <rect x="92" y="178" width="24" height="102"/>
+          <rect x="100" y="165" width="6" height="115"/>
+          <rect x="120" y="192" width="18" height="88"/>
+          <rect x="142" y="200" width="20" height="80"/>
+          <!-- Center-left -->
+          <rect x="165" y="182" width="15" height="98"/>
+          <rect x="183" y="170" width="30" height="110"/>
+          <rect x="195" y="155" width="8" height="125"/>
+          <rect x="218" y="190" width="22" height="90"/>
+          <!-- Center right -->
+          <rect x="560" y="195" width="22" height="85"/>
+          <rect x="586" y="178" width="18" height="102"/>
+          <rect x="608" y="165" width="28" height="115"/>
+          <rect x="618" y="148" width="8" height="132"/>
+          <rect x="640" y="188" width="20" height="92"/>
+          <rect x="664" y="172" width="24" height="108"/>
+          <rect x="692" y="190" width="16" height="90"/>
+          <rect x="712" y="180" width="22" height="100"/>
+          <rect x="738" y="192" width="18" height="88"/>
+          <rect x="760" y="178" width="25" height="102"/>
+          <rect x="778" y="195" width="22" height="85"/>
+        </g>
+        <!-- Building lights (tiny dots) -->
+        <g fill="#F4B800" opacity="0.5">
+          <circle cx="55" cy="170" r="1"/><circle cx="75" cy="190" r="1"/><circle cx="95" cy="180" r="1"/>
+          <circle cx="125" cy="195" r="1"/><circle cx="188" cy="175" r="1"/><circle cx="200" cy="162" r="1"/>
+          <circle cx="620" cy="155" r="1"/><circle cx="640" cy="192" r="1"/><circle cx="670" cy="178" r="1"/>
+          <circle cx="715" cy="188" r="1"/><circle cx="745" cy="185" r="1"/>
+        </g>
+        <!-- Lagos lagoon -->
+        <rect x="0" y="280" width="800" height="100" fill="url(#p1-lagoon)"/>
+        <!-- Water ripples -->
+        <g stroke="#1E3A5F" stroke-width="0.5" fill="none" opacity="0.4">
+          <path d="M50,295 Q100,290 150,295"/><path d="M200,302 Q260,297 310,302"/>
+          <path d="M380,298 Q440,293 490,298"/><path d="M550,305 Q610,300 660,305"/>
+          <path d="M700,298 Q750,293 800,298"/>
+          <path d="M20,315 Q80,310 130,315"/><path d="M250,320 Q320,315 380,320"/>
+          <path d="M450,312 Q520,307 580,312"/><path d="M630,320 Q700,315 760,320"/>
+        </g>
+        <!-- Moon reflection in water -->
+        <ellipse cx="680" cy="310" rx="18" ry="8" fill="#D4C880" opacity="0.15"/>
+        <!-- Third Mainland Bridge structure -->
+        <!-- Bridge deck -->
+        <rect x="0" y="255" width="800" height="12" fill="#1A1428"/>
+        <rect x="0" y="265" width="800" height="5" fill="#120F1E"/>
+        <!-- Bridge pylons/towers -->
+        <g fill="#141020" stroke="#1E1830" stroke-width="0.5">
+          <!-- Left tower -->
+          <rect x="155" y="155" width="14" height="100"/>
+          <polygon points="155,155 162,135 169,155" fill="#141020"/>
+          <!-- Center-left tower -->
+          <rect x="295" y="145" width="14" height="110"/>
+          <polygon points="295,145 302,125 309,145" fill="#141020"/>
+          <!-- Center tower -->
+          <rect x="385" y="140" width="14" height="115"/>
+          <polygon points="385,140 392,118 399,140" fill="#141020"/>
+          <!-- Center-right tower -->
+          <rect x="490" y="148" width="14" height="107"/>
+          <polygon points="490,148 497,126 504,148" fill="#141020"/>
+          <!-- Right tower -->
+          <rect x="618" y="158" width="14" height="97"/>
+          <polygon points="618,158 625,138 632,158" fill="#141020"/>
+        </g>
+        <!-- Bridge cables -->
+        <g stroke="#1E1830" stroke-width="0.8" fill="none" opacity="0.7">
+          <line x1="162" y1="135" x2="80" y2="255"/><line x1="162" y1="135" x2="230" y2="255"/>
+          <line x1="302" y1="125" x2="230" y2="255"/><line x1="302" y1="125" x2="380" y2="255"/>
+          <line x1="392" y1="118" x2="310" y2="255"/><line x1="392" y1="118" x2="470" y2="255"/>
+          <line x1="497" y1="126" x2="400" y2="255"/><line x1="497" y1="126" x2="570" y2="255"/>
+          <line x1="625" y1="138" x2="560" y2="255"/><line x1="625" y1="138" x2="700" y2="255"/>
+        </g>
+        <!-- Street lights on bridge -->
+        <g fill="#F4B800" opacity="0.6">
+          <circle cx="100" cy="253" r="2"/><circle cx="180" cy="252" r="2"/><circle cx="260" cy="252" r="2"/>
+          <circle cx="340" cy="251" r="2"/><circle cx="420" cy="251" r="2"/><circle cx="500" cy="252" r="2"/>
+          <circle cx="580" cy="252" r="2"/><circle cx="660" cy="253" r="2"/><circle cx="730" cy="253" r="2"/>
+        </g>
+        <!-- Bayo tiny lone figure on bridge -->
+        <g transform="translate(390,238)" fill="#C4874A">
+          <ellipse cx="0" cy="-8" rx="3" ry="3.5"/>
+          <rect x="-2.5" y="-4" width="5" height="9" rx="1"/>
+          <line x1="-2.5" y1="-2" x2="-6" y2="3" stroke="#C4874A" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="2.5" y1="-2" x2="6" y2="3" stroke="#C4874A" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="-1" y1="5" x2="-2" y2="12" stroke="#C4874A" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="1" y1="5" x2="2" y2="12" stroke="#C4874A" stroke-width="1.5" stroke-linecap="round"/>
+        </g>
+        <!-- Panel border -->
+        <rect width="800" height="380" fill="none" stroke="#F4B800" stroke-width="3"/>
+        <!-- Caption box -->
+        <rect x="0" y="0" width="220" height="28" fill="#0A0818" opacity="0.9"/>
+        <text x="10" y="19" font-size="11" fill="#F4B800" font-family="monospace" letter-spacing="1">THIRD MAINLAND BRIDGE · 2:14 AM</text>
+      </svg>
+      <div class="panel-caption">Panel 1 — The city never sleeps, but tonight something is watching back.</div>
+    </div>
+
+    <!-- PANEL 2: Close-up — Bayo sees the tear appear -->
+    <div class="comic-panel panel-tall reveal reveal-delay-1">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 520" class="panel-svg">
+        <defs>
+          <radialGradient id="p2-eye" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#F4B800"/>
+            <stop offset="40%" stop-color="#8B4513"/>
+            <stop offset="100%" stop-color="#1A0800"/>
+          </radialGradient>
+          <radialGradient id="p2-tear-glow" cx="50%" cy="50%" r="60%">
+            <stop offset="0%" stop-color="#7B2FFF" stop-opacity="0.9"/>
+            <stop offset="50%" stop-color="#5020C0" stop-opacity="0.5"/>
+            <stop offset="100%" stop-color="#7B2FFF" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="p2-blur">
+            <feGaussianBlur stdDeviation="3"/>
+          </filter>
+          <filter id="p2-glow">
+            <feGaussianBlur stdDeviation="5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <linearGradient id="p2-skin" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#C4874A"/>
+            <stop offset="50%" stop-color="#A0622A"/>
+            <stop offset="100%" stop-color="#7A4018"/>
+          </linearGradient>
+        </defs>
+        <!-- Dark background — night -->
+        <rect width="380" height="520" fill="#07060F"/>
+        <!-- Extreme close-up: Bayo's face -->
+        <!-- Neck and collar -->
+        <path d="M80,520 Q80,420 130,380 Q150,370 190,370 Q230,370 250,380 Q300,420 300,520 Z" fill="url(#p2-skin)"/>
+        <!-- Shirt/collar detail -->
+        <path d="M140,390 L165,450 L190,390" fill="#1A1A1A" stroke="#2A2A2A" stroke-width="1"/>
+        <path d="M240,390 L215,450 L190,390" fill="#1A1A1A" stroke="#2A2A2A" stroke-width="1"/>
+        <!-- Face shape -->
+        <path d="M100,250 Q95,150 190,120 Q285,150 280,250 Q285,330 240,365 Q215,380 190,382 Q165,380 140,365 Q95,330 100,250 Z" fill="url(#p2-skin)"/>
+        <!-- Shadow on face (right side in darkness) -->
+        <path d="M240,160 Q275,195 275,255 Q278,310 250,355 Q240,370 230,375 Q260,350 268,295 Q272,245 255,195 Z" fill="#5C2D0E" opacity="0.6"/>
+        <!-- Forehead shadow -->
+        <path d="M130,120 Q160,112 190,110 Q160,130 130,145 Z" fill="#3a1a08" opacity="0.4"/>
+        <!-- Ear left -->
+        <ellipse cx="100" cy="235" rx="12" ry="18" fill="#A0622A"/>
+        <!-- Ear right -->
+        <ellipse cx="280" cy="235" rx="12" ry="18" fill="#8B4513"/>
+        <!-- Hair — short natural -->
+        <path d="M110,165 Q120,120 190,110 Q260,120 270,165 Q265,140 250,130 Q220,115 190,112 Q160,115 130,130 Q115,140 110,165 Z" fill="#0A0806"/>
+        <path d="M108,170 Q115,135 145,120 Q170,112 190,110 Q215,112 240,120 Q268,140 272,170 Q268,150 250,138 Q225,125 190,122 Q158,125 132,138 Q115,152 108,170 Z" fill="#080604"/>
+        <!-- Eyebrows -->
+        <path d="M120,195 Q150,188 172,190" stroke="#0A0806" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M208,190 Q230,188 258,196" stroke="#0A0806" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <!-- Eyes — wide open in shock, reflecting the tear glow -->
+        <!-- Left eye -->
+        <ellipse cx="148" cy="220" rx="22" ry="16" fill="#1A0800"/>
+        <ellipse cx="148" cy="220" rx="15" ry="12" fill="url(#p2-eye)"/>
+        <ellipse cx="148" cy="220" rx="8" ry="8" fill="#0A0400"/>
+        <!-- Tear reflection in left eye -->
+        <ellipse cx="148" cy="218" rx="6" ry="5" fill="#7B2FFF" opacity="0.6" filter="url(#p2-glow)"/>
+        <ellipse cx="152" cy="214" rx="3" ry="2" fill="#C0A0FF" opacity="0.8"/>
+        <!-- Right eye -->
+        <ellipse cx="232" cy="220" rx="22" ry="16" fill="#1A0800"/>
+        <ellipse cx="232" cy="220" rx="15" ry="12" fill="url(#p2-eye)"/>
+        <ellipse cx="232" cy="220" rx="8" ry="8" fill="#0A0400"/>
+        <!-- Tear reflection in right eye -->
+        <ellipse cx="232" cy="218" rx="6" ry="5" fill="#7B2FFF" opacity="0.6" filter="url(#p2-glow)"/>
+        <ellipse cx="236" cy="214" rx="3" ry="2" fill="#C0A0FF" opacity="0.8"/>
+        <!-- Eye whites -->
+        <path d="M128,215 Q135,210 148,212" stroke="#E8D8B0" stroke-width="2" fill="none"/>
+        <path d="M168,212 Q175,208 170,215" stroke="#E8D8B0" stroke-width="2" fill="none"/>
+        <path d="M212,212 Q218,208 232,212" stroke="#E8D8B0" stroke-width="2" fill="none"/>
+        <path d="M252,215 Q258,210 252,215" stroke="#E8D8B0" stroke-width="2" fill="none"/>
+        <!-- Nose -->
+        <path d="M175,240 Q172,265 168,275 Q180,282 190,282 Q200,282 212,275 Q208,265 205,240" fill="none" stroke="#7A4018" stroke-width="2"/>
+        <ellipse cx="174" cy="272" rx="8" ry="5" fill="#7A4018" opacity="0.6"/>
+        <ellipse cx="206" cy="272" rx="8" ry="5" fill="#7A4018" opacity="0.6"/>
+        <!-- Mouth open slightly — shock -->
+        <path d="M155,308 Q175,315 190,315 Q205,315 225,308" stroke="#5C2D0E" stroke-width="2.5" fill="none"/>
+        <path d="M160,310 Q190,320 220,310 Q210,330 190,333 Q170,330 160,310 Z" fill="#1A0800" opacity="0.8"/>
+        <!-- Tears beginning to form at eyes -->
+        <path d="M130,228 Q125,240 122,258" stroke="#9090C0" stroke-width="1.5" fill="none" opacity="0.7"/>
+        <!-- Purple tear glow light hitting face from above right -->
+        <ellipse cx="320" cy="80" rx="200" ry="150" fill="url(#p2-tear-glow)" opacity="0.35"/>
+        <!-- The Ọ̀run tear — visible top-right corner, just coming into frame -->
+        <g transform="translate(250,0)">
+          <polygon points="30,10 80,60 50,140 20,80 -10,130 10,50 -20,20 15,30" fill="#7B2FFF" opacity="0.85" filter="url(#p2-glow)"/>
+          <polygon points="30,10 80,60 50,140 20,80 -10,130 10,50 -20,20 15,30" fill="none" stroke="#C0A0FF" stroke-width="1.5"/>
+          <!-- Stars visible through tear -->
+          <circle cx="45" cy="50" r="1.5" fill="white" opacity="0.9"/>
+          <circle cx="25" cy="80" r="1" fill="white" opacity="0.8"/>
+          <circle cx="60" cy="100" r="1.2" fill="white" opacity="0.7"/>
+        </g>
+        <!-- Panel border -->
+        <rect width="380" height="520" fill="none" stroke="#F4B800" stroke-width="3"/>
+        <!-- Caption -->
+        <rect x="0" y="492" width="380" height="28" fill="#07060F" opacity="0.9"/>
+        <text x="10" y="511" font-size="10" fill="#F4B800" font-family="monospace" letter-spacing="1">Something just opened in the sky.</text>
+      </svg>
+      <div class="panel-caption">Panel 2 — Bayo's eyes reflect what no one else can see yet.</div>
+    </div>
+
+    <!-- PANEL 3: The tear opens fully — dramatic wide shot -->
+    <div class="comic-panel panel-medium reveal reveal-delay-2">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 420" class="panel-svg">
+        <defs>
+          <radialGradient id="p3-tear-core" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#E0D0FF"/>
+            <stop offset="30%" stop-color="#9B6FFF"/>
+            <stop offset="65%" stop-color="#5B2FBF"/>
+            <stop offset="100%" stop-color="#7B2FFF" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="p3-outer-glow" cx="50%" cy="50%" r="60%">
+            <stop offset="0%" stop-color="#7B2FFF" stop-opacity="0.6"/>
+            <stop offset="100%" stop-color="#7B2FFF" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="p3-sky" cx="50%" cy="20%" r="70%">
+            <stop offset="0%" stop-color="#1A1040"/>
+            <stop offset="100%" stop-color="#060410"/>
+          </radialGradient>
+          <filter id="p3-glow">
+            <feGaussianBlur stdDeviation="8" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="p3-softer">
+            <feGaussianBlur stdDeviation="4" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <linearGradient id="p3-bridge-fade" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#0F0C1E"/>
+            <stop offset="100%" stop-color="#060410"/>
+          </linearGradient>
+        </defs>
+        <!-- Deep night sky -->
+        <rect width="520" height="420" fill="url(#p3-sky)"/>
+        <!-- Stars dimmed by tear light -->
+        <g fill="#C0B890" opacity="0.4">
+          <circle cx="30" cy="20" r="1"/><circle cx="80" cy="35" r="0.8"/><circle cx="140" cy="18" r="1"/>
+          <circle cx="380" cy="25" r="0.9"/><circle cx="450" cy="40" r="1.1"/><circle cx="500" cy="22" r="0.8"/>
+          <circle cx="20" cy="65" r="0.7"/><circle cx="490" cy="70" r="0.9"/>
+        </g>
+        <!-- Outer glow of the tear — enormous -->
+        <ellipse cx="260" cy="140" rx="240" ry="180" fill="url(#p3-outer-glow)" opacity="0.5"/>
+        <!-- The Ọ̀run tear — massive, jagged, center-top -->
+        <!-- Outer jagged polygon -->
+        <polygon points="260,18 310,55 355,30 370,80 420,75 400,120 440,140 395,160 430,200 380,195 375,245 330,220 290,260 260,235 230,260 190,220 145,245 140,195 90,200 125,160 80,140 120,120 100,75 150,80 165,30 210,55"
+                 fill="#7B2FFF" opacity="0.5" filter="url(#p3-glow)"/>
+        <!-- Middle layer -->
+        <polygon points="260,35 302,65 338,42 350,88 392,82 374,122 408,140 368,156 396,190 352,186 348,230 308,208 275,244 260,220 245,244 212,208 172,230 168,186 124,190 152,156 112,140 146,122 128,82 170,88 182,42 218,65"
+                 fill="#9B6FFF" opacity="0.75" filter="url(#p3-softer)"/>
+        <!-- Core bright area -->
+        <polygon points="260,55 295,78 322,58 332,95 364,90 348,122 375,138 342,150 364,178 328,175 324,210 292,192 265,222 260,205 255,222 228,192 196,210 192,175 156,178 178,150 145,138 172,122 156,90 188,95 198,58 225,78"
+                 fill="url(#p3-tear-core)" opacity="0.9"/>
+        <!-- Starfield visible through tear -->
+        <clipPath id="p3-tear-clip">
+          <polygon points="260,55 295,78 322,58 332,95 364,90 348,122 375,138 342,150 364,178 328,175 324,210 292,192 265,222 260,205 255,222 228,192 196,210 192,175 156,178 178,150 145,138 172,122 156,90 188,95 198,58 225,78"/>
+        </clipPath>
+        <g clip-path="url(#p3-tear-clip)">
+          <rect width="520" height="420" fill="#030210"/>
+          <g fill="white" opacity="0.9">
+            <circle cx="220" cy="80" r="1.5"/><circle cx="250" cy="100" r="1.2"/><circle cx="280" cy="70" r="1.8"/>
+            <circle cx="300" cy="120" r="1"/><circle cx="230" cy="140" r="1.3"/><circle cx="270" cy="160" r="1.5"/>
+            <circle cx="310" cy="150" r="1"/><circle cx="245" cy="180" r="1.2"/><circle cx="285" cy="195" r="1.4"/>
+            <circle cx="255" cy="115" r="2"/><circle cx="265" cy="85" r="1.5"/>
+          </g>
+        </g>
+        <!-- Energy crackling at tear edges -->
+        <g stroke="#C0A0FF" stroke-width="1" fill="none" opacity="0.7" filter="url(#p3-softer)">
+          <path d="M260,18 Q240,5 220,25 Q240,15 260,18"/>
+          <path d="M310,55 Q330,38 350,55 Q335,45 310,55"/>
+          <path d="M420,75 Q440,58 450,80 Q440,70 420,75"/>
+          <path d="M430,200 Q450,215 440,235 Q440,220 430,200"/>
+          <path d="M90,200 Q70,215 80,235 Q78,218 90,200"/>
+          <path d="M80,140 Q58,140 65,160 Q68,148 80,140"/>
+        </g>
+        <!-- Bridge in foreground — wide shot from below angle -->
+        <rect x="0" y="340" width="520" height="80" fill="url(#p3-bridge-fade)"/>
+        <!-- Bridge deck -->
+        <rect x="0" y="330" width="520" height="18" fill="#0F0C1E"/>
+        <!-- Pylons silhouette -->
+        <g fill="#080618">
+          <rect x="100" y="220" width="12" height="110"/>
+          <polygon points="100,220 106,200 112,220" fill="#080618"/>
+          <rect x="230" y="210" width="12" height="120"/>
+          <polygon points="230,210 236,190 242,210" fill="#080618"/>
+          <rect x="276" y="210" width="12" height="120"/>
+          <polygon points="276,210 282,190 288,210" fill="#080618"/>
+          <rect x="400" y="215" width="12" height="115"/>
+          <polygon points="400,215 406,195 412,215" fill="#080618"/>
+        </g>
+        <!-- Cables lit by tear glow -->
+        <g stroke="#3A2878" stroke-width="0.8" fill="none" opacity="0.8">
+          <line x1="106" y1="200" x2="30" y2="330"/><line x1="106" y1="200" x2="185" y2="330"/>
+          <line x1="236" y1="190" x2="155" y2="330"/><line x1="236" y1="190" x2="320" y2="330"/>
+          <line x1="282" y1="190" x2="200" y2="330"/><line x1="282" y1="190" x2="360" y2="330"/>
+          <line x1="406" y1="195" x2="330" y2="330"/><line x1="406" y1="195" x2="490" y2="330"/>
+        </g>
+        <!-- Bayo on bridge tiny silhouette arms raised -->
+        <g transform="translate(258,320)" fill="#C4874A">
+          <ellipse cx="0" cy="-6" rx="3" ry="3.5"/>
+          <rect x="-2.5" y="-2" width="5" height="8" rx="1" fill="#1A0A00"/>
+          <!-- Arms raised -->
+          <line x1="-2.5" y1="0" x2="-10" y2="-8" stroke="#C4874A" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="2.5" y1="0" x2="10" y2="-8" stroke="#C4874A" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="-1" y1="6" x2="-2" y2="12" stroke="#1A0A00" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="1" y1="6" x2="2" y2="12" stroke="#1A0A00" stroke-width="1.5" stroke-linecap="round"/>
+        </g>
+        <!-- Gold energy beginning to emanate from Bayo's raised hands -->
+        <circle cx="248" cy="312" r="6" fill="#F4B800" opacity="0.5" filter="url(#p3-glow)"/>
+        <circle cx="268" cy="312" r="6" fill="#F4B800" opacity="0.5" filter="url(#p3-glow)"/>
+        <!-- Panel border — thicker for dramatic effect -->
+        <rect width="520" height="420" fill="none" stroke="#F4B800" stroke-width="4"/>
+        <!-- Sound effect text -->
+        <text x="30" y="320" font-size="42" font-weight="900" fill="#7B2FFF" opacity="0.25" font-family="Impact,Arial" letter-spacing="-2">RRRRIP</text>
+        <!-- Caption -->
+        <rect x="0" y="0" width="260" height="26" fill="#060410" opacity="0.9"/>
+        <text x="8" y="18" font-size="10" fill="#C0A0FF" font-family="monospace" letter-spacing="1">THE VEIL BETWEEN WORLDS · TEARS OPEN</text>
+      </svg>
+      <div class="panel-caption">Panel 3 — The sky cracks like old leather. Something older than Lagos pushes through.</div>
+    </div>
+
+    <!-- PANEL 4: Gold power surges through Bayo — transformation begins -->
+    <div class="comic-panel panel-medium reveal reveal-delay-3">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 420" class="panel-svg">
+        <defs>
+          <radialGradient id="p4-gold-burst" cx="50%" cy="60%" r="60%">
+            <stop offset="0%" stop-color="#F4B800"/>
+            <stop offset="40%" stop-color="#FF8C00" stop-opacity="0.7"/>
+            <stop offset="80%" stop-color="#C4500A" stop-opacity="0.3"/>
+            <stop offset="100%" stop-color="#050408" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="p4-sky" cx="50%" cy="20%" r="80%">
+            <stop offset="0%" stop-color="#1E1038"/>
+            <stop offset="100%" stop-color="#060410"/>
+          </radialGradient>
+          <filter id="p4-glow">
+            <feGaussianBlur stdDeviation="6" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="p4-intense">
+            <feGaussianBlur stdDeviation="10" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <linearGradient id="p4-skin" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#E09050"/>
+            <stop offset="60%" stop-color="#C4874A"/>
+            <stop offset="100%" stop-color="#7A4018"/>
+          </linearGradient>
+        </defs>
+        <!-- Dark night sky -->
+        <rect width="520" height="420" fill="url(#p4-sky)"/>
+        <!-- Gold burst energy from Bayo — fills panel -->
+        <ellipse cx="260" cy="280" rx="300" ry="250" fill="url(#p4-gold-burst)" opacity="0.6"/>
+        <!-- Energy rays radiating outward (Ọ̀run power) -->
+        <g stroke="#F4B800" stroke-width="1.5" fill="none" opacity="0.3">
+          <line x1="260" y1="280" x2="20" y2="20"/>
+          <line x1="260" y1="280" x2="130" y2="10"/>
+          <line x1="260" y1="280" x2="260" y2="5"/>
+          <line x1="260" y1="280" x2="390" y2="10"/>
+          <line x1="260" y1="280" x2="500" y2="20"/>
+          <line x1="260" y1="280" x2="510" y2="160"/>
+          <line x1="260" y1="280" x2="520" y2="280"/>
+          <line x1="260" y1="280" x2="10" y2="160"/>
+          <line x1="260" y1="280" x2="0" y2="280"/>
+          <line x1="260" y1="280" x2="10" y2="400"/>
+          <line x1="260" y1="280" x2="510" y2="400"/>
+          <line x1="260" y1="280" x2="80" y2="420"/>
+          <line x1="260" y1="280" x2="440" y2="420"/>
+        </g>
+        <!-- Bridge silhouette bottom -->
+        <rect x="0" y="360" width="520" height="60" fill="#060410"/>
+        <rect x="0" y="350" width="520" height="18" fill="#0A0820"/>
+        <!-- Pylons -->
+        <g fill="#050410">
+          <rect x="80" y="260" width="10" height="90"/>
+          <rect x="200" y="250" width="10" height="100"/>
+          <rect x="308" y="250" width="10" height="100"/>
+          <rect x="428" y="258" width="10" height="92"/>
+        </g>
+        <!-- Bayo figure mid-transformation — golden lightning surrounds body -->
+        <!-- Gold aura outer -->
+        <ellipse cx="260" cy="275" rx="55" ry="75" fill="#F4B800" opacity="0.1" filter="url(#p4-intense)"/>
+        <!-- Gold aura inner -->
+        <ellipse cx="260" cy="275" rx="35" ry="55" fill="#F4B800" opacity="0.2" filter="url(#p4-glow)"/>
+        <!-- Body silhouette — arms spread, head thrown back -->
+        <!-- Legs -->
+        <path d="M238,340 Q232,375 228,400 Q234,402 242,400 Q248,375 252,345 Z" fill="url(#p4-skin)"/>
+        <path d="M282,340 Q288,375 292,400 Q298,402 306,400 Q302,375 278,345 Z" fill="url(#p4-skin)" opacity="0.85"/>
+        <!-- Torso -->
+        <path d="M225,250 Q220,260 222,320 Q236,348 260,352 Q284,348 298,320 Q300,260 295,250 Q278,240 260,238 Q242,240 225,250 Z" fill="url(#p4-skin)"/>
+        <!-- Shirt torn-lit -->
+        <path d="M228,260 Q240,268 260,265 Q280,268 292,260 Q285,255 260,252 Q235,255 228,260 Z" fill="#1A1A1A" opacity="0.5"/>
+        <!-- Arms spread wide — power flowing through them -->
+        <!-- Left arm -->
+        <path d="M225,265 Q190,250 150,240 Q110,232 80,228 Q60,228 55,238 Q68,240 100,248 Q140,258 190,272 Q210,278 228,280 Z" fill="url(#p4-skin)"/>
+        <!-- Left hand glow -->
+        <ellipse cx="58" cy="234" rx="14" ry="12" fill="#F4B800" opacity="0.8" filter="url(#p4-intense)"/>
+        <ellipse cx="58" cy="234" rx="8" ry="7" fill="white" opacity="0.9"/>
+        <!-- Right arm -->
+        <path d="M295,265 Q330,250 370,240 Q410,232 440,228 Q460,228 465,238 Q452,240 420,248 Q380,258 330,272 Q310,278 292,280 Z" fill="url(#p4-skin)" opacity="0.9"/>
+        <!-- Right hand glow -->
+        <ellipse cx="462" cy="234" rx="14" ry="12" fill="#F4B800" opacity="0.8" filter="url(#p4-intense)"/>
+        <ellipse cx="462" cy="234" rx="8" ry="7" fill="white" opacity="0.9"/>
+        <!-- Head thrown back -->
+        <ellipse cx="260" cy="210" rx="30" ry="35" fill="url(#p4-skin)"/>
+        <!-- Hair -->
+        <path d="M235,192 Q248,178 260,175 Q272,178 285,192 Q278,180 260,177 Q242,180 235,192 Z" fill="#0A0806"/>
+        <!-- Eyes closed/glowing gold -->
+        <path d="M244,208 Q253,202 265,207" stroke="#F4B800" stroke-width="3" fill="none" opacity="0.9"/>
+        <path d="M255,208 Q260,204 268,207" fill="#F4B800" opacity="0.6" filter="url(#p4-glow)"/>
+        <!-- Gold lightning bolts along arms and torso -->
+        <g stroke="#F4B800" stroke-width="2" fill="none" opacity="0.8" filter="url(#p4-glow)">
+          <path d="M100,248 Q115,235 130,248 Q145,260 160,248"/>
+          <path d="M170,252 Q182,240 195,252 Q205,262 218,252"/>
+          <path d="M300,252 Q312,240 325,252 Q340,262 355,252"/>
+          <path d="M365,248 Q378,235 392,248 Q406,260 418,248"/>
+          <path d="M252,265 Q258,278 265,265 Q272,255 278,265"/>
+          <path d="M245,290 Q255,300 260,290 Q265,282 275,290"/>
+        </g>
+        <!-- Gold particles scattered -->
+        <g fill="#F4B800" opacity="0.6">
+          <circle cx="150" cy="200" r="2" filter="url(#p4-glow)"/>
+          <circle cx="200" cy="180" r="1.5" filter="url(#p4-glow)"/>
+          <circle cx="320" cy="190" r="2" filter="url(#p4-glow)"/>
+          <circle cx="380" cy="210" r="1.5" filter="url(#p4-glow)"/>
+          <circle cx="140" cy="300" r="1.8" filter="url(#p4-glow)"/>
+          <circle cx="380" cy="295" r="1.8" filter="url(#p4-glow)"/>
+          <circle cx="260" cy="160" r="2.5" filter="url(#p4-glow)"/>
+          <circle cx="220" cy="320" r="1.5" filter="url(#p4-glow)"/>
+          <circle cx="300" cy="325" r="1.5" filter="url(#p4-glow)"/>
+        </g>
+        <!-- Panel border — gold for climax panel -->
+        <rect width="520" height="420" fill="none" stroke="#F4B800" stroke-width="5"/>
+        <!-- Sound effect -->
+        <text x="30" y="100" font-size="58" font-weight="900" fill="#F4B800" opacity="0.15" font-family="Impact,Arial" letter-spacing="-3">AWAKEN</text>
+        <!-- Yoruba text faintly -->
+        <text x="260" y="420" text-anchor="middle" font-size="9" fill="#F4B800" opacity="0.45" font-family="monospace" letter-spacing="3">Ọ̀RUN CALLS — AND BAYO ANSWERS</text>
+      </svg>
+      <div class="panel-caption">Panel 4 — The gold takes him. Every cell, every nerve. Bayo becomes the lightning.</div>
+    </div>
+
+  </div><!-- end panels-grid -->
+</section>
+
 <!-- ============================================================ DARK ASSEMBLY — VILLAINS -->
 <section id="villains">
   <div class="villains-header">
@@ -4485,6 +5654,51 @@
 
     <!-- THE ARCHITECT (Featured — spans full width) -->
     <div class="villain-card featured reveal">
+      <svg class="villain-portrait-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="va1-bg" cx="50%" cy="40%" r="75%"><stop offset="0%" stop-color="#1a0310"/><stop offset="100%" stop-color="#030108"/></radialGradient>
+          <radialGradient id="va1-eye" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#C41E3A"/><stop offset="100%" stop-color="#C41E3A" stop-opacity="0"/></radialGradient>
+          <filter id="va1-glow"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          <filter id="va1-soft"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <rect width="400" height="500" fill="url(#va1-bg)"/>
+        <!-- Blueprint grid -->
+        <g stroke="#C41E3A" stroke-width="0.4" opacity="0.1">
+          <line x1="0" y1="100" x2="400" y2="100"/><line x1="0" y1="200" x2="400" y2="200"/><line x1="0" y1="300" x2="400" y2="300"/><line x1="0" y1="400" x2="400" y2="400"/>
+          <line x1="100" y1="0" x2="100" y2="500"/><line x1="200" y1="0" x2="200" y2="500"/><line x1="300" y1="0" x2="300" y2="500"/>
+        </g>
+        <!-- Radiating lines from center -->
+        <g stroke="#7B2FFF" stroke-width="0.7" opacity="0.18" filter="url(#va1-soft)">
+          <line x1="200" y1="250" x2="0" y2="80"/><line x1="200" y1="250" x2="400" y2="80"/><line x1="200" y1="250" x2="0" y2="420"/><line x1="200" y1="250" x2="400" y2="420"/>
+          <line x1="200" y1="250" x2="200" y2="0"/><line x1="200" y1="250" x2="0" y2="250"/><line x1="200" y1="250" x2="400" y2="250"/>
+        </g>
+        <!-- Corruption rings -->
+        <g fill="none" stroke="#C41E3A" opacity="0.1"><circle cx="200" cy="250" r="80"/><circle cx="200" cy="250" r="140"/><circle cx="200" cy="250" r="200"/></g>
+        <!-- Towering silhouette -->
+        <ellipse cx="200" cy="175" rx="52" ry="55" fill="#020106"/>
+        <path d="M70 220 Q140 200 200 205 Q260 200 330 220 Q338 265 320 295 Q260 280 200 282 Q140 280 80 295 Q62 265 70 220Z" fill="#020106"/>
+        <path d="M82 290 Q125 308 200 310 Q275 308 318 290 Q325 400 312 500 Q270 515 200 517 Q130 515 88 500 Q75 400 82 290Z" fill="#020106"/>
+        <path d="M320 238 Q360 218 395 205 Q398 228 394 248 Q365 258 318 272Z" fill="#020106"/>
+        <path d="M80 238 Q40 218 5 205 Q2 228 6 248 Q35 258 82 272Z" fill="#020106"/>
+        <!-- BLOOD RED EYES -->
+        <g filter="url(#va1-glow)">
+          <ellipse cx="178" cy="172" rx="13" ry="9" fill="#C41E3A"/><ellipse cx="222" cy="172" rx="13" ry="9" fill="#C41E3A"/>
+          <ellipse cx="178" cy="172" rx="7" ry="4.5" fill="#ff2840"/><ellipse cx="222" cy="172" rx="7" ry="4.5" fill="#ff2840"/>
+          <ellipse cx="178" cy="172" rx="2.5" ry="1.8" fill="#ffffff"/><ellipse cx="222" cy="172" rx="2.5" ry="1.8" fill="#ffffff"/>
+        </g>
+        <ellipse cx="178" cy="172" rx="28" ry="20" fill="url(#va1-eye)" opacity="0.35" filter="url(#va1-soft)"/>
+        <ellipse cx="222" cy="172" rx="28" ry="20" fill="url(#va1-eye)" opacity="0.35" filter="url(#va1-soft)"/>
+        <!-- Crown of dark geometry -->
+        <g fill="#020106" stroke="#C41E3A" stroke-width="1.2" opacity="0.5">
+          <path d="M148 130 L151 102 L162 120 L168 90 L178 115 L186 82 L195 112 L200 76 L205 112 L214 82 L222 115 L232 90 L238 120 L249 102 L252 130Z"/>
+        </g>
+        <!-- Glowing body seams -->
+        <g stroke="#C41E3A" stroke-width="0.7" opacity="0.22" filter="url(#va1-soft)">
+          <line x1="158" y1="228" x2="242" y2="228"/><line x1="152" y1="270" x2="248" y2="270"/><path d="M200 215 L200 420"/>
+        </g>
+        <!-- Fade at bottom -->
+        <rect x="0" y="400" width="400" height="100" fill="url(#va1-bg)" opacity="0.9"/>
+      </svg>
       <div class="villain-art-bg">Ì</div>
       <div class="villain-rank">Grand Sovereign · Rank I</div>
       <div class="villain-name">THE ARCHITECT</div>
@@ -4509,6 +5723,55 @@
 
     <!-- HOLLOW KING -->
     <div class="villain-card reveal reveal-delay-1">
+      <svg class="villain-portrait-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 500" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="va2-bg" cx="50%" cy="35%" r="75%"><stop offset="0%" stop-color="#0a0318"/><stop offset="100%" stop-color="#020108"/></radialGradient>
+          <radialGradient id="va2-void" cx="50%" cy="50%" r="55%"><stop offset="0%" stop-color="#2a0060" stop-opacity="0.7"/><stop offset="100%" stop-color="#2a0060" stop-opacity="0"/></radialGradient>
+          <filter id="va2-glow"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          <filter id="va2-soft"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <rect width="300" height="500" fill="url(#va2-bg)"/>
+        <!-- Void aura -->
+        <ellipse cx="150" cy="200" rx="140" ry="160" fill="url(#va2-void)" filter="url(#va2-glow)"/>
+        <!-- Soul wisps floating upward -->
+        <g filter="url(#va2-soft)" opacity="0.5">
+          <path d="M80 400 Q75 360 85 320 Q90 290 80 260" fill="none" stroke="#7B2FFF" stroke-width="1.5"/>
+          <path d="M220 410 Q225 370 215 330 Q210 300 220 270" fill="none" stroke="#7B2FFF" stroke-width="1.5"/>
+          <path d="M60 380 Q52 348 58 318 Q63 292 55 268" fill="none" stroke="#7B2FFF" stroke-width="1"/>
+          <path d="M240 390 Q248 358 242 328 Q237 302 245 278" fill="none" stroke="#7B2FFF" stroke-width="1"/>
+          <circle cx="80" cy="260" r="4" fill="#7B2FFF"/><circle cx="220" cy="270" r="4" fill="#7B2FFF"/>
+          <circle cx="55" cy="268" r="3" fill="#7B2FFF"/><circle cx="245" cy="278" r="3" fill="#7B2FFF"/>
+        </g>
+        <!-- Skeletal body silhouette -->
+        <ellipse cx="150" cy="160" rx="42" ry="45" fill="#020108"/>
+        <!-- Hollow cavity in chest -->
+        <ellipse cx="150" cy="160" rx="38" ry="41" fill="#020108"/>
+        <!-- Broad robed body -->
+        <path d="M68 200 Q110 185 150 188 Q190 185 232 200 Q240 250 235 330 Q200 350 150 352 Q100 350 65 330 Q60 250 68 200Z" fill="#020108"/>
+        <!-- Hollow void where soul was (chest cavity) -->
+        <ellipse cx="150" cy="250" rx="28" ry="32" fill="url(#va2-void)" filter="url(#va2-glow)"/>
+        <ellipse cx="150" cy="250" rx="18" ry="22" fill="#0a0318"/>
+        <!-- Purple eye sockets (hollowed) -->
+        <g filter="url(#va2-glow)">
+          <ellipse cx="132" cy="158" rx="10" ry="8" fill="#5a10cc" opacity="0.8"/>
+          <ellipse cx="168" cy="158" rx="10" ry="8" fill="#5a10cc" opacity="0.8"/>
+          <ellipse cx="132" cy="158" rx="5" ry="4" fill="#8a30ff"/>
+          <ellipse cx="168" cy="158" rx="5" ry="4" fill="#8a30ff"/>
+        </g>
+        <!-- Crown of shadows -->
+        <g fill="#020108" stroke="#5a10cc" stroke-width="1.5" opacity="0.7" filter="url(#va2-soft)">
+          <path d="M108 122 L112 95 L124 112 L132 85 L142 108 L150 80 L158 108 L168 85 L176 112 L188 95 L192 122Z"/>
+        </g>
+        <!-- Crown jewels (void gems) -->
+        <g filter="url(#va2-glow)" opacity="0.7">
+          <circle cx="130" cy="105" r="5" fill="#3a00aa"/><circle cx="150" cy="95" r="6" fill="#3a00aa"/><circle cx="170" cy="105" r="5" fill="#3a00aa"/>
+        </g>
+        <!-- Arms draped like dead king -->
+        <path d="M70 210 Q45 225 20 238 Q15 255 22 268 Q48 258 72 245Z" fill="#020108"/>
+        <path d="M230 210 Q255 225 280 238 Q285 255 278 268 Q252 258 228 245Z" fill="#020108"/>
+        <!-- Fade bottom -->
+        <rect x="0" y="400" width="300" height="100" fill="url(#va2-bg)" opacity="0.9"/>
+      </svg>
       <div class="villain-art-bg">Ọ</div>
       <div class="villain-rank">Dark Assembly · Rank II</div>
       <div class="villain-name">HOLLOW KING</div>
@@ -4531,6 +5794,60 @@
 
     <!-- MOTHER STORM -->
     <div class="villain-card reveal reveal-delay-2">
+      <svg class="villain-portrait-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 500" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="va3-bg" cx="50%" cy="30%" r="70%"><stop offset="0%" stop-color="#0a0520"/><stop offset="100%" stop-color="#020108"/></radialGradient>
+          <radialGradient id="va3-storm" cx="50%" cy="50%" r="55%"><stop offset="0%" stop-color="#1a0840" stop-opacity="0.8"/><stop offset="100%" stop-color="#1a0840" stop-opacity="0"/></radialGradient>
+          <filter id="va3-glow"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          <filter id="va3-soft"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          <filter id="va3-cloud"><feGaussianBlur stdDeviation="8"/></filter>
+        </defs>
+        <rect width="300" height="500" fill="url(#va3-bg)"/>
+        <!-- Storm clouds (dark, corrupted) -->
+        <g filter="url(#va3-cloud)" opacity="0.9">
+          <ellipse cx="60" cy="80" rx="80" ry="50" fill="#0e0528"/>
+          <ellipse cx="200" cy="65" rx="90" ry="55" fill="#0e0528"/>
+          <ellipse cx="140" cy="100" rx="70" ry="40" fill="#120638"/>
+          <ellipse cx="30" cy="160" rx="60" ry="40" fill="#0e0528" opacity="0.6"/>
+          <ellipse cx="270" cy="155" rx="60" ry="40" fill="#0e0528" opacity="0.6"/>
+        </g>
+        <!-- Oya's corrupted rift -->
+        <path d="M128 50 L132 35 L138 48 L142 28 L148 45 L155 22 L162 42 L168 30 L172 50 L178 38 L182 55 L178 75 L185 90 L178 105 L182 120 L175 135 L178 152 L170 162 L175 178 L162 185 L155 200 L145 188 L135 200 L128 182 L118 178 L122 162 L115 148 L120 132 L112 118 L118 102 L110 88 L118 72 L112 58 Z" fill="#7B2FFF" opacity="0.3" filter="url(#va3-glow)"/>
+        <path d="M128 50 L132 35 L138 48 L142 28 L148 45 L155 22 L162 42 L168 30 L172 50 L178 38 L182 55 L178 75 L185 90 L178 105 L182 120 L175 135 L178 152 L170 162 L175 178 L162 185 L155 200 L145 188 L135 200 L128 182 L118 178 L122 162 L115 148 L120 132 L112 118 L118 102 L110 88 L118 72 L112 58 Z" fill="none" stroke="#C41E3A" stroke-width="1.5" opacity="0.6" filter="url(#va3-soft)"/>
+        <!-- Corrupted lightning bolts (wrong colors - greenish/red instead of gold) -->
+        <g filter="url(#va3-glow)" opacity="0.7">
+          <path d="M55 120 L42 148 L52 148 L38 178" stroke="#C41E3A" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M245 115 L258 144 L248 144 L262 175" stroke="#C41E3A" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M30 200 L20 225 L28 225 L15 252" stroke="#7B2FFF" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M270 198 L280 224 L272 224 L285 252" stroke="#7B2FFF" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- Lightning sparks -->
+        <g filter="url(#va3-soft)" opacity="0.8">
+          <circle cx="40" cy="178" r="4" fill="#C41E3A"/><circle cx="260" cy="175" r="4" fill="#C41E3A"/>
+          <circle cx="15" cy="252" r="3" fill="#7B2FFF"/><circle cx="285" cy="252" r="3" fill="#7B2FFF"/>
+        </g>
+        <!-- MOTHER STORM body (robed, arms spread wide) -->
+        <ellipse cx="150" cy="240" rx="42" ry="45" fill="#020108"/>
+        <!-- Wide robes spread like storm wings -->
+        <path d="M50 270 Q100 250 150 255 Q200 250 250 270 Q260 320 248 380 Q210 400 150 402 Q90 400 52 380 Q40 320 50 270Z" fill="#020108"/>
+        <!-- Robes billow out like storm at sides -->
+        <path d="M52 300 Q20 285 5 270 Q0 295 8 318 Q28 325 55 315Z" fill="#020108"/>
+        <path d="M248 300 Q280 285 295 270 Q300 295 292 318 Q272 325 245 315Z" fill="#020108"/>
+        <!-- Corrupted storm halo -->
+        <ellipse cx="150" cy="245" rx="70" ry="65" fill="url(#va3-storm)" filter="url(#va3-glow)"/>
+        <!-- Eyes: corrupted storm-green -->
+        <g filter="url(#va3-glow)">
+          <ellipse cx="133" cy="240" rx="10" ry="7" fill="#C41E3A" opacity="0.9"/>
+          <ellipse cx="167" cy="240" rx="10" ry="7" fill="#C41E3A" opacity="0.9"/>
+          <ellipse cx="133" cy="240" rx="5" ry="3.5" fill="#ff2060"/><ellipse cx="167" cy="240" rx="5" ry="3.5" fill="#ff2060"/>
+        </g>
+        <!-- Headdress / veil flowing -->
+        <path d="M110 215 Q150 205 190 215 Q192 225 190 238 Q170 230 150 228 Q130 230 110 238 Q108 225 110 215Z" fill="#1a0838"/>
+        <path d="M108 218 Q80 228 55 240 Q50 260 58 270 Q80 258 112 244Z" fill="#1a0838"/>
+        <path d="M192 218 Q220 228 245 240 Q250 260 242 270 Q220 258 188 244Z" fill="#1a0838"/>
+        <!-- Fade -->
+        <rect x="0" y="420" width="300" height="80" fill="url(#va3-bg)" opacity="0.9"/>
+      </svg>
       <div class="villain-art-bg">Ẹ</div>
       <div class="villain-rank">Dark Assembly · Rank III</div>
       <div class="villain-name">MOTHER STORM</div>
@@ -4553,6 +5870,61 @@
 
     <!-- IRON PREACHER -->
     <div class="villain-card reveal">
+      <svg class="villain-portrait-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 500" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="va4-bg" cx="50%" cy="55%" r="70%"><stop offset="0%" stop-color="#100502"/><stop offset="100%" stop-color="#020100"/></radialGradient>
+          <radialGradient id="va4-fire" cx="50%" cy="100%" r="70%"><stop offset="0%" stop-color="#C41E3A" stop-opacity="0.6"/><stop offset="100%" stop-color="#C41E3A" stop-opacity="0"/></radialGradient>
+          <filter id="va4-glow"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          <filter id="va4-soft"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <rect width="300" height="500" fill="url(#va4-bg)"/>
+        <!-- Forge fire glow from below -->
+        <ellipse cx="150" cy="480" rx="200" ry="120" fill="url(#va4-fire)" filter="url(#va4-glow)"/>
+        <!-- Iron cross structure behind (enormous) -->
+        <g fill="#0e0400" stroke="#C41E3A" stroke-width="1" opacity="0.4" filter="url(#va4-soft)">
+          <rect x="138" y="20" width="24" height="320"/>
+          <rect x="60" y="130" width="180" height="24"/>
+          <!-- Iron spikes along cross -->
+          <path d="M138 20 L128 5 L150 18 L172 5 L162 20Z"/>
+          <path d="M60 130 L48 120 L62 142 L48 155 L62 142Z"/>
+          <path d="M240 130 L252 120 L238 142 L252 155 L238 142Z"/>
+          <path d="M138 340 L128 355 L150 342 L172 355 L162 340Z"/>
+        </g>
+        <!-- Iron construct rising from ground -->
+        <g fill="#0e0400" stroke="#8B4513" stroke-width="0.8" opacity="0.5">
+          <rect x="40" y="380" width="15" height="120"/>
+          <rect x="245" y="380" width="15" height="120"/>
+          <rect x="20" y="350" width="10" height="150"/>
+          <rect x="270" y="350" width="10" height="150"/>
+        </g>
+        <!-- Forge sparks -->
+        <g filter="url(#va4-soft)" opacity="0.8">
+          <circle cx="45" cy="400" r="3" fill="#C41E3A"/><circle cx="255" cy="408" r="3" fill="#C41E3A"/>
+          <circle cx="30" cy="368" r="2" fill="#8B4513"/><circle cx="268" cy="375" r="2" fill="#8B4513"/>
+          <circle cx="95" cy="450" r="2.5" fill="#C41E3A"/><circle cx="205" cy="455" r="2.5" fill="#C41E3A"/>
+        </g>
+        <!-- IRON PREACHER silhouette (tall, robed, arms spread in sermon) -->
+        <ellipse cx="150" cy="200" rx="40" ry="42" fill="#040100"/>
+        <!-- Heavy robes -->
+        <path d="M78 240 Q118 222 150 225 Q182 222 222 240 Q232 295 225 390 Q196 410 150 412 Q104 410 75 390 Q68 295 78 240Z" fill="#040100"/>
+        <!-- Arms spread wide in sermon pose -->
+        <path d="M80 260 Q42 245 12 235 Q6 258 12 278 Q42 272 82 258Z" fill="#040100"/>
+        <path d="M220 260 Q258 245 288 235 Q294 258 288 278 Q258 272 218 258Z" fill="#040100"/>
+        <!-- Iron collar/shoulder armor plates -->
+        <g fill="#222228" stroke="#8B4513" stroke-width="1" opacity="0.8">
+          <path d="M110 232 Q130 225 150 227 Q170 225 190 232 Q185 250 150 255 Q115 250 110 232Z"/>
+          <ellipse cx="88" cy="248" rx="16" ry="11" fill="#222228"/>
+          <ellipse cx="212" cy="248" rx="16" ry="11" fill="#222228"/>
+        </g>
+        <!-- Glowing eyes (iron-orange judgment) -->
+        <g filter="url(#va4-glow)">
+          <ellipse cx="133" cy="198" rx="10" ry="7" fill="#8B4513" opacity="0.9"/>
+          <ellipse cx="167" cy="198" rx="10" ry="7" fill="#8B4513" opacity="0.9"/>
+          <ellipse cx="133" cy="198" rx="5" ry="3.5" fill="#C41E3A"/><ellipse cx="167" cy="198" rx="5" ry="3.5" fill="#C41E3A"/>
+        </g>
+        <!-- Fade at bottom -->
+        <rect x="0" y="440" width="300" height="60" fill="url(#va4-bg)" opacity="0.9"/>
+      </svg>
       <div class="villain-art-bg">Í</div>
       <div class="villain-rank">Dark Assembly · Rank IV</div>
       <div class="villain-name">IRON PREACHER</div>
@@ -4575,6 +5947,124 @@
 
     <!-- THE MIRROR -->
     <div class="villain-card reveal reveal-delay-1">
+      <svg class="villain-portrait-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 500" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="va5-void" cx="50%" cy="60%" r="55%">
+            <stop offset="0%" stop-color="#C0C0C0" stop-opacity="0.15"/>
+            <stop offset="50%" stop-color="#7B2FFF" stop-opacity="0.08"/>
+            <stop offset="100%" stop-color="#050508" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="va5-shatter" cx="50%" cy="40%" r="50%">
+            <stop offset="0%" stop-color="#E8E8F0" stop-opacity="0.25"/>
+            <stop offset="60%" stop-color="#9090B0" stop-opacity="0.08"/>
+            <stop offset="100%" stop-color="#050508" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="va5-blur" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="4"/>
+          </filter>
+          <filter id="va5-glow" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="6" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="va5-softglow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <linearGradient id="va5-mercury" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#D0D0E0"/>
+            <stop offset="40%" stop-color="#909090"/>
+            <stop offset="70%" stop-color="#E0E0F0"/>
+            <stop offset="100%" stop-color="#505060"/>
+          </linearGradient>
+          <linearGradient id="va5-fade" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="60%" stop-color="#050508" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#050508" stop-opacity="1"/>
+          </linearGradient>
+        </defs>
+        <!-- Deep background -->
+        <rect width="300" height="500" fill="#050508"/>
+        <ellipse cx="150" cy="250" rx="160" ry="200" fill="url(#va5-void)"/>
+        <ellipse cx="150" cy="200" rx="120" ry="130" fill="url(#va5-shatter)"/>
+        <!-- Shattered glass fragments background layer -->
+        <g opacity="0.18" filter="url(#va5-blur)">
+          <polygon points="150,80 200,140 160,150 120,100" fill="#C0C0D0" stroke="#E0E0F0" stroke-width="0.5"/>
+          <polygon points="120,100 160,150 100,170 80,120" fill="#A0A0B8" stroke="#C0C0E0" stroke-width="0.5"/>
+          <polygon points="160,150 220,130 240,180 190,190" fill="#B0B0C8" stroke="#D0D0F0" stroke-width="0.5"/>
+          <polygon points="80,120 100,170 60,190 50,145" fill="#909090" stroke="#B0B0C0" stroke-width="0.5"/>
+          <polygon points="240,180 190,190 210,240 260,210" fill="#C0C0C8" stroke="#E0E0F0" stroke-width="0.5"/>
+          <polygon points="50,145 60,190 30,220 20,170" fill="#808090" stroke="#A0A0B0" stroke-width="0.5"/>
+          <polygon points="210,240 260,210 270,270 220,290" fill="#B0B0C0" stroke="#D0D0E0" stroke-width="0.5"/>
+          <polygon points="20,170 30,220 10,260 5,200" fill="#707080" stroke="#909090" stroke-width="0.5"/>
+        </g>
+        <!-- Ghost silhouette 1 shifted left -->
+        <g opacity="0.22" transform="translate(-18,10)">
+          <ellipse cx="150" cy="120" rx="32" ry="38" fill="#8080A0" filter="url(#va5-blur)"/>
+          <path d="M108,155 Q90,170 85,230 Q100,280 150,290 Q200,280 215,230 Q210,170 192,155 Z" fill="#7070A0" filter="url(#va5-blur)"/>
+        </g>
+        <!-- Ghost silhouette 2 shifted right -->
+        <g opacity="0.18" transform="translate(20,-15)">
+          <ellipse cx="150" cy="115" rx="29" ry="35" fill="#6060A0" filter="url(#va5-blur)"/>
+          <path d="M112,148 Q95,165 90,225 Q105,272 150,282 Q195,272 210,225 Q205,165 188,148 Z" fill="#5050A0" filter="url(#va5-blur)"/>
+        </g>
+        <!-- Ghost silhouette 3 scaled -->
+        <g opacity="0.12" transform="translate(0,20) scale(1.08,1.05)" style="transform-origin:150px 250px">
+          <ellipse cx="150" cy="118" rx="35" ry="42" fill="#4040A0" filter="url(#va5-blur)"/>
+          <path d="M105,158 Q88,175 83,235 Q98,285 150,296 Q202,285 217,235 Q212,175 195,158 Z" fill="#303090" filter="url(#va5-blur)"/>
+        </g>
+        <!-- Mercury glass cracks radiating from center -->
+        <g opacity="0.35" stroke="url(#va5-mercury)" stroke-width="0.6" fill="none">
+          <line x1="150" y1="150" x2="60" y2="60"/>
+          <line x1="150" y1="150" x2="40" y2="160"/>
+          <line x1="150" y1="150" x2="30" y2="300"/>
+          <line x1="150" y1="150" x2="80" y2="400"/>
+          <line x1="150" y1="150" x2="240" y2="70"/>
+          <line x1="150" y1="150" x2="270" y2="160"/>
+          <line x1="150" y1="150" x2="280" y2="320"/>
+          <line x1="150" y1="150" x2="220" y2="410"/>
+          <line x1="150" y1="150" x2="150" y2="30"/>
+          <line x1="90" y1="100" x2="50" y2="130"/>
+          <line x1="90" y1="100" x2="110" y2="50"/>
+          <line x1="210" y1="110" x2="250" y2="80"/>
+          <line x1="210" y1="110" x2="240" y2="150"/>
+          <line x1="55" y1="220" x2="10" y2="250"/>
+          <line x1="255" y1="230" x2="295" y2="270"/>
+        </g>
+        <!-- Main figure head fractured -->
+        <ellipse cx="150" cy="138" rx="38" ry="44" fill="#1A1A28" stroke="url(#va5-mercury)" stroke-width="1.2" opacity="0.85"/>
+        <line x1="132" y1="108" x2="142" y2="178" stroke="#C0C0D0" stroke-width="0.7" opacity="0.6"/>
+        <line x1="168" y1="105" x2="158" y2="180" stroke="#C0C0D0" stroke-width="0.5" opacity="0.4"/>
+        <line x1="115" y1="140" x2="185" y2="135" stroke="#C0C0D0" stroke-width="0.6" opacity="0.5"/>
+        <!-- Multiple overlapping eyes — horror detail -->
+        <ellipse cx="136" cy="133" rx="9" ry="6" fill="#0A0A15" stroke="#C0C0E0" stroke-width="1"/>
+        <ellipse cx="164" cy="133" rx="9" ry="6" fill="#0A0A15" stroke="#C0C0E0" stroke-width="1"/>
+        <ellipse cx="136" cy="133" rx="5" ry="3.5" fill="#D0D0F0" opacity="0.9" filter="url(#va5-glow)"/>
+        <ellipse cx="164" cy="133" rx="5" ry="3.5" fill="#D0D0F0" opacity="0.9" filter="url(#va5-glow)"/>
+        <ellipse cx="130" cy="127" rx="4" ry="2.8" fill="#9090C0" opacity="0.45"/>
+        <ellipse cx="170" cy="128" rx="4" ry="2.8" fill="#9090C0" opacity="0.45"/>
+        <ellipse cx="140" cy="145" rx="3.5" ry="2.2" fill="#7070A0" opacity="0.3" filter="url(#va5-softglow)"/>
+        <ellipse cx="160" cy="144" rx="3.5" ry="2.2" fill="#7070A0" opacity="0.3" filter="url(#va5-softglow)"/>
+        <!-- Body torso mercury-plated -->
+        <path d="M108,178 Q88,196 84,270 Q100,330 150,342 Q200,330 216,270 Q212,196 192,178 Q172,168 150,165 Q128,168 108,178 Z" fill="#101018" stroke="url(#va5-mercury)" stroke-width="1" opacity="0.9"/>
+        <line x1="130" y1="178" x2="125" y2="340" stroke="#C0C0D0" stroke-width="0.6" opacity="0.5"/>
+        <line x1="170" y1="176" x2="175" y2="338" stroke="#C0C0D0" stroke-width="0.5" opacity="0.4"/>
+        <line x1="90" y1="240" x2="210" y2="235" stroke="#C0C0D0" stroke-width="0.5" opacity="0.35"/>
+        <!-- Arms fragmenting at edges -->
+        <path d="M108,192 Q75,200 55,225 Q40,250 48,265 Q58,270 72,255 Q82,238 95,225 Q105,215 115,205 Z" fill="#101018" stroke="url(#va5-mercury)" stroke-width="0.9" opacity="0.8"/>
+        <path d="M192,192 Q225,200 245,225 Q260,250 252,265 Q242,270 228,255 Q218,238 205,225 Q195,215 185,205 Z" fill="#101018" stroke="url(#va5-mercury)" stroke-width="0.9" opacity="0.8"/>
+        <!-- Reflective shards floating -->
+        <g filter="url(#va5-softglow)" opacity="0.55">
+          <polygon points="68,175 82,185 74,200" fill="#C0C0D0" opacity="0.7"/>
+          <polygon points="44,240 58,248 52,262" fill="#A0A0C0" opacity="0.6"/>
+          <polygon points="72,310 85,318 78,330" fill="#B0B0D0" opacity="0.5"/>
+          <polygon points="232,175 218,185 226,200" fill="#C0C0D0" opacity="0.7"/>
+          <polygon points="256,240 242,248 248,262" fill="#A0A0C0" opacity="0.6"/>
+          <polygon points="228,310 215,318 222,330" fill="#B0B0D0" opacity="0.5"/>
+          <polygon points="120,62 135,72 125,82" fill="#D0D0E0" opacity="0.65"/>
+          <polygon points="175,58 188,70 180,80" fill="#C0C0E0" opacity="0.6"/>
+        </g>
+        <!-- Bottom fade to dark -->
+        <rect width="300" height="500" fill="url(#va5-fade)"/>
+      </svg>
       <div class="villain-art-bg">Ẹ</div>
       <div class="villain-rank">Dark Assembly · Rank V · Danger: Extreme</div>
       <div class="villain-name">THE MIRROR</div>
@@ -4620,28 +6110,199 @@
     <div class="issue-card reveal">
       <div class="issue-cover">
         <div class="issue-bg issue-bg-1">
-          <svg class="issue-art" viewBox="0 0 300 450" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <radialGradient id="i1g" cx="50%" cy="30%" r="70%">
-                <stop offset="0%" stop-color="#F4B800" stop-opacity="0.3"/>
-                <stop offset="100%" stop-color="#7B2FFF" stop-opacity="0.1"/>
-              </radialGradient>
-            </defs>
-            <rect x="0" y="0" width="300" height="450" fill="url(#i1g)"/>
-            <!-- Abstract figure emerging from portal -->
-            <circle cx="150" cy="180" r="80" fill="none" stroke="#F4B800" stroke-width="1.5" opacity="0.5"/>
-            <circle cx="150" cy="180" r="60" fill="none" stroke="#C41E3A" stroke-width="1" opacity="0.3"/>
-            <circle cx="150" cy="180" r="40" fill="none" stroke="#7B2FFF" stroke-width="0.8" opacity="0.4"/>
-            <!-- Silhouette rising -->
-            <path d="M130,230 Q150,130 170,230 Q180,280 150,320 Q120,280 130,230 Z" fill="#F4B800" opacity="0.7"/>
-            <!-- Adire diamonds -->
-            <path d="M0,50 L30,0 L60,50 L30,100 Z" fill="#F4B800" opacity="0.08"/>
-            <path d="M240,350 L270,300 L300,350 L270,400 Z" fill="#C41E3A" opacity="0.08"/>
-            <!-- Danfo bus bottom -->
-            <rect x="0" y="380" width="300" height="70" fill="#F4B800" opacity="0.15" rx="5"/>
-            <rect x="10" y="390" width="60" height="40" fill="#F4B800" opacity="0.2" rx="3"/>
-            <text x="15" y="415" fill="#F4B800" font-size="8" opacity="0.5" font-family="monospace">OSHODI — MUSHIN</text>
-          </svg>
+          <!-- ISSUE 01 COVER SVG -->
+<svg class="issue-art" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 450">
+  <defs>
+    <radialGradient id="i1-sky" cx="50%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#0a0520"/>
+      <stop offset="50%" stop-color="#060318"/>
+      <stop offset="100%" stop-color="#06060d"/>
+    </radialGradient>
+    <radialGradient id="i1-tear-core" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="15%" stop-color="#ffe8c0"/>
+      <stop offset="35%" stop-color="#F4B800"/>
+      <stop offset="60%" stop-color="#7B2FFF" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#3a0a8a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="i1-bridge-glow" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#F4B800"/>
+      <stop offset="50%" stop-color="#F4B800" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#F4B800" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="i1-water" cx="50%" cy="20%" r="70%">
+      <stop offset="0%" stop-color="#0a1825"/>
+      <stop offset="100%" stop-color="#06060d"/>
+    </radialGradient>
+    <filter id="i1-glow-tear">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="i1-glow-soft">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="i1-glow-bridge">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="i1-star-blur">
+      <feGaussianBlur stdDeviation="0.8"/>
+    </filter>
+    <linearGradient id="i1-skyline-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1a0535"/>
+      <stop offset="100%" stop-color="#0a0318"/>
+    </linearGradient>
+  </defs>
+  <rect width="300" height="450" fill="url(#i1-sky)"/>
+  <g filter="url(#i1-star-blur)" opacity="0.8">
+    <circle cx="20" cy="20" r="1" fill="#ffffff"/>
+    <circle cx="45" cy="35" r="1.2" fill="#ffffff"/>
+    <circle cx="70" cy="15" r="0.8" fill="#ffffff"/>
+    <circle cx="95" cy="28" r="1" fill="#ffffff"/>
+    <circle cx="120" cy="12" r="1.2" fill="#ffffff"/>
+    <circle cx="145" cy="22" r="0.8" fill="#ffffff"/>
+    <circle cx="170" cy="8" r="1" fill="#ffffff"/>
+    <circle cx="200" cy="30" r="1.2" fill="#ffffff"/>
+    <circle cx="225" cy="18" r="0.8" fill="#ffffff"/>
+    <circle cx="250" cy="25" r="1" fill="#ffffff"/>
+    <circle cx="275" cy="14" r="1.2" fill="#ffffff"/>
+    <circle cx="290" cy="35" r="0.8" fill="#ffffff"/>
+    <circle cx="30" cy="55" r="0.8" fill="#ffffff"/>
+    <circle cx="60" cy="48" r="1" fill="#ffffff"/>
+    <circle cx="85" cy="62" r="1.2" fill="#ffffff"/>
+    <circle cx="110" cy="52" r="0.8" fill="#ffffff"/>
+    <circle cx="135" cy="45" r="1" fill="#ffffff"/>
+    <circle cx="160" cy="58" r="1.2" fill="#ffffff"/>
+    <circle cx="185" cy="42" r="0.8" fill="#ffffff"/>
+    <circle cx="210" cy="55" r="1" fill="#ffffff"/>
+    <circle cx="235" cy="48" r="1.2" fill="#ffffff"/>
+    <circle cx="260" cy="38" r="0.8" fill="#ffffff"/>
+    <circle cx="285" cy="55" r="1" fill="#ffffff"/>
+    <circle cx="112" cy="80" r="1.5" fill="#ffe8c0"/>
+    <circle cx="130" cy="65" r="1.2" fill="#ffffff"/>
+    <circle cx="148" cy="75" r="1.8" fill="#ffe8c0"/>
+    <circle cx="168" cy="68" r="1" fill="#ffffff"/>
+    <circle cx="185" cy="85" r="1.5" fill="#ffe8c0"/>
+    <circle cx="140" cy="95" r="2" fill="#ffe8c0"/>
+    <circle cx="158" cy="88" r="1.2" fill="#ffffff"/>
+    <circle cx="175" cy="100" r="1.8" fill="#ffe8c0"/>
+    <circle cx="120" cy="105" r="1.5" fill="#ffffff"/>
+    <circle cx="195" cy="70" r="1" fill="#ffe8c0"/>
+  </g>
+  <ellipse cx="158" cy="130" rx="95" ry="105" fill="#7B2FFF" opacity="0.08" filter="url(#i1-glow-tear)"/>
+  <ellipse cx="158" cy="130" rx="70" ry="80" fill="#F4B800" opacity="0.06" filter="url(#i1-glow-tear)"/>
+  <g filter="url(#i1-glow-soft)" opacity="0.9">
+    <circle cx="142" cy="70" r="2" fill="#ffe8c0"/>
+    <circle cx="162" cy="55" r="2.5" fill="#ffffff"/>
+    <circle cx="180" cy="75" r="2" fill="#ffe8c0"/>
+    <circle cx="155" cy="90" r="3" fill="#ffffff"/>
+    <circle cx="172" cy="100" r="2" fill="#ffe8c0"/>
+    <circle cx="145" cy="110" r="2.5" fill="#ffffff"/>
+    <circle cx="195" cy="85" r="2" fill="#ffe8c0"/>
+    <circle cx="130" cy="95" r="1.5" fill="#ffffff"/>
+    <circle cx="185" cy="110" r="1.5" fill="#ffe8c0"/>
+    <circle cx="160" cy="115" r="3" fill="#F4B800"/>
+  </g>
+  <g filter="url(#i1-glow-tear)">
+    <path d="M108 50 L122 40 L130 52 L142 30 L155 48 L165 28 L175 50 L185 38 L195 55 L205 42 L212 60 L205 80 L215 95 L205 108 L215 125 L205 138 L210 155 L200 168 L208 185 L195 195 L188 212 L175 200 L162 215 L150 200 L138 212 L125 198 L115 210 L108 195 L95 208 L90 188 L78 178 L88 162 L75 148 L88 135 L78 118 L90 105 L80 88 L92 75 L82 62 L95 52 Z" fill="url(#i1-tear-core)"/>
+  </g>
+  <g filter="url(#i1-glow-soft)" opacity="0.8">
+    <path d="M108 50 L122 40 L130 52 L142 30 L155 48 L165 28 L175 50 L185 38 L195 55 L205 42 L212 60 L205 80 L215 95 L205 108 L215 125 L205 138 L210 155 L200 168 L208 185 L195 195 L188 212 L175 200 L162 215 L150 200 L138 212 L125 198 L115 210 L108 195 L95 208 L90 188 L78 178 L88 162 L75 148 L88 135 L78 118 L90 105 L80 88 L92 75 L82 62 L95 52 Z" fill="none" stroke="#F4B800" stroke-width="2.5"/>
+    <path d="M108 50 L122 40 L130 52 L142 30 L155 48 L165 28 L175 50 L185 38 L195 55 L205 42 L212 60 L205 80 L215 95 L205 108 L215 125 L205 138 L210 155 L200 168 L208 185 L195 195 L188 212 L175 200 L162 215 L150 200 L138 212 L125 198 L115 210 L108 195 L95 208 L90 188 L78 178 L88 162 L75 148 L88 135 L78 118 L90 105 L80 88 L92 75 L82 62 L95 52 Z" fill="none" stroke="#7B2FFF" stroke-width="1.5" opacity="0.7"/>
+  </g>
+  <g fill="url(#i1-skyline-grad)" opacity="0.9">
+    <rect x="0" y="240" width="22" height="60"/>
+    <rect x="5" y="228" width="14" height="72"/>
+    <rect x="20" y="248" width="18" height="52"/>
+    <rect x="35" y="235" width="16" height="65"/>
+    <rect x="48" y="225" width="12" height="75"/>
+    <rect x="55" y="210" width="20" height="90"/>
+    <rect x="68" y="198" width="16" height="102"/>
+    <rect x="80" y="218" width="18" height="82"/>
+    <rect x="95" y="228" width="14" height="72"/>
+    <rect x="105" y="238" width="12" height="62"/>
+    <rect x="115" y="230" width="10" height="70"/>
+    <rect x="180" y="235" width="14" height="65"/>
+    <rect x="192" y="222" width="16" height="78"/>
+    <rect x="205" y="215" width="20" height="85"/>
+    <rect x="222" y="228" width="15" height="72"/>
+    <rect x="235" y="218" width="18" height="82"/>
+    <rect x="250" y="235" width="12" height="65"/>
+    <rect x="260" y="242" width="16" height="58"/>
+    <rect x="273" y="230" width="14" height="70"/>
+    <rect x="285" y="248" width="15" height="52"/>
+    <rect x="9" y="233" width="3" height="2" fill="#F4B800" opacity="0.4"/>
+    <rect x="13" y="238" width="3" height="2" fill="#F4B800" opacity="0.3"/>
+    <rect x="60" y="215" width="4" height="3" fill="#F4B800" opacity="0.4"/>
+    <rect x="70" y="205" width="4" height="3" fill="#F4B800" opacity="0.4"/>
+    <rect x="195" y="228" width="4" height="3" fill="#F4B800" opacity="0.3"/>
+    <rect x="210" y="220" width="4" height="3" fill="#F4B800" opacity="0.4"/>
+    <rect x="240" y="225" width="4" height="3" fill="#F4B800" opacity="0.3"/>
+  </g>
+  <rect x="0" y="310" width="300" height="80" fill="url(#i1-water)"/>
+  <g opacity="0.3">
+    <path d="M0 320 Q75 316 150 320 Q225 324 300 320" fill="none" stroke="#F4B800" stroke-width="1"/>
+    <path d="M0 330 Q75 326 150 330 Q225 334 300 330" fill="none" stroke="#1a3a5a" stroke-width="1"/>
+    <path d="M0 340 Q75 337 150 340 Q225 343 300 340" fill="none" stroke="#F4B800" stroke-width="0.5"/>
+  </g>
+  <ellipse cx="158" cy="350" rx="60" ry="20" fill="#F4B800" opacity="0.08" filter="url(#i1-glow-soft)"/>
+  <rect x="0" y="300" width="300" height="12" rx="2" fill="#1a1a2a"/>
+  <rect x="0" y="304" width="300" height="4" fill="#252535"/>
+  <line x1="0" y1="306" x2="300" y2="306" stroke="#F4B800" stroke-width="0.5" opacity="0.3" stroke-dasharray="8,6"/>
+  <line x1="0" y1="300" x2="300" y2="300" stroke="#333345" stroke-width="2"/>
+  <line x1="0" y1="311" x2="300" y2="311" stroke="#333345" stroke-width="1.5"/>
+  <g fill="#1a1a2a">
+    <rect x="38" y="270" width="8" height="32"/>
+    <rect x="88" y="260" width="10" height="42"/>
+    <rect x="148" y="258" width="10" height="44"/>
+    <rect x="208" y="260" width="10" height="42"/>
+    <rect x="258" y="270" width="8" height="32"/>
+  </g>
+  <g stroke="#333345" stroke-width="1" fill="none" opacity="0.6">
+    <path d="M42 270 Q25 305 0 305"/>
+    <path d="M42 270 Q65 290 88 265"/>
+    <path d="M93 260 Q120 285 148 263"/>
+    <path d="M93 260 Q70 290 42 272"/>
+    <path d="M153 258 Q180 280 213 265"/>
+    <path d="M153 258 Q128 280 95 262"/>
+    <path d="M213 260 Q235 285 258 272"/>
+    <path d="M213 260 Q190 285 155 260"/>
+    <path d="M262 270 Q280 290 300 305"/>
+    <path d="M262 270 Q242 290 213 262"/>
+  </g>
+  <g filter="url(#i1-glow-bridge)">
+    <ellipse cx="150" cy="297" rx="4" ry="3" fill="#F4B800" opacity="0.6"/>
+    <line x1="148" y1="298" x2="146" y2="307" stroke="#2a1a08" stroke-width="3" stroke-linecap="round"/>
+    <line x1="152" y1="298" x2="153" y2="307" stroke="#2a1a08" stroke-width="3" stroke-linecap="round"/>
+    <line x1="150" y1="296" x2="150" y2="287" stroke="#3a2008" stroke-width="4" stroke-linecap="round"/>
+    <line x1="150" y1="291" x2="144" y2="295" stroke="#2a1a08" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="150" y1="290" x2="154" y2="278" stroke="#2a1a08" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="150" cy="285" r="4" fill="#3a1a08"/>
+    <ellipse cx="150" cy="308" rx="18" ry="4" fill="#F4B800" opacity="0.5" filter="url(#i1-glow-bridge)"/>
+    <path d="M132 304 Q150 302 168 304" fill="none" stroke="#F4B800" stroke-width="1.5" opacity="0.7"/>
+    <path d="M118 306 Q150 303 182 306" fill="none" stroke="#F4B800" stroke-width="1" opacity="0.4"/>
+    <path d="M153 278 Q158 250 162 215" stroke="#F4B800" stroke-width="1.5" fill="none" opacity="0.7" stroke-dasharray="3,3"/>
+    <circle cx="154" cy="278" r="3" fill="#F4B800" opacity="0.9"/>
+  </g>
+  <g filter="url(#i1-glow-soft)" opacity="0.6">
+    <circle cx="85" cy="165" r="1.5" fill="#F4B800"/>
+    <circle cx="215" cy="145" r="1.5" fill="#F4B800"/>
+    <circle cx="72" cy="200" r="1" fill="#7B2FFF"/>
+    <circle cx="228" cy="185" r="1" fill="#7B2FFF"/>
+    <circle cx="60" cy="230" r="1.5" fill="#F4B800"/>
+    <circle cx="238" cy="220" r="1.5" fill="#F4B800"/>
+    <circle cx="50" cy="260" r="1" fill="#F4B800"/>
+    <circle cx="245" cy="255" r="1" fill="#F4B800"/>
+  </g>
+  <rect x="0" y="390" width="300" height="60" fill="#06060d"/>
+  <rect x="0" y="390" width="300" height="3" fill="#F4B800"/>
+  <text x="150" y="412" text-anchor="middle" font-family="serif" font-size="11" font-weight="bold" fill="#F4B800" letter-spacing="3">CATALYST: THE AWAKENING</text>
+  <text x="150" y="428" text-anchor="middle" font-family="serif" font-size="18" font-weight="bold" fill="#F0EDE5" letter-spacing="2">"AWAKEN, O CITY"</text>
+  <text x="22" y="444" font-family="sans-serif" font-size="9" fill="#888888" letter-spacing="1">ISSUE 01</text>
+  <text x="278" y="444" text-anchor="end" font-family="sans-serif" font-size="9" fill="#888888" letter-spacing="1">&#8358;500</text>
+  <text x="150" y="444" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#555555" letter-spacing="2">LAGOS NOIR COMICS</text>
+</svg>
         </div>
         <div class="issue-overlay">
           <span class="issue-status status-out">Out Now</span>
@@ -4661,21 +6322,161 @@
     <div class="issue-card reveal reveal-delay-1">
       <div class="issue-cover">
         <div class="issue-bg issue-bg-2">
-          <svg class="issue-art" viewBox="0 0 300 450" xmlns="http://www.w3.org/2000/svg">
-            <rect x="0" y="0" width="300" height="450" fill="none"/>
-            <!-- Lightning effect -->
-            <path d="M200,0 L170,150 L195,150 L130,350 L165,350 L100,450" stroke="#7B2FFF" stroke-width="3" fill="none" opacity="0.6"/>
-            <path d="M200,0 L170,150 L195,150 L130,350 L165,350 L100,450" stroke="#F4B800" stroke-width="1" fill="none" opacity="0.8"/>
-            <!-- Talking drum abstract -->
-            <ellipse cx="150" cy="220" rx="50" ry="90" fill="none" stroke="#00C9B1" stroke-width="1.5" opacity="0.4"/>
-            <ellipse cx="150" cy="220" rx="35" ry="65" fill="none" stroke="#00C9B1" stroke-width="1" opacity="0.3"/>
-            <!-- Grid lines -->
-            <line x1="0" y1="100" x2="300" y2="100" stroke="#00C9B1" stroke-width="0.4" opacity="0.2"/>
-            <line x1="0" y1="200" x2="300" y2="200" stroke="#00C9B1" stroke-width="0.4" opacity="0.2"/>
-            <line x1="0" y1="300" x2="300" y2="300" stroke="#00C9B1" stroke-width="0.4" opacity="0.2"/>
-            <line x1="100" y1="0" x2="100" y2="450" stroke="#00C9B1" stroke-width="0.4" opacity="0.2"/>
-            <line x1="200" y1="0" x2="200" y2="450" stroke="#00C9B1" stroke-width="0.4" opacity="0.2"/>
-          </svg>
+          <!-- ISSUE 02 COVER SVG -->
+<svg class="issue-art" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 450">
+  <defs>
+    <radialGradient id="i2-sky" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#120838"/>
+      <stop offset="50%" stop-color="#0a0520"/>
+      <stop offset="100%" stop-color="#06060d"/>
+    </radialGradient>
+    <radialGradient id="i2-lightning-core" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="20%" stop-color="#ffffa0"/>
+      <stop offset="50%" stop-color="#F4B800"/>
+      <stop offset="80%" stop-color="#7B2FFF" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#7B2FFF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="i2-amara-aura" cx="50%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#7B2FFF" stop-opacity="0.4"/>
+      <stop offset="60%" stop-color="#7B2FFF" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#7B2FFF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="i2-lightning-glow">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="i2-glow-soft">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="i2-cloud-blur">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+    <linearGradient id="i2-theatre-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1a1228"/>
+      <stop offset="100%" stop-color="#0a0818"/>
+    </linearGradient>
+    <linearGradient id="i2-ground-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0e0a1a"/>
+      <stop offset="100%" stop-color="#06060d"/>
+    </linearGradient>
+    <radialGradient id="i2-skin" cx="45%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#8B4513"/>
+      <stop offset="60%" stop-color="#5C2D0E"/>
+      <stop offset="100%" stop-color="#3a1a08"/>
+    </radialGradient>
+  </defs>
+  <rect width="300" height="450" fill="url(#i2-sky)"/>
+  <g filter="url(#i2-cloud-blur)">
+    <ellipse cx="60" cy="60" rx="85" ry="55" fill="#100630" opacity="0.95"/>
+    <ellipse cx="30" cy="40" rx="55" ry="38" fill="#0c0425" opacity="0.9"/>
+    <ellipse cx="100" cy="35" rx="65" ry="42" fill="#100630" opacity="0.9"/>
+    <ellipse cx="220" cy="55" rx="90" ry="58" fill="#100630" opacity="0.95"/>
+    <ellipse cx="270" cy="38" rx="50" ry="35" fill="#0c0425" opacity="0.9"/>
+    <ellipse cx="240" cy="30" rx="60" ry="38" fill="#100630" opacity="0.85"/>
+    <ellipse cx="150" cy="25" rx="80" ry="40" fill="#0e051e" opacity="0.8"/>
+    <ellipse cx="40" cy="130" rx="70" ry="45" fill="#100630" opacity="0.5"/>
+    <ellipse cx="260" cy="120" rx="70" ry="45" fill="#100630" opacity="0.5"/>
+  </g>
+  <g filter="url(#i2-lightning-glow)" opacity="0.7">
+    <path d="M40 30 L28 55 L38 55 L22 90" stroke="#7B2FFF" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M260 25 L272 52 L262 52 L278 88" stroke="#7B2FFF" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M10 70 L18 92 L12 92 L20 115" stroke="#F4B800" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M288 65 L280 88 L286 88 L278 112" stroke="#F4B800" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  </g>
+  <g filter="url(#i2-glow-soft)" opacity="0.8">
+    <circle cx="35" cy="85" r="3" fill="#F4B800"/>
+    <circle cx="265" cy="90" r="3" fill="#F4B800"/>
+    <circle cx="18" cy="115" r="2" fill="#7B2FFF"/>
+    <circle cx="280" cy="110" r="2" fill="#7B2FFF"/>
+    <circle cx="55" cy="150" r="2.5" fill="#F4B800"/>
+    <circle cx="245" cy="145" r="2.5" fill="#F4B800"/>
+    <circle cx="80" cy="200" r="1.5" fill="#7B2FFF"/>
+    <circle cx="220" cy="195" r="1.5" fill="#7B2FFF"/>
+    <circle cx="30" cy="250" r="2" fill="#F4B800"/>
+    <circle cx="270" cy="248" r="2" fill="#F4B800"/>
+    <circle cx="20" cy="180" r="1.5" fill="#ffffa0"/>
+    <circle cx="282" cy="175" r="1.5" fill="#ffffa0"/>
+  </g>
+  <rect x="30" y="340" width="240" height="80" fill="url(#i2-theatre-grad)"/>
+  <rect x="50" y="352" width="200" height="8" rx="1" fill="#1a1228"/>
+  <rect x="60" y="344" width="180" height="8" rx="1" fill="#1e163a"/>
+  <path d="M40 345 Q80 290 120 345" fill="#120a25"/>
+  <path d="M45 345 Q80 295 115 345" fill="#1a1238" stroke="#252040" stroke-width="1"/>
+  <path d="M90 345 Q150 270 210 345" fill="#120a25"/>
+  <path d="M95 345 Q150 278 205 345" fill="#1a1238" stroke="#252040" stroke-width="1"/>
+  <path d="M180 345 Q220 292 260 345" fill="#120a25"/>
+  <path d="M183 345 Q220 296 257 345" fill="#1a1238" stroke="#252040" stroke-width="1"/>
+  <circle cx="80" cy="315" r="3" fill="#7B2FFF" opacity="0.5"/>
+  <circle cx="150" cy="295" r="4" fill="#7B2FFF" opacity="0.6"/>
+  <circle cx="220" cy="318" r="3" fill="#7B2FFF" opacity="0.5"/>
+  <rect x="65" y="360" width="8" height="12" rx="2" fill="#0a0520" stroke="#252040" stroke-width="0.5"/>
+  <rect x="85" y="360" width="8" height="12" rx="2" fill="#0a0520" stroke="#252040" stroke-width="0.5"/>
+  <rect x="135" y="358" width="8" height="14" rx="2" fill="#0a0520" stroke="#252040" stroke-width="0.5"/>
+  <rect x="155" y="358" width="8" height="14" rx="2" fill="#0a0520" stroke="#252040" stroke-width="0.5"/>
+  <rect x="210" y="360" width="8" height="12" rx="2" fill="#0a0520" stroke="#252040" stroke-width="0.5"/>
+  <rect x="228" y="360" width="8" height="12" rx="2" fill="#0a0520" stroke="#252040" stroke-width="0.5"/>
+  <rect x="0" y="415" width="300" height="35" fill="url(#i2-ground-grad)"/>
+  <ellipse cx="152" cy="200" rx="75" ry="90" fill="url(#i2-amara-aura)" filter="url(#i2-lightning-glow)"/>
+  <path d="M165 145 Q190 128 215 112 Q225 120 220 132 Q200 148 178 162 Q172 158 165 150Z" fill="#6b25e0" opacity="0.9"/>
+  <path d="M170 148 Q195 132 218 118" fill="none" stroke="#7B2FFF" stroke-width="1.5" opacity="0.6"/>
+  <path d="M140 250 Q132 265 125 272 Q128 278 133 276 Q140 270 148 255Z" fill="#3a0e99"/>
+  <path d="M164 245 Q175 258 180 265 Q176 270 172 268 Q165 262 158 250Z" fill="#3a0e99"/>
+  <ellipse cx="127" cy="274" rx="8" ry="6" fill="#00C9B1"/>
+  <path d="M128 200 Q125 225 130 250 Q140 260 152 262 Q164 260 174 250 Q180 225 177 200 Q165 190 152 188 Q139 190 128 200Z" fill="#4a18bb"/>
+  <path d="M133 200 L132 252" stroke="#00C9B1" stroke-width="2.5"/>
+  <path d="M171 200 L172 252" stroke="#00C9B1" stroke-width="2.5"/>
+  <path d="M131 238 Q152 242 173 238" fill="none" stroke="#00C9B1" stroke-width="2.5"/>
+  <path d="M130 205 Q118 188 112 172 Q115 165 120 167 Q125 180 132 198Z" fill="#5C2D0E"/>
+  <path d="M173 205 Q185 185 192 170 Q195 164 190 162 Q186 168 178 182 Q174 198 172 206Z" fill="#5C2D0E"/>
+  <g transform="translate(136 125) rotate(8)">
+    <path d="M5 0 Q0 14 5 28 Q18 34 30 28 Q35 14 30 0 Q18 -6 5 0Z" fill="#5a3008"/>
+    <line x1="10" y1="0" x2="8" y2="27" stroke="#F4B800" stroke-width="1.5"/>
+    <line x1="17" y1="-4" x2="17" y2="31" stroke="#F4B800" stroke-width="1.5"/>
+    <line x1="25" y1="0" x2="26" y2="27" stroke="#F4B800" stroke-width="1.5"/>
+    <ellipse cx="17" cy="0" rx="13" ry="6" fill="#8a5520"/>
+    <ellipse cx="17" cy="28" rx="13" ry="6" fill="#8a5520"/>
+  </g>
+  <g filter="url(#i2-lightning-glow)">
+    <circle cx="152" cy="135" r="35" fill="url(#i2-lightning-core)" opacity="0.85"/>
+    <path d="M152 100 L142 70 L155 68 L145 38" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M152 100 L168 72 L155 70 L172 42" stroke="#F4B800" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <path d="M120 120 L88 112 L95 125 L62 118" stroke="#7B2FFF" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M182 125 L215 115 L208 128 L242 120" stroke="#F4B800" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M130 100 L105 80 L112 92 L88 72" stroke="#7B2FFF" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M170 105 L198 88 L192 100 L218 82" stroke="#F4B800" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M148 95 L138 58 L148 65 L140 28" stroke="#ffffa0" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M158 95 L165 58 L155 65 L162 28" stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M145 38 L138 25 M145 38 L152 26" stroke="#F4B800" stroke-width="2" fill="none"/>
+    <path d="M172 42 L168 28 M172 42 L182 30" stroke="#ffffa0" stroke-width="2" fill="none"/>
+    <path d="M62 118 L52 108 M62 118 L60 130" stroke="#7B2FFF" stroke-width="1.5" fill="none"/>
+    <path d="M242 120 L252 110 M242 120 L248 133" stroke="#F4B800" stroke-width="1.5" fill="none"/>
+    <path d="M135 130 Q115 115 118 95 Q125 75 115 58" stroke="#7B2FFF" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M168 128 Q188 112 185 92 Q178 72 188 55" stroke="#F4B800" stroke-width="2" fill="none" stroke-linecap="round"/>
+  </g>
+  <ellipse cx="152" cy="183" rx="22" ry="12" fill="#6b25e0"/>
+  <path d="M135 182 Q142 174 152 172 Q162 174 169 182" fill="#7B2FFF"/>
+  <path d="M138 178 Q152 168 166 178" fill="#5a1ecc"/>
+  <ellipse cx="152" cy="196" rx="18" ry="20" fill="url(#i2-skin)"/>
+  <g filter="url(#i2-glow-soft)">
+    <path d="M141 193 Q147 188 153 193 Q147 199 141 193Z" fill="#7B2FFF"/>
+    <path d="M151 193 Q157 188 163 193 Q157 199 151 193Z" fill="#7B2FFF"/>
+    <ellipse cx="147" cy="193" rx="3" ry="3.5" fill="#1a0030"/>
+    <ellipse cx="157" cy="193" rx="3" ry="3.5" fill="#1a0030"/>
+    <circle cx="147.5" cy="192" r="1" fill="#7B2FFF"/>
+    <circle cx="157.5" cy="192" r="1" fill="#7B2FFF"/>
+    <path d="M140 188 Q147 184 153 189" fill="none" stroke="#3a1a08" stroke-width="1.8"/>
+    <path d="M151 189 Q157 184 164 188" fill="none" stroke="#3a1a08" stroke-width="1.8"/>
+  </g>
+  <rect x="0" y="390" width="300" height="60" fill="#06060d"/>
+  <rect x="0" y="390" width="300" height="3" fill="#7B2FFF"/>
+  <text x="150" y="412" text-anchor="middle" font-family="serif" font-size="11" font-weight="bold" fill="#7B2FFF" letter-spacing="3">CATALYST: THE AWAKENING</text>
+  <text x="150" y="430" text-anchor="middle" font-family="serif" font-size="15" font-weight="bold" fill="#F0EDE5" letter-spacing="2">"&#7778;&#192;NG&#211;'S DAUGHTER"</text>
+  <text x="22" y="444" font-family="sans-serif" font-size="9" fill="#888888" letter-spacing="1">ISSUE 02</text>
+  <text x="278" y="444" text-anchor="end" font-family="sans-serif" font-size="9" fill="#888888" letter-spacing="1">&#8358;500</text>
+  <text x="150" y="444" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#555555" letter-spacing="2">LAGOS NOIR COMICS</text>
+</svg>
         </div>
         <div class="issue-overlay">
           <span class="issue-status status-new">New</span>
@@ -4695,24 +6496,183 @@
     <div class="issue-card reveal reveal-delay-2">
       <div class="issue-cover">
         <div class="issue-bg issue-bg-3">
-          <svg class="issue-art" viewBox="0 0 300 450" xmlns="http://www.w3.org/2000/svg">
-            <!-- Iron and fire -->
-            <rect x="0" y="300" width="300" height="150" fill="#FF6B1A" opacity="0.1"/>
-            <!-- Forge sparks -->
-            <circle cx="80" cy="300" r="2" fill="#FF6B1A" opacity="0.7"/>
-            <circle cx="140" cy="280" r="1.5" fill="#F4B800" opacity="0.8"/>
-            <circle cx="200" cy="310" r="2" fill="#FF6B1A" opacity="0.6"/>
-            <circle cx="250" cy="290" r="1" fill="#F4B800" opacity="0.9"/>
-            <circle cx="50" cy="320" r="1.5" fill="#FF6B1A" opacity="0.5"/>
-            <!-- Iron armor fragments -->
-            <path d="M120,150 L150,100 L180,150 L165,200 L135,200 Z" fill="#2a2a2a" opacity="0.8" stroke="#FF6B1A" stroke-width="0.8" stroke-opacity="0.5"/>
-            <path d="M90,180 L120,150 L135,200 L105,220 Z" fill="#1a1a1a" opacity="0.8" stroke="#FF6B1A" stroke-width="0.5" stroke-opacity="0.4"/>
-            <!-- Glowing eyes -->
-            <circle cx="138" cy="135" r="4" fill="#FF6B1A" opacity="0.9"/>
-            <circle cx="162" cy="135" r="4" fill="#FF6B1A" opacity="0.9"/>
-            <!-- Adire iron pattern -->
-            <path d="M0,400 Q150,350 300,400 L300,450 L0,450 Z" fill="#FF6B1A" opacity="0.08"/>
-          </svg>
+          <!-- ISSUE 03 COVER SVG -->
+<svg class="issue-art" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 450">
+  <defs>
+    <radialGradient id="i3-bg" cx="50%" cy="60%" r="70%">
+      <stop offset="0%" stop-color="#1a0800"/>
+      <stop offset="60%" stop-color="#0e0500"/>
+      <stop offset="100%" stop-color="#06060d"/>
+    </radialGradient>
+    <radialGradient id="i3-fire-core" cx="50%" cy="100%" r="70%">
+      <stop offset="0%" stop-color="#FF6B1A"/>
+      <stop offset="40%" stop-color="#FF6B1A" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#FF6B1A" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="i3-forge-light" cx="50%" cy="80%" r="65%">
+      <stop offset="0%" stop-color="#ff8a30" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#FF6B1A" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#FF6B1A" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="i3-skin" cx="45%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#8B4513"/>
+      <stop offset="60%" stop-color="#5C2D0E"/>
+      <stop offset="100%" stop-color="#3a1a08"/>
+    </radialGradient>
+    <filter id="i3-fire-glow">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="i3-glow-soft">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="i3-glow-hard">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="i3-armor-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6a6a7a"/>
+      <stop offset="50%" stop-color="#444455"/>
+      <stop offset="100%" stop-color="#222230"/>
+    </linearGradient>
+  </defs>
+  <rect width="300" height="450" fill="url(#i3-bg)"/>
+  <ellipse cx="150" cy="400" rx="180" ry="130" fill="url(#i3-fire-core)" filter="url(#i3-fire-glow)"/>
+  <ellipse cx="150" cy="350" rx="140" ry="100" fill="url(#i3-forge-light)"/>
+  <g opacity="0.5" fill="#0e0806">
+    <rect x="0" y="320" width="80" height="40" rx="5"/>
+    <path d="M15 320 Q30 305 55 305 Q70 305 78 320" fill="#0e0806"/>
+    <ellipse cx="20" cy="360" rx="12" ry="8" fill="#060402"/>
+    <ellipse cx="62" cy="360" rx="12" ry="8" fill="#060402"/>
+    <rect x="220" y="325" width="80" height="38" rx="5"/>
+    <path d="M230 325 Q248 310 272 310 Q288 310 298 325" fill="#0e0806"/>
+    <ellipse cx="240" cy="363" rx="12" ry="8" fill="#060402"/>
+    <ellipse cx="282" cy="363" rx="12" ry="8" fill="#060402"/>
+    <rect x="90" y="340" width="120" height="35" rx="4" opacity="0.4"/>
+    <path d="M100 340 Q130 325 170 325 Q195 325 205 340" fill="#0e0806" opacity="0.4"/>
+  </g>
+  <g filter="url(#i3-glow-soft)">
+    <rect x="18" y="200" width="28" height="9" rx="3" fill="#555566" transform="rotate(-30 18 200)"/>
+    <ellipse cx="18" cy="200" rx="6" ry="4" fill="#666677" transform="rotate(-30 18 200)"/>
+    <rect x="258" y="195" width="22" height="8" rx="2" fill="#555566" transform="rotate(25 258 195)"/>
+    <rect x="258" y="188" width="14" height="12" rx="2" fill="#666677" transform="rotate(25 258 195)"/>
+    <rect x="30" y="155" width="35" height="6" rx="2" fill="#444455" transform="rotate(-15 30 155)"/>
+    <rect x="242" y="148" width="32" height="5" rx="2" fill="#555566" transform="rotate(20 242 148)"/>
+    <circle cx="55" cy="240" r="6" fill="#666677"/>
+    <circle cx="248" cy="235" r="6" fill="#666677"/>
+    <rect x="22" y="268" width="18" height="5" rx="2" fill="#555566" transform="rotate(-10 22 268)"/>
+    <rect x="262" y="265" width="18" height="5" rx="2" fill="#555566" transform="rotate(12 262 265)"/>
+  </g>
+  <g filter="url(#i3-fire-glow)" opacity="0.7">
+    <path d="M20 380 Q25 355 22 340 Q30 348 28 335 Q38 345 35 330 Q45 342 40 325 Q50 340 50 360 Q42 375 20 380Z" fill="#FF6B1A"/>
+    <path d="M22 380 Q27 362 24 348 Q32 354 30 342 Q38 350 42 335 Q48 348 48 362 Z" fill="#ffe0a0"/>
+    <path d="M252 375 Q258 350 255 335 Q265 343 262 330 Q272 340 268 325 Q278 338 278 358 Q272 372 252 375Z" fill="#FF6B1A"/>
+    <path d="M254 374 Q260 356 257 342 Q266 350 264 337 Q272 346 275 358Z" fill="#ffe0a0"/>
+    <path d="M108 390 Q118 368 115 352 Q125 362 122 348 Q132 358 128 342 Q140 354 140 372 Q132 384 108 390Z" fill="#FF6B1A"/>
+    <path d="M165 390 Q172 370 169 355 Q178 363 176 350 Q185 360 180 345 Q190 358 190 374 Q183 384 165 390Z" fill="#FF6B1A"/>
+  </g>
+  <g filter="url(#i3-glow-soft)" opacity="0.9">
+    <circle cx="45" cy="350" r="3" fill="#FF6B1A"/>
+    <circle cx="78" cy="338" r="2.5" fill="#ffe0a0"/>
+    <circle cx="55" cy="305" r="2" fill="#FF6B1A"/>
+    <circle cx="30" cy="315" r="1.5" fill="#ffe0a0"/>
+    <circle cx="250" cy="348" r="3" fill="#FF6B1A"/>
+    <circle cx="272" cy="332" r="2.5" fill="#ffe0a0"/>
+    <circle cx="262" cy="308" r="2" fill="#FF6B1A"/>
+    <circle cx="278" cy="318" r="1.5" fill="#ffe0a0"/>
+    <circle cx="130" cy="380" r="2" fill="#FF6B1A"/>
+    <circle cx="170" cy="382" r="2" fill="#FF6B1A"/>
+    <circle cx="110" cy="365" r="1.5" fill="#ffe0a0"/>
+    <circle cx="190" cy="368" r="1.5" fill="#ffe0a0"/>
+    <circle cx="68" cy="275" r="1.5" fill="#FF6B1A"/>
+    <circle cx="232" cy="270" r="1.5" fill="#FF6B1A"/>
+    <circle cx="85" cy="235" r="1" fill="#ffe0a0"/>
+    <circle cx="215" cy="230" r="1" fill="#ffe0a0"/>
+  </g>
+  <g filter="url(#i3-glow-soft)">
+    <ellipse cx="150" cy="375" rx="55" ry="18" fill="#444455" opacity="0.8"/>
+    <ellipse cx="150" cy="375" rx="55" ry="18" fill="none" stroke="#FF6B1A" stroke-width="1.5" opacity="0.6"/>
+    <path d="M120 375 Q112 355 110 330 Q115 310 118 290 Q122 280 126 270" fill="none" stroke="#555566" stroke-width="18" stroke-linecap="round"/>
+    <path d="M120 375 Q113 357 111 332 Q116 312 119 292 Q123 282 127 272" fill="none" stroke="#666677" stroke-width="10" stroke-linecap="round" opacity="0.7"/>
+    <path d="M180 375 Q188 355 190 330 Q185 310 182 290 Q178 280 174 270" fill="none" stroke="#555566" stroke-width="18" stroke-linecap="round"/>
+    <path d="M180 375 Q187 357 189 332 Q184 312 181 292 Q177 282 173 272" fill="none" stroke="#666677" stroke-width="10" stroke-linecap="round" opacity="0.7"/>
+    <path d="M118 275 Q110 250 112 220 Q115 195 120 175" fill="none" stroke="#555566" stroke-width="14" stroke-linecap="round"/>
+    <path d="M182 275 Q190 250 188 220 Q185 195 180 175" fill="none" stroke="#444455" stroke-width="14" stroke-linecap="round"/>
+    <circle cx="115" cy="308" r="6" fill="#666677"/>
+    <circle cx="186" cy="310" r="5" fill="#555566"/>
+    <circle cx="112" cy="255" r="5" fill="#666677"/>
+    <circle cx="189" cy="258" r="4" fill="#555566"/>
+    <path d="M115 295 L122 290 L118 302Z" fill="#FF6B1A" opacity="0.7" filter="url(#i3-glow-soft)"/>
+    <path d="M183 298 L178 292 L182 305Z" fill="#FF6B1A" opacity="0.7" filter="url(#i3-glow-soft)"/>
+  </g>
+  <path d="M110 280 Q105 315 102 360" fill="none" stroke="#444455" stroke-width="24" stroke-linecap="round"/>
+  <path d="M190 280 Q195 315 198 360" fill="none" stroke="#444455" stroke-width="24" stroke-linecap="round"/>
+  <ellipse cx="104" cy="328" rx="14" ry="11" fill="#555566"/>
+  <circle cx="104" cy="328" r="4" fill="#FF6B1A" filter="url(#i3-glow-soft)"/>
+  <ellipse cx="196" cy="328" rx="14" ry="11" fill="#555566"/>
+  <circle cx="196" cy="328" r="4" fill="#FF6B1A" filter="url(#i3-glow-soft)"/>
+  <path d="M90 356 Q100 375 118 375 L120 360 L96 354Z" fill="#333344"/>
+  <path d="M210 356 Q200 375 182 375 L180 360 L204 354Z" fill="#333344"/>
+  <path d="M93 373 L88 382" stroke="#666677" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M100 376 L97 386" stroke="#666677" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M108 377 L107 388" stroke="#666677" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M207 373 L212 382" stroke="#666677" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M200 376 L203 386" stroke="#666677" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M192 377 L193 388" stroke="#666677" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M150 175 Q180 178 192 200 Q200 228 195 265 Q178 278 158 280 L150 278Z" fill="url(#i3-armor-grad)"/>
+  <path d="M150 175 Q120 178 108 200 Q100 228 105 265 Q122 278 142 280 L150 278Z" fill="url(#i3-skin)"/>
+  <path d="M150 280 Q138 275 125 268 Q112 255 108 240 Q106 220 110 205" fill="none" stroke="#555566" stroke-width="8" stroke-linecap="round" opacity="0.8"/>
+  <path d="M155 185 Q178 190 188 210 Q190 235 185 255 Q170 265 155 265Z" fill="#555566"/>
+  <path d="M165 210 L172 202 L178 210 L175 220 L172 225 L169 220 L162 210Z" fill="none" stroke="#FF6B1A" stroke-width="2" filter="url(#i3-glow-soft)"/>
+  <path d="M158 185 L158 268" stroke="#666677" stroke-width="1" opacity="0.5"/>
+  <path d="M162 188 L165 265" stroke="#666677" stroke-width="0.8" opacity="0.4"/>
+  <path d="M155 220 Q175 222 190 220" stroke="#666677" stroke-width="1" opacity="0.4"/>
+  <ellipse cx="193" cy="198" rx="18" ry="13" fill="#555566"/>
+  <path d="M178 192 Q190 182 208 192 Q202 210 188 205Z" fill="#666677"/>
+  <circle cx="193" cy="196" r="4" fill="#FF6B1A" filter="url(#i3-glow-soft)"/>
+  <ellipse cx="107" cy="200" rx="16" ry="12" fill="#5C2D0E"/>
+  <path d="M95 194 Q105 185 118 192 Q113 207 100 202Z" fill="#555566" opacity="0.7"/>
+  <path d="M110 148 Q108 118 150 110 Q192 118 190 148 Q185 172 150 177 Q115 172 110 148Z" fill="url(#i3-armor-grad)"/>
+  <path d="M115 145 Q112 120 150 114 Q188 120 185 145" fill="#555566"/>
+  <path d="M114 132 Q106 112 110 98 Q118 108 122 124Z" fill="#444455"/>
+  <path d="M115 130 Q108 112 112 100 Q119 108 122 122Z" fill="#555566"/>
+  <path d="M186 132 Q194 112 190 98 Q182 108 178 124Z" fill="#444455"/>
+  <path d="M185 130 Q192 112 188 100 Q181 108 178 122Z" fill="#555566"/>
+  <path d="M120 148 Q150 143 180 148 Q175 161 150 164 Q125 161 120 148Z" fill="#0a0604"/>
+  <g filter="url(#i3-glow-hard)">
+    <ellipse cx="138" cy="154" rx="9" ry="5.5" fill="#FF6B1A"/>
+    <ellipse cx="162" cy="154" rx="9" ry="5.5" fill="#FF6B1A"/>
+    <ellipse cx="138" cy="154" rx="5" ry="3" fill="#ffaa60"/>
+    <ellipse cx="162" cy="154" rx="5" ry="3" fill="#ffaa60"/>
+    <ellipse cx="138" cy="154" rx="2.5" ry="1.5" fill="#ffffff"/>
+    <ellipse cx="162" cy="154" rx="2.5" ry="1.5" fill="#ffffff"/>
+  </g>
+  <path d="M144 125 L150 118 L156 125 L150 132Z" fill="none" stroke="#FF6B1A" stroke-width="2" filter="url(#i3-glow-soft)"/>
+  <circle cx="120" cy="130" r="2.5" fill="#666677"/>
+  <circle cx="180" cy="130" r="2.5" fill="#666677"/>
+  <circle cx="150" cy="118" r="3" fill="#666677"/>
+  <path d="M110 200 Q90 195 72 188 Q62 192 58 200" fill="none" stroke="#555566" stroke-width="22" stroke-linecap="round"/>
+  <path d="M50 196 Q42 192 36 183" stroke="#888899" stroke-width="3.5" stroke-linecap="round" fill="none" filter="url(#i3-glow-soft)"/>
+  <path d="M52 200 Q44 198 38 192" stroke="#888899" stroke-width="3.5" stroke-linecap="round" fill="none" filter="url(#i3-glow-soft)"/>
+  <path d="M54 203 Q47 203 42 197" stroke="#888899" stroke-width="3.5" stroke-linecap="round" fill="none" filter="url(#i3-glow-soft)"/>
+  <path d="M56 206 Q50 208 45 203" stroke="#888899" stroke-width="3" stroke-linecap="round" fill="none" filter="url(#i3-glow-soft)"/>
+  <ellipse cx="56" cy="200" rx="12" ry="10" fill="#FF6B1A" opacity="0.2" filter="url(#i3-glow-soft)"/>
+  <path d="M190 200 Q210 192 225 185 Q235 188 242 198" fill="none" stroke="#555566" stroke-width="22" stroke-linecap="round"/>
+  <path d="M250 194 Q258 190 265 182" stroke="#888899" stroke-width="3.5" stroke-linecap="round" fill="none" filter="url(#i3-glow-soft)"/>
+  <path d="M249 198 Q257 196 262 190" stroke="#888899" stroke-width="3.5" stroke-linecap="round" fill="none" filter="url(#i3-glow-soft)"/>
+  <path d="M248 202 Q255 202 260 197" stroke="#888899" stroke-width="3.5" stroke-linecap="round" fill="none" filter="url(#i3-glow-soft)"/>
+  <path d="M246 205 Q252 207 256 202" stroke="#888899" stroke-width="3" stroke-linecap="round" fill="none" filter="url(#i3-glow-soft)"/>
+  <path d="M110 148 Q100 175 104 265" fill="none" stroke="#FF6B1A" stroke-width="2" opacity="0.4" filter="url(#i3-fire-glow)"/>
+  <path d="M190 148 Q200 175 196 265" fill="none" stroke="#FF6B1A" stroke-width="2" opacity="0.4" filter="url(#i3-fire-glow)"/>
+  <rect x="0" y="390" width="300" height="60" fill="#06060d"/>
+  <rect x="0" y="390" width="300" height="3" fill="#FF6B1A"/>
+  <text x="150" y="412" text-anchor="middle" font-family="serif" font-size="11" font-weight="bold" fill="#FF6B1A" letter-spacing="3">CATALYST: THE AWAKENING</text>
+  <text x="150" y="430" text-anchor="middle" font-family="serif" font-size="16" font-weight="bold" fill="#F0EDE5" letter-spacing="2">"IRON IN THE BLOOD"</text>
+  <text x="22" y="444" font-family="sans-serif" font-size="9" fill="#888888" letter-spacing="1">ISSUE 03</text>
+  <text x="278" y="444" text-anchor="end" font-family="sans-serif" font-size="9" fill="#888888" letter-spacing="1">&#8358;500</text>
+  <text x="150" y="444" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#555555" letter-spacing="2">LAGOS NOIR COMICS</text>
+</svg>
         </div>
         <div class="issue-overlay">
           <span class="issue-status status-out">Out Now</span>
@@ -4732,48 +6692,270 @@
     <div class="issue-card reveal">
       <div class="issue-cover premium-gate">
         <div class="issue-bg issue-bg-4" style="background:linear-gradient(135deg,#0a0a1f,#1a0a0a,#06060d)">
-          <svg class="issue-art" viewBox="0 0 300 450" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <radialGradient id="i4g" cx="50%" cy="40%" r="55%">
-                <stop offset="0%" stop-color="#7B2FFF" stop-opacity="0.4"/>
-                <stop offset="100%" stop-color="#06060d" stop-opacity="0"/>
-              </radialGradient>
-              <filter id="glow4">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
-                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-              </filter>
-            </defs>
-            <rect x="0" y="0" width="300" height="450" fill="url(#i4g)"/>
-            <!-- Convergence rings — all 4 powers merging -->
-            <circle cx="150" cy="200" r="120" fill="none" stroke="#7B2FFF" stroke-width="0.6" opacity="0.15"/>
-            <circle cx="150" cy="200" r="95" fill="none" stroke="#F4B800" stroke-width="0.6" opacity="0.2"/>
-            <circle cx="150" cy="200" r="70" fill="none" stroke="#00C9B1" stroke-width="0.6" opacity="0.25"/>
-            <circle cx="150" cy="200" r="48" fill="none" stroke="#C41E3A" stroke-width="0.8" opacity="0.35"/>
-            <!-- Four orisha energy streams converging -->
-            <path d="M150,80 L150,152" stroke="#F4B800" stroke-width="2.5" opacity="0.7" filter="url(#glow4)"/>
-            <path d="M220,200 L198,200" stroke="#00C9B1" stroke-width="2.5" opacity="0.7" filter="url(#glow4)"/>
-            <path d="M150,320 L150,248" stroke="#7B2FFF" stroke-width="2.5" opacity="0.7" filter="url(#glow4)"/>
-            <path d="M80,200 L102,200" stroke="#C41E3A" stroke-width="2.5" opacity="0.7" filter="url(#glow4)"/>
-            <!-- Central convergence point — Bayo ascending -->
-            <circle cx="150" cy="200" r="22" fill="none" stroke="#F4B800" stroke-width="1.5" opacity="0.9" filter="url(#glow4)"/>
-            <circle cx="150" cy="200" r="10" fill="#F4B800" opacity="0.6" filter="url(#glow4)"/>
-            <!-- Figure silhouette — arms outstretched -->
-            <path d="M150,165 L150,240" stroke="#F0EDE5" stroke-width="3" opacity="0.8"/>
-            <path d="M115,190 L185,190" stroke="#F0EDE5" stroke-width="2.5" opacity="0.7"/>
-            <circle cx="150" cy="162" r="8" fill="#F0EDE5" opacity="0.8"/>
-            <!-- Adire grid -->
-            <line x1="0" y1="50" x2="300" y2="50" stroke="#F4B800" stroke-width="0.3" opacity="0.08"/>
-            <line x1="0" y1="350" x2="300" y2="350" stroke="#7B2FFF" stroke-width="0.3" opacity="0.08"/>
-            <line x1="50" y1="0" x2="50" y2="450" stroke="#C41E3A" stroke-width="0.3" opacity="0.08"/>
-            <line x1="250" y1="0" x2="250" y2="450" stroke="#00C9B1" stroke-width="0.3" opacity="0.08"/>
-            <!-- Bottom Lagos horizon -->
-            <rect x="0" y="390" width="300" height="60" fill="#0a0a1f" opacity="0.7"/>
-            <rect x="20" y="370" width="15" height="80" fill="#F4B800" opacity="0.08"/>
-            <rect x="55" y="360" width="12" height="90" fill="#F4B800" opacity="0.06"/>
-            <rect x="90" y="375" width="20" height="75" fill="#F4B800" opacity="0.07"/>
-            <rect x="200" y="365" width="18" height="85" fill="#F4B800" opacity="0.06"/>
-            <rect x="240" y="372" width="14" height="78" fill="#F4B800" opacity="0.08"/>
-          </svg>
+          <!-- ISSUE 04 COVER SVG -->
+<svg class="issue-art" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 450">
+  <defs>
+    <radialGradient id="i4-sky" cx="50%" cy="35%" r="75%">
+      <stop offset="0%" stop-color="#0e0530"/>
+      <stop offset="50%" stop-color="#080318"/>
+      <stop offset="100%" stop-color="#06060d"/>
+    </radialGradient>
+    <radialGradient id="i4-tear-core" cx="50%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="10%" stop-color="#ffe8c0"/>
+      <stop offset="30%" stop-color="#F4B800"/>
+      <stop offset="55%" stop-color="#7B2FFF" stop-opacity="0.9"/>
+      <stop offset="80%" stop-color="#3a0a6a" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#3a0a6a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="i4-bayo-aura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F4B800" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#F4B800" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="i4-amara-aura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00C9B1" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#00C9B1" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="i4-wolf-aura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FF6B1A" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#FF6B1A" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="i4-oracle-aura" cx="50%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#F4B800" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#F4B800" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="i4-water" cx="50%" cy="20%" r="70%">
+      <stop offset="0%" stop-color="#0a1020"/>
+      <stop offset="100%" stop-color="#06060d"/>
+    </radialGradient>
+    <filter id="i4-glow-epic">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="i4-glow-soft">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="i4-glow-tear">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="i4-architect-shadow">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="i4-star-blur">
+      <feGaussianBlur stdDeviation="0.8"/>
+    </filter>
+    <linearGradient id="i4-skyline-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1a0835"/>
+      <stop offset="100%" stop-color="#0a0418"/>
+    </linearGradient>
+  </defs>
+  <rect width="300" height="450" fill="url(#i4-sky)"/>
+  <g filter="url(#i4-star-blur)" opacity="0.7">
+    <circle cx="15" cy="15" r="1" fill="#ffffff"/>
+    <circle cx="40" cy="8" r="1.2" fill="#ffffff"/>
+    <circle cx="65" cy="22" r="0.8" fill="#ffffff"/>
+    <circle cx="90" cy="12" r="1" fill="#ffffff"/>
+    <circle cx="115" cy="5" r="1.2" fill="#ffe8c0"/>
+    <circle cx="135" cy="18" r="0.8" fill="#ffffff"/>
+    <circle cx="165" cy="8" r="1" fill="#ffffff"/>
+    <circle cx="190" cy="20" r="1.2" fill="#ffe8c0"/>
+    <circle cx="215" cy="10" r="0.8" fill="#ffffff"/>
+    <circle cx="240" cy="16" r="1" fill="#ffffff"/>
+    <circle cx="265" cy="6" r="1.2" fill="#ffffff"/>
+    <circle cx="285" cy="22" r="0.8" fill="#ffffff"/>
+    <circle cx="28" cy="38" r="1" fill="#ffffff"/>
+    <circle cx="55" cy="45" r="1.2" fill="#ffffff"/>
+    <circle cx="78" cy="32" r="0.8" fill="#ffffff"/>
+    <circle cx="105" cy="42" r="1" fill="#ffffff"/>
+    <circle cx="128" cy="30" r="1.2" fill="#ffffff"/>
+    <circle cx="175" cy="35" r="0.8" fill="#ffffff"/>
+    <circle cx="202" cy="28" r="1" fill="#ffffff"/>
+    <circle cx="228" cy="40" r="1.2" fill="#ffffff"/>
+    <circle cx="255" cy="32" r="0.8" fill="#ffffff"/>
+    <circle cx="278" cy="42" r="1" fill="#ffffff"/>
+    <circle cx="118" cy="58" r="2" fill="#ffe8c0"/>
+    <circle cx="140" cy="45" r="2.5" fill="#ffffff"/>
+    <circle cx="160" cy="62" r="2" fill="#ffe8c0"/>
+    <circle cx="178" cy="50" r="1.5" fill="#ffffff"/>
+    <circle cx="150" cy="75" r="3" fill="#ffe8c0"/>
+    <circle cx="132" cy="80" r="1.5" fill="#ffffff"/>
+    <circle cx="168" cy="78" r="2" fill="#ffe8c0"/>
+    <circle cx="145" cy="95" r="2.5" fill="#ffffff"/>
+    <circle cx="165" cy="100" r="2" fill="#ffe8c0"/>
+    <circle cx="185" cy="88" r="1.5" fill="#ffffff"/>
+    <circle cx="125" cy="100" r="2" fill="#ffe8c0"/>
+    <circle cx="195" cy="70" r="1.5" fill="#ffffff"/>
+  </g>
+  <ellipse cx="150" cy="150" rx="145" ry="155" fill="#7B2FFF" opacity="0.06" filter="url(#i4-glow-epic)"/>
+  <ellipse cx="150" cy="150" rx="110" ry="118" fill="#F4B800" opacity="0.04" filter="url(#i4-glow-epic)"/>
+  <g filter="url(#i4-glow-soft)" opacity="0.95">
+    <circle cx="148" cy="60" r="2.5" fill="#ffe8c0"/>
+    <circle cx="168" cy="48" r="3" fill="#ffffff"/>
+    <circle cx="185" cy="68" r="2" fill="#ffe8c0"/>
+    <circle cx="158" cy="85" r="3.5" fill="#ffffff"/>
+    <circle cx="175" cy="100" r="2.5" fill="#ffe8c0"/>
+    <circle cx="142" cy="108" r="2" fill="#ffffff"/>
+    <circle cx="192" cy="82" r="2.5" fill="#ffe8c0"/>
+    <circle cx="128" cy="90" r="2" fill="#ffffff"/>
+    <circle cx="182" cy="115" r="2" fill="#ffe8c0"/>
+    <circle cx="155" cy="115" r="4" fill="#F4B800"/>
+    <circle cx="135" cy="72" r="2.5" fill="#ffe8c0"/>
+    <circle cx="205" cy="92" r="2" fill="#ffffff"/>
+    <circle cx="118" cy="108" r="2.5" fill="#ffe8c0"/>
+    <circle cx="200" cy="112" r="2" fill="#ffffff"/>
+  </g>
+  <g filter="url(#i4-glow-tear)">
+    <path d="M95 18 L112 8 L122 22 L138 5 L152 20 L165 5 L178 22 L190 10 L202 28 L215 15 L222 35 L212 52 L228 68 L215 82 L228 100 L215 115 L225 132 L212 148 L222 168 L208 180 L218 198 L202 210 L212 228 L195 238 L200 258 L182 265 L185 282 L165 282 L162 265 L148 282 L135 265 L132 282 L115 278 L118 260 L100 252 L108 232 L92 220 L102 202 L88 188 L100 170 L85 155 L98 138 L85 122 L98 105 L85 88 L98 72 L85 55 L98 40 Z" fill="url(#i4-tear-core)"/>
+  </g>
+  <g filter="url(#i4-glow-soft)" opacity="0.9">
+    <path d="M95 18 L112 8 L122 22 L138 5 L152 20 L165 5 L178 22 L190 10 L202 28 L215 15 L222 35 L212 52 L228 68 L215 82 L228 100 L215 115 L225 132 L212 148 L222 168 L208 180 L218 198 L202 210 L212 228 L195 238 L200 258 L182 265 L185 282 L165 282 L162 265 L148 282 L135 265 L132 282 L115 278 L118 260 L100 252 L108 232 L92 220 L102 202 L88 188 L100 170 L85 155 L98 138 L85 122 L98 105 L85 88 L98 72 L85 55 L98 40 Z" fill="none" stroke="#F4B800" stroke-width="2.5"/>
+    <path d="M95 18 L112 8 L122 22 L138 5 L152 20 L165 5 L178 22 L190 10 L202 28 L215 15 L222 35 L212 52 L228 68 L215 82 L228 100 L215 115 L225 132 L212 148 L222 168 L208 180 L218 198 L202 210 L212 228 L195 238 L200 258 L182 265 L185 282 L165 282 L162 265 L148 282 L135 265 L132 282 L115 278 L118 260 L100 252 L108 232 L92 220 L102 202 L88 188 L100 170 L85 155 L98 138 L85 122 L98 105 L85 88 L98 72 L85 55 L98 40 Z" fill="none" stroke="#7B2FFF" stroke-width="1.5" opacity="0.7"/>
+  </g>
+  <g filter="url(#i4-architect-shadow)">
+    <ellipse cx="152" cy="28" rx="22" ry="22" fill="#030215" opacity="0.95"/>
+    <path d="M108 45 Q130 35 152 38 Q174 35 196 45 Q198 58 196 68 Q174 58 152 62 Q130 58 108 68 Q106 58 108 45Z" fill="#030215" opacity="0.95"/>
+    <path d="M110 65 Q105 85 108 110 Q125 120 152 122 Q179 120 196 110 Q199 85 190 65 Q174 58 152 60 Q130 58 110 65Z" fill="#030215" opacity="0.9"/>
+    <path d="M110 70 Q80 65 52 62 Q40 68 38 78 Q48 85 60 80 Q85 75 108 80Z" fill="#030215" opacity="0.9"/>
+    <path d="M190 70 Q220 65 248 62 Q260 68 262 78 Q252 85 240 80 Q215 75 192 80Z" fill="#030215" opacity="0.9"/>
+    <ellipse cx="143" cy="28" rx="4" ry="3" fill="#C41E3A" opacity="0.6" filter="url(#i4-glow-soft)"/>
+    <ellipse cx="161" cy="28" rx="4" ry="3" fill="#C41E3A" opacity="0.6" filter="url(#i4-glow-soft)"/>
+    <ellipse cx="143" cy="28" rx="2" ry="1.5" fill="#ff4060"/>
+    <ellipse cx="161" cy="28" rx="2" ry="1.5" fill="#ff4060"/>
+  </g>
+  <g fill="url(#i4-skyline-grad)" opacity="0.95">
+    <rect x="0" y="310" width="18" height="55"/>
+    <rect x="2" y="298" width="14" height="67"/>
+    <rect x="14" y="320" width="16" height="45"/>
+    <rect x="28" y="308" width="14" height="57"/>
+    <rect x="40" y="295" width="12" height="70"/>
+    <rect x="50" y="288" width="18" height="77"/>
+    <rect x="65" y="275" width="16" height="90"/>
+    <rect x="78" y="290" width="14" height="75"/>
+    <rect x="90" y="300" width="12" height="65"/>
+    <rect x="100" y="310" width="10" height="55"/>
+    <rect x="190" y="308" width="12" height="57"/>
+    <rect x="200" y="295" width="14" height="70"/>
+    <rect x="212" y="285" width="18" height="80"/>
+    <rect x="228" y="278" width="16" height="87"/>
+    <rect x="242" y="290" width="14" height="75"/>
+    <rect x="254" y="300" width="12" height="65"/>
+    <rect x="264" y="310" width="16" height="55"/>
+    <rect x="278" y="298" width="14" height="67"/>
+    <rect x="288" y="320" width="12" height="45"/>
+    <rect x="5" y="302" width="3" height="2" fill="#F4B800" opacity="0.4"/>
+    <rect x="52" y="292" width="4" height="3" fill="#F4B800" opacity="0.3"/>
+    <rect x="68" y="280" width="4" height="3" fill="#F4B800" opacity="0.4"/>
+    <rect x="205" y="300" width="4" height="3" fill="#F4B800" opacity="0.3"/>
+    <rect x="232" y="285" width="4" height="3" fill="#F4B800" opacity="0.4"/>
+    <rect x="258" y="295" width="4" height="3" fill="#F4B800" opacity="0.3"/>
+  </g>
+  <rect x="0" y="352" width="300" height="10" rx="2" fill="#1a1a2a"/>
+  <rect x="0" y="355" width="300" height="4" fill="#222232"/>
+  <rect x="45" y="330" width="8" height="24" fill="#1a1a2a"/>
+  <rect x="98" y="322" width="9" height="32" fill="#1a1a2a"/>
+  <rect x="150" y="320" width="9" height="34" fill="#1a1a2a"/>
+  <rect x="202" y="322" width="9" height="32" fill="#1a1a2a"/>
+  <rect x="252" y="330" width="8" height="24" fill="#1a1a2a"/>
+  <rect x="0" y="360" width="300" height="60" fill="url(#i4-water)"/>
+  <ellipse cx="100" cy="385" rx="30" ry="12" fill="#F4B800" opacity="0.06"/>
+  <ellipse cx="68" cy="390" rx="22" ry="8" fill="#00C9B1" opacity="0.06"/>
+  <ellipse cx="228" cy="385" rx="30" ry="12" fill="#FF6B1A" opacity="0.06"/>
+  <ellipse cx="150" cy="395" rx="35" ry="10" fill="#F4B800" opacity="0.05"/>
+  <ellipse cx="152" cy="400" rx="55" ry="18" fill="#7B2FFF" opacity="0.08" filter="url(#i4-glow-soft)"/>
+  <g filter="url(#i4-glow-soft)">
+    <ellipse cx="150" cy="345" rx="16" ry="18" fill="url(#i4-bayo-aura)"/>
+    <line x1="146" y1="353" x2="144" y2="363" stroke="#2a1808" stroke-width="4" stroke-linecap="round"/>
+    <line x1="154" y1="353" x2="155" y2="363" stroke="#2a1808" stroke-width="4" stroke-linecap="round"/>
+    <rect x="144" y="340" width="12" height="14" rx="3" fill="#2a1808"/>
+    <circle cx="150" cy="337" r="6" fill="#3a2008"/>
+    <line x1="148" y1="343" x2="141" y2="350" stroke="#2a1808" stroke-width="3" stroke-linecap="round"/>
+    <line x1="152" y1="342" x2="158" y2="328" stroke="#2a1808" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="160" cy="325" r="8" fill="#F4B800" opacity="0.8" filter="url(#i4-glow-epic)"/>
+    <circle cx="160" cy="325" r="4" fill="#ffffff" opacity="0.9"/>
+    <ellipse cx="150" cy="363" rx="14" ry="4" fill="#F4B800" opacity="0.5"/>
+  </g>
+  <g filter="url(#i4-glow-soft)">
+    <ellipse cx="82" cy="310" rx="18" ry="22" fill="url(#i4-amara-aura)"/>
+    <path d="M78 325 Q72 332 68 338" stroke="#1a0855" stroke-width="4" stroke-linecap="round" fill="none"/>
+    <path d="M86 326 Q90 333 92 340" stroke="#1a0855" stroke-width="4" stroke-linecap="round" fill="none"/>
+    <rect x="75" y="312" width="14" height="14" rx="3" fill="#2a0e88"/>
+    <circle cx="82" cy="307" r="6" fill="#1a0855"/>
+    <path d="M76 304 Q82 298 88 304" fill="#5a1ecc"/>
+    <line x1="78" y1="316" x2="72" y2="305" stroke="#1a0855" stroke-width="3" stroke-linecap="round"/>
+    <line x1="86" y1="316" x2="90" y2="304" stroke="#1a0855" stroke-width="3" stroke-linecap="round"/>
+    <ellipse cx="81" cy="300" rx="10" ry="6" fill="#3a2008"/>
+    <circle cx="81" cy="296" r="10" fill="#00C9B1" opacity="0.5" filter="url(#i4-glow-epic)"/>
+    <path d="M75 292 L68 278" stroke="#00C9B1" stroke-width="2" stroke-linecap="round"/>
+    <path d="M81 290 L80 274" stroke="#F4B800" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M87 292 L94 278" stroke="#00C9B1" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <g filter="url(#i4-glow-soft)">
+    <ellipse cx="225" cy="315" rx="22" ry="25" fill="url(#i4-wolf-aura)"/>
+    <line x1="218" y1="330" x2="212" y2="348" stroke="#222230" stroke-width="7" stroke-linecap="round"/>
+    <line x1="232" y1="330" x2="236" y2="348" stroke="#222230" stroke-width="7" stroke-linecap="round"/>
+    <rect x="210" y="308" width="30" height="24" rx="4" fill="#333344"/>
+    <path d="M212 302 Q225 294 238 302 Q236 312 225 315 Q214 312 212 302Z" fill="#333344"/>
+    <path d="M214 302 Q210 292 212 285 Q217 290 218 298Z" fill="#444455"/>
+    <path d="M236 302 Q240 292 238 285 Q233 290 232 298Z" fill="#444455"/>
+    <ellipse cx="220" cy="306" rx="4" ry="2.5" fill="#FF6B1A" filter="url(#i4-glow-soft)"/>
+    <ellipse cx="230" cy="306" rx="4" ry="2.5" fill="#FF6B1A" filter="url(#i4-glow-soft)"/>
+    <line x1="212" y1="316" x2="198" y2="308" stroke="#333344" stroke-width="8" stroke-linecap="round"/>
+    <line x1="238" y1="316" x2="252" y2="308" stroke="#333344" stroke-width="8" stroke-linecap="round"/>
+    <path d="M198 308 L192 303" stroke="#666677" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M198 308 L193 309" stroke="#666677" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M252 308 L258 303" stroke="#666677" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M252 308 L257 309" stroke="#666677" stroke-width="2.5" stroke-linecap="round"/>
+    <ellipse cx="225" cy="348" rx="18" ry="5" fill="#FF6B1A" opacity="0.4"/>
+  </g>
+  <g filter="url(#i4-glow-soft)">
+    <ellipse cx="152" cy="265" rx="28" ry="20" fill="url(#i4-oracle-aura)"/>
+    <ellipse cx="152" cy="282" rx="24" ry="7" fill="#1a1400" stroke="#F4B800" stroke-width="1.5"/>
+    <ellipse cx="152" cy="282" rx="24" ry="7" fill="#F4B800" opacity="0.15"/>
+    <path d="M140 268 Q138 275 140 282 Q146 285 152 286 Q158 285 164 282 Q166 275 160 268 Q156 264 152 263 Q148 264 140 268Z" fill="#0e0e0a"/>
+    <line x1="152" y1="248" x2="152" y2="284" stroke="#5a3008" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="152" cy="245" r="7" fill="#F4B800" filter="url(#i4-glow-epic)"/>
+    <circle cx="152" cy="245" r="4" fill="#ffffff"/>
+    <circle cx="152" cy="258" r="7" fill="#3a2008"/>
+    <path d="M145 255 Q152 248 159 255 Q156 260 152 261 Q148 260 145 255Z" fill="#0e0e00"/>
+    <path d="M146 262 Q148 272 152 276 Q156 272 154 262" fill="#e8e4d8"/>
+    <ellipse cx="152" cy="268" rx="30" ry="8" fill="none" stroke="#F4B800" stroke-width="1" opacity="0.5" filter="url(#i4-glow-soft)"/>
+    <ellipse cx="152" cy="268" rx="8" ry="30" fill="none" stroke="#F4B800" stroke-width="0.8" opacity="0.3" filter="url(#i4-glow-soft)"/>
+  </g>
+  <g filter="url(#i4-glow-soft)" opacity="0.5">
+    <circle cx="122" cy="255" r="5" fill="none" stroke="#F4B800" stroke-width="1"/>
+    <path d="M117 255 L127 255 M122 250 L122 260" stroke="#F4B800" stroke-width="1"/>
+    <path d="M178 258 L186 250 L194 258 L186 266Z" fill="none" stroke="#F4B800" stroke-width="1"/>
+  </g>
+  <g opacity="0.3" filter="url(#i4-glow-soft)">
+    <line x1="150" y1="340" x2="83" y2="320" stroke="#00C9B1" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <line x1="150" y1="340" x2="225" y2="320" stroke="#FF6B1A" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <line x1="150" y1="335" x2="152" y2="282" stroke="#F4B800" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <line x1="83" y1="300" x2="152" y2="280" stroke="#F4B800" stroke-width="1" stroke-dasharray="3,4"/>
+    <line x1="225" y1="300" x2="152" y2="280" stroke="#F4B800" stroke-width="1" stroke-dasharray="3,4"/>
+  </g>
+  <g filter="url(#i4-glow-soft)" opacity="0.7">
+    <circle cx="55" cy="280" r="2" fill="#F4B800"/>
+    <circle cx="248" cy="275" r="2" fill="#FF6B1A"/>
+    <circle cx="40" cy="340" r="1.5" fill="#00C9B1"/>
+    <circle cx="260" cy="338" r="1.5" fill="#FF6B1A"/>
+    <circle cx="120" cy="350" r="1.5" fill="#F4B800"/>
+    <circle cx="178" cy="350" r="1.5" fill="#F4B800"/>
+    <circle cx="72" cy="260" r="1.5" fill="#7B2FFF"/>
+    <circle cx="230" cy="258" r="1.5" fill="#7B2FFF"/>
+    <circle cx="108" cy="240" r="1" fill="#F4B800"/>
+    <circle cx="195" cy="238" r="1" fill="#F4B800"/>
+  </g>
+  <rect x="0" y="390" width="300" height="60" fill="#06060d"/>
+  <rect x="0" y="390" width="300" height="4" fill="#F4B800"/>
+  <text x="150" y="413" text-anchor="middle" font-family="serif" font-size="11" font-weight="bold" fill="#F4B800" letter-spacing="3">CATALYST: THE AWAKENING</text>
+  <text x="150" y="431" text-anchor="middle" font-family="serif" font-size="16" font-weight="bold" fill="#F0EDE5" letter-spacing="1.5">"THE CHOSEN FOUR"</text>
+  <text x="22" y="446" font-family="sans-serif" font-size="9" fill="#888888" letter-spacing="1">ISSUE 04</text>
+  <text x="278" y="446" text-anchor="end" font-family="sans-serif" font-size="9" fill="#888888" letter-spacing="1">&#8358;500</text>
+  <text x="150" y="446" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#555555" letter-spacing="2">LAGOS NOIR COMICS</text>
+</svg>
         </div>
         <div class="issue-overlay">
           <span class="issue-status status-new">Free</span>
