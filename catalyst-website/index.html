@@ -2729,66 +2729,6 @@
 
 <style>
 /* LOADER */
-#loader {
-  position: fixed;
-  inset: 0;
-  background: #06060d;
-  z-index: 10000;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.8s ease, visibility 0.8s ease;
-}
-#loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-.loader-logo {
-  font-family: 'Oswald', sans-serif;
-  font-size: clamp(2.5rem, 8vw, 6rem);
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  color: var(--bone-white);
-  text-transform: uppercase;
-  animation: loaderPulse 1.2s ease-in-out infinite alternate;
-}
-.loader-logo span { color: var(--danfo-gold); }
-.loader-sub {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.75rem;
-  letter-spacing: 0.4em;
-  color: rgba(240,237,229,0.4);
-  margin-top: 1rem;
-  text-transform: uppercase;
-  animation: fadeIn 0.8s ease 0.5s both;
-}
-.loader-bar-wrap {
-  width: 240px;
-  height: 2px;
-  background: rgba(240,237,229,0.1);
-  margin-top: 2.5rem;
-  overflow: hidden;
-  border-radius: 2px;
-}
-.loader-bar {
-  height: 100%;
-  background: linear-gradient(90deg, var(--danfo-gold), var(--electric-purple));
-  animation: loaderFill 1.6s ease forwards;
-}
-@keyframes loaderFill { from { width: 0%; } to { width: 100%; } }
-@keyframes loaderPulse {
-  from { text-shadow: 0 0 30px rgba(244,184,0,0.3); }
-  to   { text-shadow: 0 0 60px rgba(244,184,0,0.8), 0 0 120px rgba(123,47,255,0.4); }
-}
-.loader-orbs { display: flex; gap: 0.8rem; margin-top: 2rem; }
-.loader-orb { width: 8px; height: 8px; border-radius: 50%; animation: orbBounce 1.4s ease-in-out infinite; }
-.loader-orb:nth-child(1) { background: var(--danfo-gold);      animation-delay: 0s;   }
-.loader-orb:nth-child(2) { background: var(--electric-purple); animation-delay: 0.2s; }
-.loader-orb:nth-child(3) { background: var(--blood-red);       animation-delay: 0.4s; }
-.loader-orb:nth-child(4) { background: var(--orisha-teal);     animation-delay: 0.6s; }
-.loader-orb:nth-child(5) { background: var(--neon-orange);     animation-delay: 0.8s; }
-@keyframes orbBounce {
-  0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
-  40%           { transform: scale(1); opacity: 1; }
-}
 
 /* MANIFESTO */
 #manifesto {
@@ -4386,21 +4326,6 @@ body { padding-top: 26px; }
   </div>
 </div>
 
-<!-- ============================================================ LOADING SCREEN -->
-<div id="loader">
-  <div class="loader-logo">CATALYST<span>:</span>TA</div>
-  <div class="loader-sub">The Awakening — Loading the Universe</div>
-  <div class="loader-bar-wrap">
-    <div class="loader-bar"></div>
-  </div>
-  <div class="loader-orbs">
-    <div class="loader-orb"></div>
-    <div class="loader-orb"></div>
-    <div class="loader-orb"></div>
-    <div class="loader-orb"></div>
-    <div class="loader-orb"></div>
-  </div>
-</div>
 
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
@@ -9622,13 +9547,6 @@ body { padding-top: 26px; }
 </footer>
 
 <script>
-  // ─── LOADING SCREEN ──────────────────────────────────────────
-  const loader = document.getElementById('loader');
-  if (loader) {
-    // Hide after animation completes (1.8s), hard failsafe at 3s
-    setTimeout(() => loader.classList.add('hidden'), 1800);
-    setTimeout(() => { if (loader) loader.style.display = 'none'; }, 3000);
-  }
 
   // ─── CUSTOM CURSOR ───────────────────────────────────────────
   const cursor = document.getElementById('cursor');
