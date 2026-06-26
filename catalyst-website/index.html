@@ -2722,10 +2722,10 @@
 }
 </style>
 
-<!-- Supabase & Paystack SDKs -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="https://js.paystack.co/v1/inline.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<!-- Supabase & Paystack SDKs — async so they never block initial render -->
+<script async src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script async src="https://js.paystack.co/v1/inline.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 
 <style>
 /* LOADER */
@@ -2771,7 +2771,7 @@
 .loader-bar {
   height: 100%;
   background: linear-gradient(90deg, var(--danfo-gold), var(--electric-purple));
-  animation: loaderFill 3s ease forwards;
+  animation: loaderFill 1.6s ease forwards;
 }
 @keyframes loaderFill { from { width: 0%; } to { width: 100%; } }
 @keyframes loaderPulse {
@@ -9624,7 +9624,11 @@ body { padding-top: 26px; }
 <script>
   // ─── LOADING SCREEN ──────────────────────────────────────────
   const loader = document.getElementById('loader');
-  if (loader) { setTimeout(() => loader.classList.add('hidden'), 3400); }
+  if (loader) {
+    // Hide after animation completes (1.8s), hard failsafe at 3s
+    setTimeout(() => loader.classList.add('hidden'), 1800);
+    setTimeout(() => { if (loader) loader.style.display = 'none'; }, 3000);
+  }
 
   // ─── CUSTOM CURSOR ───────────────────────────────────────────
   const cursor = document.getElementById('cursor');
@@ -9975,15 +9979,23 @@ body { padding-top: 26px; }
   const PAYSTACK_KEY     = 'YOUR_PAYSTACK_PUBLIC_KEY';
   // ═══════════════════════════════════════════════════════════════
 
-  // ─── SUPABASE INIT ───────────────────────────────────────────
+  // ─── SUPABASE INIT (retries until async CDN script loads) ────
   let _sb = null;
   var _sbReady = SUPABASE_URL !== 'YOUR_SUPABASE_URL';
-  if (_sbReady && window.supabase) {
-    try {
-      _sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-      window._supabase = _sb;
-    } catch(e) { console.warn('Supabase init failed:', e); }
+  function _initSupabase() {
+    if (_sb) return;
+    if (_sbReady && window.supabase) {
+      try {
+        _sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        window._supabase = _sb;
+        flushPendingQueue && flushPendingQueue();
+        checkSession && checkSession();
+      } catch(e) { console.warn('Supabase init failed:', e); }
+    } else if (_sbReady) {
+      setTimeout(_initSupabase, 200); // CDN still loading, retry
+    }
   }
+  setTimeout(_initSupabase, 100);
 
   // ═══════════════════════════════════════════════════════════════
   // LAYER 3+4: localStorage VAULT + PENDING QUEUE
