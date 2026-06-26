@@ -3893,9 +3893,498 @@
 .panel-canva-wrap img { opacity: 0.55 !important; mix-blend-mode: multiply !important; }
 .issue-canva-overlay { opacity: 0.45 !important; mix-blend-mode: multiply !important; }
 .issue-card:hover .issue-canva-overlay { opacity: 0.65 !important; }
+
+/* ╔══════════════════════════════════════════════════════╗
+   ║  CATALYST — FEATURE LAYER v2                        ║
+   ╚══════════════════════════════════════════════════════╝ */
+
+/* ── THREAT TICKER ─────────────────────────────────────── */
+#threat-ticker {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 9999;
+  background: rgba(10,2,4,0.96);
+  backdrop-filter: blur(4px);
+  border-bottom: 1px solid rgba(196,30,58,0.35);
+  height: 26px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+.ticker-badge {
+  flex-shrink: 0;
+  padding: 0 12px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  color: #fff;
+  background: #C41E3A;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-right: 1px solid rgba(255,255,255,0.15);
+  white-space: nowrap;
+}
+.ticker-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #fff;
+  animation: ticker-blink 1.2s ease infinite;
+}
+@keyframes ticker-blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+.ticker-track { flex: 1; overflow: hidden; }
+.ticker-inner {
+  display: inline-flex;
+  animation: ticker-scroll 55s linear infinite;
+  white-space: nowrap;
+}
+.ticker-item {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.62rem;
+  color: rgba(240,237,229,0.65);
+  padding: 0 20px;
+  letter-spacing: 0.5px;
+}
+.ticker-item .t-gold { color: #F4B800; }
+.ticker-item .t-red  { color: #C41E3A; }
+.ticker-item .t-sep  { color: rgba(244,184,0,0.4); margin: 0 6px; }
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+body { padding-top: 26px; }
+
+/* ── SPARK CANVAS ──────────────────────────────────────── */
+#spark-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ── GLITCH TEXT ───────────────────────────────────────── */
+.villain-name {
+  position: relative;
+  cursor: default;
+  display: inline-block;
+}
+.villain-name::before,
+.villain-name::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.villain-name:hover::before {
+  opacity: 0.85;
+  color: #C41E3A;
+  clip-path: polygon(0 15%,100% 15%,100% 38%,0 38%);
+  transform: translateX(-4px);
+  animation: glitch-r 0.28s steps(1) infinite;
+}
+.villain-name:hover::after {
+  opacity: 0.85;
+  color: #7B2FFF;
+  clip-path: polygon(0 58%,100% 58%,100% 78%,0 78%);
+  transform: translateX(4px);
+  animation: glitch-l 0.22s steps(1) infinite;
+}
+.villain-name:hover {
+  animation: glitch-main 0.35s steps(1) infinite;
+  text-shadow: 2px 0 #C41E3A, -2px 0 #7B2FFF;
+}
+@keyframes glitch-main {
+  0%,92%  { transform:none; }
+  93%     { transform:translateX(-3px) skewX(-2deg); }
+  94%     { transform:translateX(3px) skewX(1deg); }
+  95%     { transform:translateX(-1px); }
+  96%,100%{ transform:none; }
+}
+@keyframes glitch-r {
+  0%,100%{ clip-path:polygon(0 15%,100% 15%,100% 38%,0 38%); transform:translateX(-4px); }
+  33%    { clip-path:polygon(0 8%,100% 8%,100% 28%,0 28%); transform:translateX(-6px); }
+  66%    { clip-path:polygon(0 22%,100% 22%,100% 44%,0 44%); transform:translateX(-2px); }
+}
+@keyframes glitch-l {
+  0%,100%{ clip-path:polygon(0 58%,100% 58%,100% 78%,0 78%); transform:translateX(4px); }
+  33%    { clip-path:polygon(0 52%,100% 52%,100% 72%,0 72%); transform:translateX(6px); }
+  66%    { clip-path:polygon(0 64%,100% 64%,100% 82%,0 82%); transform:translateX(2px); }
+}
+
+/* ── ORACLE TERMINAL ───────────────────────────────────── */
+#oracle-terminal {
+  background: #020405;
+  border-top: 1px solid rgba(0,201,177,0.1);
+  border-bottom: 1px solid rgba(0,201,177,0.1);
+  padding: 5rem 0;
+  position: relative;
+  overflow: hidden;
+}
+#oracle-terminal::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,201,177,0.012) 2px,rgba(0,201,177,0.012) 4px);
+  pointer-events:none;
+  z-index:0;
+}
+.terminal-wrap { max-width:880px; margin:0 auto; padding:0 2rem; position:relative; z-index:1; }
+.terminal-hdr {
+  text-align:center;
+  margin-bottom:3rem;
+}
+.terminal-hdr .section-label { justify-content:center; }
+.term-window {
+  background:#010304;
+  border:1px solid rgba(0,201,177,0.18);
+  border-radius:6px;
+  overflow:hidden;
+  box-shadow:0 0 60px rgba(0,201,177,0.04);
+}
+.term-titlebar {
+  background:rgba(0,201,177,0.06);
+  border-bottom:1px solid rgba(0,201,177,0.12);
+  padding:0.6rem 1rem;
+  display:flex;
+  align-items:center;
+  gap:0.75rem;
+}
+.term-dots span {
+  display:inline-block;
+  width:10px;height:10px;
+  border-radius:50%;
+  margin-right:5px;
+}
+.term-dots span:nth-child(1){background:#ff5f57;}
+.term-dots span:nth-child(2){background:#febc2e;}
+.term-dots span:nth-child(3){background:#28c840;}
+.term-title {
+  flex:1;
+  text-align:center;
+  font-family:monospace;
+  font-size:0.7rem;
+  color:rgba(240,237,229,0.25);
+  letter-spacing:1px;
+}
+.term-body {
+  padding:1.75rem;
+  min-height:380px;
+  font-family:'Courier New',monospace;
+  font-size:0.8rem;
+  line-height:1.65;
+  color:#00C9B1;
+  position:relative;
+}
+#terminal-out { white-space:pre-wrap; word-break:break-word; }
+.t-dim{color:rgba(0,201,177,0.4);}
+.t-gold{color:#F4B800;}
+.t-red{color:#C41E3A;}
+.t-white{color:rgba(240,237,229,0.82);}
+.t-purple{color:#9B59FF;}
+.t-bx{background:rgba(196,30,58,0.92);color:transparent;border-radius:2px;padding:0 3px;user-select:none;}
+.t-cursor{display:inline-block;width:8px;height:1em;background:#00C9B1;vertical-align:middle;animation:cur-blink 0.8s step-end infinite;}
+@keyframes cur-blink{0%,100%{opacity:1}50%{opacity:0}}
+.term-tabs {
+  display:flex;
+  gap:0.5rem;
+  padding:1rem 1.75rem 0;
+  flex-wrap:wrap;
+}
+.term-tab {
+  background:transparent;
+  border:1px solid rgba(0,201,177,0.2);
+  color:rgba(0,201,177,0.5);
+  font-family:monospace;
+  font-size:0.68rem;
+  letter-spacing:1px;
+  padding:0.35rem 0.85rem;
+  cursor:pointer;
+  transition:all 0.2s;
+}
+.term-tab:hover,.term-tab.active{background:rgba(0,201,177,0.1);border-color:#00C9B1;color:#00C9B1;}
+
+/* ── CHAR DOSSIER MODAL ────────────────────────────────── */
+#dossier-overlay {
+  position:fixed;
+  inset:0;
+  z-index:10000;
+  background:rgba(0,0,0,0.93);
+  backdrop-filter:blur(10px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:1.5rem;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 0.35s ease;
+}
+#dossier-overlay.open { opacity:1; pointer-events:all; }
+.dossier-modal {
+  background:#06060A;
+  border:1px solid rgba(196,30,58,0.25);
+  max-width:680px;
+  width:100%;
+  max-height:88vh;
+  overflow-y:auto;
+  position:relative;
+  padding:2.5rem;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(196,30,58,0.3) transparent;
+}
+.dossier-modal::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(240,237,229,0.006) 3px,rgba(240,237,229,0.006) 4px);
+  pointer-events:none;
+}
+.dos-stamp {
+  position:absolute;
+  top:1.8rem;
+  right:2rem;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.4rem;
+  letter-spacing:4px;
+  color:rgba(196,30,58,0.45);
+  border:3px solid rgba(196,30,58,0.3);
+  padding:0.3rem 0.7rem;
+  transform:rotate(-12deg);
+  pointer-events:none;
+}
+.dos-agency {
+  font-family:monospace;
+  font-size:0.58rem;
+  color:rgba(240,237,229,0.25);
+  letter-spacing:3px;
+  margin-bottom:0.4rem;
+}
+.dos-name {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:2.8rem;
+  letter-spacing:4px;
+  color:#F4B800;
+  line-height:1;
+  margin-bottom:0.2rem;
+}
+.dos-codename {
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.72rem;
+  color:rgba(240,237,229,0.4);
+  letter-spacing:2px;
+  margin-bottom:1.5rem;
+}
+.dos-divider { border:none; border-top:1px solid rgba(196,30,58,0.15); margin:1.5rem 0; }
+.dos-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem 2rem; margin-bottom:1.5rem; }
+.dos-field label { display:block; font-family:monospace; font-size:0.57rem; color:rgba(240,237,229,0.28); letter-spacing:2px; margin-bottom:0.2rem; text-transform:uppercase; }
+.dos-field .dos-val { font-family:'Space Grotesk',sans-serif; font-size:0.82rem; color:rgba(240,237,229,0.82); }
+.dos-redact { background:rgba(196,30,58,0.88); color:transparent !important; border-radius:2px; padding:1px 4px; user-select:none; }
+.dos-stat { margin-bottom:0.8rem; }
+.dos-stat-hdr { display:flex; justify-content:space-between; font-family:monospace; font-size:0.58rem; color:rgba(240,237,229,0.35); letter-spacing:1px; margin-bottom:0.3rem; }
+.stat-bar { height:5px; background:rgba(240,237,229,0.06); border-radius:2px; overflow:hidden; }
+.stat-fill { height:100%; border-radius:2px; width:0; transition:width 1.1s cubic-bezier(0.4,0,0.2,1) 0.3s; }
+.sf-gold   { background:linear-gradient(90deg,#F4B800,#FFD700); }
+.sf-red    { background:linear-gradient(90deg,#C41E3A,#FF1744); }
+.sf-purple { background:linear-gradient(90deg,#7B2FFF,#A855F7); }
+.sf-teal   { background:linear-gradient(90deg,#00C9B1,#06D6A0); }
+.dos-notes { border:1px dashed rgba(240,237,229,0.08); padding:1rem; margin-top:0.5rem; font-family:'Space Grotesk',sans-serif; font-size:0.78rem; line-height:1.75; color:rgba(240,237,229,0.5); }
+.dos-notes strong { font-family:monospace; font-size:0.58rem; color:rgba(196,30,58,0.6); letter-spacing:2px; display:block; margin-bottom:0.5rem; }
+.dos-close { display:block; width:100%; margin-top:2rem; background:rgba(196,30,58,0.1); border:1px solid rgba(196,30,58,0.3); color:rgba(240,237,229,0.6); font-family:monospace; font-size:0.68rem; letter-spacing:3px; padding:0.75rem; cursor:pointer; text-align:center; transition:all 0.2s; }
+.dos-close:hover { background:rgba(196,30,58,0.25); color:#fff; }
+.char-card { cursor:pointer; }
+.char-card:hover::after {
+  content:'VIEW CLASSIFIED FILE →';
+  position:absolute;
+  bottom:1.5rem;
+  left:50%;
+  transform:translateX(-50%);
+  font-family:monospace;
+  font-size:0.6rem;
+  letter-spacing:3px;
+  color:#F4B800;
+  z-index:20;
+  white-space:nowrap;
+  pointer-events:none;
+}
+
+/* ── HERO QUIZ ─────────────────────────────────────────── */
+#hero-quiz {
+  padding:6rem 0;
+  background:linear-gradient(180deg,#040408 0%,#06040E 50%,#040408 100%);
+  position:relative;
+  overflow:hidden;
+}
+#hero-quiz::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(ellipse at 50% 50%,rgba(123,47,255,0.06) 0%,transparent 70%);
+  pointer-events:none;
+}
+.quiz-wrap { max-width:700px; margin:0 auto; padding:0 2rem; position:relative; }
+.quiz-progress { display:flex; gap:6px; margin-bottom:3rem; }
+.quiz-pip { height:3px; flex:1; background:rgba(240,237,229,0.08); border-radius:2px; transition:background 0.4s; }
+.quiz-pip.done { background:#F4B800; }
+.quiz-pip.cur  { background:rgba(244,184,0,0.4); }
+.quiz-step { display:none; }
+.quiz-step.active { display:block; animation:quiz-in 0.35s ease; }
+@keyframes quiz-in { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:none} }
+.quiz-q {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(1.4rem,3vw,2rem);
+  letter-spacing:2px;
+  color:rgba(240,237,229,0.93);
+  line-height:1.2;
+  margin-bottom:0.5rem;
+}
+.quiz-ctx {
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.8rem;
+  color:rgba(240,237,229,0.35);
+  font-style:italic;
+  margin-bottom:2rem;
+}
+.quiz-opts {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0.7rem;
+}
+@media(max-width:520px){ .quiz-opts{grid-template-columns:1fr;} }
+.quiz-opt {
+  background:rgba(240,237,229,0.025);
+  border:1px solid rgba(240,237,229,0.1);
+  padding:1rem 1.1rem;
+  cursor:pointer;
+  text-align:left;
+  transition:all 0.2s;
+  clip-path:polygon(6px 0%,100% 0%,100% calc(100% - 6px),calc(100% - 6px) 100%,0% 100%,0% 6px);
+}
+.quiz-opt:hover { background:rgba(244,184,0,0.06); border-color:rgba(244,184,0,0.35); }
+.opt-ltr { display:block; font-family:'Bebas Neue',sans-serif; font-size:0.65rem; letter-spacing:3px; color:#F4B800; margin-bottom:0.3rem; }
+.opt-txt { font-family:'Space Grotesk',sans-serif; font-size:0.82rem; color:rgba(240,237,229,0.72); line-height:1.5; }
+.opt-yor { display:block; font-size:0.68rem; color:rgba(240,237,229,0.28); font-style:italic; margin-top:0.3rem; }
+/* Result */
+.quiz-result { display:none; text-align:center; animation:quiz-in 0.45s ease; }
+.quiz-result.show { display:block; }
+.res-img { width:100%; max-width:300px; height:380px; object-fit:cover; object-position:center top; margin:0 auto 1.5rem; display:block; border:1px solid rgba(244,184,0,0.18); clip-path:polygon(0 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%); }
+.res-label { font-family:'Bebas Neue',sans-serif; font-size:0.75rem; letter-spacing:5px; color:rgba(240,237,229,0.3); margin-bottom:0.2rem; }
+.res-name { font-family:'Bebas Neue',sans-serif; font-size:3.5rem; letter-spacing:4px; color:#F4B800; line-height:1; margin-bottom:0.6rem; }
+.res-tag { font-family:'Space Grotesk',sans-serif; font-size:0.87rem; color:rgba(240,237,229,0.5); max-width:400px; margin:0 auto 2rem; line-height:1.75; }
+.res-retry { background:transparent; border:1px solid rgba(244,184,0,0.35); color:#F4B800; font-family:'Bebas Neue',sans-serif; font-size:0.85rem; letter-spacing:3px; padding:0.7rem 2rem; cursor:pointer; transition:all 0.2s; }
+.res-retry:hover { background:rgba(244,184,0,0.08); }
+
+/* ── FIELD DISPATCH ────────────────────────────────────── */
+#dispatch {
+  padding:5rem 0;
+  background:#030508;
+  border-top:1px solid rgba(0,201,177,0.06);
+}
+.dispatch-inner { max-width:800px; margin:0 auto; padding:0 2rem; }
+.dispatch-hdr { display:flex; align-items:center; gap:0.75rem; margin-bottom:2.5rem; }
+.dispatch-sig { width:8px;height:8px;border-radius:50%;background:#00C9B1;box-shadow:0 0 8px #00C9B1;animation:sig-pulse 1.5s ease infinite;flex-shrink:0; }
+@keyframes sig-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.75)}}
+.dispatch-lbl { font-family:monospace;font-size:0.65rem;color:rgba(0,201,177,0.55);letter-spacing:3px; }
+.dispatch-static { font-family:monospace;font-size:0.6rem;color:rgba(240,237,229,0.15);margin-left:auto; }
+.dispatch-card { border:1px solid rgba(0,201,177,0.12);padding:2rem;background:rgba(0,201,177,0.015);position:relative;overflow:hidden;transition:border-color 0.3s; }
+.dispatch-card::after { content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,201,177,0.3),transparent); }
+.dispatch-meta { font-family:monospace;font-size:0.6rem;color:rgba(0,201,177,0.45);letter-spacing:2px;margin-bottom:1rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem; }
+.dispatch-body { font-family:'Space Grotesk',sans-serif;font-size:0.9rem;line-height:1.85;color:rgba(240,237,229,0.7); }
+.dispatch-body em { color:#F4B800;font-style:normal; }
+.dispatch-body strong { color:rgba(240,237,229,0.9);font-weight:500; }
+.dispatch-end { margin-top:1rem;font-family:monospace;font-size:0.6rem;color:rgba(0,201,177,0.25);letter-spacing:2px; }
+.dispatch-footer { display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem; }
+.dispatch-dots { display:flex;gap:6px; }
+.dispatch-dot { width:6px;height:6px;border-radius:50%;background:rgba(0,201,177,0.18);cursor:pointer;transition:background 0.2s; }
+.dispatch-dot.on { background:#00C9B1; }
+.dispatch-nav-btn { background:transparent;border:1px solid rgba(0,201,177,0.18);color:rgba(0,201,177,0.5);font-family:monospace;font-size:0.65rem;letter-spacing:1px;padding:0.35rem 0.7rem;cursor:pointer;transition:all 0.2s; }
+.dispatch-nav-btn:hover { border-color:#00C9B1;color:#00C9B1; }
+
+/* ── AUDIO TOGGLE ──────────────────────────────────────── */
+#audio-btn {
+  position:fixed;
+  bottom:2rem;
+  right:2rem;
+  z-index:9990;
+  width:48px;height:48px;
+  border-radius:50%;
+  background:rgba(6,4,14,0.92);
+  border:1px solid rgba(244,184,0,0.25);
+  color:#F4B800;
+  font-size:1.1rem;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  backdrop-filter:blur(8px);
+  transition:all 0.3s;
+  box-shadow:0 4px 20px rgba(0,0,0,0.5);
+}
+#audio-btn:hover { border-color:#F4B800;box-shadow:0 0 20px rgba(244,184,0,0.15); }
+#audio-btn.on { border-color:#F4B800;animation:audio-ring 2.5s ease infinite; }
+@keyframes audio-ring{0%,100%{box-shadow:0 0 0 0 rgba(244,184,0,0.3)}50%{box-shadow:0 0 0 10px rgba(244,184,0,0)}}
+.audio-tip {
+  position:absolute;
+  right:56px;
+  top:50%;
+  transform:translateY(-50%);
+  background:rgba(6,4,14,0.95);
+  border:1px solid rgba(244,184,0,0.18);
+  padding:0.25rem 0.55rem;
+  font-family:monospace;
+  font-size:0.6rem;
+  color:rgba(244,184,0,0.6);
+  white-space:nowrap;
+  letter-spacing:1px;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 0.2s;
+}
+#audio-btn:hover .audio-tip { opacity:1; }
+
+/* ── COUNTDOWN ─────────────────────────────────────────── */
+.countdown-outer { margin-bottom:2rem; }
+.cd-label { font-family:monospace;font-size:0.6rem;color:rgba(196,30,58,0.65);letter-spacing:4px;text-align:center;margin-bottom:0.5rem;animation:ticker-blink 2s ease infinite; }
+.cd-row { display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;align-items:flex-start; }
+.cd-block { text-align:center;min-width:60px; }
+.cd-num { font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:#F4B800;line-height:1;font-variant-numeric:tabular-nums; }
+.cd-unit { font-family:monospace;font-size:0.55rem;color:rgba(240,237,229,0.28);letter-spacing:2px;margin-top:2px; }
+.cd-sep { font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:rgba(244,184,0,0.25);line-height:1;padding-top:0; }
 </style>
 </head>
 <body>
+
+<!-- ══════════════════════════════════════ THREAT TICKER -->
+<div id="threat-ticker">
+  <div class="ticker-badge"><div class="ticker-dot"></div>LIVE INTEL</div>
+  <div class="ticker-track">
+    <div class="ticker-inner" id="ticker-inner">
+      <span class="ticker-item">⚠ <span class="t-red">THREAT LEVEL: CRITICAL</span><span class="t-sep">◈</span>Dark Assembly activity detected in Apapa — all units on standby</span>
+      <span class="ticker-item"><span class="t-sep">◈</span>BAYO ADEYEMI last seen Mushin District — <span class="t-gold">Aṣẹ surge registered at 03:47 hrs</span></span>
+      <span class="ticker-item"><span class="t-sep">◈</span>IRON WOLF status: <span class="t-red">UNCONFIRMED</span> — Third Mainland Bridge closed to civilian traffic</span>
+      <span class="ticker-item"><span class="t-sep">◈</span>Ọ̀run-Bleed event logged at Balogun Nexus — <span class="t-gold">7th this month</span> — Oracle investigating</span>
+      <span class="ticker-item"><span class="t-sep">◈</span>Pale Council Tower 7, Eko Atlantic: <span class="t-red">DARK — no signal since 22:00</span></span>
+      <span class="ticker-item"><span class="t-sep">◈</span>THE ARCHITECT has been seen — location: <span class="t-red">CLASSIFIED</span> — do not engage — repeat: <span class="t-red">DO NOT ENGAGE</span></span>
+      <span class="ticker-item"><span class="t-sep">◈</span>THUNDERSTRIKE deployed to Victoria Island — lightning storm reported: <span class="t-gold">not meteorological</span></span>
+      <span class="ticker-item"><span class="t-sep">◈</span>Void Quarter quarantine holding — <span class="t-red">BREACH PROBABILITY: 68%</span> — evacuation recommended</span>
+      <span class="ticker-item"><span class="t-sep">◈</span>IRON DISTRICT foundry fires: origin unknown — witnesses describe <span class="t-gold">gold flame</span>, not orange</span>
+      <span class="ticker-item"><span class="t-sep">◈</span>Oracle intelligence report: <span class="t-gold">"The Architect already knows your next move. Change it."</span></span>
+      <!-- duplicate for seamless loop -->
+      <span class="ticker-item">⚠ <span class="t-red">THREAT LEVEL: CRITICAL</span><span class="t-sep">◈</span>Dark Assembly activity detected in Apapa — all units on standby</span>
+      <span class="ticker-item"><span class="t-sep">◈</span>BAYO ADEYEMI last seen Mushin District — <span class="t-gold">Aṣẹ surge registered at 03:47 hrs</span></span>
+      <span class="ticker-item"><span class="t-sep">◈</span>IRON WOLF status: <span class="t-red">UNCONFIRMED</span> — Third Mainland Bridge closed to civilian traffic</span>
+      <span class="ticker-item"><span class="t-sep">◈</span>Ọ̀run-Bleed event logged at Balogun Nexus — <span class="t-gold">7th this month</span> — Oracle investigating</span>
+      <span class="ticker-item"><span class="t-sep">◈</span>Pale Council Tower 7, Eko Atlantic: <span class="t-red">DARK — no signal since 22:00</span></span>
+      <span class="ticker-item"><span class="t-sep">◈</span>THE ARCHITECT has been seen — location: <span class="t-red">CLASSIFIED</span> — do not engage — repeat: <span class="t-red">DO NOT ENGAGE</span></span>
+      <span class="ticker-item"><span class="t-sep">◈</span>THUNDERSTRIKE deployed to Victoria Island — lightning storm reported: <span class="t-gold">not meteorological</span></span>
+      <span class="ticker-item"><span class="t-sep">◈</span>Void Quarter quarantine holding — <span class="t-red">BREACH PROBABILITY: 68%</span> — evacuation recommended</span>
+      <span class="ticker-item"><span class="t-sep">◈</span>IRON DISTRICT foundry fires: origin unknown — witnesses describe <span class="t-gold">gold flame</span>, not orange</span>
+      <span class="ticker-item"><span class="t-sep">◈</span>Oracle intelligence report: <span class="t-gold">"The Architect already knows your next move. Change it."</span></span>
+    </div>
+  </div>
+</div>
 
 <!-- ============================================================ LOADING SCREEN -->
 <div id="loader">
@@ -4034,6 +4523,7 @@
 <!-- ============================================================ HERO -->
 <section id="hero">
   
+  <canvas id="spark-canvas"></canvas>
   <img class="hero-canva-bg" src="./assets/intersection.jpg" alt="" loading="eager" decoding="async">
   <div class="hero-glow"></div>
   <div class="hero-glow-2"></div>
@@ -4682,7 +5172,7 @@
 
   <div class="chars-grid">
     <!-- CATALYST — Featured -->
-    <div class="char-card chars-featured reveal">
+    <div class="char-card chars-featured reveal" data-dossier="catalyst">
       <div class="char-bg char-bg-catalyst"></div>
       <img class="char-photo-bg" src="./assets/forge.jpg" alt="" loading="lazy">
       <svg class="char-adire-bg" viewBox="0 0 400 270" xmlns="http://www.w3.org/2000/svg">
@@ -4870,7 +5360,7 @@
     </div>
 
     <!-- THUNDERSTRIKE -->
-    <div class="char-card reveal reveal-delay-1">
+    <div class="char-card reveal reveal-delay-1" data-dossier="thunderstrike">
       <div class="char-bg char-bg-thunderstrike"></div>
       <img class="char-photo-bg" src="./assets/flares.jpg" alt="" loading="lazy">
       <svg class="char-adire-bg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
@@ -5051,7 +5541,7 @@
     </div>
 
     <!-- THE IRON WOLF -->
-    <div class="char-card reveal reveal-delay-2">
+    <div class="char-card reveal reveal-delay-2" data-dossier="iron-wolf">
       <div class="char-bg char-bg-iron"></div>
       <img class="char-photo-bg" src="./assets/industrial.jpg" alt="" loading="lazy">
       <svg class="char-adire-bg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
@@ -5228,7 +5718,7 @@
     </div>
 
     <!-- THE ORACLE -->
-    <div class="char-card reveal reveal-delay-3">
+    <div class="char-card reveal reveal-delay-3" data-dossier="oracle">
       <div class="char-bg char-bg-oracle"></div>
       <img class="char-photo-bg" src="./assets/noir-window.jpg" alt="" loading="lazy">
       <svg class="char-adire-bg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
@@ -6110,6 +6600,34 @@
 </section>
 
 
+<!-- ══════════════════════════════════════ ORACLE TERMINAL -->
+<section id="oracle-terminal">
+  <div class="terminal-wrap">
+    <div class="terminal-hdr">
+      <p class="section-label reveal" style="justify-content:center">Classified Intel</p>
+      <h2 class="section-title reveal">ORACLE<br><em>INTELLIGENCE</em> FEED</h2>
+    </div>
+    <div class="term-window reveal">
+      <div class="term-titlebar">
+        <div class="term-dots">
+          <span></span><span></span><span></span>
+        </div>
+        <div class="term-title">ORACLE-NET v6.02 — CLEARANCE: LEVEL 5 — SECURE CHANNEL</div>
+      </div>
+      <div class="term-tabs">
+        <button class="term-tab active" onclick="termLoad('boot')">// BOOT</button>
+        <button class="term-tab" onclick="termLoad('catalyst')">// CATALYST</button>
+        <button class="term-tab" onclick="termLoad('thunderstrike')">// THUNDERSTRIKE</button>
+        <button class="term-tab" onclick="termLoad('iron-wolf')">// IRON WOLF</button>
+        <button class="term-tab" onclick="termLoad('architect')">// THE ARCHITECT</button>
+      </div>
+      <div class="term-body">
+        <div id="terminal-out"></div><span class="t-cursor"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============================================================ COVER ART GALLERY -->
 <section id="cover-gallery">
   <div class="gallery-orisha-bg" aria-hidden="true"></div>
@@ -6314,7 +6832,7 @@
       </svg>
       <div class="villain-art-bg">Ì</div>
       <div class="villain-rank">Grand Sovereign · Rank I</div>
-      <div class="villain-name">THE ARCHITECT</div>
+      <div class="villain-name" data-text="THE ARCHITECT">THE ARCHITECT</div>
       <div class="villain-alias">Ìgbàlódé — "The Eternal Planner"</div>
       <div class="villain-power-bar">
         <div class="villain-power-label">Threat Level</div>
@@ -6423,7 +6941,7 @@
       </svg>
       <div class="villain-art-bg">Ọ</div>
       <div class="villain-rank">Dark Assembly · Rank II</div>
-      <div class="villain-name">HOLLOW KING</div>
+      <div class="villain-name" data-text="HOLLOW KING">HOLLOW KING</div>
       <div class="villain-alias">Ọba Àṣàlọ — "King of the Empty Path"</div>
       <div class="villain-power-bar">
         <div class="villain-power-label">Threat Level</div>
@@ -6529,7 +7047,7 @@
       </svg>
       <div class="villain-art-bg">Ẹ</div>
       <div class="villain-rank">Dark Assembly · Rank III</div>
-      <div class="villain-name">MOTHER STORM</div>
+      <div class="villain-name" data-text="MOTHER STORM">MOTHER STORM</div>
       <div class="villain-alias">Ẹlẹ́ṣin Ọ̀yà — "Rider of Oya's Wrath"</div>
       <div class="villain-power-bar">
         <div class="villain-power-label">Threat Level</div>
@@ -6642,7 +7160,7 @@
       </svg>
       <div class="villain-art-bg">Í</div>
       <div class="villain-rank">Dark Assembly · Rank IV</div>
-      <div class="villain-name">IRON PREACHER</div>
+      <div class="villain-name" data-text="IRON PREACHER">IRON PREACHER</div>
       <div class="villain-alias">Ìjọsìn Ògún — "The Prophet of Iron Judgment"</div>
       <div class="villain-power-bar">
         <div class="villain-power-label">Threat Level</div>
@@ -6760,7 +7278,7 @@
       </svg>
       <div class="villain-art-bg">Ẹ</div>
       <div class="villain-rank">Dark Assembly · Rank V · Danger: Extreme</div>
-      <div class="villain-name">THE MIRROR</div>
+      <div class="villain-name" data-text="THE MIRROR">THE MIRROR</div>
       <div class="villain-alias">Ẹ̀dá Àfọ́jú — "The Reflection That Sees"</div>
       <div class="villain-power-bar">
         <div class="villain-power-label">Threat Level</div>
@@ -6787,6 +7305,171 @@
 </section>
 
 <div class="energy-beam-divider" aria-hidden="true"></div>
+
+<!-- ══════════════════════════════════════ HERO QUIZ -->
+<section id="hero-quiz">
+  <div class="quiz-wrap">
+    <p class="section-label reveal" style="justify-content:center">Test Your Spirit</p>
+    <h2 class="section-title reveal" style="text-align:center;margin-bottom:3rem;">WHICH HERO<br><em>ARE YOU?</em></h2>
+
+    <div class="quiz-progress" id="quiz-progress">
+      <div class="quiz-pip cur" id="pip0"></div>
+      <div class="quiz-pip" id="pip1"></div>
+      <div class="quiz-pip" id="pip2"></div>
+      <div class="quiz-pip" id="pip3"></div>
+      <div class="quiz-pip" id="pip4"></div>
+    </div>
+
+    <!-- Q1 -->
+    <div class="quiz-step active" id="qs0">
+      <div class="quiz-q">A thief just snatched your phone on Third Mainland Bridge.<br>What do you do?</div>
+      <div class="quiz-ctx">Lagos, 2AM. No police in sight. Just you and a decision.</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="quizAnswer(0,'T')">
+          <span class="opt-ltr">A —</span>
+          <span class="opt-txt">Sprint after him and cut him off at the next junction. Nobody outruns me.</span>
+          <span class="opt-yor">Mo máa sáré ju ẹ lọ</span>
+        </button>
+        <button class="quiz-opt" onclick="quizAnswer(0,'O')">
+          <span class="opt-ltr">B —</span>
+          <span class="opt-txt">Already know which market he'll fence it at. I'll be there first, waiting.</span>
+          <span class="opt-yor">Ìmọ̀ ni ipilẹ àṣẹ</span>
+        </button>
+        <button class="quiz-opt" onclick="quizAnswer(0,'W')">
+          <span class="opt-ltr">C —</span>
+          <span class="opt-txt">Let the city know. My name is enough. He'll return it.</span>
+          <span class="opt-yor">Orúkọ mi sọ ohun tí mo jẹ</span>
+        </button>
+        <button class="quiz-opt" onclick="quizAnswer(0,'C')">
+          <span class="opt-ltr">D —</span>
+          <span class="opt-txt">Try to understand why he stole it. Maybe there's something I can do.</span>
+          <span class="opt-yor">Ìgbà gbogbo, wa ìdí nkan</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-step" id="qs1">
+      <div class="quiz-q">A riot breaks out in Balogun Market.<br>Spirits and street fighters. Your move?</div>
+      <div class="quiz-ctx">Ground Zero of the first Ọ̀run-Bleed. Three thousand people. Chaos.</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="quizAnswer(1,'T')">
+          <span class="opt-ltr">A —</span>
+          <span class="opt-txt">Fly in from above and discharge a warning arc. End this now.</span>
+          <span class="opt-yor">Àárọ̀ kò gbé ẹ̀rù gún</span>
+        </button>
+        <button class="quiz-opt" onclick="quizAnswer(1,'O')">
+          <span class="opt-ltr">B —</span>
+          <span class="opt-txt">I neutralised the instigators three hours before it started.</span>
+          <span class="opt-yor">Onísègùn tó mọ inú rẹ̀</span>
+        </button>
+        <button class="quiz-opt" onclick="quizAnswer(1,'W')">
+          <span class="opt-ltr">C —</span>
+          <span class="opt-txt">Walk into the centre. Stand still. Dare anything to approach.</span>
+          <span class="opt-yor">Irin kò bẹ̀rù iná</span>
+        </button>
+        <button class="quiz-opt" onclick="quizAnswer(1,'C')">
+          <span class="opt-ltr">D —</span>
+          <span class="opt-txt">Find the person everyone else is looking to and change their mind.</span>
+          <span class="opt-yor">Àṣẹ dé inú ènìyàn</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-step" id="qs2">
+      <div class="quiz-q">Which best describes your<br>relationship with Lagos?</div>
+      <div class="quiz-ctx">The city is a living thing. It responds to who you are.</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="quizAnswer(2,'T')">
+          <span class="opt-ltr">A —</span>
+          <span class="opt-txt">The city is a circuit. I move through it like current — fast, direct, alive.</span>
+          <span class="opt-yor">Ìmọlẹ dé iyára</span>
+        </button>
+        <button class="quiz-opt" onclick="quizAnswer(2,'O')">
+          <span class="opt-ltr">B —</span>
+          <span class="opt-txt">I have watched this city for six centuries. I know every secret it thinks it's buried.</span>
+          <span class="opt-yor">Àgbà kò ní gbàgbé ohun tí ó rí</span>
+        </button>
+        <button class="quiz-opt" onclick="quizAnswer(2,'W')">
+          <span class="opt-ltr">C —</span>
+          <span class="opt-txt">The city respects me because I bled for it. I earned every block I stand on.</span>
+          <span class="opt-yor">Ẹjẹ irin, ẹjẹ gidi</span>
+        </button>
+        <button class="quiz-opt" onclick="quizAnswer(2,'C')">
+          <span class="opt-ltr">D —</span>
+          <span class="opt-txt">Sometimes I feel like the city chose me. I'm still figuring out what for.</span>
+          <span class="opt-yor">Aṣayan ni orí mi jẹ</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-step" id="qs3">
+      <div class="quiz-q">The Architect is at the door.<br>First move?</div>
+      <div class="quiz-ctx">Six centuries of planning. He knows your history better than you do.</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="quizAnswer(3,'T')">
+          <span class="opt-ltr">A —</span>
+          <span class="opt-txt">Strike first. Give him no time to speak. He already knows what he'd say.</span>
+          <span class="opt-yor">Gbé ọwọ́ jà kí o tó sọ ọ̀rọ̀</span>
+        </button>
+        <button class="quiz-opt" onclick="quizAnswer(3,'O')">
+          <span class="opt-ltr">B —</span>
+          <span class="opt-txt">I already know his plan. I redirected it three moves ago.</span>
+          <span class="opt-yor">Onísègùn pẹ́ ni ó gbọ́ rẹ</span>
+        </button>
+        <button class="quiz-opt" onclick="quizAnswer(3,'W')">
+          <span class="opt-ltr">C —</span>
+          <span class="opt-txt">Make him come through me. He can try.</span>
+          <span class="opt-yor">Irin kò ní yọ nínú iná</span>
+        </button>
+        <button class="quiz-opt" onclick="quizAnswer(3,'C')">
+          <span class="opt-ltr">D —</span>
+          <span class="opt-txt">Ask what he actually wants. Every enemy has a reason. Find it.</span>
+          <span class="opt-yor">Ìdí nkan ni ó yẹ ka mọ</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="quiz-step" id="qs4">
+      <div class="quiz-q">What do you fight for?</div>
+      <div class="quiz-ctx">When everything else is gone — this is what remains.</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="quizAnswer(4,'T')">
+          <span class="opt-ltr">A —</span>
+          <span class="opt-txt">The ones who cannot fight for themselves. Simple. Non-negotiable.</span>
+          <span class="opt-yor">Ẹni tí kò le ja, mo jà fún</span>
+        </button>
+        <button class="quiz-opt" onclick="quizAnswer(4,'O')">
+          <span class="opt-ltr">B —</span>
+          <span class="opt-txt">The truth. No matter the cost. No matter who it hurts.</span>
+          <span class="opt-yor">Òtítọ́ ní pẹ́, irọ́ kò pẹ́</span>
+        </button>
+        <button class="quiz-opt" onclick="quizAnswer(4,'W')">
+          <span class="opt-ltr">C —</span>
+          <span class="opt-txt">Every person I've ever lost. I carry them. I don't put them down.</span>
+          <span class="opt-yor">Àwọn tí mo pàdánù, mo rántí wọn</span>
+        </button>
+        <button class="quiz-opt" onclick="quizAnswer(4,'C')">
+          <span class="opt-ltr">D —</span>
+          <span class="opt-txt">A future I can't fully see yet. But I feel it. And it's worth it.</span>
+          <span class="opt-yor">Ọjọ́ ọla tí a kò tíì rí</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Result -->
+    <div class="quiz-result" id="quiz-result">
+      <img id="result-img" class="res-img" src="" alt="">
+      <div class="res-label">YOU ARE</div>
+      <div class="res-name" id="result-name"></div>
+      <div class="res-tag" id="result-tag"></div>
+      <button class="res-retry" onclick="quizReset()">RETAKE THE TEST</button>
+    </div>
+  </div>
+</section>
 
 <!-- ============================================================ COMICS / ISSUES -->
 <section id="comics">
@@ -8824,12 +9507,63 @@
   </div>
 </section>
 
+<!-- ══════════════════════════════════════ FIELD DISPATCH -->
+<section id="dispatch">
+  <div class="dispatch-inner">
+    <div class="dispatch-hdr">
+      <div class="dispatch-sig"></div>
+      <div class="dispatch-lbl">INTERCEPTED TRANSMISSIONS</div>
+      <div class="dispatch-static">STATIC: ▒▒░░▒░▒▒░░▒░</div>
+    </div>
+    <div class="dispatch-card" id="dispatch-card">
+      <div class="dispatch-meta">
+        <span id="disp-loc">APAPA TERMINAL — 03:47 HRS</span>
+        <span id="disp-num">TRANSMISSION 001 / 006</span>
+      </div>
+      <div class="dispatch-body" id="disp-body">
+        <strong>Bayo</strong> is the youngest person to ever enter the Iron District without a scar.<br><br>
+        Nobody knows how. <em>The district doesn't forget.</em> It marks everyone who passes through — some with iron burns, some with the smell of smoke that never quite leaves. Bayo walked out clean. Smelling like rain.<br><br>
+        The old men at the foundry watched him go. They said nothing for a long time.<br><br>
+        Then one of them, the oldest — a man who has not spoken in four years — looked up and said: <em>"Ọmọ yẹn kò jẹ́ ti wa."</em><br><br>
+        That boy does not belong to us.
+      </div>
+      <div class="dispatch-end">◈ END TRANSMISSION ◈ SIGNAL STRENGTH: ████░░░░ ◈</div>
+    </div>
+    <div class="dispatch-footer">
+      <div class="dispatch-dots" id="dispatch-dots">
+        <div class="dispatch-dot on" onclick="dispatchGo(0)"></div>
+        <div class="dispatch-dot" onclick="dispatchGo(1)"></div>
+        <div class="dispatch-dot" onclick="dispatchGo(2)"></div>
+        <div class="dispatch-dot" onclick="dispatchGo(3)"></div>
+        <div class="dispatch-dot" onclick="dispatchGo(4)"></div>
+        <div class="dispatch-dot" onclick="dispatchGo(5)"></div>
+      </div>
+      <div style="display:flex;gap:0.5rem;">
+        <button class="dispatch-nav-btn" onclick="dispatchPrev()">◂ PREV</button>
+        <button class="dispatch-nav-btn" onclick="dispatchNext()">NEXT ▸</button>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============================================================ NEWSLETTER -->
 <section id="newsletter">
   <div class="newsletter-inner">
     <p class="section-label reveal" style="justify-content:center">Stay Connected</p>
     <h2 class="section-title reveal">JOIN THE<br><em>MOVEMENT</em></h2>
     <p class="newsletter-sub reveal">Be the first to know when new issues drop, get behind-the-scenes lore, and unlock exclusive character art. Na you sabi, but make you no miss this one.</p>
+    <div class="reveal countdown-outer">
+      <div class="cd-label">▸ ISSUE #1 DROPS IN</div>
+      <div class="cd-row">
+        <div class="cd-block"><div class="cd-num" id="cd-days">00</div><div class="cd-unit">DAYS</div></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-block"><div class="cd-num" id="cd-hrs">00</div><div class="cd-unit">HRS</div></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-block"><div class="cd-num" id="cd-min">00</div><div class="cd-unit">MIN</div></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-block"><div class="cd-num" id="cd-sec">00</div><div class="cd-unit">SEC</div></div>
+      </div>
+    </div>
     <div class="reveal">
       <form class="newsletter-form" onsubmit="handleSignup(event)" data-netlify="true" name="catalyst-newsletter" netlify-honeypot="bot-field" style="flex-direction:column;max-width:500px">
         <input type="hidden" name="form-name" value="catalyst-newsletter">
@@ -9236,8 +9970,8 @@
   // 1. Supabase → https://supabase.com → Project Settings → API
   // 2. Paystack → https://dashboard.paystack.com/#/settings/developer
   //
-  const SUPABASE_URL     = 'YOUR_SUPABASE_URL';
-  const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+  const SUPABASE_URL     = 'https://qeoqxowpnrmttjupxkeb.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFlb3F4b3dwbnJtdHRqdXB4a2ViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI0NzAxNjUsImV4cCI6MjA5ODA0NjE2NX0.WOabJrVtEMAFjyF4ns_X6EDhzCwDJQp2mnPGQKGRYL4';
   const PAYSTACK_KEY     = 'YOUR_PAYSTACK_PUBLIC_KEY';
   // ═══════════════════════════════════════════════════════════════
 
@@ -9814,6 +10548,637 @@
     style.textContent = '@keyframes mapDotPulse { 0%,100%{r:5;opacity:0.9} 50%{r:8;opacity:0.5} } @keyframes mapDotPulse2 { 0%,100%{opacity:0.08} 50%{opacity:0.2} }';
     document.head.appendChild(style);
   })();
+
+
+/* ═══════════════════════════════════════════════════════════
+   CATALYST FEATURE SCRIPTS
+═══════════════════════════════════════════════════════════ */
+
+// ── SPARK PARTICLES ──────────────────────────────────────
+(function() {
+  var canvas = document.getElementById('spark-canvas');
+  if (!canvas) return;
+  var hero = document.getElementById('hero');
+  var ctx = canvas.getContext('2d');
+  var sparks = [];
+  var W, H;
+
+  function resize() {
+    W = canvas.width = hero.offsetWidth;
+    H = canvas.height = hero.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function randBetween(a, b) { return a + Math.random() * (b - a); }
+
+  var COLORS = ['#F4B800','#FFD040','#C41E3A','#FF6B1A','#FF9500'];
+
+  function Spark() {
+    this.reset();
+  }
+  Spark.prototype.reset = function() {
+    this.x = randBetween(W * 0.2, W * 0.8);
+    this.y = randBetween(H * 0.6, H * 0.95);
+    this.vx = randBetween(-0.8, 0.8);
+    this.vy = randBetween(-2.5, -0.8);
+    this.life = 1;
+    this.decay = randBetween(0.008, 0.022);
+    this.size = randBetween(1, 3.5);
+    this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+    this.trail = [];
+  };
+  Spark.prototype.update = function() {
+    this.trail.push({ x: this.x, y: this.y, life: this.life });
+    if (this.trail.length > 8) this.trail.shift();
+    this.x += this.vx + Math.sin(this.life * 10) * 0.3;
+    this.y += this.vy;
+    this.vy += 0.04; // gravity
+    this.life -= this.decay;
+    if (this.life <= 0) this.reset();
+  };
+  Spark.prototype.draw = function() {
+    // Trail
+    for (var i = 0; i < this.trail.length; i++) {
+      var t = this.trail[i];
+      var a = (i / this.trail.length) * t.life * 0.35;
+      ctx.beginPath();
+      ctx.arc(t.x, t.y, this.size * 0.4, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.globalAlpha = a;
+      ctx.fill();
+    }
+    // Core
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = this.color;
+    ctx.globalAlpha = this.life * 0.85;
+    ctx.fill();
+    // Glow
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size * 2.5, 0, Math.PI * 2);
+    var grd = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 2.5);
+    grd.addColorStop(0, this.color);
+    grd.addColorStop(1, 'transparent');
+    ctx.fillStyle = grd;
+    ctx.globalAlpha = this.life * 0.25;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  };
+
+  // Create 60 sparks
+  for (var i = 0; i < 60; i++) {
+    var s = new Spark();
+    s.life = Math.random(); // stagger
+    sparks.push(s);
+  }
+
+  function loop() {
+    ctx.clearRect(0, 0, W, H);
+    sparks.forEach(function(s) { s.update(); s.draw(); });
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+// ── ORACLE TERMINAL ───────────────────────────────────────
+var TERM_DATA = {
+  boot: [
+    { t: 0,   txt: '\x1b[dim]ORACLE INTELLIGENCE NETWORK — SECURE CHANNEL\x1b[/]\n', cls: 't-dim' },
+    { t: 200, txt: '\x1b[dim]INITIALIZING v6.02 — ENCRYPTION: AES-512 YORUBA CIPHER\x1b[/]\n', cls: 't-dim' },
+    { t: 600, txt: '\x1b[gold]> CONNECTING TO ORACLE NODE...\x1b[/]\n', cls: 't-gold' },
+    { t: 1100,txt: '\x1b[green]> CONNECTION ESTABLISHED\n\x1b[/]', cls: '' },
+    { t: 1400,txt: '> VERIFYING CLEARANCE LEVEL...\n', cls: '' },
+    { t: 1900,txt: '\x1b[gold]> LEVEL 5 GRANTED — WELCOME, OPERATIVE\n\n\x1b[/]', cls: 't-gold' },
+    { t: 2200,txt: '\x1b[dim]The Oracle has been monitoring this city for 617 years.\nHe has seen three wars, six Ọ̀run-Bleeds, and eleven false Catalysts.\nHe says this one is different. He will not say why.\n\n\x1b[/]', cls: 't-dim' },
+    { t: 3000,txt: '\x1b[white]"The city breathes. The city remembers. The city has been waiting\nfor something it cannot name. Tonight, it is very close to naming it."\n\x1b[/]', cls: 't-white' },
+    { t: 3800,txt: '\n\x1b[dim]— Oracle, classification: UNKNOWN — filed 03:14 hrs, this morning\n\n\x1b[/]', cls: 't-dim' },
+    { t: 4200,txt: '\x1b[gold]SELECT A FILE ABOVE TO ACCESS CLASSIFIED RECORDS ↑\x1b[/]', cls: 't-gold' },
+  ],
+  catalyst: [
+    { t: 0,   txt: '\x1b[red][ ACCESSING FILE: ADEYEMI, BAYO — CODENAME: CATALYST ]\n\x1b[/]', cls: 't-red' },
+    { t: 300, txt: '\x1b[dim]CLEARANCE REQUIRED: OMEGA — GRANTED\n\n\x1b[/]', cls: 't-dim' },
+    { t: 700, txt: '\x1b[gold]THREAT CLASSIFICATION: EXISTENTIAL\n\x1b[/]', cls: 't-gold' },
+    { t: 1000,txt: '\x1b[white]Age: 19. Mushin-born. NEPA bill 3 months overdue.\nHis mother thinks he works in tech support.\nHis Aṣẹ signature reads as ALL FIVE ORISHA simultaneously.\n\n\x1b[/]', cls: 't-white' },
+    { t: 1900,txt: 'The Collector's report (classified): "Classification impossible.\nSubject does not amplify Aṣẹ — he MULTIPLIES it.\nNear Iron Wolf, subject temporarily elevated him to Tier IV.\nNear an Orisha fragment, subject triggered a partial transcendence.\n\n', cls: '' },
+    { t: 2600,txt: '\x1b[red]Near The Architect: unknown. The Architect has not told us.\nThe Architect is the only one who knows what happens next.\nThe Architect is afraid.\n\n\x1b[/]', cls: 't-red' },
+    { t: 3400,txt: '\x1b[dim]Oracle personal note: Do not tell the boy what he is.\nNot yet. He is not ready. None of them have ever been ready.\nThat has never stopped the city from choosing them anyway."\x1b[/]', cls: 't-dim' },
+  ],
+  thunderstrike: [
+    { t: 0,   txt: '\x1b[red][ ACCESSING FILE: IBRAHIM, AMARA — CODENAME: THUNDERSTRIKE ]\n\x1b[/]', cls: 't-red' },
+    { t: 300, txt: '\x1b[dim]CLEARANCE REQUIRED: OMEGA — GRANTED\n\n\x1b[/]', cls: 't-dim' },
+    { t: 700, txt: '\x1b[gold]THREAT CLASSIFICATION: ALPHA-ACTIVE\n\x1b[/]', cls: 't-gold' },
+    { t: 1000,txt: '\x1b[white]Age: 23. Victoria Island. Former aeronautical engineer, UNN.\nShungite battery output: 12,000 volts sustained (unverified upper limit).\nFlight ceiling: 3,400m. Speed: Mach 0.82 observed.\n\n\x1b[/]', cls: 't-white' },
+    { t: 1900,txt: 'Personality profile: Direct. Impatient. Correct approximately 94% of the time.\nThe 6% terrifies everyone who has seen it.\n\n', cls: '' },
+    { t: 2500,txt: '\x1b[dim]Intel note: Subject does not require backup. Subject resents backup.\nSubject will accept backup if it involves Bayo Adeyemi.\nWe do not fully understand this dynamic.\n\x1b[/]', cls: 't-dim' },
+    { t: 3200,txt: '\n\x1b[gold]Known weakness: ████████████████████ — REDACTED BY ORDER OF ORACLE\x1b[/]', cls: 't-gold' },
+  ],
+  'iron-wolf': [
+    { t: 0,   txt: '\x1b[red][ ACCESSING FILE: OKAFOR, IKENNA — CODENAME: IRON WOLF ]\n\x1b[/]', cls: 't-red' },
+    { t: 300, txt: '\x1b[dim]CLEARANCE REQUIRED: OMEGA — GRANTED\n\n\x1b[/]', cls: 't-dim' },
+    { t: 700, txt: '\x1b[gold]THREAT CLASSIFICATION: ALPHA — HANDLE WITH EXTREME CAUTION\n\x1b[/]', cls: 't-gold' },
+    { t: 1100,txt: '\x1b[white]Age: 26. Iron District native. Father: Ògún ironsmith lineage, 14 generations.\nTransformation confirmed: Tier III in base form — Tier V+ in wolf-iron state.\nSpeed in transformed state: unmeasurable by existing instruments.\n\n\x1b[/]', cls: 't-white' },
+    { t: 2000,txt: 'Psychological profile: FRACTURED LOYALTY.\nSubject does not consider himself a hero. Subject considers himself\na consequence — of what the city did to his father.\n\n', cls: '' },
+    { t: 2700,txt: '\x1b[dim]Intel note: The Architect has made three recruitment approaches.\nSubject has refused all three. The fourth approach is coming.\nWe are monitoring. We are not confident in the outcome.\n\x1b[/]', cls: 't-dim' },
+    { t: 3400,txt: '\n\x1b[red]WARNING: Do not mention Ikenna's father. Not ever. Not even as strategy.\x1b[/]', cls: 't-red' },
+  ],
+  architect: [
+    { t: 0,   txt: '\x1b[red][ ACCESSING FILE: UNKNOWN — CODENAME: THE ARCHITECT ]\n\x1b[/]', cls: 't-red' },
+    { t: 300, txt: '\x1b[dim]CLEARANCE REQUIRED: OMEGA — GRANTED — LOGGING THIS ACCESS\n\n\x1b[/]', cls: 't-dim' },
+    { t: 800, txt: '\x1b[red]WARNING: Accessing this file is noted. The Architect WILL know.\nThe Architect already knows. The Architect knew before you clicked.\n\n\x1b[/]', cls: 't-red' },
+    { t: 1600,txt: '\x1b[gold]Known facts:\x1b[/]\n\x1b[white]— Real name: erased from every Ifá text in existence\n— Age: 617 years minimum. Upper limit unknown.\n— Achieved Sovereign-tier Aṣẹ: first human ever. Six centuries ago.\n— Current goal: collapse the Orisha-Human accord. Permanently.\n\n\x1b[/]', cls: 't-white' },
+    { t: 2500,txt: '\x1b[dim]He does not fight battles. He writes them.\nEvery war in this city for three hundred years — chapter in his plan.\nEvery hero who rose and fell — chapter in his plan.\nThe Catalyst is the first variable he has not written.\n\n\x1b[/]', cls: 't-dim' },
+    { t: 3300,txt: '\x1b[red]Oracle personal note: I have spoken with him twice.\nOnce in 1847. Once last Thursday.\nBoth times, he already knew what I would say.\nBoth times, he smiled.\nI do not know what to do with this.\x1b[/]', cls: 't-red' },
+  ],
+};
+
+var termTimeout = null;
+var termKey = 'boot';
+
+function termLoad(key) {
+  if (termTimeout) clearTimeout(termTimeout);
+  termKey = key;
+  var out = document.getElementById('terminal-out');
+  if (!out) return;
+  out.innerHTML = '';
+  // Update active tab
+  document.querySelectorAll('.term-tab').forEach(function(b) {
+    b.classList.toggle('active', b.textContent.toLowerCase().includes(key.replace('-',' ')));
+  });
+  var data = TERM_DATA[key] || TERM_DATA.boot;
+  data.forEach(function(line) {
+    termTimeout = setTimeout(function() {
+      var span = document.createElement('span');
+      span.textContent = line.txt.replace(/\x1b\[[^\]]*\]/g, '');
+      if (line.cls) span.className = line.cls;
+      out.appendChild(span);
+    }, line.t);
+  });
+}
+
+// Auto-start terminal when it scrolls into view
+(function() {
+  var started = false;
+  var termEl = document.getElementById('oracle-terminal');
+  if (!termEl) return;
+  var obs = new IntersectionObserver(function(entries) {
+    if (entries[0].isIntersecting && !started) {
+      started = true;
+      termLoad('boot');
+    }
+  }, { threshold: 0.3 });
+  obs.observe(termEl);
+})();
+
+// ── QUIZ ──────────────────────────────────────────────────
+var quizScores = { T: 0, O: 0, W: 0, C: 0 };
+var quizCurrent = 0;
+
+var QUIZ_HEROES = {
+  T: {
+    name: 'THUNDERSTRIKE',
+    img: './assets/flares.jpg',
+    tag: 'You move like lightning and think even faster. When others hesitate, you have already acted. The city's pace matches yours — fast, electric, and alive. Amara would recognize you.'
+  },
+  O: {
+    name: 'THE ORACLE',
+    img: './assets/noir-window.jpg',
+    tag: 'You see things others miss. You plan seven moves ahead and never tell anyone what you know until the exact right moment. The city holds no secrets from you. Zara sees herself in you.'
+  },
+  W: {
+    name: 'IRON WOLF',
+    img: './assets/industrial.jpg',
+    tag: 'You are made of this city's iron — forged in its fires, shaped by its losses. You do not ask for respect. You have already earned it. Ikenna would call you kin.'
+  },
+  C: {
+    name: 'CATALYST',
+    img: './assets/forge.jpg',
+    tag: 'You are the variable no one accounted for. You don't just change the game — you change everyone around you, without even trying. The city chose you. Lagos dey awaken.'
+  }
+};
+
+function quizAnswer(step, hero) {
+  quizScores[hero]++;
+  var cur = document.getElementById('qs' + step);
+  var next = document.getElementById('qs' + (step + 1));
+  if (cur) cur.classList.remove('active');
+  // Update pips
+  var pip = document.getElementById('pip' + step);
+  if (pip) { pip.className = 'quiz-pip done'; }
+  if (step + 1 < 5) {
+    if (next) next.classList.add('active');
+    var npip = document.getElementById('pip' + (step + 1));
+    if (npip) npip.className = 'quiz-pip cur';
+    quizCurrent = step + 1;
+  } else {
+    quizShowResult();
+  }
+}
+
+function quizShowResult() {
+  // Find highest score
+  var winner = 'C'; var max = -1;
+  Object.keys(quizScores).forEach(function(k) {
+    if (quizScores[k] > max) { max = quizScores[k]; winner = k; }
+  });
+  var h = QUIZ_HEROES[winner];
+  document.getElementById('result-name').textContent = h.name;
+  document.getElementById('result-tag').textContent = h.tag;
+  document.getElementById('result-img').src = h.img;
+  document.getElementById('result-img').alt = h.name;
+  document.querySelectorAll('.quiz-progress')[0].style.display = 'none';
+  document.getElementById('quiz-result').classList.add('show');
+  // Save result to Supabase
+  if (window._supabase) {
+    try { window._supabase.from('quiz_results').insert({ hero: h.name }); } catch(e) {}
+  }
+}
+
+function quizReset() {
+  quizScores = { T:0, O:0, W:0, C:0 };
+  quizCurrent = 0;
+  document.querySelectorAll('.quiz-step').forEach(function(s) { s.classList.remove('active'); });
+  document.getElementById('qs0').classList.add('active');
+  document.getElementById('quiz-result').classList.remove('show');
+  var prog = document.querySelectorAll('.quiz-progress')[0];
+  if (prog) prog.style.display = 'flex';
+  for (var i = 0; i < 5; i++) {
+    var p = document.getElementById('pip' + i);
+    if (p) p.className = 'quiz-pip' + (i === 0 ? ' cur' : '');
+  }
+}
+
+// ── FIELD DISPATCH ────────────────────────────────────────
+var DISPATCHES = [
+  {
+    loc: 'APAPA TERMINAL — 03:47 HRS',
+    num: 'TRANSMISSION 001 / 006',
+    body: '<strong>Bayo</strong> is the youngest person to ever enter the Iron District without a scar.<br><br>Nobody knows how. <em>The district does not forget.</em> It marks everyone who passes through — some with iron burns, some with the smell of smoke that never quite leaves. Bayo walked out clean. Smelling like rain.<br><br>The old men at the foundry watched him go. They said nothing for a long time.<br><br>Then one of them — the oldest, a man who has not spoken in four years — looked up and said: <em>"Ọmọ yẹn kò jẹ́ ti wa."</em><br><br>That boy does not belong to us.'
+  },
+  {
+    loc: 'THIRD MAINLAND BRIDGE — 02:14 HRS',
+    num: 'TRANSMISSION 002 / 006',
+    body: 'The bridge whispers names at 3 AM.<br><br>Ikenna has heard it every night since his father died here. He has never told anyone this. He has also never told anyone that the bridge sometimes whispers his father's name — and then goes quiet, as if embarrassed.<br><br>He drives across it anyway. Every night. <em>Because something that knows you should not get the satisfaction of making you afraid of it.</em><br><br>Somewhere in the pylons, something older than the city watches him go. It does not know whether to be impressed or afraid.<br><br>It decides: <em>both.</em>'
+  },
+  {
+    loc: 'BALOGUN NEXUS — 00:01 HRS',
+    num: 'TRANSMISSION 003 / 006',
+    body: '<strong>Ground Zero.</strong> Three thousand years of Aṣẹ buried under a modern market.<br><br>Amara says you can feel it if you stand still long enough — a hum below the feet, like the ground is thinking. She tried to describe it to a colleague once. The colleague thought she was talking about underground cables.<br><br>She did not correct him. Some things take too long to explain. Some explanations do more damage than silence.<br><br><em>The market does not care whether you understand it. It opens at 6 AM. It will be here long after you are not.</em>'
+  },
+  {
+    loc: 'EKO ATLANTIC, TOWER 7 — 04:00 HRS',
+    num: 'TRANSMISSION 004 / 006',
+    body: 'The Architect arrived at Tower 7 on a Tuesday.<br><br>He brought nothing with him. He required nothing. He walked in through the front lobby, past seventeen security systems, and took the elevator to the 47th floor.<br><br>The footage shows him pausing at the elevator mirror. Straightening his collar. Looking at his own reflection for exactly four seconds.<br><br>Nobody has ever done that before — stood that still in front of a mirror, in this building, at this hour. The security team watched the footage three times before they understood: <em>he was not looking at himself.</em><br><br><em>He was looking at us.</em>'
+  },
+  {
+    loc: 'MUSHIN DISTRICT — 06:32 HRS',
+    num: 'TRANSMISSION 005 / 006',
+    body: 'This morning, Bayo stopped a DANFO before it hit a child.<br><br>Not with his hands. With nothing he could explain. The bus stopped two metres from the boy — engine still running, driver still pressing the accelerator — and simply did not move forward.<br><br>The driver got out. Looked at the front of the bus. Looked at Bayo. Looked at the child. Said nothing. Got back in. Reversed. Drove away.<br><br>Bayo crouched down to the boy's height. Asked if he was okay. The boy said: <em>"Why do you shine like that?"</em><br><br>Bayo said: "Like what?"<br><br><em>The boy pointed at his chest. Bayo looked down. He saw nothing. But his hands were warm.</em>'
+  },
+  {
+    loc: 'ORACLE'S COMPOUND — LOCATION CLASSIFIED',
+    num: 'TRANSMISSION 006 / 006',
+    body: 'The Oracle does not sleep.<br><br>He has not slept in forty-three years. He says this calmly, the way one says they have not eaten meat, or have not been to the cinema in a while.<br><br>He says it is because the city never sleeps, and someone has to be watching. He says it is because every time he closes his eyes, he sees six hundred years of choices replaying, and some of them he is not finished examining yet.<br><br>He says he does not mind. He has good tea. He has good books. He has a window that faces the lagoon, and at 4 AM the water turns a colour that has no name in any language he has found yet.<br><br><em>He is looking for the name. He thinks he is close.</em>'
+  }
+];
+
+var dispCurrent = 0;
+
+function dispatchGo(idx) {
+  dispCurrent = idx;
+  var d = DISPATCHES[idx];
+  document.getElementById('disp-loc').textContent = d.loc;
+  document.getElementById('disp-num').textContent = d.num;
+  document.getElementById('disp-body').innerHTML = d.body;
+  document.querySelectorAll('.dispatch-dot').forEach(function(dot, i) {
+    dot.classList.toggle('on', i === idx);
+  });
+}
+
+function dispatchNext() { dispatchGo((dispCurrent + 1) % DISPATCHES.length); }
+function dispatchPrev() { dispatchGo((dispCurrent - 1 + DISPATCHES.length) % DISPATCHES.length); }
+
+// Auto-cycle dispatches every 12s
+setInterval(function() { dispatchNext(); }, 12000);
+
+// ── DOSSIER MODAL ─────────────────────────────────────────
+var DOSSIERS = {
+  catalyst: {
+    name: 'BAYO ADEYEMI',
+    codename: 'CODENAME: CATALYST  ◈  TIER: UNCLASSIFIED',
+    stamp: 'OMEGA',
+    fields: [
+      { label: 'REAL NAME', val: 'Bayo Adeyemi' },
+      { label: 'AGE', val: '19' },
+      { label: 'DISTRICT', val: 'Mushin, Lagos' },
+      { label: 'STATUS', val: '⚠ ACTIVE — UNCONTAINED' },
+      { label: 'ASẸ CLASS', val: 'CATALYST (unique)' },
+      { label: 'COVER', val: 'Unemployed — "tech support"' },
+    ],
+    stats: [
+      { name: 'POWER', pct: 82, cls: 'sf-gold' },
+      { name: 'SPEED', pct: 61, cls: 'sf-teal' },
+      { name: 'INTELLIGENCE', pct: 88, cls: 'sf-purple' },
+      { name: 'ASẸ OUTPUT', pct: 100, cls: 'sf-gold' },
+    ],
+    notes: 'Subject does not amplify Aṣẹ — he MULTIPLIES it. Classified as existential variable by Pale Council. The Architect has reviewed his file seven times. Oracle's assessment: "Do not tell him yet. He is not ready. The city doesn't care."'
+  },
+  thunderstrike: {
+    name: 'AMARA IBRAHIM',
+    codename: 'CODENAME: THUNDERSTRIKE  ◈  TIER: ALPHA',
+    stamp: 'ARMED',
+    fields: [
+      { label: 'REAL NAME', val: 'Amara Ibrahim' },
+      { label: 'AGE', val: '23' },
+      { label: 'DISTRICT', val: 'Victoria Island (safehouse)' },
+      { label: 'STATUS', val: '⚡ ACTIVE — ARMED' },
+      { label: 'ASẸ CLASS', val: 'Shango-Shungite Hybrid' },
+      { label: 'WEAKNESS', val: '████████ REDACTED ████████', red: true },
+    ],
+    stats: [
+      { name: 'POWER', pct: 91, cls: 'sf-red' },
+      { name: 'SPEED', pct: 94, cls: 'sf-gold' },
+      { name: 'INTELLIGENCE', pct: 82, cls: 'sf-purple' },
+      { name: 'ASẸ OUTPUT', pct: 78, cls: 'sf-teal' },
+    ],
+    notes: 'Sustained output: 12,000V (unverified ceiling). Flight altitude: 3,400m. Speed: Mach 0.82 observed. Is correct approximately 94% of the time. The remaining 6% has been witnessed. We do not discuss it.'
+  },
+  'iron-wolf': {
+    name: 'IKENNA OKAFOR',
+    codename: 'CODENAME: IRON WOLF  ◈  TIER: ALPHA',
+    stamp: 'DANGER',
+    fields: [
+      { label: 'REAL NAME', val: 'Ikenna Okafor' },
+      { label: 'AGE', val: '26' },
+      { label: 'DISTRICT', val: 'Unknown — last: Iron District' },
+      { label: 'STATUS', val: '⚠ SEMI-HOSTILE' },
+      { label: 'ASẸ CLASS', val: 'Ògún Lineage — Tier V (transformed)' },
+      { label: 'LOYALTY', val: 'FRACTURED — approach with caution' },
+    ],
+    stats: [
+      { name: 'POWER', pct: 86, cls: 'sf-red' },
+      { name: 'SPEED (TRANSFORMED)', pct: 100, cls: 'sf-gold' },
+      { name: 'INTELLIGENCE', pct: 80, cls: 'sf-purple' },
+      { name: 'ASẸ OUTPUT', pct: 55, cls: 'sf-teal' },
+    ],
+    notes: 'Father: 14-generation Ògún ironsmith lineage — killed in Iron District during Pale Council operation. Do NOT mention the father. Not even as strategy. The Architect has attempted recruitment three times. Fourth approach is imminent. Outcome: uncertain.'
+  },
+  oracle: {
+    name: 'ZARA ADENIYI',
+    codename: 'CODENAME: THE ORACLE  ◈  TIER: SOVEREIGN',
+    stamp: 'CLASSIFIED',
+    fields: [
+      { label: 'KNOWN NAME', val: 'Zara Adeniyi (current vessel)' },
+      { label: 'TRUE AGE', val: '617+ years' },
+      { label: 'VESSEL AGE', val: '28' },
+      { label: 'LOCATION', val: '████ CLASSIFIED ████', red: true },
+      { label: 'ASẸ CLASS', val: 'Ìmọ̀lẹ̀ Sovereign — Knowledge Tier' },
+      { label: 'STATUS', val: '⚠ DO NOT ENGAGE — EVER' },
+    ],
+    stats: [
+      { name: 'POWER (PHYSICAL)', pct: 32, cls: 'sf-red' },
+      { name: 'SPEED', pct: 20, cls: 'sf-teal' },
+      { name: 'INTELLIGENCE', pct: 100, cls: 'sf-purple' },
+      { name: 'KNOWLEDGE ASẸ', pct: 89, cls: 'sf-gold' },
+    ],
+    notes: 'Has not slept in 43 years. Classified as EXTREMELY DANGEROUS. Do not underestimate based on physical stats. She already knew you were reading this file. She asked us to add: "Tell them I said hello."'
+  }
+};
+
+document.querySelectorAll('.char-card').forEach(function(card) {
+  card.addEventListener('click', function() {
+    var key = card.getAttribute('data-dossier');
+    if (!key || !DOSSIERS[key]) return;
+    dosOpen(DOSSIERS[key]);
+  });
+});
+
+function dosOpen(data) {
+  document.getElementById('dos-name').textContent = data.name;
+  document.getElementById('dos-codename').textContent = data.codename;
+  document.getElementById('dos-stamp').textContent = data.stamp;
+
+  var grid = document.getElementById('dos-grid');
+  grid.innerHTML = data.fields.map(function(f) {
+    return '<div class="dos-field"><label>' + f.label + '</label>'
+      + '<div class="dos-val' + (f.red ? ' dos-redact' : '') + '">' + f.val + '</div>'
+      + '</div>';
+  }).join('');
+
+  var statsEl = document.getElementById('dos-stats');
+  statsEl.innerHTML = data.stats.map(function(s) {
+    return '<div class="dos-stat">'
+      + '<div class="dos-stat-hdr"><span>' + s.name + '</span><span>' + s.pct + '/100</span></div>'
+      + '<div class="stat-bar"><div class="stat-fill ' + s.cls + '" data-pct="' + s.pct + '"></div></div>'
+      + '</div>';
+  }).join('');
+
+  document.getElementById('dos-notes').innerHTML = '<strong>ANALYST NOTES — LEVEL 5 ONLY</strong>' + data.notes;
+  document.getElementById('dossier-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  // Animate bars after a brief delay
+  setTimeout(function() {
+    document.querySelectorAll('.stat-fill').forEach(function(bar) {
+      bar.style.width = bar.getAttribute('data-pct') + '%';
+    });
+  }, 150);
+}
+
+function dosClose(e) {
+  if (e && e.target !== document.getElementById('dossier-overlay')) return;
+  document.getElementById('dossier-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+  // Reset bars
+  document.querySelectorAll('.stat-fill').forEach(function(b) { b.style.width = '0%'; });
+}
+
+// ESC to close dossier
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    document.getElementById('dossier-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+});
+
+// ── COUNTDOWN TIMER ───────────────────────────────────────
+(function() {
+  var target = new Date('2026-10-01T00:00:00').getTime();
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  function tick() {
+    var now = Date.now();
+    var diff = Math.max(0, target - now);
+    var d = Math.floor(diff / 86400000);
+    var h = Math.floor((diff % 86400000) / 3600000);
+    var m = Math.floor((diff % 3600000) / 60000);
+    var s = Math.floor((diff % 60000) / 1000);
+    var de = document.getElementById('cd-days');
+    var he = document.getElementById('cd-hrs');
+    var me = document.getElementById('cd-min');
+    var se = document.getElementById('cd-sec');
+    if (de) de.textContent = pad(d);
+    if (he) he.textContent = pad(h);
+    if (me) me.textContent = pad(m);
+    if (se) se.textContent = pad(s);
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+
+// ── AUDIO ATMOSPHERE ──────────────────────────────────────
+var audioCtx = null;
+var audioMaster = null;
+var audioPlaying = false;
+
+function audioToggle() {
+  if (!audioPlaying) {
+    audioStart();
+  } else {
+    audioStop();
+  }
+}
+
+function audioStart() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    audioMaster = audioCtx.createGain();
+    audioMaster.gain.value = 0.0;
+    audioMaster.connect(audioCtx.destination);
+
+    // Low city rumble
+    var rumble = audioCtx.createOscillator();
+    rumble.type = 'sine';
+    rumble.frequency.value = 38;
+    var rumbleGain = audioCtx.createGain();
+    rumbleGain.gain.value = 0.12;
+    rumble.connect(rumbleGain);
+    rumbleGain.connect(audioMaster);
+    rumble.start();
+
+    // Sub bass pulse
+    var sub = audioCtx.createOscillator();
+    sub.type = 'sine';
+    sub.frequency.value = 52;
+    var subGain = audioCtx.createGain();
+    subGain.gain.value = 0.06;
+    sub.connect(subGain);
+    subGain.connect(audioMaster);
+    sub.start();
+
+    // Rain (filtered noise)
+    var noiseLen = audioCtx.sampleRate * 3;
+    var noiseBuf = audioCtx.createBuffer(1, noiseLen, audioCtx.sampleRate);
+    var nd = noiseBuf.getChannelData(0);
+    for (var i = 0; i < noiseLen; i++) nd[i] = Math.random() * 2 - 1;
+    var noise = audioCtx.createBufferSource();
+    noise.buffer = noiseBuf;
+    noise.loop = true;
+    var bp = audioCtx.createBiquadFilter();
+    bp.type = 'bandpass';
+    bp.frequency.value = 2200;
+    bp.Q.value = 0.4;
+    var rainGain = audioCtx.createGain();
+    rainGain.gain.value = 0.03;
+    noise.connect(bp);
+    bp.connect(rainGain);
+    rainGain.connect(audioMaster);
+    noise.start();
+
+    // Wind (low pass noise)
+    var wind = audioCtx.createBufferSource();
+    wind.buffer = noiseBuf;
+    wind.loop = true;
+    var lp = audioCtx.createBiquadFilter();
+    lp.type = 'lowpass';
+    lp.frequency.value = 320;
+    var windGain = audioCtx.createGain();
+    windGain.gain.value = 0.025;
+    wind.connect(lp);
+    lp.connect(windGain);
+    windGain.connect(audioMaster);
+    wind.start();
+
+    // DANFO horn (periodic)
+    function danfoHorn() {
+      if (!audioPlaying) return;
+      var osc = audioCtx.createOscillator();
+      osc.type = 'sawtooth';
+      osc.frequency.value = 220 + Math.random() * 80;
+      var env = audioCtx.createGain();
+      env.gain.value = 0;
+      osc.connect(env);
+      env.connect(audioMaster);
+      osc.start();
+      var t = audioCtx.currentTime;
+      env.gain.setTargetAtTime(0.07, t, 0.03);
+      env.gain.setTargetAtTime(0.05, t + 0.15, 0.05);
+      env.gain.setTargetAtTime(0, t + 0.55, 0.12);
+      osc.stop(t + 1.2);
+      setTimeout(danfoHorn, 7000 + Math.random() * 14000);
+    }
+    setTimeout(danfoHorn, 3000 + Math.random() * 5000);
+
+    // Market crowd bursts
+    function crowdBurst() {
+      if (!audioPlaying) return;
+      var cb = audioCtx.createBufferSource();
+      cb.buffer = noiseBuf;
+      cb.loop = false;
+      var cbf = audioCtx.createBiquadFilter();
+      cbf.type = 'bandpass';
+      cbf.frequency.value = 800 + Math.random() * 400;
+      cbf.Q.value = 1.5;
+      var cbg = audioCtx.createGain();
+      cbg.gain.value = 0;
+      cb.connect(cbf);
+      cbf.connect(cbg);
+      cbg.connect(audioMaster);
+      cb.start();
+      var t = audioCtx.currentTime;
+      cbg.gain.setTargetAtTime(0.04, t, 0.1);
+      cbg.gain.setTargetAtTime(0, t + 0.8, 0.3);
+      setTimeout(crowdBurst, 4000 + Math.random() * 8000);
+    }
+    setTimeout(crowdBurst, 1500);
+  }
+
+  audioPlaying = true;
+  audioMaster.gain.setTargetAtTime(0.35, audioCtx.currentTime, 0.8);
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  document.getElementById('audio-btn').classList.add('on');
+  document.getElementById('audio-icon').textContent = '♫';
+}
+
+function audioStop() {
+  audioPlaying = false;
+  if (audioMaster) audioMaster.gain.setTargetAtTime(0, audioCtx.currentTime, 0.6);
+  document.getElementById('audio-btn').classList.remove('on');
+  document.getElementById('audio-icon').textContent = '♪';
+}
+
 </script>
+
+<!-- ══════════════════════════════════════ DOSSIER MODAL -->
+<div id="dossier-overlay" onclick="dosClose(event)">
+  <div class="dossier-modal" id="dossier-modal">
+    <div class="dos-stamp" id="dos-stamp">CLASSIFIED</div>
+    <div class="dos-agency">LAGOS INTELLIGENCE COLLECTIVE — SPECIAL FILE</div>
+    <div class="dos-name" id="dos-name">—</div>
+    <div class="dos-codename" id="dos-codename">—</div>
+    <hr class="dos-divider">
+    <div class="dos-grid" id="dos-grid"></div>
+    <hr class="dos-divider">
+    <div id="dos-stats"></div>
+    <div class="dos-notes" id="dos-notes"></div>
+    <button class="dos-close" onclick="dosClose()">[ CLOSE FILE — CLEAR CLEARANCE ]</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ AUDIO BUTTON -->
+<button id="audio-btn" onclick="audioToggle()" title="Lagos Atmosphere">
+  <span id="audio-icon">♪</span>
+  <span class="audio-tip">LAGOS AMBIENCE</span>
+</button>
+
 </body>
 </html>
