@@ -3885,6 +3885,14 @@
   display: block;
 }
 .realm-icon { display: none; } /* hide emoji, show SVG instead */
+
+/* ── Real Cinematic Photo Upgrades ───────────────────────── */
+.hero-canva-bg { opacity: 0.38 !important; mix-blend-mode: normal !important; }
+.char-photo-bg { opacity: 0.50 !important; mix-blend-mode: multiply !important; }
+.char-card:hover .char-photo-bg { opacity: 0.72 !important; }
+.panel-canva-wrap img { opacity: 0.55 !important; mix-blend-mode: multiply !important; }
+.issue-canva-overlay { opacity: 0.45 !important; mix-blend-mode: multiply !important; }
+.issue-card:hover .issue-canva-overlay { opacity: 0.65 !important; }
 </style>
 </head>
 <body>
@@ -4026,7 +4034,7 @@
 <!-- ============================================================ HERO -->
 <section id="hero">
   
-  <img class="hero-canva-bg" src="https://design.canva.ai/Vx5SbfNHghF0mX7" alt="" loading="eager" decoding="async">
+  <img class="hero-canva-bg" src="./assets/intersection.jpg" alt="" loading="eager" decoding="async">
   <div class="hero-glow"></div>
   <div class="hero-glow-2"></div>
 
@@ -4676,7 +4684,7 @@
     <!-- CATALYST — Featured -->
     <div class="char-card chars-featured reveal">
       <div class="char-bg char-bg-catalyst"></div>
-      <img class="char-photo-bg" src="https://design.canva.ai/IQAVSsi5lvD6K71" alt="" loading="lazy">
+      <img class="char-photo-bg" src="./assets/forge.jpg" alt="" loading="lazy">
       <svg class="char-adire-bg" viewBox="0 0 400 270" xmlns="http://www.w3.org/2000/svg">
         <pattern id="adirePat" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
           <path d="M0,20 L20,0 L40,20 L20,40 Z" fill="none" stroke="#F4B800" stroke-width="0.5"/>
@@ -4864,7 +4872,7 @@
     <!-- THUNDERSTRIKE -->
     <div class="char-card reveal reveal-delay-1">
       <div class="char-bg char-bg-thunderstrike"></div>
-      <img class="char-photo-bg" src="https://design.canva.ai/LPOEp4nRDnOp1fl" alt="" loading="lazy">
+      <img class="char-photo-bg" src="./assets/flares.jpg" alt="" loading="lazy">
       <svg class="char-adire-bg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
         <pattern id="thunderPat" x="0" y="0" width="25" height="25" patternUnits="userSpaceOnUse">
           <path d="M12,0 L25,12 L12,25 L0,12 Z" fill="none" stroke="#7B2FFF" stroke-width="0.4"/>
@@ -5045,7 +5053,7 @@
     <!-- THE IRON WOLF -->
     <div class="char-card reveal reveal-delay-2">
       <div class="char-bg char-bg-iron"></div>
-      <img class="char-photo-bg" src="https://design.canva.ai/_dfgA3IH1joNo2B" alt="" loading="lazy">
+      <img class="char-photo-bg" src="./assets/industrial.jpg" alt="" loading="lazy">
       <svg class="char-adire-bg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
         <pattern id="ironPat" x="0" y="0" width="15" height="15" patternUnits="userSpaceOnUse">
           <rect x="0" y="0" width="15" height="15" fill="none" stroke="#FF6B1A" stroke-width="0.3"/>
@@ -5222,7 +5230,7 @@
     <!-- THE ORACLE -->
     <div class="char-card reveal reveal-delay-3">
       <div class="char-bg char-bg-oracle"></div>
-      <img class="char-photo-bg" src="https://design.canva.ai/sS73SMer73Zz3l1" alt="" loading="lazy">
+      <img class="char-photo-bg" src="./assets/noir-window.jpg" alt="" loading="lazy">
       <svg class="char-adire-bg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
         <pattern id="oraclePat" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
           <circle cx="15" cy="15" r="12" fill="none" stroke="#D4AF37" stroke-width="0.3"/>
@@ -5416,7 +5424,7 @@
 
     <!-- PANEL 1: Establishing shot — Third Mainland Bridge at night -->
     <div class="comic-panel panel-wide reveal">
-      <div class="panel-canva-wrap"><img src="https://design.canva.ai/qqNDV8JeA1poR1T" alt="" loading="lazy"></div>
+      <div class="panel-canva-wrap"><img src="./assets/corridor.jpg" alt="" loading="lazy"></div>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 380" class="panel-svg">
         <defs>
           <radialGradient id="p1-sky" cx="50%" cy="0%" r="80%">
@@ -5568,7 +5576,7 @@
 
     <!-- PANEL 2: Close-up — Bayo sees the tear appear -->
     <div class="comic-panel panel-tall reveal reveal-delay-1">
-      <div class="panel-canva-wrap"><img src="https://design.canva.ai/TQ6cQ88GoqKNZue" alt="" loading="lazy"></div>
+      <div class="panel-canva-wrap"><img src="./assets/industrial.jpg" alt="" loading="lazy"></div>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 520" class="panel-svg">
         <defs>
           <radialGradient id="p2-eye" cx="50%" cy="50%" r="50%">
@@ -5721,7 +5729,7 @@
 
     <!-- PANEL 3: The tear opens fully — dramatic wide shot -->
     <div class="comic-panel panel-medium reveal reveal-delay-2">
-      <div class="panel-canva-wrap"><img src="https://design.canva.ai/PkEJRLOpuR96-St" alt="" loading="lazy"></div>
+      <div class="panel-canva-wrap"><img src="./assets/shipyard.jpg" alt="" loading="lazy"></div>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 420" class="panel-svg">
         <defs>
           <radialGradient id="p3-tear-core" cx="50%" cy="50%" r="50%">
@@ -6115,32 +6123,32 @@
 
     <!-- FEATURED: Main Catalyst Awakening Poster — tall -->
     <div class="cover-art-item reveal">
-      <img src="https://design.canva.ai/Vx5SbfNHghF0mX7"
+      <img src="./assets/circle.jpg"
            alt="Catalyst The Awakening — Origin Poster" loading="lazy">
       <span class="cover-art-badge">Featured</span>
       <span class="cover-art-label">Issue #00 — Origin</span>
     </div>
 
     <div class="cover-art-item reveal">
-      <img src="https://design.canva.ai/IQAVSsi5lvD6K71"
+      <img src="./assets/forge.jpg"
            alt="Catalyst #1 — The Bridge" loading="lazy">
       <span class="cover-art-label">Issue #01 — The Bridge</span>
     </div>
 
     <div class="cover-art-item reveal">
-      <img src="https://design.canva.ai/KJt6Iyp_qLM-qLS"
+      <img src="./assets/flares.jpg"
            alt="Cover Art Volume I" loading="lazy">
       <span class="cover-art-label">Volume I</span>
     </div>
 
     <div class="cover-art-item reveal">
-      <img src="https://design.canva.ai/QHKiCE82WVXWa8-"
+      <img src="./assets/intersection.jpg"
            alt="Arc II — The Dark Assembly" loading="lazy">
       <span class="cover-art-label">Arc II — Assembly</span>
     </div>
 
     <div class="cover-art-item reveal">
-      <img src="https://design.canva.ai/5JQ_8vQ882CVfqb"
+      <img src="./assets/shipyard.jpg"
            alt="Limited Edition Print" loading="lazy">
       <span class="cover-art-badge">Ltd. Ed.</span>
       <span class="cover-art-label">Limited Edition</span>
@@ -6988,7 +6996,7 @@
   <text x="278" y="444" text-anchor="end" font-family="sans-serif" font-size="9" fill="#888888" letter-spacing="1">&#8358;500</text>
   <text x="150" y="444" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#555555" letter-spacing="2">LAGOS NOIR COMICS</text>
 </svg>
-          <img class="issue-canva-overlay" src="https://design.canva.ai/IQAVSsi5lvD6K71" alt="" loading="lazy">
+          <img class="issue-canva-overlay" src="./assets/circle.jpg" alt="" loading="lazy">
         </div>
         <div class="issue-overlay">
           <span class="issue-status status-out">Out Now</span>
@@ -7163,7 +7171,7 @@
   <text x="278" y="444" text-anchor="end" font-family="sans-serif" font-size="9" fill="#888888" letter-spacing="1">&#8358;500</text>
   <text x="150" y="444" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#555555" letter-spacing="2">LAGOS NOIR COMICS</text>
 </svg>
-          <img class="issue-canva-overlay" src="https://design.canva.ai/qqNDV8JeA1poR1T" alt="" loading="lazy">
+          <img class="issue-canva-overlay" src="./assets/forge.jpg" alt="" loading="lazy">
         </div>
         <div class="issue-overlay">
           <span class="issue-status status-new">New</span>
@@ -7360,7 +7368,7 @@
   <text x="278" y="444" text-anchor="end" font-family="sans-serif" font-size="9" fill="#888888" letter-spacing="1">&#8358;500</text>
   <text x="150" y="444" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#555555" letter-spacing="2">LAGOS NOIR COMICS</text>
 </svg>
-          <img class="issue-canva-overlay" src="https://design.canva.ai/TQ6cQ88GoqKNZue" alt="" loading="lazy">
+          <img class="issue-canva-overlay" src="./assets/shipyard.jpg" alt="" loading="lazy">
         </div>
         <div class="issue-overlay">
           <span class="issue-status status-out">Out Now</span>
