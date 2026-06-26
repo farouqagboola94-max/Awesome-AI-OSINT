@@ -3694,6 +3694,197 @@
   animation: beam-flow 5.8s linear 1.75s infinite;
 }
 @keyframes beam-flow { from { left: -250%; } to { left: 100%; } }
+
+/* ── Canva Cover Art Integration ────────────────────────── */
+#hero { position: relative; overflow: hidden; }
+
+.hero-canva-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  opacity: 0.18;
+  z-index: 0;
+  pointer-events: none;
+  mix-blend-mode: luminosity;
+}
+
+/* Character photo background from Canva */
+.char-photo-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  opacity: 0.28;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: inherit;
+  mix-blend-mode: luminosity;
+  transition: opacity 0.45s ease;
+}
+.char-card:hover .char-photo-bg { opacity: 0.48; }
+
+/* Panel Canva image layer */
+.panel-canva-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+.panel-canva-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.32;
+  mix-blend-mode: luminosity;
+}
+.comic-panel { position: relative; overflow: hidden; }
+.panel-svg { position: relative; z-index: 1; width: 100%; }
+
+/* ── Cover Art Gallery Section ─────────────────────────── */
+#cover-gallery {
+  padding: 8rem var(--gutter);
+  background: linear-gradient(180deg, #06040F 0%, #0A0818 50%, #06040F 100%);
+  position: relative;
+  overflow: hidden;
+}
+#cover-gallery::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(123,47,255,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.gallery-header { text-align: center; margin-bottom: 4.5rem; }
+
+.cover-gallery-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: 1.25rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: start;
+}
+.cover-gallery-grid .cover-art-item:first-child {
+  grid-row: span 2;
+}
+@media (max-width: 960px) {
+  .cover-gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .cover-gallery-grid .cover-art-item:first-child { grid-row: span 1; }
+}
+@media (max-width: 600px) {
+  .cover-gallery-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.cover-art-item {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(244,184,0,0.12);
+  background: #06040F;
+  aspect-ratio: 2/3;
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1),
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
+}
+.cover-gallery-grid .cover-art-item:first-child { aspect-ratio: 2/3.5; }
+
+.cover-art-item:hover {
+  transform: translateY(-10px) scale(1.025);
+  border-color: rgba(244,184,0,0.45);
+  box-shadow: 0 24px 60px rgba(244,184,0,0.18), 0 8px 24px rgba(0,0,0,0.6);
+}
+.cover-art-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform 0.45s ease;
+}
+.cover-art-item:hover img { transform: scale(1.04); }
+.cover-art-item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(6,4,15,0.9) 100%);
+  pointer-events: none;
+}
+.cover-art-label {
+  position: absolute;
+  bottom: 0.8rem;
+  left: 0.8rem;
+  right: 0.8rem;
+  z-index: 2;
+  font-family: var(--font-display, 'Bebas Neue', sans-serif);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  color: rgba(244,184,0,0.92);
+  text-transform: uppercase;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+}
+.cover-art-badge {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 2;
+  font-family: var(--font-display, 'Bebas Neue', sans-serif);
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  color: #0A0818;
+  background: #F4B800;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+/* Lagos mythology orisha pattern for gallery bg */
+#cover-gallery .gallery-orisha-bg {
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  background-image: repeating-conic-gradient(
+    rgba(244,184,0,1) 0deg 15deg,
+    transparent 15deg 30deg
+  );
+  background-size: 80px 80px;
+  pointer-events: none;
+}
+
+/* ── Comics Issue Canva Overlay ──────────────────────────── */
+.issue-bg { position: relative; overflow: hidden; }
+.issue-canva-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  opacity: 0.35;
+  z-index: 2;
+  pointer-events: none;
+  mix-blend-mode: luminosity;
+  transition: opacity 0.4s ease;
+}
+.issue-card:hover .issue-canva-overlay { opacity: 0.55; }
+
+/* ── Realm Card SVG Icons ─────────────────────────────────── */
+.realm-icon-svg {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 1rem;
+  display: block;
+}
+.realm-icon { display: none; } /* hide emoji, show SVG instead */
 </style>
 </head>
 <body>
@@ -3800,6 +3991,7 @@
   <a href="#hero" class="nav-logo">CATALYST<span>:</span>TA</a>
   <ul class="nav-links">
     <li><a href="#arcs">Arcs</a></li>
+    <li><a href="#cover-gallery">Covers</a></li>
     <li><a href="#villains">Villains</a></li>
     <li><a href="#characters">Heroes</a></li>
     <li><a href="#realms">Realms</a></li>
@@ -3822,6 +4014,7 @@
   <div class="mobile-nav-logo">CATALYST:TA</div>
   <a href="#arcs" onclick="toggleMobileNav()">Arcs</a>
   <a href="#characters" onclick="toggleMobileNav()">Heroes</a>
+  <a href="#cover-gallery" onclick="toggleMobileNav()">Covers</a>
   <a href="#villains" onclick="toggleMobileNav()">Villains</a>
   <a href="#realms" onclick="toggleMobileNav()">Realms</a>
   <a href="#codex" onclick="toggleMobileNav()">Codex</a>
@@ -3832,6 +4025,8 @@
 
 <!-- ============================================================ HERO -->
 <section id="hero">
+  
+  <img class="hero-canva-bg" src="https://design.canva.ai/KoAcezsSMS7p1vY" alt="" loading="eager" decoding="async">
   <div class="hero-glow"></div>
   <div class="hero-glow-2"></div>
 
@@ -4481,6 +4676,7 @@
     <!-- CATALYST — Featured -->
     <div class="char-card chars-featured reveal">
       <div class="char-bg char-bg-catalyst"></div>
+      <img class="char-photo-bg" src="https://design.canva.ai/wlrk05kbUz9vXtd" alt="" loading="lazy">
       <svg class="char-adire-bg" viewBox="0 0 400 270" xmlns="http://www.w3.org/2000/svg">
         <pattern id="adirePat" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
           <path d="M0,20 L20,0 L40,20 L20,40 Z" fill="none" stroke="#F4B800" stroke-width="0.5"/>
@@ -4668,6 +4864,7 @@
     <!-- THUNDERSTRIKE -->
     <div class="char-card reveal reveal-delay-1">
       <div class="char-bg char-bg-thunderstrike"></div>
+      <img class="char-photo-bg" src="https://design.canva.ai/Ji7D7ISdd4ILusN" alt="" loading="lazy">
       <svg class="char-adire-bg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
         <pattern id="thunderPat" x="0" y="0" width="25" height="25" patternUnits="userSpaceOnUse">
           <path d="M12,0 L25,12 L12,25 L0,12 Z" fill="none" stroke="#7B2FFF" stroke-width="0.4"/>
@@ -4848,6 +5045,7 @@
     <!-- THE IRON WOLF -->
     <div class="char-card reveal reveal-delay-2">
       <div class="char-bg char-bg-iron"></div>
+      <img class="char-photo-bg" src="https://design.canva.ai/Yd6zmgLyo67Z_k_" alt="" loading="lazy">
       <svg class="char-adire-bg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
         <pattern id="ironPat" x="0" y="0" width="15" height="15" patternUnits="userSpaceOnUse">
           <rect x="0" y="0" width="15" height="15" fill="none" stroke="#FF6B1A" stroke-width="0.3"/>
@@ -5024,6 +5222,7 @@
     <!-- THE ORACLE -->
     <div class="char-card reveal reveal-delay-3">
       <div class="char-bg char-bg-oracle"></div>
+      <img class="char-photo-bg" src="https://design.canva.ai/XmvlFBdW3mXsHap" alt="" loading="lazy">
       <svg class="char-adire-bg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
         <pattern id="oraclePat" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
           <circle cx="15" cy="15" r="12" fill="none" stroke="#D4AF37" stroke-width="0.3"/>
@@ -5217,6 +5416,7 @@
 
     <!-- PANEL 1: Establishing shot — Third Mainland Bridge at night -->
     <div class="comic-panel panel-wide reveal">
+      <div class="panel-canva-wrap"><img src="https://design.canva.ai/oc4Pn0777pYuF8_" alt="" loading="lazy"></div>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 380" class="panel-svg">
         <defs>
           <radialGradient id="p1-sky" cx="50%" cy="0%" r="80%">
@@ -5368,6 +5568,7 @@
 
     <!-- PANEL 2: Close-up — Bayo sees the tear appear -->
     <div class="comic-panel panel-tall reveal reveal-delay-1">
+      <div class="panel-canva-wrap"><img src="https://design.canva.ai/mVtKCaA2QhMabYe" alt="" loading="lazy"></div>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 520" class="panel-svg">
         <defs>
           <radialGradient id="p2-eye" cx="50%" cy="50%" r="50%">
@@ -5520,6 +5721,7 @@
 
     <!-- PANEL 3: The tear opens fully — dramatic wide shot -->
     <div class="comic-panel panel-medium reveal reveal-delay-2">
+      <div class="panel-canva-wrap"><img src="https://design.canva.ai/YfaUVS6p7EXCIrj" alt="" loading="lazy"></div>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 420" class="panel-svg">
         <defs>
           <radialGradient id="p3-tear-core" cx="50%" cy="50%" r="50%">
@@ -5897,6 +6099,54 @@
     </div>
 
   </div><!-- end panels-grid -->
+</section>
+
+
+<!-- ============================================================ COVER ART GALLERY -->
+<section id="cover-gallery">
+  <div class="gallery-orisha-bg" aria-hidden="true"></div>
+  <div class="gallery-header">
+    <p class="section-label reveal" style="justify-content:center">From the Studio</p>
+    <h2 class="section-title reveal">THE <em>COVER ART</em></h2>
+    <p class="reveal" style="max-width:560px;margin:1.2rem auto 0;font-size:0.88rem;line-height:1.85;color:rgba(240,237,229,0.5)">Five covers. Five portals into the Lagos mythology. Each piece pulls from Yoruba cosmology, Afrofuturist noir, and the neon-dark pulse of a city that never sleeps.</p>
+  </div>
+
+  <div class="cover-gallery-grid">
+
+    <!-- FEATURED: Main Catalyst Awakening Poster — tall -->
+    <div class="cover-art-item reveal">
+      <img src="https://design.canva.ai/KoAcezsSMS7p1vY"
+           alt="Catalyst The Awakening — Origin Poster" loading="lazy">
+      <span class="cover-art-badge">Featured</span>
+      <span class="cover-art-label">Issue #00 — Origin</span>
+    </div>
+
+    <div class="cover-art-item reveal">
+      <img src="https://design.canva.ai/wlrk05kbUz9vXtd"
+           alt="Catalyst #1 — The Bridge" loading="lazy">
+      <span class="cover-art-label">Issue #01 — The Bridge</span>
+    </div>
+
+    <div class="cover-art-item reveal">
+      <img src="https://design.canva.ai/MKHeG1ZWE80D2TI"
+           alt="Cover Art Volume I" loading="lazy">
+      <span class="cover-art-label">Volume I</span>
+    </div>
+
+    <div class="cover-art-item reveal">
+      <img src="https://design.canva.ai/Yq9iAcFI6HUxLla"
+           alt="Arc II — The Dark Assembly" loading="lazy">
+      <span class="cover-art-label">Arc II — Assembly</span>
+    </div>
+
+    <div class="cover-art-item reveal">
+      <img src="https://design.canva.ai/rp3Q4dgQv_uLGlS"
+           alt="Limited Edition Print" loading="lazy">
+      <span class="cover-art-badge">Ltd. Ed.</span>
+      <span class="cover-art-label">Limited Edition</span>
+    </div>
+
+  </div>
 </section>
 
 <!-- ============================================================ DARK ASSEMBLY — VILLAINS -->
@@ -6738,6 +6988,7 @@
   <text x="278" y="444" text-anchor="end" font-family="sans-serif" font-size="9" fill="#888888" letter-spacing="1">&#8358;500</text>
   <text x="150" y="444" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#555555" letter-spacing="2">LAGOS NOIR COMICS</text>
 </svg>
+          <img class="issue-canva-overlay" src="https://design.canva.ai/wlrk05kbUz9vXtd" alt="" loading="lazy">
         </div>
         <div class="issue-overlay">
           <span class="issue-status status-out">Out Now</span>
@@ -6912,6 +7163,7 @@
   <text x="278" y="444" text-anchor="end" font-family="sans-serif" font-size="9" fill="#888888" letter-spacing="1">&#8358;500</text>
   <text x="150" y="444" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#555555" letter-spacing="2">LAGOS NOIR COMICS</text>
 </svg>
+          <img class="issue-canva-overlay" src="https://design.canva.ai/oc4Pn0777pYuF8_" alt="" loading="lazy">
         </div>
         <div class="issue-overlay">
           <span class="issue-status status-new">New</span>
@@ -7108,6 +7360,7 @@
   <text x="278" y="444" text-anchor="end" font-family="sans-serif" font-size="9" fill="#888888" letter-spacing="1">&#8358;500</text>
   <text x="150" y="444" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#555555" letter-spacing="2">LAGOS NOIR COMICS</text>
 </svg>
+          <img class="issue-canva-overlay" src="https://design.canva.ai/mVtKCaA2QhMabYe" alt="" loading="lazy">
         </div>
         <div class="issue-overlay">
           <span class="issue-status status-out">Out Now</span>
@@ -8036,6 +8289,46 @@
     <div class="realm-card realm-neolagos reveal">
       <div class="realm-num">01</div>
       <span class="realm-icon">🏙️</span>
+      <svg class="realm-icon-svg" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="nl-sky" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#1A0E40"/>
+      <stop offset="100%" stop-color="#06040F"/>
+    </radialGradient>
+    <filter id="nl-glow"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="72" height="72" rx="6" fill="url(#nl-sky)"/>
+  <!-- Buildings silhouette -->
+  <g fill="#0D0B25">
+    <rect x="2" y="38" width="8" height="34"/>
+    <rect x="4" y="32" width="4" height="40"/>
+    <rect x="12" y="30" width="10" height="42"/>
+    <rect x="14" y="24" width="4" height="48"/>
+    <rect x="24" y="36" width="8" height="36"/>
+    <rect x="36" y="18" width="12" height="54"/><!-- Eko Atlantic Tower -->
+    <rect x="40" y="14" width="4" height="58"/>
+    <rect x="50" y="32" width="8" height="40"/>
+    <rect x="60" y="38" width="10" height="34"/>
+    <rect x="62" y="28" width="6" height="44"/>
+  </g>
+  <!-- Ley line grid -->
+  <g stroke="#F4B800" stroke-width="0.5" opacity="0.3">
+    <line x1="0" y1="55" x2="72" y2="55"/>
+    <line x1="36" y1="0" x2="36" y2="72"/>
+    <line x1="0" y1="36" x2="72" y2="36" stroke-dasharray="4,4"/>
+  </g>
+  <!-- Neon windows -->
+  <g filter="url(#nl-glow)">
+    <rect x="14" y="26" width="2" height="3" fill="#F4B800" opacity="0.8"/>
+    <rect x="38" y="20" width="2" height="3" fill="#7B2FFF" opacity="0.9"/>
+    <rect x="52" y="34" width="2" height="3" fill="#F4B800" opacity="0.7"/>
+    <rect x="26" y="38" width="2" height="2" fill="#00C9B1" opacity="0.8"/>
+    <rect x="63" y="30" width="2" height="3" fill="#C41E3A" opacity="0.7"/>
+  </g>
+  <!-- Orisha eye at top -->
+  <ellipse cx="36" cy="10" rx="6" ry="4" fill="none" stroke="#F4B800" stroke-width="0.8" opacity="0.6" filter="url(#nl-glow)"/>
+  <circle cx="36" cy="10" r="2" fill="#F4B800" opacity="0.8" filter="url(#nl-glow)"/>
+</svg>
       <div class="realm-name">Neo-Lagos</div>
       <div class="realm-native">Ìlú Àgbáyé — The World City</div>
       <p class="realm-desc">The primary realm. A 40-million-soul megacity layered over an ancient Yoruba energy grid. The Balogun Nexus sits at the exact intersection of nine Orisha ley lines, making Neo-Lagos the most Aṣẹ-dense location in the mortal world. Where the story begins. Where it will likely end.</p>
@@ -8045,6 +8338,41 @@
     <div class="realm-card realm-orun reveal reveal-delay-1">
       <div class="realm-num">02</div>
       <span class="realm-icon">✨</span>
+      <svg class="realm-icon-svg" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="or-bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1A0840"/>
+      <stop offset="100%" stop-color="#06040F"/>
+    </radialGradient>
+    <filter id="or-glow"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="72" height="72" rx="6" fill="url(#or-bg)"/>
+  <!-- Celestial rings -->
+  <circle cx="36" cy="36" r="28" fill="none" stroke="#F4B800" stroke-width="0.5" stroke-dasharray="6,6" opacity="0.4"/>
+  <circle cx="36" cy="36" r="20" fill="none" stroke="#7B2FFF" stroke-width="0.6" stroke-dasharray="4,8" opacity="0.5"/>
+  <circle cx="36" cy="36" r="12" fill="none" stroke="#F4B800" stroke-width="0.8" opacity="0.6"/>
+  <!-- Orisha spokes -->
+  <g stroke="#F4B800" stroke-width="0.6" opacity="0.5">
+    <line x1="36" y1="8" x2="36" y2="24"/>
+    <line x1="36" y1="48" x2="36" y2="64"/>
+    <line x1="8" y1="36" x2="24" y2="36"/>
+    <line x1="48" y1="36" x2="64" y2="36"/>
+    <line x1="16" y1="16" x2="26" y2="26"/>
+    <line x1="46" y1="46" x2="56" y2="56"/>
+    <line x1="56" y1="16" x2="46" y2="26"/>
+    <line x1="26" y1="46" x2="16" y2="56"/>
+  </g>
+  <!-- Center star — Ìjọba Ọ̀run seal -->
+  <path d="M36,26 L38,33 L45,33 L40,38 L42,45 L36,41 L30,45 L32,38 L27,33 L34,33 Z"
+        fill="#F4B800" opacity="0.9" filter="url(#or-glow)"/>
+  <circle cx="36" cy="36" r="5" fill="#FFFBCC" opacity="0.9" filter="url(#or-glow)"/>
+  <!-- Stars -->
+  <g fill="#E8E0C0" opacity="0.6">
+    <circle cx="14" cy="14" r="1.2"/><circle cx="58" cy="12" r="1"/>
+    <circle cx="12" cy="58" r="1.1"/><circle cx="60" cy="60" r="0.9"/>
+    <circle cx="36" cy="6" r="1.3" fill="#F4B800"/>
+  </g>
+</svg>
       <div class="realm-name">Ọ̀run</div>
       <div class="realm-native">Ilé Àwọn Òrìṣà — Home of the Orishas</div>
       <p class="realm-desc">The spirit world — ancient, vast, and structured like a celestial Lagos. Seventeen districts, each ruled by a different Orisha court. Time moves at 7× the speed of the mortal realm. A week in Ọ̀run is an hour in Neo-Lagos. Bayo's visits will age him in ways that cannot be undone.</p>
@@ -8054,6 +8382,38 @@
     <div class="realm-card realm-void reveal reveal-delay-2">
       <div class="realm-num">03</div>
       <span class="realm-icon">🌑</span>
+      <svg class="realm-icon-svg" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="vd-bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0A0010"/>
+      <stop offset="100%" stop-color="#010003"/>
+    </radialGradient>
+    <filter id="vd-glow"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="72" height="72" rx="6" fill="url(#vd-bg)"/>
+  <!-- Broken reality fragments -->
+  <g fill="none" stroke="#7B2FFF" stroke-width="0.7" opacity="0.5">
+    <path d="M20,20 L32,16 L28,28 Z"/>
+    <path d="M50,14 L60,20 L54,30 Z"/>
+    <path d="M14,50 L24,44 L22,56 Z"/>
+    <path d="M48,52 L60,48 L58,62 Z"/>
+    <path d="M30,40 L40,34 L38,46 Z"/>
+  </g>
+  <!-- Void tear at center -->
+  <ellipse cx="36" cy="36" rx="10" ry="14" fill="#000008" stroke="#7B2FFF" stroke-width="1" opacity="0.8"/>
+  <ellipse cx="36" cy="36" rx="6" ry="10" fill="#000008" stroke="#C41E3A" stroke-width="0.8" opacity="0.6" filter="url(#vd-glow)"/>
+  <ellipse cx="36" cy="36" rx="3" ry="6" fill="#1A0040" filter="url(#vd-glow)"/>
+  <!-- Aṣẹ fragments falling into void -->
+  <g fill="#7B2FFF" opacity="0.4" filter="url(#vd-glow)">
+    <circle cx="22" cy="30" r="1.5"/><circle cx="50" cy="28" r="1"/><circle cx="18" cy="44" r="1.2"/>
+    <circle cx="54" cy="46" r="1.5"/><circle cx="36" cy="18" r="1"/>
+  </g>
+  <!-- Cracks radiating out -->
+  <g stroke="#C41E3A" stroke-width="0.5" opacity="0.35">
+    <path d="M30,28 L18,18"/><path d="M42,28 L54,18"/>
+    <path d="M30,44 L18,56"/><path d="M42,44 L54,56"/>
+  </g>
+</svg>
       <div class="realm-name">The Void</div>
       <div class="realm-native">Àgbègbè Òfò — Territory of Loss</div>
       <p class="realm-desc">Neither Ọ̀run nor Earth. The space between worlds — where things go when forgotten, where destroyed Aṣẹ falls, where The Architect draws his true power. Entering the Void without a Sovereign-tier anchor is a death sentence. The Void is also where The Mirror was born.</p>
@@ -8063,6 +8423,44 @@
     <div class="realm-card realm-ironmarket reveal">
       <div class="realm-num">04</div>
       <span class="realm-icon">⚙️</span>
+      <svg class="realm-icon-svg" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="im-bg" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#1A0A00"/>
+      <stop offset="100%" stop-color="#06040F"/>
+    </radialGradient>
+    <filter id="im-glow"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="72" height="72" rx="6" fill="url(#im-bg)"/>
+  <!-- Gear/wheel structure - Ogún's forge wheel -->
+  <circle cx="36" cy="36" r="22" fill="none" stroke="#8B4018" stroke-width="2.5"/>
+  <circle cx="36" cy="36" r="16" fill="none" stroke="#F4B800" stroke-width="1" opacity="0.5"/>
+  <circle cx="36" cy="36" r="8" fill="#1A0A00" stroke="#F4B800" stroke-width="1.5"/>
+  <!-- Gear teeth -->
+  <g fill="#8B4018">
+    <rect x="34" y="12" width="4" height="6" rx="1"/>
+    <rect x="34" y="54" width="4" height="6" rx="1"/>
+    <rect x="12" y="34" width="6" height="4" rx="1"/>
+    <rect x="54" y="34" width="6" height="4" rx="1"/>
+    <!-- Diagonal teeth -->
+    <rect x="17" y="17" width="5" height="5" rx="1" transform="rotate(45,19.5,19.5)"/>
+    <rect x="50" y="50" width="5" height="5" rx="1" transform="rotate(45,52.5,52.5)"/>
+    <rect x="50" y="17" width="5" height="5" rx="1" transform="rotate(45,52.5,19.5)"/>
+    <rect x="17" y="50" width="5" height="5" rx="1" transform="rotate(45,19.5,52.5)"/>
+  </g>
+  <!-- Cross spokes -->
+  <g stroke="#F4B800" stroke-width="1.2" opacity="0.7">
+    <line x1="36" y1="20" x2="36" y2="28"/><line x1="36" y1="44" x2="36" y2="52"/>
+    <line x1="20" y1="36" x2="28" y2="36"/><line x1="44" y1="36" x2="52" y2="36"/>
+  </g>
+  <!-- Forge glow at center -->
+  <circle cx="36" cy="36" r="5" fill="#F4B800" opacity="0.6" filter="url(#im-glow)"/>
+  <circle cx="36" cy="36" r="3" fill="#FFD840" opacity="0.9" filter="url(#im-glow)"/>
+  <!-- Adire pattern marks -->
+  <g stroke="#F4B800" stroke-width="0.4" opacity="0.25">
+    <path d="M26,26 L36,20 L46,26 L46,36 L36,42 L26,36 Z"/>
+  </g>
+</svg>
       <div class="realm-name">Iron Market</div>
       <div class="realm-native">Ọjà Irin — Forge of the Fallen</div>
       <p class="realm-desc">A realm built entirely from salvaged materials — collapsed buildings from every dimension, stolen tech from dead civilizations, re-forged Orisha weapons. Run by the Ògún Forgeborn: humans who weaponized iron-Aṣẹ to become half-machine. Morally complex. They will sell to anyone. Including the Dark Assembly.</p>
@@ -8072,6 +8470,43 @@
     <div class="realm-card realm-abyss reveal reveal-delay-1">
       <div class="realm-num">05</div>
       <span class="realm-icon">🔴</span>
+      <svg class="realm-icon-svg" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="ab-bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1A0010"/>
+      <stop offset="100%" stop-color="#020004"/>
+    </radialGradient>
+    <radialGradient id="ab-core" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#C41E3A" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#C41E3A" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="ab-glow"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="72" height="72" rx="6" fill="url(#ab-bg)"/>
+  <!-- Prison seal rings — increasingly tight -->
+  <circle cx="36" cy="36" r="28" fill="none" stroke="#C41E3A" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
+  <circle cx="36" cy="36" r="22" fill="none" stroke="#C41E3A" stroke-width="1" opacity="0.5"/>
+  <circle cx="36" cy="36" r="16" fill="none" stroke="#8B0018" stroke-width="1.5" opacity="0.7"/>
+  <circle cx="36" cy="36" r="10" fill="none" stroke="#C41E3A" stroke-width="2" opacity="0.8"/>
+  <!-- Binding glyphs on outer ring -->
+  <g fill="none" stroke="#C41E3A" stroke-width="0.6" opacity="0.5">
+    <path d="M36,8 L38,12 L36,16 L34,12 Z"/>
+    <path d="M36,56 L38,60 L36,64 L34,60 Z"/>
+    <path d="M8,36 L12,38 L16,36 L12,34 Z"/>
+    <path d="M56,36 L60,38 L64,36 L60,34 Z"/>
+  </g>
+  <!-- Lock chains -->
+  <g stroke="#8B0018" stroke-width="1" opacity="0.6">
+    <line x1="36" y1="14" x2="36" y2="26"/>
+    <line x1="36" y1="46" x2="36" y2="58"/>
+    <line x1="14" y1="36" x2="26" y2="36"/>
+    <line x1="46" y1="36" x2="58" y2="36"/>
+  </g>
+  <!-- Core glow — imprisoned Orishas -->
+  <circle cx="36" cy="36" r="10" fill="url(#ab-core)"/>
+  <circle cx="36" cy="36" r="6" fill="#1A0008" stroke="#C41E3A" stroke-width="1.5" filter="url(#ab-glow)"/>
+  <circle cx="36" cy="36" r="3" fill="#C41E3A" opacity="0.7" filter="url(#ab-glow)"/>
+</svg>
       <div class="realm-name">The Abyss</div>
       <div class="realm-native">Àpọ̀nlé — The Bottomless Pit</div>
       <p class="realm-desc">Where corrupted Orishas are imprisoned. Six of the oldest, most powerful divine beings ever to exist are sealed here — not dead, not free, and growing angrier with each century. The Dark Assembly's endgame is to tear the Abyss open. The Architect has a key. He has had it for four hundred years.</p>
@@ -8081,6 +8516,50 @@
     <div class="realm-card realm-apex reveal reveal-delay-2">
       <div class="realm-num">06</div>
       <span class="realm-icon">⚡</span>
+      <svg class="realm-icon-svg" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="ax-bg" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#0A1040"/>
+      <stop offset="100%" stop-color="#06040F"/>
+    </radialGradient>
+    <radialGradient id="ax-crown" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFBCC"/>
+      <stop offset="40%" stop-color="#F4B800"/>
+      <stop offset="100%" stop-color="#F4B800" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="ax-bloom" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="ax-glow"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="72" height="72" rx="6" fill="url(#ax-bg)"/>
+  <!-- Infinite receding rings — perspective effect -->
+  <ellipse cx="36" cy="55" rx="26" ry="6" fill="none" stroke="#F4B800" stroke-width="0.5" opacity="0.3"/>
+  <ellipse cx="36" cy="50" rx="20" ry="4.5" fill="none" stroke="#F4B800" stroke-width="0.6" opacity="0.4"/>
+  <ellipse cx="36" cy="44" rx="14" ry="3" fill="none" stroke="#F4B800" stroke-width="0.8" opacity="0.5"/>
+  <ellipse cx="36" cy="38" rx="9" ry="2" fill="none" stroke="#F4B800" stroke-width="1" opacity="0.65"/>
+  <!-- Crown above all realms -->
+  <path d="M20,46 L20,30 L24,36 L30,24 L36,12 L42,24 L48,36 L52,30 L52,46 Z"
+        fill="#0A0818" stroke="#F4B800" stroke-width="1.2" opacity="0.9"/>
+  <!-- Crown jewel points -->
+  <circle cx="36" cy="12" r="3.5" fill="url(#ax-crown)" filter="url(#ax-bloom)"/>
+  <circle cx="20" cy="30" r="2" fill="#F4B800" opacity="0.8" filter="url(#ax-glow)"/>
+  <circle cx="52" cy="30" r="2" fill="#F4B800" opacity="0.8" filter="url(#ax-glow)"/>
+  <!-- Transcendent beams -->
+  <g stroke="#F4B800" stroke-width="0.5" opacity="0.35" filter="url(#ax-glow)">
+    <line x1="36" y1="12" x2="36" y2="2"/>
+    <line x1="36" y1="12" x2="20" y2="2"/>
+    <line x1="36" y1="12" x2="52" y2="2"/>
+    <line x1="36" y1="12" x2="10" y2="6"/>
+    <line x1="36" y1="12" x2="62" y2="6"/>
+  </g>
+  <!-- Stars -->
+  <g fill="#E8E0C0" opacity="0.5">
+    <circle cx="12" cy="10" r="1"/><circle cx="60" cy="8" r="1.2"/>
+    <circle cx="8" cy="30" r="0.8"/><circle cx="64" cy="28" r="0.9"/>
+  </g>
+</svg>
       <div class="realm-name">The Apex</div>
       <div class="realm-native">Orí Àgbáyé — Crown of All Worlds</div>
       <p class="realm-desc">The realm above all realms. A place that should not exist, that maps to nothing in Ifá cosmology, that the oldest Orishas refuse to discuss. It is where Bayo goes at the end of Arc V. No one who has reached the Apex has ever returned. Until now.</p>
