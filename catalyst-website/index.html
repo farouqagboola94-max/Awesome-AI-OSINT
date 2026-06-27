@@ -1022,11 +1022,13 @@
   }
 
   .reveal {
-    opacity: 0;
-    transform: translateY(40px);
     transition: opacity 0.8s ease, transform 0.8s ease;
   }
-  .reveal.visible {
+  .js-ready .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  .js-ready .reveal.visible {
     opacity: 1;
     transform: translateY(0);
   }
@@ -9544,6 +9546,7 @@ body { padding-top: 26px; }
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 
 <script>
+  document.documentElement.classList.add('js-ready');
 
   // ─── CUSTOM CURSOR ───────────────────────────────────────────
   const cursor = document.getElementById('cursor');
