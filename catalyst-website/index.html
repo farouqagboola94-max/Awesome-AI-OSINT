@@ -3194,6 +3194,78 @@
   100% { transform: translateY(0) rotate(0deg); opacity: 0.04; }
 }
 
+
+/* ── HERO LIGHTNING & CLOUDS ────────────────────────────────── */
+@keyframes cloud-drift-l {
+  0%  { transform: translateX(0)   scaleX(1); }
+  50% { transform: translateX(-4%) scaleX(1.05); }
+  100%{ transform: translateX(0)   scaleX(1); }
+}
+@keyframes cloud-drift-r {
+  0%  { transform: translateX(0)  scaleX(1); }
+  50% { transform: translateX(4%) scaleX(0.96); }
+  100%{ transform: translateX(0)  scaleX(1); }
+}
+@keyframes sky-flash {
+  0%,86%,100% { opacity: 0; }
+  87%,89%     { opacity: 0.22; }
+  88%         { opacity: 0.06; }
+  91%,93%     { opacity: 0.14; }
+  92%         { opacity: 0.04; }
+}
+@keyframes bolt-flicker {
+  0%,86%,100% { opacity: 0; filter: drop-shadow(0 0 0 transparent); }
+  87%,89%     { opacity: 0.8; filter: drop-shadow(0 0 14px #F4B800); }
+  88%,90%     { opacity: 0.2; }
+  91%,93%     { opacity: 0.6; filter: drop-shadow(0 0 10px #F4B800); }
+  92%,94%,100%{ opacity: 0; }
+}
+@keyframes bolt-flicker-2 {
+  0%,90%,100% { opacity: 0; filter: drop-shadow(0 0 0 transparent); }
+  91%,93%     { opacity: 0.7; filter: drop-shadow(0 0 10px #B080FF); }
+  92%,94%     { opacity: 0.15; }
+  95%,97%     { opacity: 0.5; filter: drop-shadow(0 0 8px #B080FF); }
+  96%,98%,100%{ opacity: 0; }
+}
+.hero-cloud {
+  position: absolute; top: 0; pointer-events: none;
+  border-radius: 50%; z-index: 0;
+}
+.hero-cloud-l {
+  left: -12%; width: 58%; height: 34%;
+  background: radial-gradient(ellipse at 40% 40%, rgba(10,7,28,0.72) 0%, rgba(8,5,22,0.35) 50%, transparent 75%);
+  animation: cloud-drift-l 20s ease-in-out infinite;
+}
+.hero-cloud-r {
+  right: -8%; width: 48%; height: 28%;
+  background: radial-gradient(ellipse at 60% 40%, rgba(6,4,18,0.65) 0%, rgba(5,3,14,0.28) 55%, transparent 78%);
+  animation: cloud-drift-r 26s ease-in-out infinite;
+  animation-delay: -11s;
+}
+.hero-sky-flash {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(ellipse at 44% 28%, rgba(244,184,0,0.28) 0%, rgba(160,100,255,0.12) 30%, transparent 65%);
+  animation: sky-flash 8s ease-in-out infinite;
+}
+.hero-sky-flash-2 {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(ellipse at 68% 18%, rgba(255,255,255,0.18) 0%, rgba(190,130,255,0.1) 28%, transparent 60%);
+  animation: sky-flash 12s ease-in-out infinite;
+  animation-delay: -5s;
+}
+.hero-bolt {
+  position: absolute; pointer-events: none; z-index: 2; overflow: visible;
+}
+.hero-bolt-1 {
+  left: 44%; top: 6%; width: 36px; height: 110px;
+  animation: bolt-flicker 8s ease-in-out infinite;
+}
+.hero-bolt-2 {
+  left: 68%; top: 10%; width: 26px; height: 82px;
+  animation: bolt-flicker-2 12s ease-in-out infinite;
+  animation-delay: -5s;
+}
+
 /* ── ENERGY BEAM DIVIDERS ─────────────────────────────── */
 .energy-beam-divider {
   height: 1px; background: transparent;
@@ -3788,10 +3860,10 @@
   height: 100%;
   object-fit: cover;
   object-position: center top;
-  opacity: 0.55;
+  opacity: 0.18;
   z-index: 0;
   pointer-events: none;
-  mix-blend-mode: multiply;
+  mix-blend-mode: luminosity;
 }
 
 /* Character photo background from Canva */
@@ -3970,7 +4042,7 @@
 .realm-icon { display: none; } /* hide emoji, show SVG instead */
 
 /* ── Real Cinematic Photo Upgrades ───────────────────────── */
-.hero-canva-bg { opacity: 0.58 !important; mix-blend-mode: multiply !important; }
+.hero-canva-bg { opacity: 0.18 !important; mix-blend-mode: luminosity !important; }
 .char-photo-bg { opacity: 0.50 !important; mix-blend-mode: multiply !important; }
 .char-card:hover .char-photo-bg { opacity: 0.72 !important; }
 .panel-canva-wrap img { opacity: 0.55 !important; mix-blend-mode: multiply !important; }
@@ -4595,6 +4667,20 @@ body { padding-top: 26px; }
   <img class="hero-canva-bg" src="./assets/intersection.jpg" alt="" loading="eager" decoding="async">
   <div class="hero-glow"></div>
   <div class="hero-glow-2"></div>
+
+  <!-- Animated sky: drifting clouds + lightning -->
+  <div class="hero-cloud hero-cloud-l" aria-hidden="true"></div>
+  <div class="hero-cloud hero-cloud-r" aria-hidden="true"></div>
+  <div class="hero-sky-flash" aria-hidden="true"></div>
+  <div class="hero-sky-flash-2" aria-hidden="true"></div>
+  <svg class="hero-bolt hero-bolt-1" viewBox="0 0 36 110" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <polygon points="22,0 8,52 18,52 4,110 32,42 20,42" fill="#F4B800"/>
+    <polygon points="22,0 8,52 18,52 4,110 32,42 20,42" fill="#FFF8C0" opacity="0.4"/>
+  </svg>
+  <svg class="hero-bolt hero-bolt-2" viewBox="0 0 26 82" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <polygon points="16,0 6,38 13,38 3,82 23,30 14,30" fill="#B080FF"/>
+    <polygon points="16,0 6,38 13,38 3,82 23,30 14,30" fill="#E8D0FF" opacity="0.35"/>
+  </svg>
 
   <!-- Lagos Skyline SVG -->
   <svg class="hero-skyline" viewBox="0 0 1440 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax slice">
