@@ -4507,6 +4507,33 @@ body { padding-top: 26px; }
 .cd-num { font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:#F4B800;line-height:1;font-variant-numeric:tabular-nums; }
 .cd-unit { font-family:monospace;font-size:0.55rem;color:rgba(240,237,229,0.28);letter-spacing:2px;margin-top:2px; }
 .cd-sep { font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:rgba(244,184,0,0.25);line-height:1;padding-top:0; }
+
+/* ── Section photo backgrounds ─────────────────────────────────────────── */
+.section-photo-bg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.4s;
+}
+#manifesto       .section-photo-bg { opacity: 0.07; filter: saturate(0.5) brightness(0.7); object-position: center 30%; }
+#universe        .section-photo-bg { opacity: 0.09; filter: saturate(0.45) brightness(0.65) hue-rotate(200deg); }
+#lagos-map       .section-photo-bg { opacity: 0.08; filter: saturate(0.4) brightness(0.6) hue-rotate(180deg); object-position: center 60%; }
+#characters      .section-photo-bg { opacity: 0.10; filter: saturate(0.55) brightness(0.7) hue-rotate(10deg); }
+#oracle-terminal .section-photo-bg { opacity: 0.06; filter: saturate(0.3) brightness(0.5) hue-rotate(150deg); }
+#arcs            .section-photo-bg { opacity: 0.08; filter: saturate(0.4) brightness(0.55); }
+#ase-system      .section-photo-bg { opacity: 0.07; filter: saturate(0.35) brightness(0.6); }
+#read            .section-photo-bg { opacity: 0.09; filter: saturate(0.45) brightness(0.65) hue-rotate(170deg); }
+#realms          .section-photo-bg { opacity: 0.09; filter: saturate(0.4) brightness(0.6) hue-rotate(200deg); }
+#codex           .section-photo-bg { opacity: 0.07; filter: saturate(0.35) brightness(0.55); object-position: center 40%; }
+#lore            .section-photo-bg { opacity: 0.08; filter: saturate(0.4) brightness(0.6) hue-rotate(220deg); }
+/* ensure relative positioning for sections that don't already have it */
+#manifesto, #universe, #lagos-map, #oracle-terminal,
+#arcs, #ase-system, #read, #realms, #codex, #lore {
+  position: relative; overflow: hidden;
+}
 </style>
 </head>
 <body>
@@ -4926,6 +4953,7 @@ body { padding-top: 26px; }
 
 <!-- ============================================================ MANIFESTO -->
 <section id="manifesto">
+    <img class="section-photo-bg" src="./assets/noir-window.jpg" alt="Rainy city atmosphere" loading="lazy" aria-hidden="true">
   <div class="manifesto-bg-text">ASẸ</div>
   <!-- Floating orisha energy symbols -->
   <div class="manifesto-float-symbols" aria-hidden="true">
@@ -5002,6 +5030,7 @@ body { padding-top: 26px; }
 
 <!-- ============================================================ UNIVERSE -->
 <section id="universe">
+    <img class="section-photo-bg" src="./assets/circle.jpg" alt="Afrofuturist team glowing circle" loading="lazy" aria-hidden="true">
   <div class="universe-grid">
     <div class="universe-text">
       <p class="section-label reveal">The World</p>
@@ -5098,6 +5127,7 @@ body { padding-top: 26px; }
 
 <!-- ============================================================ LAGOS NEXUS MAP -->
 <section id="lagos-map">
+    <img class="section-photo-bg" src="./assets/corridor.jpg" alt="Lagos neon corridor" loading="lazy" aria-hidden="true">
   <div class="map-header">
     <p class="section-label reveal">The Battlefield</p>
     <h2 class="section-title reveal">LAGOS<br><em>NEXUS</em> MAP</h2>
@@ -5319,6 +5349,7 @@ body { padding-top: 26px; }
 
 <!-- ============================================================ CHARACTERS -->
 <section id="characters">
+    <img class="section-photo-bg" src="./assets/forge.jpg" alt="Blacksmith forge sparks" loading="lazy" aria-hidden="true">
   <div class="chars-header">
     <p class="section-label reveal">The Heroes</p>
     <h2 class="section-title reveal">VESSELS OF<br><em>ANCIENT POWER</em></h2>
@@ -6101,6 +6132,7 @@ body { padding-top: 26px; }
 
 <!-- ══════════════════════════════════════ ORACLE TERMINAL -->
 <section id="oracle-terminal">
+    <img class="section-photo-bg" src="./assets/industrial.jpg" alt="Lagos industrial neon" loading="lazy" aria-hidden="true">
   <div class="terminal-wrap">
     <div class="terminal-hdr">
       <p class="section-label reveal" style="justify-content:center">Classified Intel</p>
@@ -7366,6 +7398,7 @@ body { padding-top: 26px; }
 
 <!-- ============================================================ 5 NARRATIVE ARCS -->
 <section id="arcs">
+    <img class="section-photo-bg" src="./assets/shipyard.jpg" alt="Dark port with containers" loading="lazy" aria-hidden="true">
   <div class="arcs-header">
     <p class="section-label reveal">The Saga</p>
     <h2 class="section-title reveal">FIVE ARCS.<br>ONE <em>LEGEND</em></h2>
@@ -7474,6 +7507,7 @@ body { padding-top: 26px; }
 
 <!-- ============================================================ ASE SYSTEM -->
 <section id="ase-system">
+    <img class="section-photo-bg" src="./assets/shipyard.jpg" alt="Dark port atmosphere" loading="lazy" aria-hidden="true">
   <div class="ase-grid">
     <div>
       <p class="section-label reveal">The Power System</p>
@@ -7556,6 +7590,7 @@ body { padding-top: 26px; }
 
 <!-- ============================================================ FREE ISSUE READER -->
 <section id="read">
+    <img class="section-photo-bg" src="./assets/corridor.jpg" alt="Neon corridor depth" loading="lazy" aria-hidden="true">
   <div class="read-header">
     <span class="read-free-badge reveal">✦ Free to Read — Issues 1 Through 4</span>
     <p class="section-label reveal">The Stories</p>
@@ -7976,6 +8011,7 @@ body { padding-top: 26px; }
 
 <!-- ============================================================ THE KNOWN REALMS -->
 <section id="realms">
+    <img class="section-photo-bg" src="./assets/circle.jpg" alt="Glowing team circle" loading="lazy" aria-hidden="true">
   <div class="realms-header">
     <p class="section-label reveal" style="justify-content:center">The Multiverse</p>
     <h2 class="section-title reveal">THE KNOWN<br><em>REALMS</em></h2>
@@ -8268,6 +8304,7 @@ body { padding-top: 26px; }
 
 <!-- ============================================================ THE ASẸ CODEX -->
 <section id="codex">
+    <img class="section-photo-bg" src="./assets/noir-window.jpg" alt="Rain-streaked city night" loading="lazy" aria-hidden="true">
   <div class="codex-header">
     <p class="section-label reveal" style="justify-content:center">Power Classification</p>
     <h2 class="section-title reveal">THE ASẸ<br><em>CODEX</em></h2>
@@ -8408,6 +8445,7 @@ body { padding-top: 26px; }
 
 <!-- ============================================================ LORE -->
 <section id="lore">
+    <img class="section-photo-bg" src="./assets/noir-window.jpg" alt="Rainy noir atmosphere" loading="lazy" aria-hidden="true">
   <svg class="lore-bg-pattern" viewBox="0 0 1440 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
     <pattern id="lorePat" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
       <path d="M0,30 L30,0 L60,30 L30,60 Z" fill="none" stroke="#F4B800" stroke-width="0.5"/>
