@@ -9730,6 +9730,26 @@ body { padding-top: 26px; }
 <script>
   document.documentElement.classList.add('js-ready');
 
+  // ─── OWNER PREVIEW BYPASS ───────────────────────────────────
+  // Add ?preview=catalyst to URL to unlock all premium gates (site owner only)
+  (function() {
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('preview') === 'catalyst') {
+      document.documentElement.classList.add('preview-unlocked');
+      // Remove all lock overlays once DOM is ready
+      window.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.gallery-lock-overlay, .premium-lock-overlay, .arc2-teaser-lock').forEach(function(el) {
+          el.style.display = 'none';
+        });
+        // Also show blurred panels at full opacity
+        document.querySelectorAll('.gallery-grid').forEach(function(el) {
+          el.style.filter = 'none';
+          el.style.opacity = '1';
+        });
+      });
+    }
+  })();
+
   // ─── CUSTOM CURSOR ───────────────────────────────────────────
   const cursor = document.getElementById('cursor');
   const cursorRing = document.getElementById('cursorRing');
