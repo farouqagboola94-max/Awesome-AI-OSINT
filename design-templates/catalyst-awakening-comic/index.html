@@ -2391,6 +2391,324 @@
 }
 .nav-premium-dot { background: var(--danfo-gold); }
 
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ILLUSTRATED UNIVERSE — COMIC GALLERY
+   ═══════════════════════════════════════════════════════════════════════════ */
+#illustrated {
+  position: relative;
+  padding: 7rem 2rem 6rem;
+  background: #06060d;
+  overflow: hidden;
+}
+#illustrated .section-photo-bg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; z-index: 0;
+  opacity: 0.04;
+  filter: saturate(0) contrast(1.4) brightness(0.5);
+}
+
+/* halftone texture overlay */
+#illustrated::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background-image:
+    radial-gradient(circle, rgba(244,184,0,0.06) 1px, transparent 1px),
+    radial-gradient(circle, rgba(244,184,0,0.03) 1px, transparent 1px);
+  background-size: 18px 18px, 9px 9px;
+  background-position: 0 0, 9px 9px;
+}
+
+.gallery-intro { position: relative; z-index: 2; text-align: center; margin-bottom: 4rem; }
+.gallery-intro .section-label { justify-content: center; }
+
+/* ── FREE TEASER STRIP ── */
+.teaser-strip {
+  position: relative; z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  max-width: 1100px;
+  margin: 0 auto 3rem;
+  border: 2px solid rgba(244,184,0,0.4);
+}
+.teaser-panel {
+  position: relative;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  cursor: pointer;
+}
+.teaser-panel:not(:last-child) {
+  border-right: 2px solid rgba(244,184,0,0.4);
+}
+.teaser-panel img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.teaser-panel:hover img { transform: scale(1.04); }
+
+/* color-grade overlays per panel */
+.tp-esu::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(160deg, rgba(180,20,20,0.55) 0%, rgba(6,6,13,0.75) 100%);
+}
+.tp-ogun::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(160deg, rgba(40,60,80,0.6) 0%, rgba(6,6,13,0.8) 100%);
+}
+.tp-osun::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(160deg, rgba(160,100,10,0.55) 0%, rgba(6,6,13,0.78) 100%);
+}
+
+.teaser-caption {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  z-index: 2; padding: 1.2rem 1rem 1rem;
+  background: linear-gradient(to top, rgba(6,6,13,0.96) 60%, transparent);
+}
+.tp-num {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--danfo-gold);
+  margin-bottom: 0.25rem;
+}
+.tp-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--bone-white);
+  line-height: 1.2;
+  margin-bottom: 0.3rem;
+}
+.tp-sub {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  color: rgba(240,237,229,0.45);
+  line-height: 1.5;
+}
+.tp-orisha-badge {
+  display: inline-block;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  padding: 0.15rem 0.5rem;
+  margin-bottom: 0.4rem;
+  clip-path: polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%);
+}
+.badge-esu  { background: rgba(180,20,20,0.9);  color: #fff; }
+.badge-ogun { background: rgba(60,80,100,0.9);  color: #fff; }
+.badge-osun { background: rgba(180,120,0,0.9);  color: #fff; }
+.badge-oya  { background: rgba(20,80,60,0.9);   color: #fff; }
+.badge-sango{ background: rgba(80,20,120,0.9);  color: #fff; }
+
+/* teaser header strip */
+.teaser-header {
+  position: absolute; top: 0; left: 0; right: 0;
+  z-index: 2; padding: 0.6rem 0.8rem;
+  background: linear-gradient(to bottom, rgba(6,6,13,0.9) 60%, transparent);
+  display: flex; align-items: center; gap: 0.4rem;
+}
+.th-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.55rem;
+  color: var(--danfo-gold);
+  letter-spacing: 0.15em;
+}
+.th-bar {
+  flex: 1; height: 1px;
+  background: linear-gradient(to right, rgba(244,184,0,0.6), transparent);
+}
+
+/* ── FREE BADGE ── */
+.free-access-badge {
+  position: relative; z-index: 2;
+  text-align: center; margin-bottom: 3rem;
+}
+.fab-inner {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  border: 1px solid rgba(244,184,0,0.3);
+  padding: 0.5rem 1.2rem;
+  clip-path: polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);
+  background: rgba(244,184,0,0.06);
+}
+.fab-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--danfo-gold); }
+.fab-text {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  color: rgba(240,237,229,0.5);
+  letter-spacing: 0.1em;
+}
+
+/* ── PREMIUM GALLERY GATE ── */
+.gallery-premium-gate {
+  position: relative;
+  z-index: 2;
+  max-width: 1100px;
+  margin: 0 auto;
+  min-height: 600px;
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border: 2px solid rgba(244,184,0,0.25);
+}
+
+/* ── GALLERY PANEL BASE ── */
+.gp {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(244,184,0,0.15);
+}
+.gp-tall   { grid-row: span 2; }
+.gp-wide   { grid-column: span 2; }
+.gp-sq     { aspect-ratio: 1/1; }
+.gp-port   { aspect-ratio: 3/4; }
+.gp-land   { aspect-ratio: 16/9; }
+
+.gp img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s ease;
+}
+.gp:hover img { transform: scale(1.05); }
+
+/* color-grade filters per orisha */
+.grade-esu  { filter: saturate(0.4) contrast(1.3) brightness(0.75) hue-rotate(340deg); }
+.grade-ogun { filter: saturate(0.2) contrast(1.4) brightness(0.65) hue-rotate(200deg); }
+.grade-osun { filter: saturate(0.6) contrast(1.2) brightness(0.7)  hue-rotate(30deg);  }
+.grade-oya  { filter: saturate(0.5) contrast(1.3) brightness(0.7)  hue-rotate(150deg); }
+.grade-sango{ filter: saturate(0.35)contrast(1.35)brightness(0.65) hue-rotate(270deg); }
+.grade-mono { filter: saturate(0)   contrast(1.5) brightness(0.6);                     }
+
+/* tinted overlay after img */
+.tint-esu::before   { content:''; position:absolute; inset:0; background:linear-gradient(135deg, rgba(160,15,15,0.5),rgba(6,6,13,0.85)); z-index:1; }
+.tint-ogun::before  { content:''; position:absolute; inset:0; background:linear-gradient(135deg, rgba(30,50,70,0.6), rgba(6,6,13,0.88)); z-index:1; }
+.tint-osun::before  { content:''; position:absolute; inset:0; background:linear-gradient(135deg, rgba(150,90,5,0.55), rgba(6,6,13,0.85)); z-index:1; }
+.tint-oya::before   { content:''; position:absolute; inset:0; background:linear-gradient(135deg, rgba(10,70,45,0.55), rgba(6,6,13,0.85)); z-index:1; }
+.tint-sango::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg, rgba(70,10,110,0.55),rgba(6,6,13,0.87)); z-index:1; }
+.tint-mono::before  { content:''; position:absolute; inset:0; background:linear-gradient(to bottom, transparent 30%, rgba(6,6,13,0.9)); z-index:1; }
+
+.gp-caption {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  z-index: 3; padding: 1rem 0.85rem 0.85rem;
+  background: linear-gradient(to top, rgba(6,6,13,0.98) 50%, transparent);
+}
+.gp-num {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.58rem; letter-spacing: 0.25em;
+  color: var(--danfo-gold); margin-bottom: 0.2rem;
+}
+.gp-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.95rem; font-weight: 700;
+  color: var(--bone-white); line-height: 1.2;
+  margin-bottom: 0.2rem;
+}
+.gp-sub {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.55rem; color: rgba(240,237,229,0.4);
+  line-height: 1.5;
+}
+.gp-header {
+  position: absolute; top: 0; left: 0; right: 0;
+  z-index: 3; padding: 0.5rem 0.7rem;
+  display: flex; align-items: center; gap: 0.35rem;
+  background: linear-gradient(to bottom, rgba(6,6,13,0.85) 60%, transparent);
+}
+.gp-arc-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.52rem; letter-spacing: 0.15em;
+  color: rgba(244,184,0,0.8);
+}
+.gp-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(to right, rgba(244,184,0,0.5), transparent);
+}
+
+/* cinematic panel stamp */
+.panel-stamp {
+  position: absolute; top: 0.5rem; right: 0.6rem;
+  z-index: 3;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.58rem; font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #06060d;
+  padding: 0.15rem 0.45rem;
+  clip-path: polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%);
+}
+.stamp-gold { background: var(--danfo-gold); }
+.stamp-red  { background: #b41414; color: #fff; }
+
+/* premium overlay for gallery */
+.gallery-lock-overlay {
+  position: absolute; inset: 0; z-index: 20;
+  background: linear-gradient(to bottom,
+    rgba(6,6,13,0) 0%,
+    rgba(6,6,13,0.5) 25%,
+    rgba(6,6,13,0.96) 55%,
+    rgba(6,6,13,1) 100%
+  );
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-end;
+  padding: 3rem 2rem;
+  text-align: center;
+}
+.glo-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+.glo-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.5rem; font-weight: 700;
+  color: var(--bone-white); letter-spacing: 0.05em;
+  margin-bottom: 0.4rem;
+}
+.glo-sub {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem; color: rgba(240,237,229,0.5);
+  margin-bottom: 0.6rem; line-height: 1.7;
+}
+.glo-price {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1rem; color: var(--danfo-gold);
+  margin-bottom: 1.5rem; letter-spacing: 0.05em;
+}
+.glo-btn {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.9rem; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 0.75rem 2rem;
+  background: var(--danfo-gold); color: #06060d;
+  border: none; cursor: pointer;
+  clip-path: polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);
+  transition: opacity 0.2s; margin-bottom: 0.6rem;
+}
+.glo-btn:hover { opacity: 0.85; }
+.glo-perks {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem; color: rgba(240,237,229,0.35);
+  line-height: 2;
+}
+.glo-perk-item { display: block; }
+.glo-perk-item::before { content: '✦ '; color: var(--danfo-gold); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .teaser-strip { grid-template-columns: 1fr; }
+  .teaser-panel:not(:last-child) { border-right: none; border-bottom: 2px solid rgba(244,184,0,0.4); }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .gp-wide { grid-column: span 2; }
+  .gp-tall { grid-row: span 1; }
+}
+@media (max-width: 600px) {
+  .gallery-grid { grid-template-columns: 1fr; }
+  .gp-wide { grid-column: span 1; }
+}
+
 /* ─── PREMIUM LOCK GATE ─── */
 .premium-gate {
   position: relative;
@@ -4662,6 +4980,7 @@ body { padding-top: 26px; }
     <li><a href="#codex">Codex</a></li>
     <li><a href="#read">Read Free</a></li>
     <li><a href="#lore">Lore</a></li>
+        <li><a href="#illustrated">Gallery</a></li>
     <li><a href="#access" class="nav-cta">Subscribe</a></li>
   </ul>
   <div style="display:flex;align-items:center;gap:0.8rem;">
@@ -4684,6 +5003,7 @@ body { padding-top: 26px; }
   <a href="#codex" onclick="toggleMobileNav()">Codex</a>
   <a href="#read" onclick="toggleMobileNav()">Read Free</a>
   <a href="#lore" onclick="toggleMobileNav()">Lore</a>
+  <a href="#illustrated" onclick="toggleMobileNav()">Gallery</a>
   <a href="#access" class="nav-cta-mobile" onclick="toggleMobileNav()">Subscribe ✦</a>
 </nav>
 
@@ -9111,6 +9431,221 @@ body { padding-top: 26px; }
   </div>
 </section>
 
+
+<!-- ============================================================ ILLUSTRATED UNIVERSE -->
+<section id="illustrated">
+  <img class="section-photo-bg" src="images/industrial.jpg" alt="">
+
+  <div class="gallery-intro">
+    <p class="section-label reveal"><span>◆</span>Visual Records</p>
+    <h2 class="section-title reveal">ILLUSTRATED<br><em>UNIVERSE</em></h2>
+    <p class="reveal" style="max-width:560px;margin:0.75rem auto 0;font-size:0.88rem;line-height:1.8;color:rgba(240,237,229,0.55);font-family:'Space Mono',monospace;">
+      Cinematic panels from inside the Catalyst universe — scenes rendered from the field archives of the Lagos Oracle Network. Three panels open to all. The full gallery is subscriber territory.
+    </p>
+  </div>
+
+  <!-- ── FREE TEASER (3 panels) ── -->
+  <div class="teaser-strip reveal">
+
+    <!-- Teaser 1: The Awakening -->
+    <div class="teaser-panel tp-esu">
+      <img src="images/intersection.jpg" alt="The Awakening — Issue 01 Panel 1" style="filter:saturate(0.3) contrast(1.4) brightness(0.6) hue-rotate(340deg);">
+      <div class="teaser-header">
+        <span class="th-label">ISSUE 01 · PANEL 1</span>
+        <span class="th-bar"></span>
+        <span class="orisha-badge badge-esu" style="display:inline-block;font-family:'Oswald',sans-serif;font-size:0.55rem;font-weight:700;letter-spacing:0.12em;padding:0.12rem 0.45rem;clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%);background:rgba(180,20,20,0.9);color:#fff;">ẸṢÙ</span>
+      </div>
+      <div class="teaser-caption">
+        <div class="tp-num">ARC I — ORIGIN SEQUENCE</div>
+        <div class="tp-title">The Night the Grid Moved</div>
+        <div class="tp-sub">Bayo Adeyemi, 19. Somewhere on Third Mainland Bridge. 2:17 AM.<br>The moment the ASẸ System initialised in a body it had waited four millennia for.</div>
+      </div>
+    </div>
+
+    <!-- Teaser 2: The Oracle's Chamber -->
+    <div class="teaser-panel tp-ogun">
+      <img src="images/corridor.jpg" alt="The Oracle Chamber" style="filter:saturate(0.15) contrast(1.5) brightness(0.55) hue-rotate(200deg);">
+      <div class="teaser-header">
+        <span class="th-label">ISSUE 01 · PANEL 5</span>
+        <span class="th-bar"></span>
+        <span style="display:inline-block;font-family:'Oswald',sans-serif;font-size:0.55rem;font-weight:700;letter-spacing:0.12em;padding:0.12rem 0.45rem;clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%);background:rgba(60,80,100,0.9);color:#fff;">ÒGÚN</span>
+      </div>
+      <div class="teaser-caption">
+        <div class="tp-num">ARC I — THE ORACLE WITNESSES</div>
+        <div class="tp-title">Five Colours, Simultaneously</div>
+        <div class="tp-sub">In 4,000 years of Ifá records — no vessel had ever triggered all five Orisha resonance channels at once. Until tonight. The Oracle went silent for 37 seconds.</div>
+      </div>
+    </div>
+
+    <!-- Teaser 3: Beneath Lagos -->
+    <div class="teaser-panel tp-osun">
+      <img src="images/noir-window.jpg" alt="Beneath Lagos" style="filter:saturate(0.45) contrast(1.25) brightness(0.65) hue-rotate(25deg);">
+      <div class="teaser-header">
+        <span class="th-label">ISSUE 02 · PANEL 2</span>
+        <span class="th-bar"></span>
+        <span style="display:inline-block;font-family:'Oswald',sans-serif;font-size:0.55rem;font-weight:700;letter-spacing:0.12em;padding:0.12rem 0.45rem;clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%);background:rgba(180,120,0,0.9);color:#fff;">ỌṢUN</span>
+      </div>
+      <div class="teaser-caption">
+        <div class="tp-num">ARC I — THE COLLECTOR'S METHOD</div>
+        <div class="tp-title">How Harvesting Actually Works</div>
+        <div class="tp-sub">A Pale Council operative. A Lagos safe house. A clipboard that classifies human ASẸ potential in columns labelled VIABLE, MARGINAL, and DISCARD.</div>
+      </div>
+    </div>
+
+  </div><!-- /teaser-strip -->
+
+  <div class="free-access-badge reveal">
+    <div class="fab-inner">
+      <div class="fab-dot"></div>
+      <span class="fab-text">3 panels above are free · Full gallery — subscriber access only</span>
+      <div class="fab-dot"></div>
+    </div>
+  </div>
+
+  <!-- ── PREMIUM GALLERY GATE ── -->
+  <div class="gallery-premium-gate reveal">
+    <div class="gallery-grid">
+
+      <!-- Row 1: Wide feature + tall portrait -->
+      <!-- Panel A: wide — Forge Trial -->
+      <div class="gp gp-wide tint-ogun" style="aspect-ratio:2/1;">
+        <img src="images/forge.jpg" alt="Forge Trial — Issue 03" class="grade-ogun">
+        <div class="gp-header">
+          <span class="gp-arc-label">ARC I · ISSUE 03 · PANEL 4</span>
+          <span class="gp-line"></span>
+          <span style="display:inline-block;font-family:'Oswald',sans-serif;font-size:0.52rem;font-weight:700;letter-spacing:0.1em;padding:0.1rem 0.4rem;clip-path:polygon(3px 0%,100% 0%,calc(100% - 3px) 100%,0% 100%);background:rgba(60,80,100,0.9);color:#fff;">ÒGÚN</span>
+        </div>
+        <div class="panel-stamp stamp-gold">EXCLUSIVE</div>
+        <div class="gp-caption">
+          <div class="gp-num">FORGE TRIAL II — THE PATIENCE TRIAL</div>
+          <div class="gp-title">Stand Still Until Dawn</div>
+          <div class="gp-sub">Ikenna doesn't move for six hours. The iron in the forge walls begins to hum. The trial isn't about fire — it's about trust. Ògún's voice: "Iron knows a liar."</div>
+        </div>
+      </div>
+
+      <!-- Panel B: tall portrait — Shipyard Night -->
+      <div class="gp gp-tall tint-mono" style="aspect-ratio:3/4; grid-row: span 2;">
+        <img src="images/shipyard.jpg" alt="Shipyard Night — Issue 03" class="grade-mono">
+        <div class="gp-header">
+          <span class="gp-arc-label">ARC I · ISSUE 03 · PANEL 6</span>
+          <span class="gp-line"></span>
+        </div>
+        <div class="panel-stamp stamp-red">PREMIUM</div>
+        <div class="gp-caption">
+          <div class="gp-num">ZARA'S NIGHT — LEKKI SURVEILLANCE</div>
+          <div class="gp-title">Thirty-Seven Locations</div>
+          <div class="gp-sub">
+            Zara Adewale. 20. Rooftop, Lekki Phase 1. Watching three operatives enter a building that didn't exist on any city map two weeks ago.<br><br>
+            MID: ADE·20·Λ:OYA-A·TIER:II·CLASS:SPECULUM·FLAG:OJÚGBÀ-ỌKÀ
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel C: square — Amara's Drum Table -->
+      <div class="gp gp-sq tint-osun">
+        <img src="images/circle.jpg" alt="Amara's Drum Table" class="grade-osun">
+        <div class="gp-header">
+          <span class="gp-arc-label">ARC I · ISSUE 02 · PANEL 4</span>
+          <span class="gp-line"></span>
+          <span style="display:inline-block;font-family:'Oswald',sans-serif;font-size:0.52rem;font-weight:700;letter-spacing:0.1em;padding:0.1rem 0.4rem;clip-path:polygon(3px 0%,100% 0%,calc(100% - 3px) 100%,0% 100%);background:rgba(180,120,0,0.9);color:#fff;">ṢÀNGÓ</span>
+        </div>
+        <div class="gp-caption">
+          <div class="gp-num">THE DRUM CODE TABLE</div>
+          <div class="gp-title">Amara's Frequency Map</div>
+          <div class="gp-sub">44,000 tonal variations. Each encodes a different ASẸ command. The talking drum isn't a weapon — it's a programming language 3,000 years older than binary.</div>
+        </div>
+      </div>
+
+      <!-- Row 2 panel C already started above (tall spans row 2) -->
+
+      <!-- Panel D: square — Pale Council Room -->
+      <div class="gp gp-sq tint-esu">
+        <img src="images/noir-window.jpg" alt="Geneva — The Pale Council" class="grade-esu" style="transform:scaleX(-1);">
+        <div class="gp-header">
+          <span class="gp-arc-label">ARC I · ISSUE 01 · PANEL 6</span>
+          <span class="gp-line"></span>
+          <span style="display:inline-block;font-family:'Oswald',sans-serif;font-size:0.52rem;font-weight:700;letter-spacing:0.1em;padding:0.1rem 0.4rem;clip-path:polygon(3px 0%,100% 0%,calc(100% - 3px) 100%,0% 100%);background:rgba(180,20,20,0.9);color:#fff;">ENEMY</span>
+        </div>
+        <div class="gp-caption">
+          <div class="gp-num">GENEVA — THAT SAME MINUTE</div>
+          <div class="gp-title">Pale Council 403</div>
+          <div class="gp-sub">Director Vale reads one number: CATALYST-CLASS probability 0.003%. "Dispatch immediately." Protocol 403 has never been activated in the Council's 140-year history. Tonight it is.</div>
+        </div>
+      </div>
+
+      <!-- Row 3: 4-column layout -->
+      <!-- Panel E: wide feature — The Lagoon Vision -->
+      <div class="gp gp-wide tint-esu" style="aspect-ratio:2/1;">
+        <img src="images/flares.jpg" alt="The Lagoon Vision" class="grade-esu">
+        <div class="gp-header">
+          <span class="gp-arc-label">ARC I · ISSUE 04 · PANEL 5</span>
+          <span class="gp-line"></span>
+          <span style="display:inline-block;font-family:'Oswald',sans-serif;font-size:0.52rem;font-weight:700;letter-spacing:0.1em;padding:0.1rem 0.4rem;clip-path:polygon(3px 0%,100% 0%,calc(100% - 3px) 100%,0% 100%);background:rgba(180,20,20,0.9);color:#fff;">ẸṢÙ</span>
+        </div>
+        <div class="panel-stamp stamp-gold">ARC I FINALE</div>
+        <div class="gp-caption">
+          <div class="gp-num">THE LAGOON VISION — ESU SPEAKS</div>
+          <div class="gp-title">What You Will Prevent</div>
+          <div class="gp-sub">Ẹṣù shows Bayo a future: 240 children. Lagos Island. Vaccine day. Bayo's voice as narration: "He didn't ask me if I was willing. He showed me what happens if I'm not."</div>
+        </div>
+      </div>
+
+      <!-- Panel F: square — Zara's Report -->
+      <div class="gp gp-sq tint-oya">
+        <img src="images/industrial.jpg" alt="Zara's Intelligence Map" class="grade-oya">
+        <div class="gp-header">
+          <span class="gp-arc-label">ARC I · ISSUE 04 · PANEL 4</span>
+          <span class="gp-line"></span>
+          <span style="display:inline-block;font-family:'Oswald',sans-serif;font-size:0.52rem;font-weight:700;letter-spacing:0.1em;padding:0.1rem 0.4rem;clip-path:polygon(3px 0%,100% 0%,calc(100% - 3px) 100%,0% 100%);background:rgba(20,80,60,0.9);color:#fff;">ỌYA</span>
+        </div>
+        <div class="gp-caption">
+          <div class="gp-num">THE MIRROR'S REPORT</div>
+          <div class="gp-title">37 Locations in 19 Days</div>
+          <div class="gp-sub">Zara's intelligence file: 37 Pale Council operation sites across Lagos. Each pinpointed using only ASẸ resonance readings and a phone that can detect spiritual frequency. No field training. Just Ọya.</div>
+        </div>
+      </div>
+
+      <!-- Panel G: square — Arc II teaser -->
+      <div class="gp gp-sq tint-sango">
+        <img src="images/corridor.jpg" alt="Arc II — The Iron Trials" class="grade-sango" style="transform:scaleX(-1) scaleY(-1);">
+        <div class="gp-header">
+          <span class="gp-arc-label">ARC II · TEASER</span>
+          <span class="gp-line"></span>
+          <span style="display:inline-block;font-family:'Oswald',sans-serif;font-size:0.52rem;font-weight:700;letter-spacing:0.1em;padding:0.1rem 0.4rem;clip-path:polygon(3px 0%,100% 0%,calc(100% - 3px) 100%,0% 100%);background:rgba(80,20,120,0.9);color:#fff;">ṢÀNGÓ</span>
+        </div>
+        <div class="panel-stamp stamp-red">COMING</div>
+        <div class="gp-caption">
+          <div class="gp-num">ARC II — THE IRON TRIALS</div>
+          <div class="gp-title">The Council Sends Its Best</div>
+          <div class="gp-sub">Issues 05–13. Ikenna vs the Architect's first asset: a Harvested vessel carrying Ògún-class capacity with none of the moral weight. The first real fight. 100 pages.</div>
+        </div>
+      </div>
+
+    </div><!-- /gallery-grid -->
+
+    <!-- LOCK OVERLAY -->
+    <div class="gallery-lock-overlay">
+      <div class="glo-icon">⬡</div>
+      <div class="glo-title">FULL GALLERY — SUBSCRIBER ACCESS</div>
+      <div class="glo-sub">
+        47 illustrated panels across all 11 arcs.<br>
+        Cinematic scenes, character MID records, behind-the-scenes oracle files.<br>
+        New panels added with every issue drop.
+      </div>
+      <div class="glo-price">₦5,000 / month · Cancel anytime</div>
+      <button class="glo-btn" onclick="openPaymentModal()">UNLOCK THE ARCHIVE ✦</button>
+      <div class="glo-perks">
+        <span class="glo-perk-item">47 illustrated universe panels (all 11 arcs)</span>
+        <span class="glo-perk-item">Full issues 05–49 with artwork &amp; motion panels</span>
+        <span class="glo-perk-item">Character MID dossiers — full classification records</span>
+        <span class="glo-perk-item">Oracle Network field reports — classified</span>
+        <span class="glo-perk-item">Early access to every new issue drop</span>
+      </div>
+    </div>
+
+  </div><!-- /gallery-premium-gate -->
+</section>
+
 <!-- ============================================================ NEWSLETTER -->
 <section id="newsletter">
   <div class="newsletter-inner">
@@ -9157,6 +9692,7 @@ body { padding-top: 26px; }
         <li><a href="#universe">The World</a></li>
         <li><a href="#locations">Locations</a></li>
         <li><a href="#lore">Mythology</a></li>
+        <li><a href="#illustrated">Illustrated Universe</a></li>
         <li><a href="#characters">Characters</a></li>
       </ul>
     </div>
