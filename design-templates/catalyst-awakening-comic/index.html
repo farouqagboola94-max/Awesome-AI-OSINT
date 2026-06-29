@@ -136,6 +136,117 @@
     50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
   }
 
+
+  /* ── Hero two-column layout ── */
+  .hero-layout {
+    position: relative; z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    padding: 0 2rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .hero-layout .hero-content {
+    flex: 1;
+    text-align: left;
+    padding: 0;
+  }
+  @media (max-width: 900px) {
+    .hero-layout { flex-direction: column; }
+    .hero-layout .hero-content { text-align: center; }
+  }
+
+  /* ── Hero cover art showcase ── */
+  .hero-covers-showcase {
+    flex: 0 0 260px;
+    position: relative;
+    height: 420px;
+  }
+  .hcs-card {
+    position: absolute;
+    width: 200px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid rgba(244,184,0,0.25);
+    transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1),
+                box-shadow 0.4s ease,
+                border-color 0.3s ease;
+    display: block;
+    text-decoration: none;
+    background: #1a0400;
+  }
+  .hcs-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    aspect-ratio: 2/3;
+  }
+  .hcs-card-front {
+    top: 0; left: 0;
+    height: 300px;
+    z-index: 2;
+    transform: rotate(-4deg);
+    box-shadow: -8px 12px 40px rgba(0,0,0,0.7);
+  }
+  .hcs-card-back {
+    top: 60px; right: 0;
+    height: 280px;
+    z-index: 1;
+    transform: rotate(5deg);
+    box-shadow: 8px 16px 40px rgba(0,0,0,0.6);
+    border-color: rgba(196,30,58,0.3);
+  }
+  .hcs-card:hover {
+    transform: rotate(0deg) translateY(-8px) scale(1.04);
+    border-color: rgba(244,184,0,0.7);
+    box-shadow: 0 24px 60px rgba(244,184,0,0.2), 0 0 0 1px rgba(244,184,0,0.15);
+    z-index: 10;
+  }
+  .hcs-label {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 0.6rem 0.75rem;
+    background: linear-gradient(to top, rgba(6,4,15,0.95) 60%, transparent);
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .hcs-badge {
+    font-family: var(--font-display,'Bebas Neue',sans-serif);
+    font-size: 0.5rem;
+    letter-spacing: 0.2em;
+    color: var(--danfo-gold);
+    background: rgba(244,184,0,0.12);
+    border: 1px solid rgba(244,184,0,0.3);
+    padding: 0.1rem 0.4rem;
+    border-radius: 2px;
+    width: fit-content;
+  }
+  .hcs-title {
+    font-family: var(--font-display,'Bebas Neue',sans-serif);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: rgba(240,237,229,0.9);
+  }
+  .hcs-caption {
+    position: absolute;
+    bottom: -1.5rem;
+    left: 0; right: 0;
+    text-align: center;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: rgba(244,184,0,0.4);
+    text-transform: uppercase;
+  }
+  @media (max-width: 900px) {
+    .hero-covers-showcase { display: none; }
+  }
+
   .hero-content {
     position: relative; z-index: 2;
     text-align: center;
@@ -4333,6 +4444,28 @@
   pointer-events: none;
 }
 
+
+/* ── 9-piece Canva cover gallery grid ── */
+.cover-gallery-grid--9 {
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  grid-template-rows: auto auto;
+}
+.cover-gallery-grid--9 .cover-art-item:first-child {
+  grid-row: span 2;
+}
+.cover-gallery-grid--9 .cover-art-item { text-decoration: none; color: inherit; }
+@media (max-width: 960px) {
+  .cover-gallery-grid--9 { grid-template-columns: repeat(3,1fr); }
+  .cover-gallery-grid--9 .cover-art-item:first-child { grid-row: span 1; }
+}
+@media (max-width: 600px) {
+  .cover-gallery-grid--9 { grid-template-columns: repeat(2,1fr); }
+}
+
+
+.canva-char-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
+.canva-char-card:hover img { transform: scale(1.04); }
+
 /* ── Comics Issue Canva Overlay ──────────────────────────── */
 .issue-bg { position: relative; overflow: hidden; }
 .issue-canva-overlay {
@@ -5231,21 +5364,47 @@ body { padding-top: 26px; }
     <path d="M12,0 L4,26 L9,26 L1,65 L13,21 L9,21 Z"/>
   </svg>
 
-  <div class="hero-content">
-    <div class="hero-eyebrow">Lagos Noir Comic Universe · Est. 2024</div>
-    <h1 class="hero-title" data-text="CATALYST">
-      <span class="line-gold">CATALYST</span>
-      <span class="line-outline">THE AWAKENING</span>
-    </h1>
-    <p class="hero-subtitle">
-      Where the blood of Orishas meets the concrete of Lagos.<br>
-      The city breathes. The city hungers. The city awakens.
-    </p>
-    <div class="hero-actions">
-      <a href="#comics" class="btn-primary"><span>Read Issue #1</span></a>
-      <a href="#universe" class="btn-secondary">Explore the Universe</a>
+  <!-- ── HERO LAYOUT: text left + cover right ── -->
+  <div class="hero-layout">
+
+    <div class="hero-content">
+      <div class="hero-eyebrow">Lagos Noir Comic Universe · Est. 2024</div>
+      <h1 class="hero-title" data-text="CATALYST">
+        <span class="line-gold">CATALYST</span>
+        <span class="line-outline">THE AWAKENING</span>
+      </h1>
+      <p class="hero-subtitle">
+        Where the blood of Orishas meets the concrete of Lagos.<br>
+        The city breathes. The city hungers. The city awakens.
+      </p>
+      <div class="hero-actions">
+        <a href="#comics" class="btn-primary"><span>Read Issue #1</span></a>
+        <a href="#universe" class="btn-secondary">Explore the Universe</a>
+      </div>
     </div>
-  </div>
+
+    <!-- Floating cover art showcase -->
+    <div class="hero-covers-showcase" aria-label="Cover art preview">
+      <a href="https://www.canva.com/d/7rArlWuGDzmPvkx" target="_blank" rel="noopener" class="hcs-card hcs-card-front" title="CATALYST: THE AWAKENING #1">
+        <img src="https://design.canva.ai/2WXCujGc81pSOdi" alt="Catalyst The Awakening #1 Cover" loading="eager"
+             onerror="this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)';this.style.display='none'">
+        <div class="hcs-label">
+          <span class="hcs-badge">ISSUE #1</span>
+          <span class="hcs-title">CATALYST: THE AWAKENING</span>
+        </div>
+      </a>
+      <a href="https://www.canva.com/d/LrfWaz4jJNL3-Zg" target="_blank" rel="noopener" class="hcs-card hcs-card-back" title="Catalyst The Awakening Poster">
+        <img src="https://design.canva.ai/mQ3Hfmi19R9ewF8" alt="Catalyst The Awakening Poster" loading="lazy"
+             onerror="this.parentElement.style.background='linear-gradient(160deg,#0d0400,#2a0600)';this.style.display='none'">
+        <div class="hcs-label">
+          <span class="hcs-badge">POSTER</span>
+          <span class="hcs-title">THE AWAKENING</span>
+        </div>
+      </a>
+      <div class="hcs-caption">↑ Click to view full artwork</div>
+    </div>
+
+  </div><!-- /hero-layout -->
 
   <div class="hero-scroll">
     <span>Scroll</span>
@@ -6485,43 +6644,88 @@ body { padding-top: 26px; }
   <div class="gallery-header">
     <p class="section-label reveal" style="justify-content:center">From the Studio</p>
     <h2 class="section-title reveal">THE <em>COVER ART</em></h2>
-    <p class="reveal" style="max-width:560px;margin:1.2rem auto 0;font-size:0.88rem;line-height:1.85;color:rgba(240,237,229,0.5)">Five covers. Five portals into the Lagos mythology. Each piece pulls from Yoruba cosmology, Afrofuturist noir, and the neon-dark pulse of a city that never sleeps.</p>
+    <p class="reveal" style="max-width:560px;margin:1.2rem auto 0;font-size:0.88rem;line-height:1.85;color:rgba(240,237,229,0.5)">Nine covers. Nine portals into the Lagos mythology. Original Canva artwork — Afrofuturist noir, cyberpunk Lagos, and the neon-dark pulse of a city that never sleeps. Click any cover to view the full piece.</p>
   </div>
 
-  <div class="cover-gallery-grid">
+  <!-- 9-piece Canva cover gallery — click any cover to view full design -->
+  <div class="cover-gallery-grid cover-gallery-grid--9">
 
-    <!-- FEATURED: Main Catalyst Awakening Poster — tall -->
-    <div class="cover-art-item reveal">
-      <img src="./assets/circle.jpg"
-           alt="Catalyst The Awakening — Origin Poster" loading="lazy">
+    <a href="https://www.canva.com/d/7rArlWuGDzmPvkx" target="_blank" rel="noopener" class="cover-art-item featured reveal" title="Issue #1 — CATALYST: THE AWAKENING">
+      <img src="https://design.canva.ai/2WXCujGc81pSOdi"
+           alt="Issue #1 — CATALYST: THE AWAKENING" loading="lazy"
+           onerror="this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)'">
+      
       <span class="cover-art-badge">Featured</span>
-      <span class="cover-art-label">Issue #00 — Origin</span>
-    </div>
+      <span class="cover-art-label">Issue #1 — CATALYST: THE AWAKENING</span>
+    </a>
 
-    <div class="cover-art-item reveal">
-      <img src="./assets/forge.jpg"
-           alt="Catalyst #1 — The Bridge" loading="lazy">
-      <span class="cover-art-label">Issue #01 — The Bridge</span>
-    </div>
+    <a href="https://www.canva.com/d/LrfWaz4jJNL3-Zg" target="_blank" rel="noopener" class="cover-art-item reveal" title="THE AWAKENING — Variant Poster">
+      <img src="https://design.canva.ai/mQ3Hfmi19R9ewF8"
+           alt="THE AWAKENING — Variant Poster" loading="lazy"
+           onerror="this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)'">
+      
+      <span class="cover-art-label">THE AWAKENING — Variant Poster</span>
+    </a>
 
-    <div class="cover-art-item reveal">
-      <img src="./assets/flares.jpg"
-           alt="Cover Art Volume I" loading="lazy">
-      <span class="cover-art-label">Volume I</span>
-    </div>
+    <a href="https://www.canva.com/d/TCYPgLxStzrfgZL" target="_blank" rel="noopener" class="cover-art-item reveal" title="Afrofuturist Noir — Arc I, Panel 1">
+      <img src="https://design.canva.ai/vYAEHplAOPECgj_"
+           alt="Afrofuturist Noir — Arc I, Panel 1" loading="lazy"
+           onerror="this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)'">
+      
+      <span class="cover-art-badge">Comic Page</span>
+      <span class="cover-art-label">Afrofuturist Noir — Arc I, Panel 1</span>
+    </a>
 
-    <div class="cover-art-item reveal">
-      <img src="./assets/intersection.jpg"
-           alt="Arc II — The Dark Assembly" loading="lazy">
-      <span class="cover-art-label">Arc II — Assembly</span>
-    </div>
+    <a href="https://www.canva.com/d/P6KTbaBYbTwj9dp" target="_blank" rel="noopener" class="cover-art-item reveal" title="Afrofuturist Noir — Arc I, Panel 2">
+      <img src="https://design.canva.ai/GiegyG0E9sRvfyM"
+           alt="Afrofuturist Noir — Arc I, Panel 2" loading="lazy"
+           onerror="this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)'">
+      
+      <span class="cover-art-label">Afrofuturist Noir — Arc I, Panel 2</span>
+    </a>
 
-    <div class="cover-art-item reveal">
-      <img src="./assets/shipyard.jpg"
-           alt="Limited Edition Print" loading="lazy">
+    <a href="https://www.canva.com/d/BqQqbBdtIPNSUvh" target="_blank" rel="noopener" class="cover-art-item reveal" title="Hooded Figure — The Collector">
+      <img src="https://design.canva.ai/F6Fhg0PQ29fIURi"
+           alt="Hooded Figure — The Collector" loading="lazy"
+           onerror="this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)'">
+      
+      <span class="cover-art-badge">Cyberpunk</span>
+      <span class="cover-art-label">Hooded Figure — The Collector</span>
+    </a>
+
+    <a href="https://www.canva.com/d/ltX8vC3sK80FMsd" target="_blank" rel="noopener" class="cover-art-item reveal" title="Dynamic Urban — Lagos Street">
+      <img src="https://design.canva.ai/LNpruvpNmtN--Pi"
+           alt="Dynamic Urban — Lagos Street" loading="lazy"
+           onerror="this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)'">
+      
+      <span class="cover-art-label">Dynamic Urban — Lagos Street</span>
+    </a>
+
+    <a href="https://www.canva.com/d/EN80OvOiBO-fxLM" target="_blank" rel="noopener" class="cover-art-item reveal" title="Afrofuturist Noir — Arc I, Panel 3">
+      <img src="https://design.canva.ai/bjY66Emd8OrVD6j"
+           alt="Afrofuturist Noir — Arc I, Panel 3" loading="lazy"
+           onerror="this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)'">
+      
+      <span class="cover-art-label">Afrofuturist Noir — Arc I, Panel 3</span>
+    </a>
+
+    <a href="https://www.canva.com/d/e9lSfbtoEYm_djx" target="_blank" rel="noopener" class="cover-art-item reveal" title="Intriguing Noir — City at Night">
+      <img src="https://design.canva.ai/PuQ4js2Q-n4sGHC"
+           alt="Intriguing Noir — City at Night" loading="lazy"
+           onerror="this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)'">
+      
+      <span class="cover-art-badge">Noir</span>
+      <span class="cover-art-label">Intriguing Noir — City at Night</span>
+    </a>
+
+    <a href="https://www.canva.com/d/mEXKzXrlPAlBBbo" target="_blank" rel="noopener" class="cover-art-item reveal" title="Experience the Power of The Catalyst">
+      <img src="https://design.canva.ai/NT0F238ti9sNXlD"
+           alt="Experience the Power of The Catalyst" loading="lazy"
+           onerror="this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)'">
+      
       <span class="cover-art-badge">Ltd. Ed.</span>
-      <span class="cover-art-label">Limited Edition</span>
-    </div>
+      <span class="cover-art-label">Experience the Power of The Catalyst</span>
+    </a>
 
   </div>
 </section>
@@ -9443,6 +9647,42 @@ body { padding-top: 26px; }
       Cinematic panels from inside the Catalyst universe — scenes rendered from the field archives of the Lagos Oracle Network. Three panels open to all. The full gallery is subscriber territory.
     </p>
   </div>
+
+
+<!-- ── Canva Character Art Row ──────────────────────────── -->
+<div class="canva-char-art-row reveal" style="max-width:1100px;margin:3rem auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;">
+
+  <a href="https://www.canva.com/d/SF-jUqFQ8pX2u1C" target="_blank" rel="noopener" class="canva-char-card" style="position:relative;border-radius:8px;overflow:hidden;aspect-ratio:2/3;border:1px solid rgba(180,20,20,0.3);background:#0a0400;display:block;text-decoration:none;transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.35s ease;">
+    <img src="https://design.canva.ai/x4T-oEzM8Rg5LDd" alt="Young Nigerian Man with Glow in Destruction" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform 0.4s ease;"
+         onerror="this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)'">
+    <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,4,0,0.92) 30%,transparent 70%);pointer-events:none;"></div>
+    <div style="position:absolute;bottom:0.9rem;left:0.9rem;right:0.9rem;z-index:2;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:0.5rem;letter-spacing:0.2em;color:#F4B800;background:rgba(180,20,20,0.2);border:1px solid rgba(180,20,20,0.4);padding:0.1rem 0.4rem;border-radius:2px;width:fit-content;margin-bottom:0.3rem;">BAYO · ẸṢÙ</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.12em;color:rgba(240,237,229,0.92);">POWERED BY ASẸ — THE GLOW</div>
+    </div>
+  </a>
+
+  <a href="https://www.canva.com/d/OwcQfHzTyUeJ6l_" target="_blank" rel="noopener" class="canva-char-card" style="position:relative;border-radius:8px;overflow:hidden;aspect-ratio:2/3;border:1px solid rgba(0,100,100,0.3);background:#001a18;display:block;text-decoration:none;transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.35s ease;">
+    <img src="https://design.canva.ai/1jiRcQJwHOeri7z" alt="Nigerian Man Radiating Energy on Rainy Street" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform 0.4s ease;"
+         onerror="this.parentElement.style.background='linear-gradient(160deg,#001a18,#003320)'">
+    <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,18,14,0.92) 30%,transparent 70%);pointer-events:none;"></div>
+    <div style="position:absolute;bottom:0.9rem;left:0.9rem;right:0.9rem;z-index:2;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:0.5rem;letter-spacing:0.2em;color:#00C9B1;background:rgba(0,100,80,0.2);border:1px solid rgba(0,100,80,0.4);padding:0.1rem 0.4rem;border-radius:2px;width:fit-content;margin-bottom:0.3rem;">ZARA · ỌYA</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.12em;color:rgba(240,237,229,0.92);">ENERGY ON THE RAINY STREET</div>
+    </div>
+  </a>
+
+  <a href="https://www.canva.com/d/UDYonVORL1pSzr6" target="_blank" rel="noopener" class="canva-char-card" style="position:relative;border-radius:8px;overflow:hidden;aspect-ratio:2/3;border:1px solid rgba(60,80,100,0.3);background:#0a1018;display:block;text-decoration:none;transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.35s ease;">
+    <img src="https://design.canva.ai/7a9_vSlWiISWZB0" alt="Nigerian Man in Tactical Coat at Night" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform 0.4s ease;"
+         onerror="this.parentElement.style.background='linear-gradient(160deg,#0a1018,#142028)'">
+    <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,16,24,0.92) 30%,transparent 70%);pointer-events:none;"></div>
+    <div style="position:absolute;bottom:0.9rem;left:0.9rem;right:0.9rem;z-index:2;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:0.5rem;letter-spacing:0.2em;color:#8090B0;background:rgba(60,80,100,0.2);border:1px solid rgba(60,80,100,0.4);padding:0.1rem 0.4rem;border-radius:2px;width:fit-content;margin-bottom:0.3rem;">IKENNA · ÒGÚN</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.12em;color:rgba(240,237,229,0.92);">TACTICAL COAT — NIGHT OPERATIVE</div>
+    </div>
+  </a>
+
+</div>
 
   <!-- ── FREE TEASER (3 actual comic panels) ── -->
   <div class="teaser-strip reveal">
