@@ -5573,6 +5573,258 @@ body.ase-vision .ase-glyph-field { display:block; }
   100%{ transform:translateY(-100vh) rotate(var(--gr)); opacity:0; }
 }
 </style>
+<style id="v7-styles">
+/* ── OPERATIVE RECRUITMENT MODAL ─────────────────────────────────────────── */
+.op-overlay {
+  display:none;position:fixed;inset:0;z-index:9000;
+  background:rgba(0,0,0,0.88);
+  align-items:center;justify-content:center;
+  padding:2rem;
+}
+.op-overlay.open { display:flex; }
+.op-modal {
+  background:linear-gradient(135deg,#050510,#0a050f);
+  border:1px solid rgba(196,30,58,0.5);
+  border-radius:4px;
+  max-width:480px;width:100%;padding:2rem;
+  position:relative;
+  box-shadow:0 0 60px rgba(196,30,58,0.2),0 0 120px rgba(0,0,0,0.8);
+  animation:opSlideIn 0.5s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes opSlideIn {
+  0%{ opacity:0;transform:translateY(30px) scale(0.95); }
+  100%{ opacity:1;transform:translateY(0) scale(1); }
+}
+.op-stamp {
+  font-family:monospace;font-size:0.55rem;letter-spacing:0.3em;
+  color:rgba(196,30,58,0.7);text-transform:uppercase;margin-bottom:0.2rem;
+}
+.op-agency {
+  font-family:monospace;font-size:0.5rem;letter-spacing:0.2em;
+  color:rgba(240,237,229,0.3);margin-bottom:0.8rem;
+}
+.op-divider { height:1px;background:rgba(196,30,58,0.25);margin:0.8rem 0; }
+.op-num-row {
+  display:flex;align-items:baseline;gap:0.8rem;margin:0.8rem 0 0.4rem;
+}
+.op-num-label {
+  font-family:monospace;font-size:0.6rem;letter-spacing:0.2em;
+  color:rgba(240,237,229,0.4);
+}
+.op-num {
+  font-family:'Bebas Neue',sans-serif;font-size:2.8rem;
+  color:#C41E3A;letter-spacing:0.1em;line-height:1;
+  text-shadow:0 0 30px rgba(196,30,58,0.5);
+}
+.op-classification {
+  font-family:monospace;font-size:0.62rem;letter-spacing:0.15em;
+  color:#F4B800;margin-bottom:0.6rem;
+}
+.op-welcome {
+  font-family:'Space Mono',monospace;font-size:0.78rem;
+  line-height:1.8;color:rgba(240,237,229,0.75);
+  margin:0.8rem 0;font-style:italic;
+}
+.op-directive {
+  background:rgba(196,30,58,0.06);border:1px solid rgba(196,30,58,0.2);
+  padding:0.7rem 0.9rem;margin:0.8rem 0;
+  font-family:monospace;font-size:0.65rem;
+}
+.op-dir-label { color:rgba(196,30,58,0.7);letter-spacing:0.15em;margin-right:0.5rem; }
+.op-dir-text  { color:rgba(240,237,229,0.7); }
+.op-footer-row {
+  display:flex;justify-content:space-between;
+  font-family:monospace;font-size:0.52rem;
+  color:rgba(240,237,229,0.3);letter-spacing:0.1em;
+  margin:0.8rem 0;
+}
+.op-actions { display:flex;gap:0.8rem;margin-top:1.2rem;flex-wrap:wrap; }
+.op-share-btn {
+  flex:1;background:rgba(196,30,58,0.12);border:1px solid rgba(196,30,58,0.4);
+  color:#C41E3A;font-family:monospace;font-size:0.62rem;letter-spacing:0.12em;
+  padding:0.7rem 1rem;cursor:pointer;transition:all 0.25s;
+}
+.op-share-btn:hover { background:rgba(196,30,58,0.22);border-color:#C41E3A; }
+.op-close-btn {
+  background:transparent;border:1px solid rgba(240,237,229,0.15);
+  color:rgba(240,237,229,0.4);font-family:monospace;font-size:0.6rem;
+  letter-spacing:0.12em;padding:0.7rem 1rem;cursor:pointer;transition:all 0.25s;
+}
+.op-close-btn:hover { border-color:rgba(240,237,229,0.4);color:rgba(240,237,229,0.7); }
+
+/* ── ORISHA DOSSIER MODAL ─────────────────────────────────────────────────── */
+.orisha-overlay {
+  display:none;position:fixed;inset:0;z-index:9000;
+  background:rgba(0,0,0,0.9);
+  align-items:center;justify-content:center;
+  padding:2rem;overflow-y:auto;
+}
+.orisha-overlay.open { display:flex; }
+.orisha-modal {
+  background:linear-gradient(135deg,#04040e,#080418);
+  border:1px solid rgba(244,184,0,0.3);border-radius:4px;
+  max-width:680px;width:100%;padding:2rem;position:relative;
+  box-shadow:0 0 60px rgba(244,184,0,0.1);
+  animation:opSlideIn 0.45s cubic-bezier(0.34,1.56,0.64,1);
+}
+.orisha-close {
+  position:absolute;top:1rem;right:1rem;
+  background:transparent;border:1px solid rgba(244,184,0,0.2);
+  color:rgba(244,184,0,0.5);font-family:monospace;font-size:0.58rem;
+  letter-spacing:0.1em;padding:0.3rem 0.7rem;cursor:pointer;
+  transition:all 0.2s;
+}
+.orisha-close:hover { border-color:#F4B800;color:#F4B800; }
+.orisha-stamp {
+  font-family:monospace;font-size:0.52rem;letter-spacing:0.25em;
+  color:rgba(244,184,0,0.45);margin-bottom:1rem;
+}
+.orisha-name-block { margin-bottom:0.4rem; }
+.orisha-name {
+  font-family:'Bebas Neue',sans-serif;font-size:2.8rem;
+  color:#F4B800;letter-spacing:0.1em;line-height:1;
+  text-shadow:0 0 30px rgba(244,184,0,0.3);
+}
+.orisha-yoruba {
+  font-family:monospace;font-size:0.65rem;color:rgba(244,184,0,0.5);
+  letter-spacing:0.1em;margin-top:0.3rem;
+}
+.orisha-domain-tag {
+  display:inline-block;
+  font-family:monospace;font-size:0.55rem;letter-spacing:0.2em;
+  padding:0.25rem 0.7rem;
+  border:1px solid rgba(244,184,0,0.3);
+  color:rgba(244,184,0,0.7);
+  background:rgba(244,184,0,0.06);
+  margin:0.7rem 0 1.2rem;
+}
+.orisha-body-grid {
+  display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;
+}
+.orisha-section-lbl {
+  font-family:monospace;font-size:0.52rem;letter-spacing:0.2em;
+  color:rgba(244,184,0,0.45);margin-bottom:0.4rem;
+}
+.orisha-text {
+  font-size:0.82rem;line-height:1.75;color:rgba(240,237,229,0.7);
+  font-family:'Space Mono',monospace;
+}
+.orisha-vessel {
+  font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;
+  color:#F4B800;margin-top:0.2rem;
+}
+.orisha-intel {
+  font-size:0.78rem;line-height:1.8;color:rgba(240,237,229,0.6);
+  font-style:italic;background:rgba(244,184,0,0.04);
+  border-left:2px solid rgba(244,184,0,0.25);padding:0.6rem 0.8rem;
+}
+.orisha-appearances {
+  font-family:monospace;font-size:0.62rem;color:rgba(240,237,229,0.45);
+  line-height:1.8;margin-top:0.4rem;
+}
+.orisha-pill-link { cursor:pointer;transition:background 0.2s,color 0.2s; }
+.orisha-pill-link:hover { background:rgba(244,184,0,0.2);color:#F4B800; }
+@media(max-width:600px){ .orisha-body-grid { grid-template-columns:1fr; } }
+
+/* ── DARK ASSEMBLY NETWORK ────────────────────────────────────────────────── */
+.da-network {
+  margin:3rem auto 0;max-width:900px;
+  border:1px solid rgba(196,30,58,0.15);
+  background:rgba(0,0,0,0.3);
+  border-radius:4px;overflow:hidden;
+}
+.da-net-hdr {
+  padding:0.7rem 1.2rem;
+  border-bottom:1px solid rgba(196,30,58,0.12);
+  font-family:monospace;font-size:0.55rem;letter-spacing:0.2em;
+  color:rgba(196,30,58,0.5);
+}
+.da-net-canvas {
+  position:relative;height:340px;
+  overflow:hidden;
+}
+.da-net-svg {
+  position:absolute;inset:0;width:100%;height:100%;pointer-events:none;
+}
+.da-node {
+  position:absolute;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  width:72px;height:72px;border-radius:50%;
+  cursor:pointer;
+  transition:transform 0.25s,box-shadow 0.25s;
+  z-index:2;
+}
+.da-node:hover { transform:scale(1.08); }
+.da-node-inner {
+  font-family:'Bebas Neue',sans-serif;font-size:0.6rem;letter-spacing:0.08em;
+  text-align:center;line-height:1.2;z-index:1;
+}
+.da-node-target {
+  position:absolute;bottom:-16px;
+  font-family:monospace;font-size:0.42rem;letter-spacing:0.15em;
+  white-space:nowrap;
+}
+.da-node-ring {
+  position:absolute;inset:-6px;border-radius:50%;
+  border:1px solid rgba(196,30,58,0.4);
+  animation:danRing 2s ease-in-out infinite;
+}
+@keyframes danRing {
+  0%,100%{ transform:scale(1);opacity:0.5; }
+  50%{ transform:scale(1.08);opacity:1; }
+}
+/* Node positions & colors */
+.da-node-arch {
+  left:50%;top:50%;transform:translate(-50%,-50%);
+  background:radial-gradient(circle,rgba(196,30,58,0.35),rgba(100,0,20,0.6));
+  border:2px solid rgba(196,30,58,0.7);color:#C41E3A;
+  width:86px;height:86px;
+}
+.da-node-arch:hover { transform:translate(-50%,-50%) scale(1.08); }
+.da-node-pc {
+  left:20%;top:20%;
+  background:rgba(30,0,50,0.7);border:1px solid rgba(150,0,200,0.4);color:rgba(200,100,255,0.8);
+}
+.da-node-da {
+  left:68%;top:18%;
+  background:rgba(20,0,30,0.7);border:1px solid rgba(120,0,180,0.35);color:rgba(180,80,255,0.6);
+}
+.da-node-hero {
+  border:1px solid rgba(244,184,0,0.3);
+  background:rgba(0,0,0,0.5);color:rgba(244,184,0,0.7);
+}
+.da-node-target { color:rgba(196,30,58,0.6); }
+.da-node-bayo  { left:78%;top:72%; }
+.da-node-amara { left:12%;top:70%; }
+.da-node-ikenna{ left:45%;top:80%; }
+.da-node-zara  {
+  left:80%;top:45%;
+  border:1px solid rgba(0,201,177,0.25);
+  background:rgba(0,10,10,0.5);color:rgba(0,201,177,0.5);
+}
+.da-node-zara .da-node-target { color:rgba(0,201,177,0.5); }
+.da-link-tip {
+  display:none;position:absolute;
+  background:rgba(0,0,0,0.9);border:1px solid rgba(244,184,0,0.3);
+  font-family:monospace;font-size:0.58rem;letter-spacing:0.1em;
+  color:#F4B800;padding:0.4rem 0.8rem;
+  pointer-events:none;z-index:10;white-space:nowrap;
+}
+.da-net-legend {
+  display:flex;gap:1.5rem;flex-wrap:wrap;
+  padding:0.7rem 1.2rem;
+  border-top:1px solid rgba(196,30,58,0.1);
+  font-family:monospace;font-size:0.52rem;letter-spacing:0.1em;color:rgba(240,237,229,0.4);
+}
+.da-leg-item { display:flex;align-items:center;gap:0.4rem; }
+.da-leg-line {
+  display:inline-block;width:24px;height:2px;border-radius:1px;
+}
+.da-leg-line.red { background:rgba(196,30,58,0.7); }
+.da-leg-line.orange { background:rgba(255,120,20,0.7); }
+.da-leg-line.teal { background:rgba(0,201,177,0.6); }
+.da-leg-line.dim { background:rgba(200,150,255,0.4); }
+</style>
 </head>
 <body>
 
@@ -6130,11 +6382,11 @@ body.ase-vision .ase-glyph-field { display:block; }
       We will not stop until <em>every arc is told</em>. Every villain faces their reckoning. Every Orisha gets their justice. Every child who ever felt invisible sees themselves in Bayo Adeyemi and knows: <strong>Aṣẹ flows in us all.</strong>
     </p>
     <div class="manifesto-orisha-row reveal">
-      <div class="manifesto-orisha-pill">Ṣàngó</div>
-      <div class="manifesto-orisha-pill">Ògún</div>
-      <div class="manifesto-orisha-pill">Ọ̀ṣun</div>
+      <div class="manifesto-orisha-pill orisha-pill-link" onclick="openOrishaModal('sango')">Ṣàngó</div>
+      <div class="manifesto-orisha-pill orisha-pill-link" onclick="openOrishaModal('ogun')">Ògún</div>
+      <div class="manifesto-orisha-pill orisha-pill-link" onclick="openOrishaModal('osun')">Ọ̀ṣun</div>
       <div class="manifesto-orisha-pill">Oya</div>
-      <div class="manifesto-orisha-pill">Obatala</div>
+      <div class="manifesto-orisha-pill orisha-pill-link" onclick="openOrishaModal('obatala')">Obatala</div>
       <div class="manifesto-orisha-pill">Eshu</div>
     </div>
     <div class="manifesto-signature reveal">
@@ -7592,6 +7844,51 @@ body.ase-vision .ase-glyph-field { display:block; }
       </ul>
     </div>
 
+  </div>
+
+  <div class="da-network reveal">
+    <div class="da-net-hdr">
+      <span class="da-net-label">INTERCEPTED INTEL — DARK ASSEMBLY ORGANISATIONAL MAP</span>
+    </div>
+    <div class="da-net-canvas" id="daNetCanvas">
+      <!-- Nodes -->
+      <div class="da-node da-node-arch" id="dan-arch" onclick="danShowLink('arch')">
+        <div class="da-node-inner">THE<br>ARCHITECT</div>
+        <div class="da-node-ring"></div>
+      </div>
+      <div class="da-node da-node-pc" id="dan-pc" onclick="danShowLink('pc')">
+        <div class="da-node-inner">PALE<br>COUNCIL</div>
+      </div>
+      <div class="da-node da-node-da" id="dan-da" onclick="danShowLink('da')">
+        <div class="da-node-inner">DARK<br>ASSEMBLY</div>
+      </div>
+      <div class="da-node da-node-hero da-node-bayo" id="dan-bayo">
+        <div class="da-node-inner">CATALYST</div>
+        <div class="da-node-target">TARGET</div>
+      </div>
+      <div class="da-node da-node-hero da-node-amara" id="dan-amara">
+        <div class="da-node-inner">THUNDER<br>STRIKE</div>
+        <div class="da-node-target">TARGET</div>
+      </div>
+      <div class="da-node da-node-hero da-node-ikenna" id="dan-ikenna">
+        <div class="da-node-inner">IRON<br>WOLF</div>
+        <div class="da-node-target">ASSET?</div>
+      </div>
+      <div class="da-node da-node-zara" id="dan-zara">
+        <div class="da-node-inner">THE<br>MIRROR</div>
+        <div class="da-node-target">UNKNOWN</div>
+      </div>
+      <!-- Link labels (SVG overlay drawn by JS) -->
+      <svg class="da-net-svg" id="daNetSvg" xmlns="http://www.w3.org/2000/svg"></svg>
+      <!-- Tooltip -->
+      <div class="da-link-tip" id="daLinkTip"></div>
+    </div>
+    <div class="da-net-legend">
+      <span class="da-leg-item"><span class="da-leg-line red"></span>CONTROLS</span>
+      <span class="da-leg-item"><span class="da-leg-line orange"></span>HUNTING</span>
+      <span class="da-leg-item"><span class="da-leg-line teal"></span>INFILTRATING</span>
+      <span class="da-leg-item"><span class="da-leg-line dim"></span>FEARS</span>
+    </div>
   </div>
 
   <div class="dark-assembly-seal reveal">
@@ -13036,6 +13333,237 @@ function pvCopyLink() {
   }
 
 
+  // ── V7: OPERATIVE RECRUITMENT ──────────────────────────────────────────────
+  var OP_CLASSIFICATIONS = [
+    'ASẸ SYMPATHIZER — CLEARANCE: LEVEL 1',
+    'ORISHA RESONANCE DETECTED — LEVEL 2 ASSET',
+    'DIVINE SENSITIVITY: ACTIVE — INTEL VALUE: HIGH',
+    'PALE COUNCIL WATCHLIST EVADER — CLEARANCE: OMEGA',
+    'CATALYST NETWORK — FIELD CONTACT — PRIORITY: HIGH',
+    'UNKNOWN ASẸ SIGNATURE — MONITOR AND REPORT',
+    'ORACLE RECOMMENDED CONTACT — TRUST: PROVISIONAL',
+  ];
+  var OP_DIRECTIVES = [
+    'Monitor Mushin District for unusual Aṣẹ readings. Report to Oracle Node.',
+    'Do not engage Dark Assembly operatives. You are not ready. Yet.',
+    'Learn to recognise a Pale Council tail. There are three on you already.',
+    'The Oracle says your timing is significant. He will not elaborate.',
+    'Watch the Third Mainland Bridge. The water is speaking. Translate.',
+    'Trust no information that arrives between 2 and 4 AM. That window is theirs.',
+    'Maintain your cover. The Architect already suspects. Do not confirm.',
+  ];
+  var OP_WELCOMES = [
+    'The Oracle has been watching this city for 617 years.<br>He does not send for people without reason.<br>You were sent for. Act accordingly.',
+    'This city has been holding its breath for nineteen years.<br>It chose tonight to exhale.<br>It chose you to be here when it did.',
+    'Every hero in this city thought it was coincidence, at first.<br>It is never coincidence.<br>The city knows what it is doing.',
+    'You arrived at the right time. The Oracle says this is not an accident.<br>The Oracle is never wrong about timing.<br>He is occasionally wrong about everything else.',
+  ];
+
+  function showOperativeModal(name, email) {
+    var num = '#' + String(Math.floor(1000 + (Date.now() % 8000) + Math.random() * 999)).padStart(4,'0');
+    var cls = OP_CLASSIFICATIONS[Math.floor(Math.random() * OP_CLASSIFICATIONS.length)];
+    var dir = OP_DIRECTIVES[Math.floor(Math.random() * OP_DIRECTIVES.length)];
+    var wel = OP_WELCOMES[Math.floor(Math.random() * OP_WELCOMES.length)];
+    document.getElementById('opNum').textContent = num;
+    document.getElementById('opClass').textContent = cls;
+    document.getElementById('opWelcome').innerHTML = wel;
+    document.getElementById('opDirective').textContent = dir;
+    var now = new Date();
+    document.getElementById('opDate').textContent =
+      String(now.getHours()).padStart(2,'0') + ':' +
+      String(now.getMinutes()).padStart(2,'0') + ' HRS — LAGOS NODE';
+    document.getElementById('opOverlay').classList.add('open');
+  }
+
+  function closeOpModal() {
+    document.getElementById('opOverlay').classList.remove('open');
+  }
+
+  function shareOperativeCard() {
+    var num = document.getElementById('opNum').textContent;
+    var cls = document.getElementById('opClass').textContent;
+    var txt = 'Just recruited into the Oracle Intelligence Collective as Operative ' + num + ' — Classification: ' + cls + '. The city chose me. catalyst-awakening.com';
+    if (navigator.share) {
+      navigator.share({ title: 'CATALYST: THE AWAKENING — Operative Briefing', text: txt }).catch(function(){});
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(txt).then(function() {
+        var btn = document.querySelector('.op-share-btn');
+        if (btn) { btn.textContent = '✓ COPIED — SHARE IT'; setTimeout(function(){ btn.textContent = '◈ SHARE YOUR BRIEFING'; }, 3000); }
+      });
+    }
+  }
+
+  // Hook into existing handleSignup to show operative modal
+  (function() {
+    var _orig = window.handleSignup;
+    if (typeof _orig === 'function') {
+      window.handleSignup = async function(e) {
+        var form = e.target;
+        var nameInput = form ? form.querySelector('input[name="nl_name"]') : null;
+        var emailInput = form ? (form.querySelector('input[name="nl_email"]') || form.querySelector('input[type="email"]')) : null;
+        var name = nameInput ? nameInput.value.trim() : '';
+        var email = emailInput ? emailInput.value.trim() : '';
+        await _orig.call(this, e);
+        setTimeout(function() { showOperativeModal(name, email); }, 1200);
+      };
+    }
+  })();
+
+  // ESC key closes modals
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeOpModal();
+      closeOrishaModal();
+    }
+  });
+
+  // ── V7: ORISHA DOSSIER DATA + MODAL ────────────────────────────────────────
+  var ORISHA_DATA = {
+    sango: {
+      name: 'ṢÀNGÓ',
+      yoruba: 'Ọba àárẹ — "King of Lightning" · Lord of Thunder, Lightning, and Justice',
+      domain: 'THUNDER · LIGHTNING · JUSTICE · KINGSHIP',
+      description: 'Ṣàngó governs electrical storms, righteous fury, and divine retribution. The fourth Alaafin of Oyo, he ascended to Orisha after his own thunderbolt struck his palace. His power is absolute when channelled — but it does not distinguish between the guilty and the bystander.',
+      manifests: 'Lagos power surges with no grid explanation. Storms that move against the wind. Lightning that strikes the same building seven times without fire. The Lagoon turning red during his festivals.',
+      vessel: 'AMARA IBRAHIM — THUNDERSTRIKE',
+      intel: '"Ṣàngó chose Amara because she was already the most precise person in a room full of lightning. He does not give his power to the angry. He gives it to the disciplined. Amara was an aerospace engineer before she was a hero. She still thinks like one." — Oracle, personal log',
+      appearances: '▸ Issue #02 — Amara\'s thunder manifests at National Theatre\n▸ Issue #03 — Storm-riding sequence, Third Mainland Bridge\n▸ Issue #04 — Dual resonance with Catalyst activated',
+    },
+    ogun: {
+      name: 'ÒGÚN',
+      yoruba: 'Baba Àgbàdo — "Father of Iron" · Lord of Iron, Labour, and War',
+      domain: 'IRON · METAL · WAR · TECHNOLOGY · LABOUR',
+      description: 'Ògún is in every nail, every engine, every blade ever forged. He predates the city — Lagos itself was built on his back. He is not kind. He is not cruel. He is iron: he does what he is used for, and he judges those who waste him.',
+      manifests: 'Metal objects that move without hands. Engines that start themselves. Structural iron that refuses to rust under divine heat. The smell of hot metal with no forge nearby.',
+      vessel: 'IKENNA OKAFOR — IRON WOLF',
+      intel: '"Ikenna\'s family has carried Ògún\'s mark for 14 generations. The iron in his blood is not metaphor. I have seen his father forge iron without tools, with his bare hands, without burns. Ikenna is not a vessel — he is a continuation." — Oracle, 2019 log',
+      appearances: '▸ Issue #01 — First iron manifestation, Mushin workshop\n▸ Issue #03 — Full Ògún transformation, Iron District battle\n▸ Issue #04 — Iron-iron resonance near The Architect',
+    },
+    osun: {
+      name: 'ỌỌ̀ṢUN',
+      yoruba: 'Yeye Osun — "Sweet Mother" · Lady of Rivers, Love, and Healing',
+      domain: 'WATER · HEALING · LOVE · FERTILITY · PROPHECY',
+      description: 'Ọ̀ṣun commands fresh water — rivers, tears, blood, rain. She is beauty and grief and the space between them. She was the only female Orisha excluded from the original divine council. When they ignored her, the world dried. They never ignored her again.',
+      manifests: 'The Lagoon\'s water flowing upward in certain locations. Tears that heal minor wounds. Water sources in Mushin that never go dry even in drought years. A honey-amber light visible in the lagoon at night.',
+      vessel: 'ORACLE (secondary resonance) · No primary vessel identified yet',
+      intel: '"She is the only Orisha who has spoken to me directly, in full sentences, in my six hundred years. She told me the Catalyst was coming in 2003. She told me the name of his mother. She told me not to interfere too soon. I have spent twenty years trying to understand what too soon means." — Oracle',
+      appearances: '▸ Issue #01 — Lagoon scene, amber light beneath the surface\n▸ Issue #04 — Oracle\'s compound, water responds to Bayo\'s presence',
+    },
+    obatala: {
+      name: 'OBATÀLÁ',
+      yoruba: 'Orisha Igbo — "King of the White Cloth" · Lord of Creation and Purity',
+      domain: 'CREATION · PURITY · WISDOM · ALBINISM · PEACE',
+      description: 'Obatàlá sculpted the human body from clay at Olódùmarè\'s command. He is the senior Orisha, the arbiter of all divine disputes. He moves slowly, speaks rarely, and when he speaks, the other Orishas stop arguing. He is not sentimental about what he creates — or what he destroys.',
+      manifests: 'White cloth found in unexpected places near sacred sites. A stillness that falls over locations before major divine events. The sense of being shaped from the outside — like clay.',
+      vessel: 'UNCONFIRMED — Oracle suspects a vessel exists in Lagos and has not revealed themselves',
+      intel: '"If Obatàlá has a vessel in this city and they have not come forward, one of two things is true: either they do not know what they are, or they have decided not to declare themselves yet. Given that Obatàlá sculpted wisdom itself into human form — I suspect it is the second option." — Oracle',
+      appearances: '▸ Issue #04 — White fabric motif, Oracle\'s compound inner sanctum\n▸ Lore entry: The First Awakening, mentioned in Ifá archives',
+    },
+    esu: {
+      name: 'ẸṢÙ',
+      yoruba: 'Laroye — "One Who Can Make You Cry" · Lord of Crossroads and Communication',
+      domain: 'CROSSROADS · CHOICES · COMMUNICATION · TRICKERY · BEGINNINGS',
+      description: 'Ẹṣù stands at every crossroads in Lagos — every decision point, every choice that matters. He is not evil. He is honest: every crossroads has two paths, and he shows you both. What you choose is yours. He is also the divine messenger — without him, prayers do not reach Olódùmarè. Lagos is his city. It has nine million crossroads.',
+      manifests: 'Danfo buses taking impossible turns. Paths that change between visits. The sensation of being watched at intersections. A red and black presence at the edge of vision in markets.',
+      vessel: 'BAYO ADEYEMI — CATALYST (Ẹṣù as primary crossroads guide, not power vessel)',
+      intel: '"Ẹṣù likes Bayo. This is unusual. Ẹṣù does not like anyone — he evaluates them. When I asked him why, he said: \'He always takes the harder path.\' This is the highest compliment Ẹṣù has given a mortal in four hundred years." — Oracle',
+      appearances: '▸ Issue #01 — Oshodi crossroads scene, first Ẹṣù encounter\n▸ Issue #02 — Balogun Nexus, crossroads manifestation\n▸ Issue #04 — All four heroes converge: Ẹṣù\'s arrangement',
+    },
+  };
+
+  function openOrishaModal(key) {
+    var d = ORISHA_DATA[key];
+    if (!d) return;
+    document.getElementById('orishaName').textContent = d.name;
+    document.getElementById('orishaYoruba').textContent = d.yoruba;
+    document.getElementById('orisha-domain-tag').textContent = d.domain;
+    document.getElementById('orisha-domain').textContent = d.description;
+    document.getElementById('orisha-manifests').textContent = d.manifests;
+    document.getElementById('orisha-vessel').textContent = d.vessel;
+    document.getElementById('orisha-intel').innerHTML = d.intel;
+    document.getElementById('orisha-appearances').textContent = d.appearances;
+    document.getElementById('orishaOverlay').classList.add('open');
+  }
+  function closeOrishaModal() {
+    document.getElementById('orishaOverlay').classList.remove('open');
+  }
+
+  // ── V7: DARK ASSEMBLY NETWORK WEB ──────────────────────────────────────────
+  (function() {
+    var canvas = document.getElementById('daNetCanvas');
+    var svg    = document.getElementById('daNetSvg');
+    var tip    = document.getElementById('daLinkTip');
+    if (!canvas || !svg) return;
+
+    // Links: [from-id, to-id, label, color, dash]
+    var LINKS = [
+      ['dan-arch', 'dan-pc',    'CONTROLS',     'rgba(196,30,58,0.6)',   ''],
+      ['dan-arch', 'dan-da',    'CREATED',      'rgba(196,30,58,0.5)',   '6,4'],
+      ['dan-pc',   'dan-bayo',  'HUNTING',      'rgba(255,120,20,0.55)', '4,3'],
+      ['dan-pc',   'dan-amara', 'HUNTING',      'rgba(255,120,20,0.5)',  '4,3'],
+      ['dan-pc',   'dan-ikenna','RECRUITING',   'rgba(255,180,20,0.45)', '3,4'],
+      ['dan-da',   'dan-bayo',  'PRIORITY TARGET','rgba(255,80,80,0.5)', '5,3'],
+      ['dan-arch', 'dan-zara',  'CANNOT FIND',  'rgba(0,201,177,0.4)',   '2,6'],
+      ['dan-ikenna','dan-da',   'INFILTRATING', 'rgba(0,201,177,0.45)',  '3,3'],
+      ['dan-arch', 'dan-bayo',  'FEARS',        'rgba(180,100,255,0.35)','1,5'],
+    ];
+
+    function getCenter(nodeId) {
+      var el = document.getElementById(nodeId);
+      if (!el) return {x:0,y:0};
+      var cr = canvas.getBoundingClientRect();
+      var nr = el.getBoundingClientRect();
+      return {
+        x: nr.left - cr.left + nr.width / 2,
+        y: nr.top  - cr.top  + nr.height / 2
+      };
+    }
+
+    function drawLinks() {
+      svg.innerHTML = '';
+      LINKS.forEach(function(link) {
+        var a = getCenter(link[0]);
+        var b = getCenter(link[1]);
+        if (!a || !b) return;
+        var path = document.createElementNS('http://www.w3.org/2000/svg','path');
+        var mx = (a.x + b.x) / 2;
+        var my = (a.y + b.y) / 2 - 30;
+        path.setAttribute('d', 'M'+a.x+','+a.y+' Q'+mx+','+my+' '+b.x+','+b.y);
+        path.setAttribute('stroke', link[3]);
+        path.setAttribute('stroke-width', '1.5');
+        path.setAttribute('fill', 'none');
+        if (link[4]) path.setAttribute('stroke-dasharray', link[4]);
+        path.setAttribute('data-label', link[2]);
+        path.style.cursor = 'pointer';
+        path.addEventListener('mouseenter', function(e) {
+          tip.textContent = link[2];
+          tip.style.display = 'block';
+        });
+        path.addEventListener('mousemove', function(e) {
+          var cr = canvas.getBoundingClientRect();
+          tip.style.left = (e.clientX - cr.left + 12) + 'px';
+          tip.style.top  = (e.clientY - cr.top  - 10) + 'px';
+        });
+        path.addEventListener('mouseleave', function() {
+          tip.style.display = 'none';
+        });
+        svg.appendChild(path);
+      });
+    }
+
+    // Draw on load and resize
+    var drawn = false;
+    var netObs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting && !drawn) {
+        drawn = true;
+        setTimeout(drawLinks, 100);
+      }
+    }, { threshold: 0.3 });
+    netObs.observe(canvas);
+    window.addEventListener('resize', function() { if (drawn) drawLinks(); });
+  })();
+
+
 </script>
 
 <!-- ══════════════════════════════════════ DOSSIER MODAL -->
@@ -13085,6 +13613,68 @@ function pvCopyLink() {
 </button>
 
 <div class="ase-glyph-field" id="aseGlyphField" aria-hidden="true"></div>
+
+
+<!-- ══════════════════════════════════════ OPERATIVE BRIEFING MODAL -->
+<div class="op-overlay" id="opOverlay" onclick="if(event.target===this)closeOpModal()">
+  <div class="op-modal" id="opModal">
+    <div class="op-stamp">ORACLE INTELLIGENCE COLLECTIVE</div>
+    <div class="op-agency">LAGOS — CLASSIFIED RECRUITMENT FILE</div>
+    <div class="op-divider"></div>
+    <div class="op-num-row">
+      <span class="op-num-label">OPERATIVE</span>
+      <span class="op-num" id="opNum">#0000</span>
+    </div>
+    <div class="op-classification" id="opClass">ASẸ SYMPATHIZER — CLEARANCE: LEVEL 1</div>
+    <div class="op-divider"></div>
+    <div class="op-welcome" id="opWelcome">
+      The Oracle has been watching this city for 617 years.<br>
+      He does not send for people without reason.<br>
+      You were sent for. Act accordingly.
+    </div>
+    <div class="op-directive">
+      <span class="op-dir-label">DIRECTIVE:</span>
+      <span class="op-dir-text" id="opDirective">Monitor. Report. Do not engage The Architect's agents.</span>
+    </div>
+    <div class="op-footer-row">
+      <div class="op-issued">ISSUED: <span id="opDate">—</span></div>
+      <div class="op-auth">AUTH: ORACLE · CLEARANCE Ω · LAGOS NODE</div>
+    </div>
+    <div class="op-actions">
+      <button class="op-share-btn" onclick="shareOperativeCard()">◈ SHARE YOUR BRIEFING</button>
+      <button class="op-close-btn" onclick="closeOpModal()">DISMISS</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ ORISHA DOSSIER MODAL -->
+<div class="orisha-overlay" id="orishaOverlay" onclick="if(event.target===this)closeOrishaModal()">
+  <div class="orisha-modal" id="orishaModal">
+    <button class="orisha-close" onclick="closeOrishaModal()">✕ CLOSE FILE</button>
+    <div class="orisha-stamp">YORUBA COSMOLOGY — CLASSIFIED INTELLIGENCE</div>
+    <div class="orisha-name-block">
+      <div class="orisha-name" id="orishaName">—</div>
+      <div class="orisha-yoruba" id="orishaYoruba">—</div>
+    </div>
+    <div class="orisha-domain-tag" id="orisha-domain-tag">—</div>
+    <div class="orisha-body-grid">
+      <div>
+        <div class="orisha-section-lbl">DOMAIN</div>
+        <div class="orisha-text" id="orisha-domain">—</div>
+        <div class="orisha-section-lbl" style="margin-top:1.2rem">MANIFESTATION IN LAGOS</div>
+        <div class="orisha-text" id="orisha-manifests">—</div>
+        <div class="orisha-section-lbl" style="margin-top:1.2rem">VESSEL IN THE COMIC</div>
+        <div class="orisha-vessel" id="orisha-vessel">—</div>
+      </div>
+      <div>
+        <div class="orisha-section-lbl">ORACLE INTELLIGENCE NOTE</div>
+        <div class="orisha-intel" id="orisha-intel">—</div>
+        <div class="orisha-section-lbl" style="margin-top:1.2rem">COMIC APPEARANCES</div>
+        <div class="orisha-appearances" id="orisha-appearances">—</div>
+      </div>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
