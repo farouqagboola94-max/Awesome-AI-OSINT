@@ -5980,6 +5980,154 @@ body.ase-vision .ase-glyph-field { display:block; }
 @media(max-width:860px){.fdw-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.fdw-grid{grid-template-columns:1fr}}
 </style>
+<style id="v9-styles">
+/* ============ WANTED BOUNTY BOARD ============ */
+#wanted-board{background:#0c0800;padding:80px 0;position:relative;overflow:hidden}
+#wanted-board::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(244,184,0,.015) 0px,rgba(244,184,0,.015) 1px,transparent 1px,transparent 60px);pointer-events:none}
+.wb-wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+.wb-filter-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px}
+.wb-filter-btn{background:transparent;border:1px solid rgba(255,255,255,.12);color:#888;padding:6px 16px;font-size:.62rem;letter-spacing:.12em;cursor:pointer;border-radius:2px;font-family:'Courier New',monospace;transition:all .2s}
+.wb-filter-btn:hover,.wb-filter-btn.active{border-color:#F4B800;color:#F4B800;background:rgba(244,184,0,.06)}
+.wb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px}
+.wanted-card{background:linear-gradient(150deg,#130e03,#0c0900);border:1px solid rgba(244,184,0,.18);border-radius:3px;padding:18px 14px;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;cursor:pointer}
+.wanted-card:hover{transform:translateY(-3px) rotate(.4deg);box-shadow:0 8px 30px rgba(0,0,0,.7)}
+.wanted-card::before{content:'';position:absolute;inset:3px;border:1px solid rgba(244,184,0,.07);border-radius:2px;pointer-events:none}
+.wanted-card.da-filed{border-color:rgba(196,30,58,.25)}
+.wanted-card.pc-filed{border-color:rgba(244,184,0,.25)}
+.wanted-card.oc-filed{border-color:rgba(0,201,177,.25)}
+.wb-seal{position:absolute;top:-6px;right:-6px;width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.44rem;letter-spacing:.06em;font-weight:900;text-align:center;line-height:1.1;padding:8px}
+.wb-seal.da{background:rgba(196,30,58,.12);border:1.5px solid rgba(196,30,58,.4);color:#C41E3A}
+.wb-seal.pc{background:rgba(244,184,0,.08);border:1.5px solid rgba(244,184,0,.35);color:#F4B800}
+.wb-seal.oc{background:rgba(0,201,177,.08);border:1.5px solid rgba(0,201,177,.3);color:#00C9B1}
+.wb-header-line{font-size:.52rem;letter-spacing:.18em;color:#888;margin-bottom:6px;border-bottom:1px solid rgba(255,255,255,.06);padding-bottom:4px}
+.wb-wanted-stamp{font-size:1.55rem;font-weight:900;letter-spacing:.12em;line-height:1;color:#C41E3A;text-shadow:0 0 20px rgba(196,30,58,.4);margin-bottom:6px}
+.wb-wanted-stamp.alive{color:#F4B800;text-shadow:0 0 20px rgba(244,184,0,.4)}
+.wb-wanted-stamp.acquire{color:#00C9B1;text-shadow:0 0 20px rgba(0,201,177,.3)}
+.wb-char-emo{font-size:2.4rem;margin:8px 0;display:block;filter:drop-shadow(0 0 8px rgba(255,255,255,.1))}
+.wb-name{font-size:.72rem;font-weight:800;letter-spacing:.08em;color:#f0ece4;margin-bottom:2px}
+.wb-codename{font-size:.6rem;letter-spacing:.1em;color:#888;margin-bottom:10px}
+.wb-bounty-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;border-top:1px solid rgba(255,255,255,.06);padding-top:8px}
+.wb-bounty-label{font-size:.55rem;letter-spacing:.1em;color:#666}
+.wb-bounty-amt{font-size:.78rem;font-weight:700;color:#F4B800;font-family:'Courier New',monospace}
+.wb-status-badge{display:inline-block;font-size:.55rem;letter-spacing:.1em;padding:2px 7px;border-radius:2px;margin-bottom:8px}
+.wb-status-badge.at-large{background:rgba(196,30,58,.15);color:#C41E3A;border:1px solid rgba(196,30,58,.3)}
+.wb-status-badge.unknown{background:rgba(244,184,0,.1);color:#F4B800;border:1px solid rgba(244,184,0,.25)}
+.wb-status-badge.protected{background:rgba(0,201,177,.1);color:#00C9B1;border:1px solid rgba(0,201,177,.25)}
+.wb-offense{font-size:.62rem;color:#888;line-height:1.5;border-top:1px solid rgba(255,255,255,.06);padding-top:8px;font-family:'Courier New',monospace}
+.wb-last-seen{font-size:.58rem;color:#555;margin-top:6px;font-family:'Courier New',monospace}
+@media(max-width:500px){.wb-grid{grid-template-columns:1fr 1fr}}
+
+/* ============ MISSION DISPATCH TERMINAL ============ */
+#mission-dispatch{background:#050008;padding:80px 0}
+.mdt-wrap{max-width:980px;margin:0 auto;padding:0 24px}
+.mdt-board{background:#000;border:1px solid rgba(0,201,177,.15);border-radius:6px;overflow:hidden;box-shadow:0 0 40px rgba(0,201,177,.04)}
+.mdt-board-header{display:grid;grid-template-columns:auto 1fr auto auto auto;gap:16px;align-items:center;padding:12px 20px;background:rgba(0,201,177,.05);border-bottom:1px solid rgba(0,201,177,.1);font-size:.58rem;letter-spacing:.14em;color:#00C9B1;font-family:'Courier New',monospace}
+.mdt-mission{display:grid;grid-template-columns:56px 1fr;border-bottom:1px solid rgba(255,255,255,.04);cursor:pointer;transition:background .15s}
+.mdt-mission:hover{background:rgba(255,255,255,.02)}
+.mdt-mission.expanded{background:rgba(0,0,0,.4)}
+.mdt-mission-main{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;padding:14px 20px}
+.mdt-status-col{display:flex;align-items:center;justify-content:center;border-right:1px solid rgba(255,255,255,.04);padding:14px 0}
+.mdt-status-dot{width:10px;height:10px;border-radius:50%}
+.mdt-status-dot.active{background:#00C9B1;box-shadow:0 0 8px rgba(0,201,177,.7);animation:dot-pulse 2s infinite}
+.mdt-status-dot.compromised{background:#C41E3A;box-shadow:0 0 8px rgba(196,30,58,.7);animation:dot-pulse 1s infinite}
+.mdt-status-dot.complete{background:#555}
+.mdt-status-dot.unassigned{background:#F4B800;box-shadow:0 0 8px rgba(244,184,0,.6);animation:dot-pulse 3s infinite}
+@keyframes dot-pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.mdt-mission-id{font-size:.58rem;letter-spacing:.1em;color:#555;font-family:'Courier New',monospace;margin-bottom:2px}
+.mdt-mission-title{font-size:.78rem;color:#f0ece4;font-weight:600;margin-bottom:4px}
+.mdt-mission-assignee{font-size:.62rem;color:#888;font-family:'Courier New',monospace}
+.mdt-mission-threat{font-size:.6rem;letter-spacing:.08em;padding:2px 8px;border-radius:2px;white-space:nowrap}
+.mdt-mission-threat.alpha{background:rgba(196,30,58,.15);color:#C41E3A;border:1px solid rgba(196,30,58,.25)}
+.mdt-mission-threat.beta{background:rgba(244,184,0,.1);color:#F4B800;border:1px solid rgba(244,184,0,.2)}
+.mdt-mission-threat.gamma{background:rgba(0,201,177,.1);color:#00C9B1;border:1px solid rgba(0,201,177,.2)}
+.mdt-brief{display:none;padding:16px 20px 16px 76px;border-top:1px solid rgba(255,255,255,.04);background:rgba(0,0,0,.3)}
+.mdt-brief.open{display:block}
+.mdt-brief-label{font-size:.58rem;letter-spacing:.14em;color:#555;font-family:'Courier New',monospace;margin-bottom:6px}
+.mdt-brief-body{font-size:.74rem;color:#a09890;line-height:1.6;font-family:'Courier New',monospace}
+.mdt-volunteer-btn{margin-top:12px;background:transparent;border:1px solid #F4B800;color:#F4B800;padding:7px 18px;font-size:.62rem;letter-spacing:.12em;cursor:pointer;border-radius:2px;font-family:'Courier New',monospace;transition:all .2s}
+.mdt-volunteer-btn:hover{background:#F4B800;color:#000}
+.mdt-status-label{font-size:.56rem;letter-spacing:.1em;writing-mode:vertical-rl;color:#555;font-family:'Courier New',monospace;padding:4px}
+@media(max-width:600px){.mdt-mission-main{grid-template-columns:1fr}}
+
+/* ============ OPERATIVE ID CARD ============ */
+#op-id-generator{background:#030006;padding:80px 0}
+.oidg-wrap{max-width:860px;margin:0 auto;padding:0 24px}
+.oidg-layout{display:grid;grid-template-columns:1fr 320px;gap:32px;align-items:start}
+.oidg-form{background:rgba(5,0,12,.7);border:1px solid rgba(255,255,255,.07);border-radius:6px;padding:24px}
+.oidg-form-label{font-size:.6rem;letter-spacing:.12em;color:#666;margin-bottom:5px;display:block}
+.oidg-input{width:100%;background:#000;border:1px solid rgba(255,255,255,.1);color:#f0ece4;padding:9px 12px;font-size:.8rem;border-radius:3px;outline:none;margin-bottom:16px;font-family:'Courier New',monospace;box-sizing:border-box}
+.oidg-input:focus{border-color:#F4B800}
+.oidg-select{width:100%;background:#000;border:1px solid rgba(255,255,255,.1);color:#ccc;padding:9px 12px;font-size:.76rem;border-radius:3px;outline:none;margin-bottom:16px;cursor:pointer;box-sizing:border-box}
+.oidg-select:focus{border-color:#F4B800}
+.oidg-generate-btn{width:100%;background:linear-gradient(135deg,rgba(244,184,0,.08),rgba(244,184,0,.04));border:1px solid #F4B800;color:#F4B800;padding:11px;font-size:.72rem;letter-spacing:.14em;cursor:pointer;border-radius:3px;font-family:'Courier New',monospace;transition:all .2s;margin-top:4px}
+.oidg-generate-btn:hover{background:#F4B800;color:#000}
+/* The ID Card */
+.op-id-card{background:linear-gradient(135deg,#08000f,#0d0520);border:2px solid rgba(244,184,0,.35);border-radius:6px;padding:0;overflow:hidden;position:relative;box-shadow:0 0 30px rgba(244,184,0,.06),inset 0 0 40px rgba(0,0,0,.5)}
+.op-id-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#F4B800,transparent)}
+.oid-header{background:rgba(0,0,0,.5);padding:12px 16px;border-bottom:1px solid rgba(244,184,0,.15);text-align:center}
+.oid-header-title{font-size:.56rem;letter-spacing:.18em;color:#F4B800;font-weight:700}
+.oid-header-sub{font-size:.5rem;letter-spacing:.12em;color:#555;margin-top:2px}
+.oid-body{padding:16px}
+.oid-row1{display:grid;grid-template-columns:72px 1fr;gap:12px;margin-bottom:14px}
+.oid-avatar{width:72px;height:72px;border:2px solid rgba(244,184,0,.3);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:2.2rem;background:rgba(0,0,0,.4)}
+.oid-info{display:flex;flex-direction:column;gap:3px;justify-content:center}
+.oid-field{display:flex;flex-direction:column}
+.oid-field-label{font-size:.48rem;letter-spacing:.14em;color:#555;font-family:'Courier New',monospace}
+.oid-field-value{font-size:.78rem;color:#f0ece4;font-weight:700;letter-spacing:.04em}
+.oid-field-value.gold{color:#F4B800}
+.oid-field-value.teal{color:#00C9B1}
+.oid-divider{border:none;border-top:1px solid rgba(255,255,255,.06);margin:10px 0}
+.oid-stats-row{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px}
+.oid-stat{display:flex;flex-direction:column;gap:3px}
+.oid-stat-label{font-size:.5rem;letter-spacing:.1em;color:#666;font-family:'Courier New',monospace}
+.oid-stat-bar-wrap{display:flex;align-items:center;gap:5px}
+.oid-stat-bar{height:4px;border-radius:2px;background:linear-gradient(90deg,rgba(244,184,0,.3),#F4B800);transition:width .8s cubic-bezier(.2,.8,.3,1)}
+.oid-stat-val{font-size:.55rem;color:#888;font-family:'Courier New',monospace}
+.oid-barcode{display:flex;gap:1px;align-items:flex-end;height:24px;margin-top:10px;overflow:hidden}
+.oid-barcode-bar{background:rgba(244,184,0,.6);border-radius:0}
+.oid-card-footer{display:flex;justify-content:space-between;align-items:center;padding:8px 16px;background:rgba(0,0,0,.4);border-top:1px solid rgba(244,184,0,.1)}
+.oid-clearance-badge{font-size:.55rem;letter-spacing:.12em;padding:3px 8px;border-radius:2px;font-family:'Courier New',monospace}
+.oid-clearance-badge.omega{background:rgba(196,30,58,.2);color:#C41E3A;border:1px solid rgba(196,30,58,.4)}
+.oid-clearance-badge.alpha{background:rgba(244,184,0,.15);color:#F4B800;border:1px solid rgba(244,184,0,.35)}
+.oid-clearance-badge.delta{background:rgba(0,201,177,.12);color:#00C9B1;border:1px solid rgba(0,201,177,.3)}
+.oid-clearance-badge.gamma{background:rgba(148,0,211,.15);color:#9400d3;border:1px solid rgba(148,0,211,.3)}
+.oid-clearance-badge.beta{background:rgba(50,50,50,.3);color:#aaa;border:1px solid rgba(255,255,255,.15)}
+.oid-issue-date{font-size:.5rem;color:#444;font-family:'Courier New',monospace}
+.oid-copy-btn{display:block;width:calc(100% - 32px);margin:0 16px 16px;background:transparent;border:1px solid rgba(255,255,255,.1);color:#888;padding:7px;font-size:.6rem;letter-spacing:.1em;cursor:pointer;border-radius:2px;font-family:'Courier New',monospace;transition:all .2s}
+.oid-copy-btn:hover{border-color:#00C9B1;color:#00C9B1}
+.oid-placeholder{display:flex;align-items:center;justify-content:center;height:340px;border:1px dashed rgba(255,255,255,.1);border-radius:4px;color:#444;font-size:.72rem;font-family:'Courier New',monospace;letter-spacing:.1em;text-align:center;padding:20px;line-height:1.6}
+@media(max-width:700px){.oidg-layout{grid-template-columns:1fr}.op-id-card{margin-top:20px}}
+
+/* ============ LAGOS TERRITORY MAP CONTROLS ============ */
+.map-territory-controls{padding:20px 24px 0;max-width:840px;margin:0 auto}
+.map-territory-toggle{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.map-terr-btn{background:transparent;border:1px solid rgba(255,255,255,.1);color:#777;padding:6px 14px;font-size:.6rem;letter-spacing:.1em;cursor:pointer;border-radius:2px;font-family:'Courier New',monospace;transition:all .2s}
+.map-terr-btn:hover{border-color:rgba(255,255,255,.25);color:#ccc}
+.map-terr-btn.active-all{border-color:rgba(255,255,255,.4);color:#f0ece4}
+.map-terr-btn.active-oracle{border-color:#00C9B1;color:#00C9B1;background:rgba(0,201,177,.06)}
+.map-terr-btn.active-da{border-color:#C41E3A;color:#C41E3A;background:rgba(196,30,58,.06)}
+.map-terr-btn.active-pc{border-color:#F4B800;color:#F4B800;background:rgba(244,184,0,.06)}
+.map-territory-breakdown{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.map-terr-stat{text-align:center;padding:10px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.06);border-radius:3px}
+.map-terr-stat-pct{font-size:1.2rem;font-weight:800;font-family:'Courier New',monospace}
+.map-terr-stat-pct.oracle{color:#00C9B1}
+.map-terr-stat-pct.da{color:#C41E3A}
+.map-terr-stat-pct.pc{color:#F4B800}
+.map-terr-stat-pct.unc{color:#555}
+.map-terr-stat-label{font-size:.52rem;letter-spacing:.1em;color:#666;margin-top:2px;line-height:1.3}
+/* Zone territory highlight classes */
+.zone-oracle-hl .zone-fill{fill:#00C9B1 !important;opacity:.18 !important}
+.zone-oracle-hl .zone-border{stroke:#00C9B1 !important;stroke-opacity:.7 !important}
+.zone-da-hl .zone-fill{fill:#C41E3A !important;opacity:.18 !important}
+.zone-da-hl .zone-border{stroke:#C41E3A !important;stroke-opacity:.7 !important}
+.zone-pc-hl .zone-fill{fill:#F4B800 !important;opacity:.14 !important}
+.zone-pc-hl .zone-border{stroke:#F4B800 !important;stroke-opacity:.6 !important}
+.zone-contested-hl .zone-fill{opacity:.06 !important}
+.zone-dimmed .zone-fill{opacity:.02 !important}
+.zone-dimmed .zone-border{stroke-opacity:.1 !important}
+.zone-dimmed circle{opacity:.15 !important}
+.zone-dimmed text{opacity:.15 !important}
+</style>
 </head>
 <body>
 
@@ -6659,6 +6807,20 @@ body.ase-vision .ase-glyph-field { display:block; }
     <p class="reveal" style="max-width:560px;font-size:0.88rem;line-height:1.8;color:rgba(240,237,229,0.55);margin-top:1rem;">Every street, every market, every bridge is a contested zone. Hover or tap a district to learn what the city hides beneath its noise.</p>
   </div>
 
+  <div class="map-territory-controls reveal">
+    <div class="map-territory-toggle">
+      <button class="map-terr-btn active-all" onclick="setMapFaction('all',this)">ALL ZONES</button>
+      <button class="map-terr-btn" onclick="setMapFaction('oracle',this)">👁 ORACLE TERRITORY</button>
+      <button class="map-terr-btn" onclick="setMapFaction('da',this)">🜏 DARK ASSEMBLY</button>
+      <button class="map-terr-btn" onclick="setMapFaction('pc',this)">☽ PALE COUNCIL</button>
+    </div>
+    <div class="map-territory-breakdown">
+      <div class="map-terr-stat"><div class="map-terr-stat-pct oracle">35%</div><div class="map-terr-stat-label">ORACLE INFLUENCE</div></div>
+      <div class="map-terr-stat"><div class="map-terr-stat-pct da">40%</div><div class="map-terr-stat-label">DARK ASSEMBLY CONTROL</div></div>
+      <div class="map-terr-stat"><div class="map-terr-stat-pct pc">15%</div><div class="map-terr-stat-label">PALE COUNCIL PATROLS</div></div>
+      <div class="map-terr-stat"><div class="map-terr-stat-pct unc">10%</div><div class="map-terr-stat-label">UNCONTROLLED / VOID</div></div>
+    </div>
+  </div>
   <div class="map-container reveal">
     <div class="map-svg-wrap">
       <svg id="lagosMapSvg" viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
@@ -7739,6 +7901,181 @@ body.ase-vision .ase-glyph-field { display:block; }
 
 
 <!-- ══════════════════════════════════════ ORACLE TERMINAL -->
+<!-- ════ MISSION DISPATCH TERMINAL ════ -->
+<section id="mission-dispatch">
+  <div class="mdt-wrap">
+    <div class="section-header reveal">
+      <div class="section-label">ORACLE OPERATIONS — LIVE FEED</div>
+      <h2 class="section-title">MISSION <span class="gold">DISPATCH</span></h2>
+      <p class="section-sub">Active Oracle field operations across the Lagos theatre</p>
+    </div>
+    <div class="mdt-board reveal">
+      <div class="mdt-board-header">
+        <span>ST</span>
+        <span>MISSION BRIEF</span>
+        <span>ASSIGNED</span>
+        <span>LOCATION</span>
+        <span>THREAT</span>
+      </div>
+
+      <!-- Mission 1 — ACTIVE -->
+      <div class="mdt-mission" onclick="toggleMission('mdt1')">
+        <div class="mdt-status-col">
+          <div class="mdt-status-dot active"></div>
+          <div class="mdt-status-label">ACTIVE</div>
+        </div>
+        <div>
+          <div class="mdt-mission-main">
+            <div>
+              <div class="mdt-mission-id">OIC-007 — ARC I</div>
+              <div class="mdt-mission-title">TRACK ASSEMBLY EXTRACTION DEVICE</div>
+              <div class="mdt-mission-assignee">▸ Catalyst (Bayo) + Iron Wolf</div>
+            </div>
+            <div class="mdt-mission-threat alpha">ALPHA</div>
+          </div>
+          <div class="mdt-brief" id="mdt1">
+            <div class="mdt-brief-label">MISSION BRIEFING — CLASSIFIED</div>
+            <div class="mdt-brief-body">Dark Assembly has activated an ASẹ extraction device of unknown capability. Field intelligence suggests it is mobile and operating from Balogun or Mushin sectors. Catalyst and Iron Wolf are tasked with locating and disabling the device before Phase 3 harvest operations begin. Contact with Pale Council enforcers is highly probable. Lethal countermeasures authorised.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mission 2 — ACTIVE -->
+      <div class="mdt-mission" onclick="toggleMission('mdt2')">
+        <div class="mdt-status-col">
+          <div class="mdt-status-dot active"></div>
+          <div class="mdt-status-label">ACTIVE</div>
+        </div>
+        <div>
+          <div class="mdt-mission-main">
+            <div>
+              <div class="mdt-mission-id">OIC-009 — ARC I</div>
+              <div class="mdt-mission-title">CIVILIAN PROTECTION — BALOGUN MARKET</div>
+              <div class="mdt-mission-assignee">▸ Thunderstrike (Amara)</div>
+            </div>
+            <div class="mdt-mission-threat beta">BETA</div>
+          </div>
+          <div class="mdt-brief" id="mdt2">
+            <div class="mdt-brief-label">MISSION BRIEFING — CLASSIFIED</div>
+            <div class="mdt-brief-body">Assembly operatives sighted in Balogun Market, suspected to be harvesting low-level ASẹ from unawakened civilians. Thunderstrike is deployed to identify targets, disrupt harvest operations, and ensure civilian evacuation where required. Thunderstrike is advised to maintain frequency control — a repeat of the market surge event cannot occur.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mission 3 — COMPROMISED -->
+      <div class="mdt-mission" onclick="toggleMission('mdt3')">
+        <div class="mdt-status-col">
+          <div class="mdt-status-dot compromised"></div>
+          <div class="mdt-status-label">COMPRO</div>
+        </div>
+        <div>
+          <div class="mdt-mission-main">
+            <div>
+              <div class="mdt-mission-id">OIC-004 — INFILTRATION</div>
+              <div class="mdt-mission-title">INFILTRATE PALE COUNCIL MEETING</div>
+              <div class="mdt-mission-assignee">▸ The Mirror (Zara) — STATUS UNKNOWN</div>
+            </div>
+            <div class="mdt-mission-threat alpha">ALPHA</div>
+          </div>
+          <div class="mdt-brief" id="mdt3">
+            <div class="mdt-brief-label">MISSION STATUS — COMPROMISED ⚠</div>
+            <div class="mdt-brief-body">The Mirror was deployed to infiltrate a Pale Council convening at Eko Atlantic upper spire. Last confirmed contact: 04:12hrs. Mission is now classified as compromised — identity breach suspected. Oracle is assessing whether Zara's cover is blown or whether her silence is tactical. Recommend standby protocols. Do not send extraction until mirror comms are re-established.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mission 4 — COMPLETE -->
+      <div class="mdt-mission" onclick="toggleMission('mdt4')">
+        <div class="mdt-status-col">
+          <div class="mdt-status-dot complete"></div>
+          <div class="mdt-status-label">DONE</div>
+        </div>
+        <div>
+          <div class="mdt-mission-main">
+            <div>
+              <div class="mdt-mission-id">OIC-001 — ARCHIVE</div>
+              <div class="mdt-mission-title">LOCATE FIRST ASẹ SURGE EPICENTRE</div>
+              <div class="mdt-mission-assignee">▸ Agent KEMI — COMPLETE</div>
+            </div>
+            <div class="mdt-mission-threat gamma">GAMMA</div>
+          </div>
+          <div class="mdt-brief" id="mdt4">
+            <div class="mdt-brief-label">MISSION ARCHIVE — COMPLETE</div>
+            <div class="mdt-brief-body">Agent KEMI successfully mapped the original Year 0 ASẹ surge epicentre to a transformer junction in Mushin sector 4. The site was secured and fitted with Oracle monitoring equipment before Dark Assembly arrived. Mission data forms the foundation of the Collective's Lagos grid energy model. Cross-reference: Catalyst File OIC-007.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mission 5 — COMPROMISED -->
+      <div class="mdt-mission" onclick="toggleMission('mdt5')">
+        <div class="mdt-status-col">
+          <div class="mdt-status-dot compromised"></div>
+          <div class="mdt-status-label">COMPRO</div>
+        </div>
+        <div>
+          <div class="mdt-mission-main">
+            <div>
+              <div class="mdt-mission-id">OIC-006 — EXTRACTION</div>
+              <div class="mdt-mission-title">EXTRACT IRON WOLF FROM PALE PURSUIT</div>
+              <div class="mdt-mission-assignee">▸ [REDACTED] — CONTACT LOST</div>
+            </div>
+            <div class="mdt-mission-threat alpha">ALPHA</div>
+          </div>
+          <div class="mdt-brief" id="mdt5">
+            <div class="mdt-brief-label">MISSION STATUS — COMPROMISED ⚠</div>
+            <div class="mdt-brief-body">An Oracle extraction team was dispatched to intercept Iron Wolf before Pale Council wardens could close in after the Mushin underground incident. The team made contact and [REDACTED]. Iron Wolf's current location remains unknown. Pale Council warden units reported [REDACTED]. Oracle is treating the loss of this team as a priority investigation. All details sealed pending review.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mission 6 — COMPLETE -->
+      <div class="mdt-mission" onclick="toggleMission('mdt6')">
+        <div class="mdt-status-col">
+          <div class="mdt-status-dot complete"></div>
+          <div class="mdt-status-label">DONE</div>
+        </div>
+        <div>
+          <div class="mdt-mission-main">
+            <div>
+              <div class="mdt-mission-id">OIC-003 — ARCHIVE</div>
+              <div class="mdt-mission-title">MAP THIRD MAINLAND BRIDGE ENERGY NODES</div>
+              <div class="mdt-mission-assignee">▸ CIPHER-7 — COMPLETE</div>
+            </div>
+            <div class="mdt-mission-threat gamma">GAMMA</div>
+          </div>
+          <div class="mdt-brief" id="mdt6">
+            <div class="mdt-brief-label">MISSION ARCHIVE — COMPLETE</div>
+            <div class="mdt-brief-body">CIPHER-7 completed a full spectral survey of the Third Mainland Bridge pylons. 14 active ASẹ nodes confirmed — each one drawing from an older, pre-colonial energy current the Oracle has no framework to explain. Bridge node data archived and flagged for Orisha correlation research. Recommendation: Do not allow Assembly access to these nodes under any circumstances.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mission 7 — UNASSIGNED -->
+      <div class="mdt-mission" onclick="toggleMission('mdt7')">
+        <div class="mdt-status-col">
+          <div class="mdt-status-dot unassigned"></div>
+          <div class="mdt-status-label">OPEN</div>
+        </div>
+        <div>
+          <div class="mdt-mission-main">
+            <div>
+              <div class="mdt-mission-id">OIC-011 — UNASSIGNED</div>
+              <div class="mdt-mission-title">INTERCEPT ASSEMBLY SHIPMENT — MUSHIN</div>
+              <div class="mdt-mission-assignee">▸ VOLUNTEER REQUIRED</div>
+            </div>
+            <div class="mdt-mission-threat alpha">ALPHA</div>
+          </div>
+          <div class="mdt-brief" id="mdt7">
+            <div class="mdt-brief-label">MISSION BRIEFING — OPERATIVE REQUIRED</div>
+            <div class="mdt-brief-body">Dark Assembly is moving a shipment of raw ASẹ-harvested energy cells through Mushin. Window is narrow — 90 minutes between 03:00 and 04:30hrs. All primary operatives are committed. The Oracle requires a volunteer to intercept the shipment, destroy or secure the cells, and exit without engaging the Assembly escort directly. This mission has no guaranteed extraction. Clearance: Delta minimum.</div>
+            <button class="mdt-volunteer-btn" onclick="volunteerForMission()">VOLUNTEER FOR THIS MISSION</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
 <section id="oracle-terminal">
     <img class="section-photo-bg" src="./assets/industrial.jpg" alt="Lagos industrial neon" loading="lazy" aria-hidden="true">
   <div class="terminal-wrap">
@@ -7921,6 +8258,127 @@ body.ase-vision .ase-glyph-field { display:block; }
 </section>
 
 <!-- ============================================================ DARK ASSEMBLY — VILLAINS -->
+<!-- ════ WANTED BOUNTY BOARD ════ -->
+<section id="wanted-board">
+  <div class="wb-wrap">
+    <div class="section-header reveal">
+      <div class="section-label">CLASSIFIED BOUNTIES — DARK ASSEMBLY INTEL FEED</div>
+      <h2 class="section-title">WANTED <span class="gold">BOARD</span></h2>
+      <p class="section-sub">Active contracts filed across Oracle, Dark Assembly, and Pale Council registries</p>
+    </div>
+    <div class="wb-filter-row">
+      <button class="wb-filter-btn active" onclick="filterWanted('all',this)">ALL OPERATIVES</button>
+      <button class="wb-filter-btn" onclick="filterWanted('da',this)">DARK ASSEMBLY</button>
+      <button class="wb-filter-btn" onclick="filterWanted('pc',this)">PALE COUNCIL</button>
+      <button class="wb-filter-btn" onclick="filterWanted('oc',this)">ORACLE</button>
+    </div>
+    <div class="wb-grid reveal" id="wantedGrid">
+
+      <!-- BAYO -->
+      <div class="wanted-card da-filed" data-filed="da">
+        <div class="wb-seal da">DARK ASSEMBLY</div>
+        <div class="wb-header-line">ORACLE INTELLIGENCE COLLECTIVE</div>
+        <div class="wb-wanted-stamp">WANTED</div>
+        <span class="wb-char-emo">⚡</span>
+        <div class="wb-name">BAYO ADEYEMI</div>
+        <div class="wb-codename">CODENAME: CATALYST</div>
+        <div class="wb-bounty-row">
+          <span class="wb-bounty-label">BOUNTY</span>
+          <span class="wb-bounty-amt">2.4M ASẹ CR</span>
+        </div>
+        <div class="wb-status-badge at-large">AT LARGE</div>
+        <div class="wb-offense">Unauthorized ASẹ detonation. Resisting Assembly acquisition. Energy output classified as Tier-Omega threat.</div>
+        <div class="wb-last-seen">LAST SEEN: Mushin sector 4 — 03:40hrs</div>
+      </div>
+
+      <!-- AMARA -->
+      <div class="wanted-card da-filed" data-filed="da">
+        <div class="wb-seal da">DARK ASSEMBLY</div>
+        <div class="wb-header-line">JOINT REGISTRY: DA + PALE COUNCIL</div>
+        <div class="wb-wanted-stamp alive">DEAD OR ALIVE</div>
+        <span class="wb-char-emo">⚡</span>
+        <div class="wb-name">AMARA OKAFOR</div>
+        <div class="wb-codename">CODENAME: THUNDERSTRIKE</div>
+        <div class="wb-bounty-row">
+          <span class="wb-bounty-label">BOUNTY</span>
+          <span class="wb-bounty-amt">1.8M ASẹ CR</span>
+        </div>
+        <div class="wb-status-badge at-large">DANGEROUS — ACTIVE</div>
+        <div class="wb-offense">Hospitalised 3 Council enforcers. Lightning frequency exceeds containment. Designated Priority-DELTA.</div>
+        <div class="wb-last-seen">LAST SEEN: Balogun Market — 02:17hrs</div>
+      </div>
+
+      <!-- IKENNA -->
+      <div class="wanted-card pc-filed" data-filed="pc">
+        <div class="wb-seal pc">PALE COUNCIL</div>
+        <div class="wb-header-line">PALE COUNCIL — PRIORITY OMEGA</div>
+        <div class="wb-wanted-stamp">WANTED</div>
+        <span class="wb-char-emo">🐺</span>
+        <div class="wb-name">IKENNA OKAFOR</div>
+        <div class="wb-codename">CODENAME: IRON WOLF</div>
+        <div class="wb-bounty-row">
+          <span class="wb-bounty-label">BOUNTY</span>
+          <span class="wb-bounty-amt">3.1M ASẹ CR</span>
+        </div>
+        <div class="wb-status-badge unknown">LOCATION UNKNOWN</div>
+        <div class="wb-offense">Eliminated 4 Council enforcers. Physical ASẹ density exceeds suppression capacity. Extreme danger — lethal force authorised.</div>
+        <div class="wb-last-seen">LAST SEEN: [REDACTED] — timestamp unknown</div>
+      </div>
+
+      <!-- ZARA -->
+      <div class="wanted-card da-filed" data-filed="da">
+        <div class="wb-seal da">DARK ASSEMBLY</div>
+        <div class="wb-header-line">ACQUISITION PRIORITY — ALIVE ONLY</div>
+        <div class="wb-wanted-stamp acquire">ACQUIRE</div>
+        <span class="wb-char-emo">🪞</span>
+        <div class="wb-name">ZARA [SURNAME REDACTED]</div>
+        <div class="wb-codename">CODENAME: THE MIRROR</div>
+        <div class="wb-bounty-row">
+          <span class="wb-bounty-label">BOUNTY</span>
+          <span class="wb-bounty-amt">[CLASSIFIED]</span>
+        </div>
+        <div class="wb-status-badge protected">ORACLE PROTECTED</div>
+        <div class="wb-offense">Mirror ASẹ critical for Assembly infiltration ops. Reflective ability could neutralise Oracle countermeasures. Preferred alive and cooperative.</div>
+        <div class="wb-last-seen">LAST SEEN: Eko Atlantic perimeter</div>
+      </div>
+
+      <!-- THE ORACLE -->
+      <div class="wanted-card da-filed" data-filed="da">
+        <div class="wb-seal da">DARK ASSEMBLY</div>
+        <div class="wb-header-line">ARCHITECT DIRECTIVE — TERMINATE</div>
+        <div class="wb-wanted-stamp">WANTED</div>
+        <span class="wb-char-emo">👁</span>
+        <div class="wb-name">THE ORACLE [IDENTITY SEALED]</div>
+        <div class="wb-codename">CODENAME: ORACLE PRIME</div>
+        <div class="wb-bounty-row">
+          <span class="wb-bounty-label">BOUNTY</span>
+          <span class="wb-bounty-amt">5.0M ASẹ CR</span>
+        </div>
+        <div class="wb-status-badge protected">COMPOUND — PROTECTED</div>
+        <div class="wb-offense">Organising active resistance to harvest protocol. Collective leadership coordinating all 4 operatives. Neutralise the head and the body falls.</div>
+        <div class="wb-last-seen">LAST SEEN: Oracle Compound, Eko Atlantic</div>
+      </div>
+
+      <!-- THE ARCHITECT (Oracle registry) -->
+      <div class="wanted-card oc-filed" data-filed="oc">
+        <div class="wb-seal oc">ORACLE INTEL</div>
+        <div class="wb-header-line">ORACLE INTEL — COLLECTIVE REGISTRY</div>
+        <div class="wb-wanted-stamp acquire">DETAIN</div>
+        <span class="wb-char-emo">🜏</span>
+        <div class="wb-name">THE ARCHITECT [IDENTITY UNKNOWN]</div>
+        <div class="wb-codename">CODENAME: THE ARCHITECT</div>
+        <div class="wb-bounty-row">
+          <span class="wb-bounty-label">BOUNTY</span>
+          <span class="wb-bounty-amt">7.7M ASẹ CR</span>
+        </div>
+        <div class="wb-status-badge unknown">AT LARGE — DANGEROUS</div>
+        <div class="wb-offense">Dark Assembly founder. ASẹ extraction device mastermind. Direct threat to 4M Lagos civilians. Capture alive if possible — by any means necessary.</div>
+        <div class="wb-last-seen">LAST SEEN: Eko Atlantic upper spire — [REDACTED]</div>
+      </div>
+
+    </div>
+  </div>
+</section>
 <section id="villains">
   <div class="villains-header">
     <p class="section-label reveal" style="justify-content:center">The Opposition</p>
@@ -11530,6 +11988,82 @@ body.ase-vision .ase-glyph-field { display:block; }
 </section>
 
 <!-- ============================================================ NEWSLETTER -->
+<!-- ════ OPERATIVE ID CARD GENERATOR ════ -->
+<section id="op-id-generator">
+  <div class="oidg-wrap">
+    <div class="section-header reveal">
+      <div class="section-label">ORACLE INTELLIGENCE COLLECTIVE</div>
+      <h2 class="section-title">OPERATIVE <span class="gold">ID GENERATOR</span></h2>
+      <p class="section-sub">Issue your classified Oracle Intelligence Collective field card</p>
+    </div>
+    <div class="oidg-layout reveal">
+      <div class="oidg-form">
+        <label class="oidg-form-label">OPERATIVE NAME</label>
+        <input class="oidg-input" id="oidgName" type="text" placeholder="Enter your name..." maxlength="32">
+        <label class="oidg-form-label">PRIMARY ASẸ TYPE</label>
+        <select class="oidg-select" id="oidgAse">
+          <option value="">— Select ASẹ ability —</option>
+          <option value="kinetic">KINETIC — Explosive force release</option>
+          <option value="lightning">LIGHTNING — Electromagnetic discharge</option>
+          <option value="iron">IRON-SKIN — Physical enhancement</option>
+          <option value="mirror">MIRROR — Reflection / redirection</option>
+          <option value="void">VOID — Nullification / absorption</option>
+          <option value="oracle">ORACLE — Foresight / perception</option>
+        </select>
+        <label class="oidg-form-label">ORISHA ALIGNMENT</label>
+        <select class="oidg-select" id="oidgOrisha">
+          <option value="">— Select alignment —</option>
+          <option value="sango">Ṣàngó — Storm &amp; Power</option>
+          <option value="ogun">Ògún — Iron &amp; Strength</option>
+          <option value="osun">Ọ̀ṣun — Flow &amp; Wisdom</option>
+          <option value="obatala">Obatàlá — Clarity &amp; Order</option>
+          <option value="esu">Ẹṣù — Chaos &amp; Cunning</option>
+        </select>
+        <button class="oidg-generate-btn" onclick="generateIdCard()">GENERATE FIELD CARD</button>
+      </div>
+      <div id="oidgCardWrap">
+        <div class="oid-placeholder" id="oidgPlaceholder">Fill in your details<br>and generate your<br>Oracle field card</div>
+        <div class="op-id-card" id="oidgCard" style="display:none">
+          <div class="oid-header">
+            <div class="oid-header-title">ORACLE INTELLIGENCE COLLECTIVE</div>
+            <div class="oid-header-sub">CLASSIFIED FIELD OPERATIVE CARD</div>
+          </div>
+          <div class="oid-body">
+            <div class="oid-row1">
+              <div class="oid-avatar" id="oidgAvatar">⚡</div>
+              <div class="oid-info">
+                <div class="oid-field">
+                  <span class="oid-field-label">OPERATIVE</span>
+                  <span class="oid-field-value" id="oidgDisplayName">—</span>
+                </div>
+                <div class="oid-field" style="margin-top:6px">
+                  <span class="oid-field-label">OPERATIVE NO.</span>
+                  <span class="oid-field-value gold" id="oidgOpNum">—</span>
+                </div>
+                <div class="oid-field" style="margin-top:6px">
+                  <span class="oid-field-label">ASẸ TYPE</span>
+                  <span class="oid-field-value teal" id="oidgAseDisplay">—</span>
+                </div>
+              </div>
+            </div>
+            <hr class="oid-divider">
+            <div class="oid-field" style="margin-bottom:8px">
+              <span class="oid-field-label">ORISHA ALIGNMENT</span>
+              <span class="oid-field-value" id="oidgOrishaDisplay">—</span>
+            </div>
+            <div class="oid-stats-row" id="oidgStats"></div>
+            <div class="oid-barcode" id="oidgBarcode"></div>
+          </div>
+          <div class="oid-card-footer">
+            <span class="oid-clearance-badge" id="oidgClearance">—</span>
+            <span class="oid-issue-date" id="oidgDate">—</span>
+          </div>
+          <button class="oid-copy-btn" onclick="copyIdCardBrief()">▶ COPY CLASSIFIED BRIEF</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 <section id="newsletter">
   <div class="newsletter-inner">
     <p class="section-label reveal" style="justify-content:center">Stay Connected</p>
@@ -14288,6 +14822,193 @@ function pvCopyLink() {
     });
   },{threshold:0.2});
   document.querySelectorAll('.fdw-card').forEach(function(el){observer.observe(el);});
+})();
+
+/* ====== v9 JS ====== */
+
+/* ----- WANTED BOARD FILTER ----- */
+window.filterWanted = function(faction, btn) {
+  document.querySelectorAll('.wb-filter-btn').forEach(function(b){b.classList.remove('active')});
+  btn.classList.add('active');
+  document.querySelectorAll('.wanted-card').forEach(function(card){
+    if(faction==='all' || card.getAttribute('data-filed')===faction){
+      card.style.display = '';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+};
+
+/* ----- MISSION DISPATCH TOGGLE ----- */
+window.toggleMission = function(id){
+  var el = document.getElementById(id);
+  if(!el) return;
+  el.classList.toggle('open');
+};
+
+window.volunteerForMission = function(){
+  var opNum = '#' + String(1000 + Math.floor((Date.now() % 8000))).padStart(4,'0');
+  var brief = 'OPERATIVE ' + opNum + '\n\nYou have been assigned to Mission OIC-011.\n\nMission: Intercept Dark Assembly ASẹ shipment in Mushin.\nWindow: 03:00 – 04:30hrs tonight.\nExfil: Self-directed. No extraction guaranteed.\nEquipment: Field kit at Oracle drop box, Mushin bus stop 14.\n\nGood luck, Operative. The city is counting on you.\n\n— Oracle Prime';
+  if(navigator.share){
+    navigator.share({title:'Mission OIC-011 — Volunteer Brief', text:brief}).catch(function(){});
+  } else if(navigator.clipboard){
+    navigator.clipboard.writeText(brief).then(function(){alert('Mission brief copied to clipboard!');}).catch(function(){});
+  } else {
+    alert(brief);
+  }
+};
+
+/* ----- OPERATIVE ID CARD GENERATOR ----- */
+(function(){
+  var ASE_DATA = {
+    kinetic: {label:'KINETIC',emo:'⚡',stats:{force:92,def:55,spd:74,ctrl:48,ase:82}},
+    lightning:{label:'LIGHTNING',emo:'⚡',stats:{force:78,def:49,spd:95,ctrl:52,ase:87}},
+    iron:    {label:'IRON-SKIN',emo:'🛡',stats:{force:85,def:96,spd:42,ctrl:79,ase:68}},
+    mirror:  {label:'MIRROR',emo:'🪞',stats:{force:62,def:73,spd:68,ctrl:92,ase:95}},
+    void:    {label:'VOID',emo:'🌑',stats:{force:54,def:80,spd:60,ctrl:87,ase:90}},
+    oracle:  {label:'ORACLE SIGHT',emo:'👁',stats:{force:45,def:65,spd:55,ctrl:98,ase:94}}
+  };
+  var ORISHA_DATA_V9 = {
+    sango:   {label:'Ṣàngó — Storm',bonus:'spd'},
+    ogun:    {label:'Ògún — Iron',bonus:'force'},
+    osun:    {label:'Ọ̀ṣun — Flow',bonus:'ctrl'},
+    obatala: {label:'Obatàlá — Order',bonus:'def'},
+    esu:     {label:'Ẹṣù — Chaos',bonus:'ase'}
+  };
+  var CLEARANCE = {
+    kinetic:{sango:'omega',ogun:'alpha',osun:'delta',obatala:'delta',esu:'gamma'},
+    lightning:{sango:'omega',ogun:'gamma',osun:'beta',obatala:'delta',esu:'alpha'},
+    iron:{sango:'gamma',ogun:'omega',osun:'delta',obatala:'alpha',esu:'beta'},
+    mirror:{sango:'gamma',ogun:'beta',osun:'alpha',obatala:'delta',esu:'omega'},
+    void:{sango:'beta',ogun:'gamma',osun:'delta',obatala:'beta',esu:'alpha'},
+    oracle:{sango:'delta',ogun:'beta',osun:'alpha',obatala:'omega',esu:'gamma'}
+  };
+  var CLEARANCE_LABELS = {omega:'CLEARANCE: OMEGA',alpha:'CLEARANCE: ALPHA',delta:'CLEARANCE: DELTA',gamma:'CLEARANCE: GAMMA',beta:'CLEARANCE: BETA'};
+
+  window.generateIdCard = function(){
+    var name = (document.getElementById('oidgName')||{}).value||'';
+    var aseKey = (document.getElementById('oidgAse')||{}).value||'';
+    var orishaKey = (document.getElementById('oidgOrisha')||{}).value||'';
+    if(!name.trim()||!aseKey||!orishaKey){alert('Please fill in all fields.');return;}
+    var ase = ASE_DATA[aseKey];
+    var orisha = ORISHA_DATA_V9[orishaKey];
+    var clearKey = CLEARANCE[aseKey][orishaKey];
+    var opNum = '#' + String(1000 + Math.floor((Date.now() % 8000))).padStart(4,'0');
+
+    var placeholder = document.getElementById('oidgPlaceholder');
+    var card = document.getElementById('oidgCard');
+    if(placeholder) placeholder.style.display='none';
+    if(card) card.style.display='block';
+
+    var stats = Object.assign({},ase.stats);
+    stats[orisha.bonus] = Math.min(100,(stats[orisha.bonus]||70)+12);
+
+    var el = function(id){return document.getElementById(id);};
+    if(el('oidgAvatar')) el('oidgAvatar').textContent = ase.emo;
+    if(el('oidgDisplayName')) el('oidgDisplayName').textContent = name.toUpperCase();
+    if(el('oidgOpNum')) el('oidgOpNum').textContent = opNum;
+    if(el('oidgAseDisplay')) el('oidgAseDisplay').textContent = ase.label;
+    if(el('oidgOrishaDisplay')) el('oidgOrishaDisplay').textContent = orisha.label;
+
+    var statsEl = el('oidgStats');
+    if(statsEl){
+      var STAT_MAP = {force:'FORCE',def:'DEFENCE',spd:'SPEED',ctrl:'CONTROL',ase:'ASẸ'};
+      statsEl.innerHTML = Object.entries(stats).map(function(kv){
+        var k=kv[0],v=kv[1];
+        return '<div class="oid-stat">' +
+          '<span class="oid-stat-label">'+STAT_MAP[k]+'</span>' +
+          '<div class="oid-stat-bar-wrap">' +
+          '<div class="oid-stat-bar" style="width:0" data-w="'+v+'%"></div>' +
+          '<span class="oid-stat-val">'+v+'</span>' +
+          '</div></div>';
+      }).join('');
+      setTimeout(function(){
+        statsEl.querySelectorAll('.oid-stat-bar').forEach(function(bar){
+          bar.style.width = bar.getAttribute('data-w');
+        });
+      },80);
+    }
+
+    var barEl = el('oidgBarcode');
+    if(barEl){
+      barEl.innerHTML='';
+      for(var i=0;i<38;i++){
+        var h = 8+Math.floor(Math.random()*16);
+        var w = 1+(i%5===0?1:0);
+        var span = document.createElement('div');
+        span.className='oid-barcode-bar';
+        span.style.width=w+'px';
+        span.style.height=h+'px';
+        barEl.appendChild(span);
+      }
+    }
+
+    var clEl = el('oidgClearance');
+    if(clEl){ clEl.className='oid-clearance-badge '+clearKey; clEl.textContent=CLEARANCE_LABELS[clearKey]||clearKey.toUpperCase(); }
+    var now = new Date();
+    if(el('oidgDate')) el('oidgDate').textContent = 'ISSUED: '+now.getFullYear()+'-'+(now.getMonth()+1 < 10 ? '0' : '')+(now.getMonth()+1)+'-'+(now.getDate() < 10 ? '0' : '')+now.getDate();
+
+    window._oidgBrief = 'ORACLE INTELLIGENCE COLLECTIVE\nCLASSIFIED OPERATIVE BRIEF\n\nNAME: '+name.toUpperCase()+'\nOPERATIVE: '+opNum+'\nASẸ TYPE: '+ase.label+'\nORISHA ALIGNMENT: '+orisha.label+'\nCLEARANCE: '+clearKey.toUpperCase()+'\n\nFORCE: '+stats.force+' | DEFENCE: '+stats.def+' | SPEED: '+stats.spd+' | CONTROL: '+stats.ctrl+' | ASẸ: '+stats.ase+'\n\nYou are now registered in the Oracle Collective field database.\nStay hidden. Stay awake.\n\n— Oracle Prime';
+  };
+
+  window.copyIdCardBrief = function(){
+    var brief = window._oidgBrief || 'No card generated yet.';
+    if(navigator.clipboard){
+      navigator.clipboard.writeText(brief).then(function(){
+        var btn = document.querySelector('.oid-copy-btn');
+        if(btn){btn.textContent='✓ BRIEF COPIED';setTimeout(function(){btn.textContent='▶ COPY CLASSIFIED BRIEF';},2000);}
+      }).catch(function(){alert(brief);});
+    } else { alert(brief); }
+  };
+})();
+
+/* ----- LAGOS TERRITORY MAP ----- */
+(function(){
+  var ZONE_FACTIONS = {
+    'zone-mushin': 'oracle',
+    'zone-oracle': 'oracle',
+    'zone-bridge': 'contested',
+    'zone-balogun': 'da',
+    'zone-eko': 'da',
+    'zone-iron': 'pc',
+    'zone-void': 'contested'
+  };
+
+  window.setMapFaction = function(faction, btn){
+    document.querySelectorAll('.map-terr-btn').forEach(function(b){
+      b.className='map-terr-btn';
+    });
+    btn.classList.add('active-'+faction);
+    var svg = document.getElementById('lagosMapSvg');
+    if(!svg) return;
+    Object.entries(ZONE_FACTIONS).forEach(function(kv){
+      var zoneId = kv[0], zf = kv[1];
+      var g = document.getElementById(zoneId);
+      if(!g) return;
+      g.classList.remove('zone-oracle-hl','zone-da-hl','zone-pc-hl','zone-contested-hl','zone-dimmed');
+      if(faction==='all'){
+        if(zf==='oracle') g.classList.add('zone-oracle-hl');
+        else if(zf==='da') g.classList.add('zone-da-hl');
+        else if(zf==='pc') g.classList.add('zone-pc-hl');
+        else g.classList.add('zone-contested-hl');
+      } else {
+        var match = (faction==='oracle'&&zf==='oracle')||(faction==='da'&&zf==='da')||(faction==='pc'&&zf==='pc');
+        if(match){
+          if(zf==='oracle') g.classList.add('zone-oracle-hl');
+          else if(zf==='da') g.classList.add('zone-da-hl');
+          else if(zf==='pc') g.classList.add('zone-pc-hl');
+        } else {
+          g.classList.add('zone-dimmed');
+        }
+      }
+    });
+  };
+
+  // Init: apply default 'all' territory colours on load
+  document.addEventListener('DOMContentLoaded',function(){
+    var btn = document.querySelector('.map-terr-btn.active-all');
+    if(btn) window.setMapFaction('all',btn);
+  });
 })();
 
 </script>
