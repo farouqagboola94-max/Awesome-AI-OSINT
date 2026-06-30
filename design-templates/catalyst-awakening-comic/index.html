@@ -6254,6 +6254,93 @@ body.ase-vision .ase-glyph-field { display:block; }
   .wf-channel-btn{font-size:8px;padding:10px 4px;letter-spacing:1px}
 }
 </style>
+
+<style id="v11-styles">
+/* ===== A: ASe Compatibility Matchmaker (acm-) ===== */
+.acm-wrap{max-width:900px;margin:0 auto;background:rgba(10,10,14,0.7);border:1px solid rgba(244,184,0,0.18);border-radius:6px;padding:2rem;font-family:'Courier New',monospace}
+.acm-progress{display:flex;gap:6px;margin-bottom:1.5rem}
+.acm-progress span{flex:1;height:4px;background:rgba(244,184,0,0.15);border-radius:2px;transition:background .3s}
+.acm-progress span.done{background:#F4B800}
+.acm-progress span.active{background:#C41E3A}
+.acm-q{display:none}
+.acm-q.active{display:block;animation:acmFade .4s ease}
+@keyframes acmFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.acm-q h4{color:#F4B800;font-size:1.1rem;letter-spacing:1px;margin-bottom:1.2rem}
+.acm-opts{display:grid;gap:.7rem}
+.acm-opt{background:rgba(255,255,255,0.03);border:1px solid rgba(244,184,0,0.15);color:#e8e8e8;padding:.9rem 1.1rem;border-radius:4px;text-align:left;cursor:pointer;font-family:inherit;font-size:.92rem;transition:all .2s}
+.acm-opt:hover{background:rgba(196,30,58,0.15);border-color:#C41E3A;transform:translateX(4px)}
+.acm-result{display:none;text-align:center}
+.acm-result.active{display:block;animation:acmFade .5s ease}
+.acm-card{max-width:420px;margin:0 auto;background:linear-gradient(160deg,rgba(196,30,58,0.12),rgba(0,0,0,0.5));border:2px solid #F4B800;border-radius:10px;padding:2rem 1.5rem;position:relative;overflow:hidden}
+.acm-card::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(244,184,0,0.04) 0px,rgba(244,184,0,0.04) 2px,transparent 2px,transparent 14px);pointer-events:none}
+.acm-emoji{font-size:3.5rem;margin-bottom:.5rem}
+.acm-card h3{color:#F4B800;font-size:1.6rem;letter-spacing:2px;margin-bottom:.3rem}
+.acm-card .acm-role{color:#C41E3A;font-size:.85rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:1rem}
+.acm-pct{font-size:2.8rem;font-weight:900;color:#00C9B1;margin:.5rem 0;text-shadow:0 0 18px rgba(0,201,177,0.5)}
+.acm-pct-label{font-size:.7rem;letter-spacing:3px;color:#999;margin-bottom:1rem}
+.acm-traits{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin:1rem 0}
+.acm-trait{background:rgba(244,184,0,0.1);border:1px solid rgba(244,184,0,0.3);color:#F4B800;font-size:.72rem;padding:.3rem .7rem;border-radius:20px;letter-spacing:.5px}
+.acm-quote{font-style:italic;color:#ccc;font-size:.88rem;margin:1rem 0;border-left:2px solid #C41E3A;padding-left:.8rem;text-align:left}
+.acm-retry{margin-top:1rem;background:transparent;border:1px solid rgba(244,184,0,0.4);color:#F4B800;padding:.6rem 1.4rem;border-radius:4px;cursor:pointer;font-family:'Courier New',monospace;letter-spacing:1px;font-size:.8rem}
+.acm-retry:hover{background:rgba(244,184,0,0.1)}
+
+/* ===== B: The Architect's Vault (av-) ===== */
+.av-wrap{max-width:700px;margin:0 auto;background:#0a0a0e;border:1px solid rgba(0,201,177,0.25);border-radius:6px;padding:2rem;font-family:'Courier New',monospace;box-shadow:0 0 40px rgba(0,201,177,0.06) inset}
+.av-hint{color:#888;font-size:.82rem;margin-bottom:1.2rem;line-height:1.6}
+.av-hint b{color:#00C9B1}
+.av-dials{display:flex;gap:1rem;justify-content:center;margin:1.5rem 0;flex-wrap:wrap}
+.av-dial{display:flex;flex-direction:column;align-items:center;gap:.5rem}
+.av-dial-display{width:64px;height:74px;background:rgba(0,201,177,0.06);border:1px solid rgba(0,201,177,0.35);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:2rem;color:#00C9B1;font-weight:900}
+.av-dial-btns{display:flex;flex-direction:column;gap:4px}
+.av-dial-btns button{width:64px;background:rgba(255,255,255,0.05);border:1px solid rgba(244,184,0,0.25);color:#F4B800;padding:.25rem;cursor:pointer;border-radius:3px;font-family:inherit}
+.av-dial-btns button:hover{background:rgba(244,184,0,0.15)}
+.av-submit{display:block;margin:1.5rem auto 0;background:linear-gradient(135deg,#C41E3A,#8B0000);color:#fff;border:none;padding:.85rem 2.2rem;border-radius:4px;cursor:pointer;font-family:inherit;letter-spacing:2px;font-weight:700}
+.av-submit:hover{filter:brightness(1.15)}
+.av-status{text-align:center;margin-top:1rem;font-size:.85rem;letter-spacing:1px;min-height:1.4em}
+.av-status.err{color:#C41E3A}
+.av-status.ok{color:#00C9B1}
+.av-lockout{text-align:center;color:#C41E3A;font-size:1.4rem;font-weight:900;letter-spacing:2px;margin-top:.5rem}
+.av-unlocked{display:none;margin-top:1.5rem;border-top:1px solid rgba(0,201,177,0.25);padding-top:1.5rem;animation:acmFade .6s ease}
+.av-unlocked.active{display:block}
+.av-unlocked h4{color:#00C9B1;letter-spacing:2px;margin-bottom:.7rem}
+.av-unlocked p{color:#ddd;line-height:1.7;font-size:.92rem}
+.av-attempts{text-align:center;font-size:.72rem;color:#666;margin-top:.5rem;letter-spacing:1px}
+
+/* ===== C: Operative Field Record (ofr-) ===== */
+.ofr-wrap{max-width:920px;margin:0 auto;background:rgba(10,10,14,0.75);border:1px solid rgba(244,184,0,0.18);border-radius:6px;overflow:hidden}
+.ofr-header{background:linear-gradient(135deg,rgba(196,30,58,0.25),rgba(0,0,0,0.4));padding:1.5rem 2rem;border-bottom:1px solid rgba(244,184,0,0.2);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.ofr-header h4{color:#F4B800;letter-spacing:2px;font-family:'Courier New',monospace;font-size:1rem}
+.ofr-id{color:#666;font-size:.75rem;font-family:'Courier New',monospace}
+.ofr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:rgba(244,184,0,0.1)}
+.ofr-stat{background:#0c0c10;padding:1.4rem 1.2rem;text-align:center}
+.ofr-stat .ofr-val{font-size:2.2rem;font-weight:900;color:#00C9B1;font-family:'Courier New',monospace}
+.ofr-stat .ofr-label{font-size:.7rem;color:#999;letter-spacing:1.5px;margin-top:.3rem;text-transform:uppercase}
+.ofr-log{padding:1.5rem 2rem}
+.ofr-log h5{color:#F4B800;font-size:.78rem;letter-spacing:2px;margin-bottom:.8rem;font-family:'Courier New',monospace}
+.ofr-entries{max-height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:.5rem}
+.ofr-entry{display:flex;justify-content:space-between;gap:1rem;font-size:.82rem;color:#ccc;border-left:2px solid #C41E3A;padding:.4rem .8rem;background:rgba(255,255,255,0.02);font-family:'Courier New',monospace}
+.ofr-entry .ofr-time{color:#666;font-size:.7rem;white-space:nowrap}
+.ofr-empty{color:#666;font-size:.85rem;text-align:center;padding:1.5rem 0;font-style:italic}
+.ofr-rank{padding:1rem 2rem 1.6rem;text-align:center}
+.ofr-rank-badge{display:inline-block;background:rgba(244,184,0,0.1);border:1px solid #F4B800;color:#F4B800;padding:.5rem 1.5rem;border-radius:20px;letter-spacing:2px;font-size:.85rem;font-weight:700}
+.ofr-clear{display:block;margin:0 auto 1.5rem;background:transparent;border:1px solid rgba(196,30,58,0.4);color:#C41E3A;padding:.5rem 1.3rem;border-radius:4px;cursor:pointer;font-family:'Courier New',monospace;font-size:.75rem;letter-spacing:1px}
+.ofr-clear:hover{background:rgba(196,30,58,0.1)}
+
+/* ===== D: ASe Resonance Soundboard (ars-) ===== */
+.ars-wrap{max-width:900px;margin:0 auto}
+.ars-pads{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem}
+.ars-pad{position:relative;background:rgba(255,255,255,0.03);border:1px solid rgba(244,184,0,0.2);border-radius:8px;padding:1.5rem 1rem;text-align:center;cursor:pointer;overflow:hidden;transition:transform .12s;font-family:'Courier New',monospace}
+.ars-pad:active{transform:scale(0.95)}
+.ars-pad .ars-emoji{font-size:2.2rem;display:block;margin-bottom:.5rem}
+.ars-pad .ars-name{color:#F4B800;font-size:.78rem;letter-spacing:1.5px;font-weight:700}
+.ars-pad .ars-sub{color:#888;font-size:.65rem;letter-spacing:1px;margin-top:.2rem}
+.ars-pad::after{content:'';position:absolute;inset:0;background:radial-gradient(circle,var(--ars-c,#F4B800) 0%,transparent 70%);opacity:0;transition:opacity .15s}
+.ars-pad.pulse::after{animation:arsPulse .5s ease}
+@keyframes arsPulse{0%{opacity:.55}100%{opacity:0}}
+.ars-pad.pulse{border-color:var(--ars-c,#F4B800)}
+.ars-vol{display:flex;align-items:center;gap:1rem;justify-content:center;margin-top:1.5rem;color:#999;font-size:.8rem;font-family:'Courier New',monospace}
+.ars-vol input{accent-color:#F4B800}
+</style>
 </head>
 <body>
 
@@ -10065,6 +10152,18 @@ body.ase-vision .ase-glyph-field { display:block; }
 </section>
 
 <!-- ============================================================ 5 NARRATIVE ARCS -->
+
+<section id="ase-matchmaker" style="padding:5rem 1.5rem;background:rgba(0,0,0,0.3);border-top:1px solid rgba(244,184,0,0.08);">
+  <div style="max-width:900px;margin:0 auto;text-align:center;margin-bottom:2.5rem;">
+    <h2 style="font-size:2.2rem;letter-spacing:2px;color:#fff;">A<span style="color:#F4B800">S</span>&#7865; COMPATIBILITY <span class="gold">MATCHMAKER</span></h2>
+    <p style="color:#999;margin-top:.6rem;font-family:'Courier New',monospace;font-size:.85rem;letter-spacing:1px;">ANSWER 5 QUESTIONS &mdash; THE ORACLE WILL PAIR YOU WITH YOUR ALLY</p>
+  </div>
+  <div class="acm-wrap">
+    <div class="acm-progress" id="acm-progress"></div>
+    <div id="acm-questions"></div>
+    <div class="acm-result" id="acm-result"></div>
+  </div>
+</section>
 <section id="arcs">
     <img class="section-photo-bg" src="./assets/shipyard.jpg" alt="Dark port with containers" loading="lazy" aria-hidden="true">
   <div class="arcs-header">
@@ -11311,6 +11410,20 @@ body.ase-vision .ase-glyph-field { display:block; }
 </section>
 
 <!-- ============================================================ THE KNOWN REALMS -->
+
+<section id="ase-soundboard" style="padding:5rem 1.5rem;background:rgba(0,0,0,0.45);border-top:1px solid rgba(244,184,0,0.08);">
+  <div style="max-width:900px;margin:0 auto;text-align:center;margin-bottom:2.5rem;">
+    <h2 style="font-size:2.2rem;letter-spacing:2px;color:#fff;">A<span style="color:#F4B800">S</span>&#7865; RESONANCE <span class="gold">SOUNDBOARD</span></h2>
+    <p style="color:#999;margin-top:.6rem;font-family:'Courier New',monospace;font-size:.85rem;letter-spacing:1px;">TAP A SIGNATURE TO HEAR ITS A<span style="color:#F4B800">S</span>&#7865; RESONATE</p>
+  </div>
+  <div class="ars-wrap">
+    <div class="ars-pads" id="ars-pads"></div>
+    <div class="ars-vol">
+      <span>VOLUME</span>
+      <input type="range" id="ars-volume" min="0" max="100" value="60">
+    </div>
+  </div>
+</section>
 <section id="realms">
     <img class="section-photo-bg" src="./assets/circle.jpg" alt="Glowing team circle" loading="lazy" aria-hidden="true">
   <div class="realms-header">
@@ -11734,6 +11847,29 @@ body.ase-vision .ase-glyph-field { display:block; }
 <div class="energy-beam-divider" aria-hidden="true"></div>
 
 <!-- ============================================================ ACCESS / FREEMIUM -->
+
+<section id="architects-vault" style="padding:5rem 1.5rem;background:rgba(0,0,0,0.45);border-top:1px solid rgba(0,201,177,0.1);">
+  <div style="max-width:700px;margin:0 auto;text-align:center;margin-bottom:2.5rem;">
+    <h2 style="font-size:2.2rem;letter-spacing:2px;color:#fff;">THE ARCHITECT'S <span style="color:#00C9B1">VAULT</span></h2>
+    <p style="color:#999;margin-top:.6rem;font-family:'Courier New',monospace;font-size:.85rem;letter-spacing:1px;">CRACK THE COMBINATION. CLUES ARE HIDDEN ACROSS THE SITE.</p>
+  </div>
+  <div class="av-wrap">
+    <div class="av-hint">
+      &gt; THREE DIALS. THREE CLUES.<br>
+      &gt; DIAL 1 &mdash; <b>Catalyst's overall position</b> on the Power Tier leaderboard, counted from the top (The Architect is #1).<br>
+      &gt; DIAL 2 &mdash; <b>Number of glyphs redacted</b> in the Oracle Cipher key.<br>
+      &gt; DIAL 3 &mdash; <b>Total characters in the Relationship Web</b> (count the nodes).
+    </div>
+    <div class="av-dials" id="av-dials"></div>
+    <button class="av-submit" onclick="avSubmit()">ATTEMPT UNLOCK</button>
+    <div class="av-status" id="av-status"></div>
+    <div class="av-attempts" id="av-attempts"></div>
+    <div class="av-unlocked" id="av-unlocked">
+      <h4>&#9889; VAULT BREACHED &mdash; LORE FRAGMENT RECOVERED</h4>
+      <p id="av-lore-text"></p>
+    </div>
+  </div>
+</section>
 <section id="access">
   <div class="access-header">
     <p class="section-label reveal" style="justify-content:center">The Access Model</p>
@@ -11779,6 +11915,28 @@ body.ase-vision .ase-glyph-field { display:block; }
 </section>
 
 <!-- ============================================================ LORE -->
+
+<section id="operative-record" style="padding:5rem 1.5rem;background:rgba(0,0,0,0.3);border-top:1px solid rgba(244,184,0,0.08);">
+  <div style="max-width:920px;margin:0 auto;text-align:center;margin-bottom:2.5rem;">
+    <h2 style="font-size:2.2rem;letter-spacing:2px;color:#fff;">OPERATIVE FIELD <span class="gold">RECORD</span></h2>
+    <p style="color:#999;margin-top:.6rem;font-family:'Courier New',monospace;font-size:.85rem;letter-spacing:1px;">YOUR CLASSIFIED ORACLE PERSONNEL FILE &mdash; AUTO-LOGGED FROM SITE ACTIVITY</p>
+  </div>
+  <div class="ofr-wrap">
+    <div class="ofr-header">
+      <h4>PERSONNEL FILE</h4>
+      <div class="ofr-id" id="ofr-visitor-id">VISITOR ID: ---</div>
+    </div>
+    <div class="ofr-grid" id="ofr-grid"></div>
+    <div class="ofr-rank">
+      <span class="ofr-rank-badge" id="ofr-rank-badge">RANK: RECRUIT</span>
+    </div>
+    <div class="ofr-log">
+      <h5>&gt; ACTIVITY LOG</h5>
+      <div class="ofr-entries" id="ofr-entries"></div>
+    </div>
+    <button class="ofr-clear" onclick="ofrClearRecord()">WIPE FILE</button>
+  </div>
+</section>
 <section id="lore">
     <img class="section-photo-bg" src="./assets/noir-window.jpg" alt="Rainy noir atmosphere" loading="lazy" aria-hidden="true">
   <svg class="lore-bg-pattern" viewBox="0 0 1440 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
@@ -15536,6 +15694,426 @@ window.volunteerForMission = function(){
   }
   document.addEventListener('DOMContentLoaded',function(){wfRender('oracle');});
 })();
+
+<script>
+/* ===== A: ASe Compatibility Matchmaker ===== */
+;(function(){
+  var ALLIES = {
+    catalyst:{name:"CATALYST",emoji:"⚡",role:"The Awakened One",traits:["Defiant","Loyal","Reckless"],quote:"\"You don't choose the Ase. It chooses you, and then it never lets go.\""},
+    thunderstrike:{name:"THUNDERSTRIKE",emoji:"⛈️",role:"The Storm Bringer",traits:["Bold","Hot-headed","Protective"],quote:"\"Lagos taught me to hit first. The Ase just made it louder.\""},
+    ironwolf:{name:"IRON WOLF",emoji:"⚖️",role:"The Unbreakable",traits:["Disciplined","Stoic","Reliable"],quote:"\"Steel bends so it doesn't break. So do I.\""},
+    mirror:{name:"THE MIRROR",emoji:"\u{1FA9E}",role:"The Deceiver",traits:["Cunning","Secretive","Adaptive"],quote:"\"You never see me coming. That's rather the point.\""},
+    oracle:{name:"THE ORACLE",emoji:"\u{1F441}️",role:"The Handler",traits:["Wise","Calculating","Distant"],quote:"\"I see every thread. I just don't always pull the right one.\""}
+  };
+  var QUESTIONS = [
+    {q:"When chaos hits the streets of Lagos, your first move is:",opts:[
+      {t:"Charge in and protect whoever's closest",w:{catalyst:2,thunderstrike:2,ironwolf:1}},
+      {t:"Step back, read the situation, plan three moves ahead",w:{oracle:3,mirror:1}},
+      {t:"Find the angle nobody else sees",w:{mirror:3,oracle:1}},
+      {t:"Hold the line no matter what it costs",w:{ironwolf:3,thunderstrike:1}}
+    ]},
+    {q:"Your idea of a fair fight is:",opts:[
+      {t:"There's no such thing &mdash; win by any means",w:{mirror:3,thunderstrike:1}},
+      {t:"Strength against strength, no tricks",w:{ironwolf:2,thunderstrike:2}},
+      {t:"Whatever keeps the most people alive",w:{catalyst:3,oracle:1}},
+      {t:"One you've already calculated the outcome of",w:{oracle:3,mirror:1}}
+    ]},
+    {q:"What scares you more &mdash; losing control, or losing people?",opts:[
+      {t:"Losing people. Always.",w:{catalyst:3,thunderstrike:2}},
+      {t:"Losing control of myself",w:{ironwolf:2,oracle:1}},
+      {t:"Losing the upper hand",w:{mirror:3}},
+      {t:"Losing the bigger picture",w:{oracle:3}}
+    ]},
+    {q:"Your role in a crew of operatives would be:",opts:[
+      {t:"The one who runs toward danger first",w:{catalyst:2,thunderstrike:3}},
+      {t:"The one who plans the mission from the shadows",w:{oracle:2,mirror:2}},
+      {t:"The one everyone trusts to hold the rear",w:{ironwolf:3}},
+      {t:"The wildcard nobody can predict",w:{mirror:3,catalyst:1}}
+    ]},
+    {q:"Pick a Lagos hour that feels most like you:",opts:[
+      {t:"3am &mdash; restless, charged, ready to move",w:{thunderstrike:3,catalyst:1}},
+      {t:"Dawn over the lagoon &mdash; calm before the storm",w:{oracle:2,ironwolf:2}},
+      {t:"Rush hour danfo chaos &mdash; thriving in noise",w:{catalyst:3}},
+      {t:"Midnight, alone, watching everything unfold",w:{mirror:3,oracle:1}}
+    ]}
+  ];
+  var acmIdx=0, acmScores={catalyst:0,thunderstrike:0,ironwolf:0,mirror:0,oracle:0};
+
+  function acmRenderProgress(){
+    var el=document.getElementById('acm-progress');
+    if(!el) return;
+    var html='';
+    for(var i=0;i<QUESTIONS.length;i++){
+      var cls = i<acmIdx ? 'done' : (i===acmIdx ? 'active' : '');
+      html += '<span class="'+cls+'"></span>';
+    }
+    el.innerHTML = html;
+  }
+
+  function acmRenderQuestion(){
+    var box = document.getElementById('acm-questions');
+    if(!box) return;
+    if(acmIdx >= QUESTIONS.length){ acmShowResult(); return; }
+    var q = QUESTIONS[acmIdx];
+    var html = '<div class="acm-q active"><h4>0'+(acmIdx+1)+' / 0'+QUESTIONS.length+' &mdash; '+q.q+'</h4><div class="acm-opts">';
+    for(var i=0;i<q.opts.length;i++){
+      html += '<button class="acm-opt" onclick="acmAnswer('+i+')">'+q.opts[i].t+'</button>';
+    }
+    html += '</div></div>';
+    box.innerHTML = html;
+    acmRenderProgress();
+  }
+
+  window.acmAnswer = function(optIdx){
+    var opt = QUESTIONS[acmIdx].opts[optIdx];
+    for(var key in opt.w){ acmScores[key] = (acmScores[key]||0) + opt.w[key]; }
+    acmIdx++;
+    acmRenderQuestion();
+  };
+
+  function acmShowResult(){
+    var box = document.getElementById('acm-questions');
+    var res = document.getElementById('acm-result');
+    if(box) box.innerHTML = '';
+    document.getElementById('acm-progress').innerHTML = '';
+    var best='catalyst', bestScore=-1, total=0;
+    for(var key in acmScores){ total += acmScores[key]; if(acmScores[key]>bestScore){bestScore=acmScores[key];best=key;} }
+    var pct = total>0 ? Math.round((bestScore/total)*100) : 50;
+    pct = Math.max(pct, 61);
+    var ally = ALLIES[best];
+    var html = '<div class="acm-card">';
+    html += '<div class="acm-emoji">'+ally.emoji+'</div>';
+    html += '<h3>'+ally.name+'</h3>';
+    html += '<div class="acm-role">'+ally.role+'</div>';
+    html += '<div class="acm-pct">'+pct+'%</div>';
+    html += '<div class="acm-pct-label">BOND COMPATIBILITY</div>';
+    html += '<div class="acm-traits">';
+    for(var i=0;i<ally.traits.length;i++){ html += '<span class="acm-trait">'+ally.traits[i]+'</span>'; }
+    html += '</div>';
+    html += '<div class="acm-quote">'+ally.quote+'</div>';
+    html += '<button class="acm-retry" onclick="acmReset()">RUN AGAIN</button>';
+    html += '</div>';
+    res.innerHTML = html;
+    res.classList.add('active');
+    if(window.ofrLog) ofrLog('quiz', 'Bonded with '+ally.name+' ('+pct+'% compatibility)');
+  }
+
+  window.acmReset = function(){
+    acmIdx = 0;
+    acmScores = {catalyst:0,thunderstrike:0,ironwolf:0,mirror:0,oracle:0};
+    document.getElementById('acm-result').classList.remove('active');
+    document.getElementById('acm-result').innerHTML = '';
+    acmRenderQuestion();
+  };
+
+  acmRenderQuestion();
+})();
+
+/* ===== B: The Architect's Vault ===== */
+;(function(){
+  var CODE = [2, 13, 8];
+  var dials = [0,0,0];
+  var attempts = 0;
+  var LOCK_SECONDS = 20;
+  var lockTimer = null;
+  var locked = false;
+  var LORE = "Before the Ase chose Catalyst, it tested seven others across Lagos. Six rejected it &mdash; the surge of power burned through their resolve like harmattan fire through dry grass. The seventh accepted, but the city never learned her name. The Architect sealed her file the night the Pale Council rose, and swore the vault would only open for someone willing to count every cost first. You just did.";
+
+  function avRenderDials(){
+    var el = document.getElementById('av-dials');
+    if(!el) return;
+    var html = '';
+    for(var i=0;i<3;i++){
+      html += '<div class="av-dial">';
+      html += '<div class="av-dial-display">'+dials[i]+'</div>';
+      html += '<div class="av-dial-btns">';
+      html += '<button onclick="avAdjust('+i+',1)">&#9650;</button>';
+      html += '<button onclick="avAdjust('+i+',-1)">&#9660;</button>';
+      html += '</div></div>';
+    }
+    el.innerHTML = html;
+  }
+
+  window.avAdjust = function(idx, delta){
+    if(locked) return;
+    var v = dials[idx] + delta;
+    if(v < 0) v = 20;
+    if(v > 20) v = 0;
+    dials[idx] = v;
+    avRenderDials();
+  };
+
+  window.avSubmit = function(){
+    if(locked) return;
+    var statusEl = document.getElementById('av-status');
+    var match = dials[0]===CODE[0] && dials[1]===CODE[1] && dials[2]===CODE[2];
+    attempts++;
+    document.getElementById('av-attempts').textContent = 'ATTEMPTS: '+attempts;
+    if(match){
+      statusEl.className = 'av-status ok';
+      statusEl.textContent = '> COMBINATION ACCEPTED. VAULT OPENING...';
+      document.getElementById('av-unlocked').classList.add('active');
+      document.getElementById('av-lore-text').textContent = LORE;
+      if(window.ofrLog) ofrLog('vault', 'Cracked the Architect\'s Vault on attempt '+attempts);
+    } else {
+      statusEl.className = 'av-status err';
+      statusEl.textContent = '> ACCESS DENIED. INCORRECT COMBINATION.';
+      if(attempts > 0 && attempts % 3 === 0){
+        avLockout();
+      }
+    }
+  };
+
+  function avLockout(){
+    locked = true;
+    var statusEl = document.getElementById('av-status');
+    var remaining = LOCK_SECONDS;
+    statusEl.className = 'av-status err';
+    statusEl.innerHTML = '<div class="av-lockout">LOCKED &mdash; '+remaining+'s</div>';
+    clearInterval(lockTimer);
+    lockTimer = setInterval(function(){
+      remaining--;
+      if(remaining <= 0){
+        clearInterval(lockTimer);
+        locked = false;
+        statusEl.textContent = '> SYSTEM RESET. TRY AGAIN.';
+      } else {
+        statusEl.innerHTML = '<div class="av-lockout">LOCKED &mdash; '+remaining+'s</div>';
+      }
+    }, 1000);
+  }
+
+  avRenderDials();
+})();
+
+/* ===== C: Operative Field Record ===== */
+;(function(){
+  var STORE_KEY = 'oracle_operative_record_v1';
+
+  function ofrLoad(){
+    try{
+      var raw = localStorage.getItem(STORE_KEY);
+      if(raw) return JSON.parse(raw);
+    }catch(e){}
+    return {visitorId:null, entries:[], stats:{battles:0,wins:0,idCards:0,ciphers:0,quizzes:0,vault:0}};
+  }
+
+  function ofrSave(data){
+    try{ localStorage.setItem(STORE_KEY, JSON.stringify(data)); }catch(e){}
+  }
+
+  var ofrData = ofrLoad();
+  if(!ofrData.visitorId){
+    ofrData.visitorId = 'OP-' + Math.random().toString(36).substring(2,6).toUpperCase() + '-' + Math.random().toString(36).substring(2,6).toUpperCase();
+    ofrSave(ofrData);
+  }
+
+  window.ofrLog = function(type, text){
+    ofrData = ofrLoad();
+    var labels = {battle:'BATTLE', win:'VICTORY', idcard:'ID CARD', cipher:'CIPHER', quiz:'BOND', vault:'VAULT'};
+    ofrData.entries.unshift({type:type, text:text, ts:Date.now()});
+    if(ofrData.entries.length > 30) ofrData.entries.length = 30;
+    if(type==='battle') ofrData.stats.battles++;
+    if(type==='win') ofrData.stats.wins++;
+    if(type==='idcard') ofrData.stats.idCards++;
+    if(type==='cipher') ofrData.stats.ciphers++;
+    if(type==='quiz') ofrData.stats.quizzes++;
+    if(type==='vault') ofrData.stats.vault++;
+    ofrSave(ofrData);
+    ofrRender();
+  };
+
+  function ofrRank(stats){
+    var total = stats.battles + stats.wins + stats.idCards + stats.ciphers + stats.quizzes + stats.vault;
+    if(stats.vault > 0) return 'RANK: ARCHITECT-CLEARED';
+    if(total >= 8) return 'RANK: ORACLE OPERATIVE';
+    if(total >= 4) return 'RANK: FIELD AGENT';
+    if(total >= 1) return 'RANK: RECRUIT';
+    return 'RANK: UNVERIFIED';
+  }
+
+  function ofrTimeAgo(ts){
+    var diff = Math.floor((Date.now() - ts) / 1000);
+    if(diff < 60) return 'just now';
+    if(diff < 3600) return Math.floor(diff/60)+'m ago';
+    if(diff < 86400) return Math.floor(diff/3600)+'h ago';
+    return Math.floor(diff/86400)+'d ago';
+  }
+
+  function ofrRender(){
+    var grid = document.getElementById('ofr-grid');
+    var entries = document.getElementById('ofr-entries');
+    var idEl = document.getElementById('ofr-visitor-id');
+    var rankEl = document.getElementById('ofr-rank-badge');
+    if(!grid) return;
+    ofrData = ofrLoad();
+    var s = ofrData.stats;
+    idEl.textContent = 'VISITOR ID: ' + ofrData.visitorId;
+    rankEl.textContent = ofrRank(s);
+    grid.innerHTML =
+      '<div class="ofr-stat"><div class="ofr-val">'+s.battles+'</div><div class="ofr-label">Battles Fought</div></div>'+
+      '<div class="ofr-stat"><div class="ofr-val">'+s.wins+'</div><div class="ofr-label">Victories</div></div>'+
+      '<div class="ofr-stat"><div class="ofr-val">'+s.idCards+'</div><div class="ofr-label">ID Cards Issued</div></div>'+
+      '<div class="ofr-stat"><div class="ofr-val">'+s.ciphers+'</div><div class="ofr-label">Cipher Transmissions</div></div>'+
+      '<div class="ofr-stat"><div class="ofr-val">'+s.quizzes+'</div><div class="ofr-label">Bonds Formed</div></div>'+
+      '<div class="ofr-stat"><div class="ofr-val">'+s.vault+'</div><div class="ofr-label">Vaults Cracked</div></div>';
+    if(ofrData.entries.length === 0){
+      entries.innerHTML = '<div class="ofr-empty">NO ACTIVITY LOGGED YET &mdash; INTERACT WITH THE SITE TO BUILD YOUR FILE</div>';
+    } else {
+      var html = '';
+      for(var i=0;i<ofrData.entries.length;i++){
+        var e = ofrData.entries[i];
+        html += '<div class="ofr-entry"><span>'+e.text+'</span><span class="ofr-time">'+ofrTimeAgo(e.ts)+'</span></div>';
+      }
+      entries.innerHTML = html;
+    }
+  }
+
+  window.ofrClearRecord = function(){
+    try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+    ofrData = ofrLoad();
+    ofrSave(ofrData);
+    ofrRender();
+  };
+
+  ofrRender();
+})();
+
+/* ===== D: ASe Resonance Soundboard ===== */
+;(function(){
+  var PADS = [
+    {id:'catalyst',emoji:'⚡',name:'CATALYST',sub:'Surge Pulse',color:'#C41E3A',type:'surge'},
+    {id:'thunderstrike',emoji:'⛈️',name:'THUNDERSTRIKE',sub:'Thunder Crack',color:'#F4B800',type:'thunder'},
+    {id:'ironwolf',emoji:'⚖️',name:'IRON WOLF',sub:'Iron Clang',color:'#999999',type:'clang'},
+    {id:'mirror',emoji:'\u{1FA9E}',name:'THE MIRROR',sub:'Mirror Chime',color:'#00C9B1',type:'chime'},
+    {id:'oracle',emoji:'\u{1F441}️',name:'THE ORACLE',sub:'Void Hum',color:'#9b59b6',type:'hum'}
+  ];
+
+  var actx = null;
+  function arsCtx(){
+    if(!actx){
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if(AC) actx = new AC();
+    }
+    return actx;
+  }
+
+  function arsVolume(){
+    var el = document.getElementById('ars-volume');
+    return el ? (parseInt(el.value,10)/100) : 0.6;
+  }
+
+  function arsPlay(type){
+    var ctx = arsCtx();
+    if(!ctx) return;
+    if(ctx.state === 'suspended') ctx.resume();
+    var now = ctx.currentTime;
+    var vol = arsVolume();
+    var master = ctx.createGain();
+    master.gain.value = vol;
+    master.connect(ctx.destination);
+
+    if(type === 'surge'){
+      var o = ctx.createOscillator();
+      o.type = 'sawtooth';
+      o.frequency.setValueAtTime(220, now);
+      o.frequency.exponentialRampToValueAtTime(880, now+0.25);
+      var g = ctx.createGain();
+      g.gain.setValueAtTime(0.0001, now);
+      g.gain.exponentialRampToValueAtTime(0.5, now+0.03);
+      g.gain.exponentialRampToValueAtTime(0.0001, now+0.4);
+      o.connect(g); g.connect(master);
+      o.start(now); o.stop(now+0.45);
+    } else if(type === 'thunder'){
+      var bufferSize = ctx.sampleRate * 0.6;
+      var buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      var data = buffer.getChannelData(0);
+      for(var i=0;i<bufferSize;i++){ data[i] = (Math.random()*2-1) * Math.pow(1-(i/bufferSize),2); }
+      var noise = ctx.createBufferSource();
+      noise.buffer = buffer;
+      var filter = ctx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(1200, now);
+      filter.frequency.exponentialRampToValueAtTime(80, now+0.6);
+      var g2 = ctx.createGain();
+      g2.gain.setValueAtTime(0.7, now);
+      g2.gain.exponentialRampToValueAtTime(0.001, now+0.6);
+      noise.connect(filter); filter.connect(g2); g2.connect(master);
+      noise.start(now); noise.stop(now+0.6);
+    } else if(type === 'clang'){
+      var freqs = [180, 440, 710];
+      for(var f=0; f<freqs.length; f++){
+        var oc = ctx.createOscillator();
+        oc.type = 'square';
+        oc.frequency.value = freqs[f];
+        var gc = ctx.createGain();
+        gc.gain.setValueAtTime(0.25/(f+1), now);
+        gc.gain.exponentialRampToValueAtTime(0.0001, now+0.35);
+        oc.connect(gc); gc.connect(master);
+        oc.start(now); oc.stop(now+0.35);
+      }
+    } else if(type === 'chime'){
+      var notes = [880, 1320, 1760];
+      for(var n=0; n<notes.length; n++){
+        var on = ctx.createOscillator();
+        on.type = 'sine';
+        on.frequency.value = notes[n];
+        var gn = ctx.createGain();
+        var start = now + n*0.07;
+        gn.gain.setValueAtTime(0.0001, start);
+        gn.gain.exponentialRampToValueAtTime(0.3, start+0.02);
+        gn.gain.exponentialRampToValueAtTime(0.0001, start+0.8);
+        on.connect(gn); gn.connect(master);
+        on.start(start); on.stop(start+0.85);
+      }
+    } else if(type === 'hum'){
+      var oh = ctx.createOscillator();
+      oh.type = 'sine';
+      oh.frequency.setValueAtTime(60, now);
+      var oh2 = ctx.createOscillator();
+      oh2.type = 'sine';
+      oh2.frequency.setValueAtTime(90, now);
+      var gh = ctx.createGain();
+      gh.gain.setValueAtTime(0.0001, now);
+      gh.gain.exponentialRampToValueAtTime(0.35, now+0.3);
+      gh.gain.exponentialRampToValueAtTime(0.0001, now+1.6);
+      oh.connect(gh); oh2.connect(gh); gh.connect(master);
+      oh.start(now); oh.stop(now+1.6);
+      oh2.start(now); oh2.stop(now+1.6);
+    }
+  }
+
+  function arsRender(){
+    var el = document.getElementById('ars-pads');
+    if(!el) return;
+    var html = '';
+    for(var i=0;i<PADS.length;i++){
+      var p = PADS[i];
+      html += '<button class="ars-pad" style="--ars-c:'+p.color+'" onclick="arsTrigger(\''+p.id+'\')" id="ars-pad-'+p.id+'">';
+      html += '<span class="ars-emoji">'+p.emoji+'</span>';
+      html += '<span class="ars-name">'+p.name+'</span>';
+      html += '<span class="ars-sub">'+p.sub+'</span>';
+      html += '</button>';
+    }
+    el.innerHTML = html;
+  }
+
+  window.arsTrigger = function(id){
+    var pad = null;
+    for(var i=0;i<PADS.length;i++){ if(PADS[i].id===id){ pad=PADS[i]; break; } }
+    if(!pad) return;
+    arsPlay(pad.type);
+    var el = document.getElementById('ars-pad-'+id);
+    if(el){
+      el.classList.remove('pulse');
+      void el.offsetWidth;
+      el.classList.add('pulse');
+    }
+  };
+
+  arsRender();
+})();
+</script>
 
 </script>
 
