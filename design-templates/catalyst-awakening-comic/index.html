@@ -6128,6 +6128,132 @@ body.ase-vision .ase-glyph-field { display:block; }
 .zone-dimmed circle{opacity:.15 !important}
 .zone-dimmed text{opacity:.15 !important}
 </style>
+
+<style id="v10-styles">
+/* V10 — ASe BATTLE, CIPHER, RELATIONSHIP WEB, WAR FEED */
+
+/* === ASe BATTLE SIMULATOR === */
+#ase-battle{background:#04000a;padding:80px 0;position:relative;overflow:hidden}
+#ase-battle::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(184,20,20,.12),transparent);pointer-events:none}
+.asb-wrap{max-width:1100px;margin:0 auto;padding:0 24px;position:relative}
+.asb-arena{display:grid;grid-template-columns:1fr 80px 1fr;gap:0;align-items:start;margin:40px 0 32px}
+.asb-fighter{background:rgba(255,255,255,.02);border:1px solid rgba(244,184,0,.15);border-radius:8px;padding:24px}
+.asb-fighter-label{font-family:'Courier New',monospace;font-size:10px;letter-spacing:3px;color:#F4B800;margin-bottom:16px}
+.asb-char-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.asb-char-card{border:1px solid rgba(244,184,0,.2);border-radius:6px;padding:10px 6px;text-align:center;cursor:pointer;transition:.2s;background:rgba(0,0,0,.4)}
+.asb-char-card:hover{border-color:#F4B800;background:rgba(244,184,0,.08)}
+.asb-char-card.selected{border-color:#F4B800;background:rgba(244,184,0,.15);box-shadow:0 0 12px rgba(244,184,0,.3)}
+.asb-char-avatar{font-size:28px;display:block;margin-bottom:4px}
+.asb-char-name{font-size:9px;letter-spacing:1px;color:#aaa;font-family:'Courier New',monospace}
+.asb-vs{display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:#b81414;text-shadow:0 0 20px rgba(184,20,20,.8);font-family:'Courier New',monospace}
+.asb-selected-display{min-height:60px;margin-top:12px;padding:12px;border:1px solid rgba(244,184,0,.25);border-radius:6px;background:rgba(0,0,0,.3)}
+.asb-sel-name{font-size:14px;font-weight:700;color:#F4B800;margin-bottom:4px}
+.asb-sel-type{font-size:10px;color:#00C9B1;letter-spacing:2px;font-family:'Courier New',monospace}
+.asb-hp-bar-wrap{margin-top:8px}
+.asb-hp-label{font-size:9px;color:#888;font-family:'Courier New',monospace;margin-bottom:4px}
+.asb-hp-track{height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden}
+.asb-hp-fill{height:100%;background:linear-gradient(90deg,#b81414,#F4B800);transition:width .6s ease;border-radius:3px}
+.asb-controls{text-align:center;margin:24px 0}
+.asb-fight-btn{background:linear-gradient(135deg,#b81414,#8b0000);border:1px solid #b81414;color:#F4B800;font-family:'Courier New',monospace;font-size:13px;letter-spacing:3px;padding:14px 40px;cursor:pointer;border-radius:4px;transition:.3s;font-weight:700}
+.asb-fight-btn:hover{background:linear-gradient(135deg,#d41414,#b81414);box-shadow:0 0 20px rgba(184,20,20,.5);transform:translateY(-2px)}
+.asb-fight-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.asb-log{background:rgba(0,0,0,.6);border:1px solid rgba(244,184,0,.15);border-radius:8px;padding:20px;min-height:200px;max-height:300px;overflow-y:auto;font-family:'Courier New',monospace}
+.asb-log-line{font-size:12px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.5}
+.asb-log-line.ability{color:#F4B800}
+.asb-log-line.hit{color:#ff6b6b}
+.asb-log-line.system{color:#00C9B1;font-style:italic}
+.asb-log-line.victory{color:#F4B800;font-size:14px;font-weight:700;text-align:center;padding:10px 0;border:none}
+.asb-result{text-align:center;padding:20px}
+.asb-winner-badge{display:inline-block;padding:10px 28px;background:rgba(244,184,0,.15);border:1px solid #F4B800;border-radius:4px;color:#F4B800;font-family:'Courier New',monospace;font-size:12px;letter-spacing:2px;margin-top:12px}
+
+/* === ORACLE CIPHER TERMINAL === */
+#cipher-terminal{background:#00050f;padding:80px 0}
+.oct-wrap{max-width:900px;margin:0 auto;padding:0 24px}
+.oct-terminal{background:#000;border:1px solid rgba(0,201,177,.3);border-radius:8px;padding:32px;box-shadow:0 0 40px rgba(0,201,177,.08)}
+.oct-header-bar{display:flex;align-items:center;gap:8px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid rgba(0,201,177,.15)}
+.oct-dot{width:10px;height:10px;border-radius:50%}
+.oct-dot.red{background:#ff5f57}
+.oct-dot.yellow{background:#ffbd2e}
+.oct-dot.green{background:#28ca41}
+.oct-terminal-title{font-family:'Courier New',monospace;font-size:11px;letter-spacing:3px;color:#00C9B1;margin-left:8px}
+.oct-mode-row{display:flex;gap:12px;margin-bottom:24px}
+.oct-mode-btn{font-family:'Courier New',monospace;font-size:11px;letter-spacing:2px;padding:8px 20px;border:1px solid rgba(0,201,177,.3);background:transparent;color:#666;cursor:pointer;border-radius:3px;transition:.2s}
+.oct-mode-btn.active{border-color:#00C9B1;color:#00C9B1;background:rgba(0,201,177,.1)}
+.oct-label{font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;color:#555;margin-bottom:8px}
+.oct-input{width:100%;background:rgba(0,201,177,.04);border:1px solid rgba(0,201,177,.2);border-radius:4px;padding:14px 16px;color:#00C9B1;font-family:'Courier New',monospace;font-size:14px;resize:vertical;min-height:80px;outline:none;box-sizing:border-box}
+.oct-input::placeholder{color:rgba(0,201,177,.3)}
+.oct-input:focus{border-color:rgba(0,201,177,.6);box-shadow:0 0 12px rgba(0,201,177,.1)}
+.oct-process-btn{margin:16px 0;background:rgba(0,201,177,.15);border:1px solid #00C9B1;color:#00C9B1;font-family:'Courier New',monospace;font-size:11px;letter-spacing:3px;padding:10px 24px;cursor:pointer;border-radius:3px;transition:.2s;width:100%}
+.oct-process-btn:hover{background:rgba(0,201,177,.25)}
+.oct-output{min-height:80px;background:rgba(0,201,177,.04);border:1px solid rgba(0,201,177,.15);border-radius:4px;padding:14px 16px;font-family:'Courier New',monospace;font-size:16px;color:#F4B800;letter-spacing:4px;word-break:break-all;line-height:2}
+.oct-output-actions{display:flex;gap:12px;margin-top:12px}
+.oct-action-btn{font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;padding:8px 16px;border:1px solid rgba(244,184,0,.3);background:transparent;color:#F4B800;cursor:pointer;border-radius:3px;transition:.2s}
+.oct-action-btn:hover{background:rgba(244,184,0,.1);border-color:#F4B800}
+.oct-key-display{margin-top:24px;padding:16px;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.06);border-radius:4px}
+.oct-key-title{font-family:'Courier New',monospace;font-size:9px;letter-spacing:3px;color:#555;margin-bottom:10px}
+.oct-key-grid{display:flex;flex-wrap:wrap;gap:6px}
+.oct-key-pair{font-family:'Courier New',monospace;font-size:10px;color:rgba(0,201,177,.5);background:rgba(0,201,177,.04);padding:3px 7px;border-radius:2px}
+
+/* === CHARACTER RELATIONSHIP WEB === */
+#char-web{background:#020008;padding:80px 0}
+.crw-wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+.crw-container{position:relative;width:100%;height:560px;border:1px solid rgba(244,184,0,.1);border-radius:8px;overflow:hidden;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(244,184,0,.03),transparent)}
+.crw-svg{position:absolute;inset:0;width:100%;height:100%}
+.crw-node{position:absolute;transform:translate(-50%,-50%);cursor:pointer;text-align:center;transition:transform .2s;z-index:2}
+.crw-node:hover{transform:translate(-50%,-50%) scale(1.15)}
+.crw-node.crw-active{transform:translate(-50%,-50%) scale(1.2)}
+.crw-node-ring{width:52px;height:52px;border-radius:50%;border:2px solid rgba(244,184,0,.4);display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 6px;background:rgba(0,0,0,.7);transition:.3s}
+.crw-node.oracle-node .crw-node-ring{border-color:#00C9B1;box-shadow:0 0 16px rgba(0,201,177,.3)}
+.crw-node.da-node .crw-node-ring{border-color:#b81414;box-shadow:0 0 16px rgba(184,20,20,.3)}
+.crw-node.pc-node .crw-node-ring{border-color:#9b59b6;box-shadow:0 0 16px rgba(155,89,182,.3)}
+.crw-node-label{font-family:'Courier New',monospace;font-size:9px;letter-spacing:1px;color:#aaa;white-space:nowrap}
+.crw-info{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.85);border:1px solid rgba(244,184,0,.3);border-radius:6px;padding:12px 20px;font-family:'Courier New',monospace;font-size:11px;color:#F4B800;letter-spacing:1px;min-width:260px;max-width:80%;text-align:center;pointer-events:none;opacity:0;transition:.3s}
+.crw-info.visible{opacity:1}
+.crw-legend{display:flex;gap:20px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+.crw-leg-item{display:flex;align-items:center;gap:8px;font-family:'Courier New',monospace;font-size:10px;color:#888}
+.crw-leg-line{width:24px;height:2px}
+.crw-leg-line.alliance{background:#00C9B1}
+.crw-leg-line.rival{background:#b81414}
+.crw-leg-line.handler{background:#F4B800}
+.crw-leg-line.complex{background:#9b59b6}
+
+/* === FACTION WAR NEWS FEED === */
+#war-feed{background:#060003;padding:80px 0}
+.wf-wrap{max-width:1000px;margin:0 auto;padding:0 24px}
+.wf-broadcast{background:#000;border:1px solid rgba(184,20,20,.3);border-radius:8px;overflow:hidden}
+.wf-channel-bar{display:flex;background:rgba(184,20,20,.1);border-bottom:1px solid rgba(184,20,20,.2)}
+.wf-channel-btn{flex:1;font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;padding:12px 8px;border:none;background:transparent;cursor:pointer;transition:.2s;color:#666;border-right:1px solid rgba(184,20,20,.2);text-align:center}
+.wf-channel-btn:last-child{border-right:none}
+.wf-channel-btn.active{background:rgba(184,20,20,.2);color:#F4B800}
+.wf-channel-btn:hover:not(.active){color:#ccc}
+.wf-screen{padding:24px;min-height:400px}
+.wf-broadcast-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.06)}
+.wf-live-dot{width:8px;height:8px;border-radius:50%;background:#b81414;animation:wf-pulse 1.2s infinite;flex-shrink:0}
+@keyframes wf-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+.wf-broadcast-id{font-family:'Courier New',monospace;font-size:10px;letter-spacing:3px;color:#888}
+.wf-timestamp{margin-left:auto;font-family:'Courier New',monospace;font-size:10px;color:#555}
+.wf-items{display:flex;flex-direction:column;gap:0}
+.wf-item{padding:14px 0;border-bottom:1px solid rgba(255,255,255,.04);animation:wf-slide-in .4s ease both}
+@keyframes wf-slide-in{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
+.wf-item-head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.wf-priority{font-family:'Courier New',monospace;font-size:9px;letter-spacing:2px;padding:2px 8px;border-radius:2px}
+.wf-priority.critical{background:rgba(184,20,20,.3);color:#ff6b6b;border:1px solid rgba(184,20,20,.4)}
+.wf-priority.high{background:rgba(244,184,0,.15);color:#F4B800;border:1px solid rgba(244,184,0,.3)}
+.wf-priority.standard{background:rgba(0,201,177,.08);color:#00C9B1;border:1px solid rgba(0,201,177,.2)}
+.wf-item-code{font-family:'Courier New',monospace;font-size:9px;color:#555;margin-left:auto}
+.wf-item-title{font-size:13px;color:#ddd;font-weight:600;margin-bottom:4px}
+.wf-item-body{font-family:'Courier New',monospace;font-size:11px;color:#666;line-height:1.6}
+.wf-ticker{background:rgba(184,20,20,.08);border-top:1px solid rgba(184,20,20,.2);padding:8px 16px;overflow:hidden;white-space:nowrap}
+.wf-ticker-inner{display:inline-block;animation:wf-scroll 50s linear infinite;font-family:'Courier New',monospace;font-size:10px;color:#b81414;letter-spacing:2px}
+@keyframes wf-scroll{0%{transform:translateX(100vw)}100%{transform:translateX(-100%)}}
+
+@media(max-width:700px){
+  .asb-arena{grid-template-columns:1fr;gap:12px}
+  .asb-char-grid{grid-template-columns:repeat(2,1fr)}
+  .crw-container{height:400px}
+  .wf-channel-btn{font-size:8px;padding:10px 4px;letter-spacing:1px}
+}
+</style>
 </head>
 <body>
 
@@ -8796,6 +8922,50 @@ body.ase-vision .ase-glyph-field { display:block; }
 
 <!-- ══════════════════════════════════════ HERO QUIZ -->
 <!-- ════ COMBAT POWER CLASH ════ -->
+
+<section id="ase-battle">
+  <div class="asb-wrap">
+    <div class="section-header reveal">
+      <div class="section-label">ORACLE COMBAT DIVISION — SIMULATION LAB</div>
+      <h2 class="section-title">AS&#7864; <span class="gold">BATTLE SIMULATOR</span></h2>
+      <p class="section-sub">Select two operatives and initiate a sanctioned AS&#7864; combat simulation</p>
+    </div>
+    <div class="asb-arena reveal">
+      <div class="asb-fighter" id="asb-f1">
+        <div class="asb-fighter-label">&#9672; OPERATIVE ONE</div>
+        <div class="asb-char-grid">
+          <div class="asb-char-card" onclick="asbSelectChar(1,'catalyst')" data-char="catalyst"><span class="asb-char-avatar">&#9889;</span><div class="asb-char-name">CATALYST</div></div>
+          <div class="asb-char-card" onclick="asbSelectChar(1,'thunderstrike')" data-char="thunderstrike"><span class="asb-char-avatar">&#128165;</span><div class="asb-char-name">THUNDERSTRIKE</div></div>
+          <div class="asb-char-card" onclick="asbSelectChar(1,'ironwolf')" data-char="ironwolf"><span class="asb-char-avatar">&#128058;</span><div class="asb-char-name">IRON WOLF</div></div>
+          <div class="asb-char-card" onclick="asbSelectChar(1,'mirror')" data-char="mirror"><span class="asb-char-avatar">&#129518;</span><div class="asb-char-name">THE MIRROR</div></div>
+          <div class="asb-char-card" onclick="asbSelectChar(1,'oracle')" data-char="oracle"><span class="asb-char-avatar">&#128065;</span><div class="asb-char-name">THE ORACLE</div></div>
+          <div class="asb-char-card" onclick="asbSelectChar(1,'architect')" data-char="architect"><span class="asb-char-avatar">&#128371;</span><div class="asb-char-name">ARCHITECT</div></div>
+        </div>
+        <div class="asb-selected-display" id="asb-sel1"><div style="color:#555;font-family:'Courier New',monospace;font-size:11px;">SELECT OPERATIVE</div></div>
+      </div>
+      <div class="asb-vs">VS</div>
+      <div class="asb-fighter" id="asb-f2">
+        <div class="asb-fighter-label">&#9672; OPERATIVE TWO</div>
+        <div class="asb-char-grid">
+          <div class="asb-char-card" onclick="asbSelectChar(2,'catalyst')" data-char="catalyst"><span class="asb-char-avatar">&#9889;</span><div class="asb-char-name">CATALYST</div></div>
+          <div class="asb-char-card" onclick="asbSelectChar(2,'thunderstrike')" data-char="thunderstrike"><span class="asb-char-avatar">&#128165;</span><div class="asb-char-name">THUNDERSTRIKE</div></div>
+          <div class="asb-char-card" onclick="asbSelectChar(2,'ironwolf')" data-char="ironwolf"><span class="asb-char-avatar">&#128058;</span><div class="asb-char-name">IRON WOLF</div></div>
+          <div class="asb-char-card" onclick="asbSelectChar(2,'mirror')" data-char="mirror"><span class="asb-char-avatar">&#129518;</span><div class="asb-char-name">THE MIRROR</div></div>
+          <div class="asb-char-card" onclick="asbSelectChar(2,'oracle')" data-char="oracle"><span class="asb-char-avatar">&#128065;</span><div class="asb-char-name">THE ORACLE</div></div>
+          <div class="asb-char-card" onclick="asbSelectChar(2,'architect')" data-char="architect"><span class="asb-char-avatar">&#128371;</span><div class="asb-char-name">ARCHITECT</div></div>
+        </div>
+        <div class="asb-selected-display" id="asb-sel2"><div style="color:#555;font-family:'Courier New',monospace;font-size:11px;">SELECT OPERATIVE</div></div>
+      </div>
+    </div>
+    <div class="asb-controls">
+      <button class="asb-fight-btn" id="asb-fight-btn" onclick="asbStartBattle()" disabled>INITIATE BATTLE SIMULATION</button>
+    </div>
+    <div class="asb-log" id="asb-log">
+      <div class="asb-log-line system">[ SIMULATION SYSTEM READY &mdash; SELECT TWO OPERATIVES ]</div>
+    </div>
+    <div class="asb-result" id="asb-result" style="display:none;"></div>
+  </div>
+</section>
 <section id="power-clash">
   <div class="clash-wrap">
     <div class="section-header reveal">
@@ -11434,6 +11604,40 @@ body.ase-vision .ase-glyph-field { display:block; }
 </section>
 
 <!-- ============================================================ THE ASẸ CODEX -->
+
+<section id="cipher-terminal">
+  <div class="oct-wrap">
+    <div class="section-header reveal">
+      <div class="section-label">ORACLE INTELLIGENCE &mdash; SECURE CHANNEL PROTOCOL</div>
+      <h2 class="section-title">ORACLE <span class="gold">CIPHER TERMINAL</span></h2>
+      <p class="section-sub">Encode or decode transmissions using the Oracle's classified glyph cipher</p>
+    </div>
+    <div class="oct-terminal reveal">
+      <div class="oct-header-bar">
+        <div class="oct-dot red"></div><div class="oct-dot yellow"></div><div class="oct-dot green"></div>
+        <div class="oct-terminal-title">ORACLE SECURE TERMINAL v3.7 &mdash; CLASSIFIED</div>
+      </div>
+      <div class="oct-mode-row">
+        <button class="oct-mode-btn active" onclick="octSetMode('encode',this)">&#9672; ENCODE</button>
+        <button class="oct-mode-btn" onclick="octSetMode('decode',this)">&#8449; DECODE</button>
+      </div>
+      <div class="oct-label" id="oct-input-label">INPUT PLAINTEXT TRANSMISSION</div>
+      <textarea class="oct-input" id="oct-input" placeholder="Type your message here..." rows="3"></textarea>
+      <button class="oct-process-btn" onclick="octProcess()">&#9889; PROCESS TRANSMISSION</button>
+      <div class="oct-label">OUTPUT</div>
+      <div class="oct-output" id="oct-output">&mdash;</div>
+      <div class="oct-output-actions">
+        <button class="oct-action-btn" onclick="octCopy()">&#9064; COPY</button>
+        <button class="oct-action-btn" onclick="octShare()">&#9094; TRANSMIT</button>
+        <button class="oct-action-btn" onclick="octClear()">&#10005; CLEAR</button>
+      </div>
+      <div class="oct-key-display">
+        <div class="oct-key-title">ORACLE GLYPH KEY &mdash; PARTIAL DECODE (CLASSIFIED)</div>
+        <div class="oct-key-grid" id="oct-key-grid"></div>
+      </div>
+    </div>
+  </div>
+</section>
 <section id="codex">
     <img class="section-photo-bg" src="./assets/noir-window.jpg" alt="Rain-streaked city night" loading="lazy" aria-hidden="true">
   <div class="codex-header">
@@ -11671,6 +11875,26 @@ body.ase-vision .ase-glyph-field { display:block; }
 </section>
 
 <!-- ============================================================ COMMUNITY -->
+
+<section id="char-web">
+  <div class="crw-wrap">
+    <div class="section-header reveal">
+      <div class="section-label">ORACLE INTELLIGENCE &mdash; OPERATIVE NETWORK MAPPING</div>
+      <h2 class="section-title">CHARACTER <span class="gold">RELATIONSHIP WEB</span></h2>
+      <p class="section-sub">Click any operative node to reveal their network connections and allegiances</p>
+    </div>
+    <div class="crw-container reveal" id="crw-container">
+      <svg class="crw-svg" id="crw-svg"></svg>
+      <div class="crw-info" id="crw-info">SELECT A NODE</div>
+    </div>
+    <div class="crw-legend">
+      <div class="crw-leg-item"><div class="crw-leg-line alliance"></div>Alliance</div>
+      <div class="crw-leg-item"><div class="crw-leg-line rival"></div>Rivalry</div>
+      <div class="crw-leg-item"><div class="crw-leg-line handler"></div>Handler / Asset</div>
+      <div class="crw-leg-item"><div class="crw-leg-line complex"></div>Complex / Unknown</div>
+    </div>
+  </div>
+</section>
 <section id="community">
   <div class="community-glow"></div>
   <div style="position:relative;z-index:1;max-width:1100px;margin:0 auto;">
@@ -11698,6 +11922,34 @@ body.ase-vision .ase-glyph-field { display:block; }
 </section>
 
 <!-- ══════════════════════════════════════ FIELD DISPATCH -->
+
+<section id="war-feed">
+  <div class="wf-wrap">
+    <div class="section-header reveal">
+      <div class="section-label">LAGOS CONFLICT INTELLIGENCE &mdash; MULTI-CHANNEL FEED</div>
+      <h2 class="section-title">FACTION <span class="gold">WAR FEED</span></h2>
+      <p class="section-sub">Live intelligence from Oracle, Dark Assembly, and Street networks</p>
+    </div>
+    <div class="wf-broadcast reveal">
+      <div class="wf-channel-bar">
+        <button class="wf-channel-btn active" onclick="wfSetChannel('oracle',this)">&#128065; ORACLE INTEL</button>
+        <button class="wf-channel-btn" onclick="wfSetChannel('da',this)">&#9760; DA COMMUNIQUE</button>
+        <button class="wf-channel-btn" onclick="wfSetChannel('street',this)">&#128251; STREET DISPATCH</button>
+      </div>
+      <div class="wf-screen" id="wf-screen">
+        <div class="wf-broadcast-header">
+          <div class="wf-live-dot"></div>
+          <div class="wf-broadcast-id" id="wf-bid">OIC-BROADCAST-FREQ-7.7</div>
+          <div class="wf-timestamp" id="wf-ts"></div>
+        </div>
+        <div class="wf-items" id="wf-items"></div>
+      </div>
+      <div class="wf-ticker">
+        <div class="wf-ticker-inner">ASE SURGE DETECTED: THIRD MAINLAND BRIDGE SECTOR &diams; DARK ASSEMBLY CONVOY INTERCEPTED: MUSHIN CORRIDOR &diams; PALE COUNCIL OPERATIVE COMPROMISE: BALOGUN MARKET &diams; ORACLE FIELD AGENT KEMI STATUS: SECURE &diams; CATALYST LOCATION: CLASSIFIED &diams; ARCHITECT LAST SEEN: VICTORIA ISLAND &diams; ASE AWAKENING COUNT: 247 THIS CYCLE &diams; IRON WOLF STATUS: ACTIVE &diams; THE MIRROR: COMPROMISED &diams; PALE COUNCIL SUMMIT COLLAPSED &diams;</div>
+      </div>
+    </div>
+  </div>
+</section>
 <section id="dispatch">
   <div class="dispatch-inner">
     <div class="dispatch-hdr">
@@ -15009,6 +15261,280 @@ window.volunteerForMission = function(){
     var btn = document.querySelector('.map-terr-btn.active-all');
     if(btn) window.setMapFaction('all',btn);
   });
+})();
+
+
+// ════════════════════════════════════
+// V10 JS
+// ════════════════════════════════════
+
+;(function(){
+  // ASe BATTLE SIMULATOR
+  var CHARS = {
+    catalyst:{name:'Catalyst (Bayo)',emoji:'⚡',type:'LIGHTNING ASẹ',hp:100,power:88,speed:92,
+      abilities:['Thunder Strike','Storm Surge','Lightning Cage'],
+      lines:['Bayo channels raw lightning through his veins','The air crackles as Bayo raises his fist','Thunder echoes across the arena']},
+    thunderstrike:{name:'Thunderstrike (Amara)',emoji:'💥',type:'KINETIC ASẹ',hp:110,power:94,speed:78,
+      abilities:['Bone Crusher','Seismic Slam','Iron Will'],
+      lines:['Amara drives force into the earth itself','The ground trembles under Amara\'s strike','Kinetic energy erupts from her palms']},
+    ironwolf:{name:'Iron Wolf (Ikenna)',emoji:'🐺',type:'IRON ASẹ',hp:120,power:80,speed:70,
+      abilities:['Iron Skin','Metal Fang','Forge Shield'],
+      lines:['Ikenna\'s skin hardens like forged steel','Iron tendrils erupt from Iron Wolf\'s arm','Metal flows around Ikenna like living armour']},
+    mirror:{name:'The Mirror (Zara)',emoji:'🪞',type:'MIRROR ASẹ',hp:85,power:76,speed:95,
+      abilities:['Reflect','Illusion Step','Soul Split'],
+      lines:['Zara steps through her own reflection','The Mirror fractures reality around her target','Zara becomes two — then four']},
+    oracle:{name:'The Oracle',emoji:'👁',type:'ORACLE ASẹ',hp:90,power:70,speed:100,
+      abilities:['Future Sight','Void Pulse','Time Fracture'],
+      lines:['The Oracle sees three moves ahead','Time bends around the Oracle\'s will','A void opens where her opponent once stood']},
+    architect:{name:'The Architect',emoji:'🕳',type:'VOID ASẹ',hp:95,power:96,speed:82,
+      abilities:['Dark Matter','Entropy Wave','Reality Tear'],
+      lines:['The Architect unravels the fabric of space','Dark matter coils around the Architect\'s form','Reality splits at the Architect\'s command']}
+  };
+  var asbSel=[null,null],asbHp=[100,100],asbMax=[100,100];
+  window.asbSelectChar=function(slot,key){
+    asbSel[slot-1]=key;
+    var c=CHARS[key];
+    asbHp[slot-1]=c.hp; asbMax[slot-1]=c.hp;
+    var el=document.getElementById('asb-sel'+slot);
+    el.innerHTML='<div class="asb-sel-name">'+c.emoji+' '+c.name+'</div><div class="asb-sel-type">'+c.type+'</div><div class="asb-hp-bar-wrap"><div class="asb-hp-label" id="asb-hplbl'+slot+'">HP: '+c.hp+' / '+c.hp+'</div><div class="asb-hp-track"><div class="asb-hp-fill" id="asb-hp'+slot+'" style="width:100%"></div></div></div>';
+    document.querySelectorAll('#asb-f'+slot+' .asb-char-card').forEach(function(card){card.classList.toggle('selected',card.dataset.char===key);});
+    if(asbSel[0]&&asbSel[1])document.getElementById('asb-fight-btn').disabled=false;
+  };
+  function asbLog(text,cls){
+    var log=document.getElementById('asb-log');
+    var d=document.createElement('div');
+    d.className='asb-log-line'+(cls?' '+cls:'');
+    d.textContent=text;
+    log.appendChild(d);
+    log.scrollTop=log.scrollHeight;
+  }
+  function asbUpdateHp(slot,val){
+    asbHp[slot-1]=Math.max(0,val);
+    var pct=(asbHp[slot-1]/asbMax[slot-1]*100).toFixed(1);
+    var bar=document.getElementById('asb-hp'+slot);
+    var lbl=document.getElementById('asb-hplbl'+slot);
+    if(bar)bar.style.width=pct+'%';
+    if(lbl)lbl.textContent='HP: '+asbHp[slot-1]+' / '+asbMax[slot-1];
+  }
+  window.asbStartBattle=function(){
+    if(!asbSel[0]||!asbSel[1])return;
+    document.getElementById('asb-log').innerHTML='';
+    document.getElementById('asb-result').style.display='none';
+    document.getElementById('asb-fight-btn').disabled=true;
+    asbHp[0]=asbMax[0]; asbHp[1]=asbMax[1];
+    asbUpdateHp(1,asbHp[0]); asbUpdateHp(2,asbHp[1]);
+    var c1=CHARS[asbSel[0]],c2=CHARS[asbSel[1]];
+    asbLog('[ SIMULATION INITIATED — '+c1.name.toUpperCase()+' vs '+c2.name.toUpperCase()+' ]','system');
+    asbLog('[ REFEREED BY ORACLE COMBAT DIVISION — ASẹ REGULATION ACTIVE ]','system');
+    var turns=[];
+    var h1=asbHp[0],h2=asbHp[1],rounds=0;
+    while(h1>0&&h2>0&&rounds<30){
+      rounds++;
+      var atk1=(c1.power*(0.7+Math.random()*0.6))|0;
+      var atk2=(c2.power*(0.7+Math.random()*0.6))|0;
+      var s1=c1.speed+Math.random()*20,s2=c2.speed+Math.random()*20;
+      if(s1>=s2){
+        h2=Math.max(0,h2-atk1);
+        turns.push({who:1,name:c1.name,ab:c1.abilities[(Math.random()*3)|0],dmg:atk1,target:c2.name,h1:h1,h2:h2,line:c1.lines[(Math.random()*3)|0]});
+        if(h2>0){h1=Math.max(0,h1-atk2);turns.push({who:2,name:c2.name,ab:c2.abilities[(Math.random()*3)|0],dmg:atk2,target:c1.name,h1:h1,h2:h2,line:c2.lines[(Math.random()*3)|0]});}
+      } else {
+        h1=Math.max(0,h1-atk2);
+        turns.push({who:2,name:c2.name,ab:c2.abilities[(Math.random()*3)|0],dmg:atk2,target:c1.name,h1:h1,h2:h2,line:c2.lines[(Math.random()*3)|0]});
+        if(h1>0){h2=Math.max(0,h2-atk1);turns.push({who:1,name:c1.name,ab:c1.abilities[(Math.random()*3)|0],dmg:atk1,target:c2.name,h1:h1,h2:h2,line:c1.lines[(Math.random()*3)|0]});}
+      }
+      if(h1<=0||h2<=0)break;
+    }
+    var winner=h1>h2?c1:c2;
+    var idx=0;
+    function next(){
+      if(idx>=turns.length){
+        asbLog('⚡ SIMULATION COMPLETE — '+winner.name.toUpperCase()+' WINS','victory');
+        var res=document.getElementById('asb-result');
+        res.style.display='block';
+        res.innerHTML='<div class="asb-winner-badge">'+winner.emoji+' '+winner.name.toUpperCase()+' — VICTOR</div><br><button class="asb-fight-btn" style="margin-top:16px" onclick="asbReset()">&#8634; REMATCH</button>';
+        return;
+      }
+      var t=turns[idx++];
+      asbLog('— '+t.line,'ability');
+      asbLog('  → '+t.name+' uses '+t.ab+': -'+t.dmg+' to '+t.target,'hit');
+      asbUpdateHp(1,t.h1); asbUpdateHp(2,t.h2);
+      setTimeout(next,200);
+    }
+    setTimeout(next,400);
+  };
+  window.asbReset=function(){
+    document.getElementById('asb-log').innerHTML='<div class="asb-log-line system">[ SIMULATION SYSTEM READY — SELECT TWO OPERATIVES ]</div>';
+    document.getElementById('asb-result').style.display='none';
+    document.querySelectorAll('.asb-char-card').forEach(function(c){c.classList.remove('selected');});
+    ['asb-sel1','asb-sel2'].forEach(function(id){document.getElementById(id).innerHTML='<div style="color:#555;font-family:\'Courier New\',monospace;font-size:11px;">SELECT OPERATIVE</div>';});
+    asbSel=[null,null];
+    document.getElementById('asb-fight-btn').disabled=true;
+  };
+})();
+
+;(function(){
+  // ORACLE CIPHER TERMINAL
+  var GLYPHS='⌀⚡◈⬡⊕⚙⍋⌂⍟⎊⌁⌿⍭⎆◎⍦⌬⌰⍀⌛⌗⍓⎈⌯⎇⌾';
+  var ALPHA='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  var octMode='encode';
+  function octEncode(t){return t.toUpperCase().split('').map(function(c){var i=ALPHA.indexOf(c);return i>=0?GLYPHS[i]:c;}).join('');}
+  function octDecode(t){return t.split('').map(function(c){var i=GLYPHS.indexOf(c);return i>=0?ALPHA[i]:c;}).join('');}
+  window.octSetMode=function(m,btn){
+    octMode=m;
+    document.querySelectorAll('.oct-mode-btn').forEach(function(b){b.classList.remove('active');});
+    btn.classList.add('active');
+    document.getElementById('oct-input-label').textContent=m==='encode'?'INPUT PLAINTEXT TRANSMISSION':'INPUT GLYPH CIPHER';
+    document.getElementById('oct-input').placeholder=m==='encode'?'Type your message here...':'Paste cipher glyphs here...';
+    document.getElementById('oct-output').textContent='—';
+  };
+  window.octProcess=function(){
+    var v=document.getElementById('oct-input').value;
+    if(!v.trim())return;
+    document.getElementById('oct-output').textContent=octMode==='encode'?octEncode(v):octDecode(v);
+  };
+  window.octCopy=function(){var o=document.getElementById('oct-output').textContent;if(o!=='—'&&navigator.clipboard)navigator.clipboard.writeText(o);};
+  window.octShare=function(){var o=document.getElementById('oct-output').textContent;if(o==='—')return;if(navigator.share)navigator.share({title:'Oracle Transmission',text:o});else if(navigator.clipboard)navigator.clipboard.writeText(o);};
+  window.octClear=function(){document.getElementById('oct-input').value='';document.getElementById('oct-output').textContent='—';};
+  document.addEventListener('DOMContentLoaded',function(){
+    var g=document.getElementById('oct-key-grid');
+    if(!g)return;
+    for(var i=0;i<13;i++){var s=document.createElement('span');s.className='oct-key-pair';s.textContent=ALPHA[i]+' → '+GLYPHS[i];g.appendChild(s);}
+    var s=document.createElement('span');s.className='oct-key-pair';s.textContent='[13 REDACTED — CLEARANCE REQUIRED]';g.appendChild(s);
+  });
+})();
+
+;(function(){
+  // CHARACTER RELATIONSHIP WEB
+  var NODES=[
+    {id:'catalyst',label:'CATALYST',emoji:'⚡',faction:'oracle',x:50,y:22},
+    {id:'thunderstrike',label:'THUNDERSTRIKE',emoji:'💥',faction:'oracle',x:18,y:55},
+    {id:'ironwolf',label:'IRON WOLF',emoji:'🐺',faction:'oracle',x:35,y:78},
+    {id:'mirror',label:'THE MIRROR',emoji:'🪞',faction:'da',x:65,y:68},
+    {id:'oracle',label:'THE ORACLE',emoji:'👁',faction:'oracle',x:80,y:28},
+    {id:'architect',label:'ARCHITECT',emoji:'🕳',faction:'da',x:82,y:62},
+    {id:'darkassembly',label:'DARK ASSEMBLY',emoji:'☠',faction:'da',x:92,y:45},
+    {id:'palecouncil',label:'PALE COUNCIL',emoji:'🌑',faction:'pc',x:12,y:28}
+  ];
+  var EDGES=[
+    {a:'catalyst',b:'thunderstrike',type:'alliance',label:'Alliance — Field Partners'},
+    {a:'catalyst',b:'oracle',type:'handler',label:'Handler — Oracle directs Catalyst'},
+    {a:'catalyst',b:'ironwolf',type:'rival',label:'Rivalry — Power Conflict'},
+    {a:'catalyst',b:'mirror',type:'rival',label:'Enemy — Opposing Factions'},
+    {a:'ironwolf',b:'oracle',type:'handler',label:'Asset — Oracle Field Asset'},
+    {a:'ironwolf',b:'palecouncil',type:'rival',label:'Target — PC contract on Iron Wolf'},
+    {a:'mirror',b:'darkassembly',type:'handler',label:'Informant — Double agent'},
+    {a:'mirror',b:'architect',type:'handler',label:'Controlled — Architect asset'},
+    {a:'architect',b:'darkassembly',type:'handler',label:'Controller — Commands DA'},
+    {a:'architect',b:'oracle',type:'rival',label:'Enemy — Primary antagonist'},
+    {a:'thunderstrike',b:'palecouncil',type:'rival',label:'Enemy — PC threat target'},
+    {a:'oracle',b:'palecouncil',type:'complex',label:'Complex — Ancient Rivalry'}
+  ];
+  var ECOL={alliance:'#00C9B1',rival:'#b81414',handler:'#F4B800',complex:'#9b59b6'};
+  var crwActive=null;
+  function crwPos(node,cont){return{x:node.x/100*cont.offsetWidth,y:node.y/100*cont.offsetHeight};}
+  function crwRender(){
+    var cont=document.getElementById('crw-container');
+    if(!cont||cont.offsetWidth===0)return;
+    var svg=document.getElementById('crw-svg');
+    svg.innerHTML='';
+    EDGES.forEach(function(e){
+      var na=NODES.find(function(n){return n.id===e.a;}),nb=NODES.find(function(n){return n.id===e.b;});
+      if(!na||!nb)return;
+      var pa=crwPos(na,cont),pb=crwPos(nb,cont);
+      var lit=crwActive&&(crwActive===e.a||crwActive===e.b);
+      var ln=document.createElementNS('http://www.w3.org/2000/svg','line');
+      ln.setAttribute('x1',pa.x);ln.setAttribute('y1',pa.y);ln.setAttribute('x2',pb.x);ln.setAttribute('y2',pb.y);
+      ln.setAttribute('stroke',ECOL[e.type]);ln.setAttribute('stroke-width',lit?2.5:1);
+      ln.setAttribute('stroke-opacity',crwActive?(lit?0.9:0.08):0.35);
+      svg.appendChild(ln);
+    });
+    NODES.forEach(function(node){
+      var pos=crwPos(node,cont);
+      var existing=document.getElementById('crw-nd-'+node.id);
+      if(!existing){
+        var div=document.createElement('div');
+        div.className='crw-node '+node.faction+'-node';
+        div.id='crw-nd-'+node.id;
+        div.style.left=pos.x+'px';div.style.top=pos.y+'px';
+        div.innerHTML='<div class="crw-node-ring">'+node.emoji+'</div><div class="crw-node-label">'+node.label+'</div>';
+        div.addEventListener('click',function(){crwClick(node.id);});
+        cont.appendChild(div);
+      } else {
+        existing.style.left=pos.x+'px';existing.style.top=pos.y+'px';
+        existing.classList.toggle('crw-active',node.id===crwActive);
+      }
+    });
+  }
+  function crwClick(id){
+    crwActive=crwActive===id?null:id;
+    var info=document.getElementById('crw-info');
+    if(crwActive){
+      var node=NODES.find(function(n){return n.id===id;});
+      var edges=EDGES.filter(function(e){return e.a===id||e.b===id;});
+      info.textContent=node.emoji+' '+node.label+': '+edges.map(function(e){return e.label;}).join(' · ');
+      info.classList.add('visible');
+    } else {info.classList.remove('visible');}
+    crwRender();
+  }
+  document.addEventListener('DOMContentLoaded',function(){
+    setTimeout(crwRender,100);
+    window.addEventListener('resize',function(){
+      document.querySelectorAll('.crw-node').forEach(function(el){el.remove();});
+      crwRender();
+    });
+  });
+})();
+
+;(function(){
+  // FACTION WAR NEWS FEED
+  var FEEDS={
+    oracle:{bid:'OIC-BROADCAST-FREQ-7.7',items:[
+      {p:'critical',code:'OIC-FLASH-001',title:'ASẹ Surge — Third Mainland Bridge Sector',body:'Unregistered ASẹ discharge at 02:17 hrs. Magnitude 4.8 Oracle scale. Field team ALPHA-7 dispatched. Civilian exposure: ONGOING.'},
+      {p:'high',code:'OIC-INT-009',title:'Dark Assembly Convoy Intercepted: Mushin Corridor',body:'Oracle ground assets neutralised unmarked DA supply chain at Mushin Checkpoint 3. Contents classified. Architect glyph signature confirmed.'},
+      {p:'high',code:'OIC-INT-014',title:'Catalyst Field Status: ACTIVE',body:'Agent BAYO in contact with DA handler network. Last confirmed: Balogun Market, 18:44 hrs. Threat: ELEVATED.'},
+      {p:'standard',code:'OIC-LOG-022',title:'New ASẹ Awakenings: 247 This Cycle',body:'Oracle registration intake exceeds projections. Fourteen new kinetic registrations in 72 hrs. Pale Council recruitment rising in Surulere.'},
+      {p:'standard',code:'OIC-INT-031',title:'The Mirror — Status: COMPROMISED',body:'Asset ZARA check-in overdue 36 hrs. Protocol SILENCE-7 activated. Do not contact via standard channels.'},
+      {p:'critical',code:'OIC-FLASH-003',title:'Architect Confirmed: Victoria Island',body:'Surveillance captured thermal signature consistent with VOID ASẹ at VI Towers. Evacuation submitted to Oracle council. PENDING APPROVAL.'}
+    ]},
+    da:{bid:'DA-CHANNEL-OMEGA-00',items:[
+      {p:'critical',code:'DA-EXEC-001',title:'DIRECTIVE: Eliminate Catalyst — Priority One',body:'The Bayo asset poses existential threat to Assembly operations. All operatives: confirmed sightings are EXECUTE orders. Bounty: 2,400,000 ASẹ CR.'},
+      {p:'high',code:'DA-INT-007',title:'Oracle Network Penetration: Phase Two Active',body:'Mirror asset confirmed three Oracle safe house locations. Phase two infiltration underway. The Oracle herself remains elusive.'},
+      {p:'high',code:'DA-LOG-019',title:'Extraction Device: Status Update',body:'Phase-3 ASẹ extraction device operational. Field test: Eko Bridge cluster. Projected yield 890,000 CR per deployment. Acquisition proceeding.'},
+      {p:'standard',code:'DA-INT-033',title:'Pale Council — Negotiation Suspended',body:'Assembly-Council talks collapsed. PC refuses jurisdiction over Apapa corridor. The Architect authorised competitive operations in the zone.'},
+      {p:'standard',code:'DA-LOG-044',title:'New Recruitment: 14 Unregistered ASẹ Users',body:'Fourteen awakened individuals intercepted before Oracle contact. Three kinetic, six iron, five unclassified. Processing at Assembly facility.'},
+      {p:'critical',code:'DA-EXEC-002',title:'The Oracle — TERMINATE ON SIGHT',body:'Her interference cost Assembly seven field operations. Architect standing order: no capture, no negotiation. This is not a retrieval mission.'}
+    ]},
+    street:{bid:'STREET-RADIO-FM-99.9',items:[
+      {p:'critical',code:'STR-001',title:'Three Buildings Collapsed — Mushin Night Market',body:'Eyewitnesses: "a man made of iron" fighting "someone who looked like electricity". LASEMA on scene. Unofficial toll: 4. Official story: gas explosion.'},
+      {p:'high',code:'STR-009',title:'Balogun Traders Warned: Stay Off Certain Streets',body:'WhatsApp alert spreading among Balogun vendors. "Don\'t go near the underpass after 9pm. Those men in suits are not police." Multiple sources.'},
+      {p:'high',code:'STR-014',title:'Strange Symbol Burned Into Third Mainland Bridge',body:'Symbol matches nothing in Lagos State archives. Engineers say the bridge is fine. Danfo drivers say it hums at night. Oracle involvement suspected.'},
+      {p:'standard',code:'STR-022',title:'Young Man From Surulere — "I Can Move Metal"',body:'Viral Instagram video deleted in 2 hrs. Account suspended. User not found. Same pattern as eleven disappearances this year. Nobody is talking.'},
+      {p:'standard',code:'STR-031',title:'Power Never Off — Strange Glow in Eko Island',body:'Locals report electricity in an unpowered building near Eko Atlantic. Blue-white glow visible at night. EKEDC gave no comment. Area cordoned quietly.'},
+      {p:'critical',code:'STR-003',title:'Two Men in White Suits — Taking People Away',body:'Reported in Apapa, Ikeja, and Yaba this week. They arrive at night, know names, leave with people. Families too afraid to report. Could be Pale Council.'}
+    ]}
+  };
+  window.wfSetChannel=function(ch,btn){
+    document.querySelectorAll('.wf-channel-btn').forEach(function(b){b.classList.remove('active');});
+    btn.classList.add('active');
+    wfRender(ch);
+  };
+  function wfRender(ch){
+    var feed=FEEDS[ch];
+    if(!feed)return;
+    document.getElementById('wf-bid').textContent=feed.bid;
+    var now=new Date();
+    document.getElementById('wf-ts').textContent=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0')+' HRS';
+    var items=document.getElementById('wf-items');
+    items.innerHTML='';
+    feed.items.forEach(function(item,i){
+      var d=document.createElement('div');
+      d.className='wf-item';
+      d.style.animationDelay=(i*80)+'ms';
+      d.innerHTML='<div class="wf-item-head"><span class="wf-priority '+item.p+'">'+item.p.toUpperCase()+'</span><span class="wf-item-code">'+item.code+'</span></div><div class="wf-item-title">'+item.title+'</div><div class="wf-item-body">'+item.body+'</div>';
+      items.appendChild(d);
+    });
+  }
+  document.addEventListener('DOMContentLoaded',function(){wfRender('oracle');});
 })();
 
 </script>
