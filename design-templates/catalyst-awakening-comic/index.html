@@ -6341,6 +6341,97 @@ body.ase-vision .ase-glyph-field { display:block; }
 .ars-vol{display:flex;align-items:center;gap:1rem;justify-content:center;margin-top:1.5rem;color:#999;font-size:.8rem;font-family:'Courier New',monospace}
 .ars-vol input{accent-color:#F4B800}
 </style>
+
+<style id="v12-styles">
+/* ===== A: Threat Response War Room (wr-) ===== */
+.wr-wrap{max-width:920px;margin:0 auto;background:rgba(10,10,14,0.7);border:1px solid rgba(196,30,58,0.25);border-radius:6px;padding:2rem;font-family:'Courier New',monospace}
+.wr-alert{background:rgba(196,30,58,0.08);border:1px solid rgba(196,30,58,0.35);border-radius:6px;padding:1.3rem 1.5rem;margin-bottom:1.5rem}
+.wr-alert-top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.6rem;margin-bottom:.6rem}
+.wr-sev{font-size:.68rem;letter-spacing:2px;padding:.25rem .7rem;border-radius:20px;font-weight:700}
+.wr-sev-low{background:rgba(0,201,177,0.15);color:#00C9B1;border:1px solid rgba(0,201,177,0.4)}
+.wr-sev-med{background:rgba(244,184,0,0.15);color:#F4B800;border:1px solid rgba(244,184,0,0.4)}
+.wr-sev-high{background:rgba(196,30,58,0.18);color:#ff5a72;border:1px solid rgba(196,30,58,0.45)}
+.wr-sev-critical{background:rgba(155,89,182,0.18);color:#c896e0;border:1px solid rgba(155,89,182,0.5)}
+.wr-district{color:#888;font-size:.75rem;letter-spacing:1px}
+.wr-alert h4{color:#fff;font-size:1.15rem;margin-bottom:.4rem}
+.wr-alert p{color:#bbb;font-size:.88rem;line-height:1.6;margin-bottom:.6rem}
+.wr-req{color:#F4B800;font-size:.8rem;letter-spacing:1px}
+.wr-roster{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.7rem;margin-bottom:1.2rem}
+.wr-op{background:rgba(255,255,255,0.03);border:1px solid rgba(244,184,0,0.2);border-radius:6px;padding:.9rem .7rem;text-align:center;cursor:pointer;transition:all .15s}
+.wr-op:hover{border-color:#F4B800}
+.wr-op.selected{background:rgba(244,184,0,0.12);border-color:#F4B800;box-shadow:0 0 12px rgba(244,184,0,0.15)}
+.wr-op.cooldown{opacity:.35;cursor:not-allowed;filter:grayscale(1)}
+.wr-op .wr-op-emoji{font-size:1.8rem;display:block}
+.wr-op .wr-op-name{color:#F4B800;font-size:.72rem;letter-spacing:1px;margin-top:.3rem;font-weight:700}
+.wr-op .wr-op-power{color:#999;font-size:.68rem;margin-top:.15rem}
+.wr-power-bar{display:flex;justify-content:space-between;align-items:center;font-size:.82rem;color:#ccc;margin-bottom:1rem;letter-spacing:.5px}
+.wr-power-bar b{color:#00C9B1}
+.wr-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.wr-dispatch,.wr-next{background:linear-gradient(135deg,#C41E3A,#8B0000);color:#fff;border:none;padding:.8rem 1.8rem;border-radius:4px;cursor:pointer;font-family:inherit;letter-spacing:2px;font-weight:700}
+.wr-dispatch:disabled{opacity:.35;cursor:not-allowed}
+.wr-next{background:transparent;border:1px solid rgba(244,184,0,0.4);color:#F4B800}
+.wr-result{margin-top:1.3rem;padding:1.1rem 1.3rem;border-radius:6px;display:none;font-size:.88rem;line-height:1.6}
+.wr-result.active{display:block;animation:acmFade .4s ease}
+.wr-result.win{background:rgba(0,201,177,0.1);border:1px solid rgba(0,201,177,0.35);color:#9be8dd}
+.wr-result.partial{background:rgba(244,184,0,0.1);border:1px solid rgba(244,184,0,0.35);color:#f4dca0}
+.wr-result.lose{background:rgba(196,30,58,0.1);border:1px solid rgba(196,30,58,0.35);color:#f0aab5}
+
+/* ===== B: Oracle Interrogation Terminal (oit-) ===== */
+.oit-wrap{max-width:760px;margin:0 auto;background:#0a0a0e;border:1px solid rgba(0,201,177,0.25);border-radius:6px;padding:2rem;font-family:'Courier New',monospace}
+.oit-screen{background:rgba(0,201,177,0.04);border:1px solid rgba(0,201,177,0.2);border-radius:6px;padding:1.4rem 1.5rem;margin-bottom:1.3rem;min-height:90px}
+.oit-screen p{color:#d8f5f0;font-size:.92rem;line-height:1.7}
+.oit-opts{display:grid;gap:.6rem}
+.oit-opt{background:rgba(255,255,255,0.03);border:1px solid rgba(0,201,177,0.25);color:#cdeee8;padding:.8rem 1rem;border-radius:4px;text-align:left;cursor:pointer;font-family:inherit;font-size:.86rem;transition:all .2s}
+.oit-opt:hover{background:rgba(0,201,177,0.12);border-color:#00C9B1;transform:translateX(4px)}
+.oit-ending{display:none;text-align:center}
+.oit-ending.active{display:block;animation:acmFade .5s ease}
+.oit-ending-tag{display:inline-block;font-size:.7rem;letter-spacing:2px;padding:.35rem .9rem;border-radius:20px;margin-bottom:.8rem;font-weight:700}
+.oit-ending-tag.good{background:rgba(0,201,177,0.15);color:#00C9B1;border:1px solid rgba(0,201,177,0.4)}
+.oit-ending-tag.neutral{background:rgba(244,184,0,0.15);color:#F4B800;border:1px solid rgba(244,184,0,0.4)}
+.oit-ending-tag.bad{background:rgba(196,30,58,0.18);color:#ff5a72;border:1px solid rgba(196,30,58,0.45)}
+.oit-restart{margin-top:1rem;background:transparent;border:1px solid rgba(0,201,177,0.4);color:#00C9B1;padding:.6rem 1.4rem;border-radius:4px;cursor:pointer;font-family:'Courier New',monospace;letter-spacing:1px;font-size:.8rem}
+.oit-restart:hover{background:rgba(0,201,177,0.1)}
+
+/* ===== C: Achievement & Badge Case (bdg-) ===== */
+.bdg-wrap{max-width:960px;margin:0 auto}
+.bdg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+.bdg-card{background:rgba(255,255,255,0.03);border:1px solid rgba(244,184,0,0.15);border-radius:8px;padding:1.3rem 1.1rem;text-align:center;font-family:'Courier New',monospace}
+.bdg-card.locked{filter:grayscale(0.85);opacity:.55}
+.bdg-card.common{border-color:rgba(150,150,150,0.4)}
+.bdg-card.rare{border-color:rgba(0,201,177,0.45)}
+.bdg-card.epic{border-color:rgba(155,89,182,0.5)}
+.bdg-card.legendary{border-color:rgba(244,184,0,0.55);box-shadow:0 0 16px rgba(244,184,0,0.1)}
+.bdg-emoji{font-size:2.1rem;display:block;margin-bottom:.4rem}
+.bdg-name{color:#F4B800;font-size:.82rem;letter-spacing:1px;font-weight:700;margin-bottom:.2rem}
+.bdg-rarity{font-size:.62rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:.5rem}
+.bdg-rarity.common{color:#999}
+.bdg-rarity.rare{color:#00C9B1}
+.bdg-rarity.epic{color:#c896e0}
+.bdg-rarity.legendary{color:#F4B800}
+.bdg-desc{color:#999;font-size:.72rem;line-height:1.5;margin-bottom:.6rem}
+.bdg-progress-track{height:5px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden}
+.bdg-progress-fill{height:100%;background:#F4B800;transition:width .4s}
+.bdg-progress-text{font-size:.65rem;color:#777;margin-top:.3rem;letter-spacing:1px}
+.bdg-unlocked-tag{font-size:.65rem;color:#00C9B1;letter-spacing:2px;margin-top:.3rem}
+
+/* ===== D: ASe Training Console (trn-) ===== */
+.trn-wrap{max-width:920px;margin:0 auto}
+.trn-points{text-align:center;margin-bottom:1.6rem;font-family:'Courier New',monospace}
+.trn-points-val{font-size:2.4rem;font-weight:900;color:#F4B800;text-shadow:0 0 16px rgba(244,184,0,0.4)}
+.trn-points-label{font-size:.7rem;letter-spacing:3px;color:#999}
+.trn-tier{margin-bottom:1.6rem}
+.trn-tier-label{color:#00C9B1;font-size:.78rem;letter-spacing:2px;margin-bottom:.7rem;font-family:'Courier New',monospace}
+.trn-perks{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.9rem}
+.trn-perk{background:rgba(255,255,255,0.03);border:1px solid rgba(244,184,0,0.18);border-radius:6px;padding:1.1rem;font-family:'Courier New',monospace}
+.trn-perk.owned{border-color:rgba(0,201,177,0.45);background:rgba(0,201,177,0.06)}
+.trn-perk-name{color:#F4B800;font-size:.85rem;font-weight:700;margin-bottom:.3rem}
+.trn-perk-desc{color:#999;font-size:.74rem;line-height:1.5;margin-bottom:.7rem}
+.trn-perk-btn{width:100%;background:transparent;border:1px solid rgba(244,184,0,0.4);color:#F4B800;padding:.5rem;border-radius:4px;cursor:pointer;font-family:inherit;font-size:.75rem;letter-spacing:1px}
+.trn-perk-btn:hover{background:rgba(244,184,0,0.1)}
+.trn-perk-btn:disabled{opacity:.4;cursor:not-allowed}
+.trn-perk-btn.owned-btn{border-color:rgba(0,201,177,0.45);color:#00C9B1;cursor:default}
+.trn-msg{text-align:center;font-size:.78rem;color:#ff5a72;margin-top:1rem;min-height:1.2em}
+</style>
 </head>
 <body>
 
@@ -8590,6 +8681,23 @@ body.ase-vision .ase-glyph-field { display:block; }
       </div>
 
     </div>
+  </div>
+</section>
+
+<section id="threat-war-room" style="padding:5rem 1.5rem;background:rgba(0,0,0,0.45);border-top:1px solid rgba(196,30,58,0.12);">
+  <div style="max-width:920px;margin:0 auto;text-align:center;margin-bottom:2.5rem;">
+    <h2 style="font-size:2.2rem;letter-spacing:2px;color:#fff;">THREAT RESPONSE <span class="gold">WAR ROOM</span></h2>
+    <p style="color:#999;margin-top:.6rem;font-family:'Courier New',monospace;font-size:.85rem;letter-spacing:1px;">DISPATCH OPERATIVES TO CONTAIN INCOMING PALE COUNCIL THREATS</p>
+  </div>
+  <div class="wr-wrap">
+    <div class="wr-alert" id="wr-alert"></div>
+    <div class="wr-roster" id="wr-roster"></div>
+    <div class="wr-power-bar" id="wr-power-bar"></div>
+    <div class="wr-actions">
+      <button class="wr-dispatch" id="wr-dispatch-btn" onclick="wrDispatch()">DISPATCH</button>
+      <button class="wr-next" onclick="wrNextThreat()">SKIP THREAT</button>
+    </div>
+    <div class="wr-result" id="wr-result"></div>
   </div>
 </section>
 <section id="villains">
@@ -11751,6 +11859,18 @@ body.ase-vision .ase-glyph-field { display:block; }
     </div>
   </div>
 </section>
+
+<section id="interrogation-terminal" style="padding:5rem 1.5rem;background:rgba(0,0,0,0.3);border-top:1px solid rgba(0,201,177,0.1);">
+  <div style="max-width:760px;margin:0 auto;text-align:center;margin-bottom:2.5rem;">
+    <h2 style="font-size:2.2rem;letter-spacing:2px;color:#fff;">ORACLE INTERROGATION <span style="color:#00C9B1">TERMINAL</span></h2>
+    <p style="color:#999;margin-top:.6rem;font-family:'Courier New',monospace;font-size:.85rem;letter-spacing:1px;">SUBJECT: GLASS-7 &mdash; PALE COUNCIL OPERATIVE, IN CUSTODY</p>
+  </div>
+  <div class="oit-wrap">
+    <div class="oit-screen" id="oit-screen"></div>
+    <div class="oit-opts" id="oit-opts"></div>
+    <div class="oit-ending" id="oit-ending"></div>
+  </div>
+</section>
 <section id="codex">
     <img class="section-photo-bg" src="./assets/noir-window.jpg" alt="Rain-streaked city night" loading="lazy" aria-hidden="true">
   <div class="codex-header">
@@ -12034,6 +12154,16 @@ body.ase-vision .ase-glyph-field { display:block; }
 
 <!-- ============================================================ COMMUNITY -->
 
+
+<section id="badge-case" style="padding:5rem 1.5rem;background:rgba(0,0,0,0.3);border-top:1px solid rgba(244,184,0,0.08);">
+  <div style="max-width:960px;margin:0 auto;text-align:center;margin-bottom:2.5rem;">
+    <h2 style="font-size:2.2rem;letter-spacing:2px;color:#fff;">ACHIEVEMENT &amp; <span class="gold">BADGE CASE</span></h2>
+    <p style="color:#999;margin-top:.6rem;font-family:'Courier New',monospace;font-size:.85rem;letter-spacing:1px;">EARNED THROUGH FIELD ACTIVITY &mdash; LOGGED TO YOUR OPERATIVE RECORD</p>
+  </div>
+  <div class="bdg-wrap">
+    <div class="bdg-grid" id="bdg-grid"></div>
+  </div>
+</section>
 <section id="char-web">
   <div class="crw-wrap">
     <div class="section-header reveal">
@@ -12399,6 +12529,21 @@ body.ase-vision .ase-glyph-field { display:block; }
 
 <!-- ============================================================ NEWSLETTER -->
 <!-- ════ OPERATIVE ID CARD GENERATOR ════ -->
+
+<section id="ase-training" style="padding:5rem 1.5rem;background:rgba(0,0,0,0.45);border-top:1px solid rgba(244,184,0,0.08);">
+  <div style="max-width:920px;margin:0 auto;text-align:center;margin-bottom:2rem;">
+    <h2 style="font-size:2.2rem;letter-spacing:2px;color:#fff;">A<span style="color:#F4B800">S</span>&#7865; TRAINING <span class="gold">CONSOLE</span></h2>
+    <p style="color:#999;margin-top:.6rem;font-family:'Courier New',monospace;font-size:.85rem;letter-spacing:1px;">SPEND POINTS EARNED FROM FIELD ACTIVITY TO UNLOCK PERKS</p>
+  </div>
+  <div class="trn-wrap">
+    <div class="trn-points">
+      <div class="trn-points-val" id="trn-points-val">0</div>
+      <div class="trn-points-label">A<span style="color:#F4B800">S</span>&#7865; POINTS AVAILABLE</div>
+    </div>
+    <div id="trn-tiers"></div>
+    <div class="trn-msg" id="trn-msg"></div>
+  </div>
+</section>
 <section id="op-id-generator">
   <div class="oidg-wrap">
     <div class="section-header reveal">
@@ -13234,30 +13379,32 @@ body.ase-vision .ase-glyph-field { display:block; }
   function pvNext() { if (_pvIndex < _pvPanels.length - 1) { _pvIndex++; renderPanelViewer(); } }
   function pvPrev() { if (_pvIndex > 0) { _pvIndex--; renderPanelViewer(); } }
 
-  document.getElementById('pvClose').addEventListener('click', closePanelViewer);
-  document.getElementById('pvNext').addEventListener('click', pvNext);
-  document.getElementById('pvPrev').addEventListener('click', pvPrev);
+  document.addEventListener('DOMContentLoaded', function(){
+    document.getElementById('pvClose').addEventListener('click', closePanelViewer);
+    document.getElementById('pvNext').addEventListener('click', pvNext);
+    document.getElementById('pvPrev').addEventListener('click', pvPrev);
 
-  document.addEventListener('keydown', function(e) {
-    if (!document.getElementById('panel-viewer').classList.contains('pv-open')) return;
-    if (e.key === 'ArrowRight') pvNext();
-    if (e.key === 'ArrowLeft') pvPrev();
-    if (e.key === 'Escape') closePanelViewer();
-  });
+    document.addEventListener('keydown', function(e) {
+      if (!document.getElementById('panel-viewer').classList.contains('pv-open')) return;
+      if (e.key === 'ArrowRight') pvNext();
+      if (e.key === 'ArrowLeft') pvPrev();
+      if (e.key === 'Escape') closePanelViewer();
+    });
 
-  // Touch swipe
-  document.getElementById('panel-viewer').addEventListener('touchstart', function(e) {
-    _pvTouchStartX = e.changedTouches[0].clientX;
-  }, { passive: true });
-  document.getElementById('panel-viewer').addEventListener('touchend', function(e) {
-    var dx = e.changedTouches[0].clientX - _pvTouchStartX;
-    if (dx > 50) pvPrev();
-    else if (dx < -50) pvNext();
-  });
+    // Touch swipe
+    document.getElementById('panel-viewer').addEventListener('touchstart', function(e) {
+      _pvTouchStartX = e.changedTouches[0].clientX;
+    }, { passive: true });
+    document.getElementById('panel-viewer').addEventListener('touchend', function(e) {
+      var dx = e.changedTouches[0].clientX - _pvTouchStartX;
+      if (dx > 50) pvPrev();
+      else if (dx < -50) pvNext();
+    });
 
-  // Close on backdrop click
-  document.getElementById('panel-viewer').addEventListener('click', function(e) {
-    if (e.target === this) closePanelViewer();
+    // Close on backdrop click
+    document.getElementById('panel-viewer').addEventListener('click', function(e) {
+      if (e.target === this) closePanelViewer();
+    });
   });
 
   // Issue 1 panels — 3 actual manga artworks
@@ -13268,19 +13415,19 @@ body.ase-vision .ase-glyph-field { display:block; }
   ];
 
   var ISSUE2_PANELS = [
-    { src: 'https://design.canva.ai/GiegyG0E9sRvfyM', caption: 'Issue #02 · Cover — Ṣàngó's Daughter. Amara carries the oldest telephone in Lagos.' },
+    { src: 'https://design.canva.ai/GiegyG0E9sRvfyM', caption: 'Issue #02 · Cover — Ṣàngó\'s Daughter. Amara carries the oldest telephone in Lagos.' },
     { src: 'images/bayo-action-color.png', caption: 'Issue #02 · Panel 3 — The Collector Arrives. Geneva → Lagos. The harvest begins.' },
     { src: 'images/bayo-action-bw.png', caption: 'Issue #02 · Panel 6 — Bayo walks toward The Collector. 847 futures. One path. Nobody dies.' },
   ];
 
   var ISSUE3_PANELS = [
     { src: 'https://design.canva.ai/F6Fhg0PQ29fIURi', caption: 'Issue #03 · Cover — Iron in the Blood. Ikenna and the iron that thinks.' },
-    { src: 'images/bayo-portrait.png', caption: 'Issue #03 · Panel 4 — Iron Wolf's awakening. 416 metal objects orient at once.' },
-    { src: 'images/bayo-action-color.png', caption: 'Issue #03 · Panel 7 — The Pale Council's strike team. Six operatives. They didn't expect the iron.' },
+    { src: 'images/bayo-portrait.png', caption: 'Issue #03 · Panel 4 — Iron Wolf\'s awakening. 416 metal objects orient at once.' },
+    { src: 'images/bayo-action-color.png', caption: 'Issue #03 · Panel 7 — The Pale Council\'s strike team. Six operatives. They didn\'t expect the iron.' },
   ];
 
   var ISSUE4_PANELS = [
-    { src: 'https://design.canva.ai/LNpruvpNmtN--Pi', caption: 'Issue #04 · Cover — The Price of ASẸ. The Oracle's truth. The Architect's arrival.' },
+    { src: 'https://design.canva.ai/LNpruvpNmtN--Pi', caption: 'Issue #04 · Cover — The Price of ASẸ. The Oracle\'s truth. The Architect\'s arrival.' },
     { src: 'images/bayo-action-bw.png', caption: 'Issue #04 · Panel 2 — The Orisha Vaccine. Six weeks from completion. Eko Atlantic.' },
     { src: 'images/bayo-portrait.png', caption: 'Issue #04 · Panel 3 — The Choice. Control it or let it grow wild. Bayo decides.' },
   ];
@@ -13305,7 +13452,7 @@ body.ase-vision .ase-glyph-field { display:block; }
   // ─── PAYMENT MODAL ───────────────────────────────────────────
   function openPaymentModal() {
     // If not logged in, open signup first to capture their email
-    // BUT still show payment if they've been tracked locally
+    // BUT still show payment if they\'ve been tracked locally
     if (!_currentUser) {
       vaultSave('payment_intent', { action: 'clicked_subscribe', ts: new Date().toISOString() });
       openAuthModal('signup');
@@ -13740,7 +13887,7 @@ var TERM_DATA = {
     { t: 300, txt: '\x1b[dim]CLEARANCE REQUIRED: OMEGA — GRANTED\n\n\x1b[/]', cls: 't-dim' },
     { t: 700, txt: '\x1b[gold]THREAT CLASSIFICATION: EXISTENTIAL\n\x1b[/]', cls: 't-gold' },
     { t: 1000,txt: '\x1b[white]Age: 19. Mushin-born. NEPA bill 3 months overdue.\nHis mother thinks he works in tech support.\nHis Aṣẹ signature reads as ALL FIVE ORISHA simultaneously.\n\n\x1b[/]', cls: 't-white' },
-    { t: 1900,txt: 'The Collector's report (classified): "Classification impossible.\nSubject does not amplify Aṣẹ — he MULTIPLIES it.\nNear Iron Wolf, subject temporarily elevated him to Tier IV.\nNear an Orisha fragment, subject triggered a partial transcendence.\n\n', cls: '' },
+    { t: 1900,txt: 'The Collector\'s report (classified): "Classification impossible.\nSubject does not amplify Aṣẹ — he MULTIPLIES it.\nNear Iron Wolf, subject temporarily elevated him to Tier IV.\nNear an Orisha fragment, subject triggered a partial transcendence.\n\n', cls: '' },
     { t: 2600,txt: '\x1b[red]Near The Architect: unknown. The Architect has not told us.\nThe Architect is the only one who knows what happens next.\nThe Architect is afraid.\n\n\x1b[/]', cls: 't-red' },
     { t: 3400,txt: '\x1b[dim]Oracle personal note: Do not tell the boy what he is.\nNot yet. He is not ready. None of them have ever been ready.\nThat has never stopped the city from choosing them anyway."\x1b[/]', cls: 't-dim' },
   ],
@@ -13760,7 +13907,7 @@ var TERM_DATA = {
     { t: 1100,txt: '\x1b[white]Age: 26. Iron District native. Father: Ògún ironsmith lineage, 14 generations.\nTransformation confirmed: Tier III in base form — Tier V+ in wolf-iron state.\nSpeed in transformed state: unmeasurable by existing instruments.\n\n\x1b[/]', cls: 't-white' },
     { t: 2000,txt: 'Psychological profile: FRACTURED LOYALTY.\nSubject does not consider himself a hero. Subject considers himself\na consequence — of what the city did to his father.\n\n', cls: '' },
     { t: 2700,txt: '\x1b[dim]Intel note: The Architect has made three recruitment approaches.\nSubject has refused all three. The fourth approach is coming.\nWe are monitoring. We are not confident in the outcome.\n\x1b[/]', cls: 't-dim' },
-    { t: 3400,txt: '\n\x1b[red]WARNING: Do not mention Ikenna's father. Not ever. Not even as strategy.\x1b[/]', cls: 't-red' },
+    { t: 3400,txt: '\n\x1b[red]WARNING: Do not mention Ikenna\'s father. Not ever. Not even as strategy.\x1b[/]', cls: 't-red' },
   ],
   architect: [
     { t: 0,   txt: '\x1b[red][ ACCESSING FILE: UNKNOWN — CODENAME: THE ARCHITECT ]\n\x1b[/]', cls: 't-red' },
@@ -13818,7 +13965,7 @@ var QUIZ_HEROES = {
   T: {
     name: 'THUNDERSTRIKE',
     img: './assets/flares.jpg',
-    tag: 'You move like lightning and think even faster. When others hesitate, you have already acted. The city's pace matches yours — fast, electric, and alive. Amara would recognize you.'
+    tag: 'You move like lightning and think even faster. When others hesitate, you have already acted. The city\'s pace matches yours — fast, electric, and alive. Amara would recognize you.'
   },
   O: {
     name: 'THE ORACLE',
@@ -13828,12 +13975,12 @@ var QUIZ_HEROES = {
   W: {
     name: 'IRON WOLF',
     img: './assets/industrial.jpg',
-    tag: 'You are made of this city's iron — forged in its fires, shaped by its losses. You do not ask for respect. You have already earned it. Ikenna would call you kin.'
+    tag: 'You are made of this city\'s iron — forged in its fires, shaped by its losses. You do not ask for respect. You have already earned it. Ikenna would call you kin.'
   },
   C: {
     name: 'CATALYST',
     img: './assets/forge.jpg',
-    tag: 'You are the variable no one accounted for. You don't just change the game — you change everyone around you, without even trying. The city chose you. Lagos dey awaken.'
+    tag: 'You are the variable no one accounted for. You don\'t just change the game — you change everyone around you, without even trying. The city chose you. Lagos dey awaken.'
   }
 };
 
@@ -13898,7 +14045,7 @@ var DISPATCHES = [
   {
     loc: 'THIRD MAINLAND BRIDGE — 02:14 HRS',
     num: 'TRANSMISSION 002 / 006',
-    body: 'The bridge whispers names at 3 AM.<br><br>Ikenna has heard it every night since his father died here. He has never told anyone this. He has also never told anyone that the bridge sometimes whispers his father's name — and then goes quiet, as if embarrassed.<br><br>He drives across it anyway. Every night. <em>Because something that knows you should not get the satisfaction of making you afraid of it.</em><br><br>Somewhere in the pylons, something older than the city watches him go. It does not know whether to be impressed or afraid.<br><br>It decides: <em>both.</em>'
+    body: 'The bridge whispers names at 3 AM.<br><br>Ikenna has heard it every night since his father died here. He has never told anyone this. He has also never told anyone that the bridge sometimes whispers his father\'s name — and then goes quiet, as if embarrassed.<br><br>He drives across it anyway. Every night. <em>Because something that knows you should not get the satisfaction of making you afraid of it.</em><br><br>Somewhere in the pylons, something older than the city watches him go. It does not know whether to be impressed or afraid.<br><br>It decides: <em>both.</em>'
   },
   {
     loc: 'BALOGUN NEXUS — 00:01 HRS',
@@ -13913,10 +14060,10 @@ var DISPATCHES = [
   {
     loc: 'MUSHIN DISTRICT — 06:32 HRS',
     num: 'TRANSMISSION 005 / 006',
-    body: 'This morning, Bayo stopped a DANFO before it hit a child.<br><br>Not with his hands. With nothing he could explain. The bus stopped two metres from the boy — engine still running, driver still pressing the accelerator — and simply did not move forward.<br><br>The driver got out. Looked at the front of the bus. Looked at Bayo. Looked at the child. Said nothing. Got back in. Reversed. Drove away.<br><br>Bayo crouched down to the boy's height. Asked if he was okay. The boy said: <em>"Why do you shine like that?"</em><br><br>Bayo said: "Like what?"<br><br><em>The boy pointed at his chest. Bayo looked down. He saw nothing. But his hands were warm.</em>'
+    body: 'This morning, Bayo stopped a DANFO before it hit a child.<br><br>Not with his hands. With nothing he could explain. The bus stopped two metres from the boy — engine still running, driver still pressing the accelerator — and simply did not move forward.<br><br>The driver got out. Looked at the front of the bus. Looked at Bayo. Looked at the child. Said nothing. Got back in. Reversed. Drove away.<br><br>Bayo crouched down to the boy\'s height. Asked if he was okay. The boy said: <em>"Why do you shine like that?"</em><br><br>Bayo said: "Like what?"<br><br><em>The boy pointed at his chest. Bayo looked down. He saw nothing. But his hands were warm.</em>'
   },
   {
-    loc: 'ORACLE'S COMPOUND — LOCATION CLASSIFIED',
+    loc: 'ORACLE\'S COMPOUND — LOCATION CLASSIFIED',
     num: 'TRANSMISSION 006 / 006',
     body: 'The Oracle does not sleep.<br><br>He has not slept in forty-three years. He says this calmly, the way one says they have not eaten meat, or have not been to the cinema in a while.<br><br>He says it is because the city never sleeps, and someone has to be watching. He says it is because every time he closes his eyes, he sees six hundred years of choices replaying, and some of them he is not finished examining yet.<br><br>He says he does not mind. He has good tea. He has good books. He has a window that faces the lagoon, and at 4 AM the water turns a colour that has no name in any language he has found yet.<br><br><em>He is looking for the name. He thinks he is close.</em>'
   }
@@ -13961,7 +14108,7 @@ var DOSSIERS = {
       { name: 'INTELLIGENCE', pct: 88, cls: 'sf-purple' },
       { name: 'ASẸ OUTPUT', pct: 100, cls: 'sf-gold' },
     ],
-    notes: 'Subject does not amplify Aṣẹ — he MULTIPLIES it. Classified as existential variable by Pale Council. The Architect has reviewed his file seven times. Oracle's assessment: "Do not tell him yet. He is not ready. The city doesn't care."'
+    notes: 'Subject does not amplify Aṣẹ — he MULTIPLIES it. Classified as existential variable by Pale Council. The Architect has reviewed his file seven times. Oracle\'s assessment: "Do not tell him yet. He is not ready. The city doesn\'t care."'
   },
   thunderstrike: {
     name: 'AMARA IBRAHIM',
@@ -14328,11 +14475,11 @@ function pvCopyLink() {
   // ─── LOCATION MODAL ───────────────────────────────────────────
   var LOC_DATA = {
     'mushin': { num:'01', name:'Mushin', yoruba:'Mushin — "Spirit of the Warrior"', photo:'./assets/industrial.jpg', desc:'Where Bayo grew up. A neighbourhood of thirty-two naira, borrowed beds, and the specific kind of survival intelligence that only grinding poverty produces. The Orishas have always known about Mushin — they chose it deliberately. Power hidden in plain sight.', events:['Bayo first experiences ASẸ surge — Issue #01','Area boys confront Bayo behind the old Odeon shell','NEPA wire sparks: the Awakening begins'], chars:['Bayo Adeyemi','Area Boys','Mushin Elders'] },
-    'balogun': { num:'02', name:'Balogun Nexus', yoruba:'Ọjà Bálógún — "Market of the General"', photo:'./assets/intersection.jpg', desc:'The ancient market hums on two frequencies — the physical bustle of traders and hawkers, and the Aṣẹ frequency that has run through its foundations since the 16th century. The first team battle takes place here. The Collector begins his harvest operations within 200m of this location.', events:['First full team assembly — Issue #01','The Collector's initial harvest attempt','847 futures visible to Bayo: one path survives','Amara's drum resonance drops to critical 40%'], chars:['Bayo','Amara','Ikenna','Zara','The Collector'] },
-    'eko-atlantic': { num:'03', name:'Eko Atlantic', yoruba:'Ẹko Atlantic — "The Extraction Engine"', photo:'./assets/flares.jpg', desc:'Built on reclaimed land from Lagos Lagoon — drilled straight through Ọṣun's domain. The towers are not offices. They are spiritual extraction machines. Each foundation column drives into the seabed at a frequency calculated to siphon Aṣẹ. The Pale Council's Lagos HQ is Tower 7, sub-basement Level B3. The Orisha Vaccine is being assembled there now.', events:['Pale Council Lagos HQ — Tower 7','Orisha Vaccine assembly — B3 sub-basement','The Architect arrives — Issue #03','30 Ọ̀run breaches directly caused by drilling'], chars:['The Architect','Pale Council Operatives','The Collector'] },
+    'balogun': { num:'02', name:'Balogun Nexus', yoruba:'Ọjà Bálógún — "Market of the General"', photo:'./assets/intersection.jpg', desc:'The ancient market hums on two frequencies — the physical bustle of traders and hawkers, and the Aṣẹ frequency that has run through its foundations since the 16th century. The first team battle takes place here. The Collector begins his harvest operations within 200m of this location.', events:['First full team assembly — Issue #01','The Collector\'s initial harvest attempt','847 futures visible to Bayo: one path survives','Amara\'s drum resonance drops to critical 40%'], chars:['Bayo','Amara','Ikenna','Zara','The Collector'] },
+    'eko-atlantic': { num:'03', name:'Eko Atlantic', yoruba:'Ẹko Atlantic — "The Extraction Engine"', photo:'./assets/flares.jpg', desc:'Built on reclaimed land from Lagos Lagoon — drilled straight through Ọṣun\'s domain. The towers are not offices. They are spiritual extraction machines. Each foundation column drives into the seabed at a frequency calculated to siphon Aṣẹ. The Pale Council\'s Lagos HQ is Tower 7, sub-basement Level B3. The Orisha Vaccine is being assembled there now.', events:['Pale Council Lagos HQ — Tower 7','Orisha Vaccine assembly — B3 sub-basement','The Architect arrives — Issue #03','30 Ọ̀run breaches directly caused by drilling'], chars:['The Architect','Pale Council Operatives','The Collector'] },
     'oshodi': { num:'04', name:'Oshodi Market', yoruba:'Ọ̀ṣòdì — "Where the spirits haggle"', photo:'./assets/industrial.jpg', desc:'The largest informal economy in West Africa. Oshodi processes more Aṣẹ transactions than any other location in Lagos — not because it is sacred, but because it is alive. Ẹṣù has more agents per square metre here than anywhere on the continent. Every misunderstanding, every impossible deal that somehow closes, every near-accident avoided at the last second — that is Ẹṣù, taxing the crossroads.', events:['Bayo spots Pale Council surveillance — Issue #01','Oshodi confrontation — Bayo releases full ASẸ','ZZZZAP! — BW panel full power discharge'], chars:['Bayo','Ẹṣù agents','Pale Council Surveillance'] },
-    'paul-street': { num:'05', name:'Paul Street Workshop', yoruba:'Àgò Paul — "The forge that listens"', photo:'./assets/forge.jpg', desc:'Ikenna's workplace for three years. A mechanic's workshop that smells of iron dust, engine oil, and something electrical with no physical source. The morning of Issue 3, Pale Council operatives attempt a raid through the rear. 416 separate metal objects in the workshop turn toward the threat at the same moment. Ògún has been awake here for years.', events:['Pale Council strike team raids — Issue #03','416 metal objects orient simultaneously','Iron Wolf emerges — first full Ògún manifestation','Workshop becomes team base of operations'], chars:['Ikenna Chukwuemeka','Ògún','Pale Council Strike Team'] },
-    'oracle-compound': { num:'06', name:'Oracle's Compound', yoruba:'Ilé Àgbà Adesanya — "The Elder's House"', photo:'./assets/corridor.jpg', desc:'Chief Adesanya Adewale has lived here for 62 of his 144 years. The compound in Idumota smells of ìtò, palm oil, and old paper in three different languages. The walls remember every conversation that happened in this space. Zara presents her 9-night intelligence report here. Bayo receives the truth about what he is. The Oracle has been waiting for this day since 1987.', events:['Oracle reveals Bayo's true nature — Issue #04','Zara's intelligence briefing — 37 Pale Council positions','The Choice: control or grow wild','Oracle has been alive 144 years — Orishas took his eyes'], chars:['The Oracle','Bayo','Amara','Ikenna','Zara'] }
+    'paul-street': { num:'05', name:'Paul Street Workshop', yoruba:'Àgò Paul — "The forge that listens"', photo:'./assets/forge.jpg', desc:'Ikenna\'s workplace for three years. A mechanic\'s workshop that smells of iron dust, engine oil, and something electrical with no physical source. The morning of Issue 3, Pale Council operatives attempt a raid through the rear. 416 separate metal objects in the workshop turn toward the threat at the same moment. Ògún has been awake here for years.', events:['Pale Council strike team raids — Issue #03','416 metal objects orient simultaneously','Iron Wolf emerges — first full Ògún manifestation','Workshop becomes team base of operations'], chars:['Ikenna Chukwuemeka','Ògún','Pale Council Strike Team'] },
+    'oracle-compound': { num:'06', name:'Oracle\'s Compound', yoruba:'Ilé Àgbà Adesanya — "The Elder\'s House"', photo:'./assets/corridor.jpg', desc:'Chief Adesanya Adewale has lived here for 62 of his 144 years. The compound in Idumota smells of ìtò, palm oil, and old paper in three different languages. The walls remember every conversation that happened in this space. Zara presents her 9-night intelligence report here. Bayo receives the truth about what he is. The Oracle has been waiting for this day since 1987.', events:['Oracle reveals Bayo\'s true nature — Issue #04','Zara\'s intelligence briefing — 37 Pale Council positions','The Choice: control or grow wild','Oracle has been alive 144 years — Orishas took his eyes'], chars:['The Oracle','Bayo','Amara','Ikenna','Zara'] }
   };
 
   function openLocModal(id) {
@@ -15695,28 +15842,27 @@ window.volunteerForMission = function(){
   document.addEventListener('DOMContentLoaded',function(){wfRender('oracle');});
 })();
 
-<script>
 /* ===== A: ASe Compatibility Matchmaker ===== */
 ;(function(){
   var ALLIES = {
-    catalyst:{name:"CATALYST",emoji:"⚡",role:"The Awakened One",traits:["Defiant","Loyal","Reckless"],quote:"\"You don't choose the Ase. It chooses you, and then it never lets go.\""},
+    catalyst:{name:"CATALYST",emoji:"⚡",role:"The Awakened One",traits:["Defiant","Loyal","Reckless"],quote:"\"You don\'t choose the Ase. It chooses you, and then it never lets go.\""},
     thunderstrike:{name:"THUNDERSTRIKE",emoji:"⛈️",role:"The Storm Bringer",traits:["Bold","Hot-headed","Protective"],quote:"\"Lagos taught me to hit first. The Ase just made it louder.\""},
-    ironwolf:{name:"IRON WOLF",emoji:"⚖️",role:"The Unbreakable",traits:["Disciplined","Stoic","Reliable"],quote:"\"Steel bends so it doesn't break. So do I.\""},
-    mirror:{name:"THE MIRROR",emoji:"\u{1FA9E}",role:"The Deceiver",traits:["Cunning","Secretive","Adaptive"],quote:"\"You never see me coming. That's rather the point.\""},
-    oracle:{name:"THE ORACLE",emoji:"\u{1F441}️",role:"The Handler",traits:["Wise","Calculating","Distant"],quote:"\"I see every thread. I just don't always pull the right one.\""}
+    ironwolf:{name:"IRON WOLF",emoji:"⚖️",role:"The Unbreakable",traits:["Disciplined","Stoic","Reliable"],quote:"\"Steel bends so it doesn\'t break. So do I.\""},
+    mirror:{name:"THE MIRROR",emoji:"\u{1FA9E}",role:"The Deceiver",traits:["Cunning","Secretive","Adaptive"],quote:"\"You never see me coming. That\'s rather the point.\""},
+    oracle:{name:"THE ORACLE",emoji:"\u{1F441}️",role:"The Handler",traits:["Wise","Calculating","Distant"],quote:"\"I see every thread. I just don\'t always pull the right one.\""}
   };
   var QUESTIONS = [
     {q:"When chaos hits the streets of Lagos, your first move is:",opts:[
-      {t:"Charge in and protect whoever's closest",w:{catalyst:2,thunderstrike:2,ironwolf:1}},
+      {t:"Charge in and protect whoever\'s closest",w:{catalyst:2,thunderstrike:2,ironwolf:1}},
       {t:"Step back, read the situation, plan three moves ahead",w:{oracle:3,mirror:1}},
       {t:"Find the angle nobody else sees",w:{mirror:3,oracle:1}},
       {t:"Hold the line no matter what it costs",w:{ironwolf:3,thunderstrike:1}}
     ]},
     {q:"Your idea of a fair fight is:",opts:[
-      {t:"There's no such thing &mdash; win by any means",w:{mirror:3,thunderstrike:1}},
+      {t:"There\'s no such thing &mdash; win by any means",w:{mirror:3,thunderstrike:1}},
       {t:"Strength against strength, no tricks",w:{ironwolf:2,thunderstrike:2}},
       {t:"Whatever keeps the most people alive",w:{catalyst:3,oracle:1}},
-      {t:"One you've already calculated the outcome of",w:{oracle:3,mirror:1}}
+      {t:"One you\'ve already calculated the outcome of",w:{oracle:3,mirror:1}}
     ]},
     {q:"What scares you more &mdash; losing control, or losing people?",opts:[
       {t:"Losing people. Always.",w:{catalyst:3,thunderstrike:2}},
@@ -15809,7 +15955,7 @@ window.volunteerForMission = function(){
   acmRenderQuestion();
 })();
 
-/* ===== B: The Architect's Vault ===== */
+/* ===== B: The Architect\'s Vault ===== */
 ;(function(){
   var CODE = [2, 13, 8];
   var dials = [0,0,0];
@@ -15867,7 +16013,9 @@ window.volunteerForMission = function(){
   function avLockout(){
     locked = true;
     var statusEl = document.getElementById('av-status');
-    var remaining = LOCK_SECONDS;
+    var data = window.ofrGetData ? window.ofrGetData() : null;
+    var hasIronResolve = !!(data && data.perks && data.perks.iron_resolve);
+    var remaining = hasIronResolve ? Math.round(LOCK_SECONDS/2) : LOCK_SECONDS;
     statusEl.className = 'av-status err';
     statusEl.innerHTML = '<div class="av-lockout">LOCKED &mdash; '+remaining+'s</div>';
     clearInterval(lockTimer);
@@ -15891,11 +16039,20 @@ window.volunteerForMission = function(){
   var STORE_KEY = 'oracle_operative_record_v1';
 
   function ofrLoad(){
+    var d = null;
     try{
       var raw = localStorage.getItem(STORE_KEY);
-      if(raw) return JSON.parse(raw);
+      if(raw) d = JSON.parse(raw);
     }catch(e){}
-    return {visitorId:null, entries:[], stats:{battles:0,wins:0,idCards:0,ciphers:0,quizzes:0,vault:0}};
+    if(!d) d = {};
+    d.visitorId = d.visitorId || null;
+    d.entries = d.entries || [];
+    d.stats = d.stats || {};
+    var statKeys = ['battles','wins','idCards','ciphers','quizzes','vault','warRoom','interrogations'];
+    for(var i=0;i<statKeys.length;i++){ d.stats[statKeys[i]] = d.stats[statKeys[i]] || 0; }
+    d.asePoints = d.asePoints || 0;
+    d.perks = d.perks || {};
+    return d;
   }
 
   function ofrSave(data){
@@ -15919,15 +16076,18 @@ window.volunteerForMission = function(){
     if(type==='cipher') ofrData.stats.ciphers++;
     if(type==='quiz') ofrData.stats.quizzes++;
     if(type==='vault') ofrData.stats.vault++;
+    if(type==='warroom') ofrData.stats.warRoom++;
+    if(type==='interrogate') ofrData.stats.interrogations++;
+    ofrData.asePoints += 5;
     ofrSave(ofrData);
     ofrRender();
   };
 
   function ofrRank(stats){
-    var total = stats.battles + stats.wins + stats.idCards + stats.ciphers + stats.quizzes + stats.vault;
+    var total = stats.battles + stats.wins + stats.idCards + stats.ciphers + stats.quizzes + stats.vault + stats.warRoom + stats.interrogations;
     if(stats.vault > 0) return 'RANK: ARCHITECT-CLEARED';
-    if(total >= 8) return 'RANK: ORACLE OPERATIVE';
-    if(total >= 4) return 'RANK: FIELD AGENT';
+    if(total >= 10) return 'RANK: ORACLE OPERATIVE';
+    if(total >= 5) return 'RANK: FIELD AGENT';
     if(total >= 1) return 'RANK: RECRUIT';
     return 'RANK: UNVERIFIED';
   }
@@ -15956,7 +16116,11 @@ window.volunteerForMission = function(){
       '<div class="ofr-stat"><div class="ofr-val">'+s.idCards+'</div><div class="ofr-label">ID Cards Issued</div></div>'+
       '<div class="ofr-stat"><div class="ofr-val">'+s.ciphers+'</div><div class="ofr-label">Cipher Transmissions</div></div>'+
       '<div class="ofr-stat"><div class="ofr-val">'+s.quizzes+'</div><div class="ofr-label">Bonds Formed</div></div>'+
-      '<div class="ofr-stat"><div class="ofr-val">'+s.vault+'</div><div class="ofr-label">Vaults Cracked</div></div>';
+      '<div class="ofr-stat"><div class="ofr-val">'+s.vault+'</div><div class="ofr-label">Vaults Cracked</div></div>'+
+      '<div class="ofr-stat"><div class="ofr-val">'+s.warRoom+'</div><div class="ofr-label">War Room Dispatches</div></div>'+
+      '<div class="ofr-stat"><div class="ofr-val">'+s.interrogations+'</div><div class="ofr-label">Interrogations</div></div>'+
+      '<div class="ofr-stat"><div class="ofr-val">'+ofrData.asePoints+'</div><div class="ofr-label">Aṣẽ Points</div></div>'+
+      '<div class="ofr-stat"><div class="ofr-val">'+Object.keys(ofrData.perks).length+'</div><div class="ofr-label">Perks Unlocked</div></div>';
     if(ofrData.entries.length === 0){
       entries.innerHTML = '<div class="ofr-empty">NO ACTIVITY LOGGED YET &mdash; INTERACT WITH THE SITE TO BUILD YOUR FILE</div>';
     } else {
@@ -15967,6 +16131,8 @@ window.volunteerForMission = function(){
       }
       entries.innerHTML = html;
     }
+    if(window.bdgRender) bdgRender();
+    if(window.trnRender) trnRender();
   }
 
   window.ofrClearRecord = function(){
@@ -15975,6 +16141,10 @@ window.volunteerForMission = function(){
     ofrSave(ofrData);
     ofrRender();
   };
+
+  window.ofrGetData = ofrLoad;
+  window.ofrSaveData = ofrSave;
+  window.ofrRefresh = ofrRender;
 
   ofrRender();
 })();
@@ -16113,8 +16283,342 @@ window.volunteerForMission = function(){
 
   arsRender();
 })();
-</script>
 
+/* ===== A: Threat Response War Room ===== */
+;(function(){
+  var ROSTER = [
+    {id:'catalyst',name:'CATALYST',emoji:'⚡',power:88},
+    {id:'thunderstrike',name:'THUNDERSTRIKE',emoji:'💥',power:94},
+    {id:'ironwolf',name:'IRON WOLF',emoji:'🐺',power:80},
+    {id:'mirror',name:'THE MIRROR',emoji:'🪞',power:76},
+    {id:'oracle',name:'THE ORACLE',emoji:'👁',power:70}
+  ];
+  var THREATS = [
+    {district:'Eko Atlantic — The Glass Citadel',severity:'low',title:'Corporate Leak',desc:'A whistleblower needs extraction before Council security finds them.',required:60},
+    {district:'Mushin — The Iron Quarter',severity:'low',title:'Rogue Enforcer Shakedown',desc:'A Pale Council enforcer is extorting iron workers near the scrapyards.',required:75},
+    {district:'Balogun Nexus',severity:'med',title:'Orun-Channel Spike',desc:'Spiritual energy is bleeding into the market, causing hawkers to collapse.',required:140},
+    {district:'Idumota — The Mirror Market',severity:'med',title:'Counterfeit Essence Ring',desc:'Bottled Orisha essence is being sold to the highest bidder — and it is volatile.',required:130},
+    {district:'Third Mainland Bridge',severity:'high',title:'Bridge Crossing Breach',desc:'Something is forcing open a crossing between worlds at 3:26am.',required:170},
+    {district:'Shrine of the Crossroads',severity:'high',title:'Ẹṣù\'s Toll Unpaid',desc:'Someone refused to pay the crossroads tax. The Shrine is destabilizing.',required:160},
+    {district:'Eko Atlantic — The Glass Citadel',severity:'critical',title:'Extraction Tower Overload',desc:'A Glass Citadel tower is siphoning Aṣẽ at a lethal rate.',required:220},
+    {district:'Mushin — The Iron Quarter',severity:'critical',title:'Architect Sighting',desc:'The Architect himself was seen entering a welding yard. This is not a drill.',required:250}
+  ];
+  var wrSelected = [];
+  var wrCooldown = {};
+  var wrCurrent = null;
+  var wrLastIdx = -1;
+
+  function wrPerkBonus(){
+    var data = window.ofrGetData ? window.ofrGetData() : null;
+    return (data && data.perks && data.perks.reflexes) ? 10 : 0;
+  }
+
+  function wrPickThreat(){
+    var idx;
+    do { idx = Math.floor(Math.random()*THREATS.length); } while(idx === wrLastIdx && THREATS.length > 1);
+    wrLastIdx = idx;
+    return THREATS[idx];
+  }
+
+  function wrRenderAlert(){
+    var el = document.getElementById('wr-alert');
+    if(!el || !wrCurrent) return;
+    el.innerHTML =
+      '<div class="wr-alert-top"><span class="wr-sev wr-sev-'+wrCurrent.severity+'">'+wrCurrent.severity.toUpperCase()+'</span><span class="wr-district">'+wrCurrent.district+'</span></div>'+
+      '<h4>'+wrCurrent.title+'</h4>'+
+      '<p>'+wrCurrent.desc+'</p>'+
+      '<div class="wr-req">REQUIRED RESPONSE POWER: '+wrCurrent.required+'</div>';
+  }
+
+  function wrRenderRoster(){
+    var el = document.getElementById('wr-roster');
+    if(!el) return;
+    var html = '';
+    for(var i=0;i<ROSTER.length;i++){
+      var op = ROSTER[i];
+      var cls = 'wr-op';
+      if(wrCooldown[op.id]) cls += ' cooldown';
+      else if(wrSelected.indexOf(op.id) !== -1) cls += ' selected';
+      html += '<div class="'+cls+'" onclick="wrToggle(\''+op.id+'\')">';
+      html += '<span class="wr-op-emoji">'+op.emoji+'</span>';
+      html += '<span class="wr-op-name">'+op.name+'</span>';
+      html += '<span class="wr-op-power">PWR '+op.power+(wrCooldown[op.id]?' · COOLDOWN':'')+'</span>';
+      html += '</div>';
+    }
+    el.innerHTML = html;
+    wrRenderPowerBar();
+  }
+
+  function wrRenderPowerBar(){
+    var el = document.getElementById('wr-power-bar');
+    var btn = document.getElementById('wr-dispatch-btn');
+    if(!el) return;
+    var total = wrPerkBonus();
+    for(var i=0;i<wrSelected.length;i++){
+      for(var j=0;j<ROSTER.length;j++){
+        if(ROSTER[j].id === wrSelected[i]) total += ROSTER[j].power;
+      }
+    }
+    el.innerHTML = 'COMBINED POWER: <b>'+total+'</b> / REQUIRED '+(wrCurrent?wrCurrent.required:0);
+    if(btn) btn.disabled = wrSelected.length === 0;
+  }
+
+  window.wrToggle = function(id){
+    if(wrCooldown[id]) return;
+    var idx = wrSelected.indexOf(id);
+    if(idx === -1){
+      if(wrSelected.length >= 3) return;
+      wrSelected.push(id);
+    } else {
+      wrSelected.splice(idx,1);
+    }
+    wrRenderRoster();
+  };
+
+  window.wrDispatch = function(){
+    if(!wrCurrent || wrSelected.length === 0) return;
+    var total = wrPerkBonus();
+    var names = [];
+    for(var i=0;i<wrSelected.length;i++){
+      for(var j=0;j<ROSTER.length;j++){
+        if(ROSTER[j].id === wrSelected[i]){ total += ROSTER[j].power; names.push(ROSTER[j].name); wrCooldown[wrSelected[i]] = true; }
+      }
+    }
+    var variance = 0.9 + Math.random()*0.2;
+    var effective = total * variance;
+    var resultEl = document.getElementById('wr-result');
+    var outcome, cls, label;
+    if(effective >= wrCurrent.required * 1.15){
+      outcome = 'Decisive victory. '+names.join(' & ')+' neutralized the threat at '+wrCurrent.district+' with room to spare.';
+      cls = 'win'; label = 'MISSION SUCCESS';
+    } else if(effective >= wrCurrent.required){
+      outcome = 'Threat contained. '+names.join(' & ')+' held the line at '+wrCurrent.district+'.';
+      cls = 'win'; label = 'MISSION SUCCESS';
+    } else if(effective >= wrCurrent.required * 0.8){
+      outcome = 'Partial containment. Civilians evacuated from '+wrCurrent.district+', but the threat persists.';
+      cls = 'partial'; label = 'PARTIAL SUCCESS';
+    } else {
+      outcome = 'Mission failed. '+names.join(' & ')+' were forced to retreat from '+wrCurrent.district+'.';
+      cls = 'lose'; label = 'MISSION FAILED';
+    }
+    resultEl.className = 'wr-result active '+cls;
+    resultEl.innerHTML = '<b>'+label+'</b><br>'+outcome;
+    if(window.ofrLog) ofrLog('warroom', label+' at '+wrCurrent.district+' — '+wrCurrent.title);
+    wrSelected = [];
+    wrRenderRoster();
+  };
+
+  window.wrNextThreat = function(){
+    wrCooldown = {};
+    wrSelected = [];
+    wrCurrent = wrPickThreat();
+    document.getElementById('wr-result').classList.remove('active');
+    wrRenderAlert();
+    wrRenderRoster();
+  };
+
+  wrCurrent = wrPickThreat();
+  wrRenderAlert();
+  wrRenderRoster();
+})();
+
+/* ===== B: Oracle Interrogation Terminal ===== */
+;(function(){
+  var NODES = {
+    start:{text:"GLASS-7 sits cuffed under fluorescent light, glass-tower badge confiscated. The Oracle\'s voice crackles through the speaker: \"Begin.\"",
+      options:[
+        {t:'Ask about the Eko Atlantic extraction towers',next:'towers'},
+        {t:"Threaten exposure of their family",next:'threat'},
+        {t:'Offer a deal: information for protection',next:'deal'}
+      ]},
+    towers:{text:"GLASS-7 sneers: \"You think glass and steel can be threatened? The towers feed on Aṣẽ whether you watch or not.\"",
+      options:[
+        {t:'Press harder on the extraction rate',next:'towers2'},
+        {t:'Pivot — ask who gives the orders',next:'orders'}
+      ]},
+    towers2:{ending:'PARTIAL INTEL',tone:'neutral',text:'GLASS-7 reveals the extraction schedules but clams up the moment you mention chain of command. You get numbers, not names.'},
+    orders:{ending:'FULL INTEL',tone:'good',text:'GLASS-7 hesitates, then breaks: "The Architect doesn\'t take orders. The Architect *is* the order." The Oracle goes silent on the line — this changes everything.'},
+    threat:{text:'GLASS-7\'s face hardens: "Touch my family and the Council burns this city to find you."',
+      options:[
+        {t:'Back off, apologize',next:'deal'},
+        {t:'Push further',next:'escape'}
+      ]},
+    escape:{ending:'OPERATIVE ESCAPES',tone:'bad',text:'GLASS-7 triggers a silent alarm hidden in a molar implant. A Council extraction team breaches the safehouse in ninety seconds. The interrogation ends in chaos — and an empty chair.'},
+    deal:{text:'GLASS-7 considers it. "Protection? From the Pale Council? Funny... maybe."',
+      options:[
+        {t:'Promise full immunity',next:'doubleagent'},
+        {t:'Refuse — intel only, no deal',next:'towers'}
+      ]},
+    doubleagent:{ending:'DOUBLE AGENT RECRUITED',tone:'good',text:'GLASS-7 exhales. "Fine. I feed you the Council\'s moves. You keep my name out of the morgue logs." A new asset — codename GLASS-7 — now reports directly to the Oracle network.'}
+  };
+  var oitCurrent = 'start';
+
+  function oitRender(){
+    var screen = document.getElementById('oit-screen');
+    var opts = document.getElementById('oit-opts');
+    var endingEl = document.getElementById('oit-ending');
+    if(!screen) return;
+    var node = NODES[oitCurrent];
+    if(node.ending){
+      screen.innerHTML = '';
+      opts.innerHTML = '';
+      var toneClass = node.tone || 'neutral';
+      endingEl.className = 'oit-ending active';
+      endingEl.innerHTML =
+        '<span class="oit-ending-tag '+toneClass+'">'+node.ending+'</span>'+
+        '<p style="color:#d8f5f0;font-size:.92rem;line-height:1.7;">'+node.text+'</p>'+
+        '<button class="oit-restart" onclick="oitRestart()">RESTART INTERROGATION</button>';
+      if(window.ofrLog) ofrLog('interrogate', 'Ending reached: '+node.ending);
+      return;
+    }
+    endingEl.classList.remove('active');
+    endingEl.innerHTML = '';
+    screen.innerHTML = '<p>'+node.text+'</p>';
+    var html = '';
+    for(var i=0;i<node.options.length;i++){
+      html += '<button class="oit-opt" onclick="oitChoose('+i+')">'+node.options[i].t+'</button>';
+    }
+    opts.innerHTML = html;
+  }
+
+  window.oitChoose = function(idx){
+    var node = NODES[oitCurrent];
+    oitCurrent = node.options[idx].next;
+    oitRender();
+  };
+
+  window.oitRestart = function(){
+    oitCurrent = 'start';
+    oitRender();
+  };
+
+  oitRender();
+})();
+
+/* ===== C: Achievement & Badge Case ===== */
+;(function(){
+  var BADGES = [
+    {id:'first_contact',name:'FIRST CONTACT',emoji:'📡',rarity:'common',desc:'Log your first piece of field activity.',
+      check:function(d){var t=d.stats.battles+d.stats.wins+d.stats.idCards+d.stats.ciphers+d.stats.quizzes+d.stats.vault+d.stats.warRoom+d.stats.interrogations;return t>=1;},
+      progress:function(d){var t=d.stats.battles+d.stats.wins+d.stats.idCards+d.stats.ciphers+d.stats.quizzes+d.stats.vault+d.stats.warRoom+d.stats.interrogations;return [Math.min(t,1),1];}},
+    {id:'id_verified',name:'ID VERIFIED',emoji:'🪪',rarity:'common',desc:'Generate an Operative ID Card.',
+      check:function(d){return d.stats.idCards>=1;}, progress:function(d){return [Math.min(d.stats.idCards,1),1];}},
+    {id:'bond_formed',name:'BOND FORMED',emoji:'🤝',rarity:'common',desc:'Complete the ASẹ Compatibility Matchmaker.',
+      check:function(d){return d.stats.quizzes>=1;}, progress:function(d){return [Math.min(d.stats.quizzes,1),1];}},
+    {id:'cipher_operative',name:'CIPHER OPERATIVE',emoji:'⌬',rarity:'rare',desc:'Send 3 Oracle Cipher transmissions.',
+      check:function(d){return d.stats.ciphers>=3;}, progress:function(d){return [Math.min(d.stats.ciphers,3),3];}},
+    {id:'champion',name:'CHAMPION',emoji:'🏆',rarity:'rare',desc:'Win 3 ASẹ Battle Simulator matches.',
+      check:function(d){return d.stats.wins>=3;}, progress:function(d){return [Math.min(d.stats.wins,3),3];}},
+    {id:'interrogator',name:'MASTER INTERROGATOR',emoji:'🎙',rarity:'rare',desc:'Complete the Oracle Interrogation.',
+      check:function(d){return d.stats.interrogations>=1;}, progress:function(d){return [Math.min(d.stats.interrogations,1),1];}},
+    {id:'vault_breaker',name:'VAULT BREAKER',emoji:'🔓',rarity:'epic',desc:"Crack the Architect\'s Vault.",
+      check:function(d){return d.stats.vault>=1;}, progress:function(d){return [Math.min(d.stats.vault,1),1];}},
+    {id:'war_room_commander',name:'WAR ROOM COMMANDER',emoji:'🛰',rarity:'epic',desc:'Complete 5 War Room dispatches.',
+      check:function(d){return d.stats.warRoom>=5;}, progress:function(d){return [Math.min(d.stats.warRoom,5),5];}},
+    {id:'ase_adept',name:'ASẸ ADEPT',emoji:'✴',rarity:'epic',desc:'Unlock 3 perks in the Training Console.',
+      check:function(d){return Object.keys(d.perks).length>=3;}, progress:function(d){return [Math.min(Object.keys(d.perks).length,3),3];}},
+    {id:'oracle_operative',name:'ORACLE OPERATIVE',emoji:'👁',rarity:'legendary',desc:'Reach Oracle Operative rank or higher.',
+      check:function(d){var t=d.stats.battles+d.stats.wins+d.stats.idCards+d.stats.ciphers+d.stats.quizzes+d.stats.vault+d.stats.warRoom+d.stats.interrogations;return d.stats.vault>=1||t>=10;},
+      progress:function(d){var t=d.stats.battles+d.stats.wins+d.stats.idCards+d.stats.ciphers+d.stats.quizzes+d.stats.vault+d.stats.warRoom+d.stats.interrogations;return [Math.min(t,10),10];}}
+  ];
+
+  window.bdgRender = function(){
+    var el = document.getElementById('bdg-grid');
+    if(!el) return;
+    var data = window.ofrGetData ? window.ofrGetData() : {stats:{battles:0,wins:0,idCards:0,ciphers:0,quizzes:0,vault:0,warRoom:0,interrogations:0},perks:{}};
+    var html = '';
+    for(var i=0;i<BADGES.length;i++){
+      var b = BADGES[i];
+      var unlocked = b.check(data);
+      var p = b.progress(data);
+      var pct = Math.round((p[0]/p[1])*100);
+      html += '<div class="bdg-card '+b.rarity+(unlocked?'':' locked')+'">';
+      html += '<span class="bdg-emoji">'+b.emoji+'</span>';
+      html += '<div class="bdg-name">'+b.name+'</div>';
+      html += '<div class="bdg-rarity '+b.rarity+'">'+b.rarity+'</div>';
+      html += '<div class="bdg-desc">'+b.desc+'</div>';
+      if(unlocked){
+        html += '<div class="bdg-unlocked-tag">&#10003; UNLOCKED</div>';
+      } else {
+        html += '<div class="bdg-progress-track"><div class="bdg-progress-fill" style="width:'+pct+'%"></div></div>';
+        html += '<div class="bdg-progress-text">'+p[0]+' / '+p[1]+'</div>';
+      }
+      html += '</div>';
+    }
+    el.innerHTML = html;
+  };
+
+  window.bdgRender();
+})();
+
+/* ===== D: ASe Training Console ===== */
+;(function(){
+  var TIERS = [
+    {label:'TIER I', cost:10, perks:[
+      {id:'reflexes',name:'QUICKENED REFLEXES',desc:'+10 effective power on every War Room dispatch.'},
+      {id:'cipher_mastery',name:'CIPHER MASTERY',desc:'Deepens your read of Oracle cipher patterns.'},
+      {id:'iron_resolve',name:'IRON RESOLVE',desc:"Halves the Architect\'s Vault lockout duration."}
+    ]},
+    {label:'TIER II', cost:20, perks:[
+      {id:'storm_calling',name:'STORM CALLING',desc:'Channels Thunderstrike-grade resonance.'},
+      {id:'mirror_step',name:'MIRROR STEP',desc:'Sharpens instincts under interrogation pressure.'},
+      {id:'oracle_sight',name:'ORACLE SIGHT',desc:'Glimpses threat patterns before they surface.'}
+    ]},
+    {label:'TIER III', cost:35, perks:[
+      {id:'ase_ascension',name:'ASẸ ASCENSION',desc:'Full resonance achieved. Your file is marked Architect-grade.'},
+      {id:'architects_insight',name:"ARCHITECT\'S INSIGHT",desc:'A fragment of void-sight, on loan from an old enemy.'}
+    ]}
+  ];
+
+  function trnRender(){
+    var pointsEl = document.getElementById('trn-points-val');
+    var tiersEl = document.getElementById('trn-tiers');
+    if(!tiersEl) return;
+    var data = window.ofrGetData ? window.ofrGetData() : {asePoints:0,perks:{}};
+    pointsEl.textContent = data.asePoints;
+    var html = '';
+    for(var t=0;t<TIERS.length;t++){
+      var tier = TIERS[t];
+      html += '<div class="trn-tier"><div class="trn-tier-label">'+tier.label+' &mdash; '+tier.cost+' PTS</div><div class="trn-perks">';
+      for(var i=0;i<tier.perks.length;i++){
+        var perk = tier.perks[i];
+        var owned = !!data.perks[perk.id];
+        html += '<div class="trn-perk'+(owned?' owned':'')+'">';
+        html += '<div class="trn-perk-name">'+perk.name+'</div>';
+        html += '<div class="trn-perk-desc">'+perk.desc+'</div>';
+        if(owned){
+          html += '<button class="trn-perk-btn owned-btn" disabled>OWNED</button>';
+        } else {
+          var canAfford = data.asePoints >= tier.cost;
+          html += '<button class="trn-perk-btn" onclick="trnUnlock(\''+perk.id+'\','+tier.cost+')"'+(canAfford?'':' disabled')+'>UNLOCK</button>';
+        }
+        html += '</div>';
+      }
+      html += '</div></div>';
+    }
+    tiersEl.innerHTML = html;
+  }
+  window.trnRender = trnRender;
+
+  window.trnUnlock = function(id, cost){
+    var data = window.ofrGetData ? window.ofrGetData() : null;
+    var msgEl = document.getElementById('trn-msg');
+    if(!data) return;
+    if(data.perks[id]){ return; }
+    if(data.asePoints < cost){
+      if(msgEl) msgEl.textContent = '> INSUFFICIENT ASẸ POINTS. KEEP OPERATING TO EARN MORE.';
+      return;
+    }
+    data.asePoints -= cost;
+    data.perks[id] = true;
+    if(window.ofrSaveData) ofrSaveData(data);
+    if(msgEl) msgEl.textContent = '';
+    if(window.ofrRefresh) ofrRefresh();
+    trnRender();
+  };
+
+  trnRender();
+})();
 </script>
 
 <!-- ══════════════════════════════════════ DOSSIER MODAL -->
