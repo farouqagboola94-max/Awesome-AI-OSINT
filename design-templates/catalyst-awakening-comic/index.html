@@ -61,7 +61,7 @@
 
   /* NAV */
   nav {
-    position: fixed; top: 0; width: 100%; z-index: 1000;
+    position: fixed; top: 36px; width: 100%; z-index: 1000;
     padding: 1.2rem 4rem;
     display: flex; align-items: center; justify-content: space-between;
     background: linear-gradient(to bottom, rgba(6,6,13,0.98), transparent);
@@ -5392,6 +5392,187 @@ body { padding-top: 26px; }
 }
 .arc2-spoiler-card:hover .arc2-hover-hint { opacity:0; }
 </style>
+<style id="v6-styles">
+/* ── LAGOS INTEL WIRE ─────────────────────────────────────────────────────── */
+.lagos-intel-wire {
+  position:fixed;top:0;left:0;right:0;height:36px;
+  background:rgba(184,20,20,0.9);backdrop-filter:blur(8px);
+  z-index:1001;
+  display:flex;align-items:center;gap:0.75rem;
+  padding:0 1.2rem;
+  font-family:monospace;font-size:0.6rem;letter-spacing:0.12em;
+  border-bottom:1px solid rgba(255,100,100,0.3);
+  overflow:hidden;
+}
+.liw-live {
+  display:flex;align-items:center;gap:0.35rem;
+  color:#fff;font-weight:700;letter-spacing:0.15em;
+  flex-shrink:0;
+}
+.liw-dot {
+  width:6px;height:6px;border-radius:50%;background:#fff;
+  animation:liwDotPulse 1s ease-in-out infinite;
+}
+@keyframes liwDotPulse { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,255,255,0.6)} 50%{opacity:0.4;box-shadow:0 0 0 4px rgba(255,255,255,0)} }
+.liw-label {
+  color:rgba(255,200,200,0.8);flex-shrink:0;letter-spacing:0.2em;
+}
+.liw-scroll-track {
+  flex:1;overflow:hidden;white-space:nowrap;position:relative;
+}
+.liw-msg {
+  display:inline-block;color:#fff;font-size:0.6rem;
+  animation:liwSlide 0.5s ease;
+}
+@keyframes liwSlide { 0%{opacity:0;transform:translateY(8px)} 100%{opacity:1;transform:translateY(0)} }
+.liw-counter {
+  flex-shrink:0;color:rgba(255,200,200,0.5);
+  font-size:0.55rem;letter-spacing:0.15em;
+}
+
+/* ── POWER TIER LEADERBOARD ───────────────────────────────────────────────── */
+#power-tier {
+  padding:8rem 4rem;
+  position:relative;
+  overflow:hidden;
+}
+#power-tier::before {
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 0%, rgba(196,30,58,0.08) 0%, transparent 70%);
+  pointer-events:none;
+}
+.pt-wrap { max-width:860px;margin:0 auto;position:relative;z-index:1; }
+.pt-header { text-align:center;margin-bottom:3.5rem; }
+.pt-tier-block { margin-bottom:2rem; }
+.pt-tier-label {
+  font-family:monospace;font-size:0.6rem;letter-spacing:0.22em;
+  padding:0.4rem 0.8rem;margin-bottom:0.6rem;display:inline-block;
+  border:1px solid;
+}
+.pt-tier-label.sovereign { color:rgba(196,30,58,0.9);border-color:rgba(196,30,58,0.4);background:rgba(196,30,58,0.06); }
+.pt-tier-label.s-tier { color:#F4B800;border-color:rgba(244,184,0,0.35);background:rgba(244,184,0,0.05); }
+.pt-tier-label.a-tier { color:#00C9B1;border-color:rgba(0,201,177,0.3);background:rgba(0,201,177,0.04); }
+.pt-tier-label.b-tier { color:rgba(240,237,229,0.5);border-color:rgba(240,237,229,0.15);background:rgba(240,237,229,0.03); }
+.pt-row {
+  display:flex;align-items:center;gap:1rem;
+  padding:0.9rem 1rem;
+  border:1px solid rgba(240,237,229,0.06);
+  background:rgba(0,0,0,0.3);
+  border-radius:4px;margin-bottom:0.5rem;
+  cursor:pointer;
+  transition:background 0.25s,border-color 0.25s,transform 0.2s;
+}
+.pt-row:hover {
+  background:rgba(244,184,0,0.05);
+  border-color:rgba(244,184,0,0.2);
+  transform:translateX(4px);
+}
+.pt-avatar {
+  width:48px;height:48px;object-fit:cover;
+  border-radius:50%;flex-shrink:0;
+  border:2px solid rgba(244,184,0,0.2);
+}
+.pt-info { flex:1;min-width:0; }
+.pt-name {
+  font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;
+  color:#F0EDE5;line-height:1;margin-bottom:0.2rem;
+}
+.pt-rising { font-size:0.55rem;color:#F4B800;letter-spacing:0.15em; }
+.pt-alias { font-family:monospace;font-size:0.58rem;color:rgba(240,237,229,0.4);letter-spacing:0.06em; }
+.pt-bar-wrap { display:flex;align-items:center;gap:0.6rem;width:180px;flex-shrink:0; }
+.pt-bar { flex:1;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden; }
+.pt-fill { height:100%;border-radius:2px;transition:width 1.2s cubic-bezier(0.25,0.46,0.45,0.94); }
+.pt-fill.pt-red  { background:linear-gradient(90deg,#b81414,#C41E3A); }
+.pt-fill.pt-gold { background:linear-gradient(90deg,#b87200,#F4B800); }
+.pt-fill.pt-teal { background:linear-gradient(90deg,#008a7a,#00C9B1); }
+.pt-pct { font-family:monospace;font-size:0.6rem;color:rgba(240,237,229,0.5);white-space:nowrap; }
+.pt-pct-q { color:rgba(0,201,177,0.6); }
+.pt-pct-note { color:#F4B800;font-size:0.65em; }
+.pt-badge {
+  flex-shrink:0;font-family:monospace;font-size:0.5rem;letter-spacing:0.15em;
+  padding:0.2rem 0.5rem;border:1px solid;border-radius:2px;
+}
+.pt-badge.sovereign-badge { color:rgba(196,30,58,0.9);border-color:rgba(196,30,58,0.5);background:rgba(196,30,58,0.08); }
+.pt-badge.s-badge { color:#F4B800;border-color:rgba(244,184,0,0.4);background:rgba(244,184,0,0.06); }
+.pt-badge.a-badge { color:#00C9B1;border-color:rgba(0,201,177,0.35);background:rgba(0,201,177,0.05); }
+.pt-badge.a2-badge { color:rgba(0,201,177,0.65);border-color:rgba(0,201,177,0.2); }
+.pt-footnote {
+  margin-top:2rem;display:flex;flex-direction:column;gap:0.4rem;
+  font-family:monospace;font-size:0.58rem;color:rgba(240,237,229,0.3);
+  letter-spacing:0.05em;line-height:1.6;
+}
+@media (max-width:700px) {
+  #power-tier { padding:5rem 1.5rem; }
+  .pt-bar-wrap { width:100px; }
+  .pt-alias { display:none; }
+}
+
+/* ── ASẸ VISION MODE ──────────────────────────────────────────────────────── */
+.ase-vision-toggle {
+  position:fixed;bottom:2rem;right:2rem;z-index:999;
+  display:flex;align-items:center;gap:0.5rem;
+  background:rgba(6,6,13,0.85);
+  border:1px solid rgba(244,184,0,0.35);
+  color:rgba(244,184,0,0.7);
+  font-family:monospace;font-size:0.6rem;letter-spacing:0.15em;
+  padding:0.6rem 1rem;cursor:pointer;
+  transition:all 0.3s ease;
+  backdrop-filter:blur(8px);
+}
+.ase-vision-toggle:hover {
+  border-color:#F4B800;color:#F4B800;
+  box-shadow:0 0 20px rgba(244,184,0,0.2);
+}
+.avt-icon { font-size:0.9rem;animation:avtPulse 3s ease-in-out infinite; }
+@keyframes avtPulse { 0%,100%{opacity:0.5} 50%{opacity:1} }
+
+/* ASẹ vision mode: body class */
+body.ase-vision {
+  --ase-v-tint:rgba(244,184,0,0.03);
+}
+body.ase-vision::before {
+  content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse at 50% 30%, rgba(244,184,0,0.06), transparent 70%);
+  pointer-events:none;z-index:998;
+}
+body.ase-vision .ase-vision-toggle {
+  border-color:#00C9B1;color:#00C9B1;
+  box-shadow:0 0 30px rgba(0,201,177,0.25);
+}
+body.ase-vision .avt-icon {
+  color:#00C9B1;animation:none;opacity:1;
+}
+/* Sections get a subtle glow pulse in vision mode */
+body.ase-vision section {
+  transition:box-shadow 0.8s ease;
+}
+/* Hidden vision-only text */
+.ase-vision-only {
+  display:none;
+  font-family:monospace;font-size:0.6rem;color:rgba(244,184,0,0.7);
+  letter-spacing:0.15em;margin-top:0.3rem;
+}
+body.ase-vision .ase-vision-only { display:block; }
+/* Vision glyph field */
+.ase-glyph-field {
+  display:none;
+  position:fixed;inset:0;pointer-events:none;z-index:997;overflow:hidden;
+}
+body.ase-vision .ase-glyph-field { display:block; }
+.ase-glyph {
+  position:absolute;
+  font-family:'Oswald',sans-serif;
+  color:rgba(244,184,0,0.12);
+  user-select:none;pointer-events:none;
+  animation:glyphFloat linear infinite;
+}
+@keyframes glyphFloat {
+  0%{ transform:translateY(0) rotate(var(--gr)); opacity:0; }
+  10%{ opacity:1; }
+  90%{ opacity:1; }
+  100%{ transform:translateY(-100vh) rotate(var(--gr)); opacity:0; }
+}
+</style>
 </head>
 <body>
 
@@ -5514,6 +5695,16 @@ body { padding-top: 26px; }
 
 <!-- ============================================================ TOAST CONTAINER -->
 <div id="toast-container"></div>
+
+<!-- ============================================================ LAGOS INTEL WIRE -->
+<div class="lagos-intel-wire" id="lagosIntelWire">
+  <div class="liw-live"><span class="liw-dot"></span>LIVE</div>
+  <div class="liw-label">ORACLE INTEL:</div>
+  <div class="liw-scroll-track">
+    <span class="liw-msg" id="liwMsg"></span>
+  </div>
+  <div class="liw-counter" id="liwCounter">001/018</div>
+</div>
 
 <!-- ============================================================ NAV -->
 <nav>
@@ -5787,6 +5978,7 @@ body { padding-top: 26px; }
         <span class="line-gold">CATALYST</span>
         <span class="line-outline">THE AWAKENING</span>
       </h1>
+      <div class="ase-vision-only">[ ASẸ FIELD ACTIVE — ADEYEMI SIGNATURE DETECTED — LEVEL: ∞ ]</div>
       <p class="hero-subtitle">
         Where the blood of Orishas meets the concrete of Lagos.<br>
         The city breathes. The city hungers. The city awakens.
@@ -7404,6 +7596,112 @@ body { padding-top: 26px; }
 
   <div class="dark-assembly-seal reveal">
     <div class="seal-text">— The Dark Assembly · Active since 1420 CE · Total confirmed casualties: classified —</div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════ POWER TIER LEADERBOARD -->
+<section id="power-tier">
+  <img class="section-photo-bg" src="./assets/shipyard.jpg" alt="" loading="lazy" aria-hidden="true">
+  <div class="pt-wrap">
+    <div class="pt-header">
+      <p class="section-label reveal" style="justify-content:center">Classification Report</p>
+      <h2 class="section-title reveal">THE <em>POWER</em><br>TIERS</h2>
+      <p class="reveal" style="max-width:520px;margin:1rem auto 0;font-size:0.88rem;line-height:1.8;color:rgba(240,237,229,0.5);">The Aṣẹ Intelligence Collective's official threat classification as of Issue #04. Rankings are contested. The Orishas have refused to provide their own rankings. The Oracle called this "tactically unsurprising."</p>
+    </div>
+
+    <div class="pt-tier-block">
+      <div class="pt-tier-label sovereign">⬛ SOVEREIGN TIER — UNPRECEDENTED</div>
+      <div class="pt-row reveal" data-dossier="architect" onclick="dosOpen('architect')">
+        <img class="pt-avatar" src="https://design.canva.ai/NT0F238ti9sNXlD" alt="The Architect" loading="lazy" onerror="this.style.display='none'">
+        <div class="pt-info">
+          <div class="pt-name">THE ARCHITECT</div>
+          <div class="pt-alias">First Human Sovereign · 617 years active</div>
+        </div>
+        <div class="pt-bar-wrap">
+          <div class="pt-bar"><div class="pt-fill pt-red pt-anim" data-pct="98" style="width:0%"></div></div>
+          <div class="pt-pct">98%</div>
+        </div>
+        <div class="pt-badge sovereign-badge">SOVEREIGN</div>
+      </div>
+    </div>
+
+    <div class="pt-tier-block">
+      <div class="pt-tier-label s-tier">◈ S TIER — EXISTENTIAL CLASS</div>
+      <div class="pt-row reveal" data-dossier="catalyst" onclick="dosOpen('catalyst')">
+        <img class="pt-avatar" src="https://design.canva.ai/x4T-oEzM8Rg5LDd" alt="Catalyst" loading="lazy" onerror="this.style.display='none'">
+        <div class="pt-info">
+          <div class="pt-name">CATALYST <span class="pt-rising">↑ RISING</span></div>
+          <div class="pt-alias">Adebayo Adeyemi · Mushin-born · Age 19</div>
+        </div>
+        <div class="pt-bar-wrap">
+          <div class="pt-bar"><div class="pt-fill pt-gold pt-anim" data-pct="95" style="width:0%"></div></div>
+          <div class="pt-pct">95% <span class="pt-pct-note">↑</span></div>
+        </div>
+        <div class="pt-badge s-badge">S CLASS</div>
+      </div>
+      <div class="pt-row reveal" data-dossier="oracle">
+        <img class="pt-avatar" src="https://design.canva.ai/mQ3Hfmi19R9ewF8" alt="The Oracle" loading="lazy" onerror="this.style.display='none'">
+        <div class="pt-info">
+          <div class="pt-name">THE ORACLE</div>
+          <div class="pt-alias">617 years · Classification: Mortal (disputed)</div>
+        </div>
+        <div class="pt-bar-wrap">
+          <div class="pt-bar"><div class="pt-fill pt-gold pt-anim" data-pct="91" style="width:0%"></div></div>
+          <div class="pt-pct">91%</div>
+        </div>
+        <div class="pt-badge s-badge">S CLASS</div>
+      </div>
+    </div>
+
+    <div class="pt-tier-block">
+      <div class="pt-tier-label a-tier">◆ A+ TIER — ELITE OPERATIVE</div>
+      <div class="pt-row reveal" data-dossier="thunderstrike" onclick="dosOpen('thunderstrike')">
+        <img class="pt-avatar" src="https://design.canva.ai/1jiRcQJwHOeri7z" alt="Thunderstrike" loading="lazy" onerror="this.style.display='none'">
+        <div class="pt-info">
+          <div class="pt-name">THUNDERSTRIKE</div>
+          <div class="pt-alias">Amara Ibrahim · Victoria Island · 12,000V</div>
+        </div>
+        <div class="pt-bar-wrap">
+          <div class="pt-bar"><div class="pt-fill pt-teal pt-anim" data-pct="82" style="width:0%"></div></div>
+          <div class="pt-pct">82%</div>
+        </div>
+        <div class="pt-badge a-badge">A+ CLASS</div>
+      </div>
+      <div class="pt-row reveal" data-dossier="iron-wolf" onclick="dosOpen('iron-wolf')">
+        <img class="pt-avatar" src="https://design.canva.ai/7a9_vSlWiISWZB0" alt="Iron Wolf" loading="lazy" onerror="this.style.display='none'">
+        <div class="pt-info">
+          <div class="pt-name">IRON WOLF</div>
+          <div class="pt-alias">Ikenna Okafor · Iron District · Tier V+ transformed</div>
+        </div>
+        <div class="pt-bar-wrap">
+          <div class="pt-bar"><div class="pt-fill pt-teal pt-anim" data-pct="80" style="width:0%"></div></div>
+          <div class="pt-pct">80%</div>
+        </div>
+        <div class="pt-badge a-badge">A+ CLASS</div>
+      </div>
+    </div>
+
+    <div class="pt-tier-block">
+      <div class="pt-tier-label b-tier">◇ A TIER — HERO GRADE</div>
+      <div class="pt-row reveal" data-dossier="zara">
+        <img class="pt-avatar" src="https://design.canva.ai/PuQ4js2Q-n4sGHC" alt="The Mirror" loading="lazy" onerror="this.style.display='none'">
+        <div class="pt-info">
+          <div class="pt-name">THE MIRROR <span style="font-size:0.6rem;color:rgba(0,201,177,0.7);letter-spacing:0.1em">UNRANKED?</span></div>
+          <div class="pt-alias">Zara Osei · Classification: UNDETECTABLE · May be higher</div>
+        </div>
+        <div class="pt-bar-wrap">
+          <div class="pt-bar"><div class="pt-fill pt-teal pt-anim" data-pct="78" style="width:0%"></div></div>
+          <div class="pt-pct pt-pct-q">??%</div>
+        </div>
+        <div class="pt-badge a2-badge">A CLASS</div>
+      </div>
+    </div>
+
+    <div class="pt-footnote reveal">
+      <span>† Rankings compiled by Oracle Intelligence Collective. Subject Adeyemi's ceiling remains unclassified.</span>
+      <span style="color:rgba(196,30,58,0.6)">† The Architect reviewed this list. He removed two entries. We do not know why.</span>
+    </div>
   </div>
 </section>
 
@@ -12632,6 +12930,112 @@ function pvCopyLink() {
   })();
 
 
+  // ── V6: LAGOS INTEL WIRE ──────────────────────────────────────────────────
+  (function() {
+    var INTEL_MSGS = [
+      'BREAKING: Unregistered Aṣẹ signature detected — Mushin District — surge reading: UNPRECEDENTED',
+      'PALE COUNCIL COMMUNIQUÉ [INTERCEPTED]: "Asset is no longer containable. Initiate Protocol 9."',
+      'ORACLE BROADCAST: Third Mainland Bridge — divine resonance reading 400% above baseline — stay clear',
+      'INTELLIGENCE ALERT: Thunderstrike sighting confirmed — Apapa Terminal — 03:47 hrs — origin unknown',
+      'INTERCEPTED: Dark Assembly internal memo — "The Catalyst is awake. Adjust all timelines."',
+      'DISPATCH: Iron District foundry workers report iron objects self-assembling — overnight — no casualties',
+      'ORACLE INTEL: The Pale Council convened an emergency session. Duration: 4 hours. No minutes filed.',
+      'CLASSIFIED: Balogun Nexus market reports — floating Yoruba script visible to 3 independent witnesses',
+      'ALERT: GORA — Global Orisha Regulatory Authority — has opened an "active monitoring file" on Lagos',
+      'INTERCEPTED: "She was at the briefing again. We still have no image. We still have no name."',
+      'ORACLE NOTE: The Lagoon is speaking. I have not heard it speak since 1847. I do not like what it is saying.',
+      'DISPATCH: Iron Wolf — Ikenna Okafor — sighted near Pale Council perimeter. He was not followed. He was not found.',
+      'PALE COUNCIL LOG [INTERCEPTED]: "The Oracle has been 617 years in this city. Tonight he looked afraid."',
+      'BREAKING: Ọ̀run-bleed reading at Lagos Island — third this week — Oracle Intel confirms: accelerating',
+      'CLASSIFIED: Zara Osei — THE MIRROR — last surveillance ping: 27 days ago. Status: UNKNOWN. Priority: OMEGA.',
+      'INTELLIGENCE: The Architect has not been seen in 6 days. When he disappears, something ends. Monitor all assets.',
+      'ORACLE BROADCAST: "The city chose him. The choice is made. What comes next is not in any record I hold."',
+      'DISPATCH: ASẹ capacity readings across Lagos — all sectors — up 340% since the Catalyst Event. This is not stabilising.',
+    ];
+    var liwIdx = 0;
+    var liwEl = document.getElementById('liwMsg');
+    var liwCounterEl = document.getElementById('liwCounter');
+
+    function liwShow(idx) {
+      if (!liwEl) return;
+      liwIdx = ((idx % INTEL_MSGS.length) + INTEL_MSGS.length) % INTEL_MSGS.length;
+      liwEl.style.animation = 'none';
+      liwEl.textContent = INTEL_MSGS[liwIdx];
+      void liwEl.offsetWidth;
+      liwEl.style.animation = '';
+      if (liwCounterEl) {
+        liwCounterEl.textContent = String(liwIdx + 1).padStart(3,'0') + '/' + String(INTEL_MSGS.length).padStart(3,'0');
+      }
+    }
+    liwShow(0);
+    setInterval(function() { liwShow(liwIdx + 1); }, 7000);
+  })();
+
+  // ── V6: POWER TIER BAR ANIMATIONS ─────────────────────────────────────────
+  (function() {
+    var ptSection = document.getElementById('power-tier');
+    if (!ptSection) return;
+    var ptAnimated = false;
+    var ptObs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting && !ptAnimated) {
+        ptAnimated = true;
+        var fills = ptSection.querySelectorAll('.pt-anim');
+        fills.forEach(function(fill, idx) {
+          var pct = fill.getAttribute('data-pct') || '0';
+          setTimeout(function() { fill.style.width = pct + '%'; }, 150 + idx * 100);
+        });
+      }
+    }, { threshold: 0.2 });
+    ptObs.observe(ptSection);
+  })();
+
+  // ── V6: ASẸ VISION MODE ────────────────────────────────────────────────────
+  var aseVisionActive = false;
+  var aseGlyphs = [];
+  var YORUBA_GLYPHS = [
+    'Aṣẹ','Ọ̀rún','Ìmọ̀lẹ̀','Ògún','Ṣàngó','Ọ̀ṣun','Ẹṣù','Oyá',
+    'Ìbẹ̀rù','Agbára','Ìgbọ̀yà','Àṣà','Ipò','Gbogbo','Àárọ̀',
+    'Omi','Ìná','Afẹ́fẹ́','Ilẹ̀','Asán','Ìjẹ̀sà','◈','⟁','⊕',
+  ];
+
+  function spawnGlyph() {
+    var field = document.getElementById('aseGlyphField');
+    if (!field || !aseVisionActive) return;
+    var g = document.createElement('span');
+    g.className = 'ase-glyph';
+    var txt = YORUBA_GLYPHS[Math.floor(YORUBA_GLYPHS.length * 0.9999 * (Date.now() % YORUBA_GLYPHS.length) / YORUBA_GLYPHS.length)];
+    g.textContent = txt;
+    var x = Math.random() * 98;
+    var dur = 8 + Math.random() * 14;
+    var size = 0.55 + Math.random() * 0.7;
+    var rot = (Math.random() - 0.5) * 40;
+    g.style.cssText = 'left:' + x + '%;bottom:-2rem;font-size:' + size + 'rem;' +
+      'animation-duration:' + dur + 's;animation-delay:' + (Math.random() * 2) + 's;' +
+      '--gr:' + rot + 'deg;';
+    field.appendChild(g);
+    setTimeout(function() { if (g.parentNode) g.parentNode.removeChild(g); }, (dur + 3) * 1000);
+  }
+
+  var glyphInterval = null;
+
+  function toggleAseVision() {
+    aseVisionActive = !aseVisionActive;
+    document.body.classList.toggle('ase-vision', aseVisionActive);
+    var lbl = document.getElementById('avt-label');
+    if (lbl) lbl.textContent = aseVisionActive ? 'DEACTIVATE' : 'ASẸ VISION';
+
+    if (aseVisionActive) {
+      glyphInterval = setInterval(spawnGlyph, 800);
+      // Spawn initial burst
+      for (var i = 0; i < 8; i++) setTimeout(spawnGlyph, i * 150);
+    } else {
+      if (glyphInterval) clearInterval(glyphInterval);
+      var field = document.getElementById('aseGlyphField');
+      if (field) field.innerHTML = '';
+    }
+  }
+
+
 </script>
 
 <!-- ══════════════════════════════════════ DOSSIER MODAL -->
@@ -12673,5 +13077,14 @@ function pvCopyLink() {
     <button class="pv-share-btn pv-share-copy" onclick="pvCopyLink()" title="Copy link" id="pvCopyBtn">&#x1F517; Copy Link</button>
   </div>
 </div>
+
+<!-- ══════════════════════════════════════ ASẸ VISION MODE -->
+<button class="ase-vision-toggle" id="aseVisionBtn" onclick="toggleAseVision()" title="Toggle ASẸ Vision">
+  <span class="avt-icon">◈</span>
+  <span class="avt-label" id="avt-label">ASẸ VISION</span>
+</button>
+
+<div class="ase-glyph-field" id="aseGlyphField" aria-hidden="true"></div>
+
 </body>
 </html>
