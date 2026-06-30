@@ -165,7 +165,27 @@
     position: relative;
     height: 420px;
   }
-  .hcs-card {
+  .hero-quote-carousel { margin-top:1.8rem;max-width:480px;min-height:70px;position:relative; }
+.hqc-quote { display:none;flex-direction:column;gap:0.4rem;animation:hqcFadeIn 0.6s ease; }
+.hqc-quote.active { display:flex; }
+@keyframes hqcFadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+.hqc-text { font-family:Georgia,'Times New Roman',serif;font-size:clamp(0.78rem,2vw,0.92rem);font-style:italic;color:rgba(240,237,229,0.72);line-height:1.65; }
+.hqc-attr { font-family:monospace;font-size:0.6rem;letter-spacing:0.18em;color:rgba(244,184,0,0.55);text-transform:uppercase; }
+.hqc-dots { display:flex;gap:6px;margin-top:0.7rem; }
+.hqc-dot { width:5px;height:5px;border-radius:50%;background:rgba(244,184,0,0.18);cursor:pointer;transition:background 0.25s; }
+.hqc-dot.active { background:#F4B800; }
+
+/* ASẸ Particle Field */
+.ase-particle-field { position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0; }
+.asep { position:absolute;border-radius:50%;animation:asepFloat linear infinite; }
+@keyframes asepFloat {
+  0%{transform:translateY(0) scale(1);opacity:0}
+  10%{opacity:1}
+  90%{opacity:0.6}
+  100%{transform:translateY(-100vh) scale(0.5);opacity:0}
+}
+
+.hcs-card {
     position: absolute;
     width: 200px;
     border-radius: 8px;
@@ -603,7 +623,29 @@
     max-width: 1200px;
     margin: 0 auto 5rem;
   }
-  .chars-grid {
+  .char-canva-card { perspective:1000px; }
+.char-flip-front, .char-flip-back {
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  transition:transform 0.55s cubic-bezier(0.45,0.05,0.55,0.95);
+  position:relative;
+}
+.char-flip-back {
+  position:absolute;
+  inset:0;
+  border-radius:8px;
+  transform:rotateY(180deg);
+}
+.char-canva-card { position:relative; }
+.char-canva-card .char-flip-front { transform:rotateY(0deg); }
+.char-canva-card.char-flipped .char-flip-front { transform:rotateY(-180deg); }
+.char-canva-card.char-flipped .char-flip-back { transform:rotateY(0deg); }
+.char-flip-hint { font-family:monospace;font-size:0.55rem;letter-spacing:0.18em;color:rgba(244,184,0,0.45);margin-top:0.6rem;text-align:center; }
+.char-canva-card:hover .char-flip-hint { color:rgba(244,184,0,0.8); }
+.char-villain { border-color:rgba(196,30,58,0.3); }
+.char-villain:hover { border-color:rgba(196,30,58,0.8);box-shadow:0 12px 40px rgba(196,30,58,0.25); }
+
+.chars-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
@@ -1335,7 +1377,34 @@
     overflow: hidden;
   }
   .map-header { max-width: 1200px; margin: 0 auto 4rem; }
-  .map-container {
+  .loc-modal-overlay {
+  display:none;position:fixed;inset:0;z-index:10500;
+  background:rgba(0,0,0,0.88);backdrop-filter:blur(4px);
+  align-items:center;justify-content:center;padding:1rem;
+}
+.loc-modal-overlay.open { display:flex; }
+.loc-modal-inner {
+  background:#0a0810;border:1px solid rgba(244,184,0,0.2);
+  border-radius:10px;overflow:hidden;max-width:580px;width:100%;
+  position:relative;animation:locModalIn 0.35s cubic-bezier(0.22,1,0.36,1);
+}
+@keyframes locModalIn { from{opacity:0;transform:scale(0.92) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
+.loc-modal-close { position:absolute;top:0.7rem;right:0.8rem;z-index:2;background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.15);color:rgba(240,237,229,0.7);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:0.8rem;transition:all 0.2s; }
+.loc-modal-close:hover { border-color:#b81414;color:#b81414; }
+.loc-modal-art { position:relative;overflow:hidden; }
+.loc-modal-art-overlay { position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(to top,#0a0810,transparent); }
+.loc-modal-body { padding:1.5rem; }
+.loc-modal-num { font-family:'Bebas Neue',sans-serif;font-size:3rem;line-height:1;color:rgba(244,184,0,0.12);margin-bottom:-0.5rem; }
+.loc-modal-name { font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:0.06em;color:#F4B800;line-height:1.1; }
+.loc-modal-yoruba { font-family:Georgia,serif;font-style:italic;font-size:0.8rem;color:rgba(240,237,229,0.45);margin:0.2rem 0 0.8rem; }
+.loc-modal-desc { font-size:0.88rem;line-height:1.75;color:rgba(240,237,229,0.65);margin-bottom:1rem; }
+.loc-modal-events { display:flex;flex-direction:column;gap:0.3rem;margin-bottom:0.8rem; }
+.loc-modal-event { font-family:monospace;font-size:0.6rem;letter-spacing:0.12em;color:rgba(184,20,20,0.8);padding-left:0.8rem;position:relative; }
+.loc-modal-event::before { content:'▸';position:absolute;left:0;color:#b81414; }
+.loc-modal-chars { display:flex;flex-wrap:wrap;gap:0.4rem; }
+.loc-modal-char-tag { font-family:monospace;font-size:0.6rem;letter-spacing:0.12em;padding:0.2rem 0.6rem;border-radius:2px;border:1px solid rgba(244,184,0,0.25);color:rgba(244,184,0,0.7); }
+
+.map-container {
     max-width: 1000px;
     margin: 0 auto;
     position: relative;
@@ -1348,7 +1417,8 @@
     background: rgba(10,10,31,0.8);
     overflow: visible;
   }
-  .map-zone {
+  .map-zone { cursor:pointer; }
+.map-zone {
     cursor: pointer;
     transition: all 0.3s ease;
   }
@@ -1594,30 +1664,17 @@
     #universe, #locations, #characters, #comics, #lore, #community, #newsletter { padding: 5rem 1.5rem; }
     .universe-grid { grid-template-columns: 1fr; gap: 3rem; }
     .locations-grid { grid-template-columns: 1fr 1fr; }
-    .chars-grid { grid-template-columns: 1fr 1fr; }
+.chars-grid { grid-template-columns: 1fr 1fr; }
     .chars-featured { grid-column: span 2; }
     .comics-grid { grid-template-columns: 1fr 1fr; }
-    .lore-char-thumb {
-  display:block;
-  border-radius:8px;
-  overflow:hidden;
-  border:1px solid rgba(244,184,0,0.15);
-  transition:transform 0.3s, border-color 0.3s, box-shadow 0.3s;
-  position:relative;
-  background:#0d0d1a;
-  text-decoration:none;
-}
-.lore-char-thumb:hover { transform:translateY(-4px);border-color:rgba(244,184,0,0.5);box-shadow:0 12px 32px rgba(184,20,20,0.25); }
-.lore-char-thumb img { width:100%;height:220px;object-fit:cover;display:block; }
-.lore-char-name { text-align:center;font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.15em;color:#F4B800;padding:0.5rem;background:rgba(0,0,0,0.6); }
-.lore-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .lore-grid { grid-template-columns: 1fr; gap: 3rem; }
     .lore-panel { position: static; }
     .quotes-grid { grid-template-columns: 1fr; }
     .footer-grid { grid-template-columns: 1fr 1fr; }
     footer { padding: 3rem 1.5rem 1.5rem; }
   }
   @media (max-width: 600px) {
-    .chars-grid { grid-template-columns: 1fr; }
+.chars-grid { grid-template-columns: 1fr; }
     .chars-featured { grid-column: span 1; aspect-ratio: 3/4; }
     .chars-featured .char-silhouette { width: 90%; right: auto; left: 50%; transform: translateX(-50%); }
     .comics-grid { grid-template-columns: 1fr; }
@@ -5549,6 +5606,35 @@ body { padding-top: 26px; }
         <a href="#comics" class="btn-primary"><span>Read Issue #1</span></a>
         <a href="#universe" class="btn-secondary">Explore the Universe</a>
       </div>
+    <div class="hero-quote-carousel" id="heroQuoteCarousel">
+      <div class="hqc-quote active" id="hqc0">
+        <span class="hqc-text">&ldquo;The city has been holding its breath for nineteen years. Tonight it exhales.&rdquo;</span>
+        <span class="hqc-attr">— The Oracle · Issue #01</span>
+      </div>
+      <div class="hqc-quote" id="hqc1">
+        <span class="hqc-text">&ldquo;Stop the harvest. I&rsquo;m giving you something better to think about.&rdquo;</span>
+        <span class="hqc-attr">— Bayo · Issue #02</span>
+      </div>
+      <div class="hqc-quote" id="hqc2">
+        <span class="hqc-text">&ldquo;Every metal object in the workshop turned toward the threat simultaneously.&rdquo;</span>
+        <span class="hqc-attr">— Narrator · Issue #03</span>
+      </div>
+      <div class="hqc-quote" id="hqc3">
+        <span class="hqc-text">&ldquo;Lagos dey breathe. And what it breathes out, it chose you to carry.&rdquo;</span>
+        <span class="hqc-attr">— Zara · Issue #01</span>
+      </div>
+      <div class="hqc-quote" id="hqc4">
+        <span class="hqc-text">&ldquo;You are not channelling the Orishas&rsquo; power. You are <em>upgrading it</em>.&rdquo;</span>
+        <span class="hqc-attr">— The Oracle · Issue #04</span>
+      </div>
+      <div class="hqc-dots">
+        <div class="hqc-dot active" onclick="hqcGo(0)"></div>
+        <div class="hqc-dot" onclick="hqcGo(1)"></div>
+        <div class="hqc-dot" onclick="hqcGo(2)"></div>
+        <div class="hqc-dot" onclick="hqcGo(3)"></div>
+        <div class="hqc-dot" onclick="hqcGo(4)"></div>
+      </div>
+    </div>
     </div>
 
     <!-- Floating cover art showcase -->
@@ -5588,12 +5674,16 @@ body { padding-top: 26px; }
     <div class="marquee-item">Ìmọlẹ̀ Tuntun — New Light <span class="marquee-dot"></span></div>
     <div class="marquee-item">The Orishas Walk Among Us <span class="marquee-dot"></span></div>
     <div class="marquee-item">Issue #1 — Out Now <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Issue #2 — In Production <span class="marquee-dot"></span></div>
+    <div class="marquee-item">ASẸ Awakens in Lagos <span class="marquee-dot"></span></div>
     <div class="marquee-item">Naija Superheroes Dey Here <span class="marquee-dot"></span></div>
     <div class="marquee-item">Catalyst: The Awakening <span class="marquee-dot"></span></div>
     <div class="marquee-item">Lagos Noir Comic Universe <span class="marquee-dot"></span></div>
     <div class="marquee-item">Ìmọlẹ̀ Tuntun — New Light <span class="marquee-dot"></span></div>
     <div class="marquee-item">The Orishas Walk Among Us <span class="marquee-dot"></span></div>
     <div class="marquee-item">Issue #1 — Out Now <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Issue #2 — In Production <span class="marquee-dot"></span></div>
+    <div class="marquee-item">ASẸ Awakens in Lagos <span class="marquee-dot"></span></div>
     <div class="marquee-item">Naija Superheroes Dey Here <span class="marquee-dot"></span></div>
   </div>
 </div>
@@ -5804,7 +5894,7 @@ body { padding-top: 26px; }
 
         <!-- MUSHIN DISTRICT -->
         <g class="map-zone" id="zone-mushin"
-           data-name="Mushin"
+           data-name="Mushin" data-loc-id="mushin"
            data-yoruba="Mùṣin"
            data-color="#F4B800"
            data-desc="The heartbeat of Neo-Lagos. Where Bayo grew up. Where the Ancient War first bled through. Danfo buses and Aṣẹ currents share the same narrow streets.">
@@ -5817,7 +5907,7 @@ body { padding-top: 26px; }
 
         <!-- BALOGUN NEXUS -->
         <g class="map-zone" id="zone-balogun"
-           data-name="Balogun Nexus"
+           data-name="Balogun Nexus" data-loc-id="balogun"
            data-yoruba="Ọjà Bálógún"
            data-color="#C41E3A"
            data-desc="Ground Zero of the Ọ̀run-Bleed event. The market where three thousand year-old energies collide with smartphone-era commerce. The first tear opened here.">
@@ -5844,7 +5934,7 @@ body { padding-top: 26px; }
 
         <!-- EKO ATLANTIC -->
         <g class="map-zone" id="zone-eko"
-           data-name="Eko Atlantic"
+           data-name="Eko Atlantic" data-loc-id="eko-atlantic"
            data-yoruba="Ilé-Eko Tuntun"
            data-color="#b81414"
            data-desc="The new city rising from the ocean. Glass towers, AI-run security, Pale Council offices on the 47th floor. The most surveilled place in West Africa — and the hardest to get into.">
@@ -5886,7 +5976,7 @@ body { padding-top: 26px; }
 
         <!-- ORACLE'S TERRITORY - small dot -->
         <g class="map-zone" id="zone-oracle"
-           data-name="The Oracle's Compound"
+           data-name="The Oracle's Compound" data-loc-id="oracle-compound"
            data-yoruba="Ilé Onísègùn"
            data-color="#F4B800"
            data-desc="Location classified. The Oracle has lived in this city for six hundred years. His compound exists in three places simultaneously. Only those he calls can find it.">
@@ -5938,6 +6028,25 @@ body { padding-top: 26px; }
     </div>
   </div>
 </section>
+
+<!-- LOCATION MODAL -->
+<div id="locModal" class="loc-modal-overlay" onclick="if(event.target===this)closeLocModal()">
+  <div class="loc-modal-inner">
+    <button class="loc-modal-close" onclick="closeLocModal()">&#x2715;</button>
+    <div class="loc-modal-art" id="locModalArt">
+      <img id="locModalImg" src="" alt="" style="width:100%;height:220px;object-fit:cover;display:block;">
+      <div class="loc-modal-art-overlay"></div>
+    </div>
+    <div class="loc-modal-body">
+      <div class="loc-modal-num" id="locModalNum">01</div>
+      <div class="loc-modal-name" id="locModalName">Location</div>
+      <div class="loc-modal-yoruba" id="locModalYoruba">—</div>
+      <p class="loc-modal-desc" id="locModalDesc"></p>
+      <div class="loc-modal-events" id="locModalEvents"></div>
+      <div class="loc-modal-chars" id="locModalChars"></div>
+    </div>
+  </div>
+</div>
 
 <!-- ============================================================ LOCATIONS -->
 <section id="locations">
@@ -6731,6 +6840,70 @@ body { padding-top: 26px; }
         </div>
       </div>
     </div>
+    <!-- ZARA — The Mirror -->
+    <div class="char-card reveal char-canva-card" data-dossier="mirror" style="position:relative;overflow:hidden;cursor:pointer;" onclick="this.classList.toggle('char-flipped')">
+      <div class="char-flip-front">
+        <img src="https://design.canva.ai/PuQ4js2Q-n4sGHC" alt="Zara — The Mirror" style="width:100%;height:320px;object-fit:cover;display:block;border-radius:4px 4px 0 0;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#001a1a,#003a3a)'">
+        <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.2) 60%,transparent 100%);pointer-events:none;"></div>
+        <span class="char-orisha-badge badge-mirror" style="background:rgba(0,201,177,0.15);border:1px solid #00C9B1;color:#00C9B1;">Invisible</span>
+        <div class="char-info">
+          <div class="char-real-name">Zara Osei</div>
+          <div class="char-alias" style="color:#00C9B1;">THE MIRROR</div>
+          <div class="char-power">Vessel of Ògún · Shadow Agent</div>
+          <div class="char-stats">
+            <div class="stat-row"><span class="stat-label">Aṣẹ</span><div class="stat-bar-wrap"><div class="stat-bar-fill" style="--stat-w:78%;background:linear-gradient(to right,#00C9B1,#F4B800)"></div></div><span class="stat-val">78</span></div>
+            <div class="stat-row"><span class="stat-label">Speed</span><div class="stat-bar-wrap"><div class="stat-bar-fill" style="--stat-w:92%;background:linear-gradient(to right,#00C9B1,#fff)"></div></div><span class="stat-val">92</span></div>
+            <div class="stat-row"><span class="stat-label">Stealth</span><div class="stat-bar-wrap"><div class="stat-bar-fill" style="--stat-w:99%;background:linear-gradient(to right,#00C9B1,#b81414)"></div></div><span class="stat-val">99</span></div>
+            <div class="stat-row"><span class="stat-label">Intel</span><div class="stat-bar-wrap"><div class="stat-bar-fill" style="--stat-w:95%;background:linear-gradient(to right,#00C9B1,#F4B800)"></div></div><span class="stat-val">95</span></div>
+          </div>
+          <div class="char-flip-hint">TAP TO REVEAL ▸</div>
+        </div>
+      </div>
+      <div class="char-flip-back" style="background:linear-gradient(160deg,#001a1a,#003030);padding:1.5rem;height:100%;display:flex;flex-direction:column;justify-content:center;gap:1rem;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.2em;color:#00C9B1;margin-bottom:0.3rem;">CLASSIFIED FILE — LEVEL OMEGA</div>
+        <div style="font-family:Georgia,serif;font-style:italic;font-size:0.9rem;color:rgba(240,237,229,0.8);line-height:1.65;border-left:2px solid #00C9B1;padding-left:0.8rem;">&ldquo;No one ever sees me unless I let them. That&rsquo;s the point.&rdquo;</div>
+        <div style="font-size:0.8rem;color:rgba(240,237,229,0.6);line-height:1.7;">Zara has been invisible to all forms of surveillance — digital, spiritual, and Orisha — since birth. Nobody knows who she was before Lagos. Her intel on the Pale Council comes from 9 nights of personal field work. She attended two Pale Council briefings. Undetected.</div>
+        <div style="display:flex;flex-direction:column;gap:0.3rem;">
+          <div style="font-family:monospace;font-size:0.6rem;letter-spacing:0.15em;color:rgba(0,201,177,0.6);">ABILITY: TOTAL INVISIBILITY — All detection spectra</div>
+          <div style="font-family:monospace;font-size:0.6rem;letter-spacing:0.15em;color:rgba(0,201,177,0.6);">ABILITY: PRESENCE ECHO — Appear as someone else</div>
+          <div style="font-family:monospace;font-size:0.6rem;letter-spacing:0.15em;color:rgba(244,184,0,0.5);">ORISHA BOND: Ògún 71% · Channel Efficiency 88%</div>
+        </div>
+        <div class="char-flip-hint" style="color:rgba(0,201,177,0.5);">TAP TO CLOSE ◂</div>
+      </div>
+    </div>
+
+    <!-- THE ARCHITECT — Antagonist -->
+    <div class="char-card reveal char-canva-card char-villain" data-dossier="architect" style="position:relative;overflow:hidden;cursor:pointer;" onclick="this.classList.toggle('char-flipped')">
+      <div class="char-flip-front">
+        <img src="https://design.canva.ai/NT0F238ti9sNXlD" alt="The Architect — Antagonist" style="width:100%;height:320px;object-fit:cover;display:block;border-radius:4px 4px 0 0;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#1a0014,#3a0028)'">
+        <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(to top,rgba(0,0,0,0.9) 0%,rgba(26,0,20,0.3) 60%,transparent 100%);pointer-events:none;"></div>
+        <span class="char-orisha-badge badge-villain" style="background:rgba(196,30,58,0.15);border:1px solid #C41E3A;color:#C41E3A;">ANTAGONIST</span>
+        <div class="char-info">
+          <div class="char-real-name">Identity: Classified</div>
+          <div class="char-alias" style="color:#C41E3A;">THE ARCHITECT</div>
+          <div class="char-power">Pale Council · Orisha Vaccine Architect</div>
+          <div class="char-stats">
+            <div class="stat-row"><span class="stat-label">Aṣẹ</span><div class="stat-bar-wrap"><div class="stat-bar-fill" style="--stat-w:89%;background:linear-gradient(to right,#C41E3A,#800010)"></div></div><span class="stat-val">89</span></div>
+            <div class="stat-row"><span class="stat-label">Speed</span><div class="stat-bar-wrap"><div class="stat-bar-fill" style="--stat-w:71%;background:linear-gradient(to right,#C41E3A,#FF6B1A)"></div></div><span class="stat-val">71</span></div>
+            <div class="stat-row"><span class="stat-label">Combat</span><div class="stat-bar-wrap"><div class="stat-bar-fill" style="--stat-w:83%;background:linear-gradient(to right,#C41E3A,#b81414)"></div></div><span class="stat-val">83</span></div>
+            <div class="stat-row"><span class="stat-label">Threat</span><div class="stat-bar-wrap"><div class="stat-bar-fill" style="--stat-w:100%;background:linear-gradient(to right,#C41E3A,#fff)"></div></div><span class="stat-val">∞</span></div>
+          </div>
+          <div class="char-flip-hint" style="color:rgba(196,30,58,0.6);">TAP TO REVEAL ▸</div>
+        </div>
+      </div>
+      <div class="char-flip-back" style="background:linear-gradient(160deg,#1a0010,#2a0020);padding:1.5rem;height:100%;display:flex;flex-direction:column;justify-content:center;gap:1rem;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.2em;color:#C41E3A;margin-bottom:0.3rem;">PALE COUNCIL — SUPREME DIRECTIVE</div>
+        <div style="font-family:Georgia,serif;font-style:italic;font-size:0.9rem;color:rgba(240,237,229,0.8);line-height:1.65;border-left:2px solid #C41E3A;padding-left:0.8rem;">&ldquo;She does not look like a villain. She looks like someone who has done the mathematics and arrived at a conclusion she finds genuinely regrettable.&rdquo;</div>
+        <div style="font-size:0.8rem;color:rgba(240,237,229,0.6);line-height:1.7;">The Architect is the Pale Council&rsquo;s terminal resource. She built the Orisha Vaccine — a compound that permanently severs the Aṣẹ receptors in the human nervous system. Six weeks from completion. She corrupted three of the six known Tier IV Sovereigns. She is 31 years old. She finds this work regrettable.</div>
+        <div style="display:flex;flex-direction:column;gap:0.3rem;">
+          <div style="font-family:monospace;font-size:0.6rem;letter-spacing:0.15em;color:rgba(196,30,58,0.7);">ABILITY: SOVEREIGN CORRUPTION — Tier IV+ only</div>
+          <div style="font-family:monospace;font-size:0.6rem;letter-spacing:0.15em;color:rgba(196,30,58,0.7);">ABILITY: ASẸ HARVESTING — Industrial scale</div>
+          <div style="font-family:monospace;font-size:0.6rem;letter-spacing:0.15em;color:rgba(244,184,0,0.5);">TARGET: ADY-19 (Bayo). Classification: Ìmọ̀lẹ̀ Àárọ̀</div>
+        </div>
+        <div class="char-flip-hint" style="color:rgba(196,30,58,0.5);">TAP TO CLOSE ◂</div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -11133,6 +11306,8 @@ body { padding-top: 26px; }
 
       // Touch support
       zone.addEventListener('click', function(e) {
+        var locId = zone.dataset.locId;
+        if (locId) { openLocModal(locId); return; }
         if (window.innerWidth <= 900) {
           var showing = tooltip.classList.contains('visible');
           document.querySelectorAll('.map-zone').forEach(function(z){
@@ -11860,6 +12035,79 @@ function pvCopyLink() {
     if (btn) { btn.textContent = '✓ Copied!'; setTimeout(function(){ btn.textContent = '\uD83D\uDD17 Copy Link'; }, 2000); }
   }
 }
+
+
+  // ─── HERO QUOTE CAROUSEL ──────────────────────────────────────
+  (function() {
+    var total = 5;
+    var current = 0;
+    var dots = document.querySelectorAll('.hqc-dot');
+    var interval;
+    function hqcShow(n) {
+      var prev = document.getElementById('hqc' + current);
+      if (prev) prev.classList.remove('active');
+      if (dots[current]) dots[current].classList.remove('active');
+      current = (n + total) % total;
+      var next = document.getElementById('hqc' + current);
+      if (next) next.classList.add('active');
+      if (dots[current]) dots[current].classList.add('active');
+    }
+    window.hqcGo = function(n) { hqcShow(n); clearInterval(interval); interval = setInterval(function(){ hqcShow(current+1); }, 4500); };
+    interval = setInterval(function(){ hqcShow(current+1); }, 4500);
+  })();
+
+  // ─── ASẸ PARTICLE FIELD ────────────────────────────────────────
+  (function() {
+    var hero = document.getElementById('hero');
+    if (!hero) return;
+    var field = document.createElement('div');
+    field.className = 'ase-particle-field';
+    hero.insertBefore(field, hero.firstChild);
+    var colors = ['rgba(244,184,0,0.7)','rgba(184,20,20,0.6)','rgba(0,201,177,0.5)','rgba(244,184,0,0.4)'];
+    for (var i = 0; i < 22; i++) {
+      var p = document.createElement('div');
+      p.className = 'asep';
+      var size = 2 + Math.random() * 4;
+      var left = Math.random() * 100;
+      var delay = Math.random() * 12;
+      var dur = 10 + Math.random() * 15;
+      var col = colors[Math.floor(Math.random() * colors.length)];
+      p.style.cssText = 'width:'+size+'px;height:'+size+'px;left:'+left+'%;bottom:-'+size+'px;background:'+col+';animation-duration:'+dur+'s;animation-delay:-'+delay+'s;box-shadow:0 0 '+(size*2)+'px '+col+';';
+      field.appendChild(p);
+    }
+  })();
+
+  // ─── LOCATION MODAL ───────────────────────────────────────────
+  var LOC_DATA = {
+    'mushin': { num:'01', name:'Mushin', yoruba:'Mushin — "Spirit of the Warrior"', photo:'./assets/industrial.jpg', desc:'Where Bayo grew up. A neighbourhood of thirty-two naira, borrowed beds, and the specific kind of survival intelligence that only grinding poverty produces. The Orishas have always known about Mushin — they chose it deliberately. Power hidden in plain sight.', events:['Bayo first experiences ASẸ surge — Issue #01','Area boys confront Bayo behind the old Odeon shell','NEPA wire sparks: the Awakening begins'], chars:['Bayo Adeyemi','Area Boys','Mushin Elders'] },
+    'balogun': { num:'02', name:'Balogun Nexus', yoruba:'Ọjà Bálógún — "Market of the General"', photo:'./assets/intersection.jpg', desc:'The ancient market hums on two frequencies — the physical bustle of traders and hawkers, and the Aṣẹ frequency that has run through its foundations since the 16th century. The first team battle takes place here. The Collector begins his harvest operations within 200m of this location.', events:['First full team assembly — Issue #01','The Collector's initial harvest attempt','847 futures visible to Bayo: one path survives','Amara's drum resonance drops to critical 40%'], chars:['Bayo','Amara','Ikenna','Zara','The Collector'] },
+    'eko-atlantic': { num:'03', name:'Eko Atlantic', yoruba:'Ẹko Atlantic — "The Extraction Engine"', photo:'./assets/flares.jpg', desc:'Built on reclaimed land from Lagos Lagoon — drilled straight through Ọṣun's domain. The towers are not offices. They are spiritual extraction machines. Each foundation column drives into the seabed at a frequency calculated to siphon Aṣẹ. The Pale Council's Lagos HQ is Tower 7, sub-basement Level B3. The Orisha Vaccine is being assembled there now.', events:['Pale Council Lagos HQ — Tower 7','Orisha Vaccine assembly — B3 sub-basement','The Architect arrives — Issue #03','30 Ọ̀run breaches directly caused by drilling'], chars:['The Architect','Pale Council Operatives','The Collector'] },
+    'oshodi': { num:'04', name:'Oshodi Market', yoruba:'Ọ̀ṣòdì — "Where the spirits haggle"', photo:'./assets/industrial.jpg', desc:'The largest informal economy in West Africa. Oshodi processes more Aṣẹ transactions than any other location in Lagos — not because it is sacred, but because it is alive. Ẹṣù has more agents per square metre here than anywhere on the continent. Every misunderstanding, every impossible deal that somehow closes, every near-accident avoided at the last second — that is Ẹṣù, taxing the crossroads.', events:['Bayo spots Pale Council surveillance — Issue #01','Oshodi confrontation — Bayo releases full ASẸ','ZZZZAP! — BW panel full power discharge'], chars:['Bayo','Ẹṣù agents','Pale Council Surveillance'] },
+    'paul-street': { num:'05', name:'Paul Street Workshop', yoruba:'Àgò Paul — "The forge that listens"', photo:'./assets/forge.jpg', desc:'Ikenna's workplace for three years. A mechanic's workshop that smells of iron dust, engine oil, and something electrical with no physical source. The morning of Issue 3, Pale Council operatives attempt a raid through the rear. 416 separate metal objects in the workshop turn toward the threat at the same moment. Ògún has been awake here for years.', events:['Pale Council strike team raids — Issue #03','416 metal objects orient simultaneously','Iron Wolf emerges — first full Ògún manifestation','Workshop becomes team base of operations'], chars:['Ikenna Chukwuemeka','Ògún','Pale Council Strike Team'] },
+    'oracle-compound': { num:'06', name:'Oracle's Compound', yoruba:'Ilé Àgbà Adesanya — "The Elder's House"', photo:'./assets/corridor.jpg', desc:'Chief Adesanya Adewale has lived here for 62 of his 144 years. The compound in Idumota smells of ìtò, palm oil, and old paper in three different languages. The walls remember every conversation that happened in this space. Zara presents her 9-night intelligence report here. Bayo receives the truth about what he is. The Oracle has been waiting for this day since 1987.', events:['Oracle reveals Bayo's true nature — Issue #04','Zara's intelligence briefing — 37 Pale Council positions','The Choice: control or grow wild','Oracle has been alive 144 years — Orishas took his eyes'], chars:['The Oracle','Bayo','Amara','Ikenna','Zara'] }
+  };
+
+  function openLocModal(id) {
+    var d = LOC_DATA[id];
+    if (!d) return;
+    document.getElementById('locModalNum').textContent = d.num;
+    document.getElementById('locModalName').textContent = d.name;
+    document.getElementById('locModalYoruba').textContent = d.yoruba;
+    document.getElementById('locModalDesc').textContent = d.desc;
+    document.getElementById('locModalImg').src = d.photo;
+    document.getElementById('locModalImg').alt = d.name;
+    var evDiv = document.getElementById('locModalEvents');
+    evDiv.innerHTML = d.events.map(function(e){ return '<div class="loc-modal-event">'+e+'</div>'; }).join('');
+    var chDiv = document.getElementById('locModalChars');
+    chDiv.innerHTML = d.chars.map(function(c){ return '<span class="loc-modal-char-tag">'+c+'</span>'; }).join('');
+    document.getElementById('locModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLocModal() {
+    document.getElementById('locModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLocModal(); });
 
   // ═══════════════════════════════════════════════════════════════
   // ACTIVE NAV — highlight link for the section currently in view
