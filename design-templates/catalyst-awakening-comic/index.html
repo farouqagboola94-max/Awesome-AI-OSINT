@@ -838,7 +838,20 @@
     position: absolute; inset: 0;
     opacity: 0.03;
   }
-  .lore-grid {
+  .lore-char-thumb {
+  display:block;
+  border-radius:8px;
+  overflow:hidden;
+  border:1px solid rgba(244,184,0,0.15);
+  transition:transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  position:relative;
+  background:#0d0d1a;
+  text-decoration:none;
+}
+.lore-char-thumb:hover { transform:translateY(-4px);border-color:rgba(244,184,0,0.5);box-shadow:0 12px 32px rgba(184,20,20,0.25); }
+.lore-char-thumb img { width:100%;height:220px;object-fit:cover;display:block; }
+.lore-char-name { text-align:center;font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.15em;color:#F4B800;padding:0.5rem;background:rgba(0,0,0,0.6); }
+.lore-grid {
     display: grid;
     grid-template-columns: 1fr 1.5fr;
     gap: 6rem;
@@ -1584,7 +1597,20 @@
     .chars-grid { grid-template-columns: 1fr 1fr; }
     .chars-featured { grid-column: span 2; }
     .comics-grid { grid-template-columns: 1fr 1fr; }
-    .lore-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .lore-char-thumb {
+  display:block;
+  border-radius:8px;
+  overflow:hidden;
+  border:1px solid rgba(244,184,0,0.15);
+  transition:transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  position:relative;
+  background:#0d0d1a;
+  text-decoration:none;
+}
+.lore-char-thumb:hover { transform:translateY(-4px);border-color:rgba(244,184,0,0.5);box-shadow:0 12px 32px rgba(184,20,20,0.25); }
+.lore-char-thumb img { width:100%;height:220px;object-fit:cover;display:block; }
+.lore-char-name { text-align:center;font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.15em;color:#F4B800;padding:0.5rem;background:rgba(0,0,0,0.6); }
+.lore-grid { grid-template-columns: 1fr; gap: 3rem; }
     .lore-panel { position: static; }
     .quotes-grid { grid-template-columns: 1fr; }
     .footer-grid { grid-template-columns: 1fr 1fr; }
@@ -2020,6 +2046,14 @@
   background: var(--deep-navy);
 }
 .access-header { max-width: 1200px; margin: 0 auto 4rem; text-align: center; }
+.social-share-row { display:flex;gap:0.8rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.5rem; }
+.social-btn { display:inline-flex;align-items:center;gap:0.4rem;padding:0.7rem 1.4rem;border-radius:4px;font-family:monospace;font-size:0.7rem;letter-spacing:0.1em;text-decoration:none;cursor:pointer;transition:all 0.25s;border:1px solid transparent; }
+.social-btn-x { background:rgba(0,0,0,0.6);border-color:rgba(255,255,255,0.2);color:rgba(240,237,229,0.85); }
+.social-btn-x:hover { background:#000;border-color:#fff;color:#fff; }
+.social-btn-wa { background:rgba(37,211,102,0.12);border-color:rgba(37,211,102,0.35);color:#25d366; }
+.social-btn-wa:hover { background:rgba(37,211,102,0.22);border-color:#25d366; }
+.social-btn-copy { background:rgba(0,201,177,0.1);border-color:rgba(0,201,177,0.3);color:#00C9B1; }
+.social-btn-copy:hover { background:rgba(0,201,177,0.2);border-color:#00C9B1; }
 .access-grid {
   max-width: 1000px;
   margin: 0 auto;
@@ -2112,7 +2146,15 @@
   #read { padding: 5rem 0; }
   .read-header, .issue-reader-panel { padding: 0 1.5rem; }
   .issue-tabs { padding: 0 1.5rem; }
-  .access-grid { grid-template-columns: 1fr; }
+  .social-share-row { display:flex;gap:0.8rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.5rem; }
+.social-btn { display:inline-flex;align-items:center;gap:0.4rem;padding:0.7rem 1.4rem;border-radius:4px;font-family:monospace;font-size:0.7rem;letter-spacing:0.1em;text-decoration:none;cursor:pointer;transition:all 0.25s;border:1px solid transparent; }
+.social-btn-x { background:rgba(0,0,0,0.6);border-color:rgba(255,255,255,0.2);color:rgba(240,237,229,0.85); }
+.social-btn-x:hover { background:#000;border-color:#fff;color:#fff; }
+.social-btn-wa { background:rgba(37,211,102,0.12);border-color:rgba(37,211,102,0.35);color:#25d366; }
+.social-btn-wa:hover { background:rgba(37,211,102,0.22);border-color:#25d366; }
+.social-btn-copy { background:rgba(0,201,177,0.1);border-color:rgba(0,201,177,0.3);color:#00C9B1; }
+.social-btn-copy:hover { background:rgba(0,201,177,0.2);border-color:#00C9B1; }
+.access-grid { grid-template-columns: 1fr; }
   #access, #ase-system { padding: 5rem 1.5rem; }
 }
 </style>
@@ -4499,6 +4541,12 @@
 .canva-char-card:hover img { transform: scale(1.04); }
 
 /* ── PANEL VIEWER LIGHTBOX ── */
+.pv-share { display:flex;gap:0.5rem;margin-top:0.8rem;flex-wrap:wrap;justify-content:center; }
+.pv-share-btn { background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);color:rgba(240,237,229,0.7);font-family:monospace;font-size:0.65rem;letter-spacing:1px;padding:0.35rem 0.9rem;cursor:pointer;border-radius:3px;transition:all 0.2s; }
+.pv-share-btn:hover { background:rgba(244,184,0,0.12);border-color:#F4B800;color:#F4B800; }
+.pv-share-wa:hover { background:rgba(37,211,102,0.12);border-color:#25d366;color:#25d366; }
+.pv-share-copy:hover { background:rgba(0,201,177,0.12);border-color:#00C9B1;color:#00C9B1; }
+
 #panel-viewer {
   position: fixed; inset: 0; z-index: 9999;
   background: rgba(0,0,0,0.97);
@@ -8591,23 +8639,19 @@ body { padding-top: 26px; }
   <div class="issue-reader-panel" id="panel-i2">
     <div class="reader-grid">
       <div class="reader-cover">
-        <div class="reader-cover-art">
-          <svg viewBox="0 0 240 360" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
-            <rect width="240" height="360" fill="#06060d"/>
-            <path d="M0,200 Q120,120 240,200 L240,360 L0,360 Z" fill="#b81414" opacity="0.06"/>
-            <ellipse cx="120" cy="140" rx="25" ry="30" fill="#1a0a2e"/>
-            <path d="M60,200 Q120,140 180,200" fill="none" stroke="#b81414" stroke-width="1.5"/>
-            <line x1="120" y1="200" x2="60" y2="320" stroke="#b81414" stroke-width="0.8" opacity="0.6"/>
-            <line x1="120" y1="200" x2="180" y2="320" stroke="#b81414" stroke-width="0.8" opacity="0.6"/>
-            <circle cx="90" cy="240" r="8" fill="#b81414" opacity="0.4"/>
-            <circle cx="150" cy="260" r="6" fill="#F4B800" opacity="0.5"/>
-            <text x="120" y="340" font-family="serif" font-size="7" fill="#b81414" text-anchor="middle" letter-spacing="2">#02 — SANGO'S DAUGHTER</text>
-            <rect x="0" y="0" width="240" height="360" fill="none" stroke="#b81414" stroke-width="1" opacity="0.2"/>
-          </svg>
+                <div class="reader-cover-art" style="background:#060606;border-radius:4px;overflow:hidden;cursor:pointer;" onclick="openPanelViewer(ISSUE2_PANELS, 0)" title="Click to open panel viewer">
+          <img src="https://design.canva.ai/GiegyG0E9sRvfyM" alt="Issue 2 Cover — Ṣàngó's Daughter" style="width:100%;height:100%;object-fit:cover;border-radius:4px;display:block;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)'">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,4,15,0.7) 0%,transparent 60%);pointer-events:none;"></div>
+          <div style="position:absolute;bottom:0.8rem;left:0.8rem;right:0.8rem;text-align:center;pointer-events:none;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.55rem;letter-spacing:0.2em;color:#F4B800;background:rgba(0,0,0,0.6);padding:0.15rem 0.5rem;border-radius:2px;display:inline-block;">CLICK TO READ PANELS</div>
+          </div>
         </div>
         <div class="reader-issue-label">Arc I: The Catalyst · Issue 02</div>
         <div class="reader-issue-title">ṢÀNGÓ'S DAUGHTER</div>
-        <div class="reader-pages">52 Pages · Free</div>
+        <div class="reader-pages">52 Pages &middot; Free</div>
+        <button class="open-panel-viewer-btn" onclick="openPanelViewer(ISSUE2_PANELS, 0)">
+          &#x25C8; View Artwork Panels (3)
+        </button>
       </div>
       <div class="story-content">
 
@@ -8736,24 +8780,19 @@ body { padding-top: 26px; }
   <div class="issue-reader-panel" id="panel-i3">
     <div class="reader-grid">
       <div class="reader-cover">
-        <div class="reader-cover-art">
-          <svg viewBox="0 0 240 360" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
-            <rect width="240" height="360" fill="#06060d"/>
-            <rect x="0" y="260" width="240" height="100" fill="#FF6B1A" opacity="0.06"/>
-            <path d="M80,80 L120,20 L160,80 L145,150 L95,150 Z" fill="#1a1a1a" stroke="#FF6B1A" stroke-width="1"/>
-            <circle cx="105" cy="60" r="5" fill="#FF6B1A" opacity="0.9"/>
-            <circle cx="135" cy="60" r="5" fill="#FF6B1A" opacity="0.9"/>
-            <path d="M40,300 L60,260 L80,300" fill="#FF6B1A" opacity="0.2"/>
-            <path d="M100,280 L120,240 L140,280" fill="#FF6B1A" opacity="0.3"/>
-            <circle cx="50" cy="200" r="2" fill="#F4B800" opacity="0.7"/>
-            <circle cx="190" cy="180" r="1.5" fill="#FF6B1A" opacity="0.6"/>
-            <text x="120" y="340" font-family="serif" font-size="7" fill="#FF6B1A" text-anchor="middle" letter-spacing="2">#03 — IRON IN THE BLOOD</text>
-            <rect x="0" y="0" width="240" height="360" fill="none" stroke="#FF6B1A" stroke-width="1" opacity="0.2"/>
-          </svg>
+                <div class="reader-cover-art" style="background:#060606;border-radius:4px;overflow:hidden;cursor:pointer;" onclick="openPanelViewer(ISSUE3_PANELS, 0)" title="Click to open panel viewer">
+          <img src="https://design.canva.ai/F6Fhg0PQ29fIURi" alt="Issue 3 Cover — Iron in the Blood" style="width:100%;height:100%;object-fit:cover;border-radius:4px;display:block;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#0a1a00,#1a3000)'">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,4,15,0.7) 0%,transparent 60%);pointer-events:none;"></div>
+          <div style="position:absolute;bottom:0.8rem;left:0.8rem;right:0.8rem;text-align:center;pointer-events:none;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.55rem;letter-spacing:0.2em;color:#F4B800;background:rgba(0,0,0,0.6);padding:0.15rem 0.5rem;border-radius:2px;display:inline-block;">CLICK TO READ PANELS</div>
+          </div>
         </div>
         <div class="reader-issue-label">Arc I: The Catalyst · Issue 03</div>
         <div class="reader-issue-title">IRON IN THE BLOOD</div>
-        <div class="reader-pages">44 Pages · Free</div>
+        <div class="reader-pages">44 Pages &middot; Free</div>
+        <button class="open-panel-viewer-btn" onclick="openPanelViewer(ISSUE3_PANELS, 0)">
+          &#x25C8; View Artwork Panels (3)
+        </button>
       </div>
       <div class="story-content">
 
@@ -8916,22 +8955,19 @@ body { padding-top: 26px; }
   <div class="issue-reader-panel" id="panel-i4">
     <div class="reader-grid">
       <div class="reader-cover">
-        <div class="reader-cover-art">
-          <svg viewBox="0 0 240 360" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
-            <rect width="240" height="360" fill="#06060d"/>
-            <circle cx="120" cy="140" r="70" fill="none" stroke="#C41E3A" stroke-width="0.5" opacity="0.5"/>
-            <circle cx="120" cy="140" r="45" fill="none" stroke="#F4B800" stroke-width="0.3" opacity="0.6"/>
-            <circle cx="120" cy="140" r="20" fill="#C41E3A" opacity="0.15"/>
-            <path d="M80,140 L160,140 M120,100 L120,180" stroke="#C41E3A" stroke-width="0.8" opacity="0.6"/>
-            <path d="M88,108 L152,172 M152,108 L88,172" stroke="#C41E3A" stroke-width="0.5" opacity="0.4"/>
-            <text x="120" y="270" font-family="serif" font-size="8" fill="#C41E3A" text-anchor="middle" letter-spacing="2">THE PRICE OF ASẸ</text>
-            <text x="120" y="340" font-family="serif" font-size="7" fill="#F4B800" text-anchor="middle" letter-spacing="2">#04 — THE RECKONING</text>
-            <rect x="0" y="0" width="240" height="360" fill="none" stroke="#C41E3A" stroke-width="1" opacity="0.2"/>
-          </svg>
+                <div class="reader-cover-art" style="background:#060606;border-radius:4px;overflow:hidden;cursor:pointer;" onclick="openPanelViewer(ISSUE4_PANELS, 0)" title="Click to open panel viewer">
+          <img src="https://design.canva.ai/LNpruvpNmtN--Pi" alt="Issue 4 Cover — The Price of ASẸ" style="width:100%;height:100%;object-fit:cover;border-radius:4px;display:block;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#1a0010,#3a0020)'">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,4,15,0.7) 0%,transparent 60%);pointer-events:none;"></div>
+          <div style="position:absolute;bottom:0.8rem;left:0.8rem;right:0.8rem;text-align:center;pointer-events:none;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.55rem;letter-spacing:0.2em;color:#F4B800;background:rgba(0,0,0,0.6);padding:0.15rem 0.5rem;border-radius:2px;display:inline-block;">CLICK TO READ PANELS</div>
+          </div>
         </div>
         <div class="reader-issue-label">Arc I: The Catalyst · Issue 04</div>
         <div class="reader-issue-title">THE PRICE OF AṢẸ</div>
-        <div class="reader-pages">56 Pages · Free</div>
+        <div class="reader-pages">56 Pages &middot; Free</div>
+        <button class="open-panel-viewer-btn" onclick="openPanelViewer(ISSUE4_PANELS, 0)">
+          &#x25C8; View Artwork Panels (3)
+        </button>
       </div>
       <div class="story-content">
 
@@ -9619,6 +9655,21 @@ body { padding-top: 26px; }
     <h2 class="section-title reveal">THE ORISHAS<br>WHO <em>WALK</em><br>LAGOS</h2>
   </div>
 
+  <div class="lore-char-strip" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:900px;margin:0 auto 3rem;padding:0 1rem;">
+    <a href="https://www.canva.com/d/SF-jUqFQ8pX2u1C" target="_blank" rel="noopener" class="lore-char-thumb" title="Bayo Adeyemi — Ẹṣù's Crossroads">
+      <img src="https://design.canva.ai/x4T-oEzM8Rg5LDd" alt="Bayo — The Catalyst" onerror="this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)'">
+      <div class="lore-char-name">Bayo · The Catalyst</div>
+    </a>
+    <a href="https://www.canva.com/d/OwcQfHzTyUeJ6l_" target="_blank" rel="noopener" class="lore-char-thumb" title="Amara Okafor — Ṣàngó's Daughter">
+      <img src="https://design.canva.ai/1jiRcQJwHOeri7z" alt="Amara — Thunderstrike" onerror="this.parentElement.style.background='linear-gradient(160deg,#14001a,#3a0040)'">
+      <div class="lore-char-name">Amara · Thunderstrike</div>
+    </a>
+    <a href="https://www.canva.com/d/UDYonVORL1pSzr6" target="_blank" rel="noopener" class="lore-char-thumb" title="Ikenna Chukwuemeka — Iron Wolf">
+      <img src="https://design.canva.ai/7a9_vSlWiISWZB0" alt="Ikenna — Iron Wolf" onerror="this.parentElement.style.background='linear-gradient(160deg,#001400,#002800)'">
+      <div class="lore-char-name">Ikenna · Iron Wolf</div>
+    </a>
+  </div>
+
   <div class="lore-grid">
     <div class="orisha-list">
       <div class="orisha-item active reveal" data-orisha="esu">
@@ -10008,7 +10059,7 @@ body { padding-top: 26px; }
     <h2 class="section-title reveal">JOIN THE<br><em>MOVEMENT</em></h2>
     <p class="newsletter-sub reveal">Be the first to know when new issues drop, get behind-the-scenes lore, and unlock exclusive character art. Na you sabi, but make you no miss this one.</p>
     <div class="reveal countdown-outer">
-      <div class="cd-label">▸ ISSUE #1 DROPS IN</div>
+      <div class="cd-label">▸ ISSUE #2 DROPS IN</div>
       <div class="cd-row">
         <div class="cd-block"><div class="cd-num" id="cd-days">00</div><div class="cd-unit">DAYS</div></div>
         <div class="cd-sep">:</div>
@@ -10030,6 +10081,25 @@ body { padding-top: 26px; }
         </div>
       </form>
       <p class="newsletter-pidgin">"Ẹni tó bá jẹ́ orí ẹlòmíràn, kò ní jẹ orí ẹni."<br><span style="font-size:0.78rem; color: rgba(240,237,229,0.4); font-style:normal; font-family:'Space Grotesk',sans-serif;">"One who eats another's head will not eat one's own." — Yoruba Proverb</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ SOCIAL HUB -->
+<section id="social-hub" style="padding:4rem 1.5rem;background:rgba(0,0,0,0.4);border-top:1px solid rgba(244,184,0,0.08);">
+  <div style="max-width:900px;margin:0 auto;text-align:center;">
+    <p class="section-label reveal" style="justify-content:center">Spread the ASẸ</p>
+    <h2 class="section-title reveal" style="text-align:center;font-size:clamp(1.8rem,5vw,3rem);">TELL THE<br><em>STREETS</em></h2>
+    <p style="color:rgba(240,237,229,0.5);font-size:0.9rem;max-width:520px;margin:1rem auto 2.5rem;line-height:1.8;">Lagos noir belongs to Lagos. Share the story with your people. Every reader you bring is one more node in the ASẸ network.</p>
+    <div class="social-share-row">
+      <a href="https://twitter.com/intent/tweet?text=%F0%9F%94%A5%20Catalyst%3A%20The%20Awakening%20%E2%80%94%20Lagos%20noir%20comic%20rooted%20in%20Yoruba%20mythology.%20Bayo%20is%20that%20Mushin%20boy%20who%20carries%20all%20the%20Orisha%20power%20at%20once.%20Read%20free%3A&url=https%3A%2F%2Ffarouqagboola94-max.github.io%2FAwesome-AI-OSINT%2Fdesign-templates%2Fcatalyst-awakening-comic%2F&hashtags=CatalystAwakening%2CLagosComics%2CYorubaMythology%2CAfricanComics" target="_blank" rel="noopener" class="social-btn social-btn-x">𝕏 Post to Twitter/X</a>
+      <a href="https://wa.me/?text=%F0%9F%94%A5+Catalyst%3A+The+Awakening+%E2%80%94+A+Lagos+noir+comic+universe+rooted+in+Yoruba+mythology.+Bayo+is+19+and+carries+the+power+of+all+the+Orishas.+Read+free+here%3A+https%3A%2F%2Ffarouqagboola94-max.github.io%2FAwesome-AI-OSINT%2Fdesign-templates%2Fcatalyst-awakening-comic%2F" target="_blank" rel="noopener" class="social-btn social-btn-wa">💬 Share on WhatsApp</a>
+      <button class="social-btn social-btn-copy" onclick="sharePageCopy()" id="sharePageCopyBtn">🔗 Copy Link</button>
+    </div>
+    <div style="margin-top:2rem;padding:1.2rem;border:1px dashed rgba(244,184,0,0.2);border-radius:6px;background:rgba(244,184,0,0.03);max-width:540px;margin-left:auto;margin-right:auto;">
+      <div style="font-family:monospace;font-size:0.65rem;letter-spacing:2px;color:rgba(244,184,0,0.5);margin-bottom:0.5rem;">SHARE THIS QUOTE</div>
+      <p style="font-family:Georgia,serif;font-size:0.95rem;font-style:italic;color:rgba(240,237,229,0.7);line-height:1.7;margin:0 0 0.8rem;">"The Orishas chose their vessels before the vessels understood what choice meant."</p>
+      <a href="https://twitter.com/intent/tweet?text=%22The+Orishas+chose+their+vessels+before+the+vessels+understood+what+choice+meant.%22+%E2%80%94+Catalyst%3A+The+Awakening+%23CatalystAwakening+%23LagosComics&url=https%3A%2F%2Ffarouqagboola94-max.github.io%2FAwesome-AI-OSINT%2Fdesign-templates%2Fcatalyst-awakening-comic%2F" target="_blank" rel="noopener" style="font-family:monospace;font-size:0.65rem;letter-spacing:1px;color:#F4B800;text-decoration:none;border:1px solid rgba(244,184,0,0.3);padding:0.25rem 0.8rem;border-radius:2px;">TWEET THIS QUOTE</a>
     </div>
   </div>
 </section>
@@ -10774,6 +10844,24 @@ body { padding-top: 26px; }
     { src: 'images/bayo-portrait.png', caption: 'Issue #01 · Panel 1 — Bayo Adeyemi. 19. Lagos. Powered by ASẸ.' },
     { src: 'images/bayo-action-color.png', caption: 'Issue #01 · Panel 7 — First Strike. Lagos Street. ZAP! CRACKLE! SHOOOM!' },
     { src: 'images/bayo-action-bw.png', caption: 'Issue #02 · Panel 12 — Oshodi Confrontation. ASẸ!! Full Release. ZZZZAP!' },
+  ];
+
+  var ISSUE2_PANELS = [
+    { src: 'https://design.canva.ai/GiegyG0E9sRvfyM', caption: 'Issue #02 · Cover — Ṣàngó's Daughter. Amara carries the oldest telephone in Lagos.' },
+    { src: 'images/bayo-action-color.png', caption: 'Issue #02 · Panel 3 — The Collector Arrives. Geneva → Lagos. The harvest begins.' },
+    { src: 'images/bayo-action-bw.png', caption: 'Issue #02 · Panel 6 — Bayo walks toward The Collector. 847 futures. One path. Nobody dies.' },
+  ];
+
+  var ISSUE3_PANELS = [
+    { src: 'https://design.canva.ai/F6Fhg0PQ29fIURi', caption: 'Issue #03 · Cover — Iron in the Blood. Ikenna and the iron that thinks.' },
+    { src: 'images/bayo-portrait.png', caption: 'Issue #03 · Panel 4 — Iron Wolf's awakening. 416 metal objects orient at once.' },
+    { src: 'images/bayo-action-color.png', caption: 'Issue #03 · Panel 7 — The Pale Council's strike team. Six operatives. They didn't expect the iron.' },
+  ];
+
+  var ISSUE4_PANELS = [
+    { src: 'https://design.canva.ai/LNpruvpNmtN--Pi', caption: 'Issue #04 · Cover — The Price of ASẸ. The Oracle's truth. The Architect's arrival.' },
+    { src: 'images/bayo-action-bw.png', caption: 'Issue #04 · Panel 2 — The Orisha Vaccine. Six weeks from completion. Eko Atlantic.' },
+    { src: 'images/bayo-portrait.png', caption: 'Issue #04 · Panel 3 — The Choice. Control it or let it grow wild. Bayo decides.' },
   ];
 
   // ─── WAITLIST EMAIL CAPTURE ────────────────────────────────────
@@ -11725,6 +11813,54 @@ function audioStop() {
   document.getElementById('audio-icon').textContent = '♪';
 }
 
+// ── SOCIAL SHARE ──────────────────────────────────────────
+function pvShareTwitter() {
+  var cap = document.getElementById('pvCaption');
+  var text = cap ? cap.textContent : 'Catalyst: The Awakening — Lagos noir comic powered by Yoruba mythology';
+  var url = window.location.href.split('#')[0] + '#read';
+  var tw = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent('🔥 ' + text.slice(0,180) + ' — Read free: ') + '&url=' + encodeURIComponent(url) + '&hashtags=CatalystAwakening,LagosComics,YorubaMythology';
+  window.open(tw, '_blank', 'width=600,height=400');
+}
+
+function pvShareWhatsApp() {
+  var cap = document.getElementById('pvCaption');
+  var text = cap ? cap.textContent : 'Catalyst: The Awakening — Lagos noir comic';
+  var url = window.location.href.split('#')[0] + '#read';
+  var msg = '🔥 ' + text.slice(0,200) + '\n\nRead it free: ' + url;
+  window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+}
+
+function sharePageCopy() {
+  var url = window.location.href.split('#')[0];
+  var btn = document.getElementById('sharePageCopyBtn');
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(function() {
+      if (btn) { btn.textContent = '✓ Copied!'; setTimeout(function(){ btn.textContent = '🔗 Copy Link'; }, 2000); }
+    });
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = url; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    if (btn) { btn.textContent = '✓ Copied!'; setTimeout(function(){ btn.textContent = '🔗 Copy Link'; }, 2000); }
+  }
+}
+
+function pvCopyLink() {
+  var url = window.location.href.split('#')[0] + '#read';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(function() {
+      var btn = document.getElementById('pvCopyBtn');
+      if (btn) { btn.textContent = '✓ Copied!'; setTimeout(function(){ btn.textContent = '\uD83D\uDD17 Copy Link'; }, 2000); }
+    });
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = url; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    var btn = document.getElementById('pvCopyBtn');
+    if (btn) { btn.textContent = '✓ Copied!'; setTimeout(function(){ btn.textContent = '\uD83D\uDD17 Copy Link'; }, 2000); }
+  }
+}
+
   // ═══════════════════════════════════════════════════════════════
   // ACTIVE NAV — highlight link for the section currently in view
   // ═══════════════════════════════════════════════════════════════
@@ -11800,6 +11936,11 @@ function audioStop() {
   </div>
   <div class="pv-counter" id="pvCounter">1 / 3</div>
   <div class="pv-hint" id="pvHint">&#x2190; &#x2192; keys &middot; swipe on mobile &middot; ESC to close</div>
+  <div class="pv-share" id="pvShare">
+    <button class="pv-share-btn" onclick="pvShareTwitter()" title="Share on X / Twitter">&#x1D54F; Share</button>
+    <button class="pv-share-btn pv-share-wa" onclick="pvShareWhatsApp()" title="Share on WhatsApp">&#x1F4AC; WhatsApp</button>
+    <button class="pv-share-btn pv-share-copy" onclick="pvCopyLink()" title="Copy link" id="pvCopyBtn">&#x1F517; Copy Link</button>
+  </div>
 </div>
 </body>
 </html>
