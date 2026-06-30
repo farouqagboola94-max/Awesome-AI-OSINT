@@ -5203,6 +5203,195 @@ body { padding-top: 26px; }
   position: relative; overflow: hidden;
 }
 </style>
+<style id="v5-styles">
+/* ── ORACLE TERMINAL v2 INPUT ───────────────────────────────────────────── */
+.term-input-row {
+  display:flex;align-items:center;gap:0.4rem;
+  padding:0.6rem 1rem;
+  border-top:1px solid rgba(244,184,0,0.15);
+  background:rgba(0,0,0,0.3);
+}
+.term-prompt-lbl {
+  font-family:monospace;font-size:0.72rem;color:#F4B800;
+  white-space:nowrap;flex-shrink:0;
+}
+.term-input-field {
+  flex:1;background:transparent;border:none;outline:none;
+  font-family:monospace;font-size:0.72rem;color:#F0EDE5;
+  caret-color:#F4B800;
+}
+.term-input-field::placeholder { color:rgba(240,237,229,0.25); }
+.term-send-btn {
+  background:transparent;border:1px solid rgba(244,184,0,0.35);
+  color:#F4B800;font-family:monospace;font-size:0.6rem;
+  letter-spacing:0.1em;padding:0.25rem 0.6rem;cursor:pointer;
+  transition:background 0.2s,border-color 0.2s;
+}
+.term-send-btn:hover { background:rgba(244,184,0,0.12);border-color:#F4B800; }
+.term-query-hint {
+  font-family:monospace;font-size:0.58rem;color:rgba(244,184,0,0.3);
+  padding:0.3rem 1rem 0.7rem;letter-spacing:0.04em;
+}
+.t-tab-query { color:var(--orisha-teal) !important; }
+.t-tab-query.active { border-color:var(--orisha-teal) !important;color:var(--orisha-teal) !important; }
+.term-resp-line { color:#F0EDE5; }
+.term-resp-gold { color:#F4B800; }
+.term-resp-red  { color:#b81414; }
+.term-resp-dim  { color:rgba(240,237,229,0.45); }
+.term-resp-teal { color:#00C9B1; }
+@keyframes termGlitch {
+  0%,100%{transform:translate(0,0);filter:none}
+  20%{transform:translate(-2px,0);filter:hue-rotate(90deg)}
+  40%{transform:translate(2px,0);filter:hue-rotate(-90deg)}
+  60%{transform:translate(0,1px);filter:blur(0.5px)}
+}
+.term-glitch { animation:termGlitch 0.35s steps(2,end); }
+
+/* ── ASẸ SYSTEM LIVE DASHBOARD ───────────────────────────────────────────── */
+.ase-stat-fill { transition:width 1.4s cubic-bezier(0.25,0.46,0.45,0.94); }
+.ase-quest-pulse {
+  animation:questPulse 3s ease-in-out infinite;
+}
+@keyframes questPulse {
+  0%,100%{ box-shadow:0 0 0 0 rgba(244,184,0,0); }
+  50%{ box-shadow:0 0 18px 4px rgba(244,184,0,0.18); }
+}
+.ase-xp-section {
+  margin-top:1rem;
+  padding-top:0.8rem;
+  border-top:1px solid rgba(244,184,0,0.1);
+}
+.ase-xp-label {
+  font-family:monospace;font-size:0.58rem;letter-spacing:0.15em;
+  color:rgba(244,184,0,0.5);margin-bottom:0.5rem;
+}
+.ase-xp-track {
+  height:6px;background:rgba(244,184,0,0.1);
+  border-radius:3px;overflow:hidden;position:relative;
+}
+.ase-xp-fill {
+  height:100%;background:linear-gradient(90deg,#b81414,#F4B800);
+  border-radius:3px;position:relative;
+}
+.ase-xp-fill::after {
+  content:'';position:absolute;right:0;top:0;
+  width:4px;height:100%;
+  background:#fff;opacity:0.6;border-radius:2px;
+  box-shadow:0 0 8px 2px rgba(244,184,0,0.8);
+}
+.ase-xp-meta {
+  font-family:monospace;font-size:0.58rem;color:rgba(244,184,0,0.4);
+  margin-top:0.35rem;
+}
+.ase-levelup-overlay {
+  display:none;position:absolute;inset:0;
+  background:rgba(0,0,0,0.85);
+  align-items:center;justify-content:center;
+  z-index:20;border-radius:4px;
+  animation:levelUpFade 0.4s ease;
+}
+.ase-levelup-overlay.show { display:flex; }
+@keyframes levelUpFade {
+  0%{ opacity:0;transform:scale(0.95); }
+  100%{ opacity:1;transform:scale(1); }
+}
+.ase-levelup-inner { text-align:center;pointer-events:none; }
+.ase-levelup-text {
+  font-family:monospace;font-size:0.7rem;letter-spacing:0.2em;
+  color:rgba(244,184,0,0.7);margin-bottom:0.4rem;
+}
+.ase-levelup-rank {
+  font-family:'Bebas Neue',sans-serif;font-size:3rem;
+  color:#F4B800;letter-spacing:0.15em;
+  text-shadow:0 0 30px rgba(244,184,0,0.7),0 0 60px rgba(244,184,0,0.3);
+  line-height:1;
+}
+.ase-levelup-sub {
+  font-family:monospace;font-size:0.6rem;color:rgba(244,184,0,0.6);
+  margin-top:0.5rem;letter-spacing:0.1em;
+}
+/* Make ase-screen position:relative so overlay works */
+.ase-screen { position:relative; }
+
+/* ── ARC II CINEMATIC TEASER ──────────────────────────────────────────────── */
+.arc2-transmission-banner {
+  display:flex;align-items:center;justify-content:center;gap:1rem;
+  background:rgba(196,30,58,0.08);
+  border-top:1px solid rgba(196,30,58,0.25);
+  border-bottom:1px solid rgba(196,30,58,0.25);
+  padding:0.55rem 2rem;
+  font-family:monospace;font-size:0.58rem;letter-spacing:0.2em;
+  color:rgba(196,30,58,0.7);text-transform:uppercase;
+  overflow:hidden;
+}
+.arc2-trans-txt {
+  white-space:nowrap;
+  animation:arc2Scroll 18s linear infinite;
+}
+@keyframes arc2Scroll {
+  0%{ transform:translateX(60px); }
+  100%{ transform:translateX(-100%); }
+}
+.arc2-trans-dot {
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(196,30,58,0.6);flex-shrink:0;
+  animation:arc2DotPulse 1.2s ease-in-out infinite;
+}
+@keyframes arc2DotPulse {
+  0%,100%{ opacity:1; } 50%{ opacity:0.2; }
+}
+.arc2-countdown-wrap {
+  margin:2rem auto 0;text-align:center;
+}
+.arc2-countdown-label {
+  font-family:monospace;font-size:0.6rem;letter-spacing:0.25em;
+  color:rgba(196,30,58,0.6);margin-bottom:0.8rem;
+}
+.arc2-countdown-row {
+  display:flex;align-items:center;justify-content:center;gap:0.5rem;
+}
+.arc2-cd-unit {
+  display:flex;flex-direction:column;align-items:center;gap:0.2rem;
+  min-width:60px;
+}
+.arc2-cd-num {
+  font-family:'Bebas Neue',sans-serif;font-size:2.6rem;
+  color:#C41E3A;line-height:1;
+  text-shadow:0 0 20px rgba(196,30,58,0.5);
+}
+.arc2-cd-lbl {
+  font-family:monospace;font-size:0.48rem;letter-spacing:0.2em;
+  color:rgba(196,30,58,0.45);
+}
+.arc2-cd-sep {
+  font-family:'Bebas Neue',sans-serif;font-size:2rem;
+  color:rgba(196,30,58,0.4);margin-bottom:0.8rem;
+}
+.arc2-cinematic-quote {
+  margin:1.8rem auto 0;max-width:560px;
+  font-family:'Oswald',sans-serif;font-style:italic;
+  font-size:0.95rem;line-height:1.9;color:rgba(240,237,229,0.5);
+  text-align:center;letter-spacing:0.02em;min-height:2rem;
+}
+.arc2-cq-cursor::after {
+  content:'|';color:#C41E3A;animation:blinkCursor 0.8s step-end infinite;
+}
+@keyframes blinkCursor { 0%,100%{opacity:1} 50%{opacity:0} }
+.arc2-spoiler-card { position:relative;overflow:hidden; }
+.arc2-blur-reveal {
+  filter:blur(5px);
+  transition:filter 0.5s ease;
+  user-select:none;
+}
+.arc2-spoiler-card:hover .arc2-blur-reveal { filter:blur(0); }
+.arc2-hover-hint {
+  position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);
+  font-family:monospace;font-size:0.55rem;letter-spacing:0.2em;
+  color:rgba(196,30,58,0.6);
+  transition:opacity 0.3s;pointer-events:none;
+}
+.arc2-spoiler-card:hover .arc2-hover-hint { opacity:0; }
+</style>
 </head>
 <body>
 
@@ -6971,10 +7160,21 @@ body { padding-top: 26px; }
         <button class="term-tab" onclick="termLoad('thunderstrike')">// THUNDERSTRIKE</button>
         <button class="term-tab" onclick="termLoad('iron-wolf')">// IRON WOLF</button>
         <button class="term-tab" onclick="termLoad('architect')">// THE ARCHITECT</button>
+        <button class="term-tab" onclick="termLoad('zara')">// THE MIRROR</button>
+        <button class="term-tab t-tab-query" onclick="termFocusInput()">// QUERY ⌨</button>
       </div>
       <div class="term-body">
         <div id="terminal-out"></div><span class="t-cursor"></span>
       </div>
+      <div class="term-input-row">
+        <span class="term-prompt-lbl">ORACLE@LAGOS-NET:~$&nbsp;</span>
+        <input type="text" id="termQueryInput" class="term-input-field"
+               placeholder="ask the oracle anything…"
+               autocomplete="off" spellcheck="false"
+               onkeydown="if(event.key==='Enter')termQuery(this.value)">
+        <button class="term-send-btn" onclick="termQuery(document.getElementById('termQueryInput').value)">SEND</button>
+      </div>
+      <div class="term-query-hint">Try: "who is bayo" · "pale council" · "ase system" · "what is zara hiding"</div>
     </div>
   </div>
 </section>
@@ -8541,32 +8741,32 @@ body { padding-top: 26px; }
       <hr class="ase-separator">
       <div class="ase-stat-row">
         <span class="ase-stat-label">Aṣẹ Capacity</span>
-        <div class="ase-stat-bar"><div class="ase-stat-fill gold" style="width:78%"></div></div>
+        <div class="ase-stat-bar"><div class="ase-stat-fill gold ase-bar-anim" data-pct="78" style="width:0%"></div></div>
         <span class="ase-stat-val">78 / 100</span>
       </div>
       <div class="ase-stat-row">
         <span class="ase-stat-label">Ẹṣù Resonance</span>
-        <div class="ase-stat-bar"><div class="ase-stat-fill" style="width:91%"></div></div>
+        <div class="ase-stat-bar"><div class="ase-stat-fill ase-bar-anim" data-pct="91" style="width:0%"></div></div>
         <span class="ase-stat-val">91 / 100</span>
       </div>
       <div class="ase-stat-row">
         <span class="ase-stat-label">Ṣàngó Resonance</span>
-        <div class="ase-stat-bar"><div class="ase-stat-fill red" style="width:64%"></div></div>
+        <div class="ase-stat-bar"><div class="ase-stat-fill red ase-bar-anim" data-pct="64" style="width:0%"></div></div>
         <span class="ase-stat-val">64 / 100</span>
       </div>
       <div class="ase-stat-row">
         <span class="ase-stat-label">Ògún Resonance</span>
-        <div class="ase-stat-bar"><div class="ase-stat-fill teal" style="width:83%"></div></div>
+        <div class="ase-stat-bar"><div class="ase-stat-fill teal ase-bar-anim" data-pct="83" style="width:0%"></div></div>
         <span class="ase-stat-val">83 / 100</span>
       </div>
       <div class="ase-stat-row">
         <span class="ase-stat-label">Oyá Resonance</span>
-        <div class="ase-stat-bar"><div class="ase-stat-fill" style="width:45%"></div></div>
+        <div class="ase-stat-bar"><div class="ase-stat-fill ase-bar-anim" data-pct="45" style="width:0%"></div></div>
         <span class="ase-stat-val">45 / 100</span>
       </div>
       <div class="ase-stat-row">
         <span class="ase-stat-label">Ọṣun Resonance</span>
-        <div class="ase-stat-bar"><div class="ase-stat-fill gold" style="width:57%"></div></div>
+        <div class="ase-stat-bar"><div class="ase-stat-fill gold ase-bar-anim" data-pct="57" style="width:0%"></div></div>
         <span class="ase-stat-val">57 / 100</span>
       </div>
       <hr class="ase-separator">
@@ -8576,10 +8776,22 @@ body { padding-top: 26px; }
       <div class="ase-line dim" style="font-size:0.65rem;">MID is unique per vessel · No prior match in 4,000-year Ifá records · Classification: UNPRECEDENTED</div>
       <div class="ase-line dim">[ CONCURRENT CHANNELLING: DUAL (RESONANCE UNLOCKED) ]</div>
       <div class="ase-line alert">[ CATALYST PROTOCOL: LOCKED — REQUIRES 100% ALL RESONANCE ]</div>
-      <div class="ase-quest-box">
+      <div class="ase-quest-box ase-quest-pulse">
         <div class="ase-quest-title">⚡ ACTIVE DIVINE QUEST — ṢÀNGÓ</div>
         <div class="ase-quest-text">"The Third Mainland Bridge will collapse at 03:17. Thirty-two vehicles. Hold it together until dawn."</div>
         <div class="ase-quest-reward">REWARD: Ṣàngó Resonance +18 · Unlock: Thunder Conduit · Àṣẹ! <span class="ase-cursor"></span></div>
+      </div>
+      <div class="ase-xp-section">
+        <div class="ase-xp-label">CATALYST PROTOCOL PROGRESS</div>
+        <div class="ase-xp-track"><div class="ase-xp-fill ase-bar-anim" data-pct="71" style="width:0%"></div></div>
+        <div class="ase-xp-meta">71% · 29% until CATALYST PROTOCOL UNLOCKS</div>
+      </div>
+      <div class="ase-levelup-overlay" id="aseLevelUp">
+        <div class="ase-levelup-inner">
+          <div class="ase-levelup-text">⚡ ORISHA RESONANCE</div>
+          <div class="ase-levelup-rank">LEVEL UP</div>
+          <div class="ase-levelup-sub">Ṣàngó Resonance increased · +18 · New ability unlocked</div>
+        </div>
       </div>
     </div>
   </div>
@@ -9328,6 +9540,12 @@ body { padding-top: 26px; }
 
 <!-- ============================================================ ARC II PREMIUM TEASER -->
 <section id="arc2-teaser">
+  <div class="arc2-transmission-banner" id="arc2TransBanner">
+    <span class="arc2-trans-dot"></span>
+    <span class="arc2-trans-txt">TRANSMISSION INCOMING — ORACLE INTELLIGENCE FEED — ARC II BRIEFING</span>
+    <span class="arc2-trans-dot"></span>
+  </div>
+
   <div class="arc2-header reveal">
     <div class="arc2-classified-bar">CLASSIFIED — PREMIUM SUBSCRIBERS ONLY</div>
     <p class="section-label" style="justify-content:center;color:var(--electric-purple)">Arc II: Iron Trials</p>
@@ -9337,29 +9555,49 @@ body { padding-top: 26px; }
       <span style="color:var(--electric-purple);font-size:0.55em;letter-spacing:0.15em;">BEGIN IN ISSUE #05</span>
     </h2>
     <p style="max-width:540px;margin:1.5rem auto 0;font-size:0.88rem;line-height:1.8;color:rgba(240,237,229,0.4);">Arc I ended. Arc II has begun. Bayo is no longer a homeless boy with a mystery power — he is the most dangerous unregistered being on the continent. The Pale Council knows it. The Orishas know it. He doesn't know it yet.</p>
+
+    <div class="arc2-countdown-wrap">
+      <div class="arc2-countdown-label">ISSUE #05 DROPS IN</div>
+      <div class="arc2-countdown-row">
+        <div class="arc2-cd-unit"><span class="arc2-cd-num" id="arc2Days">00</span><span class="arc2-cd-lbl">DAYS</span></div>
+        <div class="arc2-cd-sep">:</div>
+        <div class="arc2-cd-unit"><span class="arc2-cd-num" id="arc2Hrs">00</span><span class="arc2-cd-lbl">HRS</span></div>
+        <div class="arc2-cd-sep">:</div>
+        <div class="arc2-cd-unit"><span class="arc2-cd-num" id="arc2Min">00</span><span class="arc2-cd-lbl">MIN</span></div>
+        <div class="arc2-cd-sep">:</div>
+        <div class="arc2-cd-unit"><span class="arc2-cd-num" id="arc2Sec">00</span><span class="arc2-cd-lbl">SEC</span></div>
+      </div>
+    </div>
+
+    <div class="arc2-cinematic-quote" id="arc2CinQuote">
+      <span class="arc2-cq-inner" id="arc2CinQInner"></span>
+    </div>
   </div>
 
   <div class="arc2-grid">
-    <div class="arc2-card reveal">
+    <div class="arc2-card reveal arc2-spoiler-card">
       <div class="scan-line-overlay"><div class="scan-line-bar"></div></div>
       <div class="arc2-card-num">05</div>
       <div class="arc2-card-label">Issue 05 — Premium</div>
       <div class="arc2-card-title">The Architect Arrives</div>
-      <div class="arc2-card-desc">The Pale Council's most dangerous operative. She doesn't fight. She builds — systems, traps, narratives. She's been in Lagos six months before anyone notices, and by then the trap is complete.</div>
+      <div class="arc2-card-desc arc2-blur-reveal">The Pale Council's most dangerous operative. She doesn't fight. She builds — systems, traps, narratives. She's been in Lagos six months before anyone notices, and by then the trap is complete.</div>
+      <div class="arc2-hover-hint">HOVER TO REVEAL</div>
     </div>
-    <div class="arc2-card reveal reveal-delay-1">
+    <div class="arc2-card reveal reveal-delay-1 arc2-spoiler-card">
       <div class="scan-line-overlay"><div class="scan-line-bar"></div></div>
       <div class="arc2-card-num">06</div>
       <div class="arc2-card-label">Issue 06 — Premium</div>
       <div class="arc2-card-title">Amara's Choice</div>
-      <div class="arc2-card-desc">Thunderstrike receives an offer from the Global Orisha Regulatory Authority. Full legitimacy. Full equipment. Full betrayal. She has 48 hours. The drum says one thing. Her loyalty says another.</div>
+      <div class="arc2-card-desc arc2-blur-reveal">Thunderstrike receives an offer from the Global Orisha Regulatory Authority. Full legitimacy. Full equipment. Full betrayal. She has 48 hours. The drum says one thing. Her loyalty says another.</div>
+      <div class="arc2-hover-hint">HOVER TO REVEAL</div>
     </div>
-    <div class="arc2-card reveal reveal-delay-2">
+    <div class="arc2-card reveal reveal-delay-2 arc2-spoiler-card">
       <div class="scan-line-overlay"><div class="scan-line-bar"></div></div>
       <div class="arc2-card-num">07</div>
       <div class="arc2-card-label">Issue 07 — Premium</div>
       <div class="arc2-card-title">Iron in the Council</div>
-      <div class="arc2-card-desc">Iron Wolf goes undercover in the Pale Council. What he finds in the deep archives wasn't supposed to survive the 1986 purge. Sixty-three names. One of them is his father's.</div>
+      <div class="arc2-card-desc arc2-blur-reveal">Iron Wolf goes undercover in the Pale Council. What he finds in the deep archives wasn't supposed to survive the 1986 purge. Sixty-three names. One of them is his father's.</div>
+      <div class="arc2-hover-hint">HOVER TO REVEAL</div>
     </div>
   </div>
 
@@ -12146,6 +12384,251 @@ function pvCopyLink() {
       if (dy > 40) toggleMobileNav();
       lastScrollY = window.scrollY;
     }, { passive: true });
+  })();
+
+
+  // ── V5: ORACLE TERMINAL v2 — ZARA DATA + INTERACTIVE QUERY ──────────────────
+
+  // Zara dossier
+  if (typeof TERM_DATA !== 'undefined') {
+    TERM_DATA['zara'] = [
+      { t: 0,   txt: '[ ACCESSING FILE: OSEI, ZARA — CODENAME: THE MIRROR ]\n', cls: 't-red' },
+      { t: 300, txt: 'CLEARANCE REQUIRED: OMEGA — GRANTED — NOTE: SHE KNOWS YOU ACCESSED THIS\n\n', cls: 't-dim' },
+      { t: 700, txt: 'SURVEILLANCE STATUS: ZERO — DIGITAL, PHYSICAL, SPIRITUAL\n', cls: 't-gold' },
+      { t: 1000,txt: 'Age: 27. Origin: ERASED from Ifá records.\nPassport: Three nationalities, all legitimate, all impossible.\nOccupation declared: "Photographer." (Unverified.)\n\n', cls: 't-white' },
+      { t: 1800,txt: 'Unique classification: Subject has attended 2 confirmed Pale Council briefings\nundetected. The Pale Council does not know this.\nThe Pale Council does not know she exists.\nThe Pale Council has never seen her. \n\n', cls: '' },
+      { t: 2600,txt: 'Aṣẹ signature: NONE. No divine trace. No orisha bond. No aura.\nClassification systems report: CIVILIAN.\nClassification systems are wrong.\n\n', cls: 't-dim' },
+      { t: 3400,txt: 'Oracle personal note: I have been doing this 617 years.\nI cannot read her. This has happened once before.\nThat person was The Architect.\nI am choosing not to think about this too hard right now.\n', cls: 't-red' },
+    ];
+  }
+
+  // Interactive query engine
+  var ORACLE_RESPONSES = {
+    'who is bayo': [
+      { t:0,   txt:'> QUERYING: ADEYEMI, BAYO — CATALYST\n', cls:'t-gold' },
+      { t:400, txt:'Age 19. Mushin-born. Last seen: everywhere simultaneously.\n', cls:'t-white' },
+      { t:900, txt:'Aṣẹ classification: IMPOSSIBLE. System returns error on every scan.\n', cls:'' },
+      { t:1400,txt:'The city chose him. This is above our pay grade.\n', cls:'t-dim' },
+    ],
+    'bayo': [
+      { t:0,   txt:'> CATALYST DOSSIER — QUICK ACCESS\n', cls:'t-gold' },
+      { t:300, txt:'Adebayo Adeyemi · 19 · Mushin · ASẹ Class: UNPRECEDENTED\n', cls:'t-white' },
+      { t:700, txt:'Five orisha resonances active simultaneously. Oracle says: "Do not test him."\n', cls:'t-dim' },
+    ],
+    'zara': [
+      { t:0,   txt:'> QUERYING: THE MIRROR — CLEARANCE OMEGA\n', cls:'t-gold' },
+      { t:300, txt:'File access logged. She already knows.\n', cls:'t-red' },
+      { t:700, txt:'Surveillance signature: ZERO. The system sees nothing. We see nothing.\n', cls:'t-dim' },
+      { t:1200,txt:'The Oracle says: "She is the most dangerous person in this city.\nShe has not decided to be dangerous yet."\n', cls:'t-white' },
+    ],
+    'pale council': [
+      { t:0,   txt:'> QUERYING: PALE COUNCIL — CLASSIFICATION: EXISTENTIAL THREAT\n', cls:'t-red' },
+      { t:400, txt:'Shadow governance body. Founded 1886 — Lagos annexation.\n138 years of uninterrupted operation.\n', cls:'t-white' },
+      { t:1000,txt:'Current objective: collapse the Orisha-Human accord.\nErase the divine from the city. Permanently.\n', cls:'' },
+      { t:1600,txt:'Known assets: The Architect. ████ sleeper agents. ████ extraction teams.\n', cls:'t-dim' },
+      { t:2000,txt:'Oracle note: "They have been in this city longer than I have.\nThe difference is I am trying to protect it."\n', cls:'t-red' },
+    ],
+    'architect': [
+      { t:0,   txt:'> QUERYING: THE ARCHITECT — WARNING ACTIVE\n', cls:'t-red' },
+      { t:300, txt:'This query has been logged. The Architect has been notified.\n', cls:'t-red' },
+      { t:700, txt:'617 years. First human Sovereign-tier Aṣẹ. Goal: end the divine.\n', cls:'t-white' },
+      { t:1200,txt:'He does not fight battles. He writes them. Every war in Lagos for 300 years.\n', cls:'t-dim' },
+    ],
+    'ase': [
+      { t:0,   txt:'> QUERYING: ASẸ SYSTEM — OPEN RECORD\n', cls:'t-gold' },
+      { t:300, txt:'Divine energy interface. Visible only to Bayo Adeyemi.\n', cls:'t-white' },
+      { t:700, txt:'Orisha-issued quest system. Class: UNPRECEDENTED in 4,000 years of Ifá records.\n', cls:'' },
+      { t:1200,txt:'Current Catalyst Protocol completion: 71%.\nWhen it hits 100%: unknown. Oracle refuses to specify.\n', cls:'t-dim' },
+    ],
+    'ase system': [
+      { t:0,   txt:'> QUERYING: ASẸ SYSTEM — OPEN RECORD\n', cls:'t-gold' },
+      { t:300, txt:'Floating Yoruba script. Divine interface. Quest log. Stat tracker.\n', cls:'t-white' },
+      { t:800, txt:'No prior match in 4,000 years of Ifá record. Oracle classification: UNPRECEDENTED.\n', cls:'t-dim' },
+    ],
+    'oracle': [
+      { t:0,   txt:'> QUERYING: THE ORACLE — SELF-REFERENCE DETECTED\n', cls:'t-gold' },
+      { t:400, txt:'Age: 617 years confirmed. Possibly older. He does not clarify.\n', cls:'t-white' },
+      { t:900, txt:'Classification: Mortal. But the city listens when he speaks.\n', cls:'' },
+      { t:1300,txt:'"I have seen eleven false Catalysts. This one is not false.\nThis terrifies me more than the false ones did."\n', cls:'t-dim' },
+    ],
+    'mushin': [
+      { t:0,   txt:'> QUERYING: LOCATION — MUSHIN DISTRICT\n', cls:'t-gold' },
+      { t:300, txt:'Population: 633,000. Aṣẹ concentration: HIGHEST IN LAGOS.\n', cls:'t-white' },
+      { t:800, txt:'The energy here predates the city. The streets remember things.\n', cls:'t-dim' },
+      { t:1200,txt:'Bayo grew up here. The Oracle says this is not coincidence.\n', cls:'' },
+    ],
+    'iron wolf': [
+      { t:0,   txt:'> QUERYING: OKAFOR, IKENNA — IRON WOLF\n', cls:'t-gold' },
+      { t:300, txt:'Age 26. Iron District. Tier V+ in transformed state.\n', cls:'t-white' },
+      { t:700, txt:'He does not consider himself a hero. He considers himself a consequence.\n', cls:'t-dim' },
+    ],
+    'ikenna': [
+      { t:0,   txt:'> QUERYING: OKAFOR, IKENNA — IRON WOLF\n', cls:'t-gold' },
+      { t:300, txt:'Iron District born. 14 generations Ògún lineage. Tier V+ confirmed.\n', cls:'t-white' },
+      { t:700, txt:'The Architect has made three recruitment approaches. He refused all three.\n', cls:'t-red' },
+    ],
+    'amara': [
+      { t:0,   txt:'> QUERYING: IBRAHIM, AMARA — THUNDERSTRIKE\n', cls:'t-gold' },
+      { t:300, txt:'Age 23. Former aerospace engineer, UNN. Shungite battery: 12,000V sustained.\n', cls:'t-white' },
+      { t:800, txt:'Correct 94% of the time. The 6% has hospitalized three Pale Council operatives.\n', cls:'t-dim' },
+    ],
+    'help': [
+      { t:0,   txt:'> ORACLE QUERY SYNTAX — AVAILABLE SEARCH TERMS\n\n', cls:'t-gold' },
+      { t:200, txt:'bayo / catalyst         — Adeyemi dossier\n', cls:'t-white' },
+      { t:350, txt:'zara / the mirror        — The Mirror dossier\n', cls:'t-white' },
+      { t:500, txt:'ikenna / iron wolf       — Okafor dossier\n', cls:'t-white' },
+      { t:650, txt:'amara                    — Thunderstrike dossier\n', cls:'t-white' },
+      { t:800, txt:'architect                — [CLASSIFIED — ACCESS LOGGED]\n', cls:'t-red' },
+      { t:950, txt:'pale council             — Threat assessment\n', cls:'t-white' },
+      { t:1100,txt:'ase / ase system         — Power system overview\n', cls:'t-white' },
+      { t:1250,txt:'oracle                   — Intel on the Oracle\n', cls:'t-white' },
+      { t:1400,txt:'mushin                   — Location brief\n', cls:'t-white' },
+    ],
+  };
+
+  function termFocusInput() {
+    var inp = document.getElementById('termQueryInput');
+    if (inp) { inp.focus(); inp.scrollIntoView({ behavior:'smooth', block:'center' }); }
+  }
+
+  function termQuery(raw) {
+    var inp = document.getElementById('termQueryInput');
+    var q = (raw || '').trim().toLowerCase();
+    if (!q) return;
+    if (inp) inp.value = '';
+
+    var out = document.getElementById('terminal-out');
+    if (!out) return;
+
+    // Clear and show query echo
+    if (termTimeout) clearTimeout(termTimeout);
+    out.innerHTML = '';
+    var echo = document.createElement('span');
+    echo.className = 't-dim';
+    echo.textContent = 'ORACLE@LAGOS-NET:~$ ' + raw.trim() + '\n\n';
+    out.appendChild(echo);
+
+    // Find best match
+    var key = null;
+    var keys = Object.keys(ORACLE_RESPONSES);
+    for (var i = 0; i < keys.length; i++) {
+      if (q === keys[i] || q.indexOf(keys[i]) !== -1 || keys[i].indexOf(q) !== -1) {
+        key = keys[i]; break;
+      }
+    }
+
+    var lines = key ? ORACLE_RESPONSES[key] : [
+      { t:0,   txt:'> SEARCHING ORACLE INTELLIGENCE FEED...\n', cls:'t-dim' },
+      { t:600, txt:'[ NO CLASSIFIED RECORD FOUND FOR: "' + raw.trim().toUpperCase() + '" ]\n', cls:'t-red' },
+      { t:1000,txt:'Try: "help" for available search terms.\n', cls:'t-dim' },
+    ];
+
+    // Glitch if sensitive keyword
+    var sensitive = ['architect','pale council','zara'];
+    for (var s = 0; s < sensitive.length; s++) {
+      if (q.indexOf(sensitive[s]) !== -1) {
+        out.classList.add('term-glitch');
+        setTimeout(function(){ out.classList.remove('term-glitch'); }, 400);
+        break;
+      }
+    }
+
+    lines.forEach(function(line) {
+      termTimeout = setTimeout(function() {
+        var span = document.createElement('span');
+        span.textContent = line.txt;
+        if (line.cls) span.className = line.cls;
+        out.appendChild(span);
+      }, line.t + 200);
+    });
+  }
+
+  // ── V5: ASẸ STAT BAR ANIMATION ─────────────────────────────────────────────
+  (function() {
+    var aseSection = document.getElementById('ase-system');
+    if (!aseSection) return;
+    var animated = false;
+    var obs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting && !animated) {
+        animated = true;
+        // Animate all bars
+        var bars = aseSection.querySelectorAll('.ase-bar-anim');
+        bars.forEach(function(bar, idx) {
+          var pct = bar.getAttribute('data-pct') || '0';
+          setTimeout(function() {
+            bar.style.width = pct + '%';
+          }, 200 + idx * 120);
+        });
+        // Show level-up overlay then hide it
+        var lvlUp = document.getElementById('aseLevelUp');
+        if (lvlUp) {
+          setTimeout(function() {
+            lvlUp.classList.add('show');
+            setTimeout(function() {
+              lvlUp.style.transition = 'opacity 0.8s ease';
+              lvlUp.style.opacity = '0';
+              setTimeout(function() { lvlUp.classList.remove('show'); lvlUp.style.opacity = ''; }, 800);
+            }, 2200);
+          }, 1800);
+        }
+      }
+    }, { threshold: 0.4 });
+    obs.observe(aseSection);
+  })();
+
+  // ── V5: ARC II COUNTDOWN + CINEMATIC QUOTE ─────────────────────────────────
+  (function() {
+    // Target: March 7, 2026 — Issue #5 release
+    var targetDate = new Date('2026-03-07T00:00:00+01:00').getTime();
+
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+    function updateCd() {
+      var now = Date.now();
+      var diff = targetDate - now;
+      if (diff < 0) diff = 0;
+      var days = Math.floor(diff / 86400000);
+      var hrs  = Math.floor((diff % 86400000) / 3600000);
+      var min  = Math.floor((diff % 3600000) / 60000);
+      var sec  = Math.floor((diff % 60000) / 1000);
+      var d = document.getElementById('arc2Days');
+      var h = document.getElementById('arc2Hrs');
+      var m = document.getElementById('arc2Min');
+      var s = document.getElementById('arc2Sec');
+      if (d) d.textContent = pad(days);
+      if (h) h.textContent = pad(hrs);
+      if (m) m.textContent = pad(min);
+      if (s) s.textContent = pad(sec);
+    }
+    updateCd();
+    setInterval(updateCd, 1000);
+
+    // Cinematic quote typewriter on scroll
+    var arc2El = document.getElementById('arc2-teaser');
+    var qEl    = document.getElementById('arc2CinQInner');
+    var qTyped = false;
+    var ARC2_QUOTE = '"The Architect\'s file arrived at 4:17 AM. The Oracle went pale for the first time in six hundred years. \"This one,\" he said very quietly. \"This one we were not ready for.\"  He was wrong. They were ready for nothing that came next."';
+
+    if (arc2El && qEl) {
+      var qObs = new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting && !qTyped) {
+          qTyped = true;
+          qEl.classList.add('arc2-cq-cursor');
+          var i = 0;
+          var speed = 28;
+          function typeChar() {
+            if (i < ARC2_QUOTE.length) {
+              qEl.textContent += ARC2_QUOTE[i++];
+              setTimeout(typeChar, speed + (ARC2_QUOTE[i-1] === '.' || ARC2_QUOTE[i-1] === ',' ? 180 : 0));
+            } else {
+              setTimeout(function(){ qEl.classList.remove('arc2-cq-cursor'); }, 600);
+            }
+          }
+          setTimeout(typeChar, 600);
+        }
+      }, { threshold: 0.3 });
+      qObs.observe(arc2El);
+    }
   })();
 
 
