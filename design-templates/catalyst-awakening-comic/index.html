@@ -6619,6 +6619,92 @@ body.ase-vision .ase-glyph-field { display:block; }
 .nil-trace-btn:disabled{opacity:.3;cursor:default;border-color:rgba(100,100,100,.3);color:#666}
 .nil-col-hdr{display:grid;grid-template-columns:90px 90px 1fr 80px 80px;gap:.5rem;padding:.3rem;font-size:.58rem;letter-spacing:1px;color:#555;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:.2rem}
 </style>
+
+<style id="v15-styles">
+/* ══ v15 Oracle Asset Repository ══════════════════════════════════════════ */
+#oracle-asset-repository{border:1px solid #b81414;padding:1.4rem;margin:2rem 0;background:#0d0505;font-family:monospace}
+.oar-title{color:#F4B800;font-size:1.1rem;letter-spacing:.2em;border-bottom:1px solid #b81414;padding-bottom:.4rem;margin-bottom:1rem}
+.oar-tier-label{color:#9b59b6;font-size:.8rem;letter-spacing:.18em;margin:.9rem 0 .4rem}
+.oar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.6rem;margin-bottom:.8rem}
+.oar-item{border:1px solid #3a1010;background:#140808;padding:.7rem;cursor:pointer;transition:border-color .2s}
+.oar-item:hover{border-color:#b81414}
+.oar-item.owned{border-color:#00C9B1;background:#071010;cursor:default}
+.oar-item-name{color:#F4B800;font-size:.82rem;letter-spacing:.12em;margin-bottom:.3rem}
+.oar-item-cost{color:#b81414;font-size:.75rem;margin-bottom:.3rem}
+.oar-item.owned .oar-item-cost{color:#00C9B1}
+.oar-item-desc{color:#999;font-size:.7rem;line-height:1.4}
+.oar-btn{background:#1a0808;border:1px solid #b81414;color:#F4B800;padding:.25rem .6rem;font-family:monospace;font-size:.72rem;cursor:pointer;letter-spacing:.1em;margin-top:.5rem;display:block;width:100%}
+.oar-btn:hover{background:#b81414;color:#000}
+.oar-btn:disabled{opacity:.4;cursor:default;background:#0d0505}
+.oar-inventory{border:1px solid #9b59b6;background:#0a060f;padding:.8rem;margin-top:1rem}
+.oar-inv-title{color:#9b59b6;font-size:.8rem;letter-spacing:.15em;margin-bottom:.5rem}
+.oar-inv-list{color:#ccc;font-size:.75rem;line-height:1.7}
+.oar-inv-empty{color:#555;font-style:italic;font-size:.75rem}
+.oar-msg{color:#00C9B1;font-size:.78rem;min-height:1.2rem;margin-top:.6rem;letter-spacing:.08em}
+
+/* ══ v15 Mission Briefing Generator ═══════════════════════════════════════ */
+#mission-briefing-generator{border:1px solid #C41E3A;padding:1.4rem;margin:2rem 0;background:#0d0508;font-family:monospace}
+.mbg-title{color:#F4B800;font-size:1.1rem;letter-spacing:.2em;border-bottom:1px solid #C41E3A;padding-bottom:.4rem;margin-bottom:1rem}
+.mbg-form{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.8rem}
+.mbg-form label{color:#999;font-size:.75rem;letter-spacing:.1em;display:block;margin-bottom:.2rem}
+.mbg-form select,.mbg-form input,.mbg-form textarea{width:100%;background:#0a0305;border:1px solid #5a1020;color:#ddd;font-family:monospace;font-size:.8rem;padding:.35rem .5rem;box-sizing:border-box}
+.mbg-form .mbg-full{grid-column:1/-1}
+.mbg-form textarea{resize:vertical;min-height:60px}
+.mbg-btn{background:#1a0810;border:1px solid #C41E3A;color:#F4B800;padding:.4rem 1.2rem;font-family:monospace;font-size:.82rem;cursor:pointer;letter-spacing:.14em;margin-top:.4rem}
+.mbg-btn:hover{background:#C41E3A;color:#000}
+.mbg-briefing{border:1px solid #F4B800;background:#080505;padding:1rem;margin-top:1rem;display:none}
+.mbg-briefing.active{display:block}
+.mbg-brief-header{color:#b81414;font-size:.78rem;letter-spacing:.2em;border-bottom:1px solid #3a1010;padding-bottom:.4rem;margin-bottom:.7rem}
+.mbg-brief-body{color:#ccc;font-size:.76rem;line-height:1.75;white-space:pre-wrap}
+.mbg-brief-code{color:#00C9B1;font-size:.72rem;letter-spacing:.15em;margin-top:.6rem}
+.mbg-msg{color:#00C9B1;font-size:.78rem;min-height:1.2rem;margin-top:.5rem}
+
+/* ══ v15 Oracle Command Dashboard ═════════════════════════════════════════ */
+#oracle-command-dashboard{border:1px solid #00C9B1;padding:1.4rem;margin:2rem 0;background:#020d0c;font-family:monospace}
+.ocd-title{color:#00C9B1;font-size:1.1rem;letter-spacing:.2em;border-bottom:1px solid #00C9B1;padding-bottom:.4rem;margin-bottom:1rem}
+.ocd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.8rem}
+.ocd-card{border:1px solid #083020;background:#020d0c;padding:.8rem}
+.ocd-card-title{color:#F4B800;font-size:.75rem;letter-spacing:.15em;margin-bottom:.5rem;border-bottom:1px solid #083020;padding-bottom:.3rem}
+.ocd-stat{display:flex;justify-content:space-between;align-items:center;margin:.3rem 0;font-size:.75rem}
+.ocd-stat-label{color:#999;font-size:.72rem}
+.ocd-stat-val{color:#00C9B1;font-weight:bold;font-size:.82rem}
+.ocd-bar-wrap{margin:.4rem 0}
+.ocd-bar-label{color:#777;font-size:.7rem;margin-bottom:.15rem}
+.ocd-bar{background:#0a1f18;border:1px solid #083020;height:8px;position:relative;overflow:hidden}
+.ocd-bar-fill{background:#00C9B1;height:100%;transition:width .5s ease}
+.ocd-bar-fill.gold{background:#F4B800}
+.ocd-bar-fill.red{background:#b81414}
+.ocd-bar-fill.purple{background:#9b59b6}
+.ocd-status{color:#00C9B1;font-size:.72rem;letter-spacing:.12em;margin-top:.8rem;border-top:1px solid #083020;padding-top:.5rem}
+.ocd-timestamp{color:#555;font-size:.68rem;margin-top:.3rem}
+
+/* ══ v15 Evidence Board ═══════════════════════════════════════════════════ */
+#evidence-board{border:1px solid #9b59b6;padding:1.4rem;margin:2rem 0;background:#07040d;font-family:monospace}
+.evb-title{color:#F4B800;font-size:1.1rem;letter-spacing:.2em;border-bottom:1px solid #9b59b6;padding-bottom:.4rem;margin-bottom:1rem}
+.evb-form{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.8rem}
+.evb-form label{color:#999;font-size:.75rem;letter-spacing:.1em;display:block;margin-bottom:.2rem}
+.evb-form select,.evb-form input,.evb-form textarea{width:100%;background:#07040d;border:1px solid #4a1a6a;color:#ddd;font-family:monospace;font-size:.8rem;padding:.35rem .5rem;box-sizing:border-box}
+.evb-form .evb-full{grid-column:1/-1}
+.evb-form textarea{resize:vertical;min-height:55px}
+.evb-btn{background:#0f071a;border:1px solid #9b59b6;color:#F4B800;padding:.4rem 1rem;font-family:monospace;font-size:.82rem;cursor:pointer;letter-spacing:.14em;margin-top:.4rem}
+.evb-btn:hover{background:#9b59b6;color:#000}
+.evb-tribunal-btn{background:#1a0830;border:1px solid #F4B800;color:#F4B800;padding:.4rem 1.2rem;font-family:monospace;font-size:.82rem;cursor:pointer;letter-spacing:.14em;margin-top:.4rem;margin-left:.5rem;display:none}
+.evb-tribunal-btn.active{display:inline-block}
+.evb-tribunal-btn:hover{background:#F4B800;color:#000}
+.evb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:.6rem;margin-top:.9rem}
+.evb-card{border:1px solid #4a1a6a;background:#0f070d;padding:.7rem;position:relative}
+.evb-card-type{color:#9b59b6;font-size:.72rem;letter-spacing:.14em;margin-bottom:.2rem}
+.evb-card-target{color:#F4B800;font-size:.8rem;font-weight:bold;margin-bottom:.3rem}
+.evb-card-detail{color:#bbb;font-size:.72rem;line-height:1.5}
+.evb-card-ts{color:#555;font-size:.68rem;margin-top:.4rem}
+.evb-target-count{position:absolute;top:.4rem;right:.4rem;background:#9b59b6;color:#fff;font-size:.68rem;padding:.1rem .35rem;border-radius:2px}
+.evb-msg{color:#9b59b6;font-size:.78rem;min-height:1.2rem;margin-top:.5rem}
+.evb-prosecution{border:1px solid #F4B800;background:#080505;padding:.9rem;margin-top:.9rem;display:none}
+.evb-prosecution.active{display:block}
+.evb-pros-header{color:#F4B800;font-size:.78rem;letter-spacing:.2em;margin-bottom:.5rem}
+.evb-pros-body{color:#ccc;font-size:.75rem;line-height:1.75;white-space:pre-wrap}
+.evb-empty{color:#555;font-size:.75rem;font-style:italic;margin-top:.6rem}
+</style>
 </head>
 <body>
 
@@ -16325,6 +16411,10 @@ window.volunteerForMission = function(){
     if(window.shbRender) shbRender();
     if(window.mfcRender) mfcRender();
     if(window.nilRender) nilRender();
+    if(window.oarRender) oarRender();
+    if(window.mbgRender) mbgRender();
+    if(window.ocdRender) ocdRender();
+    if(window.evbRender) evbRender();
   }
 
   window.ofrClearRecord = function(){
@@ -17448,6 +17538,406 @@ window.volunteerForMission = function(){
   });
 })();
 
+
+// ── v15 A: Oracle Asset Repository ──────────────────────────────────────────
+;(function(){
+
+var OAR_ITEMS = [
+  // FIELD tier
+  {id:'oar-1',tier:'field',name:'BURNER NODE',cost:8,desc:'Disposable relay node. +10% signal decode speed.',mod:'signalSpeed'},
+  {id:'oar-2',tier:'field',name:'SHADOW LENS',cost:9,desc:'Low-profile optical tap. Enables passive district scanning.',mod:'passiveScan'},
+  {id:'oar-3',tier:'field',name:'GHOST SIM',cost:10,desc:'Encrypted SIM card. Untraceable comms for 72h.',mod:'ghostComms'},
+  {id:'oar-4',tier:'field',name:'FIELD CIPHER KIT',cost:12,desc:'Compact cipher tools. +1 cipher attempt per session.',mod:'cipherBonus'},
+  // TACTICAL tier
+  {id:'oar-5',tier:'tactical',name:'PALE ARCHIVE KEY',cost:15,desc:'Grants access to restricted Council records.',mod:'archiveAccess'},
+  {id:'oar-6',tier:'tactical',name:'DISTRICT OVERRIDE',cost:18,desc:'Temporarily suppress district surveillance in one zone.',mod:'districtOverride'},
+  {id:'oar-7',tier:'tactical',name:'ASE AMPLIFIER',cost:20,desc:'Boosts ASe point gains by 15% for 24h.',mod:'aseBoost'},
+  {id:'oar-8',tier:'tactical',name:'NEURAL SCRAMBLER',cost:25,desc:'Disrupts biometric tracking. Evades facial recognition.',mod:'bioEvade'},
+  // CLASSIFIED tier
+  {id:'oar-9',tier:'classified',name:'ORACLE BACKDOOR',cost:30,desc:'Root access to Oracle infrastructure. Unlocks hidden data nodes.',mod:'oracleRoot'},
+  {id:'oar-10',tier:'classified',name:'PALE COUNCIL SEAL',cost:32,desc:'Forged Council credentials. Opens Tribunal-level access.',mod:'councilSeal'},
+  {id:'oar-11',tier:'classified',name:'SHADOW PROTOCOL',cost:33,desc:'Full operative cover package. Identity scrubbed from all networks.',mod:'shadowProtocol'},
+  {id:'oar-12',tier:'classified',name:'CATALYST CORE',cost:35,desc:'Fragment of the original Catalyst. Passive ASe regeneration.',mod:'catalystRegen'}
+];
+
+function oarGetOwned(){
+  var d = window.ofrGetData ? ofrGetData() : {};
+  return d.assets || [];
+}
+
+function oarBuy(id){
+  var item = null;
+  for(var i=0;i<OAR_ITEMS.length;i++) if(OAR_ITEMS[i].id===id){item=OAR_ITEMS[i];break;}
+  if(!item) return;
+  var data = window.ofrGetData ? ofrGetData() : {};
+  var owned = data.assets || [];
+  if(owned.indexOf(id)>=0){
+    var m=document.getElementById('oar-msg');
+    if(m) m.textContent='> ALREADY IN POSSESSION: '+item.name;
+    return;
+  }
+  var pts = data.asePoints || 0;
+  if(pts < item.cost){
+    var m=document.getElementById('oar-msg');
+    if(m) m.textContent='> INSUFFICIENT ASE: NEED '+item.cost+' // HAVE '+pts;
+    return;
+  }
+  data.asePoints = pts - item.cost;
+  owned.push(id);
+  data.assets = owned;
+  if(!data.stats) data.stats={};
+  data.stats.acquisitions = (data.stats.acquisitions||0)+1;
+  if(window.ofrSaveData) ofrSaveData(data);
+  if(window.ofrLog) ofrLog('asset','ACQUIRED '+item.name);
+  oarRender();
+  if(window.ofrRefresh) ofrRefresh();
+  var m=document.getElementById('oar-msg');
+  if(m) m.textContent='> ACQUIRED: '+item.name+' // -'+item.cost+' ASE // MOD: '+item.mod.toUpperCase();
+}
+window.oarBuy = oarBuy;
+
+function oarRender(){
+  var grids = {field:'oar-grid-field',tactical:'oar-grid-tactical',classified:'oar-grid-classified'};
+  var owned = oarGetOwned();
+  var data = window.ofrGetData ? ofrGetData() : {};
+  var pts = data.asePoints || 0;
+  ['field','tactical','classified'].forEach(function(tier){
+    var el = document.getElementById(grids[tier]);
+    if(!el) return;
+    var items = OAR_ITEMS.filter(function(i){return i.tier===tier;});
+    el.innerHTML = items.map(function(item){
+      var isOwned = owned.indexOf(item.id)>=0;
+      var canBuy = !isOwned && pts>=item.cost;
+      return '<div class="oar-item'+(isOwned?' owned':'')+'">'+
+        '<div class="oar-item-name">'+item.name+'</div>'+
+        '<div class="oar-item-cost">'+(isOwned?'[ACQUIRED]':item.cost+' ASE')+'</div>'+
+        '<div class="oar-item-desc">'+item.desc+'</div>'+
+        '<button class="oar-btn" onclick="oarBuy(\''+item.id+'\')" '+(isOwned||!canBuy?'disabled':'')+'>'+
+        (isOwned?'OWNED':(canBuy?'ACQUIRE':'NEED '+item.cost+' ASE'))+'</button>'+
+        '</div>';
+    }).join('');
+  });
+  var invEl = document.getElementById('oar-inv-list');
+  if(invEl){
+    if(owned.length===0){
+      invEl.innerHTML='<span class="oar-inv-empty">No assets acquired yet.</span>';
+    } else {
+      invEl.innerHTML = owned.map(function(id){
+        var item = OAR_ITEMS.filter(function(i){return i.id===id;})[0];
+        if(!item) return '';
+        return '<div>&#9830; <span style="color:#F4B800">'+item.name+'</span> <span style="color:#555">// '+item.mod.toUpperCase()+'</span></div>';
+      }).join('');
+    }
+  }
+}
+window.oarRender = oarRender;
+
+document.addEventListener('DOMContentLoaded', function(){
+  if(document.getElementById('oracle-asset-repository')) oarRender();
+});
+
+})();
+
+// ── v15 B: Mission Briefing Generator ────────────────────────────────────────
+;(function(){
+
+var CODENAMES_BY_TYPE = {
+  EXTRACTION:['IRON DAWN','COPPER EXIT','GHOST PULL','SILENT CRANE','HARBOR LIFT'],
+  INFILTRATION:['DARK THREAD','SHADOW NEEDLE','PALE ENTRY','GLASS VEIL','IRON MOTH'],
+  SURVEILLANCE:['STILL EYE','NIGHT LENS','HOLLOW WATCH','SILENT ORBIT','PALE MIRROR'],
+  SABOTAGE:['BROKEN COIL','IRON FIST','PALE SCAR','DARK BURN','GLASS HAMMER'],
+  DISRUPTION:['STATIC BLOOM','PALE NOISE','DARK TIDE','IRON STATIC','SHADOW PULSE']
+};
+
+var PROTOCOLS_BY_RISK = {
+  LOW:['Maintain low profile. No direct contact with Council assets.',
+       'Standard field comms only. Burner channels recommended.',
+       'Exfil route: secondary only. Primary reserved for critical.',
+       'Asset cover: civilian attire. No tactical gear.'],
+  MEDIUM:['Full comms blackout after ingress. Relay through dead drops only.',
+          'Biometric masking required. Neural scrambler advised.',
+          'Two-man cell structure. No solo field contact.',
+          'Weapons: concealed only. No heavy ordinance.',
+          'Exfil window: 90 minutes. Abort if exceeded.'],
+  HIGH:['Council-level encryption mandatory on all transmissions.',
+        'Operative identity scrubbed from all active registries.',
+        'Safehouse activation on confirmation of ingress.',
+        'Counter-surveillance sweep mandatory every 30 minutes.',
+        'Emergency extraction asset pre-positioned at grid delta.'],
+  CRITICAL:['ORACLE BLACKOUT — no transmissions until exfil confirmed.',
+             'Full identity suppression: face, voice, biometric.',
+             'Dual-layer dead drop only. No live comms.',
+             'Council asset on standby — do not contact unless lethal threat.',
+             'Auto-abort trigger: any unscheduled contact. Extract immediately.',
+             'This briefing self-nullifies 6 hours post-issue.']
+};
+
+var CONTINGENCIES = [
+  'CONTINGENCY ALPHA: If primary contact is compromised, abort and exfil via secondary route.',
+  'CONTINGENCY BETA: Detection by Pale Council enforcers triggers protocol DARK SCATTER.',
+  'CONTINGENCY GAMMA: Loss of comms — activate embedded beacon, await Council extraction.',
+  'CONTINGENCY DELTA: Asset capture — invoke silence protocol. No intel disclosure.'
+];
+
+function mbgGenerate(){
+  var type = document.getElementById('mbg-type').value;
+  var district = document.getElementById('mbg-district').value;
+  var risk = document.getElementById('mbg-risk').value;
+  var objective = (document.getElementById('mbg-objective').value||'').trim();
+  var notes = (document.getElementById('mbg-notes').value||'').trim();
+
+  var names = CODENAMES_BY_TYPE[type]||CODENAMES_BY_TYPE['EXTRACTION'];
+  var codename = names[Math.floor(Math.random()*names.length)];
+  var protocols = PROTOCOLS_BY_RISK[risk]||PROTOCOLS_BY_RISK['MEDIUM'];
+  var contingency = CONTINGENCIES[Math.floor(Math.random()*CONTINGENCIES.length)];
+
+  var now = new Date().toISOString();
+  var refCode = 'OPS-'+type.slice(0,3)+'-'+district.replace(/\s/g,'-').toUpperCase()+'-'+risk.slice(0,1)+
+    '-'+Math.floor(Math.random()*9000+1000);
+
+  var body = '  MISSION TYPE   : '+type+'\n';
+  body += '  CODENAME       : OPERATION '+codename+'\n';
+  body += '  TARGET DISTRICT: '+district.toUpperCase()+'\n';
+  body += '  RISK TIER      : '+risk+'\n';
+  if(objective) body += '  PRIMARY OBJ    : '+objective.toUpperCase()+'\n';
+  body += '\n  ── OPERATIVE PROTOCOLS ──\n';
+  protocols.forEach(function(p){ body += '  '+p+'\n'; });
+  if(notes) body += '\n  ── FIELD INTELLIGENCE ──\n  '+notes.toUpperCase()+'\n';
+  body += '\n  ── CONTINGENCY MEASURES ──\n  '+contingency+'\n';
+  body += '\n  ── AUTHORIZATION ──\n  Issued by ORACLE COMMAND. Pale Council clearance SIGMA-7.\n';
+  body += '  Operative accountable. Briefing for authorized eyes only.\n';
+
+  var headerEl = document.getElementById('mbg-brief-header');
+  var bodyEl = document.getElementById('mbg-brief-body');
+  var codeEl = document.getElementById('mbg-brief-code');
+  var briefEl = document.getElementById('mbg-briefing');
+  if(headerEl) headerEl.textContent = '// CLASSIFIED // OPERATION '+codename+' // '+type+' //';
+  if(bodyEl) bodyEl.textContent = body;
+  if(codeEl) codeEl.textContent = 'REF: '+refCode+' // ISSUED: '+now.slice(0,10)+' // ORACLE COMMAND';
+  if(briefEl) briefEl.classList.add('active');
+
+  var data = window.ofrGetData ? ofrGetData() : {};
+  data.asePoints = (data.asePoints||0)+6;
+  if(!data.stats) data.stats={};
+  data.stats.briefings = (data.stats.briefings||0)+1;
+  if(window.ofrSaveData) ofrSaveData(data);
+  if(window.ofrLog) ofrLog('mission','BRIEFING GEN: OPERATION '+codename+' // '+type+' // '+district);
+  if(window.ofrRefresh) ofrRefresh();
+  var msg=document.getElementById('mbg-msg');
+  if(msg) msg.textContent='> BRIEFING GENERATED: +6 ASE // CODE: '+refCode;
+}
+window.mbgGenerate = mbgGenerate;
+
+function mbgRender(){
+  var data = window.ofrGetData ? ofrGetData() : {};
+  var msg=document.getElementById('mbg-msg');
+  if(msg && !msg.textContent) msg.textContent='> READY — SELECT PARAMETERS AND GENERATE BRIEFING';
+}
+window.mbgRender = mbgRender;
+
+document.addEventListener('DOMContentLoaded', function(){
+  if(document.getElementById('mission-briefing-generator')) mbgRender();
+});
+
+})();
+
+// ── v15 C: Oracle Command Dashboard ──────────────────────────────────────────
+;(function(){
+
+function clamp(v,max){ return max>0?Math.min(100,Math.round(v/max*100)):0; }
+
+function ocdRender(){
+  var data = window.ofrGetData ? ofrGetData() : {};
+  var s = data.stats || {};
+  var pts = data.asePoints || 0;
+  var perks = (data.perks||[]).length;
+  var badges = (data.badges||[]).length;
+  var assets = (data.assets||[]).length;
+  var fragments = (s.fragments||[]).length || (s.fragments||0);
+
+  // ASe
+  var aseTotal = s.aseTotal || pts;
+  var set = function(id,val){ var e=document.getElementById(id); if(e) e.textContent=val; };
+  var setW = function(id,pct){ var e=document.getElementById(id); if(e) e.style.width=pct+'%'; };
+
+  set('ocd-ase-cur', pts);
+  set('ocd-ase-total', aseTotal);
+  setW('ocd-bar-ase', clamp(pts,200));
+
+  // Intel
+  var dossiers = s.dossiers||0;
+  var signals = s.signals||0;
+  var ciphers = s.ciphers||0;
+  set('ocd-dossiers', dossiers);
+  set('ocd-signals', signals);
+  set('ocd-ciphers', ciphers);
+  setW('ocd-bar-intel', clamp(dossiers+signals+ciphers, 30));
+
+  // Field
+  var districts = s.districts||0;
+  var safehouses = Object.keys(s.safehouses||{}).length || 0;
+  var briefings = s.briefings||0;
+  set('ocd-districts', districts);
+  set('ocd-safehouses', safehouses);
+  set('ocd-briefings', briefings);
+  setW('ocd-bar-field', clamp(districts+safehouses+briefings, 20));
+
+  // Evidence
+  var evCards = s.evidenceCards||0;
+  var tribunals = s.tribunalCases||0;
+  var intrusions = (s.intrusions||[]).length || (s.intrusions||0);
+  set('ocd-evCards', evCards);
+  set('ocd-tribunals', tribunals);
+  set('ocd-intrusions', intrusions);
+  var prosRate = tribunals>0 && evCards>0 ? clamp(tribunals*3, evCards) : 0;
+  setW('ocd-bar-evidence', prosRate);
+
+  // Assets
+  var finlogs = (s.financeLogs||[]).length || (s.financeLogs||0);
+  var frags2 = (s.fragments||[]).length || (s.fragments||0);
+  set('ocd-assets', assets);
+  set('ocd-finlogs', finlogs);
+  set('ocd-fragments', frags2);
+  setW('ocd-bar-assets', clamp(assets+finlogs+frags2, 25));
+
+  // Perks/Rank
+  set('ocd-perks', perks);
+  set('ocd-badges', badges);
+  var rank = 'RECRUIT';
+  if(pts>=200) rank='ORACLE OPERATIVE';
+  else if(pts>=100) rank='SHADOW AGENT';
+  else if(pts>=50) rank='FIELD ANALYST';
+  else if(pts>=20) rank='JUNIOR ASSET';
+  set('ocd-rank', rank);
+  setW('ocd-bar-rank', clamp(pts,300));
+
+  // Status
+  var total = dossiers+signals+ciphers+districts+safehouses+briefings+evCards+tribunals+assets+finlogs;
+  var statusEl = document.getElementById('ocd-status');
+  if(statusEl){
+    if(total===0) statusEl.textContent='DASHBOARD NOMINAL // AWAITING FIRST OPS';
+    else if(pts>=100) statusEl.textContent='DASHBOARD NOMINAL // OPERATIVE STATUS: ACTIVE // HIGH PRIORITY';
+    else statusEl.textContent='DASHBOARD NOMINAL // OPERATIVE STATUS: ACTIVE';
+  }
+  var tsEl = document.getElementById('ocd-ts');
+  if(tsEl) tsEl.textContent='LAST SYNC: '+new Date().toISOString().slice(0,19).replace('T',' ')+' UTC';
+}
+window.ocdRender = ocdRender;
+
+document.addEventListener('DOMContentLoaded', function(){
+  if(document.getElementById('oracle-command-dashboard')) ocdRender();
+});
+
+})();
+
+// ── v15 D: Evidence Board ─────────────────────────────────────────────────────
+;(function(){
+
+function evbSubmit(){
+  var type = document.getElementById('evb-type').value;
+  var target = (document.getElementById('evb-target').value||'').trim().toUpperCase();
+  var detail = (document.getElementById('evb-detail').value||'').trim();
+  if(!target){
+    var m=document.getElementById('evb-msg'); if(m) m.textContent='> ERROR: TARGET OPERATIVE REQUIRED'; return;
+  }
+  if(!detail){
+    var m=document.getElementById('evb-msg'); if(m) m.textContent='> ERROR: EVIDENCE DETAIL REQUIRED'; return;
+  }
+  var data = window.ofrGetData ? ofrGetData() : {};
+  if(!data.stats) data.stats={};
+  if(!data.stats.evidenceList) data.stats.evidenceList=[];
+  var now = new Date().toISOString();
+  var card = {type:type, target:target, detail:detail, ts:now};
+  data.stats.evidenceList.push(card);
+  data.stats.evidenceCards = data.stats.evidenceList.length;
+  if(window.ofrSaveData) ofrSaveData(data);
+  if(window.ofrLog) ofrLog('evidence','CARD LOGGED: '+type+' AGAINST '+target);
+  document.getElementById('evb-target').value='';
+  document.getElementById('evb-detail').value='';
+  evbRender();
+  if(window.ofrRefresh) ofrRefresh();
+  var m=document.getElementById('evb-msg');
+  if(m) m.textContent='> EVIDENCE LOGGED: '+type+' // TARGET: '+target;
+}
+window.evbSubmit = evbSubmit;
+
+function evbTribunal(){
+  var data = window.ofrGetData ? ofrGetData() : {};
+  var list = (data.stats && data.stats.evidenceList) || [];
+  // Find target with 3+ cards
+  var counts={};
+  list.forEach(function(c){ counts[c.target]=(counts[c.target]||0)+1; });
+  var target=null;
+  Object.keys(counts).forEach(function(t){ if(counts[t]>=3&&!target) target=t; });
+  if(!target){
+    var m=document.getElementById('evb-msg');
+    if(m) m.textContent='> INSUFFICIENT EVIDENCE: NEED 3+ CARDS AGAINST SAME OPERATIVE';
+    return;
+  }
+  // Generate brief
+  var cards = list.filter(function(c){return c.target===target;});
+  var body = 'TRIBUNAL PROSECUTION BRIEF\n';
+  body += 'TARGET OPERATIVE : '+target+'\n';
+  body += 'EVIDENCE COUNT   : '+cards.length+' ITEMS\n\n';
+  cards.forEach(function(c,i){
+    body += '  ['+( i+1)+'] '+c.type+' EVIDENCE\n';
+    body += '      '+c.detail+'\n';
+    body += '      Filed: '+c.ts.slice(0,10)+'\n\n';
+  });
+  body += 'RECOMMENDATION   : PROSECUTION AUTHORIZED\n';
+  body += 'AUTHORITY        : PALE COUNCIL TRIBUNAL DIVISION // SIGMA-7\n';
+  body += 'OUTCOME PENDING  : Council review within 72h of filing.\n';
+  var prosEl=document.getElementById('evb-pros-body');
+  var prosWrap=document.getElementById('evb-prosecution');
+  if(prosEl) prosEl.textContent=body;
+  if(prosWrap) prosWrap.classList.add('active');
+  data.asePoints=(data.asePoints||0)+12;
+  if(!data.stats) data.stats={};
+  data.stats.tribunalCases=(data.stats.tribunalCases||0)+1;
+  if(window.ofrSaveData) ofrSaveData(data);
+  if(window.ofrLog) ofrLog('tribunal','CASE FILED AGAINST '+target+' // +12 ASE');
+  if(window.ofrRefresh) ofrRefresh();
+  evbRender();
+  var m=document.getElementById('evb-msg');
+  if(m) m.textContent='> TRIBUNAL CASE FILED: '+target+' // +12 ASE // PROSECUTION AUTHORIZED';
+}
+window.evbTribunal = evbTribunal;
+
+function evbRender(){
+  var data = window.ofrGetData ? ofrGetData() : {};
+  var list = (data.stats && data.stats.evidenceList) || [];
+  // Count per target
+  var counts={};
+  list.forEach(function(c){ counts[c.target]=(counts[c.target]||0)+1; });
+  var hasTriple = Object.keys(counts).some(function(t){return counts[t]>=3;});
+  var btn=document.getElementById('evb-tribunal-btn');
+  if(btn){ if(hasTriple) btn.classList.add('active'); else btn.classList.remove('active'); }
+  var grid=document.getElementById('evb-grid');
+  if(grid){
+    if(list.length===0){
+      grid.innerHTML='<div class="evb-empty">No evidence logged yet. Submit evidence cards above.</div>';
+    } else {
+      grid.innerHTML=list.slice().reverse().map(function(c){
+        var cnt=counts[c.target]||1;
+        return '<div class="evb-card">'+
+          '<div class="evb-card-type">'+c.type+'</div>'+
+          '<div class="evb-card-target">'+c.target+'</div>'+
+          '<div class="evb-card-detail">'+c.detail.substring(0,80)+(c.detail.length>80?'...':'')+'</div>'+
+          '<div class="evb-card-ts">'+c.ts.slice(0,10)+'</div>'+
+          (cnt>1?'<div class="evb-target-count">'+cnt+'x</div>':'')+
+          '</div>';
+      }).join('');
+    }
+  }
+}
+window.evbRender = evbRender;
+
+document.addEventListener('DOMContentLoaded', function(){
+  if(document.getElementById('evidence-board')) evbRender();
+});
+
+})();
+
 </script>
 
 
@@ -17641,6 +18131,165 @@ window.volunteerForMission = function(){
       </div>
       <div class="nil-feed" id="nil-feed"></div>
     </div>
+  </div>
+</section>
+
+
+<!-- ============================================ ORACLE ASSET REPOSITORY -->
+<section id="oracle-asset-repository">
+  <div class="oar-title">&#9670; ORACLE ASSET REPOSITORY // CLASSIFIED ACQUISITIONS</div>
+
+  <div class="oar-tier-label">&#8212; TIER I : FIELD ASSETS &#8212;</div>
+  <div class="oar-grid" id="oar-grid-field"></div>
+
+  <div class="oar-tier-label">&#8212; TIER II : TACTICAL ASSETS &#8212;</div>
+  <div class="oar-grid" id="oar-grid-tactical"></div>
+
+  <div class="oar-tier-label">&#8212; TIER III : CLASSIFIED ASSETS &#8212;</div>
+  <div class="oar-grid" id="oar-grid-classified"></div>
+
+  <div id="oar-msg" class="oar-msg"></div>
+
+  <div class="oar-inventory">
+    <div class="oar-inv-title">&#9670; ACQUIRED ASSETS</div>
+    <div id="oar-inv-list" class="oar-inv-list"></div>
+  </div>
+</section>
+
+<!-- ============================================ MISSION BRIEFING GENERATOR -->
+<section id="mission-briefing-generator">
+  <div class="mbg-title">&#9670; MISSION BRIEFING GENERATOR // CLASSIFIED OPS</div>
+  <div class="mbg-form">
+    <div>
+      <label>MISSION TYPE</label>
+      <select id="mbg-type">
+        <option value="EXTRACTION">EXTRACTION</option>
+        <option value="INFILTRATION">INFILTRATION</option>
+        <option value="SURVEILLANCE">SURVEILLANCE</option>
+        <option value="SABOTAGE">SABOTAGE</option>
+        <option value="DISRUPTION">DISRUPTION</option>
+      </select>
+    </div>
+    <div>
+      <label>TARGET DISTRICT</label>
+      <select id="mbg-district">
+        <option>Lagos Island</option>
+        <option>Victoria Island</option>
+        <option>Ikeja</option>
+        <option>Lekki</option>
+        <option>Yaba</option>
+        <option>Apapa</option>
+        <option>Surulere</option>
+        <option>Ikoyi</option>
+      </select>
+    </div>
+    <div>
+      <label>RISK TIER</label>
+      <select id="mbg-risk">
+        <option value="LOW">LOW</option>
+        <option value="MEDIUM">MEDIUM</option>
+        <option value="HIGH">HIGH</option>
+        <option value="CRITICAL">CRITICAL</option>
+      </select>
+    </div>
+    <div>
+      <label>PRIMARY OBJECTIVE (optional)</label>
+      <input id="mbg-objective" type="text" placeholder="e.g. Retrieve encrypted ledger from Node-7">
+    </div>
+    <div class="mbg-full">
+      <label>FIELD NOTES (optional)</label>
+      <textarea id="mbg-notes" placeholder="Additional intelligence, known contacts, access codes..."></textarea>
+    </div>
+  </div>
+  <button class="mbg-btn" onclick="mbgGenerate()">&#9656; GENERATE BRIEFING</button>
+  <div id="mbg-msg" class="mbg-msg"></div>
+  <div id="mbg-briefing" class="mbg-briefing">
+    <div class="mbg-brief-header" id="mbg-brief-header">// CLASSIFIED //</div>
+    <div class="mbg-brief-body" id="mbg-brief-body"></div>
+    <div class="mbg-brief-code" id="mbg-brief-code"></div>
+  </div>
+</section>
+
+<!-- ============================================ ORACLE COMMAND DASHBOARD -->
+<section id="oracle-command-dashboard">
+  <div class="ocd-title">&#9670; ORACLE COMMAND DASHBOARD // OPERATIVE STATUS</div>
+  <div class="ocd-grid" id="ocd-grid">
+    <div class="ocd-card" id="ocd-card-ase">
+      <div class="ocd-card-title">ASE BALANCE</div>
+      <div class="ocd-stat"><span class="ocd-stat-label">CURRENT</span><span class="ocd-stat-val" id="ocd-ase-cur">0</span></div>
+      <div class="ocd-stat"><span class="ocd-stat-label">ALL-TIME EARNED</span><span class="ocd-stat-val" id="ocd-ase-total">0</span></div>
+      <div class="ocd-bar-wrap"><div class="ocd-bar-label">FIELD CAPACITY</div><div class="ocd-bar"><div class="ocd-bar-fill gold" id="ocd-bar-ase" style="width:0%"></div></div></div>
+    </div>
+    <div class="ocd-card" id="ocd-card-intel">
+      <div class="ocd-card-title">INTELLIGENCE OPS</div>
+      <div class="ocd-stat"><span class="ocd-stat-label">DOSSIERS</span><span class="ocd-stat-val" id="ocd-dossiers">0</span></div>
+      <div class="ocd-stat"><span class="ocd-stat-label">SIGNALS DECODED</span><span class="ocd-stat-val" id="ocd-signals">0</span></div>
+      <div class="ocd-stat"><span class="ocd-stat-label">CIPHERS SOLVED</span><span class="ocd-stat-val" id="ocd-ciphers">0</span></div>
+      <div class="ocd-bar-wrap"><div class="ocd-bar-label">INTEL SCORE</div><div class="ocd-bar"><div class="ocd-bar-fill" id="ocd-bar-intel" style="width:0%"></div></div></div>
+    </div>
+    <div class="ocd-card" id="ocd-card-field">
+      <div class="ocd-card-title">FIELD OPERATIONS</div>
+      <div class="ocd-stat"><span class="ocd-stat-label">DISTRICTS ACTIVE</span><span class="ocd-stat-val" id="ocd-districts">0</span></div>
+      <div class="ocd-stat"><span class="ocd-stat-label">SAFEHOUSES</span><span class="ocd-stat-val" id="ocd-safehouses">0</span></div>
+      <div class="ocd-stat"><span class="ocd-stat-label">BRIEFINGS GEN.</span><span class="ocd-stat-val" id="ocd-briefings">0</span></div>
+      <div class="ocd-bar-wrap"><div class="ocd-bar-label">FIELD SCORE</div><div class="ocd-bar"><div class="ocd-bar-fill red" id="ocd-bar-field" style="width:0%"></div></div></div>
+    </div>
+    <div class="ocd-card" id="ocd-card-evidence">
+      <div class="ocd-card-title">TRIBUNAL DIVISION</div>
+      <div class="ocd-stat"><span class="ocd-stat-label">EVIDENCE CARDS</span><span class="ocd-stat-val" id="ocd-evCards">0</span></div>
+      <div class="ocd-stat"><span class="ocd-stat-label">TRIBUNAL CASES</span><span class="ocd-stat-val" id="ocd-tribunals">0</span></div>
+      <div class="ocd-stat"><span class="ocd-stat-label">INTRUSIONS LOG</span><span class="ocd-stat-val" id="ocd-intrusions">0</span></div>
+      <div class="ocd-bar-wrap"><div class="ocd-bar-label">PROSECUTION RATE</div><div class="ocd-bar"><div class="ocd-bar-fill purple" id="ocd-bar-evidence" style="width:0%"></div></div></div>
+    </div>
+    <div class="ocd-card" id="ocd-card-assets">
+      <div class="ocd-card-title">ASSETS &amp; RESOURCES</div>
+      <div class="ocd-stat"><span class="ocd-stat-label">ASSETS ACQUIRED</span><span class="ocd-stat-val" id="ocd-assets">0</span></div>
+      <div class="ocd-stat"><span class="ocd-stat-label">FINANCE LOGS</span><span class="ocd-stat-val" id="ocd-finlogs">0</span></div>
+      <div class="ocd-stat"><span class="ocd-stat-label">FRAGMENTS</span><span class="ocd-stat-val" id="ocd-fragments">0</span></div>
+      <div class="ocd-bar-wrap"><div class="ocd-bar-label">RESOURCE SCORE</div><div class="ocd-bar"><div class="ocd-bar-fill gold" id="ocd-bar-assets" style="width:0%"></div></div></div>
+    </div>
+    <div class="ocd-card" id="ocd-card-perks">
+      <div class="ocd-card-title">PERKS &amp; RANK</div>
+      <div class="ocd-stat"><span class="ocd-stat-label">PERKS ACTIVE</span><span class="ocd-stat-val" id="ocd-perks">0</span></div>
+      <div class="ocd-stat"><span class="ocd-stat-label">BADGES EARNED</span><span class="ocd-stat-val" id="ocd-badges">0</span></div>
+      <div class="ocd-stat"><span class="ocd-stat-label">RANK</span><span class="ocd-stat-val" id="ocd-rank">RECRUIT</span></div>
+      <div class="ocd-bar-wrap"><div class="ocd-bar-label">OPERATIVE SCORE</div><div class="ocd-bar"><div class="ocd-bar-fill" id="ocd-bar-rank" style="width:0%"></div></div></div>
+    </div>
+  </div>
+  <div class="ocd-status" id="ocd-status">DASHBOARD NOMINAL // ALL SYSTEMS ONLINE</div>
+  <div class="ocd-timestamp" id="ocd-ts"></div>
+</section>
+
+<!-- ============================================ EVIDENCE BOARD -->
+<section id="evidence-board">
+  <div class="evb-title">&#9670; PALE COUNCIL EVIDENCE BOARD // TRIBUNAL DIVISION</div>
+  <div class="evb-form">
+    <div>
+      <label>EVIDENCE TYPE</label>
+      <select id="evb-type">
+        <option value="FINANCIAL">FINANCIAL</option>
+        <option value="SURVEILLANCE">SURVEILLANCE</option>
+        <option value="TESTIMONY">TESTIMONY</option>
+        <option value="DIGITAL">DIGITAL</option>
+        <option value="INTERCEPT">INTERCEPT</option>
+      </select>
+    </div>
+    <div>
+      <label>TARGET OPERATIVE</label>
+      <input id="evb-target" type="text" placeholder="e.g. GLASS-7 / IRON SPINE">
+    </div>
+    <div class="evb-full">
+      <label>EVIDENCE DETAIL</label>
+      <textarea id="evb-detail" placeholder="Describe the evidence: transaction ref, observation log entry, intercepted message..."></textarea>
+    </div>
+  </div>
+  <button class="evb-btn" onclick="evbSubmit()">&#9656; LOG EVIDENCE</button>
+  <button class="evb-tribunal-btn" id="evb-tribunal-btn" onclick="evbTribunal()">&#9670; FILE TRIBUNAL CASE</button>
+  <div id="evb-msg" class="evb-msg"></div>
+  <div id="evb-grid" class="evb-grid"></div>
+  <div id="evb-prosecution" class="evb-prosecution">
+    <div class="evb-pros-header">// TRIBUNAL PROSECUTION BRIEF //</div>
+    <div class="evb-pros-body" id="evb-pros-body"></div>
   </div>
 </section>
 
