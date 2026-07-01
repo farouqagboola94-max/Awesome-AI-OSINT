@@ -6523,6 +6523,102 @@ body.ase-vision .ase-glyph-field { display:block; }
 .dsb-refresh{width:100%;background:transparent;border:1px solid rgba(244,184,0,.35);color:#F4B800;padding:.5rem;border-radius:4px;font-family:inherit;font-size:.72rem;letter-spacing:2px;cursor:pointer;margin-top:.8rem}
 .dsb-refresh:hover{background:rgba(244,184,0,.08)}
 </style>
+<style id="v14-styles">
+/* ── A: Finance Ledger ── */
+.fin-wrap{background:#0a0a0a;border:1px solid rgba(244,184,0,.35);border-radius:8px;padding:1.5rem;font-family:'Courier New',monospace;max-width:720px;margin:2rem auto}
+.fin-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;border-bottom:1px solid rgba(244,184,0,.2);padding-bottom:.6rem}
+.fin-hdr-lbl{font-size:.65rem;letter-spacing:3px;color:#F4B800}
+.fin-hdr-total{font-size:.72rem;color:#aaa}
+.fin-hdr-total span{color:#F4B800}
+.fin-form-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.7rem;margin-bottom:.7rem}
+.fin-form-row2{display:grid;grid-template-columns:2fr 1fr;gap:.7rem;margin-bottom:.8rem}
+.fin-f{display:flex;flex-direction:column;gap:.3rem}
+.fin-f label{font-size:.62rem;letter-spacing:2px;color:#888;text-transform:uppercase}
+.fin-f input,.fin-f select{background:#111;border:1px solid rgba(244,184,0,.3);color:#e0e0e0;padding:.45rem .6rem;border-radius:4px;font-family:inherit;font-size:.78rem}
+.fin-submit{width:100%;background:#F4B800;color:#000;border:none;padding:.6rem;border-radius:4px;font-family:inherit;font-size:.75rem;letter-spacing:2px;cursor:pointer;font-weight:bold}
+.fin-submit:hover{background:#ffd700}
+.fin-table{width:100%;border-collapse:collapse;margin-top:1rem}
+.fin-table th{font-size:.6rem;letter-spacing:2px;color:#F4B800;padding:.4rem .5rem;text-align:left;border-bottom:1px solid rgba(244,184,0,.2)}
+.fin-table td{font-size:.72rem;color:#ccc;padding:.45rem .5rem;border-bottom:1px solid rgba(255,255,255,.04)}
+.fin-table tr:hover td{background:rgba(244,184,0,.04)}
+.fin-status-c{color:#00C9B1}.fin-status-s{color:#F4B800}.fin-status-f{color:#b81414}
+.fin-empty{text-align:center;color:#555;font-size:.75rem;padding:1.5rem}
+.fin-msg{font-size:.7rem;color:#F4B800;margin-top:.5rem;min-height:1rem}
+/* ── B: Safe-House Status Board ── */
+.shb-wrap{background:#0a0a0a;border:1px solid rgba(0,201,177,.3);border-radius:8px;padding:1.5rem;font-family:'Courier New',monospace;max-width:720px;margin:2rem auto}
+.shb-hdr{display:flex;justify-content:space-between;margin-bottom:1rem;border-bottom:1px solid rgba(0,201,177,.2);padding-bottom:.6rem}
+.shb-lbl{font-size:.65rem;letter-spacing:3px;color:#00C9B1}
+.shb-summary{font-size:.7rem;color:#888}
+.shb-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.shb-card{border:1px solid rgba(0,201,177,.2);border-radius:6px;padding:.9rem;background:#0d0d0d}
+.shb-card.status-active{border-color:rgba(0,201,177,.5)}
+.shb-card.status-compromised{border-color:rgba(244,184,0,.5)}
+.shb-card.status-dark{border-color:rgba(100,100,100,.4)}
+.shb-card.status-burned{border-color:rgba(184,20,20,.4);opacity:.6}
+.shb-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem}
+.shb-codename{font-size:.85rem;color:#fff;letter-spacing:1px}
+.shb-status-badge{font-size:.58rem;letter-spacing:2px;padding:.2rem .5rem;border-radius:3px}
+.shb-status-active .shb-status-badge{background:rgba(0,201,177,.15);color:#00C9B1;border:1px solid rgba(0,201,177,.4)}
+.shb-status-compromised .shb-status-badge{background:rgba(244,184,0,.1);color:#F4B800;border:1px solid rgba(244,184,0,.4)}
+.shb-status-dark .shb-status-badge{background:rgba(100,100,100,.1);color:#666;border:1px solid rgba(100,100,100,.3)}
+.shb-status-burned .shb-status-badge{background:rgba(184,20,20,.1);color:#b81414;border:1px solid rgba(184,20,20,.3)}
+.shb-meta{font-size:.67rem;color:#666;margin-bottom:.6rem;line-height:1.6}
+.shb-meta span{color:#999}
+.shb-actions{display:flex;gap:.4rem}
+.shb-btn{flex:1;background:transparent;border:1px solid rgba(0,201,177,.3);color:#00C9B1;padding:.3rem;border-radius:3px;font-family:inherit;font-size:.6rem;letter-spacing:1px;cursor:pointer}
+.shb-btn:hover:not(:disabled){background:rgba(0,201,177,.1)}
+.shb-btn:disabled{opacity:.35;cursor:default}
+.shb-btn-warn{border-color:rgba(244,184,0,.4);color:#F4B800}
+.shb-btn-warn:hover:not(:disabled){background:rgba(244,184,0,.07)}
+.shb-btn-danger{border-color:rgba(184,20,20,.4);color:#b81414}
+.shb-btn-danger:hover:not(:disabled){background:rgba(184,20,20,.07)}
+.shb-check{font-size:.6rem;color:#00C9B1;margin-top:.4rem;min-height:.8rem}
+/* ── C: Memory Fragment Collector ── */
+.mfc-wrap{background:#0a0a0a;border:1px solid rgba(155,89,182,.4);border-radius:8px;padding:1.5rem;font-family:'Courier New',monospace;max-width:720px;margin:2rem auto}
+.mfc-hdr{display:flex;justify-content:space-between;margin-bottom:.8rem}
+.mfc-lbl{font-size:.65rem;letter-spacing:3px;color:#9b59b6}
+.mfc-prog{font-size:.7rem;color:#888}
+.mfc-prog span{color:#9b59b6}
+.mfc-bar-wrap{background:#111;border-radius:3px;height:4px;margin-bottom:1.2rem;overflow:hidden}
+.mfc-bar{height:100%;background:linear-gradient(90deg,#9b59b6,#C41E3A);border-radius:3px;transition:width .5s}
+.mfc-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.mfc-frag{border:1px solid rgba(155,89,182,.3);border-radius:6px;padding:.9rem;background:#0d0d0d;cursor:default}
+.mfc-frag.locked{border-color:rgba(155,89,182,.2)}
+.mfc-frag.unlocked{border-color:rgba(155,89,182,.6);background:rgba(155,89,182,.05)}
+.mfc-frag-num{font-size:.58rem;letter-spacing:2px;color:#9b59b6;margin-bottom:.3rem}
+.mfc-frag-content{font-size:.72rem;line-height:1.6;min-height:48px}
+.mfc-frag.locked .mfc-frag-content{color:#444;font-size:.65rem;word-break:break-all;letter-spacing:1px}
+.mfc-frag.unlocked .mfc-frag-content{color:#d0c0e0}
+.mfc-unlock-btn{width:100%;background:rgba(155,89,182,.15);border:1px solid rgba(155,89,182,.4);color:#9b59b6;padding:.35rem;border-radius:3px;font-family:inherit;font-size:.62rem;letter-spacing:1px;cursor:pointer;margin-top:.6rem}
+.mfc-unlock-btn:hover{background:rgba(155,89,182,.25)}
+.mfc-unlock-btn:disabled{opacity:.3;cursor:default}
+.mfc-complete{background:rgba(155,89,182,.1);border:1px solid rgba(155,89,182,.5);border-radius:6px;padding:1rem;margin-top:1rem;text-align:center;display:none}
+.mfc-complete.active{display:block}
+.mfc-complete-title{font-size:.7rem;letter-spacing:3px;color:#9b59b6;margin-bottom:.4rem}
+.mfc-complete-text{font-size:.78rem;color:#d0c0e0;line-height:1.7}
+/* ── D: Network Intrusion Log ── */
+.nil-wrap{background:#0a0a0a;border:1px solid rgba(184,20,20,.4);border-radius:8px;padding:1.5rem;font-family:'Courier New',monospace;max-width:720px;margin:2rem auto}
+.nil-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem;padding-bottom:.5rem;border-bottom:1px solid rgba(184,20,20,.2)}
+.nil-lbl{font-size:.65rem;letter-spacing:3px;color:#b81414}
+.nil-dot{display:inline-block;width:6px;height:6px;background:#b81414;border-radius:50%;margin-right:.4rem;animation:nilpulse 1.5s ease-in-out infinite}
+@keyframes nilpulse{0%,100%{opacity:1}50%{opacity:.3}}
+.nil-stats{display:flex;gap:1.2rem;font-size:.65rem;color:#888}
+.nil-stats span span{color:#b81414}
+.nil-feed{max-height:320px;overflow-y:auto}
+.nil-entry{display:grid;grid-template-columns:90px 90px 1fr 80px 80px;gap:.5rem;padding:.45rem .3rem;border-bottom:1px solid rgba(255,255,255,.04);align-items:center;font-size:.68rem}
+.nil-entry:hover{background:rgba(184,20,20,.04)}
+.nil-ts{color:#555}
+.nil-origin{color:#888}
+.nil-target{color:#ccc}
+.nil-payload{color:#666;font-size:.62rem}
+.nil-status-blocked{color:#00C9B1}
+.nil-status-detected{color:#F4B800}
+.nil-status-breached{color:#b81414}
+.nil-trace-btn{background:transparent;border:1px solid rgba(244,184,0,.4);color:#F4B800;padding:.2rem .4rem;border-radius:3px;font-family:inherit;font-size:.58rem;cursor:pointer;white-space:nowrap}
+.nil-trace-btn:hover{background:rgba(244,184,0,.1)}
+.nil-trace-btn:disabled{opacity:.3;cursor:default;border-color:rgba(100,100,100,.3);color:#666}
+.nil-col-hdr{display:grid;grid-template-columns:90px 90px 1fr 80px 80px;gap:.5rem;padding:.3rem;font-size:.58rem;letter-spacing:1px;color:#555;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:.2rem}
+</style>
 </head>
 <body>
 
@@ -16225,6 +16321,10 @@ window.volunteerForMission = function(){
     if(window.bdgRender) bdgRender();
     if(window.trnRender) trnRender();
     if(window.dsbRender) dsbRender();
+    if(window.finRender) finRender();
+    if(window.shbRender) shbRender();
+    if(window.mfcRender) mfcRender();
+    if(window.nilRender) nilRender();
   }
 
   window.ofrClearRecord = function(){
@@ -17015,6 +17115,339 @@ window.volunteerForMission = function(){
   });
 })();
 
+
+/* ===== A: Pale Council Finance Ledger ===== */
+;(function(){
+  function finRenderTable(){
+    var data=window.ofrGetData?window.ofrGetData():{};
+    var logs=(data.stats&&data.stats.financeLogs)||[];
+    var tbody=document.getElementById('fin-tbody');
+    var totalEl=document.getElementById('fin-total');
+    if(!tbody) return;
+    if(!logs.length){
+      tbody.innerHTML='<tr><td colspan="5" class="fin-empty">No transactions logged. Begin intelligence gathering.</td></tr>';
+      if(totalEl) totalEl.textContent='₦0';
+      return;
+    }
+    var total=0;
+    tbody.innerHTML=logs.slice().reverse().map(function(e){
+      total+=e.amount;
+      var sc='fin-status-'+e.status.toLowerCase().charAt(0);
+      return '<tr><td>'+e.src+'</td><td>'+e.dst+'</td><td>'+e.district+'</td><td>₦'+e.amount.toLocaleString()+'</td><td class="'+sc+'">'+e.status+'</td></tr>';
+    }).join('');
+    if(totalEl) totalEl.textContent='₦'+total.toLocaleString();
+  }
+  window.finLog=function(){
+    var src=(document.getElementById('fin-src').value||'').trim().toUpperCase();
+    var dst=(document.getElementById('fin-dst').value||'').trim().toUpperCase();
+    var district=document.getElementById('fin-district').value;
+    var amount=parseInt(document.getElementById('fin-amount').value)||0;
+    var status=document.getElementById('fin-status').value;
+    var msg=document.getElementById('fin-msg');
+    if(!src){msg.textContent='> SOURCE ENTITY REQUIRED.';return;}
+    if(!dst){msg.textContent='> DESTINATION REQUIRED.';return;}
+    if(!district){msg.textContent='> SELECT A DISTRICT.';return;}
+    if(amount<=0){msg.textContent='> ENTER A VALID AMOUNT.';return;}
+    msg.textContent='';
+    var data=window.ofrGetData?window.ofrGetData():{};
+    data.stats=data.stats||{};
+    data.stats.financeLogs=data.stats.financeLogs||[];
+    data.stats.financeLogs.push({src:src,dst:dst,district:district,amount:amount,status:status});
+    data.stats.financeLogs=data.stats.financeLogs.slice(-20);
+    data.asePoints=(data.asePoints||0)+4;
+    if(window.ofrSaveData) ofrSaveData(data);
+    if(window.ofrLog) ofrLog('finance','Transaction logged: '+src+' → '+dst+' ₦'+amount.toLocaleString()+' ['+status+']');
+    if(window.ofrRefresh) ofrRefresh();
+    finRenderTable();
+    document.getElementById('fin-src').value='';
+    document.getElementById('fin-dst').value='';
+    document.getElementById('fin-amount').value='';
+    document.getElementById('fin-district').value='';
+    msg.textContent='> TRANSACTION LOGGED. +4 ASẸ POINTS.';
+  };
+  window.finRender=finRenderTable;
+  document.addEventListener('DOMContentLoaded',finRenderTable);
+})();
+
+/* ===== B: Oracle Safe-House Status Board ===== */
+;(function(){
+  var HOUSES=[
+    {id:'sh-alpha',codename:'ALPHA NEST',district:'Lagos Island',capacity:4},
+    {id:'sh-bravo',codename:'BRAVO DEN',district:'Victoria Island',capacity:6},
+    {id:'sh-delta',codename:'DELTA CRYPT',district:'Yaba',capacity:3},
+    {id:'sh-echo',codename:'ECHO BURROW',district:'Surulere',capacity:5},
+    {id:'sh-foxtrot',codename:'FOXTROT HOLD',district:'Mushin',capacity:4},
+    {id:'sh-ghost',codename:'GHOST CELLAR',district:'Ajegunle',capacity:2}
+  ];
+  var STATUSES=['ACTIVE','COMPROMISED','DARK','BURNED'];
+
+  function shbGetState(){
+    var data=window.ofrGetData?window.ofrGetData():{};
+    data.stats=data.stats||{};
+    if(!data.stats.safehouses){
+      data.stats.safehouses={};
+      HOUSES.forEach(function(h){ data.stats.safehouses[h.id]={status:'ACTIVE',lastCheck:'NEVER',locked:false}; });
+      if(window.ofrSaveData) ofrSaveData(data);
+    }
+    return data;
+  }
+
+  function shbRenderCard(h,state){
+    var s=state[h.id]||{status:'DARK',lastCheck:'NEVER',locked:false};
+    var st=s.status.toLowerCase();
+    var disabled=(s.status==='BURNED');
+    var checkDis=disabled?'disabled':'';
+    var lockDis=(disabled||s.locked)?'disabled':'';
+    var evacDis=(disabled||s.status==='DARK'||s.status==='BURNED')?'disabled':'';
+    return '<div class="shb-card status-'+st+' shb-status-'+st+'" id="card-'+h.id+'">'
+      +'<div class="shb-card-top">'
+      +'<span class="shb-codename">'+h.codename+'</span>'
+      +'<span class="shb-status-badge">'+s.status+'</span>'
+      +'</div>'
+      +'<div class="shb-meta">'
+      +'DISTRICT: <span>'+h.district+'</span> &nbsp;|&nbsp; CAP: <span>'+h.capacity+'</span><br>'
+      +'LAST CHECK: <span>'+s.lastCheck+'</span>'
+      +(s.locked?' &nbsp;|&nbsp; <span style="color:#00C9B1">LOCKED</span>':'')
+      +'</div>'
+      +'<div class="shb-actions">'
+      +'<button class="shb-btn" onclick="shbCheck(\''+h.id+'\')" '+checkDis+'>CHECK</button>'
+      +'<button class="shb-btn shb-btn-warn" onclick="shbLock(\''+h.id+'\')" '+lockDis+'>LOCK DOWN</button>'
+      +'<button class="shb-btn shb-btn-danger" onclick="shbEvac(\''+h.id+'\')" '+evacDis+'>EVACUATE</button>'
+      +'</div>'
+      +'<div class="shb-check" id="shb-msg-'+h.id+'"></div>'
+      +'</div>';
+  }
+
+  function shbRender(){
+    var data=shbGetState();
+    var sh=data.stats.safehouses;
+    var grid=document.getElementById('shb-grid');
+    var summary=document.getElementById('shb-summary');
+    if(!grid) return;
+    grid.innerHTML=HOUSES.map(function(h){ return shbRenderCard(h,sh); }).join('');
+    var active=HOUSES.filter(function(h){ return sh[h.id]&&sh[h.id].status==='ACTIVE'; }).length;
+    if(summary) summary.textContent=active+' / 6 ACTIVE';
+  }
+
+  window.shbCheck=function(id){
+    var data=shbGetState();
+    var sh=data.stats.safehouses;
+    if(!sh[id]||sh[id].status==='BURNED') return;
+    var ts=new Date().toISOString().replace('T',' ').slice(0,16)+' UTC';
+    sh[id].lastCheck=ts;
+    // Degradation: each check has 15% chance of status worsening
+    if(sh[id].status==='ACTIVE'&&!sh[id].locked&&Math.random()<0.15){
+      sh[id].status='COMPROMISED';
+    } else if(sh[id].status==='COMPROMISED'&&!sh[id].locked&&Math.random()<0.20){
+      sh[id].status='DARK';
+    }
+    if(window.ofrSaveData) ofrSaveData(data);
+    if(window.ofrLog) ofrLog('safehouse','CHECK '+id+' → '+sh[id].status);
+    shbRender();
+    var msg=document.getElementById('shb-msg-'+id);
+    if(msg) msg.textContent='> STATUS CONFIRMED: '+sh[id].status+' // '+ts.slice(11,16)+' UTC';
+  };
+
+  window.shbLock=function(id){
+    var data=shbGetState();
+    var sh=data.stats.safehouses;
+    if(!sh[id]||sh[id].status==='BURNED'||sh[id].locked) return;
+    var pts=(data.asePoints||0);
+    if(pts<5){
+      var msg=document.getElementById('shb-msg-'+id);
+      if(msg) msg.textContent='> INSUFFICIENT ASẸ. NEED 5 PTS.';
+      return;
+    }
+    sh[id].locked=true;
+    if(sh[id].status==='COMPROMISED') sh[id].status='ACTIVE';
+    data.asePoints=pts-5;
+    if(window.ofrSaveData) ofrSaveData(data);
+    if(window.ofrLog) ofrLog('safehouse','LOCK DOWN '+id+' [−5 ASẸ]');
+    if(window.ofrRefresh) ofrRefresh();
+    shbRender();
+  };
+
+  window.shbEvac=function(id){
+    var data=shbGetState();
+    var sh=data.stats.safehouses;
+    if(!sh[id]||sh[id].status==='BURNED'||sh[id].status==='DARK') return;
+    sh[id].status='DARK';
+    sh[id].locked=false;
+    if(window.ofrSaveData) ofrSaveData(data);
+    if(window.ofrLog) ofrLog('safehouse','EVACUATE '+id+' → DARK');
+    if(window.ofrRefresh) ofrRefresh();
+    shbRender();
+  };
+
+  window.shbRender=shbRender;
+  document.addEventListener('DOMContentLoaded',shbRender);
+})();
+
+/* ===== C: Architect Memory Fragment Collector ===== */
+;(function(){
+  var FRAGMENTS=[
+    {id:0,lore:"I was not born into the Oracle. I was built by it. The Pale Council called my kind 'Resonance Architects' — engineers of living energy. We didn't harness ASẹ. We became it."},
+    {id:1,lore:"Lagos was chosen because of its density — eight million souls in constant friction. Friction generates resonance. Resonance generates ASẹ. The city was a battery, and no one knew they were the charge."},
+    {id:2,lore:"The Glass-Eye was my invention. A lens that lets you see the threads of ASẹ running between people. I showed it to the Council. They immediately asked how to cut those threads."},
+    {id:3,lore:"When I realized what the Pale Council intended — extraction, not elevation — I tried to defect. They burned three of my safehouses in twelve hours. Someone on the inside was feeding them coordinates."},
+    {id:4,lore:"The Oracle Network was not my salvation. It was my contingency. I built it in the spaces between their surveillance, node by node, in the dead hours before sunrise over the lagoon."},
+    {id:5,lore:"There is a frequency only children under seven can hear. Pure, unfiltered ASẹ resonance. The Council is studying it. Whatever they learn will be something the rest of us are not meant to know."},
+    {id:6,lore:"I left a piece of myself in every node. Not a soul fragment — I am not that mystical. A behavioral echo. If you learn to listen, the Network will tell you what I would have done."},
+    {id:7,lore:"My name was Àríṣẹ Adéyẹmí. I was forty-one years old. I wrote this so you would remember that I was a person before I became a mystery. Whatever the Oracle says I am — I was a person first."}
+  ];
+  var GARBLED='ᛒᛖᚱᚠᛊᚾᚹᚢᚠᛗᛁᚱᚦᚾᛖᛊᚠᛗᛒᛖᚾᚹᛊᛒᛖᚱᚠᛊᚾᚹᚢᚠᛗᛁᚱᚦᚾᛖᛊᚠᛗᛒᛖᚾᚹᛊᛒᛖᚱᚠᛊᚾᚹᚢᚠᛗᛁᚱᚦᚾᛖᛊᚠᛗ';
+
+  function mfcGetUnlocked(){
+    var data=window.ofrGetData?window.ofrGetData():{};
+    data.stats=data.stats||{};
+    return data.stats.fragments||[];
+  }
+
+  function mfcRender(){
+    var unlocked=mfcGetUnlocked();
+    var grid=document.getElementById('mfc-grid');
+    var countEl=document.getElementById('mfc-count');
+    var barEl=document.getElementById('mfc-bar');
+    var completeEl=document.getElementById('mfc-complete');
+    var completeTextEl=document.getElementById('mfc-complete-text');
+    if(!grid) return;
+    grid.innerHTML=FRAGMENTS.map(function(f){
+      var isUnlocked=unlocked.indexOf(f.id)>-1;
+      var pts=window.ofrGetData?window.ofrGetData().asePoints||0:0;
+      var canAfford=pts>=6;
+      return '<div class="mfc-frag '+(isUnlocked?'unlocked':'locked')+'" id="mfc-frag-'+f.id+'">'
+        +'<div class="mfc-frag-num">FRAGMENT '+(f.id+1).toString().padStart(2,'0')+' / 08</div>'
+        +'<div class="mfc-frag-content">'+(isUnlocked?f.lore:GARBLED.slice(0,80))+'</div>'
+        +(!isUnlocked?'<button class="mfc-unlock-btn" onclick="mfcUnlock('+f.id+')" '+(canAfford?'':'disabled')+'>DECODE [−6 ASẸ]</button>':'')
+        +'</div>';
+    }).join('');
+    if(countEl) countEl.textContent=unlocked.length;
+    if(barEl) barEl.style.width=Math.round(unlocked.length/8*100)+'%';
+    if(completeEl&&completeTextEl){
+      if(unlocked.length===8){
+        completeEl.classList.add('active');
+        completeTextEl.textContent='All 8 memory fragments decoded. The Architect\'s full history is restored to the Oracle Archive. You are among the first to know his true name: Àríṣẹ Adéyẹmí. +20 ASẸ bonus awarded.';
+      } else {
+        completeEl.classList.remove('active');
+      }
+    }
+  }
+
+  window.mfcUnlock=function(id){
+    var data=window.ofrGetData?window.ofrGetData():{};
+    data.stats=data.stats||{};
+    data.stats.fragments=data.stats.fragments||[];
+    if(data.stats.fragments.indexOf(id)>-1) return;
+    if((data.asePoints||0)<6){
+      return;
+    }
+    data.asePoints=(data.asePoints||0)-6;
+    data.stats.fragments.push(id);
+    var isComplete=(data.stats.fragments.length===8);
+    if(isComplete) data.asePoints=(data.asePoints||0)+20;
+    if(window.ofrSaveData) ofrSaveData(data);
+    if(window.ofrLog) ofrLog('fragment','Memory fragment '+(id+1)+' decoded'+(isComplete?' — ARCHIVE COMPLETE! +20 ASẸ':''));
+    if(window.ofrRefresh) ofrRefresh();
+    mfcRender();
+  };
+
+  window.mfcRender=mfcRender;
+  document.addEventListener('DOMContentLoaded',mfcRender);
+})();
+
+/* ===== D: Network Intrusion Log ===== */
+;(function(){
+  var ORIGINS=['NODE-PALE-09','GLASS-RELAY-4','TOWER-SIGMA','UNKNOWN-VPN','IRON-LOOP-2','PROXY-DELTA','GHOST-NODE','CRYPT-ALPHA','NET-BRAVO-7','PALE-GHOST-X'];
+  var TARGETS=['ORACLE-CORE','ASSET-DB','FIELD-COMMS','ENCRYPT-VAULT','IDENTITY-SRV','DISPATCH-NET','ASẸ-MONITOR','SAFE-HOUSE-DB','AGENT-ROSTER','CIPHER-NODE'];
+  var PAYLOADS=['ASẸ-DRAIN','IDENTITY-SCRAPE','COMMS-INTERCEPT','TRACE-INJECT','NODE-CORRUPT','BLACKOUT','MEM-EXTRACT','FREQUENCY-JAM'];
+  var OPERATIVES=['IRON SPINE','GLASS EYE','PALE CROW','HOLLOW MASK','CHAIN BIND','VOID WALK','SILVER HOOK','BLIND ORACLE','RUST FANG','DUSK VEIL'];
+  var nilPool=[];
+  var nilTraced=0,nilBreached=0,nilPts=0;
+  var nilInterval=null;
+
+  function nilStatus(){
+    var r=Math.random();
+    return r<0.45?'BLOCKED':r<0.75?'DETECTED':'BREACHED';
+  }
+
+  function nilGenEntry(){
+    var ts=new Date().toISOString().replace('T',' ').slice(11,19);
+    var status=nilStatus();
+    return {
+      ts:ts,
+      origin:ORIGINS[Math.floor(Math.random()*ORIGINS.length)],
+      target:TARGETS[Math.floor(Math.random()*TARGETS.length)],
+      payload:PAYLOADS[Math.floor(Math.random()*PAYLOADS.length)],
+      status:status,
+      traced:false,
+      operative:OPERATIVES[Math.floor(Math.random()*OPERATIVES.length)],
+      id:'nil-'+Date.now()+'-'+Math.floor(Math.random()*9999)
+    };
+  }
+
+  function nilAddEntry(e){
+    nilPool.unshift(e);
+    if(nilPool.length>30) nilPool.pop();
+    if(e.status==='BREACHED') nilBreached++;
+    nilRenderFeed();
+  }
+
+  function nilRenderFeed(){
+    var feed=document.getElementById('nil-feed');
+    var tracedEl=document.getElementById('nil-traced');
+    var breachedEl=document.getElementById('nil-breached');
+    var ptsEl=document.getElementById('nil-pts');
+    if(!feed) return;
+    feed.innerHTML=nilPool.map(function(e){
+      var sc='nil-status-'+e.status.toLowerCase();
+      var traceHtml='';
+      if(e.status==='DETECTED'){
+        if(e.traced){
+          traceHtml='<span style="font-size:.6rem;color:#888">'+e.operative+'</span>';
+        } else {
+          traceHtml='<button class="nil-trace-btn" onclick="nilTrace(\''+e.id+'\')">TRACE</button>';
+        }
+      } else if(e.status==='BREACHED'){
+        traceHtml='<span style="font-size:.58rem;color:#b81414">HOSTILE</span>';
+      } else {
+        traceHtml='<span style="font-size:.58rem;color:#00C9B1">✓</span>';
+      }
+      return '<div class="nil-entry" id="'+e.id+'">'
+        +'<span class="nil-ts">'+e.ts+'</span>'
+        +'<span class="nil-origin">'+e.origin+'</span>'
+        +'<span class="nil-target">'+e.target+'</span>'
+        +'<span class="nil-payload">'+e.payload+'</span>'
+        +'<span class="'+sc+'">'+traceHtml+'</span>'
+        +'</div>';
+    }).join('');
+    if(tracedEl) tracedEl.textContent=nilTraced;
+    if(breachedEl) breachedEl.textContent=nilBreached;
+    if(ptsEl) ptsEl.textContent=nilPts;
+  }
+
+  window.nilTrace=function(id){
+    var e=nilPool.filter(function(x){ return x.id===id; })[0];
+    if(!e||e.traced) return;
+    e.traced=true;
+    nilTraced++;
+    nilPts+=3;
+    var data=window.ofrGetData?window.ofrGetData():{};
+    data.stats=data.stats||{};
+    data.stats.traces=(data.stats.traces||0)+1;
+    data.asePoints=(data.asePoints||0)+3;
+    if(window.ofrSaveData) ofrSaveData(data);
+    if(window.ofrLog) ofrLog('intrusion','Traced intrusion → operative: '+e.operative+' [+3 ASẸ]');
+    if(window.ofrRefresh) ofrRefresh();
+    nilRenderFeed();
+  };
+
+  window.nilRender=nilRenderFeed;
+  document.addEventListener('DOMContentLoaded',function(){
+    for(var i=0;i<6;i++) nilAddEntry(nilGenEntry());
+    nilInterval=setInterval(function(){ nilAddEntry(nilGenEntry()); },12000);
+  });
+})();
+
 </script>
 
 
@@ -17106,6 +17539,107 @@ window.volunteerForMission = function(){
       <div style="font-size:.65rem;letter-spacing:2px;color:#F4B800;margin:.6rem 0 .4rem 0">RECENT DISPATCH LOG</div>
       <div class="dsb-log" id="dsb-log"></div>
       <button class="dsb-refresh" onclick="dsbRender()">REFRESH STATUS BOARD</button>
+    </div>
+  </div>
+</section>
+
+
+<section id="finance-ledger" style="padding:2rem 1rem;background:linear-gradient(180deg,#0a0800,#050400)">
+  <div style="max-width:720px;margin:0 auto">
+    <div style="font-size:.65rem;letter-spacing:4px;color:#F4B800;margin-bottom:.3rem">FINANCIAL INTELLIGENCE DIVISION</div>
+    <h2 style="font-size:1.4rem;color:#fff;margin:0 0 .4rem 0">PALE COUNCIL FINANCE LEDGER</h2>
+    <p style="font-size:.82rem;color:#888;margin:0 0 1.5rem 0">Log discovered Pale Council financial transactions. Each confirmed entry contributes to the Oracle Network's intelligence brief.</p>
+    <div class="fin-wrap">
+      <div class="fin-hdr">
+        <span class="fin-hdr-lbl"><span style="color:#b81414">&#9632;</span> CLASSIFIED LEDGER // ORACLE INTEL</span>
+        <span class="fin-hdr-total">TOTAL TRACKED: <span id="fin-total">₦0</span></span>
+      </div>
+      <div class="fin-form-row">
+        <div class="fin-f"><label>Source Entity</label><input type="text" id="fin-src" placeholder="e.g. GLASS-TOWER CORP"></div>
+        <div class="fin-f"><label>Destination</label><input type="text" id="fin-dst" placeholder="e.g. OFFSHORE NODE-7"></div>
+        <div class="fin-f"><label>District</label>
+          <select id="fin-district">
+            <option value="">— district —</option>
+            <option>Lagos Island</option><option>Victoria Island</option>
+            <option>Ẹkọ Atlantic</option><option>Surulere</option>
+            <option>Yaba</option><option>Mushin</option>
+            <option>Ajegunle</option><option>Badagry</option>
+          </select>
+        </div>
+      </div>
+      <div class="fin-form-row2">
+        <div class="fin-f"><label>Amount (₦ASẹ-credits)</label><input type="number" id="fin-amount" placeholder="0" min="0"></div>
+        <div class="fin-f"><label>Status</label>
+          <select id="fin-status">
+            <option value="CONFIRMED">CONFIRMED</option>
+            <option value="SUSPECTED">SUSPECTED</option>
+            <option value="FLAGGED">FLAGGED</option>
+          </select>
+        </div>
+      </div>
+      <button class="fin-submit" onclick="finLog()">LOG TRANSACTION &rarr;</button>
+      <div class="fin-msg" id="fin-msg"></div>
+      <table class="fin-table" id="fin-table">
+        <thead><tr><th>SOURCE</th><th>DESTINATION</th><th>DISTRICT</th><th>AMOUNT</th><th>STATUS</th></tr></thead>
+        <tbody id="fin-tbody"><tr><td colspan="5" class="fin-empty">No transactions logged. Begin intelligence gathering.</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="safehouse-status-board" style="padding:2rem 1rem;background:linear-gradient(180deg,#000d0c,#000806)">
+  <div style="max-width:720px;margin:0 auto">
+    <div style="font-size:.65rem;letter-spacing:4px;color:#00C9B1;margin-bottom:.3rem">ORACLE OPERATIONS // SECURE INFRASTRUCTURE</div>
+    <h2 style="font-size:1.4rem;color:#fff;margin:0 0 .4rem 0">SAFE-HOUSE STATUS BOARD</h2>
+    <p style="font-size:.82rem;color:#888;margin:0 0 1.5rem 0">Monitor and manage Oracle Network safe-houses across Lagos. Status degrades under operational pressure. Secure compromised sites before they are burned.</p>
+    <div class="shb-wrap">
+      <div class="shb-hdr">
+        <span class="shb-lbl"><span style="display:inline-block;width:6px;height:6px;background:#00C9B1;border-radius:50%;margin-right:.4rem;vertical-align:middle"></span>NETWORK SAFE-HOUSES // LAGOS GRID</span>
+        <span class="shb-summary" id="shb-summary">— / 6 ACTIVE</span>
+      </div>
+      <div class="shb-grid" id="shb-grid"></div>
+    </div>
+  </div>
+</section>
+
+<section id="memory-fragment-collector" style="padding:2rem 1rem;background:linear-gradient(180deg,#06000a,#030006)">
+  <div style="max-width:720px;margin:0 auto">
+    <div style="font-size:.65rem;letter-spacing:4px;color:#9b59b6;margin-bottom:.3rem">ARCHITECT // RECOVERED MEMORY ARCHIVE</div>
+    <h2 style="font-size:1.4rem;color:#fff;margin:0 0 .4rem 0">MEMORY FRAGMENT COLLECTOR</h2>
+    <p style="font-size:.82rem;color:#888;margin:0 0 1.5rem 0">Encrypted memory fragments recovered from Architect neural-lattice backups. Decode each to reconstruct the lost history of Lagos&#x2019; first Oracle.</p>
+    <div class="mfc-wrap">
+      <div class="mfc-hdr">
+        <span class="mfc-lbl">MEMORY ARCHIVE // ENCRYPTED</span>
+        <span class="mfc-prog"><span id="mfc-count">0</span>/8 DECODED</span>
+      </div>
+      <div class="mfc-bar-wrap"><div class="mfc-bar" id="mfc-bar" style="width:0%"></div></div>
+      <div class="mfc-grid" id="mfc-grid"></div>
+      <div class="mfc-complete" id="mfc-complete">
+        <div class="mfc-complete-title">&#9670; ARCHIVE FULLY RESTORED &#9670;</div>
+        <div class="mfc-complete-text" id="mfc-complete-text"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="network-intrusion-log" style="padding:2rem 1rem;background:linear-gradient(180deg,#0a0000,#050000)">
+  <div style="max-width:720px;margin:0 auto">
+    <div style="font-size:.65rem;letter-spacing:4px;color:#b81414;margin-bottom:.3rem">ORACLE CYBER-DEFENSE // LIVE FEED</div>
+    <h2 style="font-size:1.4rem;color:#fff;margin:0 0 .4rem 0">NETWORK INTRUSION LOG</h2>
+    <p style="font-size:.82rem;color:#888;margin:0 0 1.5rem 0">Live feed of Pale Council intrusion attempts against Oracle Network infrastructure. Trace detected attempts to identify hostile operatives.</p>
+    <div class="nil-wrap">
+      <div class="nil-hdr">
+        <span class="nil-lbl"><span class="nil-dot"></span>ORACLE NET // THREAT MONITOR</span>
+        <div class="nil-stats">
+          <span>TRACED: <span id="nil-traced">0</span></span>
+          <span>BREACHED: <span id="nil-breached">0</span></span>
+          <span>ASẹ EARNED: <span id="nil-pts">0</span></span>
+        </div>
+      </div>
+      <div class="nil-col-hdr">
+        <span>TIMESTAMP</span><span>ORIGIN</span><span>TARGET SYSTEM</span><span>PAYLOAD</span><span>STATUS</span>
+      </div>
+      <div class="nil-feed" id="nil-feed"></div>
     </div>
   </div>
 </section>
