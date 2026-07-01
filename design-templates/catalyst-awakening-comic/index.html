@@ -6432,6 +6432,97 @@ body.ase-vision .ase-glyph-field { display:block; }
 .trn-perk-btn.owned-btn{border-color:rgba(0,201,177,0.45);color:#00C9B1;cursor:default}
 .trn-msg{text-align:center;font-size:.78rem;color:#ff5a72;margin-top:1rem;min-height:1.2em}
 </style>
+<style id="v13-styles">
+/* ── A: Dossier Builder ── */
+.dsr-wrap{background:#0a0a0a;border:1px solid rgba(184,20,20,.5);border-radius:8px;padding:1.5rem;font-family:'Courier New',monospace;max-width:720px;margin:2rem auto}
+.dsr-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.dsr-f{display:flex;flex-direction:column;gap:.4rem}
+.dsr-f label{font-size:.7rem;letter-spacing:2px;color:#b81414;text-transform:uppercase}
+.dsr-f input,.dsr-f select,.dsr-f textarea{background:#111;border:1px solid rgba(184,20,20,.4);color:#e0e0e0;padding:.5rem .7rem;border-radius:4px;font-family:inherit;font-size:.82rem}
+.dsr-f textarea{min-height:65px;resize:vertical}
+.dsr-full{grid-column:span 2}
+.dsr-submit{width:100%;background:#b81414;color:#fff;border:none;padding:.7rem;border-radius:4px;font-family:inherit;font-size:.8rem;letter-spacing:2px;cursor:pointer;margin-top:.5rem}
+.dsr-submit:hover{background:#C41E3A}
+.dsr-out{display:none;margin-top:1.2rem;border:1px solid rgba(184,20,20,.6);border-radius:6px;padding:1.2rem;background:#0d0d0d}
+.dsr-out.active{display:block}
+.dsr-banner{font-size:.65rem;letter-spacing:4px;color:#b81414;text-align:center;margin-bottom:.8rem}
+.dsr-hr{border:none;border-top:1px solid rgba(184,20,20,.3);margin:.6rem 0}
+.dsr-row{display:flex;justify-content:space-between;font-size:.78rem;padding:.25rem 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.dsr-row span:first-child{color:#888;text-transform:uppercase;font-size:.7rem;letter-spacing:1px}
+.dsr-row span:last-child{color:#e0e0e0}
+.dsr-t1{color:#F4B800}.dsr-t2{color:#ff8c00}.dsr-t3{color:#b81414}
+.dsr-notes{margin-top:.7rem;font-size:.78rem;color:#aaa;line-height:1.7;border-left:2px solid rgba(184,20,20,.4);padding-left:.8rem}
+.dsr-copy{width:100%;background:transparent;border:1px solid rgba(184,20,20,.4);color:#b81414;padding:.5rem;border-radius:4px;font-family:inherit;font-size:.72rem;letter-spacing:2px;cursor:pointer;margin-top:.8rem}
+.dsr-copy:hover{background:rgba(184,20,20,.1)}
+.dsr-msg{text-align:center;font-size:.72rem;color:#00C9B1;margin-top:.5rem;min-height:1.2em}
+
+/* ── B: Signal Interceptor ── */
+.osi-wrap{background:#080f0f;border:1px solid rgba(0,201,177,.4);border-radius:8px;padding:1.5rem;font-family:'Courier New',monospace;max-width:720px;margin:2rem auto}
+.osi-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+.osi-tag{font-size:.65rem;letter-spacing:3px;color:#00C9B1}
+.osi-dot{width:8px;height:8px;border-radius:50%;background:#00C9B1;display:inline-block;margin-right:.4rem;animation:osi-pulse 1.4s ease-in-out infinite}
+@keyframes osi-pulse{0%,100%{opacity:1}50%{opacity:.2}}
+.osi-feed{height:290px;overflow-y:auto;border:1px solid rgba(0,201,177,.2);border-radius:4px;padding:.8rem;display:flex;flex-direction:column;gap:.5rem;background:#050f0e}
+.osi-pkt{border:1px solid rgba(0,201,177,.2);border-radius:4px;padding:.6rem .8rem;background:#071310}
+.osi-pkt.decoded{opacity:.5;border-color:rgba(0,201,177,.08)}
+.osi-pkt-meta{font-size:.65rem;color:#00C9B1;letter-spacing:1px;margin-bottom:.3rem;display:flex;justify-content:space-between}
+.osi-pkt-raw{font-size:.78rem;color:#888;font-style:italic}
+.osi-pkt-clear{font-size:.78rem;color:#d8f5f0;display:none}
+.osi-pkt.decoded .osi-pkt-clear{display:block}
+.osi-pkt.decoded .osi-pkt-raw{display:none}
+.osi-decode-btn{background:transparent;border:1px solid rgba(0,201,177,.4);color:#00C9B1;padding:.25rem .6rem;border-radius:3px;font-family:inherit;font-size:.65rem;letter-spacing:1px;cursor:pointer;margin-top:.4rem}
+.osi-decode-btn:hover{background:rgba(0,201,177,.1)}
+.osi-pkt.decoded .osi-decode-btn{display:none}
+.osi-ftr{display:flex;justify-content:space-between;align-items:center;margin-top:.8rem;font-size:.68rem;color:#888}
+.osi-pts{color:#F4B800}
+
+/* ── C: Architect Cipher Challenge ── */
+.acc-wrap{background:#0a050f;border:1px solid rgba(155,89,182,.5);border-radius:8px;padding:1.5rem;font-family:'Courier New',monospace;max-width:520px;margin:2rem auto}
+.acc-title{font-size:.65rem;letter-spacing:3px;color:#9b59b6;margin-bottom:1rem;text-align:center}
+.acc-board{display:flex;flex-direction:column;gap:.4rem;align-items:center;margin-bottom:1rem}
+.acc-row{display:flex;gap:.4rem}
+.acc-cell{width:44px;height:44px;border:1px solid rgba(155,89,182,.3);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;font-weight:bold;color:#e0e0e0;background:#110820}
+.acc-cell.correct{background:#00C9B1;border-color:#00C9B1;color:#000}
+.acc-cell.present{background:#F4B800;border-color:#F4B800;color:#000}
+.acc-cell.absent{background:#1a1a2e;border-color:#2a2a3e;color:#555}
+.acc-cell.cur{border-color:#9b59b6}
+.acc-palette{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;margin:.8rem 0}
+.acc-sym{width:44px;height:44px;border:1px solid rgba(155,89,182,.45);border-radius:4px;background:#110820;color:#d0b8ff;font-size:1.15rem;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit}
+.acc-sym:hover:not([disabled]){background:rgba(155,89,182,.2);border-color:#9b59b6}
+.acc-sym[disabled]{opacity:.22;cursor:not-allowed}
+.acc-ctrls{display:flex;gap:.5rem;justify-content:center;margin-top:.5rem}
+.acc-btn{background:transparent;border:1px solid rgba(155,89,182,.5);color:#9b59b6;padding:.45rem .9rem;border-radius:4px;font-family:inherit;font-size:.72rem;letter-spacing:1px;cursor:pointer}
+.acc-btn:hover{background:rgba(155,89,182,.15)}
+.acc-btn.acc-primary{background:#9b59b6;color:#fff;border-color:#9b59b6}
+.acc-btn.acc-primary:hover{background:#8e44ad}
+.acc-status{text-align:center;font-size:.78rem;min-height:2em;padding:.3rem;color:#d0b8ff;margin-top:.5rem;line-height:1.5}
+.acc-frag{border:1px solid rgba(155,89,182,.5);border-radius:4px;padding:.8rem;background:#0d0520;font-size:.8rem;color:#d0b8ff;line-height:1.7;margin-top:.7rem;display:none}
+.acc-frag.active{display:block}
+
+/* ── D: District Status Board ── */
+.dsb-wrap{background:#0a0d0a;border:1px solid rgba(244,184,0,.4);border-radius:8px;padding:1.5rem;font-family:'Courier New',monospace;max-width:720px;margin:2rem auto}
+.dsb-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+.dsb-tag{font-size:.65rem;letter-spacing:3px;color:#F4B800}
+.dsb-city{font-size:.72rem;color:#aaa}
+.dsb-city-val{color:#F4B800;font-size:.88rem;font-weight:bold}
+.dsb-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:1rem}
+.dsb-dist{border:1px solid rgba(244,184,0,.2);border-radius:4px;padding:.7rem .9rem;background:#0d100d}
+.dsb-dist-name{font-size:.7rem;letter-spacing:2px;color:#F4B800;margin-bottom:.4rem}
+.dsb-dist-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:.3rem}
+.dsb-stag{font-size:.6rem;letter-spacing:1px;padding:.1rem .45rem;border-radius:2px;font-weight:bold}
+.dsb-s-SECURED{background:rgba(0,201,177,.2);color:#00C9B1;border:1px solid rgba(0,201,177,.4)}
+.dsb-s-CONTESTED{background:rgba(244,184,0,.15);color:#F4B800;border:1px solid rgba(244,184,0,.4)}
+.dsb-s-CRITICAL{background:rgba(184,20,20,.2);color:#ff4444;border:1px solid rgba(184,20,20,.5)}
+.dsb-bar{height:4px;background:rgba(255,255,255,.07);border-radius:2px;margin-top:.4rem}
+.dsb-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,#b81414,#F4B800)}
+.dsb-fill.dsb-hi{background:linear-gradient(90deg,#00C9B1,#F4B800)}
+.dsb-cov{font-size:.62rem;color:#888;margin-top:.2rem}
+.dsb-log{border:1px solid rgba(244,184,0,.15);border-radius:4px;padding:.7rem;background:#080a08;max-height:140px;overflow-y:auto}
+.dsb-log-e{font-size:.7rem;color:#888;padding:.2rem 0;border-bottom:1px solid rgba(255,255,255,.03)}
+.dsb-log-e span{color:#F4B800}
+.dsb-refresh{width:100%;background:transparent;border:1px solid rgba(244,184,0,.35);color:#F4B800;padding:.5rem;border-radius:4px;font-family:inherit;font-size:.72rem;letter-spacing:2px;cursor:pointer;margin-top:.8rem}
+.dsb-refresh:hover{background:rgba(244,184,0,.08)}
+</style>
 </head>
 <body>
 
@@ -16133,6 +16224,7 @@ window.volunteerForMission = function(){
     }
     if(window.bdgRender) bdgRender();
     if(window.trnRender) trnRender();
+    if(window.dsbRender) dsbRender();
   }
 
   window.ofrClearRecord = function(){
@@ -16619,7 +16711,404 @@ window.volunteerForMission = function(){
 
   trnRender();
 })();
+
+/* ===== A: Pale Council Dossier Builder ===== */
+;(function(){
+  window.dsrBuild = function(){
+    var codename = (document.getElementById('dsr-codename').value||'').trim().toUpperCase();
+    var district = document.getElementById('dsr-district').value;
+    var tier = document.getElementById('dsr-tier').value;
+    var caps = (document.getElementById('dsr-caps').value||'').trim();
+    var notes = (document.getElementById('dsr-notes').value||'').trim();
+    var msg = document.getElementById('dsr-msg');
+    var out = document.getElementById('dsr-out');
+    if(!codename){msg.textContent='> CODENAME REQUIRED TO COMPILE DOSSIER.';return;}
+    if(!district){msg.textContent='> SELECT A LAST KNOWN DISTRICT.';return;}
+    if(!tier){msg.textContent='> SELECT A THREAT TIER.';return;}
+    msg.textContent='';
+    var tl={I:'TIER I — SCOUT / OBSERVER',II:'TIER II — OPERATIVE / ENFORCER',III:'TIER III — COMMANDER / ARCHITECT-ALIGNED'};
+    var ts = new Date().toISOString().replace('T',' ').slice(0,16)+' UTC';
+    var h='<div class="dsr-banner">— PALE COUNCIL INTELLIGENCE DIVISION — CLASSIFIED —</div>';
+    h+='<hr class="dsr-hr">';
+    h+='<div class="dsr-row"><span>OPERATIVE CODENAME</span><span>'+codename+'</span></div>';
+    h+='<div class="dsr-row"><span>LAST KNOWN DISTRICT</span><span>'+district+'</span></div>';
+    h+='<div class="dsr-row"><span>THREAT CLASSIFICATION</span><span class="dsr-t'+tier+'">'+tl[tier]+'</span></div>';
+    h+='<div class="dsr-row"><span>KNOWN CAPABILITIES</span><span>'+(caps||'UNCONFIRMED')+'</span></div>';
+    h+='<div class="dsr-row"><span>DOSSIER COMPILED</span><span>'+ts+'</span></div>';
+    h+='<div class="dsr-row"><span>FILED BY</span><span>ORACLE OPERATIVE // AUTHORIZED</span></div>';
+    if(notes){
+      h+='<hr class="dsr-hr">';
+      h+='<div style="font-size:.65rem;letter-spacing:2px;color:#b81414;margin-bottom:.4rem">BEHAVIORAL NOTES:</div>';
+      h+='<div class="dsr-notes">'+notes+'</div>';
+    }
+    h+='<button class="dsr-copy" onclick="dsrCopy()">COPY DOSSIER TO CLIPBOARD</button>';
+    out.innerHTML=h;
+    out.classList.add('active');
+    if(window.ofrLog) ofrLog('dossier','Dossier filed: '+codename+' / '+district+' / Threat Tier '+tier);
+    var data=window.ofrGetData?window.ofrGetData():null;
+    if(data){
+      data.stats=data.stats||{};
+      data.stats.dossiers=(data.stats.dossiers||0)+1;
+      data.asePoints=(data.asePoints||0)+5;
+      if(window.ofrSaveData) ofrSaveData(data);
+      if(window.ofrRefresh) ofrRefresh();
+    }
+    msg.textContent='> DOSSIER COMPILED AND LOGGED. +5 ASẸ POINTS.';
+  };
+  window.dsrCopy=function(){
+    var el=document.getElementById('dsr-out');
+    if(!el) return;
+    var txt=el.innerText||'';
+    if(navigator.clipboard){
+      navigator.clipboard.writeText(txt).then(function(){
+        document.getElementById('dsr-msg').textContent='> DOSSIER COPIED TO CLIPBOARD.';
+      });
+    }
+  };
+})();
+
+/* ===== B: Oracle Signal Interceptor ===== */
+;(function(){
+  var POOL=[
+    {tag:'PC-EKO-441',raw:'%%STATIC^^ ATL-GRP-09 // EXTRACTION RATE +12% // PHASE-OMEGA NOMINAL ^^%%',clear:'Pale Council subgroup ATL-GRP-09 reporting: Ẹkọ Atlantic extraction rate up 12%. Phase-Omega protocol nominal. Architect confirms.'},
+    {tag:'ORC-NET-07',raw:'...SIGNAL WEAK... IRON RESOLVE TEAM DELTA REPOSITIONED... YABA GRID ACTIVE...',clear:'Oracle Network Team Delta repositioned to Yaba grid. Iron Resolve operative confirmed active. Await contact window.'},
+    {tag:'PC-COMM-17',raw:'GLASS-TOWER NODE 5 OFFLINE // REDUNDANCY ENGAGED // DO NOT INVESTIGATE',clear:'Council dispatch: Glass-tower node 5 offline. Redundancy engaged. Ground teams ordered to ignore — possible Oracle sabotage.'},
+    {tag:'ORC-BURST-12',raw:'BURST TRANSMISSION // AMARA SIGHTED // SURULERE MARKET // 03:12 LOCAL',clear:'Burst from Oracle asset: AMARA spotted at Surulere market 03:12 local. Codename EMBER. Council watchers within 200m. Do not approach.'},
+    {tag:'PC-INTERNAL',raw:'THE ARCHITECT DOES NOT SLEEP // PHASE-III BEGINS AT DAWN // ALL NODES CONFIRM',clear:'Internal Council memo: Architect authorized Phase-III at dawn. All extraction nodes must confirm readiness.'},
+    {tag:'ORC-DECODE-X',raw:'...XOR ENCRYPTED... COUNCIL ROUTE VIA BADAGRY PORT CONFIRMED...',clear:'Oracle cryptographic intercept: Pale Council routing financing through Badagry Port, transit node PALE-HARBOR. Offshore shell, registered 2019.'},
+    {tag:'PC-ALERT-03',raw:'OPERATIVE COMPROMISED // GLASS-7 UNRESPONSIVE // ACTIVATE CONTINGENCY ECHO',clear:'Council security: GLASS-7 unresponsive. Contingency Echo activated. All linked safehouses burned. Extraction team deployed.'},
+    {tag:'ORC-ASE-FREQ',raw:'ASẸ SPIKE DETECTED // MUSHIN DISTRICT // SOURCE: UNKNOWN CATALYST',clear:'Oracle sensor net: Unusual ASẸ frequency spike in Mushin. Source unidentified — new catalyst awakening or a Council suppressor gone critical.'},
+    {tag:'PC-BROADCAST',raw:'ARCHITECT BROADCAST // FRAGMENT // ...THE CITY IS ALREADY OURS...',clear:'Architect personal broadcast intercepted: "The city was never yours to lose. The glass towers are the new baobab — they grow whether you watch or not."'},
+    {tag:'ORC-CONTACT-2',raw:'CONTACT WINDOW OPEN // 90 SECONDS // RESPOND ON CHANNEL SEVEN-TEAL',clear:'Oracle contact window open 90 seconds. Channel seven-teal. Package: coordinates for Architect secondary research node near Ajegunle waterfront.'},
+    {tag:'PC-LOGISTIC',raw:'SHIPMENT R-44 REROUTED // APAPA WHARF // COUNCIL STEVEDORES ON SITE',clear:'Pale Council logistics: Shipment R-44 rerouted to Apapa Wharf under standard cargo cover. Extraction equipment arrives before dawn.'},
+    {tag:'ORC-CIPHER-X',raw:'CIPHER KEY PARTIAL // ARCHITECT USES ROTATING YORUBA-GLYPH SCHEMA // SEE FILE',clear:'Oracle cryptography: Architect cipher uses rotating Yoruba-glyph schema with 8 base symbols. Partial key recovered from recent broadcast metadata.'},
+    {tag:'PC-FIELD-09',raw:'FIELD UNIT 09 REPORTS // VICTORIA ISLAND CLEAR // AWAITING NEW ORDERS',clear:'Pale Council Field Unit 09: Victoria Island sweep complete. No Oracle operatives detected. Requesting new patrol orders from Commander.'},
+    {tag:'ORC-INTEL-05',raw:'INTEL UPDATE // COUNCIL LEADERSHIP MEETING // LAGOS ISLAND TOWER // 48HRS',clear:'Oracle intelligence: Pale Council leadership convening at Lagos Island glass tower in 48 hours. Agenda: Phase-III rollout and response to recent operative losses.'},
+    {tag:'PC-PERSONAL',raw:'PERSONAL CHANNEL // ENCRYPTED // TO: THE ARCHITECT // STATUS: DELIVERED',clear:'Intercepted message to Architect: "The third catalyst awakened in Yaba. Oracle is closer than you think. They know about the towers."'},
+    {tag:'ORC-ASSET-R',raw:'ASSET RELAY // DOUBLE-AGENT GLASS-7 CONFIRMS // COUNCIL MOVING TONIGHT',clear:'Double-agent relay from GLASS-7: Council moving extraction equipment tonight. Target: Ẹkọ Atlantic sub-node 3. Intervention window 02:00–03:30 local.'},
+  ];
+  var osiDecoded=0,osiPts=0,osiQueue=[],osiInterval=null;
+
+  function osiAddPkt(pkt){
+    var feed=document.getElementById('osi-feed');
+    if(!feed) return;
+    var div=document.createElement('div');
+    div.className='osi-pkt';
+    div.id='osip-'+pkt.tag;
+    div.innerHTML='<div class="osi-pkt-meta"><span>'+pkt.tag+'</span><span>'+(new Date().toLocaleTimeString())+'</span></div>'+
+      '<div class="osi-pkt-raw">'+pkt.raw+'</div>'+
+      '<div class="osi-pkt-clear">'+pkt.clear+'</div>'+
+      '<button class="osi-decode-btn" onclick="osiDecode(\''+pkt.tag+'\')">[ DECODE ]</button>';
+    feed.insertBefore(div,feed.firstChild);
+    while(feed.children.length>12) feed.removeChild(feed.lastChild);
+  }
+
+  function osiPop(){
+    if(!osiQueue.length){
+      osiQueue=POOL.slice().sort(function(){return .5-Math.random();});
+    }
+    osiAddPkt(osiQueue.shift());
+  }
+
+  window.osiDecode=function(tag){
+    var el=document.getElementById('osip-'+tag);
+    if(!el||el.classList.contains('decoded')) return;
+    el.classList.add('decoded');
+    osiDecoded++;
+    osiPts+=3;
+    document.getElementById('osi-count').textContent=osiDecoded;
+    document.getElementById('osi-pts').textContent=osiPts;
+    if(window.ofrLog) ofrLog('signal','Decoded intercept: '+tag);
+    var data=window.ofrGetData?window.ofrGetData():null;
+    if(data){
+      data.stats=data.stats||{};
+      data.stats.signals=(data.stats.signals||0)+1;
+      data.asePoints=(data.asePoints||0)+3;
+      if(window.ofrSaveData) ofrSaveData(data);
+      if(window.ofrRefresh) ofrRefresh();
+    }
+  };
+
+  document.addEventListener('DOMContentLoaded',function(){
+    for(var i=0;i<4;i++) osiPop();
+    osiInterval=setInterval(osiPop,9000);
+  });
+})();
+
+/* ===== C: Architect Cipher Challenge ===== */
+;(function(){
+  var SYMS=['Ẹ','Ọ','Ṣ','Ọ̀','Ƴ','Ɖ','Ƙ','Ɲ'];
+  /* Ẹ Ọ Ṣ Ọ̀ Ƴ Ɖ Ƙ Ɲ — 8 distinct Yoruba-extended chars */
+  var TARGET=[],guesses=[],current=[],maxAttempts=5,targetLen=5,gameOver=false;
+  var FRAGMENTS=[
+    '"The glass towers are not buildings. They are antennae. We are not extracting ASẸ — we are redirecting it. The city does not know it is already transmitting."',
+    '"Phase-III is not escalation. It is convergence. Every catalyst who awakens amplifies our signal. The Oracle network feeds our reach without knowing it."',
+    '"The Architect does not fear the Oracle. The Oracle was built on an old frequency. We have rewritten the carrier wave. They broadcast into silence now."',
+    '"Lagos was chosen for its density. Seventeen million ASẸ signatures in one grid. No other city produces this volume. The towers drink from the delta."',
+    '"The catalysts are not a threat. They are unscheduled amplifiers. If they cannot be suppressed, they must be redirected. Contingency paths exist for all seventeen."',
+  ];
+
+  function rndTarget(){
+    TARGET=[];
+    for(var i=0;i<targetLen;i++) TARGET.push(SYMS[Math.floor(Math.random()*SYMS.length)]);
+  }
+
+  function feedback(guess,target){
+    var result=[],left=target.slice();
+    for(var i=0;i<guess.length;i++){
+      if(guess[i]===target[i]){result.push('correct');left[i]=null;}
+      else result.push(null);
+    }
+    for(var i=0;i<guess.length;i++){
+      if(result[i]) continue;
+      var x=left.indexOf(guess[i]);
+      if(x>=0){result[i]='present';left[x]=null;}
+      else result[i]='absent';
+    }
+    return result;
+  }
+
+  function renderBoard(){
+    var board=document.getElementById('acc-board');
+    if(!board) return;
+    var h='';
+    for(var r=0;r<maxAttempts;r++){
+      h+='<div class="acc-row">';
+      for(var c=0;c<targetLen;c++){
+        var cls='acc-cell',sym='';
+        if(r<guesses.length){
+          sym=guesses[r].letters[c];
+          cls+=' '+guesses[r].fb[c];
+        } else if(r===guesses.length&&!gameOver){
+          sym=current[c]||'';
+          if(c===current.length) cls+=' cur';
+        }
+        h+='<div class="'+cls+'">'+sym+'</div>';
+      }
+      h+='</div>';
+    }
+    board.innerHTML=h;
+  }
+
+  function renderPalette(){
+    var pal=document.getElementById('acc-palette');
+    if(!pal) return;
+    var absent={};
+    guesses.forEach(function(g){
+      g.letters.forEach(function(l,i){if(g.fb[i]==='absent') absent[l]=1;});
+    });
+    var h='';
+    SYMS.forEach(function(s,idx){
+      var dis=absent[s]?'disabled':'';
+      h+='<button class="acc-sym" onclick="accType('+idx+')" '+dis+'>'+s+'</button>';
+    });
+    pal.innerHTML=h;
+  }
+
+  window.accType=function(idx){
+    if(gameOver||current.length>=targetLen) return;
+    current.push(SYMS[idx]);
+    renderBoard();
+  };
+  window.accBackspace=function(){
+    if(gameOver||!current.length) return;
+    current.pop();
+    renderBoard();
+  };
+  window.accSubmit=function(){
+    var status=document.getElementById('acc-status');
+    if(gameOver){status.textContent='> Game over. Press NEW CIPHER to play again.';return;}
+    if(current.length<targetLen){status.textContent='> Fill all 5 symbols before submitting.';return;}
+    var fb=feedback(current.slice(),TARGET);
+    guesses.push({letters:current.slice(),fb:fb});
+    current=[];
+    var won=fb.every(function(f){return f==='correct';});
+    renderBoard();
+    renderPalette();
+    if(won){
+      gameOver=true;
+      status.textContent='> CIPHER CRACKED. INTEL FRAGMENT UNLOCKED. +10 ASẸ POINTS.';
+      var frag=document.getElementById('acc-frag');
+      if(frag){
+        frag.innerHTML='<div style="font-size:.6rem;letter-spacing:2px;color:#9b59b6;margin-bottom:.5rem">ARCHITECT PLAN FRAGMENT RECOVERED:</div>'+FRAGMENTS[(guesses.length-1)%FRAGMENTS.length];
+        frag.className='acc-frag active';
+      }
+      if(window.ofrLog) ofrLog('cipherSolve','Architect cipher cracked in '+guesses.length+' attempt'+(guesses.length===1?'':'s'));
+      var data=window.ofrGetData?window.ofrGetData():null;
+      if(data){
+        data.stats=data.stats||{};
+        data.stats.cipherSolves=(data.stats.cipherSolves||0)+1;
+        data.asePoints=(data.asePoints||0)+10;
+        if(window.ofrSaveData) ofrSaveData(data);
+        if(window.ofrRefresh) ofrRefresh();
+      }
+    } else if(guesses.length>=maxAttempts){
+      gameOver=true;
+      status.textContent='> CIPHER UNBROKEN. The sequence was: '+TARGET.join(' ')+'. Press NEW CIPHER to retry.';
+    } else {
+      status.textContent='> Attempt '+guesses.length+' of '+maxAttempts+'. Keep going.';
+    }
+  };
+  window.accReset=function(){
+    rndTarget();guesses=[];current=[];gameOver=false;
+    renderBoard();renderPalette();
+    document.getElementById('acc-status').textContent='Build your 5-symbol guess using the palette above, then submit.';
+    var frag=document.getElementById('acc-frag');
+    if(frag){frag.className='acc-frag';frag.innerHTML='';}
+  };
+
+  document.addEventListener('DOMContentLoaded',function(){
+    rndTarget();renderBoard();renderPalette();
+  });
+})();
+
+/* ===== D: Lagos District Threat Status Board ===== */
+;(function(){
+  var DISTRICTS=[
+    {n:'LAGOS ISLAND',base:65},{n:'VICTORIA ISLAND',base:55},
+    {n:'ẸKỌ ATLANTIC',base:90},{n:'SURULERE',base:45},
+    {n:'YABA',base:50},{n:'MUSHIN',base:72},
+    {n:'AJEGUNLE',base:76},{n:'BADAGRY',base:40},
+  ];
+
+  function dsbStatus(t){return t>=80?'CRITICAL':t>=55?'CONTESTED':'SECURED';}
+
+  window.dsbRender=function(){
+    var grid=document.getElementById('dsb-grid');
+    var logEl=document.getElementById('dsb-log');
+    var cityVal=document.getElementById('dsb-city-val');
+    if(!grid) return;
+    var data=window.ofrGetData?window.ofrGetData():{stats:{},entries:[]};
+    var wc=data.stats&&data.stats.warRoom?data.stats.warRoom:0;
+    var total=0;
+    var h='';
+    DISTRICTS.forEach(function(d,i){
+      var t=Math.min(98,Math.max(8,d.base-(wc*3)+((i*7)%17)));
+      var cov=Math.min(93,wc*9+(i*5)%28+12);
+      var status=dsbStatus(t);
+      var tcolor=t>=80?'#ff4444':t>=55?'#F4B800':'#00C9B1';
+      total+=t;
+      h+='<div class="dsb-dist">';
+      h+='<div class="dsb-dist-name">'+d.n+'</div>';
+      h+='<div class="dsb-dist-row">';
+      h+='<span style="font-size:.68rem;color:#aaa">THREAT: <span style="color:'+tcolor+'">'+t+'%</span></span>';
+      h+='<span class="dsb-stag dsb-s-'+status+'">'+status+'</span>';
+      h+='</div>';
+      h+='<div class="dsb-bar"><div class="dsb-fill'+(cov>60?' dsb-hi':'')+'" style="width:'+cov+'%"></div></div>';
+      h+='<div class="dsb-cov">OPERATIVE COVERAGE: '+cov+'%</div>';
+      h+='</div>';
+    });
+    grid.innerHTML=h;
+    var avg=Math.round(total/DISTRICTS.length);
+    if(cityVal) cityVal.textContent=avg+'% — '+(avg>=70?'CRITICAL':avg>=50?'ELEVATED':'MANAGEABLE');
+    var entries=data.entries||[];
+    var wrLog=entries.filter(function(e){return e.type==='warRoom';}).slice(-6).reverse();
+    if(!wrLog.length){
+      logEl.innerHTML='<div class="dsb-log-e">No War Room dispatches on record. Deploy operatives to update district threat levels.</div>';
+    } else {
+      logEl.innerHTML=wrLog.map(function(e){return '<div class="dsb-log-e"><span>[WAR ROOM]</span> '+e.text+'</div>';}).join('');
+    }
+  };
+
+  document.addEventListener('DOMContentLoaded',function(){
+    dsbRender();
+  });
+})();
+
 </script>
+
+
+<section id="pale-council-dossier" style="padding:2rem 1rem;background:linear-gradient(180deg,#0a0000,#050000)">
+  <div style="max-width:720px;margin:0 auto">
+    <div style="font-size:.65rem;letter-spacing:4px;color:#b81414;margin-bottom:.3rem">INTELLIGENCE DIVISION</div>
+    <h2 style="font-size:1.4rem;color:#fff;margin:0 0 .4rem 0">PALE COUNCIL DOSSIER BUILDER</h2>
+    <p style="font-size:.82rem;color:#888;margin:0 0 1.5rem 0">Profile a known or suspected Pale Council operative. All submissions are logged to your Operative File.</p>
+    <div class="dsr-wrap">
+      <div class="dsr-grid">
+        <div class="dsr-f"><label>Operative Codename</label><input type="text" id="dsr-codename" placeholder="e.g. GLASS-7 / IRON SPINE"></div>
+        <div class="dsr-f"><label>Last Known District</label>
+          <select id="dsr-district">
+            <option value="">— select district —</option>
+            <option>Lagos Island</option><option>Victoria Island</option>
+            <option>Ẹkọ Atlantic</option><option>Surulere</option>
+            <option>Yaba</option><option>Mushin</option>
+            <option>Ajegunle</option><option>Badagry</option>
+          </select>
+        </div>
+        <div class="dsr-f"><label>Threat Tier</label>
+          <select id="dsr-tier">
+            <option value="">— select tier —</option>
+            <option value="I">TIER I — Scout / Observer</option>
+            <option value="II">TIER II — Operative / Enforcer</option>
+            <option value="III">TIER III — Commander / Architect-aligned</option>
+          </select>
+        </div>
+        <div class="dsr-f"><label>Known Capabilities</label><input type="text" id="dsr-caps" placeholder="e.g. ASẹ suppression, glass-tech interface"></div>
+        <div class="dsr-f dsr-full"><label>Behavioral Notes</label><textarea id="dsr-notes" placeholder="Describe observed behavior, known contacts, last recorded activity..."></textarea></div>
+      </div>
+      <button class="dsr-submit" onclick="dsrBuild()">COMPILE DOSSIER &rarr;</button>
+      <div class="dsr-out" id="dsr-out"></div>
+      <div class="dsr-msg" id="dsr-msg"></div>
+    </div>
+  </div>
+</section>
+
+<section id="oracle-signal-interceptor" style="padding:2rem 1rem;background:linear-gradient(180deg,#000d0c,#000806)">
+  <div style="max-width:720px;margin:0 auto">
+    <div style="font-size:.65rem;letter-spacing:4px;color:#00C9B1;margin-bottom:.3rem">ORACLE NETWORK DIVISION</div>
+    <h2 style="font-size:1.4rem;color:#fff;margin:0 0 .4rem 0">SIGNAL INTERCEPTOR</h2>
+    <p style="font-size:.82rem;color:#888;margin:0 0 1.5rem 0">Live intercepts from Pale Council and Oracle Network transmissions across Lagos. Decode packets to earn ASẹ points.</p>
+    <div class="osi-wrap">
+      <div class="osi-hdr">
+        <div class="osi-tag"><span class="osi-dot"></span>ORACLE NET // LIVE FEED</div>
+        <div style="font-size:.7rem;color:#888">DECODED: <span id="osi-count" style="color:#00C9B1">0</span></div>
+      </div>
+      <div class="osi-feed" id="osi-feed"></div>
+      <div class="osi-ftr">
+        <span>SIGNAL STRENGTH: NOMINAL</span>
+        <span>ASẹ EARNED: <span class="osi-pts" id="osi-pts">0</span> PTS</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="architect-cipher" style="padding:2rem 1rem;background:linear-gradient(180deg,#06030d,#030008)">
+  <div style="max-width:520px;margin:0 auto;text-align:center">
+    <div style="font-size:.65rem;letter-spacing:4px;color:#9b59b6;margin-bottom:.3rem">THE ARCHITECT // ENCRYPTED BROADCAST</div>
+    <h2 style="font-size:1.4rem;color:#fff;margin:0 0 .4rem 0">CIPHER CHALLENGE</h2>
+    <p style="font-size:.82rem;color:#888;margin:0 0 1.5rem 0">The Architect broadcasts a 5-symbol sequence. 5 attempts. <span style="color:#00C9B1">Teal</span> = correct position. <span style="color:#F4B800">Gold</span> = wrong position. Dim = absent.</p>
+    <div class="acc-wrap">
+      <div class="acc-title">[ CIPHER CHALLENGE // ACTIVE ]</div>
+      <div class="acc-board" id="acc-board"></div>
+      <div class="acc-palette" id="acc-palette"></div>
+      <div class="acc-ctrls">
+        <button class="acc-btn" onclick="accBackspace()">&#x232B; DEL</button>
+        <button class="acc-btn acc-primary" onclick="accSubmit()">SUBMIT GUESS</button>
+        <button class="acc-btn" onclick="accReset()">NEW CIPHER</button>
+      </div>
+      <div class="acc-status" id="acc-status">Build your 5-symbol guess using the palette above, then submit.</div>
+      <div class="acc-frag" id="acc-frag"></div>
+    </div>
+  </div>
+</section>
+
+<section id="district-status-board" style="padding:2rem 1rem;background:linear-gradient(180deg,#060600,#030300)">
+  <div style="max-width:720px;margin:0 auto">
+    <div style="font-size:.65rem;letter-spacing:4px;color:#F4B800;margin-bottom:.3rem">OPERATIONS COMMAND // REAL-TIME</div>
+    <h2 style="font-size:1.4rem;color:#fff;margin:0 0 .4rem 0">LAGOS DISTRICT THREAT STATUS</h2>
+    <p style="font-size:.82rem;color:#888;margin:0 0 1.5rem 0">Live threat assessment across all eight districts, compiled from War Room dispatch outcomes and Oracle network intelligence.</p>
+    <div class="dsb-wrap">
+      <div class="dsb-hdr">
+        <div class="dsb-tag">CITY-WIDE THREAT INDEX</div>
+        <div class="dsb-city">OVERALL: <span class="dsb-city-val" id="dsb-city-val">—</span></div>
+      </div>
+      <div class="dsb-grid" id="dsb-grid"></div>
+      <div style="font-size:.65rem;letter-spacing:2px;color:#F4B800;margin:.6rem 0 .4rem 0">RECENT DISPATCH LOG</div>
+      <div class="dsb-log" id="dsb-log"></div>
+      <button class="dsb-refresh" onclick="dsbRender()">REFRESH STATUS BOARD</button>
+    </div>
+  </div>
+</section>
 
 <!-- ══════════════════════════════════════ DOSSIER MODAL -->
 <div id="dossier-overlay" onclick="dosClose(event)">
