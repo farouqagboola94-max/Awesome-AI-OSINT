@@ -6705,6 +6705,108 @@ body.ase-vision .ase-glyph-field { display:block; }
 .evb-pros-body{color:#ccc;font-size:.75rem;line-height:1.75;white-space:pre-wrap}
 .evb-empty{color:#555;font-size:.75rem;font-style:italic;margin-top:.6rem}
 </style>
+
+<style id="v16-styles">
+/* ═══════════════════════════════════════ v16 SHARED */
+.v16-section{background:linear-gradient(135deg,#0a0a0f 0%,#110018 100%);border:1px solid #b81414;border-radius:6px;padding:1.4rem;margin:1.4rem 0;color:#e0e0e0;font-family:'Courier New',monospace;}
+.v16-title{font-size:1.05rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#F4B800;border-bottom:1px solid #333;padding-bottom:.5rem;margin-bottom:1rem;}
+.v16-subtitle{font-size:.72rem;color:#888;margin-top:-.7rem;margin-bottom:1rem;}
+.v16-btn{background:#b81414;color:#fff;border:none;border-radius:3px;padding:.38rem .9rem;font-size:.75rem;font-family:'Courier New',monospace;cursor:pointer;letter-spacing:.08em;transition:background .2s;}
+.v16-btn:hover{background:#C41E3A;}
+.v16-btn:disabled{background:#333;color:#555;cursor:not-allowed;}
+.v16-btn-gold{background:#F4B800;color:#0a0a0f;}
+.v16-btn-gold:hover{background:#d4a000;}
+.v16-btn-teal{background:#00C9B1;color:#0a0a0f;}
+.v16-btn-teal:hover{background:#00a891;}
+.v16-badge{display:inline-block;padding:.15rem .5rem;border-radius:3px;font-size:.65rem;font-weight:700;letter-spacing:.06em;}
+.v16-badge-gold{background:#F4B800;color:#0a0a0f;}
+.v16-badge-red{background:#b81414;color:#fff;}
+.v16-badge-teal{background:#00C9B1;color:#0a0a0f;}
+.v16-badge-purple{background:#9b59b6;color:#fff;}
+.v16-empty{color:#555;font-size:.8rem;text-align:center;padding:1.5rem 0;}
+
+/* ═══════════════════════════════════════ SIS – Signal Intercept Station */
+#signal-intercept-station{}
+.sis-signal-card{background:#0d0d14;border:1px solid #2a2a3a;border-radius:4px;padding:1rem;margin-bottom:.8rem;}
+.sis-signal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem;}
+.sis-cipher-label{font-size:.65rem;color:#00C9B1;letter-spacing:.1em;text-transform:uppercase;}
+.sis-reward-label{font-size:.65rem;color:#F4B800;}
+.sis-signal-text{font-size:.8rem;color:#c0c0c0;word-break:break-all;background:#080810;padding:.5rem;border-radius:3px;border:1px solid #1a1a2a;letter-spacing:.04em;line-height:1.6;}
+.sis-decode-row{display:flex;gap:.5rem;margin-top:.7rem;align-items:center;}
+.sis-decode-input{flex:1;background:#0a0a14;border:1px solid #333;border-radius:3px;padding:.35rem .6rem;color:#e0e0e0;font-size:.75rem;font-family:'Courier New',monospace;}
+.sis-decode-input:focus{outline:none;border-color:#b81414;}
+.sis-decoded-badge{font-size:.7rem;color:#00C9B1;}
+.sis-stats{display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap;}
+.sis-stat{background:#0d0d14;border:1px solid #1a1a2a;border-radius:3px;padding:.4rem .8rem;font-size:.72rem;}
+.sis-stat-val{color:#F4B800;font-weight:700;}
+
+/* ═══════════════════════════════════════ OPC – Operative Chronicle */
+#operative-chronicle{}
+.opc-filters{display:flex;gap:.4rem;margin-bottom:.9rem;flex-wrap:wrap;}
+.opc-filter-btn{background:#111;border:1px solid #333;color:#888;border-radius:3px;padding:.22rem .6rem;font-size:.65rem;cursor:pointer;font-family:'Courier New',monospace;letter-spacing:.06em;}
+.opc-filter-btn.active,.opc-filter-btn:hover{border-color:#b81414;color:#e0e0e0;}
+.opc-timeline{max-height:340px;overflow-y:auto;padding-right:.3rem;}
+.opc-timeline::-webkit-scrollbar{width:4px;}
+.opc-timeline::-webkit-scrollbar-thumb{background:#333;}
+.opc-entry{display:flex;gap:.7rem;padding:.55rem 0;border-bottom:1px solid #111;align-items:flex-start;}
+.opc-entry:last-child{border-bottom:none;}
+.opc-dot{width:8px;height:8px;border-radius:50%;margin-top:.28rem;flex-shrink:0;}
+.opc-dot-gold{background:#F4B800;}
+.opc-dot-red{background:#b81414;}
+.opc-dot-teal{background:#00C9B1;}
+.opc-dot-purple{background:#9b59b6;}
+.opc-entry-body{flex:1;}
+.opc-entry-label{font-size:.75rem;color:#e0e0e0;line-height:1.4;}
+.opc-entry-meta{font-size:.62rem;color:#555;margin-top:.18rem;}
+.opc-entry-ase{font-size:.65rem;color:#F4B800;font-weight:700;}
+.opc-stats-bar{display:flex;gap:.8rem;margin-bottom:.8rem;flex-wrap:wrap;}
+.opc-stat-chip{font-size:.65rem;background:#0d0d14;border:1px solid #1a1a2a;border-radius:3px;padding:.25rem .55rem;}
+.opc-stat-chip span{color:#F4B800;font-weight:700;}
+
+/* ═══════════════════════════════════════ BMS – Black Market Syndicate */
+#black-market-syndicate{}
+.bms-header-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:.9rem;flex-wrap:wrap;gap:.4rem;}
+.bms-bank{font-size:.75rem;}
+.bms-bank-val{color:#F4B800;font-weight:700;}
+.bms-lots-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.7rem;margin-bottom:1rem;}
+.bms-lot{background:#0d0d14;border:1px solid #2a2a3a;border-radius:4px;padding:.8rem;position:relative;}
+.bms-lot.owned{border-color:#00C9B1;}
+.bms-lot-name{font-size:.75rem;font-weight:700;color:#e0e0e0;margin-bottom:.25rem;}
+.bms-lot-desc{font-size:.65rem;color:#888;margin-bottom:.5rem;line-height:1.4;}
+.bms-lot-price{font-size:.7rem;color:#F4B800;font-weight:700;margin-bottom:.45rem;}
+.bms-lot-type{position:absolute;top:.5rem;right:.5rem;font-size:.58rem;}
+.bms-fence-section{background:#080810;border:1px solid #1a1a2a;border-radius:4px;padding:.8rem;margin-top:.6rem;}
+.bms-fence-title{font-size:.7rem;color:#9b59b6;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.6rem;}
+.bms-fence-grid{display:flex;flex-wrap:wrap;gap:.4rem;}
+.bms-fence-item{background:#0d0d14;border:1px solid #2a2a3a;border-radius:3px;padding:.3rem .6rem;font-size:.65rem;display:flex;align-items:center;gap:.4rem;}
+.bms-fence-val{color:#9b59b6;font-weight:700;}
+
+/* ═══════════════════════════════════════ LNM – Lagos Network Map */
+#lagos-network-map{}
+.lnm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-bottom:1rem;}
+.lnm-district{background:#0d0d14;border:1px solid #2a2a3a;border-radius:4px;padding:.7rem .6rem;cursor:pointer;transition:border-color .2s,background .2s;text-align:center;position:relative;}
+.lnm-district:hover,.lnm-district.selected{border-color:#F4B800;background:#110018;}
+.lnm-district-name{font-size:.7rem;font-weight:700;color:#e0e0e0;letter-spacing:.05em;margin-bottom:.3rem;}
+.lnm-threat-bar{height:4px;border-radius:2px;background:#1a1a2a;overflow:hidden;margin-bottom:.3rem;}
+.lnm-threat-fill{height:100%;border-radius:2px;transition:width .4s;}
+.lnm-threat-label{font-size:.58rem;color:#888;}
+.lnm-threat-1 .lnm-threat-fill{background:#00C9B1;width:20%;}
+.lnm-threat-2 .lnm-threat-fill{background:#4ecdc4;width:35%;}
+.lnm-threat-3 .lnm-threat-fill{background:#F4B800;width:55%;}
+.lnm-threat-4 .lnm-threat-fill{background:#e67e22;width:75%;}
+.lnm-threat-5 .lnm-threat-fill{background:#b81414;width:95%;}
+.lnm-detail{background:#080810;border:1px solid #2a2a3a;border-radius:4px;padding:1rem;margin-top:.4rem;display:none;}
+.lnm-detail.visible{display:block;}
+.lnm-detail-name{font-size:.9rem;font-weight:700;color:#F4B800;margin-bottom:.4rem;}
+.lnm-detail-desc{font-size:.75rem;color:#aaa;line-height:1.55;margin-bottom:.6rem;}
+.lnm-detail-stats{display:flex;gap:.7rem;flex-wrap:wrap;}
+.lnm-detail-stat{font-size:.65rem;background:#0d0d14;border:1px solid #1a1a2a;border-radius:3px;padding:.25rem .55rem;}
+.lnm-detail-stat span{color:#00C9B1;font-weight:700;}
+.lnm-legend{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.5rem;}
+.lnm-legend-item{font-size:.62rem;color:#666;display:flex;align-items:center;gap:.25rem;}
+.lnm-legend-dot{width:8px;height:8px;border-radius:50%;}
+</style>
+
 </head>
 <body>
 
@@ -16415,6 +16517,10 @@ window.volunteerForMission = function(){
     if(window.mbgRender) mbgRender();
     if(window.ocdRender) ocdRender();
     if(window.evbRender) evbRender();
+    if(window.sisRender) sisRender();
+    if(window.opcRender) opcRender();
+    if(window.bmsRender) bmsRender();
+    if(window.lnmRender) lnmRender();
   }
 
   window.ofrClearRecord = function(){
@@ -17938,7 +18044,471 @@ document.addEventListener('DOMContentLoaded', function(){
 
 })();
 
+
 </script>
+
+<!-- v16: SIS / OPC / BMS / LNM -->
+<script>
+// ═══════════════════════════════════════ SIS – Signal Intercept Station
+(function(){
+  var SIGNALS = [
+    {id:'sis1',type:'CAESAR',shift:3,plain:'AWAKE THE CITY BREATHES LIES',reward:80},
+    {id:'sis2',type:'CAESAR',shift:7,plain:'FOLLOW THE BLOOD TRAIL NORTH',reward:80},
+    {id:'sis3',type:'CAESAR',shift:13,plain:'TRUST NO ONE ABOVE FIFTH TIER',reward:80},
+    {id:'sis4',type:'ATBASH',plain:'ORACLE WATCHES EVERY MOVE',reward:90},
+    {id:'sis5',type:'ATBASH',plain:'SHADOWS SPEAK IN BROKEN CODE',reward:90},
+    {id:'sis6',type:'ATBASH',plain:'NINE NAMES ONE TRIGGER',reward:90},
+    {id:'sis7',type:'MORSE',plain:'SIGNAL LOST FIND THE NODE',reward:100},
+    {id:'sis8',type:'MORSE',plain:'DANGER LEVEL CRITICAL NOW',reward:100},
+    {id:'sis9',type:'MORSE',plain:'MEET AT THE IRON BRIDGE',reward:100},
+    {id:'sis10',type:'ROT13',plain:'REMEMBER WHO SENT YOU HERE',reward:85},
+    {id:'sis11',type:'ROT13',plain:'THE SYNDICATE NEVER FORGIVES',reward:85},
+    {id:'sis12',type:'ROT13',plain:'CATALYST IS ALMOST AWAKE',reward:85},
+  ];
+
+  function caesarEncode(text, shift){
+    return text.replace(/[A-Z]/g, function(c){
+      return String.fromCharCode(((c.charCodeAt(0)-65+shift)%26)+65);
+    });
+  }
+  function atbashEncode(text){
+    return text.replace(/[A-Z]/g, function(c){
+      return String.fromCharCode(90-(c.charCodeAt(0)-65));
+    });
+  }
+  var MORSE_MAP = {A:'.-',B:'-...',C:'-.-.',D:'-..',E:'.',F:'..-.',G:'--.',H:'....',I:'..',J:'.---',K:'-.-',L:'.-..',M:'--',N:'-.',O:'---',P:'.--.',Q:'--.-',R:'.-.',S:'...',T:'-',U:'..-',V:'...-',W:'.--',X:'-..-',Y:'-.--',Z:'--..',' ':'/'};
+  function morseEncode(text){
+    return text.split('').map(function(c){return MORSE_MAP[c]||c;}).join(' ');
+  }
+  function rot13Encode(text){
+    return text.replace(/[A-Z]/g, function(c){
+      return String.fromCharCode(((c.charCodeAt(0)-65+13)%26)+65);
+    });
+  }
+  function encodedText(sig){
+    if(sig.type==='CAESAR') return caesarEncode(sig.plain, sig.shift);
+    if(sig.type==='ATBASH') return atbashEncode(sig.plain);
+    if(sig.type==='MORSE')  return morseEncode(sig.plain);
+    if(sig.type==='ROT13')  return rot13Encode(sig.plain);
+    return sig.plain;
+  }
+
+  // Pick 3 active signals per day using date seed
+  function dailySeed(){
+    var d=new Date(); return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();
+  }
+  function seededShuffle(arr, seed){
+    var a=arr.slice(),s=seed;
+    for(var i=a.length-1;i>0;i--){
+      s=(s*1664525+1013904223)&0xffffffff;
+      var j=Math.abs(s)%(i+1);
+      var t=a[i];a[i]=a[j];a[j]=t;
+    }
+    return a;
+  }
+  function getActiveSignals(){
+    var shuffled=seededShuffle(SIGNALS, dailySeed());
+    return shuffled.slice(0,3);
+  }
+
+  function sisDecode(sigId, input){
+    var data=window.ofrGetData();
+    var sig=SIGNALS.find(function(s){return s.id===sigId;});
+    if(!sig) return;
+    if(!data.sisDecoded) data.sisDecoded=[];
+    if(data.sisDecoded.indexOf(sigId)>=0){alert('Signal already decoded.');return;}
+    var guess=input.toUpperCase().replace(/\s+/g,' ').trim();
+    var answer=sig.plain.trim();
+    if(guess===answer){
+      data.sisDecoded.push(sigId);
+      data.ase=(data.ase||0)+sig.reward;
+      window.ofrSaveData(data);
+      if(window.opcLog) opcLog('sis','Decoded '+sig.type+' signal: '+sig.plain.substring(0,20)+'...',sig.reward);
+      window.ofrRefresh();
+    } else {
+      var el=document.getElementById('sis-err-'+sigId);
+      if(el){el.textContent='Incorrect. Try again.';setTimeout(function(){el.textContent='';},2000);}
+    }
+  }
+
+  function sisRender(){
+    var el=document.getElementById('signal-intercept-station');
+    if(!el) return;
+    var data=window.ofrGetData();
+    var decoded=data.sisDecoded||[];
+    var active=getActiveSignals();
+    var totalDecoded=decoded.length;
+    var totalSignals=SIGNALS.length;
+    var html='<div class="v16-title">SIGNAL INTERCEPT STATION</div>';
+    html+='<div class="v16-subtitle">Cipher Hub — Decode intercepted transmissions for Aṣẹ rewards</div>';
+    html+='<div class="sis-stats">';
+    html+='<div class="sis-stat">Active Signals: <span class="sis-stat-val">'+active.length+'</span></div>';
+    html+='<div class="sis-stat">Total Decoded: <span class="sis-stat-val">'+totalDecoded+'/'+totalSignals+'</span></div>';
+    html+='<div class="sis-stat">Operative Aṣẹ: <span class="sis-stat-val">'+(data.ase||0)+'</span></div>';
+    html+='</div>';
+    active.forEach(function(sig){
+      var isDecoded=decoded.indexOf(sig.id)>=0;
+      html+='<div class="sis-signal-card">';
+      html+='<div class="sis-signal-header">';
+      html+='<span class="sis-cipher-label">'+sig.type+'</span>';
+      html+='<span class="sis-reward-label">+'+sig.reward+' Aṣẹ</span>';
+      html+='</div>';
+      html+='<div class="sis-signal-text">'+encodedText(sig)+'</div>';
+      if(isDecoded){
+        html+='<div class="sis-decoded-badge" style="margin-top:.5rem;">✓ DECODED — '+sig.plain+'</div>';
+      } else {
+        html+='<div class="sis-decode-row">';
+        html+='<input class="sis-decode-input" id="sis-input-'+sig.id+'" type="text" placeholder="Enter decoded message..." />';
+        html+='<button class="v16-btn" onclick="sisDecode(\''+sig.id+'\',document.getElementById(\'sis-input-'+sig.id+'\').value)">DECODE</button>';
+        html+='</div>';
+        html+='<div id="sis-err-'+sig.id+'" style="font-size:.65rem;color:#b81414;margin-top:.3rem;min-height:1em;"></div>';
+      }
+      html+='</div>';
+    });
+    el.innerHTML=html;
+  }
+
+  window.sisDecode=sisDecode;
+  window.sisRender=sisRender;
+  document.addEventListener('DOMContentLoaded',function(){if(document.getElementById('signal-intercept-station')) sisRender();});
+})();
+
+// ═══════════════════════════════════════ OPC – Operative Chronicle
+(function(){
+  var CATEGORIES={
+    oar:{dot:'opc-dot-gold',label:'Asset Repository'},
+    mbg:{dot:'opc-dot-teal',label:'Mission Briefing'},
+    evb:{dot:'opc-dot-red',label:'Evidence Board'},
+    sis:{dot:'opc-dot-purple',label:'Signal Intercept'},
+    bms:{dot:'opc-dot-gold',label:'Black Market'},
+    lnm:{dot:'opc-dot-teal',label:'Network Map'},
+    sys:{dot:'opc-dot-red',label:'System'},
+  };
+
+  function opcLog(cat, desc, ase){
+    var data=window.ofrGetData();
+    if(!data.chronicle) data.chronicle=[];
+    var entry={cat:cat,desc:desc,ts:Date.now(),ase:ase||0};
+    data.chronicle.unshift(entry);
+    if(data.chronicle.length>120) data.chronicle=data.chronicle.slice(0,120);
+    window.ofrSaveData(data);
+  }
+
+  function opcFormatTime(ts){
+    var d=new Date(ts);
+    var h=d.getHours().toString().padStart(2,'0');
+    var m=d.getMinutes().toString().padStart(2,'0');
+    var mo=(d.getMonth()+1).toString().padStart(2,'0');
+    var da=d.getDate().toString().padStart(2,'0');
+    return da+'/'+mo+' '+h+':'+m;
+  }
+
+  var _activeFilter='all';
+
+  function opcRender(){
+    var el=document.getElementById('operative-chronicle');
+    if(!el) return;
+    var data=window.ofrGetData();
+    var chronicle=data.chronicle||[];
+    var cats=Object.keys(CATEGORIES);
+    var html='<div class="v16-title">OPERATIVE CHRONICLE</div>';
+    html+='<div class="v16-subtitle">Auto-logged action timeline across all modules</div>';
+    var totalAse=chronicle.reduce(function(a,e){return a+(e.ase||0);},0);
+    html+='<div class="opc-stats-bar">';
+    html+='<div class="opc-stat-chip">Entries: <span>'+chronicle.length+'</span></div>';
+    html+='<div class="opc-stat-chip">Aṣẹ Earned: <span>'+totalAse+'</span></div>';
+    html+='</div>';
+    html+='<div class="opc-filters">';
+    html+='<button class="opc-filter-btn'+((_activeFilter==='all')?' active':'')+'" onclick="opcSetFilter(\'all\')">ALL</button>';
+    cats.forEach(function(c){
+      html+='<button class="opc-filter-btn'+((_activeFilter===c)?' active':'')+'" onclick="opcSetFilter(\''+c+'\')">'+CATEGORIES[c].label.toUpperCase()+'</button>';
+    });
+    html+='</div>';
+    var filtered=(_activeFilter==='all')?chronicle:chronicle.filter(function(e){return e.cat===_activeFilter;});
+    html+='<div class="opc-timeline">';
+    if(filtered.length===0){
+      html+='<div class="v16-empty">No chronicle entries yet. Start taking actions across modules.</div>';
+    } else {
+      filtered.forEach(function(e){
+        var catInfo=CATEGORIES[e.cat]||{dot:'opc-dot-red',label:e.cat};
+        html+='<div class="opc-entry">';
+        html+='<div class="opc-dot '+catInfo.dot+'"></div>';
+        html+='<div class="opc-entry-body">';
+        html+='<div class="opc-entry-label">'+e.desc+'</div>';
+        html+='<div class="opc-entry-meta">'+catInfo.label+' &bull; '+opcFormatTime(e.ts)+(e.ase?' &bull; <span class="opc-entry-ase">+'+e.ase+' Aṣẹ</span>':'')+'</div>';
+        html+='</div></div>';
+      });
+    }
+    html+='</div>';
+    el.innerHTML=html;
+  }
+
+  function opcSetFilter(f){
+    _activeFilter=f;
+    opcRender();
+  }
+
+  // Wrap existing window functions to auto-log
+  function wrap(fnName, cat, descFn){
+    var orig=window[fnName];
+    if(!orig) return;
+    window[fnName]=function(){
+      var result=orig.apply(this,arguments);
+      try{
+        var desc=descFn.apply(this,arguments);
+        if(desc) opcLog(cat,desc,0);
+      }catch(e){}
+      return result;
+    };
+  }
+
+  // We wrap after a slight delay to ensure other modules have loaded
+  setTimeout(function(){
+    if(window.oarBuy){
+      var _oarBuy=window.oarBuy;
+      window.oarBuy=function(id){
+        var result=_oarBuy(id);
+        opcLog('oar','Purchased asset from Oracle Repository: '+id,0);
+        return result;
+      };
+    }
+    if(window.mbgGenerate){
+      var _mbgGen=window.mbgGenerate;
+      window.mbgGenerate=function(){
+        var result=_mbgGen.apply(this,arguments);
+        opcLog('mbg','Generated new mission briefing',0);
+        return result;
+      };
+    }
+    if(window.evbSubmit){
+      var _evbSubmit=window.evbSubmit;
+      window.evbSubmit=function(){
+        var result=_evbSubmit.apply(this,arguments);
+        opcLog('evb','Submitted evidence to the board',0);
+        return result;
+      };
+    }
+    if(window.evbTribunal){
+      var _evbTrib=window.evbTribunal;
+      window.evbTribunal=function(){
+        var result=_evbTrib.apply(this,arguments);
+        opcLog('evb','Triggered Evidence Tribunal',0);
+        return result;
+      };
+    }
+  },200);
+
+  window.opcLog=opcLog;
+  window.opcRender=opcRender;
+  window.opcSetFilter=opcSetFilter;
+  document.addEventListener('DOMContentLoaded',function(){if(document.getElementById('operative-chronicle')) opcRender();});
+})();
+
+// ═══════════════════════════════════════ BMS – Black Market Syndicate
+(function(){
+  var LOTS=[
+    {id:'bms1',name:'Ghost Protocol Dossier',desc:'Classified operative identity records from the inner ring.',price:180,type:'intel'},
+    {id:'bms2',name:'Encrypted Comms Array',desc:'Intercepted frequency band access for 48 hours.',price:220,type:'tech'},
+    {id:'bms3',name:'Shadow Passage Permit',desc:'Safe passage through three Lagos checkpoints, no questions.',price:150,type:'access'},
+    {id:'bms4',name:'Black Site Coordinates',desc:'Location of a decommissioned network node.',price:200,type:'intel'},
+    {id:'bms5',name:'Bio-Synth Injector',desc:'Enhances operative perception for one mission cycle.',price:260,type:'gear'},
+    {id:'bms6',name:'Syndicate Ledger Fragment',desc:'Partial accounts of the inner sanctum finances.',price:190,type:'intel'},
+    {id:'bms7',name:'Phantom Frequency Jammer',desc:'Disrupt surveillance feeds within a 200m radius.',price:240,type:'tech'},
+    {id:'bms8',name:'Lagos Harbor Manifest',desc:'Cargo movement records, perfect for tracking contraband.',price:170,type:'intel'},
+    {id:'bms9',name:'Neural Override Key',desc:'Single-use override for a Class-3 security terminal.',price:280,type:'tech'},
+    {id:'bms10',name:'Identity Mask Kit',desc:'Complete physical disguise package, three uses.',price:210,type:'gear'},
+    {id:'bms11',name:'Deep Cover Legend',desc:'Forged background documentation for one alias.',price:250,type:'access'},
+    {id:'bms12',name:'Corrosive Data Slug',desc:'Wipes a target system\'s session logs instantly.',price:195,type:'tech'},
+    {id:'bms13',name:'Orisha Sigil Rubbing',desc:'Ritual transcription rumoured to unlock hidden paths.',price:160,type:'mystic'},
+    {id:'bms14',name:'Catalyst Fragment',desc:'A shard of unknown origin with anomalous readings.',price:300,type:'mystic'},
+    {id:'bms15',name:'Extraction Vector Map',desc:'Emergency exfil routes from all major Lagos districts.',price:230,type:'access'},
+  ];
+
+  // OAR asset fence values
+  var OAR_FENCE_VALUE={
+    'oar-1':60,'oar-2':80,'oar-3':50,'oar-4':70,'oar-5':90,
+    'oar-6':55,'oar-7':65,'oar-8':75,'oar-9':85,'oar-10':95,
+  };
+
+  function dailySeed(){
+    var d=new Date(); return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();
+  }
+  function seededShuffle(arr, seed){
+    var a=arr.slice(),s=seed;
+    for(var i=a.length-1;i>0;i--){
+      s=(s*1664525+1013904223)&0xffffffff;
+      var j=Math.abs(s)%(i+1);
+      var t=a[i];a[i]=a[j];a[j]=t;
+    }
+    return a;
+  }
+  function getDailyLots(){
+    return seededShuffle(LOTS, dailySeed()).slice(0,5);
+  }
+
+  var TYPE_COLORS={intel:'v16-badge-teal',tech:'v16-badge-purple',access:'v16-badge-gold',gear:'v16-badge-red',mystic:'v16-badge-red'};
+
+  function bmsBid(lotId){
+    var data=window.ofrGetData();
+    var lot=LOTS.find(function(l){return l.id===lotId;});
+    if(!lot) return;
+    if(!data.bmsOwned) data.bmsOwned=[];
+    if(data.bmsOwned.indexOf(lotId)>=0){alert('Already acquired.');return;}
+    var ase=data.ase||0;
+    if(ase<lot.price){alert('Insufficient Aṣẹ. Need '+lot.price+', have '+ase+'.');return;}
+    data.ase=ase-lot.price;
+    data.bmsOwned.push(lotId);
+    window.ofrSaveData(data);
+    if(window.opcLog) opcLog('bms','Acquired from Black Market: '+lot.name,0);
+    window.ofrRefresh();
+  }
+
+  function bmsFence(assetKey){
+    var data=window.ofrGetData();
+    var val=OAR_FENCE_VALUE[assetKey]||40;
+    if(!data.assets||!data.assets[assetKey]){alert('Asset not owned.');return;}
+    delete data.assets[assetKey];
+    data.ase=(data.ase||0)+val;
+    window.ofrSaveData(data);
+    if(window.opcLog) opcLog('bms','Fenced asset '+assetKey+' for '+val+' Aṣẹ',val);
+    window.ofrRefresh();
+  }
+
+  function bmsRender(){
+    var el=document.getElementById('black-market-syndicate');
+    if(!el) return;
+    var data=window.ofrGetData();
+    var owned=data.bmsOwned||[];
+    var ase=data.ase||0;
+    var daily=getDailyLots();
+    var assets=data.assets||{};
+    var fenceable=Object.keys(assets).filter(function(k){return k.startsWith('oar-')&&assets[k];});
+
+    var html='<div class="v16-title">BLACK MARKET SYNDICATE</div>';
+    html+='<div class="v16-subtitle">Secondary Aṣẹ economy — bid on rotating lots, fence acquired assets</div>';
+    html+='<div class="bms-header-row">';
+    html+='<div class="bms-bank">Operative Aṣẹ: <span class="bms-bank-val">'+ase+'</span></div>';
+    html+='<div class="v16-badge v16-badge-red">'+daily.length+' LOTS TODAY</div>';
+    html+='</div>';
+    html+='<div class="bms-lots-grid">';
+    daily.forEach(function(lot){
+      var isOwned=owned.indexOf(lot.id)>=0;
+      var tclass=TYPE_COLORS[lot.type]||'v16-badge-red';
+      html+='<div class="bms-lot'+(isOwned?' owned':'')+'">';
+      html+='<div class="bms-lot-type"><span class="v16-badge '+tclass+'">'+lot.type.toUpperCase()+'</span></div>';
+      html+='<div class="bms-lot-name">'+lot.name+'</div>';
+      html+='<div class="bms-lot-desc">'+lot.desc+'</div>';
+      html+='<div class="bms-lot-price">'+lot.price+' Aṣẹ</div>';
+      if(isOwned){
+        html+='<div class="v16-badge v16-badge-teal">OWNED</div>';
+      } else {
+        html+='<button class="v16-btn'+(ase>=lot.price?'':' v16-btn-disabled')+'" '+(ase<lot.price?'disabled':'')+' onclick="bmsBid(\''+lot.id+'\')">BID</button>';
+      }
+      html+='</div>';
+    });
+    html+='</div>';
+
+    // Fence section
+    html+='<div class="bms-fence-section">';
+    html+='<div class="bms-fence-title">ASSET FENCING — Convert OAR assets to Aṣẹ</div>';
+    if(fenceable.length===0){
+      html+='<div class="v16-empty" style="padding:.5rem 0;">No fenceable assets. Purchase from Oracle Asset Repository first.</div>';
+    } else {
+      html+='<div class="bms-fence-grid">';
+      fenceable.forEach(function(k){
+        var val=OAR_FENCE_VALUE[k]||40;
+        html+='<div class="bms-fence-item">'+k+' <span class="bms-fence-val">+'+val+' Aṣẹ</span> <button class="v16-btn" style="padding:.2rem .5rem;font-size:.6rem;" onclick="bmsFence(\''+k+'\')">FENCE</button></div>';
+      });
+      html+='</div>';
+    }
+    html+='</div>';
+    el.innerHTML=html;
+  }
+
+  window.bmsBid=bmsBid;
+  window.bmsFence=bmsFence;
+  window.bmsRender=bmsRender;
+  document.addEventListener('DOMContentLoaded',function(){if(document.getElementById('black-market-syndicate')) bmsRender();});
+})();
+
+// ═══════════════════════════════════════ LNM – Lagos Network Map
+(function(){
+  var DISTRICTS=[
+    {id:'lagos-island',name:'Lagos Island',threat:5,desc:'The financial and political core. Surveillance density is maximum — every corner monitored, every face logged. Oracle operatives consider this the most hostile terrain in the network.',pop:'2.1M',cover:'Corporate towers',activity:'Extreme'},
+    {id:'victoria-island',name:'Victoria Island',threat:4,desc:'Diplomatic enclaves and elite residences. Private security exceeds state forces. The Syndicate moves product here at night when embassy lights go dark.',pop:'850K',cover:'Diplomatic compounds',activity:'High'},
+    {id:'ikeja',name:'Ikeja',threat:3,desc:'The mainland capital. Government ministries, military barracks, and the most accessible communication nodes. Moderate risk, high intelligence yield.',pop:'3.1M',cover:'Government offices',activity:'Moderate'},
+    {id:'lekki',name:'Lekki',threat:3,desc:'New money, new surveillance. Tech corridors and toll infrastructure create digital chokepoints. Useful for intercepting data couriers.',pop:'1.8M',cover:'Tech corridor',activity:'Moderate'},
+    {id:'yaba',name:'Yaba',threat:2,desc:'Lagos\'s silicon hub. Innovation districts provide operational cover. Low state presence, high civilian density — ideal for deep-cover insertions.',pop:'1.2M',cover:'Startup hubs',activity:'Low'},
+    {id:'apapa',name:'Apapa',threat:4,desc:'The port district. Billions in cargo flow through corrupted manifests. The harbour is controlled by three factions simultaneously — none of whom trust each other.',pop:'680K',cover:'Port logistics',activity:'High'},
+    {id:'surulere',name:'Surulere',threat:2,desc:'Working-class stronghold with strong community networks. Difficult for outside operatives — locals notice everything. Safe houses here are extremely reliable.',pop:'1.5M',cover:'Residential blocks',activity:'Low'},
+    {id:'ikoyi',name:'Ikoyi',threat:3,desc:'Old money, old loyalties. Colonial-era compounds hide modern operations. The Catalyst signal was first detected here before it went dark.',pop:'320K',cover:'Colonial estates',activity:'Moderate'},
+  ];
+
+  var THREAT_LABELS=['','MINIMAL','LOW','MODERATE','HIGH','CRITICAL'];
+
+  var _selectedDistrict=null;
+
+  function lnmSelectDistrict(id){
+    _selectedDistrict=(id===_selectedDistrict)?null:id;
+    lnmRender();
+    if(id && window.opcLog) opcLog('lnm','Scanned district: '+id,0);
+  }
+
+  function lnmRender(){
+    var el=document.getElementById('lagos-network-map');
+    if(!el) return;
+    var html='<div class="v16-title">LAGOS NETWORK MAP</div>';
+    html+='<div class="v16-subtitle">District threat assessment — click to drill down</div>';
+    html+='<div class="lnm-grid">';
+    DISTRICTS.forEach(function(d){
+      var isSelected=(_selectedDistrict===d.id);
+      html+='<div class="lnm-district lnm-threat-'+d.threat+(isSelected?' selected':'')+'" onclick="lnmSelectDistrict(\''+d.id+'\')">';
+      html+='<div class="lnm-district-name">'+d.name+'</div>';
+      html+='<div class="lnm-threat-bar"><div class="lnm-threat-fill"></div></div>';
+      html+='<div class="lnm-threat-label">'+THREAT_LABELS[d.threat]+'</div>';
+      html+='</div>';
+    });
+    html+='</div>';
+
+    // Detail panel
+    if(_selectedDistrict){
+      var d=DISTRICTS.find(function(x){return x.id===_selectedDistrict;});
+      if(d){
+        html+='<div class="lnm-detail visible">';
+        html+='<div class="lnm-detail-name">'+d.name.toUpperCase()+' — THREAT LEVEL '+d.threat+': '+THREAT_LABELS[d.threat]+'</div>';
+        html+='<div class="lnm-detail-desc">'+d.desc+'</div>';
+        html+='<div class="lnm-detail-stats">';
+        html+='<div class="lnm-detail-stat">Population <span>'+d.pop+'</span></div>';
+        html+='<div class="lnm-detail-stat">Cover <span>'+d.cover+'</span></div>';
+        html+='<div class="lnm-detail-stat">Activity <span>'+d.activity+'</span></div>';
+        html+='</div></div>';
+      }
+    }
+
+    html+='<div class="lnm-legend">';
+    var legendItems=[
+      {color:'#00C9B1',label:'Minimal'},
+      {color:'#4ecdc4',label:'Low'},
+      {color:'#F4B800',label:'Moderate'},
+      {color:'#e67e22',label:'High'},
+      {color:'#b81414',label:'Critical'},
+    ];
+    legendItems.forEach(function(item){
+      html+='<div class="lnm-legend-item"><div class="lnm-legend-dot" style="background:'+item.color+'"></div>'+item.label+'</div>';
+    });
+    html+='</div>';
+    el.innerHTML=html;
+  }
+
+  window.lnmSelectDistrict=lnmSelectDistrict;
+  window.lnmRender=lnmRender;
+  document.addEventListener('DOMContentLoaded',function(){if(document.getElementById('lagos-network-map')) lnmRender();});
+})();
+</script>
+
+
+
+
 
 
 <section id="pale-council-dossier" style="padding:2rem 1rem;background:linear-gradient(180deg,#0a0000,#050000)">
@@ -18292,6 +18862,19 @@ document.addEventListener('DOMContentLoaded', function(){
     <div class="evb-pros-body" id="evb-pros-body"></div>
   </div>
 </section>
+
+
+<!-- ══════════════════════════════════════ v16: SIGNAL INTERCEPT STATION -->
+<section id="signal-intercept-station" class="v16-section"></section>
+
+<!-- ══════════════════════════════════════ v16: OPERATIVE CHRONICLE -->
+<section id="operative-chronicle" class="v16-section"></section>
+
+<!-- ══════════════════════════════════════ v16: BLACK MARKET SYNDICATE -->
+<section id="black-market-syndicate" class="v16-section"></section>
+
+<!-- ══════════════════════════════════════ v16: LAGOS NETWORK MAP -->
+<section id="lagos-network-map" class="v16-section"></section>
 
 <!-- ══════════════════════════════════════ DOSSIER MODAL -->
 <div id="dossier-overlay" onclick="dosClose(event)">
