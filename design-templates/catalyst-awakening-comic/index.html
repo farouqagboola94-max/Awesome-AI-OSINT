@@ -4893,12 +4893,15 @@
 .realm-icon { display: none; } /* hide emoji, show SVG instead */
 
 /* ── Real Cinematic Photo Upgrades ───────────────────────── */
-.hero-canva-bg { opacity: 0.18 !important; mix-blend-mode: luminosity !important; }
+.hero-canva-bg { opacity: 0.28 !important; mix-blend-mode: luminosity !important; }
 .char-photo-bg { opacity: 0.50 !important; mix-blend-mode: multiply !important; }
 .char-card:hover .char-photo-bg { opacity: 0.72 !important; }
 /* ── Higgsfield character portraits ── */
 .hf-portrait { opacity: 0.72 !important; mix-blend-mode: screen !important; object-position: center top !important; }
 .char-card:hover .hf-portrait { opacity: 0.90 !important; }
+/* ── Illustrated character portraits — full-render art, no blend mode needed ── */
+.illustrated-portrait { opacity: 0.88 !important; mix-blend-mode: normal !important; object-position: center top !important; object-fit: cover !important; }
+.char-card:hover .illustrated-portrait { opacity: 1.0 !important; }
 .panel-canva-wrap img { opacity: 0.55 !important; mix-blend-mode: multiply !important; }
 .issue-canva-overlay { opacity: 0.45 !important; mix-blend-mode: multiply !important; }
 .issue-card:hover .issue-canva-overlay { opacity: 0.65 !important; }
@@ -5372,10 +5375,10 @@ body { padding-top: 26px; }
   z-index: 0;
   transition: opacity 0.4s;
 }
-#manifesto       .section-photo-bg { opacity: 0.07; filter: saturate(0.5) brightness(0.7); object-position: center 30%; }
-#universe        .section-photo-bg { opacity: 0.09; filter: saturate(0.45) brightness(0.65) hue-rotate(200deg); }
+#manifesto       .section-photo-bg { opacity: 0.14; filter: saturate(0.55) brightness(0.45); object-position: center 30%; }
+#universe        .section-photo-bg { opacity: 0.18; filter: saturate(0.6) brightness(0.5); }
 #lagos-map       .section-photo-bg { opacity: 0.08; filter: saturate(0.4) brightness(0.6) hue-rotate(180deg); object-position: center 60%; }
-#characters      .section-photo-bg { opacity: 0.10; filter: saturate(0.55) brightness(0.7) hue-rotate(10deg); }
+#characters      .section-photo-bg { opacity: 0.16; filter: saturate(0.65) brightness(0.45); }
 #oracle-terminal .section-photo-bg { opacity: 0.06; filter: saturate(0.3) brightness(0.5) hue-rotate(150deg); }
 #arcs            .section-photo-bg { opacity: 0.08; filter: saturate(0.4) brightness(0.55); }
 #ase-system      .section-photo-bg { opacity: 0.07; filter: saturate(0.35) brightness(0.6); }
@@ -7171,7 +7174,7 @@ body.ase-vision .ase-glyph-field { display:block; }
 <section id="hero">
   
   <canvas id="spark-canvas"></canvas>
-  <img class="hero-canva-bg" src="./assets/intersection.jpg" alt="" loading="eager" decoding="async">
+  <img class="hero-canva-bg" src="./assets/bayo-bridge.webp" alt="" loading="eager" decoding="async">
   <div class="hero-glow"></div>
   <div class="hero-glow-2"></div>
 
@@ -7443,7 +7446,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     <!-- Floating cover art showcase -->
     <div class="hero-covers-showcase" aria-label="Cover art preview">
       <a href="https://www.canva.com/d/7rArlWuGDzmPvkx" target="_blank" rel="noopener" class="hcs-card hcs-card-front" title="CATALYST: THE AWAKENING #1">
-        <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3B6GNweWH9WBMLniZFolhDvo40E/hf_20260706_205907_0f5da92d-d95d-4bcb-9098-d8530cefca92.png" alt="Catalyst: The Awakening — Issue #1: The Awakening" loading="eager"
+        <img src="./assets/cover-issue1.webp" alt="Catalyst: The Awakening — Issue #1: The Awakening" loading="eager"
              onerror="this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)';this.style.display='none'">
         <div class="hcs-label">
           <span class="hcs-badge">ISSUE #1</span>
@@ -7493,7 +7496,7 @@ body.ase-vision .ase-glyph-field { display:block; }
 
 <!-- ============================================================ MANIFESTO -->
 <section id="manifesto">
-    <img class="section-photo-bg" src="./assets/noir-window.jpg" alt="Rainy city atmosphere" loading="lazy" aria-hidden="true">
+    <img class="section-photo-bg" src="./assets/team-aurora.webp" alt="Heroes of the Awakening — Aurora over Lagos" loading="lazy" aria-hidden="true">
   <div class="manifesto-bg-text">ASẸ</div>
   <!-- Floating orisha energy symbols -->
   <div class="manifesto-float-symbols" aria-hidden="true">
@@ -7570,7 +7573,7 @@ body.ase-vision .ase-glyph-field { display:block; }
 
 <!-- ============================================================ UNIVERSE -->
 <section id="universe">
-    <img class="section-photo-bg" src="https://d8j0ntlcm91z4.cloudfront.net/user_3B6GNweWH9WBMLniZFolhDvo40E/hf_20260707_031645_822769ef-29da-4d67-90b8-201774081ab5.png" alt="Lagos Orisha mythological panorama" loading="lazy" aria-hidden="true">
+    <img class="section-photo-bg" src="./assets/lagos-spirits.webp" alt="Lagos Orisha spirits — the city where two worlds bleed" loading="lazy" aria-hidden="true">
   <div class="universe-grid">
     <div class="universe-text">
       <p class="section-label reveal">The World</p>
@@ -7667,7 +7670,7 @@ body.ase-vision .ase-glyph-field { display:block; }
 
 <!-- ============================================================ LAGOS NEXUS MAP -->
 <section id="lagos-map">
-    <img class="section-photo-bg" src="./assets/corridor.jpg" alt="Lagos neon corridor" loading="lazy" aria-hidden="true">
+    <img class="section-photo-bg" src="./assets/team-constellation.webp" alt="The constellation of heroes rises over the ancient city" loading="lazy" aria-hidden="true">
   <div class="map-header">
     <p class="section-label reveal">The Battlefield</p>
     <h2 class="section-title reveal">LAGOS<br><em>NEXUS</em> MAP</h2>
@@ -7922,7 +7925,7 @@ body.ase-vision .ase-glyph-field { display:block; }
 
 <!-- ============================================================ CHARACTERS -->
 <section id="characters">
-    <img class="section-photo-bg" src="https://d8j0ntlcm91z4.cloudfront.net/user_3B6GNweWH9WBMLniZFolhDvo40E/hf_20260707_031620_b97eba12-b4e1-495b-bea9-3fbfd450a986.png" alt="Amara — Thunderstrike" loading="lazy" aria-hidden="true">
+    <img class="section-photo-bg" src="./assets/team-highway.webp" alt="Catalyst team on Lagos Third Mainland Bridge at night" loading="lazy" aria-hidden="true">
   <div class="chars-header">
     <p class="section-label reveal">The Heroes</p>
     <h2 class="section-title reveal">VESSELS OF<br><em>ANCIENT POWER</em></h2>
@@ -7932,7 +7935,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     <!-- CATALYST — Featured -->
     <div class="char-card chars-featured reveal" data-dossier="catalyst">
       <div class="char-bg char-bg-catalyst"></div>
-      <img class="char-photo-bg hf-portrait" src="https://d8j0ntlcm91z4.cloudfront.net/user_3B6GNweWH9WBMLniZFolhDvo40E/hf_20260707_031615_710537fc-740e-4474-a6f1-dfe9fa799c83.png" alt="Bayo Adeyemi — The Catalyst" loading="lazy">
+      <img class="char-photo-bg illustrated-portrait" src="./assets/bayo-portrait.webp" alt="Bayo Adeyemi — The Catalyst" loading="lazy">
       <svg class="char-adire-bg" viewBox="0 0 400 270" xmlns="http://www.w3.org/2000/svg">
         <pattern id="adirePat" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
           <path d="M0,20 L20,0 L40,20 L20,40 Z" fill="none" stroke="#F4B800" stroke-width="0.5"/>
@@ -8120,7 +8123,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     <!-- THUNDERSTRIKE -->
     <div class="char-card reveal reveal-delay-1" data-dossier="thunderstrike">
       <div class="char-bg char-bg-thunderstrike"></div>
-      <img class="char-photo-bg hf-portrait" src="https://d8j0ntlcm91z4.cloudfront.net/user_3B6GNweWH9WBMLniZFolhDvo40E/hf_20260707_031620_b97eba12-b4e1-495b-bea9-3fbfd450a986.png" alt="Amara — Thunderstrike" loading="lazy">
+      <img class="char-photo-bg illustrated-portrait" src="./assets/amara-portrait.webp" alt="Amara — Thunderstrike" loading="lazy">
       <svg class="char-adire-bg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
         <pattern id="thunderPat" x="0" y="0" width="25" height="25" patternUnits="userSpaceOnUse">
           <path d="M12,0 L25,12 L12,25 L0,12 Z" fill="none" stroke="#b81414" stroke-width="0.4"/>
@@ -8301,7 +8304,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     <!-- THE IRON WOLF -->
     <div class="char-card reveal reveal-delay-2" data-dossier="iron-wolf">
       <div class="char-bg char-bg-iron"></div>
-      <img class="char-photo-bg hf-portrait" src="https://d8j0ntlcm91z4.cloudfront.net/user_3B6GNweWH9WBMLniZFolhDvo40E/hf_20260707_031626_0a43001e-640e-483c-b0eb-55efca1875e7.png" alt="Ikenna — The Iron Wolf" loading="lazy">
+      <img class="char-photo-bg illustrated-portrait" src="./assets/ikenna-portrait.webp" alt="Ikenna — The Iron Wolf" loading="lazy">
       <svg class="char-adire-bg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
         <pattern id="ironPat" x="0" y="0" width="15" height="15" patternUnits="userSpaceOnUse">
           <rect x="0" y="0" width="15" height="15" fill="none" stroke="#FF6B1A" stroke-width="0.3"/>
@@ -8660,7 +8663,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     <!-- ZARA — The Mirror -->
     <div class="char-card reveal char-canva-card" data-dossier="mirror" style="position:relative;overflow:hidden;cursor:pointer;" onclick="this.classList.toggle('char-flipped')">
       <div class="char-flip-front">
-        <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3B6GNweWH9WBMLniZFolhDvo40E/hf_20260707_031633_dd9af55e-696f-4ca0-baf0-0b63c67f0b7a.png" alt="Zara — The Mirror" style="width:100%;height:320px;object-fit:cover;object-position:center top;display:block;border-radius:4px 4px 0 0;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#001a1a,#003a3a)'">
+        <img src="./assets/zara-portrait.webp" alt="Zara — The Mirror" style="width:100%;height:320px;object-fit:cover;object-position:center top;display:block;border-radius:4px 4px 0 0;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#001a1a,#003a3a)'">
         <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.2) 60%,transparent 100%);pointer-events:none;"></div>
         <span class="char-orisha-badge badge-mirror" style="background:rgba(0,201,177,0.15);border:1px solid #00C9B1;color:#00C9B1;">Invisible</span>
         <div class="char-info">
@@ -9046,7 +9049,7 @@ body.ase-vision .ase-glyph-field { display:block; }
 
     <!-- ── Issue 1–4 Official Covers (Higgsfield 4K) ── -->
     <a href="#comics" class="cover-art-item featured reveal" title="Issue #1 — THE AWAKENING (Official Cover)">
-      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3B6GNweWH9WBMLniZFolhDvo40E/hf_20260706_205907_0f5da92d-d95d-4bcb-9098-d8530cefca92.png"
+      <img src="./assets/cover-issue1.webp"
            alt="Issue #1 — THE AWAKENING (Official Cover)" loading="eager"
            onerror="this.parentElement.style.background='linear-gradient(160deg,#2a0000,#b81414 40%,#3d0000)'">
       <span class="cover-art-badge">Issue 1 — Free</span>
@@ -9054,7 +9057,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     </a>
 
     <a href="#comics" class="cover-art-item reveal" title="Issue #2 — THE MIRROR'S EDGE (Official Cover)">
-      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3B6GNweWH9WBMLniZFolhDvo40E/hf_20260706_205449_42c16d22-36ae-4f58-977d-3a8110002bc1.png"
+      <img src="./assets/cover-issue2.webp"
            alt="Issue #2 — THE MIRROR'S EDGE" loading="lazy"
            onerror="this.parentElement.style.background='linear-gradient(160deg,#001a14,#00C9B1 60%,#001410)'">
       <span class="cover-art-badge">Issue 2</span>
@@ -9062,7 +9065,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     </a>
 
     <a href="#comics" class="cover-art-item reveal" title="Issue #3 — ORISHA RISING (Official Cover)">
-      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3B6GNweWH9WBMLniZFolhDvo40E/hf_20260706_205910_af479985-9905-4b8b-84f0-225222fbad6a.png"
+      <img src="./assets/cover-issue3.webp"
            alt="Issue #3 — ORISHA RISING" loading="lazy"
            onerror="this.parentElement.style.background='linear-gradient(160deg,#150a00,#F4B800 60%,#0f0800)'">
       <span class="cover-art-badge">Issue 3</span>
@@ -9070,80 +9073,75 @@ body.ase-vision .ase-glyph-field { display:block; }
     </a>
 
     <a href="#comics" class="cover-art-item reveal" title="Issue #4 — LAGOS ETERNAL (Official Cover)">
-      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3B6GNweWH9WBMLniZFolhDvo40E/hf_20260706_210205_33b0ecef-135c-4d3a-ab40-07e9443e4ba4.png"
+      <img src="./assets/cover-issue4.webp"
            alt="Issue #4 — LAGOS ETERNAL" loading="lazy"
            onerror="this.parentElement.style.background='linear-gradient(160deg,#050015,#9b59b6 60%,#050010)'">
       <span class="cover-art-badge">Issue 4</span>
       <span class="cover-art-label">LAGOS ETERNAL — Official Cover</span>
     </a>
 
-    <a href="https://www.canva.com/d/LrfWaz4jJNL3-Zg" target="_blank" rel="noopener" class="cover-art-item reveal" title="THE AWAKENING — Variant Poster">
-      <img src="https://design.canva.ai/mQ3Hfmi19R9ewF8"
-           alt="THE AWAKENING — Variant Poster" loading="lazy"
-           onerror="this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)'">
-      
-      <span class="cover-art-label">THE AWAKENING — Variant Poster</span>
-    </a>
+    <div class="cover-art-item reveal">
+      <img src="./assets/cover-bayo-orisha1.webp"
+           alt="Orisha Rising #1 — Bayo's Awakening" loading="lazy">
+      <span class="cover-art-badge">Orisha Rising</span>
+      <span class="cover-art-label">BAYO'S AWAKENING</span>
+    </div>
 
-    <a href="https://www.canva.com/d/TCYPgLxStzrfgZL" target="_blank" rel="noopener" class="cover-art-item reveal" title="Afrofuturist Noir — Arc I, Panel 1">
-      <img src="https://design.canva.ai/vYAEHplAOPECgj_"
-           alt="Afrofuturist Noir — Arc I, Panel 1" loading="lazy"
-           onerror="this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)'">
-      
-      <span class="cover-art-badge">Comic Page</span>
-      <span class="cover-art-label">Afrofuturist Noir — Arc I, Panel 1</span>
-    </a>
+    <div class="cover-art-item reveal">
+      <img src="./assets/cover-amara-awakening.webp"
+           alt="Orisha Rising — Amara's Awakening" loading="lazy">
+      <span class="cover-art-badge">Orisha Rising</span>
+      <span class="cover-art-label">AMARA'S AWAKENING</span>
+    </div>
 
-    <a href="https://www.canva.com/d/P6KTbaBYbTwj9dp" target="_blank" rel="noopener" class="cover-art-item reveal" title="Afrofuturist Noir — Arc I, Panel 2">
-      <img src="https://design.canva.ai/GiegyG0E9sRvfyM"
-           alt="Afrofuturist Noir — Arc I, Panel 2" loading="lazy"
-           onerror="this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)'">
-      
-      <span class="cover-art-label">Afrofuturist Noir — Arc I, Panel 2</span>
-    </a>
+    <div class="cover-art-item reveal">
+      <img src="./assets/cover-orisha-rising3.webp"
+           alt="Orisha Rising Issue 3 — Combat" loading="lazy">
+      <span class="cover-art-badge">Orisha Rising</span>
+      <span class="cover-art-label">ORISHA RISING — Issue #3</span>
+    </div>
 
-    <a href="https://www.canva.com/d/BqQqbBdtIPNSUvh" target="_blank" rel="noopener" class="cover-art-item reveal" title="Hooded Figure — The Collector">
-      <img src="https://design.canva.ai/F6Fhg0PQ29fIURi"
-           alt="Hooded Figure — The Collector" loading="lazy"
-           onerror="this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)'">
-      
-      <span class="cover-art-badge">Cyberpunk</span>
-      <span class="cover-art-label">Hooded Figure — The Collector</span>
-    </a>
+    <div class="cover-art-item reveal">
+      <img src="./assets/cover-lagos-eternal4.webp"
+           alt="Lagos Eternal Issue 4 — The Golden Dawn" loading="lazy">
+      <span class="cover-art-badge">Lagos Eternal</span>
+      <span class="cover-art-label">THE GOLDEN DAWN OF THE CITY</span>
+    </div>
 
-    <a href="https://www.canva.com/d/ltX8vC3sK80FMsd" target="_blank" rel="noopener" class="cover-art-item reveal" title="Dynamic Urban — Lagos Street">
-      <img src="https://design.canva.ai/LNpruvpNmtN--Pi"
-           alt="Dynamic Urban — Lagos Street" loading="lazy"
-           onerror="this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)'">
-      
-      <span class="cover-art-label">Dynamic Urban — Lagos Street</span>
-    </a>
+    <div class="cover-art-item reveal">
+      <img src="./assets/cover-finale50.webp"
+           alt="Lagos Eternal Finale — Issue #50: The Orun Ascension" loading="lazy">
+      <span class="cover-art-badge">Issue #50</span>
+      <span class="cover-art-label">LAGOS ETERNAL — THE ORUN ASCENSION</span>
+    </div>
 
-    <a href="https://www.canva.com/d/EN80OvOiBO-fxLM" target="_blank" rel="noopener" class="cover-art-item reveal" title="Afrofuturist Noir — Arc I, Panel 3">
-      <img src="https://design.canva.ai/bjY66Emd8OrVD6j"
-           alt="Afrofuturist Noir — Arc I, Panel 3" loading="lazy"
-           onerror="this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)'">
-      
-      <span class="cover-art-label">Afrofuturist Noir — Arc I, Panel 3</span>
-    </a>
+    <div class="cover-art-item reveal">
+      <img src="./assets/team-aurora.webp"
+           alt="Heroes united under the Aurora — Lagos rooftop" loading="lazy">
+      <span class="cover-art-badge">Team Art</span>
+      <span class="cover-art-label">AURORA OVER LAGOS</span>
+    </div>
 
-    <a href="https://www.canva.com/d/e9lSfbtoEYm_djx" target="_blank" rel="noopener" class="cover-art-item reveal" title="Intriguing Noir — City at Night">
-      <img src="https://design.canva.ai/PuQ4js2Q-n4sGHC"
-           alt="Intriguing Noir — City at Night" loading="lazy"
-           onerror="this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)'">
-      
-      <span class="cover-art-badge">Noir</span>
-      <span class="cover-art-label">Intriguing Noir — City at Night</span>
-    </a>
+    <div class="cover-art-item reveal">
+      <img src="./assets/team-constellation.webp"
+           alt="The Awakening — constellation rising over ancestral fortress" loading="lazy">
+      <span class="cover-art-badge">Concept Art</span>
+      <span class="cover-art-label">THE CONSTELLATION RISES</span>
+    </div>
 
-    <a href="https://www.canva.com/d/mEXKzXrlPAlBBbo" target="_blank" rel="noopener" class="cover-art-item reveal" title="Experience the Power of The Catalyst">
-      <img src="https://design.canva.ai/NT0F238ti9sNXlD"
-           alt="Experience the Power of The Catalyst" loading="lazy"
-           onerror="this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)'">
-      
-      <span class="cover-art-badge">Ltd. Ed.</span>
-      <span class="cover-art-label">Experience the Power of The Catalyst</span>
-    </a>
+    <div class="cover-art-item reveal">
+      <img src="./assets/battle-raw.webp"
+           alt="Orisha Warriors — battle scene raw art" loading="lazy">
+      <span class="cover-art-badge">Battle Art</span>
+      <span class="cover-art-label">ORISHA WARRIORS — BATTLE SCENE</span>
+    </div>
+
+    <div class="cover-art-item reveal">
+      <img src="./assets/bayo-bridge.webp"
+           alt="Bayo — The Awakening begins on the Third Mainland Bridge" loading="lazy">
+      <span class="cover-art-badge">Key Art</span>
+      <span class="cover-art-label">BAYO — THE AWAKENING BEGINS</span>
+    </div>
 
   </div>
 </section>
@@ -10272,7 +10270,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     <div class="issue-card reveal">
       <div class="issue-cover">
         <div class="issue-bg issue-bg-1">
-          <img class="issue-art" src="https://d8j0ntlcm91z4.cloudfront.net/user_3B6GNweWH9WBMLniZFolhDvo40E/hf_20260706_205907_0f5da92d-d95d-4bcb-9098-d8530cefca92.png" alt="Catalyst: The Awakening — Issue #1: The Awakening" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
+          <img class="issue-art" src="./assets/cover-issue1.webp" alt="Catalyst: The Awakening — Issue #1: The Awakening" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
         </div>
         <div class="issue-overlay">
           <span class="issue-status status-out">Out Now</span>
@@ -10292,7 +10290,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     <div class="issue-card reveal reveal-delay-1">
       <div class="issue-cover">
         <div class="issue-bg issue-bg-2">
-          <img class="issue-art" src="https://d8j0ntlcm91z4.cloudfront.net/user_3B6GNweWH9WBMLniZFolhDvo40E/hf_20260706_205449_42c16d22-36ae-4f58-977d-3a8110002bc1.png" alt="Catalyst: The Awakening — Issue #2: The Mirror's Edge" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
+          <img class="issue-art" src="./assets/cover-issue2.webp" alt="Catalyst: The Awakening — Issue #2: The Mirror's Edge" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
         </div>
         <div class="issue-overlay">
           <span class="issue-status status-new">New</span>
@@ -10312,7 +10310,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     <div class="issue-card reveal reveal-delay-2">
       <div class="issue-cover">
         <div class="issue-bg issue-bg-3">
-          <img class="issue-art" src="https://d8j0ntlcm91z4.cloudfront.net/user_3B6GNweWH9WBMLniZFolhDvo40E/hf_20260706_205910_af479985-9905-4b8b-84f0-225222fbad6a.png" alt="Catalyst: The Awakening — Issue #3: Orisha Rising" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
+          <img class="issue-art" src="./assets/cover-issue3.webp" alt="Catalyst: The Awakening — Issue #3: Orisha Rising" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
         </div>
         <div class="issue-overlay">
           <span class="issue-status status-out">Out Now</span>
@@ -10332,7 +10330,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     <div class="issue-card reveal">
       <div class="issue-cover premium-gate">
         <div class="issue-bg issue-bg-4" style="background:linear-gradient(135deg,#0a0a1f,#1a0a0a,#06060d)">
-          <img class="issue-art" src="https://d8j0ntlcm91z4.cloudfront.net/user_3B6GNweWH9WBMLniZFolhDvo40E/hf_20260706_210205_33b0ecef-135c-4d3a-ab40-07e9443e4ba4.png" alt="Catalyst: The Awakening — Issue #4: Lagos Eternal" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
+          <img class="issue-art" src="./assets/cover-issue4.webp" alt="Catalyst: The Awakening — Issue #4: Lagos Eternal" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
         </div>
         <div class="issue-overlay">
           <span class="issue-status status-new">Free</span>
@@ -10726,7 +10724,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     <div class="reader-grid">
       <div class="reader-cover">
         <div class="reader-cover-art" style="background:#060606;border-radius:4px;overflow:hidden;cursor:pointer;" onclick="openPanelViewer(ISSUE1_PANELS, 0)" title="Click to open panel viewer">
-          <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3B6GNweWH9WBMLniZFolhDvo40E/hf_20260706_205907_0f5da92d-d95d-4bcb-9098-d8530cefca92.png" alt="Catalyst: The Awakening — Issue #1: The Awakening" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform 0.4s ease;">
+          <img src="./assets/cover-issue1.webp" alt="Catalyst: The Awakening — Issue #1: The Awakening" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform 0.4s ease;">
           <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,4,15,0.7) 0%,transparent 60%);pointer-events:none;"></div>
           <div style="position:absolute;bottom:0.8rem;left:0.8rem;right:0.8rem;text-align:center;pointer-events:none;">
             <div style="font-family:'Bebas Neue',sans-serif;font-size:0.55rem;letter-spacing:0.2em;color:#F4B800;background:rgba(0,0,0,0.6);padding:0.15rem 0.5rem;border-radius:2px;display:inline-block;">CLICK TO READ PANELS</div>
@@ -10932,7 +10930,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     <div class="reader-grid">
       <div class="reader-cover">
                 <div class="reader-cover-art" style="background:#060606;border-radius:4px;overflow:hidden;cursor:pointer;" onclick="openPanelViewer(ISSUE2_PANELS, 0)" title="Click to open panel viewer">
-          <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3B6GNweWH9WBMLniZFolhDvo40E/hf_20260706_205449_42c16d22-36ae-4f58-977d-3a8110002bc1.png" alt="Catalyst: The Awakening — Issue #2: The Mirror's Edge" style="width:100%;height:100%;object-fit:cover;border-radius:4px;display:block;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)'">
+          <img src="./assets/cover-issue2.webp" alt="Catalyst: The Awakening — Issue #2: The Mirror's Edge" style="width:100%;height:100%;object-fit:cover;border-radius:4px;display:block;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)'">
           <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,4,15,0.7) 0%,transparent 60%);pointer-events:none;"></div>
           <div style="position:absolute;bottom:0.8rem;left:0.8rem;right:0.8rem;text-align:center;pointer-events:none;">
             <div style="font-family:'Bebas Neue',sans-serif;font-size:0.55rem;letter-spacing:0.2em;color:#F4B800;background:rgba(0,0,0,0.6);padding:0.15rem 0.5rem;border-radius:2px;display:inline-block;">CLICK TO READ PANELS</div>
@@ -11073,7 +11071,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     <div class="reader-grid">
       <div class="reader-cover">
                 <div class="reader-cover-art" style="background:#060606;border-radius:4px;overflow:hidden;cursor:pointer;" onclick="openPanelViewer(ISSUE3_PANELS, 0)" title="Click to open panel viewer">
-          <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3B6GNweWH9WBMLniZFolhDvo40E/hf_20260706_205910_af479985-9905-4b8b-84f0-225222fbad6a.png" alt="Catalyst: The Awakening — Issue #3: Orisha Rising" style="width:100%;height:100%;object-fit:cover;border-radius:4px;display:block;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#0a1a00,#1a3000)'">
+          <img src="./assets/cover-issue3.webp" alt="Catalyst: The Awakening — Issue #3: Orisha Rising" style="width:100%;height:100%;object-fit:cover;border-radius:4px;display:block;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#0a1a00,#1a3000)'">
           <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,4,15,0.7) 0%,transparent 60%);pointer-events:none;"></div>
           <div style="position:absolute;bottom:0.8rem;left:0.8rem;right:0.8rem;text-align:center;pointer-events:none;">
             <div style="font-family:'Bebas Neue',sans-serif;font-size:0.55rem;letter-spacing:0.2em;color:#F4B800;background:rgba(0,0,0,0.6);padding:0.15rem 0.5rem;border-radius:2px;display:inline-block;">CLICK TO READ PANELS</div>
@@ -11248,7 +11246,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     <div class="reader-grid">
       <div class="reader-cover">
                 <div class="reader-cover-art" style="background:#060606;border-radius:4px;overflow:hidden;cursor:pointer;" onclick="openPanelViewer(ISSUE4_PANELS, 0)" title="Click to open panel viewer">
-          <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3B6GNweWH9WBMLniZFolhDvo40E/hf_20260706_210205_33b0ecef-135c-4d3a-ab40-07e9443e4ba4.png" alt="Catalyst: The Awakening — Issue #4: Lagos Eternal" style="width:100%;height:100%;object-fit:cover;border-radius:4px;display:block;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#1a0010,#3a0020)'">
+          <img src="./assets/cover-issue4.webp" alt="Catalyst: The Awakening — Issue #4: Lagos Eternal" style="width:100%;height:100%;object-fit:cover;border-radius:4px;display:block;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#1a0010,#3a0020)'">
           <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,4,15,0.7) 0%,transparent 60%);pointer-events:none;"></div>
           <div style="position:absolute;bottom:0.8rem;left:0.8rem;right:0.8rem;text-align:center;pointer-events:none;">
             <div style="font-family:'Bebas Neue',sans-serif;font-size:0.55rem;letter-spacing:0.2em;color:#F4B800;background:rgba(0,0,0,0.6);padding:0.15rem 0.5rem;border-radius:2px;display:inline-block;">CLICK TO READ PANELS</div>
