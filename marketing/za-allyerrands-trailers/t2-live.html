@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Za.allyErrands — Trailer 2: NOW LIVE</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  /* scene windows: 0-1.6 / 1.6-4.6 / 4.6-7.4 / 7.4-12.2 / 12.2-14.8 / 14.8-18 */
+  #s1 { opacity: 1; animation: none; }
+  #s2 { animation-name: bt2; } @keyframes bt2 { 0%, 8.8%  { opacity: 0; } 8.9%, 100%  { opacity: 1; } }
+  #s3 { animation-name: bt3; } @keyframes bt3 { 0%, 25.4% { opacity: 0; } 25.6%, 100% { opacity: 1; } }
+  #s4 { animation-name: bt4; } @keyframes bt4 { 0%, 41%   { opacity: 0; } 41.1%, 100% { opacity: 1; } }
+  #s5 { animation-name: bt5; } @keyframes bt5 { 0%, 67.7% { opacity: 0; } 67.8%, 100% { opacity: 1; } }
+  #s6 { animation-name: bt6; } @keyframes bt6 { 0%, 82.1% { opacity: 0; } 82.2%, 100% { opacity: 1; } }
+
+  /* ============ S1 — location slam ============ */
+  #s1 { gap: 40px; }
+  #s1 .pin { width: 150px; height: 150px; animation: popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.08s both; }
+  #s1 h1 { font-size: 176px; animation: slam 0.5s cubic-bezier(0.16,1,0.3,1) 0.3s both; }
+  #s1 .tease { font-size: 52px; color: var(--lime); letter-spacing: 3px; animation: riseIn 0.4s ease-out 0.85s both; }
+
+  /* ============ S2 — countdown ============ */
+  #s2 .num {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-family: var(--anton); font-size: 700px; color: var(--white);
+    opacity: 0; animation: tick 1s linear both;
+  }
+  #s2 .n3 { animation-delay: 1.6s; }
+  #s2 .n2 { animation-delay: 2.6s; color: var(--green); }
+  #s2 .n1 { animation-delay: 3.6s; color: var(--lime); }
+  @keyframes tick {
+    0%   { opacity: 0; transform: scale(2.2); filter: blur(14px); }
+    14%  { opacity: 1; transform: scale(1); filter: blur(0); }
+    88%  { opacity: 1; transform: scale(0.92); }
+    100% { opacity: 0; transform: scale(0.9); }
+  }
+  #s2 .ring {
+    position: absolute; top: 50%; left: 50%; width: 860px; height: 860px;
+    margin: -430px 0 0 -430px; border-radius: 50%;
+    border: 14px solid rgba(22, 229, 107, 0.65);
+    animation: ringPulse 1s linear 1.6s 3 both;
+  }
+  @keyframes ringPulse {
+    0% { transform: scale(0.72); opacity: 0; }
+    18% { opacity: 1; }
+    100% { transform: scale(1.06); opacity: 0; }
+  }
+  #s2 .cd-label { position: absolute; bottom: 340px; width: 100%; text-align: center; font-size: 46px; letter-spacing: 8px; color: rgba(247,255,249,0.7); animation: riseIn 0.4s ease-out 1.7s both; }
+
+  /* ============ S3 — THE reveal ============ */
+  #s3 { background: var(--green); }
+  #s3 .burst { position: absolute; top: 50%; left: 50%; width: 300px; height: 300px; margin: -150px 0 0 -150px; border-radius: 50%; background: var(--lime); animation: burst 0.7s cubic-bezier(0.16,1,0.3,1) 4.6s both; }
+  @keyframes burst { from { transform: scale(0); opacity: 1; } to { transform: scale(9); opacity: 0; } }
+  #s3 .stack { position: relative; display: flex; flex-direction: column; align-items: center; gap: 26px; }
+  #s3 h1 { font-size: 146px; color: var(--ink); line-height: 0.95; animation: slam 0.55s cubic-bezier(0.16,1,0.3,1) 4.75s both; }
+  #s3 .islive { font-family: var(--anton); font-size: 120px; background: var(--ink); color: var(--lime); padding: 14px 70px; transform: rotate(-2deg); animation: popIn 0.45s cubic-bezier(0.34,1.56,0.64,1) 5.35s both; }
+  #s3 .where { font-size: 48px; color: var(--ink); letter-spacing: 5px; animation: riseIn 0.4s ease-out 5.85s both; }
+
+  /* ============ S4 — services carousel (6 x 0.8s from 7.4s) ============ */
+  #s4 .svc {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 44px; opacity: 0;
+    animation: svcFlash 0.8s linear both;
+  }
+  @keyframes svcFlash {
+    0%   { opacity: 0; transform: translateX(140px); }
+    12%  { opacity: 1; transform: translateX(0); }
+    90%  { opacity: 1; transform: translateX(0); }
+    100% { opacity: 0; transform: translateX(-60px); }
+  }
+  #s4 .svc h1 { font-size: 172px; max-width: 950px; }
+  #s4 .svc .count { font-size: 46px; color: var(--green); letter-spacing: 8px; }
+  #s4 .svc:nth-child(odd) h1 { color: var(--white); }
+  #s4 .svc:nth-child(even) h1 { color: var(--green); }
+  #s4 .v1 { animation-delay: 7.4s; }
+  #s4 .v2 { animation-delay: 8.2s; }
+  #s4 .v3 { animation-delay: 9.0s; }
+  #s4 .v4 { animation-delay: 9.8s; }
+  #s4 .v5 { animation-delay: 10.6s; }
+  #s4 .v6 { animation-delay: 11.4s; }
+  #s4 .head { position: absolute; top: 300px; width: 100%; text-align: center; font-size: 54px; letter-spacing: 6px; color: rgba(247,255,249,0.75); animation: riseIn 0.4s ease-out 7.45s both; }
+
+  /* ============ S5 — promise ============ */
+  #s5 { gap: 50px; }
+  #s5 h1 { font-size: 136px; max-width: 940px; animation: slam 0.5s cubic-bezier(0.16,1,0.3,1) 12.32s both; }
+  #s5 h1 em { font-style: normal; color: var(--lime); }
+  #s5 .prem { font-size: 48px; letter-spacing: 3px; color: rgba(247,255,249,0.85); max-width: 860px; line-height: 1.5; animation: riseIn 0.45s ease-out 13s both; }
+
+  /* ============ S6 — CTA ============ */
+  #s6 { background: linear-gradient(180deg, var(--bg) 0%, #0c2415 100%); gap: 56px; }
+  #s6 .order { font-family: var(--anton); font-size: 96px; color: var(--white); max-width: 900px; line-height: 1.05; animation: slam 0.5s cubic-bezier(0.16,1,0.3,1) 14.92s both; }
+  #s6 .order span { color: var(--green); }
+  #s6 .pill { font-size: 44px; animation: popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) 15.6s both; animation-name: popIn, wiggle; animation-duration: 0.5s, 1.4s; animation-delay: 15.6s, 16.2s; animation-iteration-count: 1, infinite; animation-timing-function: cubic-bezier(0.34,1.56,0.64,1), ease-in-out; animation-fill-mode: both, both; }
+  @keyframes wiggle { 0%, 100% { transform: rotate(0deg) scale(1); } 25% { transform: rotate(-1.6deg) scale(1.03); } 75% { transform: rotate(1.6deg) scale(1.03); } }
+  #s6 .mark { font-family: var(--anton); font-size: 84px; animation: riseIn 0.45s ease-out 16.1s both; }
+  #s6 .mark .za { color: var(--green); }
+  #s6 .tagline { font-size: 38px; letter-spacing: 4px; color: rgba(247,255,249,0.8); animation: riseIn 0.4s ease-out 16.5s both; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="dots"></div>
+
+  <section class="scene" id="s1">
+    <svg class="pin" viewBox="0 0 24 24" fill="none">
+      <path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7z" fill="#16e56b"/>
+      <circle cx="12" cy="9" r="3" fill="#05100a"/>
+    </svg>
+    <h1>DOLPHIN ESTATE</h1>
+    <div class="tease sub">SOMETHING JUST LANDED HERE&hellip;</div>
+  </section>
+
+  <section class="scene" id="s2">
+    <div class="ring"></div>
+    <div class="num n3">3</div>
+    <div class="num n2">2</div>
+    <div class="num n1">1</div>
+    <div class="cd-label sub">GET READY</div>
+  </section>
+
+  <section class="scene" id="s3">
+    <div class="burst"></div>
+    <div class="stack">
+      <h1>Za.allyErrands</h1>
+      <div class="islive">IS NOW LIVE</div>
+      <div class="where sub">DOLPHIN ESTATE &bull; IKOYI &bull; LAGOS</div>
+    </div>
+  </section>
+
+  <section class="scene" id="s4">
+    <div class="head sub">WHAT WE RUN FOR YOU</div>
+    <div class="svc v1"><span class="count sub">01 / 06</span><h1>GROCERY RUNS</h1></div>
+    <div class="svc v2"><span class="count sub">02 / 06</span><h1>PICKUPS &amp; DROP-OFFS</h1></div>
+    <div class="svc v3"><span class="count sub">03 / 06</span><h1>PHARMACY DASHES</h1></div>
+    <div class="svc v4"><span class="count sub">04 / 06</span><h1>MARKET RUNS</h1></div>
+    <div class="svc v5"><span class="count sub">05 / 06</span><h1>BILLS &amp; QUEUES</h1></div>
+    <div class="svc v6"><span class="count sub">06 / 06</span><h1>ANY ERRAND. NAME IT.</h1></div>
+  </section>
+
+  <section class="scene" id="s5">
+    <div class="dots"></div>
+    <h1>HASSLE-FREE ERRANDS, <em>AT YOUR CONVENIENCE</em></h1>
+    <div class="prem sub">YOUR PREMIUM ERRAND SOLUTION &mdash; RIGHT INSIDE DOLPHIN ESTATE</div>
+  </section>
+
+  <section class="scene" id="s6">
+    <div class="order">GET YOUR <span>TIME BACK.</span> STARTING TODAY.</div>
+    <div class="pill">DM OR WHATSAPP US TO ORDER</div>
+    <div class="mark"><span class="za">Za.</span>allyErrands</div>
+    <div class="tagline">YOUR ERRANDS. OUR PROBLEM.</div>
+  </section>
+
+  <div class="progress"></div>
+  <div class="watermark">NOW LIVE &bull; Dolphin Estate</div>
+</div>
+</body>
+</html>

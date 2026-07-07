@@ -1,0 +1,96 @@
+/* Za.allyErrands trailer design system — 1080x1920 */
+@font-face { font-family: 'Anton'; src: url('fonts/anton.woff2') format('woff2'); }
+@font-face { font-family: 'Archivo Black'; src: url('fonts/archivo-black.woff2') format('woff2'); }
+
+:root {
+  --bg: #06110a;
+  --bg2: #0a1a10;
+  --green: #16e56b;
+  --green-deep: #0b7a3a;
+  --lime: #c6ff4a;
+  --white: #f7fff9;
+  --ink: #05100a;
+  --anton: 'Anton', 'Liberation Sans', sans-serif;
+  --archivo: 'Archivo Black', 'Liberation Sans', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+body { font-family: var(--archivo); color: var(--white); }
+
+.stage { position: absolute; inset: 0; width: 1080px; height: 1920px; overflow: hidden; }
+
+/* Scenes stack in DOM order; each has an opaque background and cuts in on time */
+.scene {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  background: var(--bg);
+  opacity: 0;
+  animation: cutIn 18s linear both;
+}
+@keyframes cutIn { /* per-scene: override --at via inline animation-delay trick not possible; scenes define their own keyframes */ }
+
+.anton { font-family: var(--anton); }
+
+h1 { font-family: var(--anton); font-weight: 400; line-height: 0.98; letter-spacing: 0.5px; }
+.sub { font-family: var(--archivo); }
+
+/* Punch-in slam for headline text */
+@keyframes slam {
+  0%   { opacity: 0; transform: scale(2.6); filter: blur(18px); }
+  55%  { opacity: 1; transform: scale(0.96); filter: blur(0); }
+  75%  { transform: scale(1.03); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes riseIn {
+  0%   { opacity: 0; transform: translateY(90px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes popIn {
+  0%   { opacity: 0; transform: scale(0.4); }
+  70%  { opacity: 1; transform: scale(1.08); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.045); }
+}
+@keyframes blinkCaret { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+
+/* Persistent chrome */
+.progress {
+  position: absolute; top: 0; left: 0; height: 10px; width: 100%;
+  transform-origin: left center; transform: scaleX(0);
+  background: linear-gradient(90deg, var(--green), var(--lime));
+  z-index: 90;
+  animation: prog 18s linear both;
+}
+@keyframes prog { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+.watermark {
+  position: absolute; bottom: 54px; left: 50%; translate: -50% 0;
+  font-family: var(--archivo); font-size: 30px; letter-spacing: 2px;
+  color: rgba(247, 255, 249, 0.82);
+  background: rgba(5, 16, 10, 0.55);
+  border: 2px solid rgba(22, 229, 107, 0.45);
+  padding: 16px 34px; border-radius: 999px;
+  white-space: nowrap;
+  z-index: 80; opacity: 0;
+  animation: wmIn 0.5s ease-out 1s both;
+}
+@keyframes wmIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+/* dotted texture backdrop */
+.dots {
+  position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(22,229,107,0.13) 3px, transparent 3px);
+  background-size: 64px 64px;
+}
+.pill {
+  display: inline-block; font-family: var(--archivo);
+  background: var(--lime); color: var(--ink);
+  padding: 22px 46px; border-radius: 999px;
+  max-width: 880px;
+}
