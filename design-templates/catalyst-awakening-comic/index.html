@@ -4896,6 +4896,9 @@
 .hero-canva-bg { opacity: 0.18 !important; mix-blend-mode: luminosity !important; }
 .char-photo-bg { opacity: 0.50 !important; mix-blend-mode: multiply !important; }
 .char-card:hover .char-photo-bg { opacity: 0.72 !important; }
+/* ── Higgsfield character portraits ── */
+.hf-portrait { opacity: 0.72 !important; mix-blend-mode: screen !important; object-position: center top !important; }
+.char-card:hover .hf-portrait { opacity: 0.90 !important; }
 .panel-canva-wrap img { opacity: 0.55 !important; mix-blend-mode: multiply !important; }
 .issue-canva-overlay { opacity: 0.45 !important; mix-blend-mode: multiply !important; }
 .issue-card:hover .issue-canva-overlay { opacity: 0.65 !important; }
@@ -7567,7 +7570,7 @@ body.ase-vision .ase-glyph-field { display:block; }
 
 <!-- ============================================================ UNIVERSE -->
 <section id="universe">
-    <img class="section-photo-bg" src="./assets/circle.jpg" alt="Afrofuturist team glowing circle" loading="lazy" aria-hidden="true">
+    <img class="section-photo-bg" src="https://d8j0ntlcm91z4.cloudfront.net/user_3B6GNweWH9WBMLniZFolhDvo40E/hf_20260707_031645_822769ef-29da-4d67-90b8-201774081ab5.png" alt="Lagos Orisha mythological panorama" loading="lazy" aria-hidden="true">
   <div class="universe-grid">
     <div class="universe-text">
       <p class="section-label reveal">The World</p>
@@ -7919,7 +7922,7 @@ body.ase-vision .ase-glyph-field { display:block; }
 
 <!-- ============================================================ CHARACTERS -->
 <section id="characters">
-    <img class="section-photo-bg" src="./assets/forge.jpg" alt="Blacksmith forge sparks" loading="lazy" aria-hidden="true">
+    <img class="section-photo-bg" src="https://d8j0ntlcm91z4.cloudfront.net/user_3B6GNweWH9WBMLniZFolhDvo40E/hf_20260707_031620_b97eba12-b4e1-495b-bea9-3fbfd450a986.png" alt="Amara — Thunderstrike" loading="lazy" aria-hidden="true">
   <div class="chars-header">
     <p class="section-label reveal">The Heroes</p>
     <h2 class="section-title reveal">VESSELS OF<br><em>ANCIENT POWER</em></h2>
@@ -7929,7 +7932,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     <!-- CATALYST — Featured -->
     <div class="char-card chars-featured reveal" data-dossier="catalyst">
       <div class="char-bg char-bg-catalyst"></div>
-      <img class="char-photo-bg" src="./assets/forge.jpg" alt="" loading="lazy">
+      <img class="char-photo-bg hf-portrait" src="https://d8j0ntlcm91z4.cloudfront.net/user_3B6GNweWH9WBMLniZFolhDvo40E/hf_20260707_031615_710537fc-740e-4474-a6f1-dfe9fa799c83.png" alt="Bayo Adeyemi — The Catalyst" loading="lazy">
       <svg class="char-adire-bg" viewBox="0 0 400 270" xmlns="http://www.w3.org/2000/svg">
         <pattern id="adirePat" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
           <path d="M0,20 L20,0 L40,20 L20,40 Z" fill="none" stroke="#F4B800" stroke-width="0.5"/>
@@ -8117,7 +8120,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     <!-- THUNDERSTRIKE -->
     <div class="char-card reveal reveal-delay-1" data-dossier="thunderstrike">
       <div class="char-bg char-bg-thunderstrike"></div>
-      <img class="char-photo-bg" src="./assets/flares.jpg" alt="" loading="lazy">
+      <img class="char-photo-bg hf-portrait" src="https://d8j0ntlcm91z4.cloudfront.net/user_3B6GNweWH9WBMLniZFolhDvo40E/hf_20260707_031620_b97eba12-b4e1-495b-bea9-3fbfd450a986.png" alt="Amara — Thunderstrike" loading="lazy">
       <svg class="char-adire-bg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
         <pattern id="thunderPat" x="0" y="0" width="25" height="25" patternUnits="userSpaceOnUse">
           <path d="M12,0 L25,12 L12,25 L0,12 Z" fill="none" stroke="#b81414" stroke-width="0.4"/>
@@ -8298,7 +8301,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     <!-- THE IRON WOLF -->
     <div class="char-card reveal reveal-delay-2" data-dossier="iron-wolf">
       <div class="char-bg char-bg-iron"></div>
-      <img class="char-photo-bg" src="./assets/industrial.jpg" alt="" loading="lazy">
+      <img class="char-photo-bg hf-portrait" src="https://d8j0ntlcm91z4.cloudfront.net/user_3B6GNweWH9WBMLniZFolhDvo40E/hf_20260707_031626_0a43001e-640e-483c-b0eb-55efca1875e7.png" alt="Ikenna — The Iron Wolf" loading="lazy">
       <svg class="char-adire-bg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
         <pattern id="ironPat" x="0" y="0" width="15" height="15" patternUnits="userSpaceOnUse">
           <rect x="0" y="0" width="15" height="15" fill="none" stroke="#FF6B1A" stroke-width="0.3"/>
@@ -8657,7 +8660,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     <!-- ZARA — The Mirror -->
     <div class="char-card reveal char-canva-card" data-dossier="mirror" style="position:relative;overflow:hidden;cursor:pointer;" onclick="this.classList.toggle('char-flipped')">
       <div class="char-flip-front">
-        <img src="https://design.canva.ai/PuQ4js2Q-n4sGHC" alt="Zara — The Mirror" style="width:100%;height:320px;object-fit:cover;display:block;border-radius:4px 4px 0 0;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#001a1a,#003a3a)'">
+        <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3B6GNweWH9WBMLniZFolhDvo40E/hf_20260707_031633_dd9af55e-696f-4ca0-baf0-0b63c67f0b7a.png" alt="Zara — The Mirror" style="width:100%;height:320px;object-fit:cover;object-position:center top;display:block;border-radius:4px 4px 0 0;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#001a1a,#003a3a)'">
         <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.2) 60%,transparent 100%);pointer-events:none;"></div>
         <span class="char-orisha-badge badge-mirror" style="background:rgba(0,201,177,0.15);border:1px solid #00C9B1;color:#00C9B1;">Invisible</span>
         <div class="char-info">
