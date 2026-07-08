@@ -1,0 +1,171 @@
+{
+  "duration": 18,
+  "end": {
+    "kicker": "YOUR BUDDY DOUBLE IN DOLPHIN ESTATE",
+    "mark": "Za.allyErrands",
+    "tag2": "YOUR TIME, MANAGED.",
+    "pill": "DM OR WHATSAPP TO PLACE YOUR ORDER",
+    "sub3": "YOUR ERRANDS. OUR PROBLEM. &bull; LAGOS"
+  },
+  "videos": [
+    { "name": "c01-the-double", "score": "pulse",
+      "scenes": [
+        { "t0": 0, "bg": "bokeh", "kicker": "A QUESTION FOR EVERY LAGOSIAN", "lines": [ { "text": "WHAT IF THERE WERE TWO OF YOU?", "style": "cw", "size": 116 } ] },
+        { "t0": 3.6, "bg": "grid", "lines": [ { "text": "ONE OF YOU,", "style": "cw", "size": 120 }, { "text": "AT YOUR DESK.", "style": "cw", "size": 132 } ] },
+        { "t0": 7.2, "bg": "streaks", "lines": [ { "text": "ONE OF YOU,", "style": "cg", "size": 120 }, { "text": "HANDLING LIFE.", "style": "cg", "size": 132 } ] },
+        { "t0": 10.6, "bg": "bokeh", "kicker": "ZA.ALLYERRANDS", "lines": [ { "text": "MEET YOUR DOUBLE.", "style": "cl", "size": 134 } ] },
+        { "t0": 13.6, "type": "end", "bg": "bokeh" } ] },
+
+    { "name": "c02-third-mainland", "score": "clock",
+      "scenes": [
+        { "t0": 0, "bg": "streaks", "kicker": "6:14 PM &bull; THIRD MAINLAND BRIDGE", "lines": [ { "text": "YOU'LL SIT HERE FOR AN HOUR.", "style": "cw", "size": 112 } ] },
+        { "t0": 4.0, "bg": "night", "lines": [ { "text": "THAT HOUR", "style": "cw", "size": 140 }, { "text": "NEVER COMES BACK.", "style": "cg", "size": 126 } ] },
+        { "t0": 7.6, "bg": "streaks", "lines": [ { "text": "UNLESS SOMEONE ELSE", "style": "cw", "size": 108 }, { "text": "IS ALREADY RUNNING IT.", "style": "cw", "size": 108 } ] },
+        { "t0": 10.8, "bg": "grid", "lines": [ { "text": "WE'RE ALREADY THERE.", "style": "cl", "size": 126 } ] },
+        { "t0": 13.6, "type": "end", "bg": "bokeh" } ] },
+
+    { "name": "c03-bandwidth", "score": "pulse",
+      "scenes": [
+        { "t0": 0, "bg": "grid", "kicker": "THE SCIENCE OF YOUR DAY", "lines": [ { "text": "YOUR MIND HAS 100 UNITS OF FOCUS.", "style": "cw", "size": 104 } ] },
+        { "t0": 4.0, "bg": "night", "lines": [ { "text": "THE MARKET RUN TAKES 30.", "style": "cg", "size": 116 } ] },
+        { "t0": 7.2, "bg": "night", "lines": [ { "text": "THE QUEUE TAKES 40.", "style": "cg", "size": 124 } ] },
+        { "t0": 10.2, "bg": "bokeh", "lines": [ { "text": "SPEND YOURS WHERE THEY PAY.", "style": "cl", "size": 112 } ] },
+        { "t0": 13.6, "type": "end", "bg": "bokeh" } ] },
+
+    { "name": "c04-the-nag", "score": "clock",
+      "scenes": [
+        { "t0": 0, "bg": "ember", "kicker": "PSYCHOLOGISTS CALL IT THE ZEIGARNIK EFFECT", "lines": [ { "text": "UNFINISHED TASKS WHISPER.", "style": "cw", "size": 116 } ] },
+        { "t0": 4.4, "bg": "night", "lines": [ { "text": "THAT PICKUP HAS WHISPERED", "style": "cw", "size": 102 }, { "text": "SINCE MONDAY.", "style": "cg", "size": 130 } ] },
+        { "t0": 8.2, "bg": "grid", "lines": [ { "text": "CLOSE THE LOOP.", "style": "cw", "size": 140 } ] },
+        { "t0": 11.0, "bg": "bokeh", "lines": [ { "text": "SILENCE, DELIVERED.", "style": "cl", "size": 124 } ] },
+        { "t0": 13.8, "type": "end", "bg": "bokeh" } ] },
+
+    { "name": "c05-mums-call", "score": "warm",
+      "scenes": [
+        { "t0": 0, "bg": "dawn", "kicker": "4:52 PM &bull; MUM CALLS", "lines": [ { "text": "SHE NEEDS HER MEDICINE TODAY.", "style": "cw", "size": 106 } ] },
+        { "t0": 4.2, "bg": "night", "lines": [ { "text": "YOUR MEETING ENDS AT 7.", "style": "cw", "size": 116 } ] },
+        { "t0": 7.4, "bg": "streaks", "lines": [ { "text": "YOUR DOUBLE IS ALREADY", "style": "cg", "size": 104 }, { "text": "AT THE PHARMACY.", "style": "cg", "size": 120 } ] },
+        { "t0": 10.8, "bg": "dawn", "lines": [ { "text": "BE THERE. EVEN WHEN YOU CAN'T.", "style": "cl", "size": 104 } ] },
+        { "t0": 13.8, "type": "end", "bg": "bokeh" } ] },
+
+    { "name": "c06-owambe", "score": "warm",
+      "scenes": [
+        { "t0": 0, "bg": "bokeh", "kicker": "SATURDAY IN LAGOS", "lines": [ { "text": "OWAMBE IS CALLING.", "style": "cw", "size": 138 } ] },
+        { "t0": 3.8, "bg": "dawn", "lines": [ { "text": "THE GELE. THE JOLLOF.", "style": "cw", "size": 112 }, { "text": "THE PEOPLE.", "style": "cw", "size": 128 } ] },
+        { "t0": 7.4, "bg": "night", "lines": [ { "text": "QUEUES DIDN'T MAKE", "style": "cg", "size": 112 }, { "text": "THE GUEST LIST.", "style": "cg", "size": 122 } ] },
+        { "t0": 10.6, "bg": "bokeh", "lines": [ { "text": "GO AND SHINE. WE'VE GOT THE RUNS.", "style": "cl", "size": 98 } ] },
+        { "t0": 13.8, "type": "end", "bg": "bokeh" } ] },
+
+    { "name": "c07-decision-fatigue", "score": "clock",
+      "scenes": [
+        { "t0": 0, "bg": "grid", "kicker": "BY 3PM TODAY", "lines": [ { "text": "YOU'VE MADE 200 DECISIONS.", "style": "cw", "size": 112 } ] },
+        { "t0": 4.0, "bg": "night", "lines": [ { "text": "DON'T LET №201 BE ABOUT", "style": "cw", "size": 102 }, { "text": "PEPPER AND TOMATOES.", "style": "cg", "size": 116 } ] },
+        { "t0": 8.0, "bg": "grid", "lines": [ { "text": "SAVE YOUR BEST CALLS", "style": "cw", "size": 108 }, { "text": "FOR THE BOARDROOM.", "style": "cw", "size": 112 } ] },
+        { "t0": 11.0, "bg": "bokeh", "lines": [ { "text": "WE'LL MAKE THE SMALL ONES.", "style": "cl", "size": 106 } ] },
+        { "t0": 13.8, "type": "end", "bg": "bokeh" } ] },
+
+    { "name": "c08-future-you", "score": "warm",
+      "scenes": [
+        { "t0": 0, "bg": "dawn", "kicker": "A LETTER FROM 2030", "lines": [ { "text": "FUTURE YOU IS WATCHING.", "style": "cw", "size": 120 } ] },
+        { "t0": 4.0, "bg": "bokeh", "lines": [ { "text": "THEY REMEMBER", "style": "cw", "size": 116 }, { "text": "THE BUSINESS YOU BUILT.", "style": "cw", "size": 108 } ] },
+        { "t0": 7.6, "bg": "night", "lines": [ { "text": "NOT THE QUEUES", "style": "cg", "size": 124 }, { "text": "YOU STOOD IN.", "style": "cg", "size": 124 } ] },
+        { "t0": 10.8, "bg": "dawn", "lines": [ { "text": "MAKE THEM PROUD. DELEGATE.", "style": "cl", "size": 106 } ] },
+        { "t0": 13.8, "type": "end", "bg": "bokeh" } ] },
+
+    { "name": "c09-four-hours", "score": "clock",
+      "scenes": [
+        { "t0": 0, "bg": "streaks", "kicker": "TODAY, LAGOS WILL TAKE", "lines": [ { "text": "4 HOURS YOU DIDN'T OFFER.", "style": "cw", "size": 112 } ] },
+        { "t0": 4.2, "bg": "night", "lines": [ { "text": "TRAFFIC. QUEUES. WAITING.", "style": "cg", "size": 116 } ] },
+        { "t0": 7.6, "bg": "grid", "lines": [ { "text": "TAKE THEM BACK.", "style": "cw", "size": 150 } ] },
+        { "t0": 10.6, "bg": "bokeh", "lines": [ { "text": "TIME, RETURNED TO OWNER.", "style": "cl", "size": 110 } ] },
+        { "t0": 13.8, "type": "end", "bg": "bokeh" } ] },
+
+    { "name": "c10-hourly-rate", "score": "pulse",
+      "scenes": [
+        { "t0": 0, "bg": "grid", "kicker": "QUICK QUESTION", "lines": [ { "text": "WHAT'S YOUR HOUR WORTH?", "style": "cw", "size": 118 } ] },
+        { "t0": 4.0, "bg": "night", "lines": [ { "text": "NOW — WHAT DOES", "style": "cw", "size": 116 }, { "text": "THE QUEUE PAY?", "style": "cg", "size": 128 } ] },
+        { "t0": 7.8, "bg": "night", "lines": [ { "text": "EXACTLY.", "style": "cw", "size": 190 } ] },
+        { "t0": 10.4, "bg": "bokeh", "lines": [ { "text": "OUTSOURCE THE UNPAID HOURS.", "style": "cl", "size": 104 } ] },
+        { "t0": 13.6, "type": "end", "bg": "bokeh" } ] },
+
+    { "name": "c11-sharp-sharp", "score": "pulse",
+      "scenes": [
+        { "t0": 0, "bg": "streaks", "kicker": "IN THIS CITY", "lines": [ { "text": "SPEED IS RESPECT.", "style": "cw", "size": 140 } ] },
+        { "t0": 3.6, "bg": "grid", "lines": [ { "text": "ORDER AT NOON.", "style": "cw", "size": 132 } ] },
+        { "t0": 6.6, "bg": "streaks", "lines": [ { "text": "HANDLED BY LUNCH.", "style": "cg", "size": 128 } ] },
+        { "t0": 9.6, "bg": "bokeh", "lines": [ { "text": "SHARP SHARP. NO STORIES.", "style": "cl", "size": 112 } ] },
+        { "t0": 13.6, "type": "end", "bg": "bokeh" } ] },
+
+    { "name": "c12-no-wahala", "score": "calm",
+      "scenes": [
+        { "t0": 0, "bg": "bokeh", "kicker": "CLOSE YOUR EYES", "lines": [ { "text": "FEEL YOUR SHOULDERS DROP.", "style": "cw", "size": 110 } ] },
+        { "t0": 4.4, "bg": "night", "lines": [ { "text": "THAT'S THE SOUND", "style": "cw", "size": 118 }, { "text": "OF “HANDLED.”", "style": "cg", "size": 134 } ] },
+        { "t0": 8.2, "bg": "bokeh", "lines": [ { "text": "NO CALLS. NO CHASING.", "style": "cw", "size": 106 }, { "text": "NO WAHALA.", "style": "cg", "size": 140 } ] },
+        { "t0": 11.2, "bg": "dawn", "lines": [ { "text": "PEACE OF MIND, DELIVERED.", "style": "cl", "size": 104 } ] },
+        { "t0": 14.0, "type": "end", "bg": "bokeh" } ] },
+
+    { "name": "c13-quiet-flex", "score": "pulse",
+      "scenes": [
+        { "t0": 0, "bg": "bokeh", "kicker": "HAVE YOU NOTICED?", "lines": [ { "text": "DOLPHIN ESTATE MOVES", "style": "cw", "size": 112 }, { "text": "DIFFERENT LATELY.", "style": "cw", "size": 122 } ] },
+        { "t0": 4.4, "bg": "night", "lines": [ { "text": "PACKAGES ARRIVE.", "style": "cg", "size": 118 }, { "text": "NOBODY LEAVES THE HOUSE.", "style": "cg", "size": 100 } ] },
+        { "t0": 8.2, "bg": "grid", "lines": [ { "text": "THE SMART ONES", "style": "cw", "size": 122 }, { "text": "ALREADY KNOW.", "style": "cw", "size": 128 } ] },
+        { "t0": 11.0, "bg": "bokeh", "lines": [ { "text": "JOIN THE QUIET UPGRADE.", "style": "cl", "size": 110 } ] },
+        { "t0": 13.8, "type": "end", "bg": "bokeh" } ] },
+
+    { "name": "c14-two-places", "score": "pulse",
+      "scenes": [
+        { "t0": 0, "bg": "grid", "kicker": "AN OLD LAW OF PHYSICS", "lines": [ { "text": "YOU CAN'T BE IN TWO", "style": "cw", "size": 114 }, { "text": "PLACES AT ONCE.", "style": "cw", "size": 122 } ] },
+        { "t0": 4.6, "bg": "night", "lines": [ { "text": "A NEW LAW OF LAGOS:", "style": "cg", "size": 122 } ] },
+        { "t0": 7.8, "bg": "streaks", "lines": [ { "text": "NOW YOU CAN.", "style": "cw", "size": 160 } ] },
+        { "t0": 10.6, "bg": "bokeh", "lines": [ { "text": "YOUR DOUBLE RUNS THE SECOND PLACE.", "style": "cl", "size": 94 } ] },
+        { "t0": 13.8, "type": "end", "bg": "bokeh" } ] },
+
+    { "name": "c15-friday-agbada", "score": "warm",
+      "scenes": [
+        { "t0": 0, "bg": "bokeh", "kicker": "FRIDAY IN LAGOS", "lines": [ { "text": "LOOK SHARP. NOT STRESSED.", "style": "cw", "size": 110 } ] },
+        { "t0": 4.0, "bg": "dawn", "lines": [ { "text": "THE AGBADA IS PRESSED.", "style": "cw", "size": 112 } ] },
+        { "t0": 7.2, "bg": "night", "lines": [ { "text": "THE PICKUPS ARE DONE.", "style": "cg", "size": 116 } ] },
+        { "t0": 10.2, "bg": "bokeh", "lines": [ { "text": "YOU JUST SHOW UP CLEAN.", "style": "cl", "size": 112 } ] },
+        { "t0": 13.6, "type": "end", "bg": "bokeh" } ] },
+
+    { "name": "c16-rain-check", "score": "calm",
+      "scenes": [
+        { "t0": 0, "bg": "rain", "kicker": "IT'S POURING ON THE ISLAND", "lines": [ { "text": "SOMEBODY STILL HAS TO GO.", "style": "cw", "size": 108 } ] },
+        { "t0": 4.6, "bg": "rain", "lines": [ { "text": "IT DOESN'T HAVE", "style": "cw", "size": 124 }, { "text": "TO BE YOU.", "style": "cg", "size": 144 } ] },
+        { "t0": 8.4, "bg": "night", "lines": [ { "text": "STAY DRY. STAY WORKING.", "style": "cw", "size": 108 } ] },
+        { "t0": 11.2, "bg": "rain", "lines": [ { "text": "WE LIKE THE RAIN.", "style": "cl", "size": 126 } ] },
+        { "t0": 14.0, "type": "end", "bg": "bokeh" } ] },
+
+    { "name": "c17-every-step", "score": "clock",
+      "scenes": [
+        { "t0": 0, "bg": "grid", "kicker": "THE TRUST QUESTION", "lines": [ { "text": "“BUT WILL THEY DO IT RIGHT?”", "style": "cw", "size": 104 } ] },
+        { "t0": 4.4, "bg": "night", "lines": [ { "text": "UPDATES AT EVERY STEP.", "style": "cg", "size": 114 } ] },
+        { "t0": 7.6, "bg": "grid", "lines": [ { "text": "PROOF AT EVERY STOP.", "style": "cg", "size": 118 } ] },
+        { "t0": 10.6, "bg": "bokeh", "lines": [ { "text": "LIKE YOU DID IT YOURSELF.", "style": "cl", "size": 108 } ] },
+        { "t0": 13.8, "type": "end", "bg": "bokeh" } ] },
+
+    { "name": "c18-generator", "score": "pulse",
+      "scenes": [
+        { "t0": 0, "bg": "ember", "kicker": "LAGOS RULE №1", "lines": [ { "text": "POWER COMES AND GOES.", "style": "cw", "size": 114 } ] },
+        { "t0": 4.2, "bg": "night", "lines": [ { "text": "YOURS SHOULDN'T.", "style": "cg", "size": 144 } ] },
+        { "t0": 7.4, "bg": "ember", "lines": [ { "text": "GUARD YOUR ENERGY", "style": "cw", "size": 116 }, { "text": "LIKE A GENERATOR.", "style": "cw", "size": 118 } ] },
+        { "t0": 10.6, "bg": "bokeh", "lines": [ { "text": "WE'LL BURN OURS FOR YOU.", "style": "cl", "size": 108 } ] },
+        { "t0": 13.8, "type": "end", "bg": "bokeh" } ] },
+
+    { "name": "c19-five-to-nine", "score": "warm",
+      "scenes": [
+        { "t0": 0, "bg": "grid", "kicker": "THE HONEST SPLIT", "lines": [ { "text": "YOUR 9-5 PAYS THE BILLS.", "style": "cw", "size": 106 } ] },
+        { "t0": 3.8, "bg": "dawn", "lines": [ { "text": "YOUR 5-9 BUILDS THE DREAM.", "style": "cg", "size": 106 } ] },
+        { "t0": 7.4, "bg": "night", "lines": [ { "text": "NEITHER HAS ROOM", "style": "cw", "size": 120 }, { "text": "FOR QUEUES.", "style": "cw", "size": 136 } ] },
+        { "t0": 10.8, "bg": "bokeh", "lines": [ { "text": "PROTECT THE HOURS THAT BUILD.", "style": "cl", "size": 98 } ] },
+        { "t0": 13.8, "type": "end", "bg": "bokeh" } ] },
+
+    { "name": "c20-legacy-hours", "score": "calm",
+      "scenes": [
+        { "t0": 0, "bg": "dawn", "kicker": "IN 20 YEARS", "lines": [ { "text": "NOBODY REMEMBERS THE QUEUES.", "style": "cw", "size": 100 } ] },
+        { "t0": 4.4, "bg": "bokeh", "lines": [ { "text": "THEY REMEMBER DINNERS.", "style": "cw", "size": 104 }, { "text": "CALLS. SUNSETS.", "style": "cw", "size": 116 } ] },
+        { "t0": 8.4, "bg": "dawn", "lines": [ { "text": "SPEND HOURS WHERE", "style": "cg", "size": 112 }, { "text": "MEMORIES LIVE.", "style": "cg", "size": 126 } ] },
+        { "t0": 11.4, "bg": "night", "lines": [ { "text": "WE'LL HANDLE THE FORGETTABLE.", "style": "cl", "size": 96 } ] },
+        { "t0": 14.2, "type": "end", "bg": "bokeh" } ] }
+  ]
+}

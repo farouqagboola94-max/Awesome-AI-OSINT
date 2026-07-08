@@ -1,0 +1,202 @@
+{
+  "c01-the-double": {
+    "score": "pulse",
+    "impacts": [
+      3.6,
+      7.2,
+      10.6,
+      13.6
+    ],
+    "reveal": 13.6
+  },
+  "c02-third-mainland": {
+    "score": "clock",
+    "impacts": [
+      4,
+      7.6,
+      10.8,
+      13.6
+    ],
+    "reveal": 13.6
+  },
+  "c03-bandwidth": {
+    "score": "pulse",
+    "impacts": [
+      4,
+      7.2,
+      10.2,
+      13.6
+    ],
+    "reveal": 13.6
+  },
+  "c04-the-nag": {
+    "score": "clock",
+    "impacts": [
+      4.4,
+      8.2,
+      11,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c05-mums-call": {
+    "score": "warm",
+    "impacts": [
+      4.2,
+      7.4,
+      10.8,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c06-owambe": {
+    "score": "warm",
+    "impacts": [
+      3.8,
+      7.4,
+      10.6,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c07-decision-fatigue": {
+    "score": "clock",
+    "impacts": [
+      4,
+      8,
+      11,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c08-future-you": {
+    "score": "warm",
+    "impacts": [
+      4,
+      7.6,
+      10.8,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c09-four-hours": {
+    "score": "clock",
+    "impacts": [
+      4.2,
+      7.6,
+      10.6,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c10-hourly-rate": {
+    "score": "pulse",
+    "impacts": [
+      4,
+      7.8,
+      10.4,
+      13.6
+    ],
+    "reveal": 13.6
+  },
+  "c11-sharp-sharp": {
+    "score": "pulse",
+    "impacts": [
+      3.6,
+      6.6,
+      9.6,
+      13.6
+    ],
+    "reveal": 13.6
+  },
+  "c12-no-wahala": {
+    "score": "calm",
+    "impacts": [
+      4.4,
+      8.2,
+      11.2,
+      14
+    ],
+    "reveal": 14
+  },
+  "c13-quiet-flex": {
+    "score": "pulse",
+    "impacts": [
+      4.4,
+      8.2,
+      11,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c14-two-places": {
+    "score": "pulse",
+    "impacts": [
+      4.6,
+      7.8,
+      10.6,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c15-friday-agbada": {
+    "score": "warm",
+    "impacts": [
+      4,
+      7.2,
+      10.2,
+      13.6
+    ],
+    "reveal": 13.6
+  },
+  "c16-rain-check": {
+    "score": "calm",
+    "impacts": [
+      4.6,
+      8.4,
+      11.2,
+      14
+    ],
+    "reveal": 14
+  },
+  "c17-every-step": {
+    "score": "clock",
+    "impacts": [
+      4.4,
+      7.6,
+      10.6,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c18-generator": {
+    "score": "pulse",
+    "impacts": [
+      4.2,
+      7.4,
+      10.6,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c19-five-to-nine": {
+    "score": "warm",
+    "impacts": [
+      3.8,
+      7.4,
+      10.8,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c20-legacy-hours": {
+    "score": "calm",
+    "impacts": [
+      4.4,
+      8.4,
+      11.4,
+      14.2
+    ],
+    "reveal": 14.2
+  }
+}

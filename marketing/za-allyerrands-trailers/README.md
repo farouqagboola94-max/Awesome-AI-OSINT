@@ -75,3 +75,16 @@ Higgsfield CDN — so they are not baked into the MP4s; layer them over the fina
   Estate. DM or WhatsApp us, and consider it done."
 - VO2 (5.0s): "Send it. Forget it. It's done. Za.allyErrands — DM or WhatsApp
   to place your order."
+
+## The 4K cinematic pack — `final4k/`
+
+Twenty 18s trailers at 2160×3840 (4K vertical, 24fps) on the "buddy double"
+positioning — each wrapped in a psychological principle (loss aversion,
+Zeigarnik effect, decision fatigue, social proof, future-self, legacy) and
+Lagos-specific texture (Third Mainland, owambe, agbada Friday, NEPA).
+Cinematic system: bokeh/rain/streak/dawn backgrounds, Ken Burns drift,
+letterbox, film grain, green cinema grade. Scores in four moods (clock /
+pulse / warm / calm) with booms on cuts, riser + braam at the brand reveal.
+
+Pipeline: `node cinema-build.js` → `FPS=24 DUR=18 DPR=2 node render.js <name>`
+→ `python3 gen_audio_cine.py <name>` → mux (crf 27 web encode).
