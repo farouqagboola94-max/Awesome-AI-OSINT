@@ -1,0 +1,47 @@
+/* Za.allyErrands Brand IP system — master tokens */
+@font-face { font-family: 'Anton'; src: url('../trailers/fonts/anton.woff2') format('woff2'); }
+@font-face { font-family: 'Archivo Black'; src: url('../trailers/fonts/archivo-black.woff2') format('woff2'); }
+
+:root {
+  /* core palette */
+  --forest: #05100a;   /* Midnight Forest — primary dark */
+  --deep:   #0a1f12;   /* Deep Moss — surface dark */
+  --green:  #16e56b;   /* Signal Green — primary brand */
+  --lime:   #c6ff4a;   /* Volt Lime — action/CTA */
+  --mint:   #eafff2;   /* Mint Paper — light surface */
+  --white:  #f7fff9;
+  --grad-run: linear-gradient(90deg, #16e56b, #c6ff4a);
+  --grad-depth: linear-gradient(180deg, #0a1f12, #05100a);
+  --anton: 'Anton', 'Liberation Sans', sans-serif;
+  --archivo: 'Archivo Black', 'Liberation Sans', sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow: hidden; background: #05100a; }
+body { font-family: var(--archivo); color: var(--white); }
+
+.plate { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; background: var(--forest); }
+.plate.light { background: var(--mint); color: var(--forest); }
+.plate.green { background: var(--green); color: var(--forest); }
+.plate.lime  { background: var(--lime); color: var(--forest); }
+
+/* wordmark */
+.wm { font-family: var(--anton); letter-spacing: 0.5px; line-height: 1; }
+.wm .za { color: var(--green); }
+.wm.on-light .za { color: #0aa94b; }
+.tagline { font-family: var(--anton); }
+.tagline .alt { color: var(--lime); }
+
+/* monogram roundel */
+.roundel { border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; }
+
+/* helpers */
+.stack { display: flex; flex-direction: column; align-items: center; gap: 40px; text-align: center; }
+.row { display: flex; align-items: center; justify-content: center; }
+.kick { font-family: var(--archivo); letter-spacing: 8px; }
+.dotgrid { position: absolute; inset: 0; background-image: radial-gradient(rgba(22,229,107,0.14) 3px, transparent 3px); background-size: 64px 64px; }
+
+/* spec sheet scaffolding */
+.sheet { position: absolute; inset: 0; padding: 90px; display: flex; flex-direction: column; gap: 48px; }
+.sheet h2 { font-family: var(--anton); font-size: 72px; color: var(--white); }
+.sheet.on-light h2 { color: var(--forest); }
+.sheet .lbl { font-size: 26px; letter-spacing: 5px; color: var(--green); }

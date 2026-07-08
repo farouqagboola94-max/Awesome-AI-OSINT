@@ -1,0 +1,251 @@
+<title>Za.allyErrands — Brand Book</title>
+<style>
+@font-face { font-family: 'Anton'; src: url(data:font/woff2;base64,__ANTON__) format('woff2'); }
+@font-face { font-family: 'ArchivoBlack'; src: url(data:font/woff2;base64,__ARCHIVO__) format('woff2'); }
+:root {
+  --forest: #05100a; --moss: #0a1f12; --moss2: #123424;
+  --green: #16e56b; --lime: #c6ff4a; --mint: #eafff2;
+  --ink-soft: #cfe9d8; --hairline: rgba(22, 229, 107, 0.22);
+}
+/* Brand book deliberately commits to the brand's dark world in both themes. */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--forest); color: var(--mint);
+  font-family: 'ArchivoBlack', 'Arial Black', sans-serif;
+  line-height: 1.6;
+}
+.anton { font-family: 'Anton', 'Arial Narrow', sans-serif; font-weight: 400; }
+.wrap { max-width: 1060px; margin: 0 auto; padding: 0 28px; }
+.eyebrow { font-size: 12px; letter-spacing: 4px; color: var(--green); text-transform: uppercase; }
+
+header.hero { padding: 110px 0 70px; border-bottom: 1px solid var(--hairline);
+  background: radial-gradient(120% 90% at 50% 0%, #0d2a17 0%, var(--forest) 62%); }
+.hero h1 { font-family: 'Anton', sans-serif; font-size: clamp(56px, 9vw, 118px); line-height: 0.98; text-wrap: balance; }
+.hero h1 .za { color: var(--green); }
+.hero .tag { font-family: 'Anton', sans-serif; font-size: clamp(22px, 3.4vw, 38px); margin-top: 22px; color: var(--mint); }
+.hero .tag em { font-style: normal; color: var(--lime); }
+.hero p { max-width: 62ch; margin-top: 26px; font-size: 15px; color: var(--ink-soft); }
+
+nav.toc { position: sticky; top: 0; z-index: 20; background: rgba(5, 16, 10, 0.92);
+  border-bottom: 1px solid var(--hairline); backdrop-filter: none; }
+nav.toc .wrap { display: flex; gap: 26px; overflow-x: auto; padding-top: 14px; padding-bottom: 14px; }
+nav.toc a { color: var(--ink-soft); text-decoration: none; font-size: 12px; letter-spacing: 2.5px; white-space: nowrap; }
+nav.toc a:hover, nav.toc a:focus-visible { color: var(--lime); outline: none; }
+
+section { padding: 78px 0; border-bottom: 1px solid var(--hairline); }
+section h2 { font-family: 'Anton', sans-serif; font-size: clamp(34px, 5vw, 56px); margin: 10px 0 34px; text-wrap: balance; }
+.grid { display: grid; gap: 20px; }
+
+/* palette */
+.swatches { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+.sw { border-radius: 18px; overflow: hidden; border: 1px solid var(--hairline); }
+.sw .chip { height: 120px; }
+.sw .meta { background: var(--moss); padding: 14px 16px; }
+.sw .meta b { display: block; font-size: 14px; }
+.sw .meta span { font-size: 12px; letter-spacing: 1.5px; color: var(--green); font-variant-numeric: tabular-nums; }
+
+/* type specimens */
+.spec { border-left: 3px solid var(--green); padding: 6px 0 6px 24px; margin-bottom: 34px; }
+.spec .use { font-size: 11px; letter-spacing: 3px; color: var(--green); text-transform: uppercase; }
+.spec .sample { margin-top: 8px; }
+
+/* rules cards */
+.rules { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.rule { background: var(--moss); border: 1px solid var(--hairline); border-radius: 16px; padding: 22px; font-size: 14px; color: var(--ink-soft); }
+.rule b { color: var(--mint); display: block; margin-bottom: 8px; font-size: 15px; }
+.rule .ok { color: var(--green); } .rule .no { color: #ff7a7a; }
+
+/* mascot */
+.mascot-row { display: flex; gap: 44px; align-items: center; flex-wrap: wrap; }
+.mascot-row figure { flex: 0 0 auto; }
+.mascot-row .about { flex: 1; min-width: 280px; font-size: 15px; color: var(--ink-soft); max-width: 60ch; }
+
+/* patterns — live css demos */
+.patterns { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.pat { height: 170px; border-radius: 16px; border: 1px solid var(--hairline); position: relative; overflow: hidden; }
+.pat figcaption { position: absolute; left: 14px; bottom: 12px; font-size: 11px; letter-spacing: 2.5px; color: var(--mint);
+  background: rgba(5, 16, 10, 0.72); padding: 5px 12px; border-radius: 99px; }
+.pat-dots { background-image: radial-gradient(rgba(22,229,107,0.35) 2px, transparent 2px); background-size: 26px 26px; background-color: var(--forest); }
+.pat-grid { background-image: linear-gradient(var(--hairline) 1px, transparent 1px), linear-gradient(90deg, var(--hairline) 1px, transparent 1px); background-size: 44px 44px; background-color: var(--forest); }
+.pat-speed { background: repeating-linear-gradient(64deg, var(--forest) 0 26px, var(--moss2) 26px 34px, var(--forest) 34px 60px, rgba(198,255,74,0.65) 60px 64px); }
+.pat-ticks { background-color: var(--forest); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cpath d='M22 44 36 58 62 26' stroke='%2316e56b' stroke-width='8' fill='none' stroke-linecap='round' stroke-linejoin='round' opacity='0.5'/%3E%3C/svg%3E"); }
+
+/* asset index */
+.idx { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.cat { background: var(--moss); border: 1px solid var(--hairline); border-radius: 16px; padding: 24px; }
+.cat h3 { font-family: 'Anton', sans-serif; font-size: 22px; margin-bottom: 4px; }
+.cat .count { font-size: 11px; letter-spacing: 3px; color: var(--green); }
+.cat ol { margin: 14px 0 0 18px; font-size: 13.5px; color: var(--ink-soft); }
+.cat li { margin: 5px 0; }
+
+/* platform cards */
+.plat { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+.plat a { display: block; background: var(--moss); border: 1px solid var(--hairline); border-radius: 16px; padding: 22px;
+  color: var(--mint); text-decoration: none; font-size: 14px; }
+.plat a:hover, .plat a:focus-visible { border-color: var(--green); outline: none; }
+.plat b { display: block; font-family: 'Anton', sans-serif; font-size: 20px; margin-bottom: 6px; }
+.plat span { color: var(--green); font-size: 12px; letter-spacing: 2px; }
+.plat .note { color: var(--ink-soft); margin-top: 8px; display: block; letter-spacing: 0; }
+
+.cta-demo { display: inline-block; background: var(--lime); color: var(--forest); border-radius: 999px;
+  padding: 15px 34px; font-size: 15px; margin-top: 14px; }
+footer { padding: 60px 0 90px; text-align: center; color: var(--ink-soft); font-size: 13px; }
+footer .mark { font-family: 'Anton', sans-serif; font-size: 30px; color: var(--mint); margin-bottom: 8px; }
+footer .mark .za { color: var(--green); }
+@media (prefers-reduced-motion: no-preference) {
+  .hero h1 { animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  .hero .tag { animation: rise 0.7s 0.12s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+}
+</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Brand Book &bull; v1 &bull; 2026</div>
+    <h1><span class="za">Za.</span>allyErrands</h1>
+    <div class="tag anton">YOUR ERRANDS. <em>OUR PROBLEM.</em></div>
+    <p>The complete visual identity for Lagos's buddy-double errand service — 50 IP assets built on one system so every flyer, reel, sticker, and rider vest is unmistakably ours. This page is the single source of truth.</p>
+  </div>
+</header>
+
+<nav class="toc"><div class="wrap">
+  <a href="#color">01 Color</a><a href="#type">02 Type</a><a href="#logo">03 Logo</a>
+  <a href="#mascot">04 Mascot</a><a href="#patterns">05 Patterns</a><a href="#voice">06 Voice</a>
+  <a href="#assets">07 The 50 Assets</a><a href="#platforms">08 Where It Lives</a>
+</div></nav>
+
+<section id="color"><div class="wrap">
+  <div class="eyebrow">01</div><h2>Color</h2>
+  <div class="grid swatches">
+    <div class="sw"><div class="chip" style="background:#05100a"></div><div class="meta"><b>Midnight Forest</b><span>#05100A &mdash; primary ground</span></div></div>
+    <div class="sw"><div class="chip" style="background:#0a1f12"></div><div class="meta"><b>Deep Moss</b><span>#0A1F12 &mdash; surfaces &amp; cards</span></div></div>
+    <div class="sw"><div class="chip" style="background:#16e56b"></div><div class="meta"><b>Signal Green</b><span>#16E56B &mdash; the brand color</span></div></div>
+    <div class="sw"><div class="chip" style="background:#c6ff4a"></div><div class="meta"><b>Volt Lime</b><span>#C6FF4A &mdash; action &amp; CTA only</span></div></div>
+    <div class="sw"><div class="chip" style="background:#eafff2"></div><div class="meta"><b>Mint Paper</b><span>#EAFFF2 &mdash; light surfaces &amp; print</span></div></div>
+    <div class="sw"><div class="chip" style="background:linear-gradient(90deg,#16e56b,#c6ff4a)"></div><div class="meta"><b>The Run</b><span>gradient &mdash; progress &amp; motion</span></div></div>
+  </div>
+  <div class="grid rules" style="margin-top:22px">
+    <div class="rule"><b><span class="ok">✓</span> Signal Green owns identity</b>Logo dot, accents, icons. If a passerby sees one color, it's this.</div>
+    <div class="rule"><b><span class="ok">✓</span> Volt Lime = do something</b>Buttons, CTAs, highlights. Never body text, never backgrounds bigger than a card.</div>
+    <div class="rule"><b><span class="no">✗</span> Never mix in other hues</b>No blues, reds, oranges. Semantic states stay inside the family (Lime = success, Mint = info).</div>
+  </div>
+</div></section>
+
+<section id="type"><div class="wrap">
+  <div class="eyebrow">02</div><h2>Typography</h2>
+  <div class="spec"><div class="use">Display — Anton</div>
+    <div class="sample anton" style="font-size:clamp(40px,7vw,84px);line-height:1">SEND IT. FORGET IT. IT'S DONE.</div></div>
+  <div class="spec"><div class="use">Headline — Anton, sentence case allowed</div>
+    <div class="sample anton" style="font-size:clamp(24px,3.6vw,40px)">Your errands, handled while you work.</div></div>
+  <div class="spec"><div class="use">Body / UI — Archivo Black</div>
+    <div class="sample" style="font-size:16px;max-width:62ch;color:var(--ink-soft)">DM or WhatsApp to place your order. We confirm price and ETA in minutes. Dolphin Estate &bull; Ikoyi &bull; Lagos.</div></div>
+  <div class="spec"><div class="use">Label — Archivo Black, tracked caps</div>
+    <div class="sample" style="font-size:12px;letter-spacing:4px">NOW LIVE &bull; DOLPHIN ESTATE &bull; LAGOS</div></div>
+  <div class="grid rules">
+    <div class="rule"><b>Anton shouts, Archivo explains.</b>Anton is for statements under ~8 words. Long copy in Anton is a violation.</div>
+    <div class="rule"><b>The dot is the signature.</b>"Za." always ends in a period. In display sizes, the dot may take Volt Lime.</div>
+  </div>
+</div></section>
+
+<section id="logo"><div class="wrap">
+  <div class="eyebrow">03</div><h2>Logo system</h2>
+  <div class="grid rules">
+    <div class="rule" style="text-align:center;padding:44px 22px"><span class="anton" style="font-size:44px"><span style="color:var(--green)">Za.</span>allyErrands</span><br><br><span style="font-size:11px;letter-spacing:3px;color:var(--green)">PRIMARY WORDMARK</span></div>
+    <div class="rule" style="text-align:center;padding:44px 22px"><span style="display:inline-flex;width:96px;height:96px;border-radius:50%;background:var(--green);align-items:center;justify-content:center" class="anton"><span style="font-size:42px;color:var(--forest)">Za.</span></span><br><br><span style="font-size:11px;letter-spacing:3px;color:var(--green)">MONOGRAM ROUNDEL</span></div>
+    <div class="rule" style="text-align:center;padding:44px 22px;background:var(--mint)"><span class="anton" style="font-size:44px;color:var(--forest)"><span style="color:#0aa94b">Za.</span>allyErrands</span><br><br><span style="font-size:11px;letter-spacing:3px;color:#0aa94b">ON LIGHT / PRINT</span></div>
+  </div>
+  <div class="grid rules" style="margin-top:20px">
+    <div class="rule"><b>Clear space</b>Keep one "Za." height of empty space on all sides. Nothing enters the box.</div>
+    <div class="rule"><b><span class="no">✗</span> Don't</b>Stretch, outline, re-color beyond this page, add shadows, or set on busy photography without the dark scrim.</div>
+    <div class="rule"><b>Minimum size</b>Wordmark ≥ 120px wide on screen / 30mm in print. Below that, use the roundel.</div>
+  </div>
+</div></section>
+
+<section id="mascot"><div class="wrap">
+  <div class="eyebrow">04</div><h2>Ally — the buddy double</h2>
+  <div class="mascot-row">
+    <figure aria-label="Ally the mascot">
+      <svg width="240" height="300" viewBox="0 0 200 250" fill="none" role="img">
+        <g stroke="#c6ff4a" stroke-width="7" stroke-linecap="round" opacity="0.85">
+          <path d="M8 96h44"/><path d="M-2 126h54"/><path d="M12 156h40"/></g>
+        <g transform="rotate(-14 100 130)">
+          <path d="M60 118c0-24 18-38 40-38s40 14 40 38v62c0 18-14 30-40 30s-40-12-40-30z" fill="#0a1f12" stroke="#16e56b" stroke-width="6"/>
+          <circle cx="100" cy="62" r="44" fill="#16e56b"/>
+          <path d="M62 56h76v14a14 14 0 0 1-14 14H76a14 14 0 0 1-14-14z" fill="#05100a"/>
+          <rect x="76" y="62" width="14" height="9" rx="4.5" fill="#f7fff9"/>
+          <rect x="110" y="62" width="14" height="9" rx="4.5" fill="#f7fff9"/>
+          <path d="M84 20c4-8 28-8 32 0l3 10H81z" fill="#0a8f44"/>
+          <text x="100" y="155" text-anchor="middle" font-family="Anton" font-size="30" fill="#f7fff9">Za.</text>
+          <rect x="128" y="150" width="52" height="44" rx="8" fill="#c6ff4a" stroke="#05100a" stroke-width="5" transform="rotate(8 154 172)"/>
+          <path d="M128 168h52" stroke="#05100a" stroke-width="4" transform="rotate(8 154 172)"/>
+          <path d="M58 150c-12 8-16 22-10 34" stroke="#16e56b" stroke-width="10" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </figure>
+    <div class="about">
+      <p><b style="color:var(--mint)">Ally is the second you.</b> While you're at your desk, Ally is in the queue, at the market, at the pharmacy — always leaning forward, always carrying the lime package.</p>
+      <p style="margin-top:14px">Use Ally for warmth: onboarding, stickers, delivery confirmations, empty states. Never use Ally to deliver bad news, and never redraw the visor or swap the package color — the lean, the visor, and the lime box are the identity.</p>
+    </div>
+  </div>
+</div></section>
+
+<section id="patterns"><div class="wrap">
+  <div class="eyebrow">05</div><h2>Patterns &amp; textures</h2>
+  <div class="grid patterns">
+    <figure class="pat pat-dots"><figcaption>DISPATCH DOTS</figcaption></figure>
+    <figure class="pat pat-grid"><figcaption>ROUTING GRID</figcaption></figure>
+    <figure class="pat pat-speed"><figcaption>SPEED LINES</figcaption></figure>
+    <figure class="pat pat-ticks"><figcaption>HANDLED TICKS</figcaption></figure>
+  </div>
+  <p style="margin-top:18px;font-size:14px;color:var(--ink-soft);max-width:70ch">Patterns sit at low contrast behind content — texture, never noise. One pattern per composition.</p>
+</div></section>
+
+<section id="voice"><div class="wrap">
+  <div class="eyebrow">06</div><h2>Voice</h2>
+  <div class="grid rules">
+    <div class="rule"><b>Sharp sharp. No stories.</b>Short sentences. Full stops. Lagos-fluent confidence — "No wahala", "Consider it done."</div>
+    <div class="rule"><b>Sell time, not delivery.</b>Every line answers one question: what do you get back? Hours. Weekends. Peace of mind.</div>
+    <div class="rule"><b>One CTA, everywhere.</b>The signature call to action never varies:<div class="cta-demo">DM OR WHATSAPP TO PLACE YOUR ORDER</div></div>
+  </div>
+</div></section>
+
+<section id="assets"><div class="wrap">
+  <div class="eyebrow">07</div><h2>The 50 IP assets</h2>
+  <div class="grid idx">
+    <div class="cat"><h3>Core identity</h3><div class="count">IP 01–10</div>
+      <ol><li>Primary wordmark</li><li>Monogram roundel</li><li>Wordmark on light</li><li>Mono one-color (print)</li><li>App icon</li><li>Favicon glyph set</li><li>Tagline lockup</li><li>Stacked lockup</li><li>Watermark badge chips</li><li>WhatsApp order badge</li></ol></div>
+    <div class="cat"><h3>Color &amp; type</h3><div class="count">IP 11–14</div>
+      <ol start="11"><li>Core palette tokens</li><li>Gradient system</li><li>Type system</li><li>Clear space &amp; usage</li></ol></div>
+    <div class="cat"><h3>Patterns</h3><div class="count">IP 15–20</div>
+      <ol start="15"><li>Route lines</li><li>Night bokeh</li><li>Handled ticks</li><li>Dispatch grid</li><li>Speed lines</li><li>Sticker bomb</li></ol></div>
+    <div class="cat"><h3>Iconography</h3><div class="count">IP 21–22</div>
+      <ol start="21"><li>Service icons ×6</li><li>Process icons ×4</li></ol></div>
+    <div class="cat"><h3>Ally mascot</h3><div class="count">IP 23–26</div>
+      <ol start="23"><li>Front pose</li><li>Running pose</li><li>Badge crop</li><li>On the move</li></ol></div>
+    <div class="cat"><h3>Social kit</h3><div class="count">IP 27–36</div>
+      <ol start="27"><li>IG avatar</li><li>Story — announcement</li><li>Story — testimonial</li><li>Post — service spotlight</li><li>Post — offer</li><li>Carousel cover</li><li>Highlight covers ×5</li><li>WhatsApp status</li><li>WhatsApp business cover</li><li>X header</li></ol></div>
+    <div class="cat"><h3>Print &amp; physical</h3><div class="count">IP 37–44</div>
+      <ol start="37"><li>Business card F/B</li><li>Flyer A5</li><li>Rider tee front</li><li>Rider vest back</li><li>Delivery bag panel</li><li>Die-cut stickers ×4</li><li>Door hanger</li><li>Scooter livery strip</li></ol></div>
+    <div class="cat"><h3>Digital &amp; ops</h3><div class="count">IP 45–50</div>
+      <ol start="45"><li>WhatsApp order menu</li><li>Receipt header</li><li>Website hero</li><li>Email signature</li><li>Google profile cover</li><li>Run Club loyalty card</li></ol></div>
+  </div>
+</div></section>
+
+<section id="platforms"><div class="wrap">
+  <div class="eyebrow">08</div><h2>Where it lives</h2>
+  <div class="grid plat">
+    <a href="https://www.canva.com/d/1LGNMapzuTvNqA7"><b>Canva — Logo</b><span>EDITABLE</span><span class="note">Wordmark design, ready to refine</span></a>
+    <a href="https://www.canva.com/d/gUl3_X8R_ewIZvs"><b>Canva — IG Post</b><span>EDITABLE</span><span class="note">On-brand post template</span></a>
+    <a href="https://www.canva.com/d/EobvqFWRPc5UjBw"><b>Canva — Flyer</b><span>EDITABLE</span><span class="note">"Too busy to run errands?" A5</span></a>
+    <a href="https://www.canva.com/d/GbaCd6IWR3upPeY"><b>Canva — Business Card</b><span>EDITABLE</span><span class="note">Front + back, 2 pages</span></a>
+    <a href="https://new.express.adobe.com/id/urn:aaid:sc:EU:58aa6c1a-a517-4385-9bdc-c1f8e9aba439?referrer=claude&intent=export_html_to_express&sdid=CMR41ZGB"><b>Adobe Express — Brand Board</b><span>5 SLIDES &bull; EDITABLE</span><span class="note">Cover, palette, type, mascot &amp; icons, voice</span></a>
+    <a href="https://github.com/farouqagboola94-max/Awesome-AI-OSINT/tree/claude/za-allyerrands-trailers-khlw5y/marketing"><b>GitHub — Source of truth</b><span>ALL 50 MASTERS</span><span class="note">PNGs + editable HTML/SVG sources + this book</span></a>
+  </div>
+  <p style="margin-top:18px;font-size:13px;color:var(--ink-soft)">Figma push pending — your Figma seat is view-only; upgrade to an Editor seat and I can mirror the system there.</p>
+</div></section>
+
+<footer>
+  <div class="mark"><span class="za">Za.</span>allyErrands</div>
+  One system. Every asset. Unmistakably ours.
+</footer>

@@ -1,0 +1,302 @@
+[
+ {
+  "id": "ip01-wordmark-primary",
+  "name": "Primary wordmark",
+  "w": 1600,
+  "h": 900
+ },
+ {
+  "id": "ip02-monogram-roundel",
+  "name": "Monogram roundel",
+  "w": 1200,
+  "h": 1200
+ },
+ {
+  "id": "ip03-wordmark-reversed",
+  "name": "Wordmark on light",
+  "w": 1600,
+  "h": 900
+ },
+ {
+  "id": "ip04-wordmark-mono",
+  "name": "Wordmark mono (1-color print)",
+  "w": 1600,
+  "h": 900
+ },
+ {
+  "id": "ip05-app-icon",
+  "name": "App icon",
+  "w": 1024,
+  "h": 1024
+ },
+ {
+  "id": "ip06-favicon-glyph",
+  "name": "Favicon glyph",
+  "w": 1200,
+  "h": 1200
+ },
+ {
+  "id": "ip07-tagline-lockup",
+  "name": "Tagline lockup",
+  "w": 1600,
+  "h": 900
+ },
+ {
+  "id": "ip08-stacked-lockup",
+  "name": "Stacked lockup",
+  "w": 1200,
+  "h": 1400
+ },
+ {
+  "id": "ip09-badge-chip",
+  "name": "Watermark badge chip",
+  "w": 1600,
+  "h": 600
+ },
+ {
+  "id": "ip10-order-badge",
+  "name": "WhatsApp order badge",
+  "w": 1200,
+  "h": 1200
+ },
+ {
+  "id": "ip11-palette",
+  "name": "Color tokens",
+  "w": 1600,
+  "h": 1600
+ },
+ {
+  "id": "ip12-gradients",
+  "name": "Gradient system",
+  "w": 1600,
+  "h": 900
+ },
+ {
+  "id": "ip13-type-system",
+  "name": "Type system",
+  "w": 1600,
+  "h": 1600
+ },
+ {
+  "id": "ip14-clearspace",
+  "name": "Clear space & usage",
+  "w": 1600,
+  "h": 1200
+ },
+ {
+  "id": "ip15-pattern-route",
+  "name": "Route lines",
+  "w": 1600,
+  "h": 1600
+ },
+ {
+  "id": "ip16-pattern-bokeh",
+  "name": "Night bokeh",
+  "w": 1600,
+  "h": 1600
+ },
+ {
+  "id": "ip17-pattern-ticks",
+  "name": "Handled ticks",
+  "w": 1600,
+  "h": 1600
+ },
+ {
+  "id": "ip18-pattern-dispatch",
+  "name": "Dispatch grid",
+  "w": 1600,
+  "h": 1600
+ },
+ {
+  "id": "ip19-pattern-speedlines",
+  "name": "Speed lines",
+  "w": 1600,
+  "h": 1600
+ },
+ {
+  "id": "ip20-pattern-stickerbomb",
+  "name": "Sticker bomb",
+  "w": 1600,
+  "h": 1600
+ },
+ {
+  "id": "ip21-icons-services",
+  "name": "Service icon set",
+  "w": 1600,
+  "h": 1200
+ },
+ {
+  "id": "ip22-icons-process",
+  "name": "Process icon set",
+  "w": 1600,
+  "h": 800
+ },
+ {
+  "id": "ip23-mascot-front",
+  "name": "Mascot — Ally",
+  "w": 1200,
+  "h": 1400
+ },
+ {
+  "id": "ip24-mascot-run",
+  "name": "Mascot — running",
+  "w": 1600,
+  "h": 1200
+ },
+ {
+  "id": "ip25-mascot-badge",
+  "name": "Mascot badge",
+  "w": 1200,
+  "h": 1200
+ },
+ {
+  "id": "ip26-mascot-wheel",
+  "name": "Mascot — on the move",
+  "w": 1600,
+  "h": 1200
+ },
+ {
+  "id": "ip27-ig-avatar",
+  "name": "IG avatar",
+  "w": 1024,
+  "h": 1024
+ },
+ {
+  "id": "ip28-story-announcement",
+  "name": "Story — announcement",
+  "w": 1080,
+  "h": 1920
+ },
+ {
+  "id": "ip29-story-testimonial",
+  "name": "Story — testimonial",
+  "w": 1080,
+  "h": 1920
+ },
+ {
+  "id": "ip30-post-spotlight",
+  "name": "Post — service spotlight",
+  "w": 1080,
+  "h": 1350
+ },
+ {
+  "id": "ip31-post-offer",
+  "name": "Post — offer/price",
+  "w": 1080,
+  "h": 1350
+ },
+ {
+  "id": "ip32-carousel-cover",
+  "name": "Carousel cover",
+  "w": 1080,
+  "h": 1350
+ },
+ {
+  "id": "ip33-highlight-covers",
+  "name": "IG highlight covers",
+  "w": 1600,
+  "h": 800
+ },
+ {
+  "id": "ip34-whatsapp-status",
+  "name": "WhatsApp status template",
+  "w": 1080,
+  "h": 1920
+ },
+ {
+  "id": "ip35-wa-profile-cover",
+  "name": "WhatsApp business cover",
+  "w": 1600,
+  "h": 900
+ },
+ {
+  "id": "ip36-x-header",
+  "name": "X / Twitter header",
+  "w": 1500,
+  "h": 500
+ },
+ {
+  "id": "ip37-business-card",
+  "name": "Business card F/B",
+  "w": 1600,
+  "h": 1000
+ },
+ {
+  "id": "ip38-flyer-a5",
+  "name": "Flyer A5",
+  "w": 1240,
+  "h": 1754
+ },
+ {
+  "id": "ip39-tshirt-front",
+  "name": "Rider tee — front",
+  "w": 1400,
+  "h": 1400
+ },
+ {
+  "id": "ip40-vest-back",
+  "name": "Rider vest — back",
+  "w": 1400,
+  "h": 1400
+ },
+ {
+  "id": "ip41-delivery-bag",
+  "name": "Delivery bag panel",
+  "w": 1400,
+  "h": 1400
+ },
+ {
+  "id": "ip42-sticker-set",
+  "name": "Die-cut sticker set",
+  "w": 1600,
+  "h": 1200
+ },
+ {
+  "id": "ip43-door-hanger",
+  "name": "Door hanger",
+  "w": 1000,
+  "h": 1600
+ },
+ {
+  "id": "ip44-scooter-livery",
+  "name": "Scooter livery strip",
+  "w": 1800,
+  "h": 900
+ },
+ {
+  "id": "ip45-wa-menu",
+  "name": "WhatsApp order menu",
+  "w": 1080,
+  "h": 1920
+ },
+ {
+  "id": "ip46-receipt-header",
+  "name": "Receipt header",
+  "w": 1400,
+  "h": 800
+ },
+ {
+  "id": "ip47-web-hero",
+  "name": "Website hero",
+  "w": 1920,
+  "h": 1080
+ },
+ {
+  "id": "ip48-email-signature",
+  "name": "Email signature",
+  "w": 1400,
+  "h": 500
+ },
+ {
+  "id": "ip49-maps-cover",
+  "name": "Google profile cover",
+  "w": 1600,
+  "h": 900
+ },
+ {
+  "id": "ip50-loyalty-card",
+  "name": "Loyalty punch card",
+  "w": 1600,
+  "h": 1000
+ }
+]
