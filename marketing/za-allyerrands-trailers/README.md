@@ -44,3 +44,34 @@ node render.js t1-stop        # writes t1-stop.mp4
 ```
 
 Edit the copy directly in the HTML files — every line of text is plain markup.
+
+## The 10-pack (with audio) — `final/`
+
+Ten more 18s trailers generated from `specs.json` via `build.js`, each with a
+synthesized 116 BPM afro-house-style bed (`gen_audio.py`) — boom impacts synced
+to every scene cut, a riser into the brand reveal, ~-14 dB mean loudness:
+
+| # | Concept | Hook |
+|---|---------|------|
+| v01 | The List | Satisfying checklist gets struck through → "HANDLED." |
+| v02 | Don't Move | Permission-to-be-lazy angle |
+| v03 | The Math | 3 hours vs 3 minutes comparison |
+| v04 | Rain or Shine | Call-and-response reliability chant |
+| v05 | 5 Things | Listicle open loop (01/05…) |
+| v06 | Weekend Unlocked | Aspirational free-Saturday |
+| v07 | Speedrun | Gamified delivery timeline |
+| v08 | While You | Parallel-lives storytelling |
+| v09 | Excuses | Objection crusher → "JUST SEND IT." |
+| v10 | The Upgrade | Premium positioning for Dolphin Estate |
+
+Pipeline: `node build.js && node render.js <name> && python3 gen_audio.py <name> && bash mux.sh`
+
+### Brand voiceovers (in your Higgsfield library)
+Two Andre-voice VO lines were generated and saved to the Higgsfield account
+(this build environment couldn't download them — its network egress blocks the
+Higgsfield CDN — so they are not baked into the MP4s; layer them over the final
+6 seconds in CapCut):
+- VO1 (7.8s): "Your errands. Our problem. Za.allyErrands — now live in Dolphin
+  Estate. DM or WhatsApp us, and consider it done."
+- VO2 (5.0s): "Send it. Forget it. It's done. Za.allyErrands — DM or WhatsApp
+  to place your order."
