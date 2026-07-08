@@ -59,6 +59,11 @@
 ═══════════════════════════════════════════════════════════ -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/favicon.svg">
+<link rel="manifest" href="/manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Catalyst">
 
 <!-- ═══════════════════════════════════════════════════════════
      FONTS & RESOURCE HINTS
@@ -7040,8 +7045,214 @@ body.ase-vision .ase-glyph-field { display:block; }
 .lnm-legend-dot{width:8px;height:8px;border-radius:50%;}
 </style>
 
+<!-- ══ BATCH 2 STYLES: PWA / A11Y / ENGAGEMENT ══ -->
+<style id="upgrade-v2-styles">
+/* ── Skip-to-content ── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  background: var(--danfo-gold);
+  color: #06060d;
+  padding: 0.6rem 1.4rem;
+  font-weight: 700;
+  font-size: 0.88rem;
+  letter-spacing: 0.05em;
+  z-index: 99999;
+  border-radius: 0 0 4px 0;
+  text-decoration: none;
+  transition: top 0.15s;
+}
+.skip-link:focus { top: 0; }
+
+/* ── Cookie consent banner ── */
+#cookie-banner {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(6,6,13,0.97);
+  border-top: 1px solid rgba(244,184,0,0.28);
+  padding: 0.9rem 1.5rem;
+  z-index: 50000;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-size: 0.81rem;
+  color: rgba(240,237,229,0.8);
+  backdrop-filter: blur(10px);
+}
+#cookie-banner[hidden] { display: none !important; }
+#cookie-banner p { margin: 0; flex: 1; min-width: 180px; line-height: 1.5; }
+#cookie-banner a { color: var(--danfo-gold); text-decoration: none; }
+#cookie-banner a:hover { text-decoration: underline; }
+.cookie-btns { display: flex; gap: 0.5rem; flex-shrink: 0; }
+.cookie-btn {
+  padding: 0.45rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 3px;
+  cursor: pointer;
+  border: 1px solid;
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  transition: opacity 0.15s;
+}
+.cookie-btn:hover { opacity: 0.82; }
+.cookie-btn-accept { background: var(--danfo-gold); color: #06060d; border-color: var(--danfo-gold); }
+.cookie-btn-reject { background: transparent; color: rgba(240,237,229,0.55); border-color: rgba(240,237,229,0.2); }
+
+/* ── Keyboard shortcuts panel ── */
+#kb-backdrop {
+  position: fixed; inset: 0;
+  z-index: 59999;
+  background: rgba(0,0,0,0.55);
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+}
+#kb-backdrop.open { opacity: 1; visibility: visible; }
+#kb-panel {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0.94);
+  background: rgba(8,8,20,0.98);
+  border: 1px solid rgba(244,184,0,0.35);
+  border-radius: 6px;
+  padding: 1.5rem 2rem 1.25rem;
+  z-index: 60000;
+  min-width: 270px;
+  max-width: 360px;
+  width: calc(100vw - 3rem);
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+  backdrop-filter: blur(16px);
+}
+#kb-panel.open { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
+.kb-panel-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--danfo-gold);
+  margin: 0 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.kb-close-btn { cursor: pointer; opacity: 0.55; font-size: 1.1rem; background: none; border: none; color: inherit; padding: 0; }
+.kb-close-btn:hover { opacity: 1; }
+.kb-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.38rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-size: 0.78rem;
+}
+.kb-row:last-child { border-bottom: none; }
+kbd {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  background: rgba(244,184,0,0.1);
+  border: 1px solid rgba(244,184,0,0.28);
+  border-radius: 3px;
+  padding: 0.15rem 0.45rem;
+  color: var(--danfo-gold);
+  min-width: 1.5rem;
+  text-align: center;
+  display: inline-block;
+}
+.kb-desc { color: rgba(240,237,229,0.6); }
+.kb-sep {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: rgba(244,184,0,0.5);
+  text-transform: uppercase;
+  padding: 0.6rem 0 0.2rem;
+}
+
+/* ── KB trigger button ── */
+#kb-trigger-btn {
+  position: fixed;
+  bottom: 6.2rem;
+  right: 1.5rem;
+  z-index: 9000;
+  width: 2.8rem; height: 2.8rem;
+  border-radius: 50%;
+  background: rgba(8,8,20,0.9);
+  color: rgba(240,237,229,0.5);
+  border: 1px solid rgba(244,184,0,0.25);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+  font-family: 'Space Mono', monospace;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+}
+#kb-trigger-btn:hover { border-color: var(--danfo-gold); color: var(--danfo-gold); }
+
+/* ── Issue progress tracker ── */
+.issue-read-btn-track {
+  font-size: 0.7rem;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid rgba(240,237,229,0.18);
+  border-radius: 3px;
+  background: transparent;
+  color: rgba(240,237,229,0.4);
+  cursor: pointer;
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 0.04em;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.issue-read-btn-track:hover { border-color: var(--danfo-gold); color: var(--danfo-gold); }
+.issue-card.is-read .issue-read-btn-track {
+  border-color: var(--orisha-teal);
+  color: var(--orisha-teal);
+}
+.issue-read-badge {
+  position: absolute;
+  top: 0.6rem; left: 0.6rem;
+  background: var(--orisha-teal);
+  color: #06060d;
+  font-weight: 800;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 2px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  z-index: 20;
+  font-family: 'Space Mono', monospace;
+}
+.issue-card.is-read .issue-read-badge { opacity: 1; }
+
+/* ── Hero share button ── */
+.hero-share-btn {
+  background: transparent;
+  border: 1px solid rgba(240,237,229,0.25);
+  color: rgba(240,237,229,0.65);
+  padding: 0.75rem 1.4rem;
+  font-size: 0.75rem;
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  text-transform: uppercase;
+}
+.hero-share-btn:hover { border-color: var(--danfo-gold); color: var(--danfo-gold); }
+.hero-share-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+</style>
 </head>
 <body>
+
+<a class="skip-link" href="#hero">Skip to main content</a>
 
 <!-- ══════════════════════════════════════ THREAT TICKER -->
 <div id="threat-ticker">
@@ -7160,9 +7371,6 @@ body.ase-vision .ase-glyph-field { display:block; }
   </div>
 </div>
 
-<!-- ============================================================ TOAST CONTAINER -->
-<div id="toast-container"></div>
-
 <!-- ============================================================ LAGOS INTEL WIRE -->
 <div class="lagos-intel-wire" id="lagosIntelWire">
   <div class="liw-live"><span class="liw-dot"></span>LIVE</div>
@@ -7206,6 +7414,35 @@ body.ase-vision .ase-glyph-field { display:block; }
 <!-- ── Toast Container ── -->
 <div id="toast-container" aria-live="polite" aria-atomic="false"></div>
 
+<!-- ── Keyboard Shortcuts Trigger ── -->
+<button id="kb-trigger-btn" aria-label="Keyboard shortcuts" title="Keyboard shortcuts (?)">?</button>
+
+<!-- ── Keyboard Shortcuts Panel ── -->
+<div id="kb-backdrop" role="presentation"></div>
+<div id="kb-panel" role="dialog" aria-label="Keyboard shortcuts" aria-modal="true">
+  <div class="kb-panel-title">
+    <span>Keyboard Shortcuts</span>
+    <button class="kb-close-btn" id="kb-close-btn" aria-label="Close shortcuts">✕</button>
+  </div>
+  <div class="kb-sep">Navigation</div>
+  <div class="kb-row"><kbd>H</kbd><span class="kb-desc">Go to Hero</span></div>
+  <div class="kb-row"><kbd>C</kbd><span class="kb-desc">Go to Comics</span></div>
+  <div class="kb-row"><kbd>U</kbd><span class="kb-desc">Universe</span></div>
+  <div class="kb-row"><kbd>N</kbd><span class="kb-desc">Newsletter</span></div>
+  <div class="kb-row"><kbd>T</kbd><span class="kb-desc">Back to top</span></div>
+  <div class="kb-sep">General</div>
+  <div class="kb-row"><kbd>?</kbd><span class="kb-desc">Toggle this panel</span></div>
+  <div class="kb-row"><kbd>Esc</kbd><span class="kb-desc">Close overlays</span></div>
+</div>
+
+<!-- ── Cookie Consent Banner ── -->
+<div id="cookie-banner" role="region" aria-label="Cookie consent" hidden>
+  <p>The city remembers you were here. We use cookies for auth &amp; analytics. <a href="#access">Privacy info</a></p>
+  <div class="cookie-btns">
+    <button class="cookie-btn cookie-btn-accept" id="cookie-accept">Accept</button>
+    <button class="cookie-btn cookie-btn-reject" id="cookie-reject">Reject non-essential</button>
+  </div>
+</div>
 
 <!-- MOBILE NAV OVERLAY -->
 <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="toggleMobileNav()"></div>
@@ -7465,6 +7702,10 @@ body.ase-vision .ase-glyph-field { display:block; }
       <div class="hero-actions">
         <a href="#comics" class="btn-primary"><span>Read Issue #1</span></a>
         <a href="#universe" class="btn-secondary">Explore the Universe</a>
+        <button id="hero-share-btn" class="hero-share-btn" aria-label="Share this comic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Share
+        </button>
       </div>
     <div class="hero-quote-carousel" id="heroQuoteCarousel">
       <div class="hqc-quote active" id="hqc0">
@@ -10321,8 +10562,9 @@ body.ase-vision .ase-glyph-field { display:block; }
 
   <div class="comics-grid">
     <!-- Issue 1 -->
-    <div class="issue-card reveal">
+    <div class="issue-card reveal" data-issue="1">
       <div class="issue-cover">
+        <div class="issue-read-badge" aria-hidden="true">✓ READ</div>
         <div class="issue-bg issue-bg-1">
           <img loading="lazy" class="issue-art" src="./assets/cover-issue1.webp" alt="Catalyst: The Awakening — Issue #1: The Awakening" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
         </div>
@@ -10337,12 +10579,14 @@ body.ase-vision .ase-glyph-field { display:block; }
       <div class="issue-meta">
         <span class="issue-pages">48 Pages</span>
         <a href="#newsletter" class="issue-read-btn">Read Now →</a>
+        <button class="issue-read-btn-track" aria-label="Mark issue 1 as read">Mark Read</button>
       </div>
     </div>
 
     <!-- Issue 2 -->
-    <div class="issue-card reveal reveal-delay-1">
+    <div class="issue-card reveal reveal-delay-1" data-issue="2">
       <div class="issue-cover">
+        <div class="issue-read-badge" aria-hidden="true">✓ READ</div>
         <div class="issue-bg issue-bg-2">
           <img loading="lazy" class="issue-art" src="./assets/cover-issue2.webp" alt="Catalyst: The Awakening — Issue #2: The Mirror's Edge" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
         </div>
@@ -10357,12 +10601,14 @@ body.ase-vision .ase-glyph-field { display:block; }
       <div class="issue-meta">
         <span class="issue-pages">52 Pages</span>
         <a href="#newsletter" class="issue-read-btn">Read Now →</a>
+        <button class="issue-read-btn-track" aria-label="Mark issue 2 as read">Mark Read</button>
       </div>
     </div>
 
     <!-- Issue 3 -->
-    <div class="issue-card reveal reveal-delay-2">
+    <div class="issue-card reveal reveal-delay-2" data-issue="3">
       <div class="issue-cover">
+        <div class="issue-read-badge" aria-hidden="true">✓ READ</div>
         <div class="issue-bg issue-bg-3">
           <img loading="lazy" class="issue-art" src="./assets/cover-issue3.webp" alt="Catalyst: The Awakening — Issue #3: Orisha Rising" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
         </div>
@@ -10377,12 +10623,14 @@ body.ase-vision .ase-glyph-field { display:block; }
       <div class="issue-meta">
         <span class="issue-pages">44 Pages</span>
         <a href="#newsletter" class="issue-read-btn">Read Now →</a>
+        <button class="issue-read-btn-track" aria-label="Mark issue 3 as read">Mark Read</button>
       </div>
     </div>
 
     <!-- Issue 4 -->
-    <div class="issue-card reveal">
+    <div class="issue-card reveal" data-issue="4">
       <div class="issue-cover premium-gate">
+        <div class="issue-read-badge" aria-hidden="true">✓ READ</div>
         <div class="issue-bg issue-bg-4" style="background:linear-gradient(135deg,#0a0a1f,#1a0a0a,#06060d)">
           <img loading="lazy" class="issue-art" src="./assets/cover-issue4.webp" alt="Catalyst: The Awakening — Issue #4: Lagos Eternal" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
         </div>
@@ -10403,6 +10651,7 @@ body.ase-vision .ase-glyph-field { display:block; }
       <div class="issue-meta">
         <span class="issue-pages">56 Pages</span>
         <a href="#newsletter" class="issue-read-btn">Read Free Text →</a>
+        <button class="issue-read-btn-track" aria-label="Mark issue 4 as read">Mark Read</button>
       </div>
     </div>
   </div>
@@ -18880,6 +19129,158 @@ document.addEventListener('DOMContentLoaded', function(){
   }
   window.addEventListener('scroll', updateSpy, { passive: true });
   updateSpy();
+
+})();
+</script>
+
+<!-- ═══ BATCH 2: PWA + ENGAGEMENT JS ═══ -->
+<script>
+(function() {
+  'use strict';
+
+  /* ── Service Worker registration ── */
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/sw.js').catch(function() {});
+    });
+  }
+
+  /* ── Web Share API (hero share button) ── */
+  var shareBtn = document.getElementById('hero-share-btn');
+  if (shareBtn) {
+    shareBtn.addEventListener('click', function() {
+      var shareData = {
+        title: 'Catalyst: The Awakening',
+        text: 'A Lagos noir comic universe rooted in Yoruba mythology. 4 free issues — read free!',
+        url: 'https://catalyst-awakening.netlify.app/'
+      };
+      if (navigator.share) {
+        navigator.share(shareData).catch(function(err) {
+          if (err.name !== 'AbortError') fallbackCopy(shareData.url);
+        });
+      } else {
+        fallbackCopy(shareData.url);
+      }
+    });
+  }
+  function fallbackCopy(url) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(function() {
+        if (window.showToast) showToast('Link copied!', 'success', 3000);
+      }).catch(function() {});
+    }
+  }
+
+  /* ── Cookie consent banner ── */
+  (function() {
+    var banner = document.getElementById('cookie-banner');
+    if (!banner) return;
+    try {
+      if (localStorage.getItem('catalyst_cookie_consent')) { banner.hidden = true; return; }
+    } catch(e) { banner.hidden = true; return; }
+    banner.hidden = false;
+    function dismiss(val) {
+      try { localStorage.setItem('catalyst_cookie_consent', val); } catch(e) {}
+      banner.hidden = true;
+    }
+    var acceptBtn = document.getElementById('cookie-accept');
+    var rejectBtn = document.getElementById('cookie-reject');
+    if (acceptBtn) acceptBtn.addEventListener('click', function() { dismiss('accepted'); });
+    if (rejectBtn) rejectBtn.addEventListener('click', function() { dismiss('rejected'); });
+  })();
+
+  /* ── Keyboard shortcuts ── */
+  (function() {
+    var panel = document.getElementById('kb-panel');
+    var backdrop = document.getElementById('kb-backdrop');
+    var triggerBtn = document.getElementById('kb-trigger-btn');
+    var closeBtn = document.getElementById('kb-close-btn');
+    if (!panel || !backdrop) return;
+
+    function openKb() {
+      panel.classList.add('open');
+      backdrop.classList.add('open');
+      if (closeBtn) closeBtn.focus();
+    }
+    function closeKb() {
+      panel.classList.remove('open');
+      backdrop.classList.remove('open');
+      if (triggerBtn) triggerBtn.focus();
+    }
+
+    if (triggerBtn) triggerBtn.addEventListener('click', function() {
+      panel.classList.contains('open') ? closeKb() : openKb();
+    });
+    if (closeBtn) closeBtn.addEventListener('click', closeKb);
+    backdrop.addEventListener('click', closeKb);
+
+    function scrollTo(id) {
+      var el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    document.addEventListener('keydown', function(e) {
+      var tag = (e.target.tagName || '').toLowerCase();
+      if (tag === 'input' || tag === 'textarea' || tag === 'select' || e.target.isContentEditable) return;
+
+      switch (e.key) {
+        case '?':
+          panel.classList.contains('open') ? closeKb() : openKb();
+          e.preventDefault();
+          break;
+        case 'Escape':
+          if (panel.classList.contains('open')) { closeKb(); e.preventDefault(); }
+          break;
+        case 't': case 'T':
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          e.preventDefault();
+          break;
+        case 'h': case 'H':
+          scrollTo('hero'); e.preventDefault();
+          break;
+        case 'c': case 'C':
+          scrollTo('comics'); e.preventDefault();
+          break;
+        case 'u': case 'U':
+          scrollTo('universe'); e.preventDefault();
+          break;
+        case 'n': case 'N':
+          scrollTo('newsletter'); e.preventDefault();
+          break;
+      }
+    });
+  })();
+
+  /* ── Issue progress tracker ── */
+  (function() {
+    var cards = document.querySelectorAll('.issue-card[data-issue]');
+    cards.forEach(function(card) {
+      var num = card.getAttribute('data-issue');
+      var key = 'catalyst_read_' + num;
+      var btn = card.querySelector('.issue-read-btn-track');
+      try {
+        if (localStorage.getItem(key)) {
+          card.classList.add('is-read');
+          if (btn) btn.textContent = '✓ Read';
+        }
+      } catch(e) {}
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        try {
+          if (card.classList.contains('is-read')) {
+            card.classList.remove('is-read');
+            localStorage.removeItem(key);
+            btn.textContent = 'Mark Read';
+          } else {
+            card.classList.add('is-read');
+            localStorage.setItem(key, '1');
+            btn.textContent = '✓ Read';
+            if (window.showToast) showToast('Issue #' + num + ' marked as read!', 'success', 3000);
+          }
+        } catch(e) {}
+      });
+    });
+  })();
 
 })();
 </script>

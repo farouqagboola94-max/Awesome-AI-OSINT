@@ -1,0 +1,38 @@
+{
+  "name": "Catalyst: The Awakening",
+  "short_name": "Catalyst",
+  "description": "Lagos noir comic universe rooted in Yoruba mythology. 4 free issues. Built in Lagos.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#06060d",
+  "theme_color": "#F4B800",
+  "orientation": "portrait-primary",
+  "lang": "en-NG",
+  "dir": "ltr",
+  "scope": "/",
+  "categories": ["entertainment", "books"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/assets/cover-issue1.webp",
+      "sizes": "800x1200",
+      "type": "image/webp",
+      "label": "Issue #1 Cover — The Awakening",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/assets/cover-issue2.webp",
+      "sizes": "800x1200",
+      "type": "image/webp",
+      "label": "Issue #2 Cover — Sango's Daughter",
+      "form_factor": "narrow"
+    }
+  ]
+}
