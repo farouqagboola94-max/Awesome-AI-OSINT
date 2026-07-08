@@ -1,25 +1,31 @@
 [build]
   publish = "design-templates/catalyst-awakening-comic"
+  command = ""
+
+[build.environment]
+  NODE_VERSION = "20"
 
 # HTML — always revalidate
 [[headers]]
   for = "/*.html"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
-    X-Frame-Options = "SAMEORIGIN"
+    X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    X-XSS-Protection = "1; mode=block"
 
 # Default — root index
 [[headers]]
   for = "/"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
-    X-Frame-Options = "SAMEORIGIN"
+    X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    X-XSS-Protection = "1; mode=block"
 
 # Static assets — long-lived cache
 [[headers]]
@@ -47,3 +53,15 @@
   [headers.values]
     Cache-Control = "public, max-age=86400"
     Content-Type = "text/plain; charset=UTF-8"
+
+# webp assets long-lived cache
+[[headers]]
+  for = "/*.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# SPA fallback — keeps hash routing + deep links working
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

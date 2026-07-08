@@ -3,6 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Resource hints for performance -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://js.paystack.co" crossorigin>
+  <link rel="preconnect" href="https://qeoqxowpnrmttjupxkeb.supabase.co" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="dns-prefetch" href="https://qeoqxowpnrmttjupxkeb.supabase.co">
+  <!-- Hero image preload for LCP -->
+  <link rel="preload" as="image" href="./assets/bayo-bridge.webp" fetchpriority="high">
+
 
 <!-- ═══════════════════════════════════════════════════════════
      PRIMARY SEO
@@ -1867,6 +1876,71 @@
     .newsletter-input { clip-path: none; border-right: 1px solid rgba(244,184,0,0.3); }
     .newsletter-btn { clip-path: none; }
   }
+
+  /* ── Reading progress bar ── */
+  #reading-progress {
+    position: fixed; top: 0; left: 0; height: 3px;
+    background: linear-gradient(90deg, var(--danfo-gold), var(--orisha-teal));
+    width: 0; z-index: 10000; transition: width 0.08s linear;
+    pointer-events: none;
+  }
+
+  /* ── Back to top ── */
+  #back-to-top {
+    position: fixed; bottom: 2rem; right: 1.5rem; z-index: 9000;
+    width: 2.8rem; height: 2.8rem; border-radius: 50%;
+    background: var(--danfo-gold); color: #06060d; border: none;
+    font-size: 1.2rem; cursor: pointer; display: flex; align-items: center;
+    justify-content: center; opacity: 0; transform: translateY(1rem);
+    transition: opacity 0.3s, transform 0.3s;
+    box-shadow: 0 4px 20px rgba(244,184,0,0.4);
+  }
+  #back-to-top.visible { opacity: 1; transform: translateY(0); }
+  #back-to-top:hover { background: var(--orisha-teal); }
+
+  /* ── Scroll-reveal ── */
+  .reveal {
+    opacity: 0; transform: translateY(2rem);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+  /* ── Toast notifications ── */
+  #toast-container {
+    position: fixed; bottom: 6rem; right: 1.5rem; z-index: 20000;
+    display: flex; flex-direction: column; gap: 0.6rem; pointer-events: none;
+  }
+  .toast {
+    background: #0e0e1a; border: 1px solid var(--danfo-gold);
+    color: var(--color-text); padding: 0.75rem 1.25rem; border-radius: 0.4rem;
+    font-size: 0.85rem; max-width: 20rem; pointer-events: auto;
+    animation: toastIn 0.35s cubic-bezier(0.22,1,0.36,1) forwards;
+    display: flex; gap: 0.6rem; align-items: flex-start;
+  }
+  .toast.toast-success { border-color: var(--orisha-teal); }
+  .toast.toast-error   { border-color: var(--blood-red); }
+  .toast-icon { font-size: 1rem; flex-shrink: 0; line-height: 1.4; }
+  .toast-body { flex: 1; line-height: 1.4; }
+  @keyframes toastIn {
+    from { opacity: 0; transform: translateX(2rem); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  /* ── Mobile: reduce hero text size ── */
+  @media (max-width: 480px) {
+    .hero-title { font-size: clamp(2.2rem, 12vw, 4rem) !important; }
+    .hero-subtitle { font-size: clamp(1rem, 4vw, 1.3rem) !important; }
+  }
+
+  /* ── prefers-reduced-motion ── */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    .reveal { opacity: 1; transform: none; }
+  }
 </style>
 <style>
 /* ============================================================ ARC TIMELINE */
@@ -2401,36 +2475,6 @@
 
 <!-- ====================================================== AUTH / PAYMENT / TOAST STYLES -->
 <style>
-/* ─── TOAST NOTIFICATIONS ─── */
-#toast-container {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  z-index: 20000;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  pointer-events: none;
-}
-.toast {
-  padding: 1rem 1.5rem;
-  background: rgba(10,10,31,0.97);
-  border: 1px solid rgba(244,184,0,0.3);
-  color: var(--bone-white);
-  font-family: 'Space Mono', monospace;
-  font-size: 0.78rem;
-  letter-spacing: 0.05em;
-  clip-path: polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);
-  transform: translateX(120%);
-  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
-  pointer-events: auto;
-  max-width: 340px;
-  line-height: 1.5;
-}
-.toast.show { transform: translateX(0); }
-.toast.toast-success { border-color: rgba(0,201,177,0.5); }
-.toast.toast-error   { border-color: rgba(196,30,58,0.5); }
-
 /* ─── MODAL BACKDROP ─── */
 .modal-backdrop {
   position: fixed;
@@ -7153,6 +7197,16 @@ body.ase-vision .ase-glyph-field { display:block; }
   </div>
 </nav>
 
+<!-- ── Reading Progress Bar ── -->
+<div id="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+
+<!-- ── Back to Top ── -->
+<button id="back-to-top" aria-label="Back to top" title="Back to top">&#8679;</button>
+
+<!-- ── Toast Container ── -->
+<div id="toast-container" aria-live="polite" aria-atomic="false"></div>
+
+
 <!-- MOBILE NAV OVERLAY -->
 <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="toggleMobileNav()"></div>
 <nav class="mobile-nav" id="mobileNav">
@@ -7174,7 +7228,7 @@ body.ase-vision .ase-glyph-field { display:block; }
 <section id="hero">
   
   <canvas id="spark-canvas"></canvas>
-  <img class="hero-canva-bg" src="./assets/bayo-bridge.webp" alt="" loading="eager" decoding="async">
+  <img class="hero-canva-bg" src="./assets/bayo-bridge.webp" alt="" loading="eager" decoding="async" fetchpriority="high">
   <div class="hero-glow"></div>
   <div class="hero-glow-2"></div>
 
@@ -7854,7 +7908,7 @@ body.ase-vision .ase-glyph-field { display:block; }
   <div class="loc-modal-inner">
     <button class="loc-modal-close" onclick="closeLocModal()">&#x2715;</button>
     <div class="loc-modal-art" id="locModalArt">
-      <img id="locModalImg" src="" alt="" style="width:100%;height:220px;object-fit:cover;display:block;">
+      <img loading="lazy" id="locModalImg" src="" alt="" style="width:100%;height:220px;object-fit:cover;display:block;">
       <div class="loc-modal-art-overlay"></div>
     </div>
     <div class="loc-modal-body">
@@ -8663,7 +8717,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     <!-- ZARA — The Mirror -->
     <div class="char-card reveal char-canva-card" data-dossier="mirror" style="position:relative;overflow:hidden;cursor:pointer;" onclick="this.classList.toggle('char-flipped')">
       <div class="char-flip-front">
-        <img src="./assets/zara-portrait.webp" alt="Zara — The Mirror" style="width:100%;height:320px;object-fit:cover;object-position:center top;display:block;border-radius:4px 4px 0 0;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#001a1a,#003a3a)'">
+        <img loading="lazy" src="./assets/zara-portrait.webp" alt="Zara — The Mirror" style="width:100%;height:320px;object-fit:cover;object-position:center top;display:block;border-radius:4px 4px 0 0;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#001a1a,#003a3a)'">
         <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.2) 60%,transparent 100%);pointer-events:none;"></div>
         <span class="char-orisha-badge badge-mirror" style="background:rgba(0,201,177,0.15);border:1px solid #00C9B1;color:#00C9B1;">Invisible</span>
         <div class="char-info">
@@ -8695,7 +8749,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     <!-- THE ARCHITECT — Antagonist -->
     <div class="char-card reveal char-canva-card char-villain" data-dossier="architect" style="position:relative;overflow:hidden;cursor:pointer;" onclick="this.classList.toggle('char-flipped')">
       <div class="char-flip-front">
-        <img src="https://design.canva.ai/NT0F238ti9sNXlD" alt="The Architect — Antagonist" style="width:100%;height:320px;object-fit:cover;display:block;border-radius:4px 4px 0 0;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#1a0014,#3a0028)'">
+        <img loading="lazy" src="https://design.canva.ai/NT0F238ti9sNXlD" alt="The Architect — Antagonist" style="width:100%;height:320px;object-fit:cover;display:block;border-radius:4px 4px 0 0;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#1a0014,#3a0028)'">
         <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(to top,rgba(0,0,0,0.9) 0%,rgba(26,0,20,0.3) 60%,transparent 100%);pointer-events:none;"></div>
         <span class="char-orisha-badge badge-villain" style="background:rgba(196,30,58,0.15);border:1px solid #C41E3A;color:#C41E3A;">ANTAGONIST</span>
         <div class="char-info">
@@ -8776,7 +8830,7 @@ body.ase-vision .ase-glyph-field { display:block; }
   <div class="mdt-wrap">
     <div class="section-header reveal">
       <div class="section-label">ORACLE OPERATIONS — LIVE FEED</div>
-      <h2 class="section-title">MISSION <span class="gold">DISPATCH</span></h2>
+      <h2 class="section-title reveal">MISSION <span class="gold">DISPATCH</span></h2>
       <p class="section-sub">Active Oracle field operations across the Lagos theatre</p>
     </div>
     <div class="mdt-board reveal">
@@ -8991,7 +9045,7 @@ body.ase-vision .ase-glyph-field { display:block; }
   <div class="scanner-wrap">
     <div class="section-header reveal">
       <div class="section-label">INTERCEPTED TRANSMISSIONS</div>
-      <h2 class="section-title">ASẸ <span class="gold">FREQUENCY SCANNER</span></h2>
+      <h2 class="section-title reveal">ASẸ <span class="gold">FREQUENCY SCANNER</span></h2>
       <p class="section-sub">Tune in to encrypted faction comms broadcast across Lagos airspace</p>
     </div>
     <div class="scanner-unit reveal">
@@ -9450,7 +9504,7 @@ body.ase-vision .ase-glyph-field { display:block; }
   <div class="wb-wrap">
     <div class="section-header reveal">
       <div class="section-label">CLASSIFIED BOUNTIES — DARK ASSEMBLY INTEL FEED</div>
-      <h2 class="section-title">WANTED <span class="gold">BOARD</span></h2>
+      <h2 class="section-title reveal">WANTED <span class="gold">BOARD</span></h2>
       <p class="section-sub">Active contracts filed across Oracle, Dark Assembly, and Pale Council registries</p>
     </div>
     <div class="wb-filter-row">
@@ -9770,7 +9824,7 @@ body.ase-vision .ase-glyph-field { display:block; }
   <div class="fdw-wrap">
     <div class="section-header reveal">
       <div class="section-label">CLASSIFIED: FACTION INTELLIGENCE</div>
-      <h2 class="section-title">FACTION <span class="gold">DOSSIER WALL</span></h2>
+      <h2 class="section-title reveal">FACTION <span class="gold">DOSSIER WALL</span></h2>
       <p class="section-sub">Oracle Intelligence Collective field assessments — EYES ONLY</p>
     </div>
     <div class="fdw-grid reveal">
@@ -10005,7 +10059,7 @@ body.ase-vision .ase-glyph-field { display:block; }
   <div class="asb-wrap">
     <div class="section-header reveal">
       <div class="section-label">ORACLE COMBAT DIVISION — SIMULATION LAB</div>
-      <h2 class="section-title">AS&#7864; <span class="gold">BATTLE SIMULATOR</span></h2>
+      <h2 class="section-title reveal">AS&#7864; <span class="gold">BATTLE SIMULATOR</span></h2>
       <p class="section-sub">Select two operatives and initiate a sanctioned AS&#7864; combat simulation</p>
     </div>
     <div class="asb-arena reveal">
@@ -10048,7 +10102,7 @@ body.ase-vision .ase-glyph-field { display:block; }
   <div class="clash-wrap">
     <div class="section-header reveal">
       <div class="section-label">BATTLE INTELLIGENCE</div>
-      <h2 class="section-title">ASẸ <span class="gold">POWER CLASH</span></h2>
+      <h2 class="section-title reveal">ASẸ <span class="gold">POWER CLASH</span></h2>
       <p class="section-sub">Select two operatives and run an ASẹ confrontation analysis</p>
     </div>
     <div class="clash-arena reveal">
@@ -10246,7 +10300,7 @@ body.ase-vision .ase-glyph-field { display:block; }
 
     <!-- Result -->
     <div class="quiz-result" id="quiz-result">
-      <img id="result-img" class="res-img" src="" alt="">
+      <img loading="lazy" id="result-img" class="res-img" src="" alt="">
       <div class="res-label">YOU ARE</div>
       <div class="res-name" id="result-name"></div>
       <div class="res-tag" id="result-tag"></div>
@@ -10270,7 +10324,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     <div class="issue-card reveal">
       <div class="issue-cover">
         <div class="issue-bg issue-bg-1">
-          <img class="issue-art" src="./assets/cover-issue1.webp" alt="Catalyst: The Awakening — Issue #1: The Awakening" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
+          <img loading="lazy" class="issue-art" src="./assets/cover-issue1.webp" alt="Catalyst: The Awakening — Issue #1: The Awakening" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
         </div>
         <div class="issue-overlay">
           <span class="issue-status status-out">Out Now</span>
@@ -10290,7 +10344,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     <div class="issue-card reveal reveal-delay-1">
       <div class="issue-cover">
         <div class="issue-bg issue-bg-2">
-          <img class="issue-art" src="./assets/cover-issue2.webp" alt="Catalyst: The Awakening — Issue #2: The Mirror's Edge" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
+          <img loading="lazy" class="issue-art" src="./assets/cover-issue2.webp" alt="Catalyst: The Awakening — Issue #2: The Mirror's Edge" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
         </div>
         <div class="issue-overlay">
           <span class="issue-status status-new">New</span>
@@ -10310,7 +10364,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     <div class="issue-card reveal reveal-delay-2">
       <div class="issue-cover">
         <div class="issue-bg issue-bg-3">
-          <img class="issue-art" src="./assets/cover-issue3.webp" alt="Catalyst: The Awakening — Issue #3: Orisha Rising" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
+          <img loading="lazy" class="issue-art" src="./assets/cover-issue3.webp" alt="Catalyst: The Awakening — Issue #3: Orisha Rising" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
         </div>
         <div class="issue-overlay">
           <span class="issue-status status-out">Out Now</span>
@@ -10330,7 +10384,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     <div class="issue-card reveal">
       <div class="issue-cover premium-gate">
         <div class="issue-bg issue-bg-4" style="background:linear-gradient(135deg,#0a0a1f,#1a0a0a,#06060d)">
-          <img class="issue-art" src="./assets/cover-issue4.webp" alt="Catalyst: The Awakening — Issue #4: Lagos Eternal" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
+          <img loading="lazy" class="issue-art" src="./assets/cover-issue4.webp" alt="Catalyst: The Awakening — Issue #4: Lagos Eternal" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
         </div>
         <div class="issue-overlay">
           <span class="issue-status status-new">Free</span>
@@ -10724,7 +10778,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     <div class="reader-grid">
       <div class="reader-cover">
         <div class="reader-cover-art" style="background:#060606;border-radius:4px;overflow:hidden;cursor:pointer;" onclick="openPanelViewer(ISSUE1_PANELS, 0)" title="Click to open panel viewer">
-          <img src="./assets/cover-issue1.webp" alt="Catalyst: The Awakening — Issue #1: The Awakening" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform 0.4s ease;">
+          <img loading="lazy" src="./assets/cover-issue1.webp" alt="Catalyst: The Awakening — Issue #1: The Awakening" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform 0.4s ease;">
           <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,4,15,0.7) 0%,transparent 60%);pointer-events:none;"></div>
           <div style="position:absolute;bottom:0.8rem;left:0.8rem;right:0.8rem;text-align:center;pointer-events:none;">
             <div style="font-family:'Bebas Neue',sans-serif;font-size:0.55rem;letter-spacing:0.2em;color:#F4B800;background:rgba(0,0,0,0.6);padding:0.15rem 0.5rem;border-radius:2px;display:inline-block;">CLICK TO READ PANELS</div>
@@ -10930,7 +10984,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     <div class="reader-grid">
       <div class="reader-cover">
                 <div class="reader-cover-art" style="background:#060606;border-radius:4px;overflow:hidden;cursor:pointer;" onclick="openPanelViewer(ISSUE2_PANELS, 0)" title="Click to open panel viewer">
-          <img src="./assets/cover-issue2.webp" alt="Catalyst: The Awakening — Issue #2: The Mirror's Edge" style="width:100%;height:100%;object-fit:cover;border-radius:4px;display:block;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)'">
+          <img loading="lazy" src="./assets/cover-issue2.webp" alt="Catalyst: The Awakening — Issue #2: The Mirror's Edge" style="width:100%;height:100%;object-fit:cover;border-radius:4px;display:block;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)'">
           <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,4,15,0.7) 0%,transparent 60%);pointer-events:none;"></div>
           <div style="position:absolute;bottom:0.8rem;left:0.8rem;right:0.8rem;text-align:center;pointer-events:none;">
             <div style="font-family:'Bebas Neue',sans-serif;font-size:0.55rem;letter-spacing:0.2em;color:#F4B800;background:rgba(0,0,0,0.6);padding:0.15rem 0.5rem;border-radius:2px;display:inline-block;">CLICK TO READ PANELS</div>
@@ -11071,7 +11125,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     <div class="reader-grid">
       <div class="reader-cover">
                 <div class="reader-cover-art" style="background:#060606;border-radius:4px;overflow:hidden;cursor:pointer;" onclick="openPanelViewer(ISSUE3_PANELS, 0)" title="Click to open panel viewer">
-          <img src="./assets/cover-issue3.webp" alt="Catalyst: The Awakening — Issue #3: Orisha Rising" style="width:100%;height:100%;object-fit:cover;border-radius:4px;display:block;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#0a1a00,#1a3000)'">
+          <img loading="lazy" src="./assets/cover-issue3.webp" alt="Catalyst: The Awakening — Issue #3: Orisha Rising" style="width:100%;height:100%;object-fit:cover;border-radius:4px;display:block;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#0a1a00,#1a3000)'">
           <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,4,15,0.7) 0%,transparent 60%);pointer-events:none;"></div>
           <div style="position:absolute;bottom:0.8rem;left:0.8rem;right:0.8rem;text-align:center;pointer-events:none;">
             <div style="font-family:'Bebas Neue',sans-serif;font-size:0.55rem;letter-spacing:0.2em;color:#F4B800;background:rgba(0,0,0,0.6);padding:0.15rem 0.5rem;border-radius:2px;display:inline-block;">CLICK TO READ PANELS</div>
@@ -11246,7 +11300,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     <div class="reader-grid">
       <div class="reader-cover">
                 <div class="reader-cover-art" style="background:#060606;border-radius:4px;overflow:hidden;cursor:pointer;" onclick="openPanelViewer(ISSUE4_PANELS, 0)" title="Click to open panel viewer">
-          <img src="./assets/cover-issue4.webp" alt="Catalyst: The Awakening — Issue #4: Lagos Eternal" style="width:100%;height:100%;object-fit:cover;border-radius:4px;display:block;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#1a0010,#3a0020)'">
+          <img loading="lazy" src="./assets/cover-issue4.webp" alt="Catalyst: The Awakening — Issue #4: Lagos Eternal" style="width:100%;height:100%;object-fit:cover;border-radius:4px;display:block;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#1a0010,#3a0020)'">
           <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,4,15,0.7) 0%,transparent 60%);pointer-events:none;"></div>
           <div style="position:absolute;bottom:0.8rem;left:0.8rem;right:0.8rem;text-align:center;pointer-events:none;">
             <div style="font-family:'Bebas Neue',sans-serif;font-size:0.55rem;letter-spacing:0.2em;color:#F4B800;background:rgba(0,0,0,0.6);padding:0.15rem 0.5rem;border-radius:2px;display:inline-block;">CLICK TO READ PANELS</div>
@@ -11448,7 +11502,7 @@ body.ase-vision .ase-glyph-field { display:block; }
 <section id="chronicle-timeline">
   <div class="section-header reveal">
     <div class="section-label">CLASSIFIED ARCHIVE — EYES ONLY</div>
-    <h2 class="section-title">THE <span class="gold">CHRONICLE</span></h2>
+    <h2 class="section-title reveal">THE <span class="gold">CHRONICLE</span></h2>
     <p class="section-sub">Key events in the emergence of ASẹ across Lagos</p>
   </div>
   <div class="chron-wrap reveal">
@@ -11925,7 +11979,7 @@ body.ase-vision .ase-glyph-field { display:block; }
   <div class="oct-wrap">
     <div class="section-header reveal">
       <div class="section-label">ORACLE INTELLIGENCE &mdash; SECURE CHANNEL PROTOCOL</div>
-      <h2 class="section-title">ORACLE <span class="gold">CIPHER TERMINAL</span></h2>
+      <h2 class="section-title reveal">ORACLE <span class="gold">CIPHER TERMINAL</span></h2>
       <p class="section-sub">Encode or decode transmissions using the Oracle's classified glyph cipher</p>
     </div>
     <div class="oct-terminal reveal">
@@ -12169,15 +12223,15 @@ body.ase-vision .ase-glyph-field { display:block; }
 
   <div class="lore-char-strip" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:900px;margin:0 auto 3rem;padding:0 1rem;">
     <a href="https://www.canva.com/d/SF-jUqFQ8pX2u1C" target="_blank" rel="noopener" class="lore-char-thumb" title="Bayo Adeyemi — Ẹṣù's Crossroads">
-      <img src="https://design.canva.ai/x4T-oEzM8Rg5LDd" alt="Bayo — The Catalyst" onerror="this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)'">
+      <img loading="lazy" src="https://design.canva.ai/x4T-oEzM8Rg5LDd" alt="Bayo — The Catalyst" onerror="this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)'">
       <div class="lore-char-name">Bayo · The Catalyst</div>
     </a>
     <a href="https://www.canva.com/d/OwcQfHzTyUeJ6l_" target="_blank" rel="noopener" class="lore-char-thumb" title="Amara Okafor — Ṣàngó's Daughter">
-      <img src="https://design.canva.ai/1jiRcQJwHOeri7z" alt="Amara — Thunderstrike" onerror="this.parentElement.style.background='linear-gradient(160deg,#14001a,#3a0040)'">
+      <img loading="lazy" src="https://design.canva.ai/1jiRcQJwHOeri7z" alt="Amara — Thunderstrike" onerror="this.parentElement.style.background='linear-gradient(160deg,#14001a,#3a0040)'">
       <div class="lore-char-name">Amara · Thunderstrike</div>
     </a>
     <a href="https://www.canva.com/d/UDYonVORL1pSzr6" target="_blank" rel="noopener" class="lore-char-thumb" title="Ikenna Chukwuemeka — Iron Wolf">
-      <img src="https://design.canva.ai/7a9_vSlWiISWZB0" alt="Ikenna — Iron Wolf" onerror="this.parentElement.style.background='linear-gradient(160deg,#001400,#002800)'">
+      <img loading="lazy" src="https://design.canva.ai/7a9_vSlWiISWZB0" alt="Ikenna — Iron Wolf" onerror="this.parentElement.style.background='linear-gradient(160deg,#001400,#002800)'">
       <div class="lore-char-name">Ikenna · Iron Wolf</div>
     </a>
   </div>
@@ -12263,7 +12317,7 @@ body.ase-vision .ase-glyph-field { display:block; }
   <div class="crw-wrap">
     <div class="section-header reveal">
       <div class="section-label">ORACLE INTELLIGENCE &mdash; OPERATIVE NETWORK MAPPING</div>
-      <h2 class="section-title">CHARACTER <span class="gold">RELATIONSHIP WEB</span></h2>
+      <h2 class="section-title reveal">CHARACTER <span class="gold">RELATIONSHIP WEB</span></h2>
       <p class="section-sub">Click any operative node to reveal their network connections and allegiances</p>
     </div>
     <div class="crw-container reveal" id="crw-container">
@@ -12310,7 +12364,7 @@ body.ase-vision .ase-glyph-field { display:block; }
   <div class="wf-wrap">
     <div class="section-header reveal">
       <div class="section-label">LAGOS CONFLICT INTELLIGENCE &mdash; MULTI-CHANNEL FEED</div>
-      <h2 class="section-title">FACTION <span class="gold">WAR FEED</span></h2>
+      <h2 class="section-title reveal">FACTION <span class="gold">WAR FEED</span></h2>
       <p class="section-sub">Live intelligence from Oracle, Dark Assembly, and Street networks</p>
     </div>
     <div class="wf-broadcast reveal">
@@ -12374,7 +12428,7 @@ body.ase-vision .ase-glyph-field { display:block; }
 
 <!-- ============================================================ ILLUSTRATED UNIVERSE -->
 <section id="illustrated">
-  <img class="section-photo-bg" src="./assets/industrial.jpg" alt="">
+  <img loading="lazy" class="section-photo-bg" src="./assets/industrial.jpg" alt="">
 
   <div class="gallery-intro">
     <p class="section-label reveal"><span>◆</span>Visual Records</p>
@@ -12425,7 +12479,7 @@ body.ase-vision .ase-glyph-field { display:block; }
 
     <!-- Teaser 1: BAYO PORTRAIT — the real artwork -->
     <div class="teaser-panel" style="background:#000;">
-      <img src="images/bayo-portrait.png" alt="Bayo Adeyemi — Powered by ASẸ" style="object-position:top center;">
+      <img loading="lazy" src="images/bayo-portrait.png" alt="Bayo Adeyemi — Powered by ASẸ" style="object-position:top center;">
       <div class="teaser-header">
         <span class="th-label">ISSUE 01 · CHARACTER REVEAL</span>
         <span class="th-bar"></span>
@@ -12440,7 +12494,7 @@ body.ase-vision .ase-glyph-field { display:block; }
 
     <!-- Teaser 2: BAYO ACTION COLOR -->
     <div class="teaser-panel" style="background:#0a0a12;">
-      <img src="images/bayo-action-color.png" alt="Bayo — ASE Energy Lagos Power" style="object-fit:cover;object-position:center;">
+      <img loading="lazy" src="images/bayo-action-color.png" alt="Bayo — ASE Energy Lagos Power" style="object-fit:cover;object-position:center;">
       <div class="teaser-header">
         <span class="th-label">ISSUE 01 · ACTION PANEL</span>
         <span class="th-bar"></span>
@@ -12455,7 +12509,7 @@ body.ase-vision .ase-glyph-field { display:block; }
 
     <!-- Teaser 3: BAYO ACTION BW MANGA -->
     <div class="teaser-panel" style="background:#0a0a0a;">
-      <img src="images/bayo-action-bw.png" alt="ASE! — Oshodi Street Lagos" style="object-fit:cover;object-position:center;">
+      <img loading="lazy" src="images/bayo-action-bw.png" alt="ASE! — Oshodi Street Lagos" style="object-fit:cover;object-position:center;">
       <div class="teaser-header">
         <span class="th-label">ISSUE 02 · OSHODI CONFRONTATION</span>
         <span class="th-bar"></span>
@@ -12485,7 +12539,7 @@ body.ase-vision .ase-glyph-field { display:block; }
       <!-- Row 1: Wide feature + tall portrait -->
       <!-- Panel A: wide — Bayo Action (actual artwork) -->
       <div class="gp gp-wide" style="aspect-ratio:2/1;background:#0a0a12;">
-        <img src="images/bayo-action-color.png" alt="Bayo Action — Lagos Street" style="object-fit:cover;object-position:center top;">
+        <img loading="lazy" src="images/bayo-action-color.png" alt="Bayo Action — Lagos Street" style="object-fit:cover;object-position:center top;">
         <div class="gp-header">
           <span class="gp-arc-label">ARC I · ISSUE 01 · PANEL 7</span>
           <span class="gp-line"></span>
@@ -12501,7 +12555,7 @@ body.ase-vision .ase-glyph-field { display:block; }
 
       <!-- Panel B: tall portrait — Bayo BW Power (actual artwork) -->
       <div class="gp gp-tall" style="aspect-ratio:3/4; grid-row: span 2; background:#0a0a0a;">
-        <img src="images/bayo-action-bw.png" alt="Bayo — ASE Full Release Oshodi" style="object-fit:cover;object-position:center top;">
+        <img loading="lazy" src="images/bayo-action-bw.png" alt="Bayo — ASE Full Release Oshodi" style="object-fit:cover;object-position:center top;">
         <div class="gp-header">
           <span class="gp-arc-label">ARC I · ISSUE 02 · PANEL 12</span>
           <span class="gp-line"></span>
@@ -12519,7 +12573,7 @@ body.ase-vision .ase-glyph-field { display:block; }
 
       <!-- Panel C: square — Amara's Drum Table -->
       <div class="gp gp-sq tint-osun">
-        <img src="./assets/circle.jpg" alt="Amara's Drum Table" class="grade-osun">
+        <img loading="lazy" src="./assets/circle.jpg" alt="Amara's Drum Table" class="grade-osun">
         <div class="gp-header">
           <span class="gp-arc-label">ARC I · ISSUE 02 · PANEL 4</span>
           <span class="gp-line"></span>
@@ -12536,7 +12590,7 @@ body.ase-vision .ase-glyph-field { display:block; }
 
       <!-- Panel D: square — Pale Council Room -->
       <div class="gp gp-sq tint-esu">
-        <img src="./assets/noir-window.jpg" alt="Geneva — The Pale Council" class="grade-esu" style="transform:scaleX(-1);">
+        <img loading="lazy" src="./assets/noir-window.jpg" alt="Geneva — The Pale Council" class="grade-esu" style="transform:scaleX(-1);">
         <div class="gp-header">
           <span class="gp-arc-label">ARC I · ISSUE 01 · PANEL 6</span>
           <span class="gp-line"></span>
@@ -12552,7 +12606,7 @@ body.ase-vision .ase-glyph-field { display:block; }
       <!-- Row 3: 4-column layout -->
       <!-- Panel E: wide feature — The Lagoon Vision -->
       <div class="gp gp-wide tint-esu" style="aspect-ratio:2/1;">
-        <img src="./assets/flares.jpg" alt="The Lagoon Vision" class="grade-esu">
+        <img loading="lazy" src="./assets/flares.jpg" alt="The Lagoon Vision" class="grade-esu">
         <div class="gp-header">
           <span class="gp-arc-label">ARC I · ISSUE 04 · PANEL 5</span>
           <span class="gp-line"></span>
@@ -12568,7 +12622,7 @@ body.ase-vision .ase-glyph-field { display:block; }
 
       <!-- Panel F: square — Zara's Report -->
       <div class="gp gp-sq tint-oya">
-        <img src="./assets/industrial.jpg" alt="Zara's Intelligence Map" class="grade-oya">
+        <img loading="lazy" src="./assets/industrial.jpg" alt="Zara's Intelligence Map" class="grade-oya">
         <div class="gp-header">
           <span class="gp-arc-label">ARC I · ISSUE 04 · PANEL 4</span>
           <span class="gp-line"></span>
@@ -12583,7 +12637,7 @@ body.ase-vision .ase-glyph-field { display:block; }
 
       <!-- Panel G: square — Arc II teaser -->
       <div class="gp gp-sq tint-sango">
-        <img src="./assets/corridor.jpg" alt="Arc II — The Iron Trials" class="grade-sango" style="transform:scaleX(-1) scaleY(-1);">
+        <img loading="lazy" src="./assets/corridor.jpg" alt="Arc II — The Iron Trials" class="grade-sango" style="transform:scaleX(-1) scaleY(-1);">
         <div class="gp-header">
           <span class="gp-arc-label">ARC II · TEASER</span>
           <span class="gp-line"></span>
@@ -12643,7 +12697,7 @@ body.ase-vision .ase-glyph-field { display:block; }
   <div class="oidg-wrap">
     <div class="section-header reveal">
       <div class="section-label">ORACLE INTELLIGENCE COLLECTIVE</div>
-      <h2 class="section-title">OPERATIVE <span class="gold">ID GENERATOR</span></h2>
+      <h2 class="section-title reveal">OPERATIVE <span class="gold">ID GENERATOR</span></h2>
       <p class="section-sub">Issue your classified Oracle Intelligence Collective field card</p>
     </div>
     <div class="oidg-layout reveal">
@@ -13117,7 +13171,14 @@ body.ase-vision .ase-glyph-field { display:block; }
     const btn = form.querySelector('button[type="submit"]');
     const name = nameInput ? nameInput.value.trim() : '';
     const email = emailInput ? emailInput.value.trim() : '';
-    if (!email) return;
+    if (!email) { if (window.showToast) showToast('Please enter your email address.', 'error'); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      if (window.showToast) showToast('Please enter a valid email address.', 'error'); return;
+    }
+    // Rate-limit: max 3 newsletter submissions per 60s
+    if (window.checkRateLimit && !checkRateLimit('newsletter')) {
+      if (window.showToast) showToast('Too many requests — please wait a moment.', 'error'); return;
+    }
     btn.textContent = 'Sending...';
     btn.disabled = true;
     var subData = { email, full_name: name || null, subscribed_at: new Date().toISOString(), source: 'footer_form' };
@@ -13174,6 +13235,37 @@ body.ase-vision .ase-glyph-field { display:block; }
   // ═══════════════════════════════════════════════════════════════
   //
   // Layer 1: Supabase (primary DB — replace credentials below)
+
+  // ─── Security helpers ──────────────────────────────────────────
+  function sanitiseText(str) {
+    const d = document.createElement('div');
+    d.appendChild(document.createTextNode(String(str)));
+    return d.innerHTML;
+  }
+
+  // Simple client-side rate limit: max 3 submissions per 60s per key
+  const _rlMap = {};
+  function checkRateLimit(key, max = 3, windowMs = 60000) {
+    const now = Date.now();
+    _rlMap[key] = (_rlMap[key] || []).filter(t => now - t < windowMs);
+    if (_rlMap[key].length >= max) return false;
+    _rlMap[key].push(now);
+    return true;
+  }
+
+  // ─── Toast notification system ─────────────────────────────────
+  function showToast(message, type = 'info', duration = 4500) {
+    const c = document.getElementById('toast-container');
+    if (!c) return;
+    const icons = { success: '✓', error: '✕', info: 'ℹ' };
+    const t = document.createElement('div');
+    t.className = `toast toast-${type}`;
+    t.innerHTML = `<span class="toast-icon">${icons[type] || 'ℹ'}</span><span class="toast-body">${sanitiseText(message)}</span>`;
+    c.appendChild(t);
+    setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateX(2rem)';
+      setTimeout(() => t.remove(), 350); }, duration);
+  }
+
   // Layer 2: Netlify Forms (auto-captured by Netlify on every form submit)
   // Layer 3: localStorage vault (browser-side backup, always works)
   // Layer 4: Pending queue (re-syncs to Supabase when credentials added)
@@ -13645,22 +13737,7 @@ body.ase-vision .ase-glyph-field { display:block; }
     if (e.key === 'Escape') { closeAuthModal(); closePaymentModal(); }
   });
 
-  // ─── TOAST NOTIFICATION ──────────────────────────────────────
-  function showToast(message, type) {
-    var container = document.getElementById('toast-container');
-    if (!container) return;
-    var toast = document.createElement('div');
-    toast.className = 'toast toast-' + (type || 'info');
-    toast.textContent = message;
-    container.appendChild(toast);
-    requestAnimationFrame(function(){
-      requestAnimationFrame(function(){ toast.classList.add('show'); });
-    });
-    setTimeout(function(){
-      toast.classList.remove('show');
-      setTimeout(function(){ if (toast.parentNode) toast.remove(); }, 500);
-    }, 4500);
-  }
+  // showToast is defined earlier in the script — using that consolidated version
 
   // ─── SAVE ALL FORM SUBMISSIONS — MULTI-LAYER ─────────────────
   // Every form on the page is captured to: localStorage + Netlify + Supabase
@@ -18626,7 +18703,7 @@ document.addEventListener('DOMContentLoaded', function(){
   <button class="pv-nav pv-prev" id="pvPrev" aria-label="Previous panel">&#x2039;</button>
   <button class="pv-nav pv-next" id="pvNext" aria-label="Next panel">&#x203A;</button>
   <div class="pv-stage">
-    <img id="pvImage" src="" alt="Comic panel" class="pv-img">
+    <img loading="lazy" id="pvImage" src="" alt="Comic panel" class="pv-img">
     <div class="pv-caption" id="pvCaption"></div>
   </div>
   <div class="pv-counter" id="pvCounter">1 / 3</div>
@@ -18707,6 +18784,105 @@ document.addEventListener('DOMContentLoaded', function(){
     </div>
   </div>
 </div>
+
+
+<!-- ═══ UPGRADE: Progress Bar · Back-to-Top · Scroll Reveal · Nav Spy ═══ -->
+<script>
+(function() {
+  'use strict';
+
+  // ── Reading progress bar ──
+  var rp = document.getElementById('reading-progress');
+  function updateProgress() {
+    if (!rp) return;
+    var scrolled = document.documentElement.scrollTop || document.body.scrollTop;
+    var max = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var pct = max > 0 ? Math.round(scrolled / max * 100) : 0;
+    rp.style.width = pct + '%';
+    rp.setAttribute('aria-valuenow', pct);
+  }
+
+  // ── Back to top ──
+  var btt = document.getElementById('back-to-top');
+  function updateBtt() {
+    if (!btt) return;
+    var scrolled = document.documentElement.scrollTop || document.body.scrollTop;
+    if (scrolled > 400) btt.classList.add('visible');
+    else btt.classList.remove('visible');
+  }
+  if (btt) {
+    btt.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  // ── Passive scroll listener ──
+  window.addEventListener('scroll', function() {
+    updateProgress();
+    updateBtt();
+  }, { passive: true });
+  updateProgress();
+  updateBtt();
+
+  // ── Scroll-reveal IntersectionObserver ──
+  if ('IntersectionObserver' in window) {
+    var revealObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          revealObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(function(el) {
+      revealObs.observe(el);
+    });
+
+    // Also reveal char-cards and cover-art-items on scroll
+    var cardObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry, i) {
+        if (entry.isIntersecting) {
+          setTimeout(function() {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }, Math.min(i * 60, 300));
+          cardObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+
+    document.querySelectorAll('.char-card, .cover-art-item').forEach(function(el) {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(1.5rem)';
+      el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+      cardObs.observe(el);
+    });
+  }
+
+  // ── Scrollspy — highlight active nav link ──
+  var navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+  var sections = [];
+  navLinks.forEach(function(a) {
+    var id = a.getAttribute('href').slice(1);
+    var el = document.getElementById(id);
+    if (el) sections.push({ id: id, el: el, a: a });
+  });
+
+  function updateSpy() {
+    var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+    var active = null;
+    sections.forEach(function(s) {
+      if (s.el.offsetTop - 120 <= scrollY) active = s;
+    });
+    navLinks.forEach(function(a) { a.classList.remove('nav-active'); });
+    if (active) active.a.classList.add('nav-active');
+  }
+  window.addEventListener('scroll', updateSpy, { passive: true });
+  updateSpy();
+
+})();
+</script>
 
 </body>
 </html>
