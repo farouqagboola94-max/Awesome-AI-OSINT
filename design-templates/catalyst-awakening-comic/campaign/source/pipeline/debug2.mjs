@@ -1,0 +1,16 @@
+import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
+import path from 'path';
+import fs from 'fs';
+const browser = await chromium.launch();
+const page = await browser.newPage({ viewport: { width: 1080, height: 1920 } });
+page.on('pageerror', e => console.error('ERR:', e.message));
+await page.goto('file://' + path.resolve(process.argv[2]));
+await page.evaluate(() => document.fonts.ready);
+await page.evaluate(() => window.seek(400));
+const buf = await page.screenshot({ type: 'png' });
+fs.writeFileSync('out/direct_400.png', buf);
+await page.evaluate(() => window.seek(10500));
+const buf2 = await page.screenshot({ type: 'png' });
+fs.writeFileSync('out/direct_10500.png', buf2);
+console.log('saved');
+await browser.close();

@@ -1,0 +1,36 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  body { background: var(--gold); }
+  .stage { background: var(--gold); }
+  #big { font-size: 300px; color: var(--black); }
+  #sub { font-size: 90px; color: var(--black); margin-top: 20px; }
+  .stroke1 { top: 260px; left: 60px; right: 60px; height: 12px; background: var(--black); position: absolute; transform-origin: left; }
+  .stroke2 { bottom: 400px; left: 60px; right: 60px; height: 12px; background: var(--black); position: absolute; transform-origin: right; }
+  .num { font-family: 'Bebas Neue'; font-size: 380px; color: var(--red); position: absolute; right: 60px; bottom: 300px; }
+  .brandmark { color: var(--black); }
+  .brandmark b { color: var(--red); }
+</style></head><body><div class="stage" id="cam">
+  <div class="stroke1"></div>
+  <div class="stroke2"></div>
+  <div class="num" id="num">01</div>
+  <div class="center">
+    <div class="hero" id="big">READ.</div>
+    <div class="oswald-bold" id="sub" style="letter-spacing:14px">CHAPTER ONE</div>
+  </div>
+  <div class="brandmark">CATALYST · <b>THE AWAKENING</b><div class="sitemark" style="color:var(--iron)">CATALYST-AWAKENING.NETLIFY.APP</div></div>
+  <div class="grain"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+KIN.add(document.querySelector('.stroke1'), {t0:0, t1:600, from:{sx:0,sy:1}, to:{sx:1,sy:1}, ease:'outExpo'});
+KIN.add(document.querySelector('.stroke2'), {t0:120, t1:720, from:{sx:0,sy:1}, to:{sx:1,sy:1}, ease:'outExpo'});
+KIT.charCascade($('big'), 500, 46, 380);
+KIN.add($('sub'), {t0:1400, t1:1900, from:{opacity:0, ls:40}, to:{opacity:1, ls:14}, ease:'outExpo'});
+KIN.add($('num'), {t0:1700, t1:2200, from:{opacity:0, scale:1.8, rot:8}, to:{opacity:1, scale:1, rot:0}, ease:'outBack'});
+KIT.shake($('cam'), 1720, 340, 14);
+KIT.drift($('cam'), 0, 7000, 1, 1.03);
+brandmark(4300, 7000);
+KIN.seek(0);
+</script></body></html>

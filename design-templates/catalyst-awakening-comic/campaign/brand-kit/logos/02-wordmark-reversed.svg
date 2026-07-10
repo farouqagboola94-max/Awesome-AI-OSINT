@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 500" width="1600" height="500">
+<rect width="1600" height="500" fill="#F4B800"/>
+<g transform="translate(150,180)">
+  <text font-family="Bebas Neue, Impact, sans-serif" font-size="200" fill="#06060d" letter-spacing="10">CATALYST</text>
+  <line x1="0" y1="60" x2="1120" y2="60" stroke="#06060d" stroke-width="6"/>
+  <text y="120" font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="52" fill="#06060d" letter-spacing="24">THE AWAKENING</text>
+</g></svg>

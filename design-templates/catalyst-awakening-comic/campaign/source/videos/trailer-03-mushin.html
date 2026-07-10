@@ -1,0 +1,132 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css">
+<style>
+  .word { font-family: 'Bebas Neue'; line-height: 0.86; }
+  .sub { font-family: 'Oswald'; font-weight: 600; letter-spacing: 10px; }
+  .kanji { font-family: 'Bebas Neue'; }
+  .caption { font-family: 'Oswald'; font-weight: 300; letter-spacing: 8px; color: var(--ash); }
+  .streetlabel { font-family: 'Space Grotesk'; font-weight: 500; font-size: 34px; letter-spacing: 6px; color: var(--bone); text-transform: uppercase; }
+  .num { font-family: 'Bebas Neue'; color: var(--gold); }
+  .rule { width: 340px; height: 6px; background: var(--gold); margin: 40px auto; transform-origin: center; }
+  .cta-url { font-family: 'Space Grotesk'; font-size: 30px; letter-spacing: 5px; color: var(--ash); }
+  #g2 { background: #06060d; }
+  #g3 { background: var(--gold); color: var(--black); }
+  #g5 { background: #06060d; }
+</style></head>
+<body><div class="stage" id="cam">
+  <!-- scene 1: pulse of location tags -->
+  <div class="scene" id="g1"><div class="center">
+    <div class="streetlabel" id="st1" style="font-size:52px;color:var(--gold);letter-spacing:14px">◈ MUSHIN, LAGOS ◈</div>
+    <div class="word gold" id="cx1" style="font-size:96px;margin-top:20px">06° 32' N</div>
+    <div class="word" id="cx2" style="font-size:96px;color:var(--bone)">03° 21' E</div>
+    <div class="caption" id="cx3" style="font-size:34px;margin-top:24px">03:47 AM · WEDNESDAY</div>
+  </div></div>
+  <!-- scene 2: counting narrative -->
+  <div class="scene" id="g2"><div class="center">
+    <div class="num" id="n1" style="font-size:340px">19</div>
+    <div class="caption" id="n1c" style="font-size:44px;margin-top:14px">YEARS OLD</div>
+  </div></div>
+  <div class="scene" id="g2b"><div class="center">
+    <div class="num" id="n2" style="font-size:340px">5</div>
+    <div class="caption" id="n2c" style="font-size:44px;margin-top:14px">ORISHAS INSIDE HIM</div>
+  </div></div>
+  <div class="scene" id="g2c"><div class="center">
+    <div class="num" id="n3" style="font-size:340px">1</div>
+    <div class="caption" id="n3c" style="font-size:44px;margin-top:14px">CHANCE TO SURVIVE THE NIGHT</div>
+  </div></div>
+  <!-- scene 3: gold slam -->
+  <div class="scene" id="g3"><div class="center">
+    <div class="word" id="warn" style="font-size:260px;color:var(--black)">RATED M</div>
+    <div class="caption" id="warnCap" style="font-size:38px;color:var(--black);margin-top:12px">FOR MYTHOLOGY</div>
+  </div></div>
+  <!-- scene 4: character strobe (names only, kinetic) -->
+  <div class="scene" id="g4">
+    <div class="center"><div class="word gold" style="font-size:170px" id="ch1">BAYO</div></div>
+    <div class="center"><div class="word" style="font-size:170px;color:var(--teal)" id="ch2">AMARA</div></div>
+    <div class="center"><div class="word" style="font-size:170px;color:var(--orange)" id="ch3">IKENNA</div></div>
+    <div class="center"><div class="word" style="font-size:170px;color:var(--red)" id="ch4">ZARA</div></div>
+    <div class="center"><div class="word" style="font-size:170px;color:var(--bone)" id="ch5">CONSTELLATION</div></div>
+  </div>
+  <!-- scene 5: promise -->
+  <div class="scene" id="g5"><div class="center">
+    <div class="word" id="p1" style="font-size:130px;color:var(--ash)">NO CAPES.</div>
+    <div class="word" id="p2" style="font-size:130px;color:var(--ash)">NO SPANDEX.</div>
+    <div class="word" id="p3" style="font-size:170px;color:var(--bone)">ONLY BLOOD.</div>
+    <div class="word gold" id="p4" style="font-size:200px">ONLY LAGOS.</div>
+  </div></div>
+  <!-- scene 6: lockup -->
+  <div class="scene" id="g6"><div class="center" id="lockup">
+    <div class="word gold" style="font-size:260px" id="logoA">CATALYST</div>
+    <div class="sub" style="font-size:66px;color:var(--bone)" id="logoB">THE AWAKENING</div>
+    <div class="rule" id="ruleEl"></div>
+    <div class="sub gold" style="font-size:42px;letter-spacing:6px" id="cta">4 FREE ISSUES · READ NOW</div>
+    <div class="cta-url" id="urlEl" style="margin-top:24px">catalyst-awakening.netlify.app</div>
+  </div></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script>
+<script src="../pipeline/kit.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const { cut, cutFade, slam, wordPop, charCascade, shake, flash, drift, fade } = KIT;
+
+// scene 1: 0-2000
+cutFade($('g1'), 0, 2000, 240);
+KIN.add($('st1'), {t0:0, t1:600, from:{opacity:0, ls:32}, to:{opacity:1, ls:14}, ease:'outExpo'});
+KIN.add($('cx1'), {t0:250, t1:900, from:{opacity:0, x:-40}, to:{opacity:1, x:0}, ease:'outExpo'});
+KIN.add($('cx2'), {t0:400, t1:1050, from:{opacity:0, x:40}, to:{opacity:1, x:0}, ease:'outExpo'});
+fade($('cx3'), 800, 1200, 0, 1);
+
+// scene 2: 2000-2900 · 19
+cutFade($('g2'), 2000, 2900, 150);
+slam($('n1'), 2020, {from: 2.4, dur: 340});
+fade($('n1c'), 2200, 2600, 0, 1);
+flash('rgba(244,184,0,0.35)', 2020, 70);
+
+// scene 2b: 2900-3800 · 5
+cutFade($('g2b'), 2900, 3800, 150);
+slam($('n2'), 2920, {from: 2.4, dur: 340});
+fade($('n2c'), 3100, 3500, 0, 1);
+flash('rgba(196,30,58,0.35)', 2920, 70);
+
+// scene 2c: 3800-4900 · 1
+cutFade($('g2c'), 3800, 4900, 150);
+slam($('n3'), 3820, {from: 2.4, dur: 340});
+fade($('n3c'), 4000, 4400, 0, 1);
+flash('rgba(255,255,255,0.55)', 3820, 60);
+shake($('cam'), 3830, 300, 14);
+
+// scene 3: 4900-6000 · Rated M
+cutFade($('g3'), 4900, 6000, 200);
+slam($('warn'), 4930, {from: 3.0, dur: 380, ease:'outBackHard'});
+fade($('warnCap'), 5250, 5700, 0, 1);
+
+// scene 4: 6000-7800 · character strobe
+cutFade($('g4'), 6000, 7800, 200);
+[$('ch1'),$('ch2'),$('ch3'),$('ch4')].forEach((el,i)=>{
+  const t0 = 6000+i*220;
+  KIT.cut(el, t0, t0+220);
+  KIT.scaleIn(el, t0, 180, 1.6);
+});
+KIT.cut($('ch5'), 6880, 7800);
+slam($('ch5'), 6900, {from: 2.4, dur: 420});
+
+// scene 5: 7800-10600
+cutFade($('g5'), 7800, 10600, 260);
+KIN.add($('p1'), {t0:7840, t1:8280, from:{opacity:0, x:-100, blur:10}, to:{opacity:1, x:0, blur:0}, ease:'outExpo'});
+KIN.add($('p2'), {t0:8180, t1:8620, from:{opacity:0, x:100, blur:10}, to:{opacity:1, x:0, blur:0}, ease:'outExpo'});
+KIN.add($('p3'), {t0:8700, t1:9250, from:{opacity:0, y:60, blur:10}, to:{opacity:1, y:0, blur:0}, ease:'outQuart'});
+slam($('p4'), 9350, {from: 2.6, dur: 480});
+shake($('cam'), 9380, 380, 14);
+
+// scene 6: 10600-15200 · lockup
+cutFade($('g6'), 10600, 15200, 600);
+charCascade($('logoA'), 10700, 34);
+KIN.add($('logoB'), {t0: 11200, t1: 11900, from:{opacity:0, ls:46}, to:{opacity:1, ls:10}, ease:'outExpo'});
+KIN.add($('ruleEl'), {t0: 11600, t1: 12200, from:{sx: 0, sy: 1}, to:{sx: 1, sy: 1}, ease:'outExpo'});
+fade($('cta'), 12200, 12700, 0, 1);
+fade($('urlEl'), 12600, 13100, 0, 1);
+drift($('lockup'), 10600, 15200, 1, 1.05);
+
+KIN.seek(0);
+</script></body></html>

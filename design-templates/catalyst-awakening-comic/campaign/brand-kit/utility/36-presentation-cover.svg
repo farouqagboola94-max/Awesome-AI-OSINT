@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080"><defs><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2"/></filter><pattern id="grainP" width="240" height="240" patternUnits="userSpaceOnUse"><rect width="240" height="240" filter="url(#grain)"/></pattern></defs>
+<rect width="1920" height="1080" fill="#06060d"/>
+<rect width="1920" height="1080" fill="url(#grainP)" opacity="0.06" style="mix-blend-mode:overlay"/>
+<g transform="translate(120, 380)">
+  <text font-family="Oswald, Helvetica, sans-serif" font-weight="700" font-size="30" letter-spacing="18" fill="#F4B800">◈ CATALYST COMICS STUDIO · PITCH DECK ◈</text>
+  <text y="200" font-family="Bebas Neue, Impact, sans-serif" font-size="240" fill="#F4B800" letter-spacing="6">CATALYST</text>
+  <line x1="0" y1="270" x2="1680" y2="270" stroke="#F4B800" stroke-width="8"/>
+  <text y="360" font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="66" fill="#F0EDE5" letter-spacing="24">THE AWAKENING</text>
+</g>
+<g transform="translate(120, 940)">
+  <text font-family="Space Grotesk, system-ui, sans-serif" font-size="24" fill="#8a8a9a" letter-spacing="6">A LAGOS NOIR COMIC UNIVERSE — 2026</text>
+</g>
+</svg>

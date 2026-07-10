@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="960" height="540"><defs><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2"/></filter><pattern id="grainP" width="240" height="240" patternUnits="userSpaceOnUse"><rect width="240" height="240" filter="url(#grain)"/></pattern></defs>
+<rect width="960" height="540" fill="#0a0a1f"/>
+<rect width="960" height="540" fill="url(#grainP)" opacity="0.08" style="mix-blend-mode:overlay"/>
+<g transform="translate(60, 200)">
+  <text font-family="Bebas Neue, Impact, sans-serif" font-size="130" fill="#F4B800" letter-spacing="6">CATALYST</text>
+  <text y="46" font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="30" fill="#F0EDE5" letter-spacing="14">THE AWAKENING · SERVER</text>
+</g>
+<g transform="translate(60, 420)">
+  <text font-family="Space Grotesk, system-ui, sans-serif" font-size="22" fill="#8a8a9a" letter-spacing="4">◈ FAN CLUB · ISSUE DROPS · Q&amp;A · GIVEAWAYS ◈</text>
+</g>
+<g transform="translate(760, 130)">
+  <circle r="100" fill="none" stroke="#F4B800" stroke-width="4"/>
+  <text font-family="Bebas Neue, Impact, sans-serif" font-size="80" fill="#F4B800" text-anchor="middle" y="26">C:TA</text>
+</g>
+</svg>

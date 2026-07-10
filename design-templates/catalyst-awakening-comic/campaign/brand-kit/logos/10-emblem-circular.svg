@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+<rect width="600" height="600" fill="#06060d"/>
+<circle cx="300" cy="300" r="270" fill="none" stroke="#F4B800" stroke-width="6"/>
+<circle cx="300" cy="300" r="230" fill="none" stroke="#F4B800" stroke-width="2" stroke-dasharray="8 6"/>
+<defs><path id="topArc" d="M 80,300 A 220,220 0 0 1 520,300"/><path id="botArc" d="M 80,300 A 220,220 0 0 0 520,300"/></defs>
+<text font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="34" letter-spacing="18" fill="#F4B800">
+  <textPath href="#topArc" startOffset="50%" text-anchor="middle">CATALYST · THE AWAKENING</textPath>
+</text>
+<text font-family="Space Grotesk, system-ui, sans-serif" font-size="22" letter-spacing="14" fill="#F0EDE5">
+  <textPath href="#botArc" startOffset="50%" text-anchor="middle">EST 2024 · LAGOS · NIGERIA</textPath>
+</text>
+<g transform="translate(300,310)" text-anchor="middle">
+  <text font-family="Bebas Neue, Impact, sans-serif" font-size="160" fill="#F4B800">C:TA</text>
+</g>
+</svg>

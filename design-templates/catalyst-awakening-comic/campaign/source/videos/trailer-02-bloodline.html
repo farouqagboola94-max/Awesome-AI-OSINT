@@ -1,0 +1,90 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css">
+<style>
+  .word { font-family: 'Bebas Neue'; line-height: 0.92; }
+  .sub { font-family: 'Oswald'; font-weight: 600; letter-spacing: 10px; }
+  #q1 { background: #06060d; }
+  #q2 { background: #06060d; }
+  #q3 { background: #06060d; }
+  #q4 { background: var(--red); color: var(--bone); }
+  #lockup { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  .yr { font-family: 'Bebas Neue'; font-size: 240px; color: var(--gold); }
+  .yr-caption { font-family: 'Oswald'; font-weight: 300; font-size: 42px; letter-spacing: 8px; color: var(--ash); margin-top: 20px; }
+  .quote { font-family: 'Crimson Pro'; font-style: italic; font-size: 78px; line-height: 1.15; color: var(--bone); padding: 0 90px; text-align: center; }
+  .cta-url { font-family: 'Space Grotesk'; font-size: 30px; letter-spacing: 5px; color: var(--ash); }
+  .rule { width: 340px; height: 6px; background: var(--gold); margin: 40px auto; transform-origin: center; }
+</style></head>
+<body><div class="stage" id="cam">
+  <div class="scene" id="q1"><div class="center">
+    <div class="yr" id="y1">1478</div>
+    <div class="yr-caption" id="c1">OYO EMPIRE</div>
+  </div></div>
+  <div class="scene" id="q2"><div class="center">
+    <div class="yr" id="y2">1861</div>
+    <div class="yr-caption" id="c2">LAGOS FALLS</div>
+  </div></div>
+  <div class="scene" id="q3"><div class="center">
+    <div class="yr" id="y3">2026</div>
+    <div class="yr-caption" id="c3">MUSHIN</div>
+  </div></div>
+  <div class="scene" id="q4"><div class="center"><div class="quote" id="qt1">The gods never left.<br>They were waiting for<br>the right vessel.</div></div></div>
+  <div class="scene" id="q5"><div class="center">
+    <div class="word gold" style="font-size:220px" id="l1">HE'S 19.</div>
+    <div class="word" style="font-size:140px;color:var(--bone);margin-top:14px" id="l2">FROM MUSHIN.</div>
+  </div></div>
+  <div class="scene" id="q6"><div class="center">
+    <div class="word" style="font-size:150px;color:var(--ash)" id="l3">AND HE CARRIES</div>
+    <div class="word gold" style="font-size:170px" id="l4">THE BLOOD</div>
+    <div class="word" style="font-size:130px;color:var(--bone)" id="l5">OF FIVE ORISHAS.</div>
+  </div></div>
+  <div class="scene" id="q7"><div class="center" id="lockup">
+    <div class="word gold" style="font-size:260px" id="logoA">CATALYST</div>
+    <div class="sub" style="font-size:66px;color:var(--bone)" id="logoB">THE AWAKENING</div>
+    <div class="rule" id="ruleEl"></div>
+    <div class="sub gold" style="font-size:42px;letter-spacing:6px" id="cta">ISSUE ONE — FREE ONLINE</div>
+    <div class="cta-url" id="urlEl" style="margin-top:24px">catalyst-awakening.netlify.app</div>
+  </div></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script>
+<script src="../pipeline/kit.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const { cut, cutFade, slam, wordPop, charCascade, shake, flash, drift, fade } = KIT;
+
+cutFade($('q1'), 0, 1400, 200);
+KIN.add($('y1'), {t0: 80, t1: 700, from:{opacity:0, scale:1.6, blur:20}, to:{opacity:1, scale:1, blur:0}, ease:'outExpo'});
+fade($('c1'), 550, 1000, 0, 1);
+cutFade($('q2'), 1400, 2800, 200);
+KIN.add($('y2'), {t0: 1450, t1: 2050, from:{opacity:0, scale:1.6, blur:20}, to:{opacity:1, scale:1, blur:0}, ease:'outExpo'});
+fade($('c2'), 1900, 2350, 0, 1);
+cutFade($('q3'), 2800, 4400, 250);
+KIN.add($('y3'), {t0: 2860, t1: 3450, from:{opacity:0, scale:1.6, blur:20}, to:{opacity:1, scale:1, blur:0}, ease:'outExpo'});
+fade($('c3'), 3300, 3800, 0, 1);
+shake($('cam'), 3100, 300, 10);
+
+cutFade($('q4'), 4400, 7200, 400);
+flash('rgba(196,30,58,0.55)', 4400, 90);
+KIT.linePop($('qt1'), 4500, 340, 520);
+drift($('q4'), 4400, 7200, 1, 1.05);
+
+cutFade($('q5'), 7200, 9000, 200);
+slam($('l1'), 7240, {from: 2.4, dur: 380, ease:'outBackHard'});
+KIN.add($('l2'), {t0: 7620, t1: 8100, from:{opacity:0, y:80, blur:10}, to:{opacity:1, y:0, blur:0}, ease:'outQuart'});
+
+cutFade($('q6'), 9000, 11400, 300);
+wordPop($('l3'), 9080, 110, 350);
+slam($('l4'), 9700, {from: 2.2, dur: 320});
+shake($('cam'), 9740, 320, 12);
+KIN.add($('l5'), {t0: 10200, t1: 10800, from:{opacity:0, y:60, blur:8}, to:{opacity:1, y:0, blur:0}, ease:'outQuart'});
+
+cutFade($('q7'), 11400, 16000, 600);
+charCascade($('logoA'), 11500, 34);
+KIN.add($('logoB'), {t0: 12000, t1: 12700, from:{opacity:0, ls:46}, to:{opacity:1, ls:10}, ease:'outExpo'});
+KIN.add($('ruleEl'), {t0: 12400, t1: 13000, from:{sx: 0, sy: 1}, to:{sx: 1, sy: 1}, ease:'outExpo'});
+fade($('cta'), 13000, 13500, 0, 1);
+fade($('urlEl'), 13400, 13900, 0, 1);
+drift($('lockup'), 11400, 16000, 1, 1.05);
+
+KIN.seek(0);
+</script></body></html>

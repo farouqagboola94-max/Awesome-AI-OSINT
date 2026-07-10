@@ -1,0 +1,12 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"></head>
+<body><div class="stage">
+<div class="center bebas gold" id="t1" style="font-size:180px">CATALYST</div>
+<div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script>
+<script>
+const t1 = document.getElementById('t1');
+KIN.add(t1, {t0:0, t1:800, from:{opacity:0, scale:0.7, ls:40}, to:{opacity:1, scale:1, ls:8}, ease:'outExpo'});
+KIN.seek(0);
+</script></body></html>

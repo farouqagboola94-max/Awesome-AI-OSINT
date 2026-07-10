@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 3000" width="2400" height="3000">
+<rect width="2400" height="3000" fill="#06060d"/>
+<g transform="translate(1200, 640)" text-anchor="middle">
+  <text font-family="Oswald, Helvetica, sans-serif" font-weight="300" font-size="42" fill="#8a8a9a" letter-spacing="20">◈ FIVE ORISHAS · ONE VESSEL ◈</text>
+</g>
+<g transform="translate(1200, 1200)" text-anchor="middle" font-family="Bebas Neue, Impact, sans-serif">
+  <text font-size="180" fill="#C41E3A">ṢÀNGÓ</text>
+  <text y="200" font-size="180" fill="#FF6B1A">ÒGÚN</text>
+  <text y="400" font-size="180" fill="#00C9B1">Ọ̀ṢUN</text>
+  <text y="600" font-size="180" fill="#F0EDE5">OBATÀLÁ</text>
+  <text y="800" font-size="180" fill="#F4B800">ẸṢÙ</text>
+</g></svg>

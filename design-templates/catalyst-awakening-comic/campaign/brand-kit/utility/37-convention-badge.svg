@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900" width="600" height="900">
+<rect width="600" height="900" fill="#F0EDE5"/>
+<rect x="0" y="0" width="600" height="220" fill="#F4B800"/>
+<text x="300" y="120" font-family="Bebas Neue, Impact, sans-serif" font-size="90" fill="#06060d" text-anchor="middle" letter-spacing="6">CATALYST</text>
+<text x="300" y="170" font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="24" fill="#06060d" text-anchor="middle" letter-spacing="14">THE AWAKENING</text>
+<g transform="translate(300, 460)" text-anchor="middle">
+  <text font-family="Oswald, Helvetica, sans-serif" font-weight="300" font-size="22" letter-spacing="12" fill="#2a2a3a">◈ ATTENDEE ◈</text>
+  <text y="120" font-family="Bebas Neue, Impact, sans-serif" font-size="110" fill="#06060d" letter-spacing="4">YOUR NAME</text>
+  <text y="180" font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="24" fill="#2a2a3a" letter-spacing="10">ROLE / STUDIO</text>
+</g>
+<g transform="translate(300, 780)" text-anchor="middle">
+  <rect x="-140" y="-40" width="280" height="80" fill="#06060d"/>
+  <text font-family="Oswald, Helvetica, sans-serif" font-weight="700" font-size="30" fill="#F4B800" y="10" letter-spacing="10">STAFF · 2026</text>
+</g>
+</svg>

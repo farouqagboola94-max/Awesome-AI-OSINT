@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1680 2380" width="1680" height="2380"><defs><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2"/></filter><pattern id="grainP" width="240" height="240" patternUnits="userSpaceOnUse"><rect width="240" height="240" filter="url(#grain)"/></pattern></defs>
+<rect width="1680" height="2380" fill="#06060d"/>
+<rect width="1680" height="2380" fill="url(#grainP)" opacity="0.09" style="mix-blend-mode:overlay"/>
+<g transform="translate(120, 260)">
+  <text font-family="Oswald, Helvetica, sans-serif" font-weight="700" font-size="42" fill="#F4B800" letter-spacing="18">◈ CATALYST COMICS STUDIO PRESENTS ◈</text>
+</g>
+<g transform="translate(120, 700)">
+  <text font-family="Bebas Neue, Impact, sans-serif" font-size="340" fill="#F4B800" letter-spacing="4">CATALYST</text>
+  <line x1="0" y1="80" x2="1440" y2="80" stroke="#F4B800" stroke-width="14"/>
+  <text y="200" font-family="Oswald, Helvetica, sans-serif" font-weight="700" font-size="80" fill="#F0EDE5" letter-spacing="26">THE AWAKENING</text>
+</g>
+<g transform="translate(120, 1400)">
+  <text font-family="Crimson Pro, Georgia, serif" font-style="italic" font-size="60" fill="#F0EDE5">"Where the blood of Orishas</text>
+  <text y="80" font-family="Crimson Pro, Georgia, serif" font-style="italic" font-size="60" fill="#F0EDE5">meets the concrete of Lagos."</text>
+</g>
+<g transform="translate(120, 1900)">
+  <text font-family="Bebas Neue, Impact, sans-serif" font-size="140" fill="#F4B800" letter-spacing="8">4 FREE ISSUES</text>
+  <text y="70" font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="42" fill="#F0EDE5" letter-spacing="14">READ ONLINE · MADE IN LAGOS</text>
+  <text y="140" font-family="Space Grotesk, system-ui, sans-serif" font-size="26" fill="#8a8a9a" letter-spacing="8">catalyst-awakening.netlify.app</text>
+</g>
+</svg>

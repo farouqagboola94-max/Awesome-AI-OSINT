@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720"><defs><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2"/></filter><pattern id="grainP" width="240" height="240" patternUnits="userSpaceOnUse"><rect width="240" height="240" filter="url(#grain)"/></pattern></defs>
+<rect width="1280" height="720" fill="#06060d"/>
+<rect width="640" height="720" fill="#F4B800"/>
+<rect width="1280" height="720" fill="url(#grainP)" opacity="0.06" style="mix-blend-mode:overlay"/>
+<text x="80" y="240" font-family="Oswald, Helvetica, sans-serif" font-weight="700" font-size="30" fill="#06060d" letter-spacing="18">◈ NEW ISSUE ◈</text>
+<text x="60" y="400" font-family="Bebas Neue, Impact, sans-serif" font-size="140" fill="#06060d" letter-spacing="4">FIRE IN</text>
+<text x="60" y="540" font-family="Bebas Neue, Impact, sans-serif" font-size="140" fill="#C41E3A" letter-spacing="4">MUSHIN</text>
+<g transform="translate(760, 240)">
+  <text font-family="Bebas Neue, Impact, sans-serif" font-size="300" fill="#F4B800" letter-spacing="-4">05</text>
+  <text y="60" font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="34" letter-spacing="12" fill="#F0EDE5">CHAPTER FIVE</text>
+</g>
+<rect x="900" y="500" width="260" height="80" fill="#F4B800"/>
+<text x="1030" y="558" font-family="Oswald, Helvetica, sans-serif" font-weight="700" font-size="38" letter-spacing="8" fill="#06060d" text-anchor="middle">FREE ↗</text>
+</svg>

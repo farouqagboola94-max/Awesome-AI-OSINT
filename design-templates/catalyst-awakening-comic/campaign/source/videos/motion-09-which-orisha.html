@@ -1,0 +1,38 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  body { background: #06060d; }
+  .title { position: absolute; top: 200px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 180px; color: var(--gold); line-height: 0.9; }
+  .sub { position: absolute; top: 420px; left: 0; right: 0; text-align: center; font-family: 'Oswald'; font-weight: 300; letter-spacing: 12px; font-size: 40px; color: var(--ash); }
+  .options { position: absolute; top: 620px; left: 60px; right: 60px; display: flex; flex-direction: column; gap: 30px; }
+  .opt { display: flex; align-items: center; justify-content: space-between; padding: 40px 50px; border: 4px solid var(--iron); border-radius: 20px; font-family: 'Oswald'; font-weight: 700; font-size: 68px; letter-spacing: 6px; color: var(--bone); }
+  .opt .num { font-family: 'Bebas Neue'; font-size: 100px; letter-spacing: 0; }
+  .prompt { position: absolute; bottom: 260px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 140px; color: var(--bone); line-height: 0.9; }
+  .prompt b { color: var(--gold); }
+</style></head><body><div class="stage" id="cam">
+  <div class="title" id="title">WHICH ORISHA<br>ARE YOU?</div>
+  <div class="sub" id="sub">◈ PICK ONE ◈</div>
+  <div class="options">
+    <div class="opt" id="o1" style="border-color:var(--red); color:var(--red)"><span class="num">A</span><span>ṢÀNGÓ · THUNDER</span></div>
+    <div class="opt" id="o2" style="border-color:var(--orange); color:var(--orange)"><span class="num">B</span><span>ÒGÚN · IRON</span></div>
+    <div class="opt" id="o3" style="border-color:var(--teal); color:var(--teal)"><span class="num">C</span><span>Ọ̀ṢUN · RIVER</span></div>
+    <div class="opt" id="o4" style="border-color:var(--bone); color:var(--bone)"><span class="num">D</span><span>OBATÀLÁ · SKY</span></div>
+    <div class="opt" id="o5" style="border-color:var(--gold); color:var(--gold)"><span class="num">E</span><span>ẸṢÙ · CHAOS</span></div>
+  </div>
+  <div class="prompt" id="prompt">DROP YOUR PICK<br><b>IN THE COMMENTS ↓</b></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+KIT.linePop($('title'), 100, 220, 460);
+KIN.add($('sub'), {t0:900, t1:1400, from:{opacity:0, ls:36}, to:{opacity:1, ls:12}, ease:'outExpo'});
+['o1','o2','o3','o4','o5'].forEach((id,i)=>{
+  KIN.add($(id), {t0:1300+i*140, t1:1800+i*140, from:{opacity:0, x:i%2?200:-200, blur:8}, to:{opacity:1, x:0, blur:0}, ease:'outQuart'});
+});
+// hide options, then reveal CTA prompt
+['title','sub','o1','o2','o3','o4','o5'].forEach(id => KIT.fade($(id), 4200, 4700, 1, 0));
+KIT.linePop($('prompt'), 4500, 340, 500);
+KIT.drift($('cam'), 0, 8000, 1, 1.02);
+KIN.seek(0);
+</script></body></html>

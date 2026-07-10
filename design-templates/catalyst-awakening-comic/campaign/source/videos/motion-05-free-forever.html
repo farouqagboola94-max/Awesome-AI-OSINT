@@ -1,0 +1,41 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  body { background: var(--red); }
+  .stage { background: var(--red); }
+  #hero { font-size: 340px; color: var(--bone); letter-spacing: -4px; line-height: 0.85; }
+  #price { font-family: 'Bebas Neue'; font-size: 260px; color: var(--gold); position: absolute; top: 240px; right: 80px; transform: rotate(6deg); }
+  #price s { color: var(--bone); text-decoration: line-through; }
+  #tag { font-family: 'Oswald'; font-weight: 700; font-size: 82px; color: var(--gold); letter-spacing: 6px; margin-top: 30px; }
+  .strike { position: absolute; top: 320px; right: 90px; width: 380px; height: 10px; background: var(--bone); transform: rotate(-8deg); transform-origin: left; }
+  .stamp { position: absolute; bottom: 260px; right: 120px; width: 340px; height: 340px; border: 8px solid var(--gold); border-radius: 999px; display: flex; align-items: center; justify-content: center; text-align: center; transform: rotate(-14deg); font-family: 'Oswald'; font-weight: 700; font-size: 62px; color: var(--gold); letter-spacing: 8px; line-height: 1; }
+  .brandmark { color: var(--bone); }
+  .brandmark b { color: var(--gold); }
+</style></head><body><div class="stage" id="cam">
+  <div id="price"><s>$4.99</s></div>
+  <div class="strike"></div>
+  <div class="center" style="text-align:center;padding:0 60px">
+    <div class="hero" id="hero">FREE.<br>ONLINE.<br>FOREVER.</div>
+    <div id="tag">NO SIGNUP · NO ADS · NO PAYWALL</div>
+  </div>
+  <div class="stamp" id="stamp">4<br>ISSUES<br>LIVE</div>
+  <div class="brandmark">CATALYST · <b>THE AWAKENING</b><div class="sitemark" style="color:var(--bone)">CATALYST-AWAKENING.NETLIFY.APP</div></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const stamp = document.querySelector('.stamp');
+stamp.dataset.kbase = 'rotate(-14deg)';
+const price = document.getElementById('price');
+price.dataset.kbase = 'rotate(6deg)';
+KIN.add(price, {t0:0, t1:500, from:{opacity:0, scale:1.4}, to:{opacity:1, scale:1}, ease:'outBack'});
+KIN.add(document.querySelector('.strike'), {t0:250, t1:800, from:{sx:0, sy:1}, to:{sx:1, sy:1}, ease:'outExpo'});
+KIT.linePop($('hero'), 800, 280, 520);
+KIN.add($('tag'), {t0:2000, t1:2500, from:{opacity:0, ls:30}, to:{opacity:1, ls:6}, ease:'outExpo'});
+KIN.add(stamp, {t0:2300, t1:2900, from:{opacity:0, scale:0.4}, to:{opacity:1, scale:1}, ease:'outBack'});
+KIT.shake(stamp, 2900, 400, 8);
+KIT.drift($('cam'), 0, 7000, 1, 1.03);
+brandmark(5000, 7000);
+KIN.seek(0);
+</script></body></html>

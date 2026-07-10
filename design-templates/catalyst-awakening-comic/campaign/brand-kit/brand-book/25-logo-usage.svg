@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000">
+<rect width="1600" height="1000" fill="#06060d"/>
+<text x="80" y="90" font-family="Oswald, Helvetica, sans-serif" font-weight="700" font-size="30" letter-spacing="14" fill="#F4B800">◈ LOGO USAGE ◈</text>
+<text x="80" y="150" font-family="Bebas Neue, Impact, sans-serif" font-size="70" letter-spacing="6" fill="#F0EDE5">DO. DON'T.</text>
+
+<g transform="translate(80, 240)">
+  <rect width="700" height="300" fill="#2a2a3a" rx="14"/>
+  <text x="30" y="60" font-family="Oswald, Helvetica, sans-serif" font-weight="700" font-size="26" letter-spacing="10" fill="#00C9B1">DO</text>
+  <g transform="translate(30, 130)"><text font-family="Bebas Neue, Impact, sans-serif" font-size="80" fill="#F4B800" letter-spacing="4">CATALYST</text>
+    <text y="26" font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="20" fill="#F0EDE5" letter-spacing="14">THE AWAKENING</text></g>
+  <text x="30" y="270" font-family="Space Grotesk, system-ui, sans-serif" font-size="18" fill="#F0EDE5" letter-spacing="4">Gold on black. Full clear space. Standard lockup.</text>
+</g>
+
+<g transform="translate(820, 240)">
+  <rect width="700" height="300" fill="#2a2a3a" rx="14"/>
+  <text x="30" y="60" font-family="Oswald, Helvetica, sans-serif" font-weight="700" font-size="26" letter-spacing="10" fill="#C41E3A">DON'T</text>
+  <g transform="translate(30, 130) rotate(-8)"><text font-family="Bebas Neue, Impact, sans-serif" font-size="80" fill="#FF6B1A" letter-spacing="0" style="transform:scaleX(1.4)">CATALYST</text></g>
+  <text x="30" y="270" font-family="Space Grotesk, system-ui, sans-serif" font-size="18" fill="#F0EDE5" letter-spacing="4">Don't tilt, stretch, or recolor the wordmark.</text>
+</g>
+
+<g transform="translate(80, 600)">
+  <rect width="700" height="300" fill="#F4B800" rx="14"/>
+  <text x="30" y="60" font-family="Oswald, Helvetica, sans-serif" font-weight="700" font-size="26" letter-spacing="10" fill="#06060d">DO</text>
+  <g transform="translate(30, 130)"><text font-family="Bebas Neue, Impact, sans-serif" font-size="80" fill="#06060d" letter-spacing="4">CATALYST</text>
+    <text y="26" font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="20" fill="#06060d" letter-spacing="14">THE AWAKENING</text></g>
+  <text x="30" y="270" font-family="Space Grotesk, system-ui, sans-serif" font-size="18" fill="#06060d" letter-spacing="4">Black on gold — reversed version. Same lockup rules.</text>
+</g>
+
+<g transform="translate(820, 600)">
+  <rect width="700" height="300" fill="#F4B800" rx="14"/>
+  <text x="30" y="60" font-family="Oswald, Helvetica, sans-serif" font-weight="700" font-size="26" letter-spacing="10" fill="#C41E3A">DON'T</text>
+  <g transform="translate(30, 130)"><text font-family="Bebas Neue, Impact, sans-serif" font-size="80" fill="#F4B800" letter-spacing="4">CATALYST</text>
+    <text y="26" font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="20" fill="#F4B800" letter-spacing="14">THE AWAKENING</text></g>
+  <text x="30" y="270" font-family="Space Grotesk, system-ui, sans-serif" font-size="18" fill="#06060d" letter-spacing="4">Never gold-on-gold. Contrast is non-negotiable.</text>
+</g>
+</svg>

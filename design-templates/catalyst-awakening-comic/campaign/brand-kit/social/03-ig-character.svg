@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080"><defs><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2"/></filter><pattern id="grainP" width="240" height="240" patternUnits="userSpaceOnUse"><rect width="240" height="240" filter="url(#grain)"/></pattern></defs>
+<rect width="1080" height="1080" fill="#0a0a1f"/>
+
+<rect x="80" y="80" width="920" height="200" fill="#F4B800"/>
+<text x="120" y="200" font-family="Bebas Neue, Impact, sans-serif" font-size="150" fill="#06060d" letter-spacing="8">BAYO</text>
+<text x="120" y="260" font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="34" letter-spacing="12" fill="#06060d">ADEYEMI · 19 · MUSHIN</text>
+
+<g transform="translate(120, 380)" font-family="Oswald, Helvetica, sans-serif" font-weight="500" letter-spacing="5">
+  <text font-size="26" fill="#8a8a9a">ORISHAS</text>
+  <text y="70" font-size="64" fill="#F4B800" font-weight="700">FIVE</text>
+</g>
+<g transform="translate(560, 380)" font-family="Oswald, Helvetica, sans-serif" font-weight="500" letter-spacing="5">
+  <text font-size="26" fill="#8a8a9a">STATUS</text>
+  <text y="70" font-size="64" fill="#F4B800" font-weight="700">CHOSEN</text>
+</g>
+<g transform="translate(120, 560)" font-family="Oswald, Helvetica, sans-serif" font-weight="500" letter-spacing="5">
+  <text font-size="26" fill="#8a8a9a">POWERS</text>
+  <text y="60" font-size="46" fill="#F0EDE5">ṢÀNGÓ · ÒGÚN · Ọ̀ṢUN</text>
+  <text y="115" font-size="46" fill="#F0EDE5">OBATÀLÁ · ẸṢÙ</text>
+</g>
+
+<rect width="1080" height="1080" fill="url(#grainP)" opacity="0.08" style="mix-blend-mode:overlay"/>
+<g transform="translate(540,1000)">
+  <text font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="20" letter-spacing="6" fill="#F0EDE5" text-anchor="middle">CATALYST · <tspan fill="#F4B800" font-weight="700">THE AWAKENING</tspan></text>
+  <text y="26" font-family="Space Grotesk, system-ui, sans-serif" font-size="16" letter-spacing="4" fill="#8a8a9a" text-anchor="middle">catalyst-awakening.netlify.app</text>
+</g>
+</svg>

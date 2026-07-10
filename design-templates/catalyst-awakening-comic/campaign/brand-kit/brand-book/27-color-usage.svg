@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000">
+<rect width="1600" height="1000" fill="#06060d"/>
+<text x="80" y="90" font-family="Oswald, Helvetica, sans-serif" font-weight="700" font-size="30" letter-spacing="14" fill="#F4B800">◈ COLOR USAGE ◈</text>
+<text x="80" y="150" font-family="Bebas Neue, Impact, sans-serif" font-size="70" letter-spacing="6" fill="#F0EDE5">HIERARCHY OF INTENT</text>
+
+<g transform="translate(80, 240)">
+  <rect width="450" height="200" fill="#F4B800"/>
+  <text x="30" y="120" font-family="Bebas Neue, Impact, sans-serif" font-size="80" fill="#06060d">VOICE</text>
+  <text x="30" y="180" font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="18" fill="#06060d" letter-spacing="6">DANFO GOLD · 60%</text>
+</g>
+<g transform="translate(555, 240)">
+  <rect width="450" height="200" fill="#06060d" stroke="#2a2a3a" stroke-width="2"/>
+  <text x="30" y="120" font-family="Bebas Neue, Impact, sans-serif" font-size="80" fill="#F0EDE5">STAGE</text>
+  <text x="30" y="180" font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="18" fill="#8a8a9a" letter-spacing="6">INK BLACK · 30%</text>
+</g>
+<g transform="translate(1030, 240)">
+  <rect width="490" height="200" fill="#C41E3A"/>
+  <text x="30" y="120" font-family="Bebas Neue, Impact, sans-serif" font-size="80" fill="#F0EDE5">SCENE</text>
+  <text x="30" y="180" font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="18" fill="#F0EDE5" letter-spacing="6">ACCENT · 10%</text>
+</g>
+
+<text x="80" y="530" font-family="Oswald, Helvetica, sans-serif" font-weight="700" font-size="26" letter-spacing="10" fill="#F4B800">RULES</text>
+
+<g transform="translate(80, 590)" font-family="Space Grotesk, system-ui, sans-serif" font-size="22" fill="#F0EDE5">
+  <text>◈ Gold is our voice. Every asset needs a gold beat somewhere.</text>
+  <text y="46">◈ Black is our stage. Backgrounds default to Ink Black (#06060D), not #000.</text>
+  <text y="92">◈ One accent at a time. Never mix Red + Teal in the same asset.</text>
+  <text y="138">◈ Neutrals are supporting cast. Bone for body, Ash for meta, Iron for dividers.</text>
+  <text y="184">◈ Grain overlay is mandatory at ~8%. Never above 12%. Never below 4%.</text>
+</g>
+</svg>

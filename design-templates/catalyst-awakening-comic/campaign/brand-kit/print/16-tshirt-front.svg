@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 3000" width="2400" height="3000">
+<rect width="2400" height="3000" fill="#06060d"/>
+<g transform="translate(1200, 1400)" text-anchor="middle">
+  <text font-family="Bebas Neue, Impact, sans-serif" font-size="360" fill="#F4B800" letter-spacing="10">CATALYST</text>
+  <line x1="-500" y1="80" x2="500" y2="80" stroke="#F4B800" stroke-width="12"/>
+  <text y="180" font-family="Oswald, Helvetica, sans-serif" font-weight="700" font-size="90" fill="#F0EDE5" letter-spacing="30">THE AWAKENING</text>
+  <text y="400" font-family="Space Grotesk, system-ui, sans-serif" font-size="34" fill="#8a8a9a" letter-spacing="14">◈ LAGOS · NIGERIA ◈</text>
+</g></svg>

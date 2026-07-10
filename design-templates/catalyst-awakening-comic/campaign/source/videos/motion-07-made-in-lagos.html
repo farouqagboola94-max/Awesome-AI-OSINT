@@ -1,0 +1,42 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  body { background: #06060d; }
+  #big { font-size: 260px; color: var(--bone); line-height: 0.85; }
+  #big .gold { color: var(--gold); }
+  .row { position: absolute; left: 0; right: 0; display: flex; justify-content: center; align-items: center; gap: 30px; font-family: 'Oswald'; font-weight: 300; font-size: 46px; letter-spacing: 6px; color: var(--ash); }
+  .r-top { top: 240px; }
+  .r-bot { bottom: 340px; }
+  .dot { width: 12px; height: 12px; background: var(--gold); border-radius: 999px; }
+  .yearblock { position: absolute; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; color: var(--gold); font-size: 240px; }
+  .yr1 { top: 380px; opacity: 0; }
+  .yr2 { top: 380px; opacity: 0; }
+  .yr3 { top: 380px; opacity: 0; }
+  .marquee { position: absolute; top: 700px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 380px; color: var(--gold); line-height: 0.9; text-shadow: 0 0 60px rgba(244,184,0,0.3); }
+  .marquee2 { position: absolute; top: 1080px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 380px; color: var(--bone); line-height: 0.9; }
+</style></head><body><div class="stage" id="cam">
+  <div class="row r-top" id="rowTop"><span>NIGERIAN CREATED</span><span class="dot"></span><span>LAGOS BUILT</span><span class="dot"></span><span>YORUBA ROOTED</span></div>
+  <div class="yearblock yr1" id="yr1">2024</div>
+  <div class="yearblock yr2" id="yr2">2025</div>
+  <div class="yearblock yr3" id="yr3">2026</div>
+  <div class="marquee" id="m1">MADE IN</div>
+  <div class="marquee2" id="m2">LAGOS.</div>
+  <div class="row r-bot" id="rowBot"><span>FOR YOU</span><span class="dot"></span><span>FOR US</span><span class="dot"></span><span>FOR THE WORLD</span></div>
+  <div class="brandmark">CATALYST · <b>THE AWAKENING</b><div class="sitemark">CATALYST-AWAKENING.NETLIFY.APP</div></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+KIN.add($('rowTop'), {t0:0, t1:600, from:{opacity:0, y:-40}, to:{opacity:1, y:0}, ease:'outQuart'});
+KIT.cut($('yr1'), 400, 900); KIT.scaleIn($('yr1'), 400, 400, 1.4);
+KIT.cut($('yr2'), 900, 1400); KIT.scaleIn($('yr2'), 900, 400, 1.4);
+KIT.cut($('yr3'), 1400, 2100); KIT.scaleIn($('yr3'), 1400, 400, 1.4);
+KIT.slam($('m1'), 2200, {from: 2.4, dur: 380});
+KIT.slam($('m2'), 2600, {from: 2.4, dur: 380});
+KIT.shake($('cam'), 2620, 340, 12);
+KIN.add($('rowBot'), {t0:3200, t1:3800, from:{opacity:0, y:40}, to:{opacity:1, y:0}, ease:'outQuart'});
+KIT.drift($('cam'), 0, 7000, 1, 1.03);
+brandmark(5000, 7000);
+KIN.seek(0);
+</script></body></html>

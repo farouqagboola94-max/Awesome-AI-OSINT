@@ -1,0 +1,46 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  .row { position: absolute; left:0; right:0; height: 200px; display: flex; align-items: center; justify-content: space-between; padding: 0 90px; }
+  .r1 { top: 240px; } .r2 { top: 460px; } .r3 { top: 680px; } .r4 { top: 900px; } .r5 { top: 1120px; }
+  .g-name { font-family: 'Bebas Neue'; font-size: 130px; letter-spacing: 4px; }
+  .g-domain { font-family: 'Oswald'; font-weight: 300; font-size: 40px; letter-spacing: 6px; color: var(--ash); text-align: right; }
+  .final { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .flabel { font-family: 'Oswald'; font-weight: 300; font-size: 40px; letter-spacing: 12px; color: var(--ash); }
+  .fnum { font-family: 'Bebas Neue'; font-size: 500px; color: var(--gold); line-height: 0.9; }
+  .fwrap { font-family: 'Bebas Neue'; font-size: 140px; color: var(--bone); letter-spacing: 6px; }
+</style></head><body><div class="stage" id="cam">
+  <div class="corner-tl"></div><div class="corner-tr"></div><div class="corner-bl"></div><div class="corner-br"></div>
+  <div class="row r1"><span class="g-name" id="n1" style="color:var(--red)">ṢÀNGÓ</span><span class="g-domain" id="d1">THUNDER · FIRE</span></div>
+  <div class="row r2"><span class="g-name" id="n2" style="color:var(--orange)">ÒGÚN</span><span class="g-domain" id="d2">IRON · WAR</span></div>
+  <div class="row r3"><span class="g-name" id="n3" style="color:var(--teal)">Ọ̀ṢUN</span><span class="g-domain" id="d3">RIVERS · LOVE</span></div>
+  <div class="row r4"><span class="g-name" id="n4" style="color:var(--bone)">OBATÀLÁ</span><span class="g-domain" id="d4">SKY · WISDOM</span></div>
+  <div class="row r5"><span class="g-name" id="n5" style="color:var(--gold)">ẸṢÙ</span><span class="g-domain" id="d5">CROSSROADS · CHAOS</span></div>
+  <div class="final" id="final" style="opacity:0">
+    <div class="flabel" id="ffl">POWERS TAKEN</div>
+    <div class="fnum" id="fnum">5</div>
+    <div class="fwrap" id="fwrap">BY ONE BOY</div>
+  </div>
+  <div class="brandmark">CATALYST · <b>THE AWAKENING</b><div class="sitemark">CATALYST-AWAKENING.NETLIFY.APP</div></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+cornerFrame(150, 700);
+for (let i=1;i<=5;i++) {
+  const t = 100 + (i-1)*220;
+  KIN.add($('n'+i), {t0:t, t1:t+380, from:{opacity:0, x:-160, blur:12}, to:{opacity:1, x:0, blur:0}, ease:'outExpo'});
+  KIN.add($('d'+i), {t0:t+150, t1:t+520, from:{opacity:0, x:160}, to:{opacity:1, x:0}, ease:'outExpo'});
+}
+// scale-out rows and reveal final
+[1,2,3,4,5].forEach(i => KIT.fade($('n'+i), 3800, 4300, 1, 0));
+[1,2,3,4,5].forEach(i => KIT.fade($('d'+i), 3800, 4300, 1, 0));
+KIT.fade($('final'), 4200, 4700, 0, 1);
+KIT.slam($('fnum'), 4400, {from: 2.6, dur: 500});
+KIN.add($('fwrap'), {t0:4900, t1:5400, from:{opacity:0, y:40}, to:{opacity:1, y:0}, ease:'outExpo'});
+KIT.shake($('cam'), 4420, 380, 16);
+KIT.drift($('cam'), 0, 8000, 1, 1.03);
+brandmark(6000, 8000);
+KIN.seek(0);
+</script></body></html>

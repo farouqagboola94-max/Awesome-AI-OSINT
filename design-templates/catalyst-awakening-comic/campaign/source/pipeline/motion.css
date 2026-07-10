@@ -1,0 +1,36 @@
+/* Motion-pack shared styles: bold shapes, punchy type, rich background layers. */
+.bg-gold { background: var(--gold); }
+.bg-red { background: var(--red); }
+.bg-teal { background: var(--teal); }
+.bg-navy { background: var(--navy); }
+.bg-black { background: var(--black); }
+.bg-orange { background: var(--orange); }
+.bg-indigo { background: var(--indigo); }
+
+.blob { position: absolute; border-radius: 999px; filter: blur(0px); }
+
+.hstroke { position: absolute; height: 8px; background: var(--gold); transform-origin: left; }
+.vstroke { position: absolute; width: 8px; background: var(--gold); transform-origin: top; }
+.chip { display: inline-block; padding: 8px 22px; border: 3px solid currentColor; border-radius: 999px; font-family: 'Oswald'; font-weight: 700; letter-spacing: 8px; font-size: 26px; }
+
+.hero { font-family: 'Bebas Neue'; line-height: 0.9; letter-spacing: 2px; text-transform: uppercase; }
+.oswald-bold { font-family: 'Oswald'; font-weight: 700; }
+.mono { font-family: 'Space Grotesk'; letter-spacing: 3px; font-weight: 500; }
+
+.gridbg {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(244,184,0,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244,184,0,0.06) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+.corner-tl, .corner-tr, .corner-bl, .corner-br { position: absolute; width: 60px; height: 60px; }
+.corner-tl { top: 40px; left: 40px; border-top: 5px solid var(--gold); border-left: 5px solid var(--gold); }
+.corner-tr { top: 40px; right: 40px; border-top: 5px solid var(--gold); border-right: 5px solid var(--gold); }
+.corner-bl { bottom: 40px; left: 40px; border-bottom: 5px solid var(--gold); border-left: 5px solid var(--gold); }
+.corner-br { bottom: 40px; right: 40px; border-bottom: 5px solid var(--gold); border-right: 5px solid var(--gold); }
+
+.brandmark { position: absolute; bottom: 60px; left: 0; right: 0; text-align: center; font-family: 'Oswald'; font-weight: 600; font-size: 26px; letter-spacing: 8px; color: var(--bone); z-index: 60; }
+.brandmark b { color: var(--gold); font-weight: 700; }
+.sitemark { font-family: 'Space Grotesk'; font-size: 20px; letter-spacing: 4px; color: var(--ash); margin-top: 6px; }

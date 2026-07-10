@@ -1,0 +1,47 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  body { background: #06060d; }
+  .compass { position: absolute; top: 220px; left: 50%; transform: translateX(-50%); width: 620px; height: 620px; border: 4px solid var(--gold); border-radius: 999px; }
+  .compass:before, .compass:after { content:''; position: absolute; background: var(--gold); }
+  .compass:before { left: -20px; right: -20px; top: 50%; height: 3px; }
+  .compass:after { top: -20px; bottom: -20px; left: 50%; width: 3px; }
+  .compass-inner { position: absolute; inset: 60px; border: 3px solid rgba(244,184,0,0.35); border-radius: 999px; }
+  .coord { position: absolute; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; color: var(--gold); font-size: 130px; letter-spacing: 6px; }
+  .coord-lat { top: 900px; }
+  .coord-lon { top: 1050px; color: var(--bone); }
+  .caption { position: absolute; left: 0; right: 0; text-align: center; font-family: 'Oswald'; font-weight: 300; letter-spacing: 16px; font-size: 44px; color: var(--ash); }
+  .cap1 { top: 130px; }
+  .cap2 { top: 1250px; }
+  .cap3 { top: 1420px; }
+  .cap3 b { color: var(--gold); font-weight: 700; }
+</style></head><body><div class="stage" id="cam">
+  <div class="caption cap1" id="cap1">◈ TARGET LOCATION ◈</div>
+  <div class="compass" id="compass"><div class="compass-inner"></div></div>
+  <div class="coord coord-lat" id="lat">06°32'44"N</div>
+  <div class="coord coord-lon" id="lon">03°21'19"E</div>
+  <div class="caption cap2" id="cap2">MUSHIN, LAGOS</div>
+  <div class="caption cap3" id="cap3">WHERE <b>CATALYST</b> BEGINS</div>
+  <div class="brandmark">CATALYST · <b>THE AWAKENING</b><div class="sitemark">CATALYST-AWAKENING.NETLIFY.APP</div></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const compass = document.querySelector('.compass');
+KIN.add(compass, {t0:0, t1:1200, from:{opacity:0, scale:0.4, rot:-45}, to:{opacity:1, scale:1, rot:0}, ease:'outExpo'});
+KIN.add($('cap1'), {t0:400, t1:900, from:{opacity:0, ls:36}, to:{opacity:1, ls:16}, ease:'outExpo'});
+KIT.charCascade($('lat'), 900, 50, 320);
+KIT.charCascade($('lon'), 1400, 50, 320);
+KIN.add($('cap2'), {t0:2100, t1:2600, from:{opacity:0, ls:40}, to:{opacity:1, ls:16}, ease:'outExpo'});
+KIT.wordPop($('cap3'), 2900, 140, 380);
+// slow rotate of compass
+KIN.fx(compass, 1200, 8000, (p, t) => {
+  const local = (t - 1200) / (8000 - 1200);
+  if (local < 0) return;
+  compass.style.transform = `rotate(${local * 12}deg)`;
+});
+KIT.drift($('cam'), 0, 8000, 1, 1.03);
+brandmark(5500, 8000);
+KIN.seek(0);
+</script></body></html>

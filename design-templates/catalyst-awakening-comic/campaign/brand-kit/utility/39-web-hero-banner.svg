@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 700" width="1920" height="700"><defs><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2"/></filter><pattern id="grainP" width="240" height="240" patternUnits="userSpaceOnUse"><rect width="240" height="240" filter="url(#grain)"/></pattern></defs>
+<rect width="1920" height="700" fill="#06060d"/>
+<rect width="1920" height="700" fill="url(#grainP)" opacity="0.06" style="mix-blend-mode:overlay"/>
+<g transform="translate(120, 240)">
+  <text font-family="Oswald, Helvetica, sans-serif" font-weight="700" font-size="26" letter-spacing="16" fill="#F4B800">◈ NOW READING · ISSUES 1–4 ◈</text>
+  <text y="180" font-family="Bebas Neue, Impact, sans-serif" font-size="200" fill="#F4B800" letter-spacing="8">CATALYST</text>
+  <text y="260" font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="46" fill="#F0EDE5" letter-spacing="22">THE AWAKENING</text>
+  <text y="340" font-family="Space Grotesk, system-ui, sans-serif" font-size="24" fill="#8a8a9a" letter-spacing="8">A LAGOS NOIR COMIC UNIVERSE · MADE IN LAGOS · FREE ONLINE</text>
+</g>
+</svg>

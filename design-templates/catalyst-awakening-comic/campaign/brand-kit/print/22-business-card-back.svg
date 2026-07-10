@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 600" width="1050" height="600">
+<rect width="1050" height="600" fill="#F4B800"/>
+<g transform="translate(60, 140)">
+  <text font-family="Oswald, Helvetica, sans-serif" font-weight="700" font-size="30" fill="#06060d" letter-spacing="6">TAIWO ADEGOKE</text>
+  <text y="46" font-family="Oswald, Helvetica, sans-serif" font-weight="300" font-size="24" fill="#06060d" letter-spacing="10">SHOWRUNNER · CATALYST COMICS STUDIO</text>
+</g>
+<g transform="translate(60, 350)" font-family="Space Grotesk, system-ui, sans-serif" font-size="24" fill="#06060d" letter-spacing="4">
+  <text>catalystcomicstudio@gmail.com</text>
+  <text y="40">catalyst-awakening.netlify.app</text>
+  <text y="80">@catalystcomicshq · everywhere</text>
+</g>
+</svg>

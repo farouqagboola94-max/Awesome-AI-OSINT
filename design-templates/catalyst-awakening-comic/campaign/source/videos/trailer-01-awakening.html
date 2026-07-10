@@ -1,0 +1,63 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css">
+<style>
+  .scene { background: var(--black); }
+  .word { font-family: 'Bebas Neue'; line-height: 0.92; }
+  .sub { font-family: 'Oswald'; font-weight: 600; letter-spacing: 10px; }
+  #s2 { background: var(--gold); color: var(--black); }
+  #s6 { background: var(--gold); color: var(--black); }
+  .orisha { font-size: 210px; color: var(--bone); }
+  .rule { width: 320px; height: 6px; background: var(--gold); margin: 42px auto; }
+  .url { font-family: 'Space Grotesk'; font-size: 34px; letter-spacing: 4px; color: var(--ash); }
+</style></head>
+<body><div class="stage" id="cam">
+  <div class="scene" id="s1"><div class="center"><div class="word gold" style="font-size:340px" id="w1">LAGOS.</div></div></div>
+  <div class="scene" id="s2"><div class="center"><div class="word" style="font-size:230px" id="w2">NEVER SLEEPS.</div></div></div>
+  <div class="scene" id="s3"><div class="center">
+    <div class="word" style="font-size:130px;color:var(--ash)" id="w3a">BUT TONIGHT</div>
+    <div class="word" style="font-size:190px;color:var(--red)" id="w3b">SOMETHING ELSE</div>
+    <div class="word gold" style="font-size:230px" id="w3c">WOKE UP.</div>
+  </div></div>
+  <div class="scene" id="s4">
+    <div class="center"><div class="word orisha" id="o1">ṢÀNGÓ</div></div>
+    <div class="center"><div class="word orisha" style="color:var(--orange)" id="o2">ÒGÚN</div></div>
+    <div class="center"><div class="word orisha" style="color:var(--teal)" id="o3">Ọ̀ṢUN</div></div>
+    <div class="center"><div class="word orisha" id="o4">OBATÀLÁ</div></div>
+    <div class="center"><div class="word orisha" style="color:var(--red)" id="o5">ẸṢÙ</div></div>
+    <div class="center" style="opacity:0" id="o6"><div class="word gold" style="font-size:280px">FIVE GODS.</div></div>
+  </div>
+  <div class="scene" id="s5"><div class="center"><div class="word" style="font-size:320px;color:var(--bone)" id="w5">ONE BOY.</div></div></div>
+  <div class="scene" id="s6"><div class="center"><div class="word" style="font-size:260px" id="w6">ALL OF THEM.</div></div></div>
+  <div class="scene" id="s7"><div class="center" id="lockup">
+    <div class="word gold" style="font-size:250px" id="logoA">CATALYST</div>
+    <div class="sub" style="font-size:64px;color:var(--bone)" id="logoB">THE AWAKENING</div>
+    <div class="rule" id="ruleEl"></div>
+    <div class="sub gold" style="font-size:44px;letter-spacing:6px" id="cta">4 FREE ISSUES — READ NOW</div>
+    <div class="url" style="margin-top:26px" id="urlEl">catalyst-awakening.netlify.app</div>
+  </div></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script>
+<script src="../pipeline/kit.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const { cut, slam, wordPop, charCascade, strobe, shake, flash, drift, fade } = KIT;
+
+cut($('s1'), 0, 900);        slam($('w1'), 60, {from: 3, dur: 420}); flash('rgba(244,184,0,0.5)', 60); shake($('cam'), 90, 350, 18);
+cut($('s2'), 900, 1800);     slam($('w2'), 920, {from: 0.4, dur: 360, ease: 'outBackHard'});
+cut($('s3'), 1800, 3300);    wordPop($('w3a'), 1850, 80); slam($('w3b'), 2300); slam($('w3c'), 2800, {from: 2.8}); shake($('cam'), 2820, 300, 12);
+cut($('s4'), 3300, 5800);
+strobe([$('o1'),$('o2'),$('o3'),$('o4'),$('o5')], 3300, 160);
+strobe([$('o3'),$('o5'),$('o1'),$('o4'),$('o2')], 4100, 120);
+cut($('o6'), 4900, 5800);    slam($('o6').firstElementChild, 4920, {from: 2.2}); flash('rgba(196,30,58,0.4)', 4900);
+cut($('s5'), 5800, 7300);    slam($('w5'), 5830, {from: 3.2, dur: 500}); shake($('cam'), 5860, 420, 20);
+cut($('s6'), 7300, 9200);    slam($('w6'), 7330, {from: 0.3, ease: 'outBackHard'});
+KIT.cutFade($('s7'), 9200, 14000, 500);
+charCascade($('logoA'), 9300, 34);
+KIN.add($('logoB'), {t0: 9800, t1: 10500, from: {opacity: 0, ls: 46}, to: {opacity: 1, ls: 10}, ease: 'outExpo'});
+KIN.add($('ruleEl'), {t0: 10200, t1: 10800, from: {sx: 0, sy: 1}, to: {sx: 1, sy: 1}, ease: 'outExpo'});
+fade($('cta'), 10800, 11300, 0, 1);
+fade($('urlEl'), 11200, 11700, 0, 1);
+drift($('lockup'), 9200, 14000, 1, 1.06);
+KIN.seek(0);
+</script></body></html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  .grid4 { position: absolute; top: 380px; left: 0; right: 0; display: flex; justify-content: center; gap: 32px; }
+  .card { width: 210px; height: 320px; background: linear-gradient(135deg, var(--iron), var(--navy)); border: 4px solid var(--gold); display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue'; font-size: 200px; color: var(--gold); }
+  .caption { position: absolute; text-align: center; left: 0; right: 0; font-family: 'Oswald'; letter-spacing: 12px; color: var(--bone); }
+  .cap-top { top: 200px; font-size: 44px; font-weight: 300; color: var(--ash); }
+  .cap-mid { top: 780px; font-size: 64px; font-weight: 700; }
+  .headline { position: absolute; top: 880px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 260px; color: var(--gold); line-height: 0.85; }
+  .sub { position: absolute; top: 1220px; left: 0; right: 0; text-align: center; font-family: 'Oswald'; font-weight: 300; font-size: 40px; letter-spacing: 8px; color: var(--bone); }
+</style></head><body><div class="stage" id="cam">
+  <div class="corner-tl"></div><div class="corner-tr"></div><div class="corner-bl"></div><div class="corner-br"></div>
+  <div class="caption cap-top" id="cap1">◈ NOW LIVE ◈</div>
+  <div class="grid4">
+    <div class="card" id="c1">1</div>
+    <div class="card" id="c2">2</div>
+    <div class="card" id="c3">3</div>
+    <div class="card" id="c4">4</div>
+  </div>
+  <div class="caption cap-mid" id="cap2">ALL FREE. ALL ONLINE.</div>
+  <div class="headline" id="hl">READY<br>WHEN YOU ARE.</div>
+  <div class="brandmark">CATALYST · <b>THE AWAKENING</b><div class="sitemark">CATALYST-AWAKENING.NETLIFY.APP</div></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+cornerFrame(200, 800);
+KIN.add($('cap1'), {t0:100, t1:600, from:{opacity:0, ls:36}, to:{opacity:1, ls:12}, ease:'outExpo'});
+['c1','c2','c3','c4'].forEach((id,i)=> KIN.add($(id), {t0:700+i*160, t1:1200+i*160, from:{opacity:0, y:120, rot:-4}, to:{opacity:1, y:0, rot:0}, ease:'outBack'}));
+KIN.add($('cap2'), {t0:1900, t1:2400, from:{opacity:0, ls:32}, to:{opacity:1, ls:12}, ease:'outExpo'});
+KIT.linePop($('hl'), 2600, 260, 500);
+KIT.drift($('cam'), 0, 8000, 1, 1.03);
+brandmark(5500, 8000);
+KIN.seek(0);
+</script></body></html>

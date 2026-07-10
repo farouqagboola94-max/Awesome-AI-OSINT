@@ -1,0 +1,32 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  body { background: #06060d; }
+  .stage { background: radial-gradient(ellipse at 50% 60%, #1a1a2e, #06060d); }
+  .marks { position: absolute; top: 260px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 280px; color: var(--gold); line-height: 0.7; }
+  .quote { position: absolute; top: 560px; left: 100px; right: 100px; text-align: center; font-family: 'Crimson Pro'; font-style: italic; font-size: 82px; line-height: 1.15; color: var(--bone); }
+  .quote em { color: var(--gold); font-style: italic; }
+  .attr { position: absolute; bottom: 460px; left: 0; right: 0; text-align: center; font-family: 'Oswald'; font-weight: 300; letter-spacing: 14px; font-size: 42px; color: var(--ash); }
+  .attr b { color: var(--gold); font-weight: 700; }
+  .rule { position: absolute; bottom: 560px; left: 50%; transform: translateX(-50%); width: 240px; height: 4px; background: var(--gold); transform-origin: center; }
+</style></head><body><div class="stage" id="cam">
+  <div class="marks" id="marks">“</div>
+  <div class="quote" id="quote">The city was <em>always</em> alive.<br>Bayo just learned<br>how to <em>listen</em>.</div>
+  <div class="rule" id="rule"></div>
+  <div class="attr" id="attr">— ISSUE 1, <b>THE AWAKENING</b> —</div>
+  <div class="brandmark">CATALYST · <b>THE AWAKENING</b><div class="sitemark">CATALYST-AWAKENING.NETLIFY.APP</div></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+KIN.add($('marks'), {t0:0, t1:600, from:{opacity:0, scale:2.4}, to:{opacity:1, scale:1}, ease:'outBack'});
+KIT.linePop($('quote'), 400, 320, 540);
+const rule = document.querySelector('.rule');
+rule.dataset.kbase = 'translateX(-50%)';
+KIN.add(rule, {t0:2500, t1:3100, from:{sx:0, sy:1}, to:{sx:1, sy:1}, ease:'outExpo'});
+KIN.add($('attr'), {t0:2800, t1:3300, from:{opacity:0, ls:36}, to:{opacity:1, ls:14}, ease:'outExpo'});
+KIT.drift($('cam'), 0, 8000, 1, 1.03);
+brandmark(5500, 8000);
+KIN.seek(0);
+</script></body></html>

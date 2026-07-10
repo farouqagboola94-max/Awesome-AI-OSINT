@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000">
+<rect width="1000" height="1000" fill="#06060d"/>
+<g transform="translate(500,320)" text-anchor="middle">
+  <text font-family="Oswald, Helvetica, sans-serif" font-weight="300" font-size="30" letter-spacing="16" fill="#8a8a9a">◈ LAGOS · NIGERIA ◈</text>
+  <text y="200" font-family="Bebas Neue, Impact, sans-serif" font-size="190" fill="#F4B800" letter-spacing="6">CATALYST</text>
+  <line x1="-260" y1="250" x2="260" y2="250" stroke="#F4B800" stroke-width="6"/>
+  <text y="320" font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="46" fill="#F0EDE5" letter-spacing="16">THE AWAKENING</text>
+  <text y="420" font-family="Space Grotesk, system-ui, sans-serif" font-size="22" letter-spacing="8" fill="#8a8a9a">A LAGOS NOIR COMIC UNIVERSE</text>
+</g></svg>

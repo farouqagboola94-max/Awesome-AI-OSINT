@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1584 396" width="1584" height="396"><defs><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2"/></filter><pattern id="grainP" width="240" height="240" patternUnits="userSpaceOnUse"><rect width="240" height="240" filter="url(#grain)"/></pattern></defs>
+<rect width="1584" height="396" fill="#06060d"/>
+<rect width="1584" height="396" fill="url(#grainP)" opacity="0.06" style="mix-blend-mode:overlay"/>
+<g transform="translate(60, 210)">
+  <text font-family="Bebas Neue, Impact, sans-serif" font-size="120" fill="#F4B800" letter-spacing="8">CATALYST COMICS STUDIO</text>
+  <text y="46" font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="30" fill="#F0EDE5" letter-spacing="18">AFRICAN SUPERHERO UNIVERSE · BUILT IN LAGOS</text>
+</g>
+</svg>

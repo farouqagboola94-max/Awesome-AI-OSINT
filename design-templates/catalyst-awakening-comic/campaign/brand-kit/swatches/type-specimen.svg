@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1500" width="1200" height="1500">
+<rect width="1200" height="1500" fill="#06060d"/>
+<text x="80" y="120" font-family="Bebas Neue, Impact, sans-serif" font-size="80" fill="#F4B800" letter-spacing="6">TYPOGRAPHY</text>
+<text x="80" y="170" font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="26" fill="#F0EDE5" letter-spacing="12">FOUR FAMILIES · ONE VOICE</text>
+
+<text x="80" y="290" font-family="Oswald, Helvetica, sans-serif" font-weight="300" font-size="22" fill="#8a8a9a" letter-spacing="12">DISPLAY</text>
+<text x="80" y="440" font-family="Bebas Neue, Impact, sans-serif" font-size="200" fill="#F4B800" letter-spacing="4">LAGOS.</text>
+<text x="80" y="490" font-family="Space Grotesk, system-ui, sans-serif" font-size="20" fill="#8a8a9a" letter-spacing="4">Bebas Neue · titles, hero, chapter marks</text>
+
+<text x="80" y="580" font-family="Oswald, Helvetica, sans-serif" font-weight="300" font-size="22" fill="#8a8a9a" letter-spacing="12">SUBHEAD</text>
+<text x="80" y="660" font-family="Oswald, Helvetica, sans-serif" font-weight="700" font-size="72" fill="#F0EDE5" letter-spacing="10">THE AWAKENING</text>
+<text x="80" y="700" font-family="Space Grotesk, system-ui, sans-serif" font-size="20" fill="#8a8a9a" letter-spacing="4">Oswald · section labels, captions, tags</text>
+
+<text x="80" y="790" font-family="Oswald, Helvetica, sans-serif" font-weight="300" font-size="22" fill="#8a8a9a" letter-spacing="12">BODY</text>
+<text x="80" y="860" font-family="Space Grotesk, system-ui, sans-serif" font-size="42" fill="#F0EDE5">A Lagos noir comic universe.</text>
+<text x="80" y="895" font-family="Space Grotesk, system-ui, sans-serif" font-size="20" fill="#8a8a9a" letter-spacing="4">Space Grotesk · UI, coordinates, reading</text>
+
+<text x="80" y="990" font-family="Oswald, Helvetica, sans-serif" font-weight="300" font-size="22" fill="#8a8a9a" letter-spacing="12">EDITORIAL</text>
+<text x="80" y="1070" font-family="Crimson Pro, Georgia, serif" font-style="italic" font-size="46" fill="#F0EDE5">"The gods never left. They were waiting."</text>
+<text x="80" y="1105" font-family="Space Grotesk, system-ui, sans-serif" font-size="20" fill="#8a8a9a" letter-spacing="4">Crimson Pro Italic · pull quotes, editorial voice</text>
+
+<line x1="80" y1="1200" x2="1120" y2="1200" stroke="#F4B800" stroke-width="3"/>
+<text x="80" y="1260" font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="30" fill="#F4B800" letter-spacing="10">HIERARCHY RULE</text>
+<text x="80" y="1310" font-family="Space Grotesk, system-ui, sans-serif" font-size="24" fill="#F0EDE5">Display &gt; Subhead &gt; Body &gt; Editorial. Never mix two displays in the same block.</text>
+</svg>

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1600" width="1200" height="1600">
+<rect width="1200" height="1600" fill="#F0EDE5"/>
+<g transform="translate(100, 140)"><circle r="120" fill="#F4B800" stroke="#06060d" stroke-width="8"/>
+  <text font-family="Bebas Neue, Impact, sans-serif" font-size="110" fill="#06060d" text-anchor="middle" y="34">C:TA</text></g>
+<g transform="translate(420, 140)"><rect x="-140" y="-80" width="280" height="160" fill="#C41E3A" stroke="#06060d" stroke-width="8"/>
+  <text font-family="Bebas Neue, Impact, sans-serif" font-size="80" fill="#F0EDE5" text-anchor="middle" y="14">LAGOS.</text></g>
+<g transform="translate(740, 140)"><circle r="120" fill="#06060d" stroke="#F4B800" stroke-width="8"/>
+  <text font-family="Oswald, Helvetica, sans-serif" font-weight="700" font-size="32" fill="#F4B800" text-anchor="middle" y="0" letter-spacing="6">CATALYST</text>
+  <text font-family="Oswald, Helvetica, sans-serif" font-weight="300" font-size="20" fill="#F4B800" text-anchor="middle" y="40" letter-spacing="6">THE AWAKENING</text></g>
+<g transform="translate(1060, 140)"><rect x="-100" y="-100" width="200" height="200" fill="#F4B800" stroke="#06060d" stroke-width="8" transform="rotate(45)"/>
+  <text font-family="Bebas Neue, Impact, sans-serif" font-size="80" fill="#06060d" text-anchor="middle" y="30">05</text></g>
+
+<g transform="translate(100, 460)"><rect x="-140" y="-100" width="280" height="200" fill="#06060d" stroke="#F4B800" stroke-width="6"/>
+  <text font-family="Bebas Neue, Impact, sans-serif" font-size="80" fill="#F4B800" text-anchor="middle" y="10">ṢÀNGÓ</text></g>
+<g transform="translate(420, 460)"><rect x="-140" y="-100" width="280" height="200" fill="#06060d" stroke="#FF6B1A" stroke-width="6"/>
+  <text font-family="Bebas Neue, Impact, sans-serif" font-size="80" fill="#FF6B1A" text-anchor="middle" y="10">ÒGÚN</text></g>
+<g transform="translate(740, 460)"><rect x="-140" y="-100" width="280" height="200" fill="#06060d" stroke="#00C9B1" stroke-width="6"/>
+  <text font-family="Bebas Neue, Impact, sans-serif" font-size="80" fill="#00C9B1" text-anchor="middle" y="10">Ọ̀ṢUN</text></g>
+<g transform="translate(1060, 460)"><rect x="-140" y="-100" width="280" height="200" fill="#06060d" stroke="#F0EDE5" stroke-width="6"/>
+  <text font-family="Bebas Neue, Impact, sans-serif" font-size="70" fill="#F0EDE5" text-anchor="middle" y="10">OBATÀLÁ</text></g>
+
+<g transform="translate(600, 900)"><rect x="-500" y="-80" width="1000" height="160" fill="#F4B800"/>
+  <text font-family="Bebas Neue, Impact, sans-serif" font-size="130" fill="#06060d" text-anchor="middle" y="40" letter-spacing="6">READ ONLINE — FREE</text></g>
+
+<g transform="translate(240, 1200)"><circle r="130" fill="#C41E3A"/>
+  <text font-family="Bebas Neue, Impact, sans-serif" font-size="70" fill="#F0EDE5" text-anchor="middle" y="-6">READ</text>
+  <text font-family="Bebas Neue, Impact, sans-serif" font-size="70" fill="#F0EDE5" text-anchor="middle" y="60">ME.</text></g>
+<g transform="translate(600, 1200)"><rect x="-160" y="-100" width="320" height="200" fill="#F4B800"/>
+  <text font-family="Bebas Neue, Impact, sans-serif" font-size="120" fill="#06060d" text-anchor="middle" y="30">4 FREE</text></g>
+<g transform="translate(960, 1200)"><circle r="130" fill="none" stroke="#06060d" stroke-width="10"/>
+  <text font-family="Oswald, Helvetica, sans-serif" font-weight="700" font-size="30" fill="#06060d" text-anchor="middle" y="10" letter-spacing="6">MADE IN</text>
+  <text font-family="Bebas Neue, Impact, sans-serif" font-size="70" fill="#06060d" text-anchor="middle" y="70">LAGOS</text></g>
+</svg>

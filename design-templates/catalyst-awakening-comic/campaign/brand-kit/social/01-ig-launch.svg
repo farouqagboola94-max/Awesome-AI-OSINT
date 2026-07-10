@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080"><defs><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2"/></filter><pattern id="grainP" width="240" height="240" patternUnits="userSpaceOnUse"><rect width="240" height="240" filter="url(#grain)"/></pattern></defs>
+<rect width="1080" height="1080" fill="#F4B800"/>
+
+<text x="80" y="180" font-family="Oswald, Helvetica, sans-serif" font-weight="700" font-size="30" fill="#06060d" letter-spacing="18">◈ NOW READING ◈</text>
+<text x="80" y="410" font-family="Bebas Neue, Impact, sans-serif" font-size="260" fill="#06060d" letter-spacing="2">LAGOS.</text>
+<text x="80" y="580" font-family="Bebas Neue, Impact, sans-serif" font-size="180" fill="#C41E3A" letter-spacing="2">AWAKENS.</text>
+<line x1="80" y1="660" x2="500" y2="660" stroke="#06060d" stroke-width="8"/>
+<text x="80" y="750" font-family="Oswald, Helvetica, sans-serif" font-weight="300" font-size="34" fill="#06060d" letter-spacing="12">4 FREE ISSUES</text>
+<text x="80" y="800" font-family="Oswald, Helvetica, sans-serif" font-weight="700" font-size="46" fill="#06060d" letter-spacing="6">READ ONLINE NOW ↗</text>
+
+<rect width="1080" height="1080" fill="url(#grainP)" opacity="0.08" style="mix-blend-mode:overlay"/>
+<g transform="translate(540,1000)">
+  <text font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="20" letter-spacing="6" fill="#F0EDE5" text-anchor="middle">CATALYST · <tspan fill="#F4B800" font-weight="700">THE AWAKENING</tspan></text>
+  <text y="26" font-family="Space Grotesk, system-ui, sans-serif" font-size="16" letter-spacing="4" fill="#8a8a9a" text-anchor="middle">catalyst-awakening.netlify.app</text>
+</g>
+</svg>

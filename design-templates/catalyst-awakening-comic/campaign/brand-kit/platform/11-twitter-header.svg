@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 500" width="1500" height="500"><defs><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2"/></filter><pattern id="grainP" width="240" height="240" patternUnits="userSpaceOnUse"><rect width="240" height="240" filter="url(#grain)"/></pattern></defs>
+<rect width="1500" height="500" fill="#06060d"/>
+<rect width="1500" height="500" fill="url(#grainP)" opacity="0.06" style="mix-blend-mode:overlay"/>
+<g transform="translate(80,180)">
+  <text font-family="Bebas Neue, Impact, sans-serif" font-size="150" fill="#F4B800" letter-spacing="8">CATALYST</text>
+  <text y="46" font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="32" fill="#F0EDE5" letter-spacing="16">THE AWAKENING</text>
+</g>
+<g transform="translate(80, 380)">
+  <text font-family="Space Grotesk, system-ui, sans-serif" font-size="26" fill="#8a8a9a" letter-spacing="6">A LAGOS NOIR COMIC UNIVERSE · 4 FREE ISSUES · MADE IN LAGOS</text>
+</g>
+<g transform="translate(1200, 200)">
+  <circle r="100" fill="none" stroke="#F4B800" stroke-width="4"/>
+  <text font-family="Bebas Neue, Impact, sans-serif" font-size="80" fill="#F4B800" text-anchor="middle" y="26">C:TA</text>
+</g>
+</svg>

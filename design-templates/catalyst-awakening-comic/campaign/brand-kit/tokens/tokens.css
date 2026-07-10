@@ -1,0 +1,27 @@
+:root {
+  /* Primary */
+  --catalyst-gold: #F4B800;
+  --catalyst-black: #06060d;
+  /* Accents */
+  --catalyst-red: #C41E3A;
+  --catalyst-orange: #FF6B1A;
+  --catalyst-teal: #00C9B1;
+  --catalyst-indigo: #1a1a6e;
+  /* Neutrals */
+  --catalyst-navy: #0a0a1f;
+  --catalyst-iron: #2a2a3a;
+  --catalyst-ash: #8a8a9a;
+  --catalyst-bone: #F0EDE5;
+  /* Typography */
+  --font-display: 'Bebas Neue', Impact, sans-serif;
+  --font-subhead: 'Oswald', Helvetica, sans-serif;
+  --font-body: 'Space Grotesk', system-ui, sans-serif;
+  --font-editorial: 'Crimson Pro', Georgia, serif;
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+  /* Effects */
+  --shadow-gold: 0 0 80px rgba(244,184,0,0.35);
+}

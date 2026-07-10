@@ -1,0 +1,46 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css">
+<link rel="stylesheet" href="../pipeline/cinematic.css">
+<style>
+  .cine-title { top: 260px; font-size: 130px; }
+  .cine-caption { top: 440px; }
+  .cine-quote { bottom: 380px; font-size: 66px; line-height: 1.2; }
+  .chapter-num { position: absolute; top: 200px; left: 0; right: 0; text-align: center; z-index: 50; opacity: 0; }
+</style></head>
+<body><div class="cine-stage" id="cam">
+  <div class="cine-art" id="art" style="background-image: url('../artwork/noir-window.jpg');"></div>
+  <div class="wash wash-red"></div>
+  <div class="wash wash-dark"></div>
+  <div class="cine-grain"></div>
+  <div class="letterbox-t"></div>
+  <div class="letterbox-b"></div>
+  <div class="chapter-num" id="chNum">CHAPTER 01</div>
+  <div class="cine-title" id="title">MUSHIN</div>
+  <div class="cine-caption" id="caption">◈ 03:47 AM · A WEDNESDAY IN JULY ◈</div>
+  <div class="cine-quote" id="quote">The city was breathing.<br>He just learned<br>how to <em>listen</em>.</div>
+  <div class="cine-endcard" id="endcard" style="opacity:0">
+    <div class="lg">CATALYST</div>
+    <div class="sub">THE AWAKENING</div>
+    <div class="rule"></div>
+    <div class="sub" style="font-size:34px;letter-spacing:6px;color:var(--gold)">4 FREE ISSUES · READ NOW</div>
+    <div class="url">catalyst-awakening.netlify.app</div>
+  </div>
+</div>
+<script src="../pipeline/kinetic.js"></script>
+<script src="../pipeline/kit.js"></script>
+<script src="../pipeline/cinematic.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+CINE.kenBurns($('art'), 0, 10000, 1, 1.12, 0, -30, 0, -60);
+CINE.letterboxIn(0, 900);
+CINE.fadeIn($('chNum'), 300, 600);
+CINE.fadeOut($('chNum'), 2400, 600);
+KIN.add($('title'), {t0: 900, t1: 1900, from: {opacity: 0, ls: 32, y: 40, blur: 8}, to: {opacity: 1, ls: 6, y: 0, blur: 0}, ease: 'outExpo'});
+KIN.add($('caption'), {t0: 1600, t1: 2400, from: {opacity: 0, ls: 40, y: 20}, to: {opacity: 1, ls: 14, y: 0}, ease: 'outExpo'});
+CINE.fadeOut($('title'), 4000, 700);
+CINE.fadeOut($('caption'), 4000, 700);
+KIT.linePop($('quote'), 4300, 380, 620);
+CINE.fadeOut($('quote'), 5000, 700);
+CINE.endcard(5800, 500);
+KIN.seek(0);
+</script></body></html>

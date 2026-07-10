@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080"><defs><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2"/></filter><pattern id="grainP" width="240" height="240" patternUnits="userSpaceOnUse"><rect width="240" height="240" filter="url(#grain)"/></pattern></defs>
+<rect width="1080" height="1080" fill="#06060d"/>
+
+<text x="90" y="220" font-family="Bebas Neue, Impact, sans-serif" font-size="200" fill="#F4B800" letter-spacing="-4">"</text>
+<g transform="translate(90, 380)">
+  <text font-family="Crimson Pro, Georgia, serif" font-style="italic" font-size="72" fill="#F0EDE5">The gods never left.</text>
+  <text y="90" font-family="Crimson Pro, Georgia, serif" font-style="italic" font-size="72" fill="#F0EDE5">They were waiting</text>
+  <text y="180" font-family="Crimson Pro, Georgia, serif" font-style="italic" font-size="72" fill="#F0EDE5">for the right <tspan fill="#F4B800">vessel</tspan>.</text>
+</g>
+<line x1="90" y1="740" x2="270" y2="740" stroke="#F4B800" stroke-width="4"/>
+<text x="90" y="810" font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="26" letter-spacing="14" fill="#8a8a9a">— ISSUE 1 · THE AWAKENING</text>
+
+<rect width="1080" height="1080" fill="url(#grainP)" opacity="0.08" style="mix-blend-mode:overlay"/>
+<g transform="translate(540,1000)">
+  <text font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="20" letter-spacing="6" fill="#F0EDE5" text-anchor="middle">CATALYST · <tspan fill="#F4B800" font-weight="700">THE AWAKENING</tspan></text>
+  <text y="26" font-family="Space Grotesk, system-ui, sans-serif" font-size="16" letter-spacing="4" fill="#8a8a9a" text-anchor="middle">catalyst-awakening.netlify.app</text>
+</g>
+</svg>

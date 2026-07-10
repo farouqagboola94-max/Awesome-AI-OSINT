@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+<rect width="500" height="500" fill="#F4B800"/>
+<g transform="translate(250,320)" text-anchor="middle">
+  <text font-family="Bebas Neue, Impact, sans-serif" font-size="220" fill="#06060d" letter-spacing="-4">C:TA</text>
+  <text y="80" font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="24" letter-spacing="12" fill="#06060d">CATALYST</text>
+</g></svg>

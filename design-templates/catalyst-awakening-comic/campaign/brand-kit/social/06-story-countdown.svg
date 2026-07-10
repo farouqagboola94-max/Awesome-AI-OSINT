@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="1080" height="1920"><defs><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2"/></filter><pattern id="grainP" width="240" height="240" patternUnits="userSpaceOnUse"><rect width="240" height="240" filter="url(#grain)"/></pattern></defs>
+<rect width="1080" height="1920" fill="#06060d"/>
+
+<text x="540" y="360" font-family="Oswald, Helvetica, sans-serif" font-weight="700" font-size="34" letter-spacing="18" fill="#F4B800" text-anchor="middle">◈ NEXT ISSUE DROPS ◈</text>
+<text x="540" y="620" font-family="Bebas Neue, Impact, sans-serif" font-size="500" fill="#F4B800" text-anchor="middle" letter-spacing="-4">05</text>
+<line x1="240" y1="720" x2="840" y2="720" stroke="#F4B800" stroke-width="6"/>
+<text x="540" y="830" font-family="Bebas Neue, Impact, sans-serif" font-size="150" fill="#F0EDE5" text-anchor="middle" letter-spacing="4">FIRE IN MUSHIN</text>
+
+<g transform="translate(540, 1140)" text-anchor="middle" font-family="Bebas Neue, Impact, sans-serif">
+  <text x="-260" font-size="150" fill="#F4B800">14</text>
+  <text x="-260" y="60" font-family="Oswald, Helvetica, sans-serif" font-weight="300" font-size="30" fill="#8a8a9a" letter-spacing="8">DAYS</text>
+  <text x="0" font-size="150" fill="#F4B800">08</text>
+  <text x="0" y="60" font-family="Oswald, Helvetica, sans-serif" font-weight="300" font-size="30" fill="#8a8a9a" letter-spacing="8">HRS</text>
+  <text x="260" font-size="150" fill="#F4B800">42</text>
+  <text x="260" y="60" font-family="Oswald, Helvetica, sans-serif" font-weight="300" font-size="30" fill="#8a8a9a" letter-spacing="8">MIN</text>
+</g>
+<text x="540" y="1500" font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="40" letter-spacing="14" fill="#F0EDE5" text-anchor="middle">SET A REMINDER ↗</text>
+
+<rect width="1080" height="1920" fill="url(#grainP)" opacity="0.08" style="mix-blend-mode:overlay"/>
+<g transform="translate(540,1800)">
+  <text font-family="Oswald, Helvetica, sans-serif" font-weight="600" font-size="20" letter-spacing="6" fill="#F0EDE5" text-anchor="middle">CATALYST · <tspan fill="#F4B800" font-weight="700">THE AWAKENING</tspan></text>
+  <text y="26" font-family="Space Grotesk, system-ui, sans-serif" font-size="16" letter-spacing="4" fill="#8a8a9a" text-anchor="middle">catalyst-awakening.netlify.app</text>
+</g>
+</svg>
