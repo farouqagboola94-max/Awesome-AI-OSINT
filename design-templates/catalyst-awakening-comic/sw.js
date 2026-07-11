@@ -1,6 +1,8 @@
 'use strict';
 
-const CACHE = 'catalyst-v2';
+const CACHE = 'catalyst-v3';
+const IMG_CACHE = 'catalyst-img-v3';
+const IMG_CACHE_MAX = 60;
 const PRECACHE = [
   '/favicon.svg',
   '/assets/bayo-bridge.webp',
@@ -24,47 +26,64 @@ self.addEventListener('install', e => {
 
 self.addEventListener('activate', e => {
   e.waitUntil(
-    caches.keys()
-      .then(keys => Promise.all(
-        keys.filter(k => k !== CACHE).map(k => caches.delete(k))
-      ))
-      .then(() => self.clients.claim())
+    Promise.all([
+      caches.keys().then(keys => Promise.all(
+        keys.filter(k => k !== CACHE && k !== IMG_CACHE).map(k => caches.delete(k))
+      )),
+      // Navigation preload: browser starts the network fetch in parallel
+      // with SW boot, shaving ~100-300ms off cold navigations
+      self.registration.navigationPreload
+        ? self.registration.navigationPreload.enable()
+        : Promise.resolve(),
+    ]).then(() => self.clients.claim())
   );
 });
+
+// Keep the image cache bounded so it never grows unchecked on mobile
+async function trimImageCache() {
+  const cache = await caches.open(IMG_CACHE);
+  const keys = await cache.keys();
+  if (keys.length <= IMG_CACHE_MAX) return;
+  const excess = keys.length - IMG_CACHE_MAX;
+  for (let i = 0; i < excess; i++) await cache.delete(keys[i]);
+}
 
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
 
   const dest = e.request.destination;
 
-  // HTML: network-first, stale-while-revalidate
+  // HTML: network-first (with navigation preload), cache fallback
   if (dest === 'document') {
-    e.respondWith(
-      fetch(e.request)
-        .then(r => {
-          const c = r.clone();
-          caches.open(CACHE).then(ch => ch.put(e.request, c));
-          return r;
-        })
-        .catch(() => caches.match(e.request) || caches.match('/'))
-    );
+    e.respondWith((async () => {
+      try {
+        const preloaded = await e.preloadResponse;
+        const r = preloaded || await fetch(e.request);
+        const c = r.clone();
+        caches.open(CACHE).then(ch => ch.put(e.request, c));
+        return r;
+      } catch (err) {
+        return (await caches.match(e.request)) || (await caches.match('/')) || Response.error();
+      }
+    })());
     return;
   }
 
-  // Images: cache-first with background refresh
+  // Images: cache-first with background refresh, bounded cache
   if (dest === 'image') {
-    e.respondWith(
-      caches.match(e.request).then(cached => {
-        const net = fetch(e.request).then(r => {
-          if (r.ok) {
-            const c = r.clone();
-            caches.open(CACHE).then(ch => ch.put(e.request, c));
-          }
-          return r;
-        }).catch(() => cached);
-        return cached || net;
-      })
-    );
+    e.respondWith((async () => {
+      const cached = (await caches.match(e.request)) || null;
+      const net = fetch(e.request).then(r => {
+        if (r.ok) {
+          const c = r.clone();
+          caches.open(IMG_CACHE)
+            .then(ch => ch.put(e.request, c))
+            .then(trimImageCache);
+        }
+        return r;
+      }).catch(() => cached);
+      return cached || net;
+    })());
     return;
   }
 });
