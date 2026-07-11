@@ -7638,6 +7638,20 @@ kbd {
   </div>
 </div>
 
+<!-- Hidden Netlify form declaration: payment-intent submissions are posted
+     via JS (netlifyCapture) and Netlify only accepts forms present in static HTML -->
+<form name="catalyst-payment-intent" data-netlify="true" netlify-honeypot="bot-field" hidden aria-hidden="true">
+  <input type="hidden" name="form-name" value="catalyst-payment-intent">
+  <input type="hidden" name="bot-field">
+  <input type="email" name="email">
+  <input type="text" name="plan">
+  <input type="text" name="status">
+  <input type="text" name="is_premium">
+  <input type="text" name="premium_plan">
+  <input type="text" name="premium_since">
+  <input type="text" name="paystack_ref">
+</form>
+
 <!-- ── Image Lightbox Overlay ── -->
 <div id="img-lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
   <button id="img-lightbox-close" aria-label="Close image viewer">✕</button>
@@ -13637,9 +13651,11 @@ kbd {
     // Layer 2: Netlify Forms — always (works without any config on Netlify)
     netlifyCapture('catalyst-newsletter', { nl_name: name, nl_email: email });
     try {
-      // Layer 1: Supabase if configured
+      // Layer 1: Supabase if configured — RPC handles dedupe/re-subscribe
+      // server-side without exposing UPDATE/SELECT to the anon key
       if (window._supabase) {
-        await window._supabase.from('newsletter_subscribers').upsert(subData, { onConflict: 'email' });
+        var nlRes = await window._supabase.rpc('subscribe_newsletter', { p_email: email, p_name: name || null, p_source: 'footer_form' });
+        if (nlRes && nlRes.error) await window._supabase.from('newsletter_subscribers').insert(subData);
       }
       btn.textContent = 'Àṣẹ! ✓';
       btn.style.background = '#00C9B1';
@@ -13790,9 +13806,11 @@ kbd {
         if (item.type === 'signup' || item.type === 'profile') {
           await _sb.from('user_profiles').upsert(item.data, { onConflict: 'email' });
         } else if (item.type === 'newsletter') {
-          await _sb.from('newsletter_subscribers').upsert(item.data, { onConflict: 'email' });
+          var nr = await _sb.rpc('subscribe_newsletter', { p_email: item.data.email, p_name: item.data.full_name || null, p_source: item.data.source || 'pending_sync' });
+          if (nr && nr.error) throw nr.error;
         } else if (item.type === 'form') {
-          await _sb.from('form_submissions').insert(item.data);
+          var fr = await _sb.rpc('submit_form', { p_form_id: item.data._form_id || 'unknown', p_payload: item.data });
+          if (fr && fr.error) throw fr.error;
         } else if (item.type === 'payment') {
           await _sb.from('user_profiles').upsert(item.data, { onConflict: 'email' });
         }
@@ -14198,15 +14216,20 @@ kbd {
     form.dataset.tracked = 'true';
     form.addEventListener('submit', async function(e) {
       var data = {};
-      new FormData(form).forEach(function(v, k){ if (k !== 'bot-field' && k !== 'form-name') data[k] = v; });
+      // Never capture credentials — not to localStorage, not to the network
+      new FormData(form).forEach(function(v, k){
+        if (k === 'bot-field' || k === 'form-name') return;
+        if (/password|token|secret|cvv/i.test(k)) return;
+        data[k] = v;
+      });
       data._page_url = window.location.href;
       data._submitted_at = new Date().toISOString();
       data._form_id = form.id || form.name || form.className || 'unknown';
       // Layer 3: localStorage always
       vaultSave('form', data);
-      // Layer 1: Supabase if configured
+      // Layer 1: Supabase RPC (server strips sensitive keys again, defense in depth)
       if (_sb) {
-        try { await _sb.from('form_submissions').insert(data); } catch(err) {}
+        try { await _sb.rpc('submit_form', { p_form_id: data._form_id, p_payload: data }); } catch(err) {}
       }
     });
   });
@@ -19918,6 +19941,33 @@ document.addEventListener('DOMContentLoaded', function(){
         window.catalystTrack('issue_read_toggle', { issue: card ? card.getAttribute('data-issue') : null });
       });
     });
+  })();
+
+  /* ── One-time vault scrub: older builds captured credential fields into
+        localStorage before the collection filter existed — remove them ── */
+  (function() {
+    try {
+      if (localStorage.getItem('catalyst_vault_scrubbed_v1')) return;
+      var re = /password|token|secret|cvv/i;
+      var vault = JSON.parse(localStorage.getItem('catalyst_data_vault') || '{}');
+      Object.keys(vault).forEach(function(type) {
+        if (!Array.isArray(vault[type])) return;
+        vault[type].forEach(function(entry) {
+          if (entry && typeof entry === 'object') {
+            Object.keys(entry).forEach(function(k) { if (re.test(k)) delete entry[k]; });
+          }
+        });
+      });
+      localStorage.setItem('catalyst_data_vault', JSON.stringify(vault));
+      var pending = JSON.parse(localStorage.getItem('catalyst_pending_sync') || '[]');
+      pending.forEach(function(item) {
+        if (item && item.data && typeof item.data === 'object') {
+          Object.keys(item.data).forEach(function(k) { if (re.test(k)) delete item.data[k]; });
+        }
+      });
+      localStorage.setItem('catalyst_pending_sync', JSON.stringify(pending));
+      localStorage.setItem('catalyst_vault_scrubbed_v1', '1');
+    } catch(e) {}
   })();
 
 })();
