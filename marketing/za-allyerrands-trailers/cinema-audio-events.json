@@ -198,5 +198,255 @@
       14.2
     ],
     "reveal": 14.2
+  },
+  "c21-the-handover": {
+    "score": "calm",
+    "impacts": [
+      3.8,
+      7.6,
+      10.6,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c22-traffic-tax": {
+    "score": "clock",
+    "impacts": [
+      4,
+      7.8,
+      10.8,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c23-small-big": {
+    "score": "pulse",
+    "impacts": [
+      3.8,
+      6.8,
+      9.8,
+      13.6
+    ],
+    "reveal": 13.6
+  },
+  "c24-the-standard": {
+    "score": "pulse",
+    "impacts": [
+      3.8,
+      7,
+      10.4,
+      13.6
+    ],
+    "reveal": 13.6
+  },
+  "c25-monday-reset": {
+    "score": "warm",
+    "impacts": [
+      4,
+      7,
+      9.8,
+      13.6
+    ],
+    "reveal": 13.6
+  },
+  "c26-time-to-yourself": {
+    "score": "calm",
+    "impacts": [
+      4,
+      7.8,
+      10.8,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c27-no-time-to-relax": {
+    "score": "calm",
+    "impacts": [
+      4,
+      7.8,
+      10.8,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c28-too-busy-with-work": {
+    "score": "clock",
+    "impacts": [
+      4,
+      7.8,
+      10.8,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c29-evenings-gone": {
+    "score": "clock",
+    "impacts": [
+      4,
+      7.8,
+      10.8,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c30-skipping-lunch": {
+    "score": "pulse",
+    "impacts": [
+      4,
+      7.8,
+      10.8,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c31-weekends-vanish": {
+    "score": "warm",
+    "impacts": [
+      4,
+      7.8,
+      10.8,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c32-always-late": {
+    "score": "pulse",
+    "impacts": [
+      4,
+      7.8,
+      10.8,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c33-family-time": {
+    "score": "warm",
+    "impacts": [
+      4,
+      7.8,
+      10.8,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c34-cant-switch-off": {
+    "score": "calm",
+    "impacts": [
+      4,
+      7.8,
+      10.8,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c35-one-more-thing": {
+    "score": "clock",
+    "impacts": [
+      4,
+      7.8,
+      10.8,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c36-juggling": {
+    "score": "pulse",
+    "impacts": [
+      4,
+      7.8,
+      10.8,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c37-just-you": {
+    "score": "calm",
+    "impacts": [
+      4,
+      7.8,
+      10.8,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c38-deadline-day": {
+    "score": "clock",
+    "impacts": [
+      4,
+      7.8,
+      10.8,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c39-hands-full": {
+    "score": "warm",
+    "impacts": [
+      4,
+      7.8,
+      10.8,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c40-monday-dread": {
+    "score": "clock",
+    "impacts": [
+      4,
+      7.8,
+      10.8,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c41-running-on-empty": {
+    "score": "calm",
+    "impacts": [
+      4,
+      7.8,
+      10.8,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c42-side-quests": {
+    "score": "pulse",
+    "impacts": [
+      4,
+      7.8,
+      10.8,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c43-traffic-again": {
+    "score": "pulse",
+    "impacts": [
+      4,
+      7.8,
+      10.8,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c44-forgot-again": {
+    "score": "clock",
+    "impacts": [
+      4,
+      7.8,
+      10.8,
+      13.8
+    ],
+    "reveal": 13.8
+  },
+  "c45-who-runs-for-you": {
+    "score": "warm",
+    "impacts": [
+      4,
+      7.8,
+      10.8,
+      13.8
+    ],
+    "reveal": 13.8
   }
 }

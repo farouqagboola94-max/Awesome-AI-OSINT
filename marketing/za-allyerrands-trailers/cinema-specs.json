@@ -1,171 +1,2843 @@
 {
-  "duration": 18,
-  "end": {
-    "kicker": "YOUR BUDDY DOUBLE IN DOLPHIN ESTATE",
-    "mark": "Za.allyErrands",
-    "tag2": "YOUR TIME, MANAGED.",
-    "pill": "DM OR WHATSAPP TO PLACE YOUR ORDER",
-    "sub3": "YOUR ERRANDS. OUR PROBLEM. &bull; LAGOS"
+ "duration": 18,
+ "end": {
+  "kicker": "YOUR BUDDY DOUBLE IN DOLPHIN ESTATE",
+  "mark": "Za.allyErrands",
+  "tag2": "YOUR TIME, MANAGED.",
+  "pill": "DM OR WHATSAPP TO PLACE YOUR ORDER",
+  "sub3": "YOUR ERRANDS. OUR PROBLEM. &bull; LAGOS"
+ },
+ "videos": [
+  {
+   "name": "c01-the-double",
+   "score": "pulse",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "bokeh",
+     "kicker": "A QUESTION FOR EVERY LAGOSIAN",
+     "lines": [
+      {
+       "text": "WHAT IF THERE WERE TWO OF YOU?",
+       "style": "cw",
+       "size": 116
+      }
+     ]
+    },
+    {
+     "t0": 3.6,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "ONE OF YOU,",
+       "style": "cw",
+       "size": 120
+      },
+      {
+       "text": "AT YOUR DESK.",
+       "style": "cw",
+       "size": 132
+      }
+     ]
+    },
+    {
+     "t0": 7.2,
+     "bg": "streaks",
+     "lines": [
+      {
+       "text": "ONE OF YOU,",
+       "style": "cg",
+       "size": 120
+      },
+      {
+       "text": "HANDLING LIFE.",
+       "style": "cg",
+       "size": 132
+      }
+     ]
+    },
+    {
+     "t0": 10.6,
+     "bg": "bokeh",
+     "kicker": "ZA.ALLYERRANDS",
+     "lines": [
+      {
+       "text": "MEET YOUR DOUBLE.",
+       "style": "cl",
+       "size": 134
+      }
+     ]
+    },
+    {
+     "t0": 13.6,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
   },
-  "videos": [
-    { "name": "c01-the-double", "score": "pulse",
-      "scenes": [
-        { "t0": 0, "bg": "bokeh", "kicker": "A QUESTION FOR EVERY LAGOSIAN", "lines": [ { "text": "WHAT IF THERE WERE TWO OF YOU?", "style": "cw", "size": 116 } ] },
-        { "t0": 3.6, "bg": "grid", "lines": [ { "text": "ONE OF YOU,", "style": "cw", "size": 120 }, { "text": "AT YOUR DESK.", "style": "cw", "size": 132 } ] },
-        { "t0": 7.2, "bg": "streaks", "lines": [ { "text": "ONE OF YOU,", "style": "cg", "size": 120 }, { "text": "HANDLING LIFE.", "style": "cg", "size": 132 } ] },
-        { "t0": 10.6, "bg": "bokeh", "kicker": "ZA.ALLYERRANDS", "lines": [ { "text": "MEET YOUR DOUBLE.", "style": "cl", "size": 134 } ] },
-        { "t0": 13.6, "type": "end", "bg": "bokeh" } ] },
-
-    { "name": "c02-third-mainland", "score": "clock",
-      "scenes": [
-        { "t0": 0, "bg": "streaks", "kicker": "6:14 PM &bull; THIRD MAINLAND BRIDGE", "lines": [ { "text": "YOU'LL SIT HERE FOR AN HOUR.", "style": "cw", "size": 112 } ] },
-        { "t0": 4.0, "bg": "night", "lines": [ { "text": "THAT HOUR", "style": "cw", "size": 140 }, { "text": "NEVER COMES BACK.", "style": "cg", "size": 126 } ] },
-        { "t0": 7.6, "bg": "streaks", "lines": [ { "text": "UNLESS SOMEONE ELSE", "style": "cw", "size": 108 }, { "text": "IS ALREADY RUNNING IT.", "style": "cw", "size": 108 } ] },
-        { "t0": 10.8, "bg": "grid", "lines": [ { "text": "WE'RE ALREADY THERE.", "style": "cl", "size": 126 } ] },
-        { "t0": 13.6, "type": "end", "bg": "bokeh" } ] },
-
-    { "name": "c03-bandwidth", "score": "pulse",
-      "scenes": [
-        { "t0": 0, "bg": "grid", "kicker": "THE SCIENCE OF YOUR DAY", "lines": [ { "text": "YOUR MIND HAS 100 UNITS OF FOCUS.", "style": "cw", "size": 104 } ] },
-        { "t0": 4.0, "bg": "night", "lines": [ { "text": "THE MARKET RUN TAKES 30.", "style": "cg", "size": 116 } ] },
-        { "t0": 7.2, "bg": "night", "lines": [ { "text": "THE QUEUE TAKES 40.", "style": "cg", "size": 124 } ] },
-        { "t0": 10.2, "bg": "bokeh", "lines": [ { "text": "SPEND YOURS WHERE THEY PAY.", "style": "cl", "size": 112 } ] },
-        { "t0": 13.6, "type": "end", "bg": "bokeh" } ] },
-
-    { "name": "c04-the-nag", "score": "clock",
-      "scenes": [
-        { "t0": 0, "bg": "ember", "kicker": "PSYCHOLOGISTS CALL IT THE ZEIGARNIK EFFECT", "lines": [ { "text": "UNFINISHED TASKS WHISPER.", "style": "cw", "size": 116 } ] },
-        { "t0": 4.4, "bg": "night", "lines": [ { "text": "THAT PICKUP HAS WHISPERED", "style": "cw", "size": 102 }, { "text": "SINCE MONDAY.", "style": "cg", "size": 130 } ] },
-        { "t0": 8.2, "bg": "grid", "lines": [ { "text": "CLOSE THE LOOP.", "style": "cw", "size": 140 } ] },
-        { "t0": 11.0, "bg": "bokeh", "lines": [ { "text": "SILENCE, DELIVERED.", "style": "cl", "size": 124 } ] },
-        { "t0": 13.8, "type": "end", "bg": "bokeh" } ] },
-
-    { "name": "c05-mums-call", "score": "warm",
-      "scenes": [
-        { "t0": 0, "bg": "dawn", "kicker": "4:52 PM &bull; MUM CALLS", "lines": [ { "text": "SHE NEEDS HER MEDICINE TODAY.", "style": "cw", "size": 106 } ] },
-        { "t0": 4.2, "bg": "night", "lines": [ { "text": "YOUR MEETING ENDS AT 7.", "style": "cw", "size": 116 } ] },
-        { "t0": 7.4, "bg": "streaks", "lines": [ { "text": "YOUR DOUBLE IS ALREADY", "style": "cg", "size": 104 }, { "text": "AT THE PHARMACY.", "style": "cg", "size": 120 } ] },
-        { "t0": 10.8, "bg": "dawn", "lines": [ { "text": "BE THERE. EVEN WHEN YOU CAN'T.", "style": "cl", "size": 104 } ] },
-        { "t0": 13.8, "type": "end", "bg": "bokeh" } ] },
-
-    { "name": "c06-owambe", "score": "warm",
-      "scenes": [
-        { "t0": 0, "bg": "bokeh", "kicker": "SATURDAY IN LAGOS", "lines": [ { "text": "OWAMBE IS CALLING.", "style": "cw", "size": 138 } ] },
-        { "t0": 3.8, "bg": "dawn", "lines": [ { "text": "THE GELE. THE JOLLOF.", "style": "cw", "size": 112 }, { "text": "THE PEOPLE.", "style": "cw", "size": 128 } ] },
-        { "t0": 7.4, "bg": "night", "lines": [ { "text": "QUEUES DIDN'T MAKE", "style": "cg", "size": 112 }, { "text": "THE GUEST LIST.", "style": "cg", "size": 122 } ] },
-        { "t0": 10.6, "bg": "bokeh", "lines": [ { "text": "GO AND SHINE. WE'VE GOT THE RUNS.", "style": "cl", "size": 98 } ] },
-        { "t0": 13.8, "type": "end", "bg": "bokeh" } ] },
-
-    { "name": "c07-decision-fatigue", "score": "clock",
-      "scenes": [
-        { "t0": 0, "bg": "grid", "kicker": "BY 3PM TODAY", "lines": [ { "text": "YOU'VE MADE 200 DECISIONS.", "style": "cw", "size": 112 } ] },
-        { "t0": 4.0, "bg": "night", "lines": [ { "text": "DON'T LET №201 BE ABOUT", "style": "cw", "size": 102 }, { "text": "PEPPER AND TOMATOES.", "style": "cg", "size": 116 } ] },
-        { "t0": 8.0, "bg": "grid", "lines": [ { "text": "SAVE YOUR BEST CALLS", "style": "cw", "size": 108 }, { "text": "FOR THE BOARDROOM.", "style": "cw", "size": 112 } ] },
-        { "t0": 11.0, "bg": "bokeh", "lines": [ { "text": "WE'LL MAKE THE SMALL ONES.", "style": "cl", "size": 106 } ] },
-        { "t0": 13.8, "type": "end", "bg": "bokeh" } ] },
-
-    { "name": "c08-future-you", "score": "warm",
-      "scenes": [
-        { "t0": 0, "bg": "dawn", "kicker": "A LETTER FROM 2030", "lines": [ { "text": "FUTURE YOU IS WATCHING.", "style": "cw", "size": 120 } ] },
-        { "t0": 4.0, "bg": "bokeh", "lines": [ { "text": "THEY REMEMBER", "style": "cw", "size": 116 }, { "text": "THE BUSINESS YOU BUILT.", "style": "cw", "size": 108 } ] },
-        { "t0": 7.6, "bg": "night", "lines": [ { "text": "NOT THE QUEUES", "style": "cg", "size": 124 }, { "text": "YOU STOOD IN.", "style": "cg", "size": 124 } ] },
-        { "t0": 10.8, "bg": "dawn", "lines": [ { "text": "MAKE THEM PROUD. DELEGATE.", "style": "cl", "size": 106 } ] },
-        { "t0": 13.8, "type": "end", "bg": "bokeh" } ] },
-
-    { "name": "c09-four-hours", "score": "clock",
-      "scenes": [
-        { "t0": 0, "bg": "streaks", "kicker": "TODAY, LAGOS WILL TAKE", "lines": [ { "text": "4 HOURS YOU DIDN'T OFFER.", "style": "cw", "size": 112 } ] },
-        { "t0": 4.2, "bg": "night", "lines": [ { "text": "TRAFFIC. QUEUES. WAITING.", "style": "cg", "size": 116 } ] },
-        { "t0": 7.6, "bg": "grid", "lines": [ { "text": "TAKE THEM BACK.", "style": "cw", "size": 150 } ] },
-        { "t0": 10.6, "bg": "bokeh", "lines": [ { "text": "TIME, RETURNED TO OWNER.", "style": "cl", "size": 110 } ] },
-        { "t0": 13.8, "type": "end", "bg": "bokeh" } ] },
-
-    { "name": "c10-hourly-rate", "score": "pulse",
-      "scenes": [
-        { "t0": 0, "bg": "grid", "kicker": "QUICK QUESTION", "lines": [ { "text": "WHAT'S YOUR HOUR WORTH?", "style": "cw", "size": 118 } ] },
-        { "t0": 4.0, "bg": "night", "lines": [ { "text": "NOW — WHAT DOES", "style": "cw", "size": 116 }, { "text": "THE QUEUE PAY?", "style": "cg", "size": 128 } ] },
-        { "t0": 7.8, "bg": "night", "lines": [ { "text": "EXACTLY.", "style": "cw", "size": 190 } ] },
-        { "t0": 10.4, "bg": "bokeh", "lines": [ { "text": "OUTSOURCE THE UNPAID HOURS.", "style": "cl", "size": 104 } ] },
-        { "t0": 13.6, "type": "end", "bg": "bokeh" } ] },
-
-    { "name": "c11-sharp-sharp", "score": "pulse",
-      "scenes": [
-        { "t0": 0, "bg": "streaks", "kicker": "IN THIS CITY", "lines": [ { "text": "SPEED IS RESPECT.", "style": "cw", "size": 140 } ] },
-        { "t0": 3.6, "bg": "grid", "lines": [ { "text": "ORDER AT NOON.", "style": "cw", "size": 132 } ] },
-        { "t0": 6.6, "bg": "streaks", "lines": [ { "text": "HANDLED BY LUNCH.", "style": "cg", "size": 128 } ] },
-        { "t0": 9.6, "bg": "bokeh", "lines": [ { "text": "SHARP SHARP. NO STORIES.", "style": "cl", "size": 112 } ] },
-        { "t0": 13.6, "type": "end", "bg": "bokeh" } ] },
-
-    { "name": "c12-no-wahala", "score": "calm",
-      "scenes": [
-        { "t0": 0, "bg": "bokeh", "kicker": "CLOSE YOUR EYES", "lines": [ { "text": "FEEL YOUR SHOULDERS DROP.", "style": "cw", "size": 110 } ] },
-        { "t0": 4.4, "bg": "night", "lines": [ { "text": "THAT'S THE SOUND", "style": "cw", "size": 118 }, { "text": "OF “HANDLED.”", "style": "cg", "size": 134 } ] },
-        { "t0": 8.2, "bg": "bokeh", "lines": [ { "text": "NO CALLS. NO CHASING.", "style": "cw", "size": 106 }, { "text": "NO WAHALA.", "style": "cg", "size": 140 } ] },
-        { "t0": 11.2, "bg": "dawn", "lines": [ { "text": "PEACE OF MIND, DELIVERED.", "style": "cl", "size": 104 } ] },
-        { "t0": 14.0, "type": "end", "bg": "bokeh" } ] },
-
-    { "name": "c13-quiet-flex", "score": "pulse",
-      "scenes": [
-        { "t0": 0, "bg": "bokeh", "kicker": "HAVE YOU NOTICED?", "lines": [ { "text": "DOLPHIN ESTATE MOVES", "style": "cw", "size": 112 }, { "text": "DIFFERENT LATELY.", "style": "cw", "size": 122 } ] },
-        { "t0": 4.4, "bg": "night", "lines": [ { "text": "PACKAGES ARRIVE.", "style": "cg", "size": 118 }, { "text": "NOBODY LEAVES THE HOUSE.", "style": "cg", "size": 100 } ] },
-        { "t0": 8.2, "bg": "grid", "lines": [ { "text": "THE SMART ONES", "style": "cw", "size": 122 }, { "text": "ALREADY KNOW.", "style": "cw", "size": 128 } ] },
-        { "t0": 11.0, "bg": "bokeh", "lines": [ { "text": "JOIN THE QUIET UPGRADE.", "style": "cl", "size": 110 } ] },
-        { "t0": 13.8, "type": "end", "bg": "bokeh" } ] },
-
-    { "name": "c14-two-places", "score": "pulse",
-      "scenes": [
-        { "t0": 0, "bg": "grid", "kicker": "AN OLD LAW OF PHYSICS", "lines": [ { "text": "YOU CAN'T BE IN TWO", "style": "cw", "size": 114 }, { "text": "PLACES AT ONCE.", "style": "cw", "size": 122 } ] },
-        { "t0": 4.6, "bg": "night", "lines": [ { "text": "A NEW LAW OF LAGOS:", "style": "cg", "size": 122 } ] },
-        { "t0": 7.8, "bg": "streaks", "lines": [ { "text": "NOW YOU CAN.", "style": "cw", "size": 160 } ] },
-        { "t0": 10.6, "bg": "bokeh", "lines": [ { "text": "YOUR DOUBLE RUNS THE SECOND PLACE.", "style": "cl", "size": 94 } ] },
-        { "t0": 13.8, "type": "end", "bg": "bokeh" } ] },
-
-    { "name": "c15-friday-agbada", "score": "warm",
-      "scenes": [
-        { "t0": 0, "bg": "bokeh", "kicker": "FRIDAY IN LAGOS", "lines": [ { "text": "LOOK SHARP. NOT STRESSED.", "style": "cw", "size": 110 } ] },
-        { "t0": 4.0, "bg": "dawn", "lines": [ { "text": "THE AGBADA IS PRESSED.", "style": "cw", "size": 112 } ] },
-        { "t0": 7.2, "bg": "night", "lines": [ { "text": "THE PICKUPS ARE DONE.", "style": "cg", "size": 116 } ] },
-        { "t0": 10.2, "bg": "bokeh", "lines": [ { "text": "YOU JUST SHOW UP CLEAN.", "style": "cl", "size": 112 } ] },
-        { "t0": 13.6, "type": "end", "bg": "bokeh" } ] },
-
-    { "name": "c16-rain-check", "score": "calm",
-      "scenes": [
-        { "t0": 0, "bg": "rain", "kicker": "IT'S POURING ON THE ISLAND", "lines": [ { "text": "SOMEBODY STILL HAS TO GO.", "style": "cw", "size": 108 } ] },
-        { "t0": 4.6, "bg": "rain", "lines": [ { "text": "IT DOESN'T HAVE", "style": "cw", "size": 124 }, { "text": "TO BE YOU.", "style": "cg", "size": 144 } ] },
-        { "t0": 8.4, "bg": "night", "lines": [ { "text": "STAY DRY. STAY WORKING.", "style": "cw", "size": 108 } ] },
-        { "t0": 11.2, "bg": "rain", "lines": [ { "text": "WE LIKE THE RAIN.", "style": "cl", "size": 126 } ] },
-        { "t0": 14.0, "type": "end", "bg": "bokeh" } ] },
-
-    { "name": "c17-every-step", "score": "clock",
-      "scenes": [
-        { "t0": 0, "bg": "grid", "kicker": "THE TRUST QUESTION", "lines": [ { "text": "“BUT WILL THEY DO IT RIGHT?”", "style": "cw", "size": 104 } ] },
-        { "t0": 4.4, "bg": "night", "lines": [ { "text": "UPDATES AT EVERY STEP.", "style": "cg", "size": 114 } ] },
-        { "t0": 7.6, "bg": "grid", "lines": [ { "text": "PROOF AT EVERY STOP.", "style": "cg", "size": 118 } ] },
-        { "t0": 10.6, "bg": "bokeh", "lines": [ { "text": "LIKE YOU DID IT YOURSELF.", "style": "cl", "size": 108 } ] },
-        { "t0": 13.8, "type": "end", "bg": "bokeh" } ] },
-
-    { "name": "c18-generator", "score": "pulse",
-      "scenes": [
-        { "t0": 0, "bg": "ember", "kicker": "LAGOS RULE №1", "lines": [ { "text": "POWER COMES AND GOES.", "style": "cw", "size": 114 } ] },
-        { "t0": 4.2, "bg": "night", "lines": [ { "text": "YOURS SHOULDN'T.", "style": "cg", "size": 144 } ] },
-        { "t0": 7.4, "bg": "ember", "lines": [ { "text": "GUARD YOUR ENERGY", "style": "cw", "size": 116 }, { "text": "LIKE A GENERATOR.", "style": "cw", "size": 118 } ] },
-        { "t0": 10.6, "bg": "bokeh", "lines": [ { "text": "WE'LL BURN OURS FOR YOU.", "style": "cl", "size": 108 } ] },
-        { "t0": 13.8, "type": "end", "bg": "bokeh" } ] },
-
-    { "name": "c19-five-to-nine", "score": "warm",
-      "scenes": [
-        { "t0": 0, "bg": "grid", "kicker": "THE HONEST SPLIT", "lines": [ { "text": "YOUR 9-5 PAYS THE BILLS.", "style": "cw", "size": 106 } ] },
-        { "t0": 3.8, "bg": "dawn", "lines": [ { "text": "YOUR 5-9 BUILDS THE DREAM.", "style": "cg", "size": 106 } ] },
-        { "t0": 7.4, "bg": "night", "lines": [ { "text": "NEITHER HAS ROOM", "style": "cw", "size": 120 }, { "text": "FOR QUEUES.", "style": "cw", "size": 136 } ] },
-        { "t0": 10.8, "bg": "bokeh", "lines": [ { "text": "PROTECT THE HOURS THAT BUILD.", "style": "cl", "size": 98 } ] },
-        { "t0": 13.8, "type": "end", "bg": "bokeh" } ] },
-
-    { "name": "c20-legacy-hours", "score": "calm",
-      "scenes": [
-        { "t0": 0, "bg": "dawn", "kicker": "IN 20 YEARS", "lines": [ { "text": "NOBODY REMEMBERS THE QUEUES.", "style": "cw", "size": 100 } ] },
-        { "t0": 4.4, "bg": "bokeh", "lines": [ { "text": "THEY REMEMBER DINNERS.", "style": "cw", "size": 104 }, { "text": "CALLS. SUNSETS.", "style": "cw", "size": 116 } ] },
-        { "t0": 8.4, "bg": "dawn", "lines": [ { "text": "SPEND HOURS WHERE", "style": "cg", "size": 112 }, { "text": "MEMORIES LIVE.", "style": "cg", "size": 126 } ] },
-        { "t0": 11.4, "bg": "night", "lines": [ { "text": "WE'LL HANDLE THE FORGETTABLE.", "style": "cl", "size": 96 } ] },
-        { "t0": 14.2, "type": "end", "bg": "bokeh" } ] }
-  ]
+  {
+   "name": "c02-third-mainland",
+   "score": "clock",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "streaks",
+     "kicker": "6:14 PM &bull; THIRD MAINLAND BRIDGE",
+     "lines": [
+      {
+       "text": "YOU'LL SIT HERE FOR AN HOUR.",
+       "style": "cw",
+       "size": 112
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "THAT HOUR",
+       "style": "cw",
+       "size": 140
+      },
+      {
+       "text": "NEVER COMES BACK.",
+       "style": "cg",
+       "size": 126
+      }
+     ]
+    },
+    {
+     "t0": 7.6,
+     "bg": "streaks",
+     "lines": [
+      {
+       "text": "UNLESS SOMEONE ELSE",
+       "style": "cw",
+       "size": 108
+      },
+      {
+       "text": "IS ALREADY RUNNING IT.",
+       "style": "cw",
+       "size": 108
+      }
+     ]
+    },
+    {
+     "t0": 10.8,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "WE'RE ALREADY THERE.",
+       "style": "cl",
+       "size": 126
+      }
+     ]
+    },
+    {
+     "t0": 13.6,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c03-bandwidth",
+   "score": "pulse",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "grid",
+     "kicker": "THE SCIENCE OF YOUR DAY",
+     "lines": [
+      {
+       "text": "YOUR MIND HAS 100 UNITS OF FOCUS.",
+       "style": "cw",
+       "size": 104
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "THE MARKET RUN TAKES 30.",
+       "style": "cg",
+       "size": 116
+      }
+     ]
+    },
+    {
+     "t0": 7.2,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "THE QUEUE TAKES 40.",
+       "style": "cg",
+       "size": 124
+      }
+     ]
+    },
+    {
+     "t0": 10.2,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "SPEND YOURS WHERE THEY PAY.",
+       "style": "cl",
+       "size": 112
+      }
+     ]
+    },
+    {
+     "t0": 13.6,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c04-the-nag",
+   "score": "clock",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "ember",
+     "kicker": "PSYCHOLOGISTS CALL IT THE ZEIGARNIK EFFECT",
+     "lines": [
+      {
+       "text": "UNFINISHED TASKS WHISPER.",
+       "style": "cw",
+       "size": 116
+      }
+     ]
+    },
+    {
+     "t0": 4.4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "THAT PICKUP HAS WHISPERED",
+       "style": "cw",
+       "size": 102
+      },
+      {
+       "text": "SINCE MONDAY.",
+       "style": "cg",
+       "size": 130
+      }
+     ]
+    },
+    {
+     "t0": 8.2,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "CLOSE THE LOOP.",
+       "style": "cw",
+       "size": 140
+      }
+     ]
+    },
+    {
+     "t0": 11,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "SILENCE, DELIVERED.",
+       "style": "cl",
+       "size": 124
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c05-mums-call",
+   "score": "warm",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "dawn",
+     "kicker": "4:52 PM &bull; MUM CALLS",
+     "lines": [
+      {
+       "text": "SHE NEEDS HER MEDICINE TODAY.",
+       "style": "cw",
+       "size": 106
+      }
+     ]
+    },
+    {
+     "t0": 4.2,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "YOUR MEETING ENDS AT 7.",
+       "style": "cw",
+       "size": 116
+      }
+     ]
+    },
+    {
+     "t0": 7.4,
+     "bg": "streaks",
+     "lines": [
+      {
+       "text": "YOUR DOUBLE IS ALREADY",
+       "style": "cg",
+       "size": 104
+      },
+      {
+       "text": "AT THE PHARMACY.",
+       "style": "cg",
+       "size": 120
+      }
+     ]
+    },
+    {
+     "t0": 10.8,
+     "bg": "dawn",
+     "lines": [
+      {
+       "text": "BE THERE. EVEN WHEN YOU CAN'T.",
+       "style": "cl",
+       "size": 104
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c06-owambe",
+   "score": "warm",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "bokeh",
+     "kicker": "SATURDAY IN LAGOS",
+     "lines": [
+      {
+       "text": "OWAMBE IS CALLING.",
+       "style": "cw",
+       "size": 138
+      }
+     ]
+    },
+    {
+     "t0": 3.8,
+     "bg": "dawn",
+     "lines": [
+      {
+       "text": "THE GELE. THE JOLLOF.",
+       "style": "cw",
+       "size": 112
+      },
+      {
+       "text": "THE PEOPLE.",
+       "style": "cw",
+       "size": 128
+      }
+     ]
+    },
+    {
+     "t0": 7.4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "QUEUES DIDN'T MAKE",
+       "style": "cg",
+       "size": 112
+      },
+      {
+       "text": "THE GUEST LIST.",
+       "style": "cg",
+       "size": 122
+      }
+     ]
+    },
+    {
+     "t0": 10.6,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "GO AND SHINE. WE'VE GOT THE RUNS.",
+       "style": "cl",
+       "size": 98
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c07-decision-fatigue",
+   "score": "clock",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "grid",
+     "kicker": "BY 3PM TODAY",
+     "lines": [
+      {
+       "text": "YOU'VE MADE 200 DECISIONS.",
+       "style": "cw",
+       "size": 112
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "DON'T LET №201 BE ABOUT",
+       "style": "cw",
+       "size": 102
+      },
+      {
+       "text": "PEPPER AND TOMATOES.",
+       "style": "cg",
+       "size": 116
+      }
+     ]
+    },
+    {
+     "t0": 8,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "SAVE YOUR BEST CALLS",
+       "style": "cw",
+       "size": 108
+      },
+      {
+       "text": "FOR THE BOARDROOM.",
+       "style": "cw",
+       "size": 112
+      }
+     ]
+    },
+    {
+     "t0": 11,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "WE'LL MAKE THE SMALL ONES.",
+       "style": "cl",
+       "size": 106
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c08-future-you",
+   "score": "warm",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "dawn",
+     "kicker": "A LETTER FROM 2030",
+     "lines": [
+      {
+       "text": "FUTURE YOU IS WATCHING.",
+       "style": "cw",
+       "size": 120
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "THEY REMEMBER",
+       "style": "cw",
+       "size": 116
+      },
+      {
+       "text": "THE BUSINESS YOU BUILT.",
+       "style": "cw",
+       "size": 108
+      }
+     ]
+    },
+    {
+     "t0": 7.6,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "NOT THE QUEUES",
+       "style": "cg",
+       "size": 124
+      },
+      {
+       "text": "YOU STOOD IN.",
+       "style": "cg",
+       "size": 124
+      }
+     ]
+    },
+    {
+     "t0": 10.8,
+     "bg": "dawn",
+     "lines": [
+      {
+       "text": "MAKE THEM PROUD. DELEGATE.",
+       "style": "cl",
+       "size": 106
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c09-four-hours",
+   "score": "clock",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "streaks",
+     "kicker": "TODAY, LAGOS WILL TAKE",
+     "lines": [
+      {
+       "text": "4 HOURS YOU DIDN'T OFFER.",
+       "style": "cw",
+       "size": 112
+      }
+     ]
+    },
+    {
+     "t0": 4.2,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "TRAFFIC. QUEUES. WAITING.",
+       "style": "cg",
+       "size": 116
+      }
+     ]
+    },
+    {
+     "t0": 7.6,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "TAKE THEM BACK.",
+       "style": "cw",
+       "size": 150
+      }
+     ]
+    },
+    {
+     "t0": 10.6,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "TIME, RETURNED TO OWNER.",
+       "style": "cl",
+       "size": 110
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c10-hourly-rate",
+   "score": "pulse",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "grid",
+     "kicker": "QUICK QUESTION",
+     "lines": [
+      {
+       "text": "WHAT'S YOUR HOUR WORTH?",
+       "style": "cw",
+       "size": 118
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "NOW — WHAT DOES",
+       "style": "cw",
+       "size": 116
+      },
+      {
+       "text": "THE QUEUE PAY?",
+       "style": "cg",
+       "size": 128
+      }
+     ]
+    },
+    {
+     "t0": 7.8,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "EXACTLY.",
+       "style": "cw",
+       "size": 190
+      }
+     ]
+    },
+    {
+     "t0": 10.4,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "OUTSOURCE THE UNPAID HOURS.",
+       "style": "cl",
+       "size": 104
+      }
+     ]
+    },
+    {
+     "t0": 13.6,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c11-sharp-sharp",
+   "score": "pulse",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "streaks",
+     "kicker": "IN THIS CITY",
+     "lines": [
+      {
+       "text": "SPEED IS RESPECT.",
+       "style": "cw",
+       "size": 140
+      }
+     ]
+    },
+    {
+     "t0": 3.6,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "ORDER AT NOON.",
+       "style": "cw",
+       "size": 132
+      }
+     ]
+    },
+    {
+     "t0": 6.6,
+     "bg": "streaks",
+     "lines": [
+      {
+       "text": "HANDLED BY LUNCH.",
+       "style": "cg",
+       "size": 128
+      }
+     ]
+    },
+    {
+     "t0": 9.6,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "SHARP SHARP. NO STORIES.",
+       "style": "cl",
+       "size": 112
+      }
+     ]
+    },
+    {
+     "t0": 13.6,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c12-no-wahala",
+   "score": "calm",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "bokeh",
+     "kicker": "CLOSE YOUR EYES",
+     "lines": [
+      {
+       "text": "FEEL YOUR SHOULDERS DROP.",
+       "style": "cw",
+       "size": 110
+      }
+     ]
+    },
+    {
+     "t0": 4.4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "THAT'S THE SOUND",
+       "style": "cw",
+       "size": 118
+      },
+      {
+       "text": "OF “HANDLED.”",
+       "style": "cg",
+       "size": 134
+      }
+     ]
+    },
+    {
+     "t0": 8.2,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "NO CALLS. NO CHASING.",
+       "style": "cw",
+       "size": 106
+      },
+      {
+       "text": "NO WAHALA.",
+       "style": "cg",
+       "size": 140
+      }
+     ]
+    },
+    {
+     "t0": 11.2,
+     "bg": "dawn",
+     "lines": [
+      {
+       "text": "PEACE OF MIND, DELIVERED.",
+       "style": "cl",
+       "size": 104
+      }
+     ]
+    },
+    {
+     "t0": 14,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c13-quiet-flex",
+   "score": "pulse",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "bokeh",
+     "kicker": "HAVE YOU NOTICED?",
+     "lines": [
+      {
+       "text": "DOLPHIN ESTATE MOVES",
+       "style": "cw",
+       "size": 112
+      },
+      {
+       "text": "DIFFERENT LATELY.",
+       "style": "cw",
+       "size": 122
+      }
+     ]
+    },
+    {
+     "t0": 4.4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "PACKAGES ARRIVE.",
+       "style": "cg",
+       "size": 118
+      },
+      {
+       "text": "NOBODY LEAVES THE HOUSE.",
+       "style": "cg",
+       "size": 100
+      }
+     ]
+    },
+    {
+     "t0": 8.2,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "THE SMART ONES",
+       "style": "cw",
+       "size": 122
+      },
+      {
+       "text": "ALREADY KNOW.",
+       "style": "cw",
+       "size": 128
+      }
+     ]
+    },
+    {
+     "t0": 11,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "JOIN THE QUIET UPGRADE.",
+       "style": "cl",
+       "size": 110
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c14-two-places",
+   "score": "pulse",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "grid",
+     "kicker": "AN OLD LAW OF PHYSICS",
+     "lines": [
+      {
+       "text": "YOU CAN'T BE IN TWO",
+       "style": "cw",
+       "size": 114
+      },
+      {
+       "text": "PLACES AT ONCE.",
+       "style": "cw",
+       "size": 122
+      }
+     ]
+    },
+    {
+     "t0": 4.6,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "A NEW LAW OF LAGOS:",
+       "style": "cg",
+       "size": 122
+      }
+     ]
+    },
+    {
+     "t0": 7.8,
+     "bg": "streaks",
+     "lines": [
+      {
+       "text": "NOW YOU CAN.",
+       "style": "cw",
+       "size": 160
+      }
+     ]
+    },
+    {
+     "t0": 10.6,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "YOUR DOUBLE RUNS THE SECOND PLACE.",
+       "style": "cl",
+       "size": 94
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c15-friday-agbada",
+   "score": "warm",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "bokeh",
+     "kicker": "FRIDAY IN LAGOS",
+     "lines": [
+      {
+       "text": "LOOK SHARP. NOT STRESSED.",
+       "style": "cw",
+       "size": 110
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "dawn",
+     "lines": [
+      {
+       "text": "THE AGBADA IS PRESSED.",
+       "style": "cw",
+       "size": 112
+      }
+     ]
+    },
+    {
+     "t0": 7.2,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "THE PICKUPS ARE DONE.",
+       "style": "cg",
+       "size": 116
+      }
+     ]
+    },
+    {
+     "t0": 10.2,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "YOU JUST SHOW UP CLEAN.",
+       "style": "cl",
+       "size": 112
+      }
+     ]
+    },
+    {
+     "t0": 13.6,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c16-rain-check",
+   "score": "calm",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "rain",
+     "kicker": "IT'S POURING ON THE ISLAND",
+     "lines": [
+      {
+       "text": "SOMEBODY STILL HAS TO GO.",
+       "style": "cw",
+       "size": 108
+      }
+     ]
+    },
+    {
+     "t0": 4.6,
+     "bg": "rain",
+     "lines": [
+      {
+       "text": "IT DOESN'T HAVE",
+       "style": "cw",
+       "size": 124
+      },
+      {
+       "text": "TO BE YOU.",
+       "style": "cg",
+       "size": 144
+      }
+     ]
+    },
+    {
+     "t0": 8.4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "STAY DRY. STAY WORKING.",
+       "style": "cw",
+       "size": 108
+      }
+     ]
+    },
+    {
+     "t0": 11.2,
+     "bg": "rain",
+     "lines": [
+      {
+       "text": "WE LIKE THE RAIN.",
+       "style": "cl",
+       "size": 126
+      }
+     ]
+    },
+    {
+     "t0": 14,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c17-every-step",
+   "score": "clock",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "grid",
+     "kicker": "THE TRUST QUESTION",
+     "lines": [
+      {
+       "text": "“BUT WILL THEY DO IT RIGHT?”",
+       "style": "cw",
+       "size": 104
+      }
+     ]
+    },
+    {
+     "t0": 4.4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "UPDATES AT EVERY STEP.",
+       "style": "cg",
+       "size": 114
+      }
+     ]
+    },
+    {
+     "t0": 7.6,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "PROOF AT EVERY STOP.",
+       "style": "cg",
+       "size": 118
+      }
+     ]
+    },
+    {
+     "t0": 10.6,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "LIKE YOU DID IT YOURSELF.",
+       "style": "cl",
+       "size": 108
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c18-generator",
+   "score": "pulse",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "ember",
+     "kicker": "LAGOS RULE №1",
+     "lines": [
+      {
+       "text": "POWER COMES AND GOES.",
+       "style": "cw",
+       "size": 114
+      }
+     ]
+    },
+    {
+     "t0": 4.2,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "YOURS SHOULDN'T.",
+       "style": "cg",
+       "size": 144
+      }
+     ]
+    },
+    {
+     "t0": 7.4,
+     "bg": "ember",
+     "lines": [
+      {
+       "text": "GUARD YOUR ENERGY",
+       "style": "cw",
+       "size": 116
+      },
+      {
+       "text": "LIKE A GENERATOR.",
+       "style": "cw",
+       "size": 118
+      }
+     ]
+    },
+    {
+     "t0": 10.6,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "WE'LL BURN OURS FOR YOU.",
+       "style": "cl",
+       "size": 108
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c19-five-to-nine",
+   "score": "warm",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "grid",
+     "kicker": "THE HONEST SPLIT",
+     "lines": [
+      {
+       "text": "YOUR 9-5 PAYS THE BILLS.",
+       "style": "cw",
+       "size": 106
+      }
+     ]
+    },
+    {
+     "t0": 3.8,
+     "bg": "dawn",
+     "lines": [
+      {
+       "text": "YOUR 5-9 BUILDS THE DREAM.",
+       "style": "cg",
+       "size": 106
+      }
+     ]
+    },
+    {
+     "t0": 7.4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "NEITHER HAS ROOM",
+       "style": "cw",
+       "size": 120
+      },
+      {
+       "text": "FOR QUEUES.",
+       "style": "cw",
+       "size": 136
+      }
+     ]
+    },
+    {
+     "t0": 10.8,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "PROTECT THE HOURS THAT BUILD.",
+       "style": "cl",
+       "size": 98
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c20-legacy-hours",
+   "score": "calm",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "dawn",
+     "kicker": "IN 20 YEARS",
+     "lines": [
+      {
+       "text": "NOBODY REMEMBERS THE QUEUES.",
+       "style": "cw",
+       "size": 100
+      }
+     ]
+    },
+    {
+     "t0": 4.4,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "THEY REMEMBER DINNERS.",
+       "style": "cw",
+       "size": 104
+      },
+      {
+       "text": "CALLS. SUNSETS.",
+       "style": "cw",
+       "size": 116
+      }
+     ]
+    },
+    {
+     "t0": 8.4,
+     "bg": "dawn",
+     "lines": [
+      {
+       "text": "SPEND HOURS WHERE",
+       "style": "cg",
+       "size": 112
+      },
+      {
+       "text": "MEMORIES LIVE.",
+       "style": "cg",
+       "size": 126
+      }
+     ]
+    },
+    {
+     "t0": 11.4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "WE'LL HANDLE THE FORGETTABLE.",
+       "style": "cl",
+       "size": 96
+      }
+     ]
+    },
+    {
+     "t0": 14.2,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c21-the-handover",
+   "score": "calm",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "bokeh",
+     "kicker": "THE HANDOVER",
+     "lines": [
+      {
+       "text": "SAY IT ONCE.",
+       "style": "cw",
+       "size": 150
+      }
+     ]
+    },
+    {
+     "t0": 3.8,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "IT LEAVES YOUR HEAD",
+       "style": "cw",
+       "size": 112
+      },
+      {
+       "text": "AND ENTERS OUR ROUTE.",
+       "style": "cg",
+       "size": 106
+      }
+     ]
+    },
+    {
+     "t0": 7.6,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "THAT'S THE WHOLE RITUAL.",
+       "style": "cw",
+       "size": 108
+      }
+     ]
+    },
+    {
+     "t0": 10.6,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "OFF YOUR MIND. ON OUR WAY.",
+       "style": "cl",
+       "size": 102
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c22-traffic-tax",
+   "score": "clock",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "streaks",
+     "kicker": "THE INVOICE NOBODY SENDS",
+     "lines": [
+      {
+       "text": "LAGOS CHARGES A TAX.",
+       "style": "cw",
+       "size": 118
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "NOT IN NAIRA.",
+       "style": "cw",
+       "size": 132
+      },
+      {
+       "text": "IN HOURS.",
+       "style": "cg",
+       "size": 156
+      }
+     ]
+    },
+    {
+     "t0": 7.8,
+     "bg": "streaks",
+     "lines": [
+      {
+       "text": "WE PAY IT FOR YOU.",
+       "style": "cw",
+       "size": 126
+      }
+     ]
+    },
+    {
+     "t0": 10.8,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "KEEP YOUR HOURS. SEND THE RUN.",
+       "style": "cl",
+       "size": 96
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c23-small-big",
+   "score": "pulse",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "grid",
+     "kicker": "SMALL MATH, BIG LIFE",
+     "lines": [
+      {
+       "text": "ONE ERRAND A DAY.",
+       "style": "cw",
+       "size": 124
+      }
+     ]
+    },
+    {
+     "t0": 3.8,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "ONE HOUR EACH.",
+       "style": "cw",
+       "size": 130
+      }
+     ]
+    },
+    {
+     "t0": 6.8,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "= 30 HOURS A MONTH.",
+       "style": "cg",
+       "size": 124
+      }
+     ]
+    },
+    {
+     "t0": 9.8,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "THAT'S A WHOLE WORK WEEK. TAKE IT BACK.",
+       "style": "cl",
+       "size": 88
+      }
+     ]
+    },
+    {
+     "t0": 13.6,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c24-the-standard",
+   "score": "pulse",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "night",
+     "kicker": "A QUIET TRUTH",
+     "lines": [
+      {
+       "text": "SOME PEOPLE QUEUE.",
+       "style": "cw",
+       "size": 122
+      }
+     ]
+    },
+    {
+     "t0": 3.8,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "SOME PEOPLE SEND.",
+       "style": "cg",
+       "size": 130
+      }
+     ]
+    },
+    {
+     "t0": 7,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "SAME CITY.",
+       "style": "cw",
+       "size": 130
+      },
+      {
+       "text": "DIFFERENT STANDARD.",
+       "style": "cw",
+       "size": 108
+      }
+     ]
+    },
+    {
+     "t0": 10.4,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "CHOOSE YOUR SIDE.",
+       "style": "cl",
+       "size": 128
+      }
+     ]
+    },
+    {
+     "t0": 13.6,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c25-monday-reset",
+   "score": "warm",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "dawn",
+     "kicker": "SUNDAY, 9PM",
+     "lines": [
+      {
+       "text": "THE WEEK IS LOADING…",
+       "style": "cw",
+       "size": 116
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "LAST WEEK'S ERRANDS?",
+       "style": "cw",
+       "size": 112
+      }
+     ]
+    },
+    {
+     "t0": 7,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "CLEARED.",
+       "style": "cg",
+       "size": 190
+      }
+     ]
+    },
+    {
+     "t0": 9.8,
+     "bg": "dawn",
+     "lines": [
+      {
+       "text": "START MONDAY AT ZERO BACKLOG.",
+       "style": "cl",
+       "size": 96
+      }
+     ]
+    },
+    {
+     "t0": 13.6,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c26-time-to-yourself",
+   "score": "calm",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "bokeh",
+     "kicker": "A QUESTION",
+     "lines": [
+      {
+       "text": "NEED MORE TIME",
+       "style": "cw",
+       "size": 126
+      },
+      {
+       "text": "TO YOURSELF?",
+       "style": "cw",
+       "size": 118
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "IT ISN'T A LUXURY.",
+       "style": "cw",
+       "size": 120
+      },
+      {
+       "text": "IT'S LOGISTICS.",
+       "style": "cg",
+       "size": 120
+      }
+     ]
+    },
+    {
+     "t0": 7.8,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "HAND OVER THE RUNNING.",
+       "style": "cw",
+       "size": 104
+      }
+     ]
+    },
+    {
+     "t0": 10.8,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "WE RUN. YOU BREATHE.",
+       "style": "cl",
+       "size": 112
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c27-no-time-to-relax",
+   "score": "calm",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "bokeh",
+     "kicker": "A QUESTION",
+     "lines": [
+      {
+       "text": "NO TIME TO RELAX?",
+       "style": "cw",
+       "size": 126
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "WHEN LAST DID YOU",
+       "style": "cw",
+       "size": 120
+      },
+      {
+       "text": "DO ABSOLUTELY NOTHING?",
+       "style": "cg",
+       "size": 120
+      }
+     ]
+    },
+    {
+     "t0": 7.8,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "THIS WEEKEND, YOU WILL.",
+       "style": "cw",
+       "size": 104
+      }
+     ]
+    },
+    {
+     "t0": 10.8,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "REST IS A DELIVERY AWAY.",
+       "style": "cl",
+       "size": 112
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c28-too-busy-with-work",
+   "score": "clock",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "bokeh",
+     "kicker": "A QUESTION",
+     "lines": [
+      {
+       "text": "TOO BUSY WITH WORK",
+       "style": "cw",
+       "size": 126
+      },
+      {
+       "text": "TO HANDLE EVERYTHING ELSE?",
+       "style": "cw",
+       "size": 118
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "THAT'S NOT FAILURE.",
+       "style": "cw",
+       "size": 120
+      },
+      {
+       "text": "THAT'S FOCUS.",
+       "style": "cg",
+       "size": 120
+      }
+     ]
+    },
+    {
+     "t0": 7.8,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "WE COVER THE REST.",
+       "style": "cw",
+       "size": 126
+      }
+     ]
+    },
+    {
+     "t0": 10.8,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "YOU BUILD. WE RUN.",
+       "style": "cl",
+       "size": 112
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c29-evenings-gone",
+   "score": "clock",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "bokeh",
+     "kicker": "A QUESTION",
+     "lines": [
+      {
+       "text": "EVENINGS SWALLOWED",
+       "style": "cw",
+       "size": 126
+      },
+      {
+       "text": "BY ERRANDS?",
+       "style": "cw",
+       "size": 118
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "YOUR 6-9 BELONGS TO YOU,",
+       "style": "cw",
+       "size": 100
+      },
+      {
+       "text": "NOT TO QUEUES.",
+       "style": "cg",
+       "size": 120
+      }
+     ]
+    },
+    {
+     "t0": 7.8,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "GET YOUR EVENINGS BACK.",
+       "style": "cw",
+       "size": 104
+      }
+     ]
+    },
+    {
+     "t0": 10.8,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "SUNSET IS YOURS AGAIN.",
+       "style": "cl",
+       "size": 112
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c30-skipping-lunch",
+   "score": "pulse",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "bokeh",
+     "kicker": "A QUESTION",
+     "lines": [
+      {
+       "text": "SKIPPING LUNCH",
+       "style": "cw",
+       "size": 126
+      },
+      {
+       "text": "TO BEAT THE QUEUE?",
+       "style": "cw",
+       "size": 118
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "YOU CAN'T POUR FROM",
+       "style": "cw",
+       "size": 120
+      },
+      {
+       "text": "AN EMPTY PLATE.",
+       "style": "cg",
+       "size": 120
+      }
+     ]
+    },
+    {
+     "t0": 7.8,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "EAT. WE'LL QUEUE.",
+       "style": "cw",
+       "size": 126
+      }
+     ]
+    },
+    {
+     "t0": 10.8,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "LUNCH IS NON-NEGOTIABLE.",
+       "style": "cl",
+       "size": 112
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c31-weekends-vanish",
+   "score": "warm",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "bokeh",
+     "kicker": "A QUESTION",
+     "lines": [
+      {
+       "text": "WEEKENDS",
+       "style": "cw",
+       "size": 126
+      },
+      {
+       "text": "DISAPPEARING?",
+       "style": "cw",
+       "size": 118
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "SATURDAY HAS 24 HOURS.",
+       "style": "cw",
+       "size": 120
+      },
+      {
+       "text": "HOW MANY WERE YOURS?",
+       "style": "cg",
+       "size": 120
+      }
+     ]
+    },
+    {
+     "t0": 7.8,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "THIS ONE? ALL 24.",
+       "style": "cw",
+       "size": 126
+      }
+     ]
+    },
+    {
+     "t0": 10.8,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "WEEKENDS, RETURNED.",
+       "style": "cl",
+       "size": 112
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c32-always-late",
+   "score": "pulse",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "bokeh",
+     "kicker": "A QUESTION",
+     "lines": [
+      {
+       "text": "ALWAYS LATE BECAUSE",
+       "style": "cw",
+       "size": 126
+      },
+      {
+       "text": "OF ONE ERRAND?",
+       "style": "cw",
+       "size": 118
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "THE PICKUP MADE YOU MISS",
+       "style": "cw",
+       "size": 100
+      },
+      {
+       "text": "THE MOMENT. AGAIN.",
+       "style": "cg",
+       "size": 120
+      }
+     ]
+    },
+    {
+     "t0": 7.8,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "NEVER AGAIN.",
+       "style": "cw",
+       "size": 126
+      }
+     ]
+    },
+    {
+     "t0": 10.8,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "ARRIVE ON TIME. EVERY TIME.",
+       "style": "cl",
+       "size": 94
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c33-family-time",
+   "score": "warm",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "bokeh",
+     "kicker": "A QUESTION",
+     "lines": [
+      {
+       "text": "MISSING FAMILY TIME",
+       "style": "cw",
+       "size": 126
+      },
+      {
+       "text": "FOR MARKET RUNS?",
+       "style": "cw",
+       "size": 118
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "THE KIDS DON'T REMEMBER",
+       "style": "cw",
+       "size": 100
+      },
+      {
+       "text": "WHAT YOU BOUGHT.",
+       "style": "cg",
+       "size": 120
+      }
+     ]
+    },
+    {
+     "t0": 7.8,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "THEY REMEMBER YOU HOME.",
+       "style": "cw",
+       "size": 104
+      }
+     ]
+    },
+    {
+     "t0": 10.8,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "BE HOME. WE'LL BE OUT.",
+       "style": "cl",
+       "size": 112
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c34-cant-switch-off",
+   "score": "calm",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "bokeh",
+     "kicker": "A QUESTION",
+     "lines": [
+      {
+       "text": "CAN'T SWITCH OFF?",
+       "style": "cw",
+       "size": 126
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "20 OPEN TABS.",
+       "style": "cw",
+       "size": 120
+      },
+      {
+       "text": "HALF OF THEM ARE ERRANDS.",
+       "style": "cg",
+       "size": 100
+      }
+     ]
+    },
+    {
+     "t0": 7.8,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "CLOSE OURS. KEEP YOURS.",
+       "style": "cw",
+       "size": 104
+      }
+     ]
+    },
+    {
+     "t0": 10.8,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "AIRPLANE MODE FOR YOUR BRAIN.",
+       "style": "cl",
+       "size": 94
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c35-one-more-thing",
+   "score": "clock",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "bokeh",
+     "kicker": "A QUESTION",
+     "lines": [
+      {
+       "text": "ALWAYS 'ONE MORE THING'",
+       "style": "cw",
+       "size": 104
+      },
+      {
+       "text": "BEFORE YOU REST?",
+       "style": "cw",
+       "size": 118
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "THE ONE MORE THING",
+       "style": "cw",
+       "size": 120
+      },
+      {
+       "text": "NEVER ENDS.",
+       "style": "cg",
+       "size": 120
+      }
+     ]
+    },
+    {
+     "t0": 7.8,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "SEND THE ONE MORE THING.",
+       "style": "cw",
+       "size": 104
+      }
+     ]
+    },
+    {
+     "t0": 10.8,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "REST STARTS NOW.",
+       "style": "cl",
+       "size": 112
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c36-juggling",
+   "score": "pulse",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "bokeh",
+     "kicker": "A QUESTION",
+     "lines": [
+      {
+       "text": "JUGGLING WORK, HOME,",
+       "style": "cw",
+       "size": 126
+      },
+      {
+       "text": "AND EVERYTHING BETWEEN?",
+       "style": "cw",
+       "size": 118
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "NOBODY CLAPS FOR",
+       "style": "cw",
+       "size": 120
+      },
+      {
+       "text": "THE JUGGLE.",
+       "style": "cg",
+       "size": 120
+      }
+     ]
+    },
+    {
+     "t0": 7.8,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "DROP ONE BALL — INTO OUR HANDS.",
+       "style": "cw",
+       "size": 104
+      }
+     ]
+    },
+    {
+     "t0": 10.8,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "CARRY LESS. LIVE MORE.",
+       "style": "cl",
+       "size": 112
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c37-just-you",
+   "score": "calm",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "bokeh",
+     "kicker": "A QUESTION",
+     "lines": [
+      {
+       "text": "WHEN LAST WAS IT",
+       "style": "cw",
+       "size": 126
+      },
+      {
+       "text": "JUST… YOU?",
+       "style": "cw",
+       "size": 118
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "NO LIST. NO TRAFFIC.",
+       "style": "cw",
+       "size": 120
+      },
+      {
+       "text": "NO WAITING.",
+       "style": "cg",
+       "size": 120
+      }
+     ]
+    },
+    {
+     "t0": 7.8,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "ME-TIME, PROTECTED.",
+       "style": "cw",
+       "size": 126
+      }
+     ]
+    },
+    {
+     "t0": 10.8,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "YOU DESERVE THE QUIET.",
+       "style": "cl",
+       "size": 112
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c38-deadline-day",
+   "score": "clock",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "bokeh",
+     "kicker": "A QUESTION",
+     "lines": [
+      {
+       "text": "DEADLINE AT 5.",
+       "style": "cw",
+       "size": 126
+      },
+      {
+       "text": "PICKUP BY 4?",
+       "style": "cw",
+       "size": 118
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "YOU CAN'T BE IN BOTH PLACES.",
+       "style": "cw",
+       "size": 100
+      },
+      {
+       "text": "YOUR DOUBLE CAN.",
+       "style": "cg",
+       "size": 120
+      }
+     ]
+    },
+    {
+     "t0": 7.8,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "YOU WRITE. WE RIDE.",
+       "style": "cw",
+       "size": 126
+      }
+     ]
+    },
+    {
+     "t0": 10.8,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "BOTH DEADLINES, MET.",
+       "style": "cl",
+       "size": 112
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c39-hands-full",
+   "score": "warm",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "bokeh",
+     "kicker": "A QUESTION",
+     "lines": [
+      {
+       "text": "NEW BABY.",
+       "style": "cw",
+       "size": 126
+      },
+      {
+       "text": "NO HANDS FREE?",
+       "style": "cw",
+       "size": 118
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "SLEEP IS SCARCE.",
+       "style": "cw",
+       "size": 120
+      },
+      {
+       "text": "ERRANDS SHOULDN'T BE.",
+       "style": "cg",
+       "size": 120
+      }
+     ]
+    },
+    {
+     "t0": 7.8,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "YOU HOLD THE BABY.",
+       "style": "cw",
+       "size": 126
+      }
+     ]
+    },
+    {
+     "t0": 10.8,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "WE HOLD THE ERRANDS.",
+       "style": "cl",
+       "size": 112
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c40-monday-dread",
+   "score": "clock",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "bokeh",
+     "kicker": "A QUESTION",
+     "lines": [
+      {
+       "text": "DREADING MONDAY'S",
+       "style": "cw",
+       "size": 126
+      },
+      {
+       "text": "TO-DO LIST?",
+       "style": "cw",
+       "size": 118
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "SUNDAY-NIGHT ANXIETY",
+       "style": "cw",
+       "size": 120
+      },
+      {
+       "text": "IS JUST UNSENT ERRANDS.",
+       "style": "cg",
+       "size": 100
+      }
+     ]
+    },
+    {
+     "t0": 7.8,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "SEND THEM TONIGHT.",
+       "style": "cw",
+       "size": 126
+      }
+     ]
+    },
+    {
+     "t0": 10.8,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "MONDAY, PRE-CLEARED.",
+       "style": "cl",
+       "size": 112
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c41-running-on-empty",
+   "score": "calm",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "bokeh",
+     "kicker": "A QUESTION",
+     "lines": [
+      {
+       "text": "RUNNING ON EMPTY?",
+       "style": "cw",
+       "size": 126
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "REST ISN'T EARNED.",
+       "style": "cw",
+       "size": 120
+      },
+      {
+       "text": "IT'S SCHEDULED.",
+       "style": "cg",
+       "size": 120
+      }
+     ]
+    },
+    {
+     "t0": 7.8,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "SCHEDULE IT TODAY.",
+       "style": "cw",
+       "size": 126
+      }
+     ]
+    },
+    {
+     "t0": 10.8,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "REFUEL. WE'LL DRIVE.",
+       "style": "cl",
+       "size": 112
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c42-side-quests",
+   "score": "pulse",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "bokeh",
+     "kicker": "A QUESTION",
+     "lines": [
+      {
+       "text": "LIFE FULL OF",
+       "style": "cw",
+       "size": 126
+      },
+      {
+       "text": "SIDE QUESTS?",
+       "style": "cw",
+       "size": 118
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "THE MAIN QUEST IS WAITING",
+       "style": "cw",
+       "size": 100
+      },
+      {
+       "text": "WHILE YOU FETCH ITEMS.",
+       "style": "cg",
+       "size": 120
+      }
+     ]
+    },
+    {
+     "t0": 7.8,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "OUTSOURCE THE SIDE QUESTS.",
+       "style": "cw",
+       "size": 104
+      }
+     ]
+    },
+    {
+     "t0": 10.8,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "STAY ON MAIN.",
+       "style": "cl",
+       "size": 112
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c43-traffic-again",
+   "score": "pulse",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "bokeh",
+     "kicker": "A QUESTION",
+     "lines": [
+      {
+       "text": "TRAFFIC. AGAIN?",
+       "style": "cw",
+       "size": 126
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "YOU KNOW HOW THIS",
+       "style": "cw",
+       "size": 120
+      },
+      {
+       "text": "MOVIE ENDS.",
+       "style": "cg",
+       "size": 120
+      }
+     ]
+    },
+    {
+     "t0": 7.8,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "STAY WHERE YOU ARE.",
+       "style": "cw",
+       "size": 126
+      }
+     ]
+    },
+    {
+     "t0": 10.8,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "WE'RE ALREADY OUT THERE.",
+       "style": "cl",
+       "size": 112
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c44-forgot-again",
+   "score": "clock",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "bokeh",
+     "kicker": "A QUESTION",
+     "lines": [
+      {
+       "text": "FORGOT THE PICKUP",
+       "style": "cw",
+       "size": 126
+      },
+      {
+       "text": "AGAIN?",
+       "style": "cw",
+       "size": 118
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "YOUR MEMORY ISN'T THE PROBLEM.",
+       "style": "cw",
+       "size": 100
+      },
+      {
+       "text": "YOUR LOAD IS.",
+       "style": "cg",
+       "size": 120
+      }
+     ]
+    },
+    {
+     "t0": 7.8,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "GIVE IT A TEAMMATE.",
+       "style": "cw",
+       "size": 126
+      }
+     ]
+    },
+    {
+     "t0": 10.8,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "WE REMEMBER FOR YOU.",
+       "style": "cl",
+       "size": 112
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  },
+  {
+   "name": "c45-who-runs-for-you",
+   "score": "warm",
+   "scenes": [
+    {
+     "t0": 0,
+     "bg": "bokeh",
+     "kicker": "A QUESTION",
+     "lines": [
+      {
+       "text": "WHO RUNS FOR YOU?",
+       "style": "cw",
+       "size": 126
+      }
+     ]
+    },
+    {
+     "t0": 4,
+     "bg": "night",
+     "lines": [
+      {
+       "text": "EVERYONE CARRIES SOMETHING.",
+       "style": "cw",
+       "size": 100
+      },
+      {
+       "text": "NOBODY SHOULD CARRY IT ALL.",
+       "style": "cg",
+       "size": 100
+      }
+     ]
+    },
+    {
+     "t0": 7.8,
+     "bg": "grid",
+     "lines": [
+      {
+       "text": "EVERYONE NEEDS AN ALLY.",
+       "style": "cw",
+       "size": 104
+      }
+     ]
+    },
+    {
+     "t0": 10.8,
+     "bg": "bokeh",
+     "lines": [
+      {
+       "text": "MEET YOURS TODAY.",
+       "style": "cl",
+       "size": 112
+      }
+     ]
+    },
+    {
+     "t0": 13.8,
+     "type": "end",
+     "bg": "bokeh"
+    }
+   ]
+  }
+ ]
 }
