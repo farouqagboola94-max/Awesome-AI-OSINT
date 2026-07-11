@@ -152,7 +152,7 @@
         },
         {
           "@type": "ComicIssue",
-          "name": "Issue #2 — The Conspiracy",
+          "name": "Issue #2 — Sango's Daughter",
           "issueNumber": "2",
           "description": "The Oracle network reveals a deeper plot behind Bayo's awakening. The Pale Council moves.",
           "url": "https://catalyst-awakening.netlify.app/#comics",
@@ -160,7 +160,7 @@
         },
         {
           "@type": "ComicIssue",
-          "name": "Issue #3 — The Revelation",
+          "name": "Issue #3 — Iron in the Blood",
           "issueNumber": "3",
           "description": "Ancient truths about the Pale Council surface as Lagos stands on the edge of a spiritual war.",
           "url": "https://catalyst-awakening.netlify.app/#comics",
@@ -168,7 +168,7 @@
         },
         {
           "@type": "ComicIssue",
-          "name": "Issue #4 — The Final Stand",
+          "name": "Issue #4 — The Chosen Four",
           "issueNumber": "4",
           "description": "Catalyst faces the Architect in the final confrontation for the soul of Lagos.",
           "url": "https://catalyst-awakening.netlify.app/#comics",
@@ -7248,6 +7248,66 @@ kbd {
 }
 .hero-share-btn:hover { border-color: var(--danfo-gold); color: var(--danfo-gold); }
 .hero-share-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+/* ── Batch 3: Image Lightbox ── */
+#img-lightbox {
+  position: fixed; inset: 0; z-index: 9900;
+  background: rgba(6,6,13,0.96);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+#img-lightbox.active { opacity: 1; pointer-events: auto; }
+#img-lightbox img {
+  max-width: min(90vw, 700px);
+  max-height: 85vh;
+  object-fit: contain;
+  border: 1px solid rgba(244,184,0,0.25);
+  border-radius: 4px;
+  box-shadow: 0 0 60px rgba(244,184,0,0.12);
+  transform: scale(0.94);
+  transition: transform 0.25s ease;
+}
+#img-lightbox.active img { transform: scale(1); }
+#img-lightbox-close {
+  position: absolute; top: 1.2rem; right: 1.4rem;
+  background: none; border: none; color: rgba(240,237,229,0.7);
+  font-size: 1.8rem; cursor: pointer; line-height: 1;
+  transition: color 0.2s;
+}
+#img-lightbox-close:hover { color: var(--danfo-gold); }
+#img-lightbox-caption {
+  position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+  color: rgba(240,237,229,0.55); font-size: 0.78rem; letter-spacing: 0.06em;
+  font-family: 'Space Grotesk', sans-serif; text-align: center;
+  white-space: nowrap; pointer-events: none;
+}
+.lightbox-trigger { cursor: zoom-in; }
+
+/* ── Batch 3: Password toggle ── */
+.pw-wrap { position: relative; }
+.pw-wrap .auth-input { padding-right: 2.8rem; }
+.pw-toggle {
+  position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%);
+  background: none; border: none; color: rgba(240,237,229,0.4);
+  cursor: pointer; padding: 0; line-height: 1;
+  transition: color 0.2s;
+}
+.pw-toggle:hover { color: var(--danfo-gold); }
+.pw-toggle svg { display: block; width: 18px; height: 18px; }
+
+/* ── Batch 3: Stat counter animation ── */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.stat-box .num.counted { animation: countUp 0.5s ease forwards; }
+
+/* ── Batch 3: Confetti canvas ── */
+#confetti-canvas {
+  position: fixed; inset: 0; z-index: 9999;
+  pointer-events: none; opacity: 1;
+}
 </style>
 </head>
 <body>
@@ -7305,12 +7365,14 @@ kbd {
         Continue with Google
       </button>
       <div class="auth-or"><span>or</span></div>
-      <form id="signup-form" onsubmit="handleSignUp(event)" data-netlify="true" name="catalyst-signup" netlify-honeypot="bot-field">
+      <form id="signup-form" method="post" onsubmit="handleSignUp(event)" data-netlify="true" name="catalyst-signup" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="catalyst-signup">
         <input type="hidden" name="bot-field" style="display:none">
         <input type="text" class="auth-input" name="fullname" placeholder="Full Name" required autocomplete="name">
         <input type="email" class="auth-input" name="email" placeholder="Email Address" required autocomplete="email">
-        <input type="password" class="auth-input" name="password" placeholder="Password (min 8 characters)" minlength="8" required autocomplete="new-password">
+        <div class="pw-wrap">
+          <input type="password" class="auth-input" name="password" id="signup-password" placeholder="Password (min 8 characters)" minlength="8" required autocomplete="new-password">
+        </div>
         <button type="submit" class="auth-submit-btn" id="signup-btn">Join the Universe →</button>
       </form>
     </div>
@@ -7320,11 +7382,13 @@ kbd {
         Continue with Google
       </button>
       <div class="auth-or"><span>or</span></div>
-      <form id="signin-form" onsubmit="handleSignIn(event)" data-netlify="true" name="catalyst-signin" netlify-honeypot="bot-field">
+      <form id="signin-form" method="post" onsubmit="handleSignIn(event)" data-netlify="true" name="catalyst-signin" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="catalyst-signin">
         <input type="hidden" name="bot-field" style="display:none">
         <input type="email" class="auth-input" name="email" placeholder="Email Address" required autocomplete="email">
-        <input type="password" class="auth-input" name="password" placeholder="Password" required autocomplete="current-password">
+        <div class="pw-wrap">
+          <input type="password" class="auth-input" name="password" id="signin-password" placeholder="Password" required autocomplete="current-password">
+        </div>
         <a href="#" class="auth-forgot" onclick="handleForgotPassword(event)">Forgot password?</a>
         <button type="submit" class="auth-submit-btn" id="signin-btn">Enter the Universe →</button>
       </form>
@@ -7442,6 +7506,13 @@ kbd {
     <button class="cookie-btn cookie-btn-accept" id="cookie-accept">Accept</button>
     <button class="cookie-btn cookie-btn-reject" id="cookie-reject">Reject non-essential</button>
   </div>
+</div>
+
+<!-- ── Image Lightbox Overlay ── -->
+<div id="img-lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <button id="img-lightbox-close" aria-label="Close image viewer">✕</button>
+  <img id="img-lightbox-img" src="" alt="">
+  <span id="img-lightbox-caption"></span>
 </div>
 
 <!-- MOBILE NAV OVERLAY -->
@@ -7894,7 +7965,7 @@ kbd {
           <div class="label">Orishas Reawakened</div>
         </div>
         <div class="stat-box">
-          <div class="num">3</div>
+          <div class="num">4</div>
           <div class="label">Issues Released</div>
         </div>
         <div class="stat-box">
@@ -8230,7 +8301,7 @@ kbd {
     <!-- CATALYST — Featured -->
     <div class="char-card chars-featured reveal" data-dossier="catalyst">
       <div class="char-bg char-bg-catalyst"></div>
-      <img class="char-photo-bg illustrated-portrait" src="./assets/bayo-portrait.webp" alt="Bayo Adeyemi — The Catalyst" loading="lazy">
+      <img class="char-photo-bg illustrated-portrait lightbox-trigger" src="./assets/bayo-portrait.webp" alt="Bayo Adeyemi — The Catalyst" loading="lazy" data-lightbox-alt="Bayo Adeyemi — The Catalyst">
       <svg class="char-adire-bg" viewBox="0 0 400 270" xmlns="http://www.w3.org/2000/svg">
         <pattern id="adirePat" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
           <path d="M0,20 L20,0 L40,20 L20,40 Z" fill="none" stroke="#F4B800" stroke-width="0.5"/>
@@ -8418,7 +8489,7 @@ kbd {
     <!-- THUNDERSTRIKE -->
     <div class="char-card reveal reveal-delay-1" data-dossier="thunderstrike">
       <div class="char-bg char-bg-thunderstrike"></div>
-      <img class="char-photo-bg illustrated-portrait" src="./assets/amara-portrait.webp" alt="Amara — Thunderstrike" loading="lazy">
+      <img class="char-photo-bg illustrated-portrait lightbox-trigger" src="./assets/amara-portrait.webp" alt="Amara — Thunderstrike" loading="lazy" data-lightbox-alt="Amara — Thunderstrike">
       <svg class="char-adire-bg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
         <pattern id="thunderPat" x="0" y="0" width="25" height="25" patternUnits="userSpaceOnUse">
           <path d="M12,0 L25,12 L12,25 L0,12 Z" fill="none" stroke="#b81414" stroke-width="0.4"/>
@@ -8599,7 +8670,7 @@ kbd {
     <!-- THE IRON WOLF -->
     <div class="char-card reveal reveal-delay-2" data-dossier="iron-wolf">
       <div class="char-bg char-bg-iron"></div>
-      <img class="char-photo-bg illustrated-portrait" src="./assets/ikenna-portrait.webp" alt="Ikenna — The Iron Wolf" loading="lazy">
+      <img class="char-photo-bg illustrated-portrait lightbox-trigger" src="./assets/ikenna-portrait.webp" alt="Ikenna — The Iron Wolf" loading="lazy" data-lightbox-alt="Ikenna — The Iron Wolf">
       <svg class="char-adire-bg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
         <pattern id="ironPat" x="0" y="0" width="15" height="15" patternUnits="userSpaceOnUse">
           <rect x="0" y="0" width="15" height="15" fill="none" stroke="#FF6B1A" stroke-width="0.3"/>
@@ -9343,7 +9414,7 @@ kbd {
   <div class="cover-gallery-grid cover-gallery-grid--9">
 
     <!-- ── Issue 1–4 Official Covers (Higgsfield 4K) ── -->
-    <a href="#comics" class="cover-art-item featured reveal" title="Issue #1 — THE AWAKENING (Official Cover)">
+    <a href="#comics" class="cover-art-item featured reveal" title="Issue #1 — THE AWAKENING (Official Cover)" data-lightbox-src="./assets/cover-issue1.webp" data-lightbox-alt="Issue #1 — THE AWAKENING (Official Cover)">
       <img src="./assets/cover-issue1.webp"
            alt="Issue #1 — THE AWAKENING (Official Cover)" loading="eager"
            onerror="this.parentElement.style.background='linear-gradient(160deg,#2a0000,#b81414 40%,#3d0000)'">
@@ -9351,7 +9422,7 @@ kbd {
       <span class="cover-art-label">THE AWAKENING — Official Cover</span>
     </a>
 
-    <a href="#comics" class="cover-art-item reveal" title="Issue #2 — THE MIRROR'S EDGE (Official Cover)">
+    <a href="#comics" class="cover-art-item reveal" title="Issue #2 — THE MIRROR'S EDGE (Official Cover)" data-lightbox-src="./assets/cover-issue2.webp" data-lightbox-alt="Issue #2 — SANGO'S DAUGHTER (Official Cover)">
       <img src="./assets/cover-issue2.webp"
            alt="Issue #2 — THE MIRROR'S EDGE" loading="lazy"
            onerror="this.parentElement.style.background='linear-gradient(160deg,#001a14,#00C9B1 60%,#001410)'">
@@ -9359,7 +9430,7 @@ kbd {
       <span class="cover-art-label">THE MIRROR'S EDGE — Official Cover</span>
     </a>
 
-    <a href="#comics" class="cover-art-item reveal" title="Issue #3 — ORISHA RISING (Official Cover)">
+    <a href="#comics" class="cover-art-item reveal" title="Issue #3 — ORISHA RISING (Official Cover)" data-lightbox-src="./assets/cover-issue3.webp" data-lightbox-alt="Issue #3 — IRON IN THE BLOOD (Official Cover)">
       <img src="./assets/cover-issue3.webp"
            alt="Issue #3 — ORISHA RISING" loading="lazy"
            onerror="this.parentElement.style.background='linear-gradient(160deg,#150a00,#F4B800 60%,#0f0800)'">
@@ -9367,7 +9438,7 @@ kbd {
       <span class="cover-art-label">ORISHA RISING — Official Cover</span>
     </a>
 
-    <a href="#comics" class="cover-art-item reveal" title="Issue #4 — LAGOS ETERNAL (Official Cover)">
+    <a href="#comics" class="cover-art-item reveal" title="Issue #4 — LAGOS ETERNAL (Official Cover)" data-lightbox-src="./assets/cover-issue4.webp" data-lightbox-alt="Issue #4 — THE CHOSEN FOUR (Official Cover)">
       <img src="./assets/cover-issue4.webp"
            alt="Issue #4 — LAGOS ETERNAL" loading="lazy"
            onerror="this.parentElement.style.background='linear-gradient(160deg,#050015,#9b59b6 60%,#050010)'">
@@ -13035,7 +13106,7 @@ kbd {
       </div>
     </div>
     <div class="reveal">
-      <form class="newsletter-form" onsubmit="handleSignup(event)" data-netlify="true" name="catalyst-newsletter" netlify-honeypot="bot-field" style="flex-direction:column;max-width:500px">
+      <form class="newsletter-form" method="post" onsubmit="handleSignup(event)" data-netlify="true" name="catalyst-newsletter" netlify-honeypot="bot-field" style="flex-direction:column;max-width:500px">
         <input type="hidden" name="form-name" value="catalyst-newsletter">
         <input type="hidden" name="bot-field" style="display:none">
         <input type="text" name="nl_name" class="newsletter-input" placeholder="Your name..." autocomplete="name" style="border-right:1px solid rgba(244,184,0,0.3);clip-path:polygon(10px 0%,100% 0%,100% 100%,0% 100%);margin-bottom:0.6rem">
@@ -13445,6 +13516,7 @@ kbd {
       if (emailInput) emailInput.value = '';
       if (nameInput) nameInput.value = '';
       showToast('You\'re in the movement! New issues drop to your inbox first.', 'success');
+      if (window.launchConfetti) launchConfetti();
       setTimeout(() => { btn.textContent = 'Awaken'; btn.style.background = ''; btn.disabled = false; }, 3500);
     } catch (err) {
       // Even if Supabase fails, data is in localStorage + Netlify
@@ -13453,6 +13525,7 @@ kbd {
       if (emailInput) emailInput.value = '';
       if (nameInput) nameInput.value = '';
       showToast('You\'re in the movement! ✦', 'success');
+      if (window.launchConfetti) launchConfetti();
       setTimeout(() => { btn.textContent = 'Awaken'; btn.style.background = ''; btn.disabled = false; }, 3500);
     }
   }
@@ -15158,8 +15231,8 @@ function pvCopyLink() {
 
   // ── V5: ARC II COUNTDOWN + CINEMATIC QUOTE ─────────────────────────────────
   (function() {
-    // Target: March 7, 2026 — Issue #5 release
-    var targetDate = new Date('2026-03-07T00:00:00+01:00').getTime();
+    // Target: December 1, 2026 — Issue #5 release
+    var targetDate = new Date('2026-12-01T00:00:00+01:00').getTime();
 
     function pad(n) { return n < 10 ? '0' + n : '' + n; }
 
@@ -19279,6 +19352,156 @@ document.addEventListener('DOMContentLoaded', function(){
           }
         } catch(e) {}
       });
+    });
+  })();
+
+  /* ── Batch 3: Image Lightbox ── */
+  (function() {
+    var lb = document.getElementById('img-lightbox');
+    var lbImg = document.getElementById('img-lightbox-img');
+    var lbCap = document.getElementById('img-lightbox-caption');
+    var lbClose = document.getElementById('img-lightbox-close');
+    if (!lb) return;
+
+    function openLightbox(src, alt) {
+      lbImg.src = src;
+      lbImg.alt = alt || '';
+      lbCap.textContent = alt || '';
+      lb.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      lbClose.focus();
+    }
+    function closeLightbox() {
+      lb.classList.remove('active');
+      document.body.style.overflow = '';
+      lbImg.src = '';
+    }
+
+    lbClose.addEventListener('click', closeLightbox);
+    lb.addEventListener('click', function(e) { if (e.target === lb) closeLightbox(); });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && lb.classList.contains('active')) closeLightbox();
+    });
+
+    // Portrait images
+    document.querySelectorAll('.lightbox-trigger').forEach(function(img) {
+      img.addEventListener('click', function(e) {
+        e.preventDefault();
+        openLightbox(img.src, img.getAttribute('data-lightbox-alt') || img.alt);
+      });
+    });
+
+    // Cover gallery anchors with data-lightbox-src
+    document.querySelectorAll('.cover-art-item[data-lightbox-src]').forEach(function(a) {
+      a.addEventListener('click', function(e) {
+        e.preventDefault();
+        openLightbox(a.getAttribute('data-lightbox-src'), a.getAttribute('data-lightbox-alt') || a.title);
+      });
+    });
+  })();
+
+  /* ── Batch 3: Password Show/Hide Toggle ── */
+  (function() {
+    var EYE_OPEN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+    var EYE_SHUT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+
+    ['signup-password', 'signin-password'].forEach(function(id) {
+      var input = document.getElementById(id);
+      if (!input) return;
+      var wrap = input.parentElement;
+      if (!wrap || !wrap.classList.contains('pw-wrap')) return;
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'pw-toggle';
+      btn.setAttribute('aria-label', 'Show password');
+      btn.innerHTML = EYE_OPEN;
+      wrap.appendChild(btn);
+      btn.addEventListener('click', function() {
+        var show = input.type === 'password';
+        input.type = show ? 'text' : 'password';
+        btn.innerHTML = show ? EYE_SHUT : EYE_OPEN;
+        btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+      });
+    });
+  })();
+
+  /* ── Batch 3: Stat Counter Animation ── */
+  (function() {
+    var numEls = document.querySelectorAll('.stat-box .num');
+    if (!numEls.length || !('IntersectionObserver' in window)) return;
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting) return;
+        obs.unobserve(entry.target);
+        entry.target.classList.add('counted');
+      });
+    }, { threshold: 0.6 });
+    numEls.forEach(function(el) { obs.observe(el); });
+  })();
+
+  /* ── Batch 3: Newsletter Confetti ── */
+  window.launchConfetti = (function() {
+    var COLORS = ['#F4B800', '#00C9B1', '#C41E3A', '#F4B800', '#FFFFFF', '#00C9B1'];
+    return function() {
+      var canvas = document.createElement('canvas');
+      canvas.id = 'confetti-canvas';
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      document.body.appendChild(canvas);
+      var ctx = canvas.getContext('2d');
+      var particles = [];
+      for (var i = 0; i < 130; i++) {
+        particles.push({
+          x: canvas.width * 0.5,
+          y: canvas.height * 0.55,
+          vx: (Math.random() - 0.5) * 14,
+          vy: (Math.random() * -14) - 3,
+          color: COLORS[Math.floor(Math.random() * COLORS.length)],
+          size: Math.random() * 7 + 4,
+          life: 1,
+          decay: Math.random() * 0.018 + 0.012,
+          rotation: Math.random() * Math.PI * 2,
+          rotSpeed: (Math.random() - 0.5) * 0.2
+        });
+      }
+      function frame() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        var alive = false;
+        particles.forEach(function(p) {
+          if (p.life <= 0) return;
+          alive = true;
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.35;
+          p.vx *= 0.98;
+          p.life -= p.decay;
+          p.rotation += p.rotSpeed;
+          ctx.save();
+          ctx.globalAlpha = Math.max(0, p.life);
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rotation);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+          ctx.restore();
+        });
+        if (alive) requestAnimationFrame(frame);
+        else { canvas.remove(); }
+      }
+      requestAnimationFrame(frame);
+      setTimeout(function() { if (canvas.parentNode) canvas.remove(); }, 3500);
+    };
+  })();
+
+  /* ── Batch 3: Global Error Boundary ── */
+  (function() {
+    window.addEventListener('error', function(e) {
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') return;
+      var msg = (e.message || 'Unknown error') + ' @ ' + (e.filename || '') + ':' + (e.lineno || '');
+      console.warn('[Catalyst] Unhandled error:', msg);
+    });
+    window.addEventListener('unhandledrejection', function(e) {
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') return;
+      console.warn('[Catalyst] Unhandled promise rejection:', e.reason);
     });
   })();
 
