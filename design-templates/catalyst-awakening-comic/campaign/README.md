@@ -8,7 +8,7 @@ Complete marketing arsenal for **Catalyst: The Awakening** — a Lagos noir comi
 |------|-------|--------|---------|
 | **Launch trailers** | 3 | 1080×1920 MP4 · silent | Kinetic typography, brand-timed. Add trending audio at post time. |
 | **Motion 10-pack** | 10 | 1080×1920 MP4 · with beats | Punchy motion graphics with procedurally-generated afro-house percussion. |
-| **Cinematic 20-pack** | 20 | 1080×1920 MP4 · scored | Ken Burns treatments of existing 4K artwork with letterbox, film grain, and synthesized cinematic scores. |
+| **Cinematic 40-pack** | 40 | 1080×1920 MP4 · scored | Ken Burns treatments of existing 4K artwork with letterbox, film grain, and synthesized cinematic scores. |
 | **Brand IP Kit** | 58 files | SVG · CSS · JSON · HTML · Markdown | Full identity system: logos, tokens, social templates, print, brand book, Canva/Express-ready. |
 
 ## Directory
@@ -35,9 +35,13 @@ campaign/
 
 01. Read Chapter One · 02. Meet Bayo · 03. Five Gods · 04. Coordinates · 05. Free Forever · 06. Four Issues · 07. Made in Lagos · 08. Issue 5 teaser · 09. Which Orisha are you? · 10. Editorial quote
 
-## Cinematic pack (20)
+## Cinematic pack (40)
 
-Ken-Burns-treated cinematics of existing 4K art: `mushin-3am`, `forge`, `shipyard`, `corridor`, `industrial`, `flares`, `intersection`, `circle`, `bayo-portrait`, `bayo-bridge`, `amara-portrait`, `ikenna`, `zara-portrait`, `zara-raw`, `battle-raw`, `team-aurora`, `team-highway`, `team-constellation`, `lagos-spirits`, `cover-finale`.
+Ken-Burns-treated cinematics of existing 4K art.
+
+**Chapters 1–20**: `mushin-3am`, `forge`, `shipyard`, `corridor`, `industrial`, `flares`, `intersection`, `circle`, `bayo-portrait`, `bayo-bridge`, `amara-portrait`, `ikenna`, `zara-portrait`, `zara-raw`, `battle-raw`, `team-aurora`, `team-highway`, `team-constellation`, `lagos-spirits`, `cover-finale`.
+
+**Chapters 21–40** (part two — issue covers + epilogue beats): `issue-one` through `issue-four`, `amara-awakening`, `first-orisha`, `lagos-eternal`, `orisha-rising`, `the-strike`, plus 11 reused locations (`forge`, `shipyard`, `corridor`, `industrial`, `flares`, `intersection`, `circle`, `battle-raw`, `team-highway`, `lagos-spirits`, `noir-window`) re-treated with new crops, washes, and captions for a distinct "part two" arc.
 
 ## Brand kit
 
