@@ -1,0 +1,20 @@
+{
+  "xfade": 0.4,
+  "clips": [
+    { "src": "out/cine-09-bayo-portrait.mp4", "ss": 0.0, "t": 3.6, "label": "bayo-portrait" },
+    { "src": "out/trailer-03-mushin.mp4", "ss": 0.0, "t": 3.3, "label": "mushin-coords-19" },
+    { "src": "out/cine-25-amara-awakening.mp4", "ss": 0.0, "t": 3.6, "label": "amara-cover" },
+    { "src": "out/motion-15-powers-explainer.mp4", "ss": 2.0, "t": 2.6, "label": "powers-back-half" },
+    { "src": "out/cine-12-ikenna.mp4", "ss": 0.0, "t": 3.4, "label": "ikenna-cine" },
+    { "src": "out/trailer-02-bloodline.mp4", "ss": 7.2, "t": 3.0, "label": "hes-19-from-mushin" },
+    { "src": "out/cine-16-team-aurora.mp4", "ss": 0.0, "t": 3.6, "label": "team-aurora" },
+    { "src": "out/motion-08-issue-5-teaser.mp4", "ss": 0.5, "t": 3.0, "label": "issue-5-teaser" },
+    { "src": "out/cine-33-the-return.mp4", "ss": 0.0, "t": 3.4, "label": "the-return" },
+    { "src": "out/motion-05-free-forever.mp4", "ss": 0.8, "t": 2.6, "label": "free-forever" },
+    { "src": "out/cine-19-lagos-spirits.mp4", "ss": 0.0, "t": 3.6, "label": "lagos-spirits" },
+    { "src": "out/motion-18-release-calendar.mp4", "ss": 0.0, "t": 2.2, "label": "release-log" },
+    { "src": "out/cine-24-issue-four.mp4", "ss": 0.0, "t": 3.6, "label": "issue-four-cover" },
+    { "src": "out/trailer-01-awakening.mp4", "ss": 5.8, "t": 3.4, "label": "one-boy-all-of-them" },
+    { "src": "out/cine-27-lagos-eternal.mp4", "ss": 4.8, "t": 4.1, "label": "endcard-outro" }
+  ]
+}

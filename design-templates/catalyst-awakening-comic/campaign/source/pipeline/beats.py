@@ -113,7 +113,72 @@ def write_wav(path, buf):
         w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR)
         w.writeframes(x.T.tobytes())
 
+def mix(seconds, seed, hits=None):
+    """Continuous sizzle-reel bed: driving pulse + cinematic swell + hit accents at cut points."""
+    rng = np.random.default_rng(seed)
+    n = int(seconds * SR)
+    buf = np.zeros((2, n))
+    tt = np.arange(n) / SR
+
+    # cinematic drone bed throughout, swelling in over first 15%
+    root = 49.0
+    for mult, det, g in [(1, 0.0, 0.22), (1, 0.6, 0.16), (1.5, 0.25, 0.09), (2, 1.0, 0.07)]:
+        w = np.sin(2 * np.pi * (root * mult + det) * tt + rng.uniform(0, 6))
+        w += 0.3 * np.sign(w) * np.abs(w) ** 2
+        buf[0] += w * g * 0.5
+        buf[1] += w * g * 0.5
+    swell = np.minimum(1, tt / (seconds * 0.18)).clip(0, 1)
+    buf *= swell
+
+    # driving four-on-floor pulse, ramps in after 12%
+    bpm = 124
+    beat = 60 / bpm
+    kick = pitch_sweep(115, 44, int(0.3 * SR), 0.085)
+    hat = noise_burst(int(0.04 * SR), 0.015, 0.15, rng)
+    t = seconds * 0.12
+    while t < seconds - 0.3:
+        ramp = min(1.0, (t - seconds * 0.12) / (seconds * 0.15 + 0.01))
+        place(buf, t, kick, 0.75 * ramp)
+        place(buf, t + beat / 2, hat, 0.18 * ramp, 0.3)
+        t += beat
+
+    # log-drum-ish bass stabs, entering after 35%
+    root2 = 46.25
+    stab = pitch_sweep(root2 * 2, root2, int(0.3 * SR), 0.12)
+    t = seconds * 0.35
+    step = beat / 2
+    pat = [0, 3, 5, 8]
+    i = 0
+    while t < seconds - 0.3:
+        if i % 8 in pat:
+            place(buf, t, stab, 0.4)
+        t += step
+        i += 1
+
+    # hit accents at supplied cut times (big transient + sub thump)
+    if hits:
+        taiko = pitch_sweep(150, 50, int(0.5 * SR), 0.14)
+        tn = noise_burst(int(0.08 * SR), 0.02, 0.5, rng) * 0.4
+        taiko[:len(tn)] += tn
+        for ht in hits:
+            if 0 <= ht < seconds - 0.05:
+                place(buf, ht, taiko, 0.55)
+
+    # tail fade
+    tail = seconds * 0.06
+    fade_out = np.minimum(1, (seconds - tt) / tail).clip(0, 1)
+    buf *= fade_out
+    return buf
+
+
 if __name__ == '__main__':
     kind, secs, seed, out = sys.argv[1], float(sys.argv[2]), int(sys.argv[3]), sys.argv[4]
-    write_wav(out, afro(secs, seed) if kind == 'afro' else score(secs, seed))
+    hits = [float(x) for x in sys.argv[5].split(',')] if len(sys.argv) > 5 and sys.argv[5] else None
+    if kind == 'afro':
+        buf = afro(secs, seed)
+    elif kind == 'score':
+        buf = score(secs, seed)
+    else:
+        buf = mix(secs, seed, hits)
+    write_wav(out, buf)
     print('OK', out)

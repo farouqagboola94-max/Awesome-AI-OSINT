@@ -1,0 +1,19 @@
+{
+  "xfade": 0.4,
+  "clips": [
+    { "src": "out/trailer-01-awakening.mp4", "ss": 0.0, "t": 3.8, "label": "lagos-cold-open" },
+    { "src": "out/cine-02-forge.mp4", "ss": 0.0, "t": 3.6, "label": "forge" },
+    { "src": "out/motion-14-not-marvel.mp4", "ss": 0.2, "t": 3.0, "label": "not-marvel-hook" },
+    { "src": "out/cine-31-the-reckoning.mp4", "ss": 0.0, "t": 3.4, "label": "reckoning" },
+    { "src": "out/trailer-02-bloodline.mp4", "ss": 4.4, "t": 3.2, "label": "gods-never-left-quote" },
+    { "src": "out/motion-12-meet-ikenna.mp4", "ss": 0.4, "t": 2.0, "label": "meet-ikenna" },
+    { "src": "out/cine-38-scars.mp4", "ss": 0.0, "t": 4.0, "label": "scars" },
+    { "src": "out/motion-17-tap-to-unlock.mp4", "ss": 0.3, "t": 2.8, "label": "tap-to-unlock" },
+    { "src": "out/cine-08-circle.mp4", "ss": 0.0, "t": 3.8, "label": "the-circle" },
+    { "src": "out/motion-16-social-proof.mp4", "ss": 2.3, "t": 2.4, "label": "reader-rating" },
+    { "src": "out/motion-06-four-issues.mp4", "ss": 1.9, "t": 2.0, "label": "all-free-online" },
+    { "src": "out/cine-20-cover-finale.mp4", "ss": 0.0, "t": 4.2, "label": "the-fifty-cover" },
+    { "src": "out/motion-20-follow-for-more.mp4", "ss": 0.0, "t": 3.0, "label": "follow-for-more" },
+    { "src": "out/trailer-03-mushin.mp4", "ss": 9.4, "t": 4.8, "label": "brand-lockup-outro" }
+  ]
+}

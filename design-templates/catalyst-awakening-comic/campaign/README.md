@@ -10,7 +10,7 @@ Complete marketing arsenal for **Catalyst: The Awakening** — a Lagos noir comi
 | **Motion 20-pack** | 20 | 1080×1920 MP4 · with beats | Punchy motion graphics with procedurally-generated afro-house percussion. |
 | **Cinematic 40-pack** | 40 | 1080×1920 MP4 · scored | Ken Burns treatments of existing 4K artwork with letterbox, film grain, and synthesized cinematic scores. |
 | **Brand IP Kit** | 58 files | SVG · CSS · JSON · HTML · Markdown | Full identity system: logos, tokens, social templates, print, brand book, Canva/Express-ready. |
-| **Sizzle reel** | 1 | 1080×1920 MP4 · scored, 58s | Combined highlight reel crossfading clips from all three video packs under one continuous synthesized score. |
+| **Sizzle reels** | 3 | 1080×1920 MP4 · scored, 41–58s | Combined highlight reels crossfading clips from all three video packs, each a distinct narrative cut, under one continuous synthesized score. |
 
 ## Directory
 
@@ -46,9 +46,15 @@ Ken-Burns-treated cinematics of existing 4K art.
 
 **Chapters 21–40** (part two — issue covers + epilogue beats): `issue-one` through `issue-four`, `amara-awakening`, `first-orisha`, `lagos-eternal`, `orisha-rising`, `the-strike`, plus 11 reused locations (`forge`, `shipyard`, `corridor`, `industrial`, `flares`, `intersection`, `circle`, `battle-raw`, `team-highway`, `lagos-spirits`, `noir-window`) re-treated with new crops, washes, and captions for a distinct "part two" arc.
 
-## Sizzle reel
+## Sizzle reels (3)
 
-`sizzle-reel/catalyst-sizzle-reel.mp4` — a 58-second combined highlight reel: 20 crossfaded clips (0.4s fades) pulled from the trailers, motion pack, and cinematic pack, arranged as a narrative arc (cold open → mythology → character intros → action → social proof → CTA outro), scored with one continuous synthesized track (cinematic swell + driving pulse + hit accents timed to every cut). `sizzle-manifest.json` documents every source clip, in/out point, and cut timing for re-editing.
+Combined highlight reels crossfading clips (0.4s fades) from the trailers, motion pack, and cinematic pack, each scored with one continuous synthesized track (cinematic swell + driving pulse + hit accents timed to every cut) rather than reused source audio. Each `sizzle-0N-manifest.json` documents every source clip, in/out point, and cut timing for re-editing.
+
+- **catalyst-sizzle-reel-01.mp4** (58s, 20 clips) · cold open → mythology → character intros → action → social proof → CTA outro
+- **catalyst-sizzle-reel-02.mp4** (41s, 14 clips) · "This Isn't Marvel" hook → mythology → reader stats → CTA outro
+- **catalyst-sizzle-reel-03.mp4** (43s, 15 clips) · portraits → powers → "he's 19, from Mushin" → free-forever → CTA outro (ends on a cinematic endcard rather than a flat brand lockup)
+
+All three draw from different, mostly non-overlapping segments of the source library for visual variety.
 
 ## Brand kit
 

@@ -1,0 +1,25 @@
+{
+  "xfade": 0.4,
+  "clips": [
+    { "src": "out/trailer-02-bloodline.mp4", "ss": 0.0, "t": 4.8, "label": "history-cold-open" },
+    { "src": "out/cine-01-mushin-3am.mp4", "ss": 0.0, "t": 4.6, "label": "mushin-establish" },
+    { "src": "out/motion-04-coordinates.mp4", "ss": 0.9, "t": 2.4, "label": "coordinates" },
+    { "src": "out/trailer-03-mushin.mp4", "ss": 1.9, "t": 3.1, "label": "stats-flash" },
+    { "src": "out/motion-02-meet-bayo.mp4", "ss": 0.4, "t": 2.6, "label": "meet-bayo" },
+    { "src": "out/motion-03-five-gods.mp4", "ss": 0.1, "t": 3.9, "label": "five-gods" },
+    { "src": "out/cine-26-first-orisha.mp4", "ss": 0.0, "t": 3.2, "label": "first-orisha-cover" },
+    { "src": "out/motion-15-powers-explainer.mp4", "ss": 0.7, "t": 2.8, "label": "powers" },
+    { "src": "out/motion-11-meet-amara.mp4", "ss": 0.4, "t": 2.0, "label": "meet-amara" },
+    { "src": "out/motion-12-meet-ikenna.mp4", "ss": 0.4, "t": 2.0, "label": "meet-ikenna" },
+    { "src": "out/motion-13-meet-zara.mp4", "ss": 0.4, "t": 2.0, "label": "meet-zara" },
+    { "src": "out/cine-15-battle-raw.mp4", "ss": 0.0, "t": 4.4, "label": "battle-action" },
+    { "src": "out/cine-29-the-strike.mp4", "ss": 0.0, "t": 4.4, "label": "the-strike" },
+    { "src": "out/motion-09-which-orisha.mp4", "ss": 1.3, "t": 2.2, "label": "which-orisha" },
+    { "src": "out/motion-19-poll-results.mp4", "ss": 1.5, "t": 2.7, "label": "poll-results" },
+    { "src": "out/motion-16-social-proof.mp4", "ss": 0.1, "t": 3.7, "label": "social-proof" },
+    { "src": "out/motion-06-four-issues.mp4", "ss": 0.7, "t": 2.6, "label": "four-issues" },
+    { "src": "out/motion-18-release-calendar.mp4", "ss": 0.9, "t": 2.6, "label": "release-calendar" },
+    { "src": "out/cine-40-what-remains.mp4", "ss": 0.0, "t": 5.0, "label": "epilogue" },
+    { "src": "out/trailer-01-awakening.mp4", "ss": 9.2, "t": 4.8, "label": "brand-lockup-outro" }
+  ]
+}
