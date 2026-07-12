@@ -1,0 +1,42 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  body { background: var(--navy); }
+  .stage { background: var(--navy); }
+  #big { font-size: 380px; color: var(--teal); line-height: 0.85; }
+  .label { position: absolute; font-family: 'Space Grotesk'; font-weight: 500; letter-spacing: 6px; color: var(--ash); font-size: 30px; }
+  .lab1 { top: 320px; left: 90px; } .lab2 { top: 320px; right: 90px; text-align: right; }
+  .lab3 { bottom: 480px; left: 90px; } .lab4 { bottom: 480px; right: 90px; text-align: right; }
+  .val { display: block; color: var(--bone); font-family: 'Oswald'; font-weight: 700; font-size: 60px; letter-spacing: 4px; margin-top: 6px; }
+  .name { font-size: 96px; color: var(--bone); margin-top: 20px; font-family: 'Oswald'; font-weight: 700; letter-spacing: 8px; }
+  .aka { font-size: 40px; color: var(--teal); margin-top: 8px; font-family: 'Oswald'; font-weight: 300; letter-spacing: 14px; }
+</style></head><body><div class="stage" id="cam">
+  <div class="gridbg"></div>
+  <div class="corner-tl" style="border-color:var(--teal)"></div><div class="corner-tr" style="border-color:var(--teal)"></div>
+  <div class="corner-bl" style="border-color:var(--teal)"></div><div class="corner-br" style="border-color:var(--teal)"></div>
+  <div class="label lab1"><span class="mono" id="k1">GIFT</span><span class="val" id="v1">SIGHT</span></div>
+  <div class="label lab2"><span class="mono" id="k2">ROLE</span><span class="val" id="v2">SEER</span></div>
+  <div class="label lab3"><span class="mono" id="k3">BORN</span><span class="val" id="v3">IKEJA</span></div>
+  <div class="label lab4"><span class="mono" id="k4">STATUS</span><span class="val" id="v4">ALLY</span></div>
+  <div class="center">
+    <div class="hero" id="big">AMARA</div>
+    <div class="name" id="name">OKAFOR</div>
+    <div class="aka" id="aka">— THE SEER —</div>
+  </div>
+  <div class="brandmark">CATALYST · <b>THE AWAKENING</b><div class="sitemark">CATALYST-AWAKENING.NETLIFY.APP</div></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+cornerFrame(200, 800);
+KIT.charCascade($('big'), 400, 60, 420);
+KIN.add($('name'), {t0:1100, t1:1700, from:{opacity:0, ls:40, blur:8}, to:{opacity:1, ls:8, blur:0}, ease:'outExpo'});
+KIN.add($('aka'), {t0:1500, t1:2000, from:{opacity:0, ls:32}, to:{opacity:1, ls:14}, ease:'outExpo'});
+['k1','v1','k2','v2','k3','v3','k4','v4'].forEach((id,i)=>{
+  KIN.add($(id), {t0:2100+i*90, t1:2500+i*90, from:{opacity:0, y:i%2?20:-20}, to:{opacity:1, y:0}, ease:'outQuart'});
+});
+KIT.drift($('cam'), 0, 7500, 1, 1.04);
+brandmark(5300, 7500);
+KIN.seek(0);
+</script></body></html>

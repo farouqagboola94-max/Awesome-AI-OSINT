@@ -1,0 +1,35 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  body { background: #06060d; }
+  .title { position: absolute; top: 200px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 110px; color: var(--gold); letter-spacing: 4px; }
+  .item { position: absolute; left: 100px; right: 100px; display: flex; align-items: center; justify-content: space-between; padding: 20px 0; border-bottom: 2px solid var(--iron); }
+  .i1 { top: 420px; } .i2 { top: 550px; } .i3 { top: 680px; } .i4 { top: 810px; } .i5 { top: 940px; }
+  .tag { font-family: 'Bebas Neue'; font-size: 60px; color: var(--bone); }
+  .status { font-family: 'Oswald'; font-weight: 700; font-size: 28px; letter-spacing: 6px; padding: 8px 20px; border-radius: 999px; }
+  .live { color: var(--black); background: var(--gold); }
+  .soon { color: var(--gold); border: 2px solid var(--gold); }
+</style></head><body><div class="stage" id="cam">
+  <div class="corner-tl"></div><div class="corner-tr"></div><div class="corner-bl"></div><div class="corner-br"></div>
+  <div class="title" id="title">RELEASE LOG</div>
+  <div class="item i1" id="r1"><span class="tag">ISSUE 01</span><span class="status live">LIVE</span></div>
+  <div class="item i2" id="r2"><span class="tag">ISSUE 02</span><span class="status live">LIVE</span></div>
+  <div class="item i3" id="r3"><span class="tag">ISSUE 03</span><span class="status live">LIVE</span></div>
+  <div class="item i4" id="r4"><span class="tag">ISSUE 04</span><span class="status live">LIVE</span></div>
+  <div class="item i5" id="r5"><span class="tag">ISSUE 05</span><span class="status soon">SOON</span></div>
+  <div class="brandmark">CATALYST · <b>THE AWAKENING</b><div class="sitemark">CATALYST-AWAKENING.NETLIFY.APP</div></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+cornerFrame(150, 700);
+KIT.charCascade($('title'), 300, 30, 300);
+['r1','r2','r3','r4','r5'].forEach((id,i)=>{
+  const t = 900 + i*260;
+  KIN.add($(id), {t0:t, t1:t+400, from:{opacity:0, x:-80}, to:{opacity:1, x:0}, ease:'outQuart'});
+});
+KIT.drift($('cam'), 0, 7500, 1, 1.03);
+brandmark(5300, 7500);
+KIN.seek(0);
+</script></body></html>

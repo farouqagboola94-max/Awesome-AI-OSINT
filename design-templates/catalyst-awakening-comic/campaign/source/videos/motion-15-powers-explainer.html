@@ -1,0 +1,32 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  body { background: #06060d; }
+  .title { position: absolute; top: 180px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 110px; color: var(--gold); letter-spacing: 4px; }
+  .item { position: absolute; left: 80px; right: 80px; display: flex; align-items: center; gap: 30px; }
+  .i1 { top: 400px; } .i2 { top: 540px; } .i3 { top: 680px; } .i4 { top: 820px; } .i5 { top: 960px; }
+  .dot { width: 70px; height: 70px; border-radius: 999px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue'; font-size: 34px; color: var(--black); }
+  .txt { font-family: 'Oswald'; font-weight: 600; font-size: 40px; letter-spacing: 4px; color: var(--bone); }
+  .txt b { display: block; font-family: 'Bebas Neue'; font-weight: 400; font-size: 30px; letter-spacing: 8px; margin-top: 2px; }
+</style></head><body><div class="stage" id="cam">
+  <div class="title" id="title">FIVE POWERS.</div>
+  <div class="item i1" id="p1"><div class="dot" style="background:var(--red)">Ṣ</div><div class="txt">THUNDER &amp; FIRE<b style="color:var(--red)">ṢÀNGÓ</b></div></div>
+  <div class="item i2" id="p2"><div class="dot" style="background:var(--orange)">Ò</div><div class="txt">IRON &amp; WAR<b style="color:var(--orange)">ÒGÚN</b></div></div>
+  <div class="item i3" id="p3"><div class="dot" style="background:var(--teal)">Ọ</div><div class="txt">RIVERS &amp; LOVE<b style="color:var(--teal)">Ọ̀ṢUN</b></div></div>
+  <div class="item i4" id="p4"><div class="dot" style="background:var(--bone)">B</div><div class="txt">SKY &amp; WISDOM<b style="color:var(--bone)">OBATÀLÁ</b></div></div>
+  <div class="item i5" id="p5"><div class="dot" style="background:var(--gold)">Ẹ</div><div class="txt">CROSSROADS &amp; CHAOS<b style="color:var(--gold)">ẸṢÙ</b></div></div>
+  <div class="brandmark">CATALYST · <b>THE AWAKENING</b><div class="sitemark">CATALYST-AWAKENING.NETLIFY.APP</div></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+KIN.add($('title'), {t0:0, t1:600, from:{opacity:0, y:-40}, to:{opacity:1, y:0}, ease:'outExpo'});
+['p1','p2','p3','p4','p5'].forEach((id,i)=>{
+  const t = 700 + i*280;
+  KIN.add($(id), {t0:t, t1:t+420, from:{opacity:0, x:-100, blur:8}, to:{opacity:1, x:0, blur:0}, ease:'outQuart'});
+});
+KIT.drift($('cam'), 0, 8000, 1, 1.03);
+brandmark(5800, 8000);
+KIN.seek(0);
+</script></body></html>

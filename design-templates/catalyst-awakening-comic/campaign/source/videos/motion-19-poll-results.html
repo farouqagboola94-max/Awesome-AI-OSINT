@@ -1,0 +1,39 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  body { background: #1a1a6e; }
+  .stage { background: #1a1a6e; }
+  .title { position: absolute; top: 180px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 100px; color: var(--bone); letter-spacing: 4px; }
+  .sub { position: absolute; top: 320px; left: 0; right: 0; text-align: center; font-family: 'Oswald'; font-weight: 300; letter-spacing: 10px; font-size: 34px; color: var(--ash); }
+  .bar-row { position: absolute; left: 80px; right: 80px; height: 100px; }
+  .b1 { top: 420px; } .b2 { top: 540px; } .b3 { top: 660px; } .b4 { top: 780px; } .b5 { top: 900px; }
+  .bar-label { position: absolute; left: 0; top: 0; font-family: 'Oswald'; font-weight: 700; font-size: 28px; letter-spacing: 4px; color: var(--bone); }
+  .bar-track { position: absolute; left: 0; right: 0; top: 36px; height: 36px; background: rgba(255,255,255,0.08); border-radius: 999px; overflow: hidden; }
+  .bar-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 999px; width: 0%; }
+  .bar-pct { position: absolute; right: 0; top: 0; font-family: 'Bebas Neue'; font-size: 32px; color: var(--gold); }
+</style></head><body><div class="stage" id="cam">
+  <div class="title" id="title">THE RESULTS.</div>
+  <div class="sub" id="sub">◈ WHICH ORISHA ARE YOU ◈</div>
+  <div class="bar-row b1"><div class="bar-label">ẸṢÙ · CHAOS</div><div class="bar-track"><div class="bar-fill" id="f1" style="background:var(--gold)"></div></div><div class="bar-pct" id="p1">0%</div></div>
+  <div class="bar-row b2"><div class="bar-label">ṢÀNGÓ · THUNDER</div><div class="bar-track"><div class="bar-fill" id="f2" style="background:var(--red)"></div></div><div class="bar-pct" id="p2">0%</div></div>
+  <div class="bar-row b3"><div class="bar-label">Ọ̀ṢUN · RIVER</div><div class="bar-track"><div class="bar-fill" id="f3" style="background:var(--teal)"></div></div><div class="bar-pct" id="p3">0%</div></div>
+  <div class="bar-row b4"><div class="bar-label">ÒGÚN · IRON</div><div class="bar-track"><div class="bar-fill" id="f4" style="background:var(--orange)"></div></div><div class="bar-pct" id="p4">0%</div></div>
+  <div class="bar-row b5"><div class="bar-label">OBATÀLÁ · SKY</div><div class="bar-track"><div class="bar-fill" id="f5" style="background:var(--bone)"></div></div><div class="bar-pct" id="p5">0%</div></div>
+  <div class="brandmark">CATALYST · <b>THE AWAKENING</b><div class="sitemark">CATALYST-AWAKENING.NETLIFY.APP</div></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+KIT.charCascade($('title'), 100, 40, 300);
+KIN.add($('sub'), {t0:800, t1:1300, from:{opacity:0, ls:32}, to:{opacity:1, ls:10}, ease:'outExpo'});
+const results = [['f1','p1',38],['f2','p2',27],['f3','p3',18],['f4','p4',11],['f5','p5',6]];
+results.forEach(([fid,pid,pct],i)=>{
+  const t = 1500 + i*220;
+  KIN.add($(fid), {t0:t, t1:t+700, from:{sx:0.001, sy:1}, to:{sx:1, sy:1}, ease:'outExpo'});
+  KIN.fx($(pid), t, t+700, (p)=>{ $(pid).textContent = Math.round(p*pct) + '%'; }, 'outExpo');
+});
+KIT.drift($('cam'), 0, 8000, 1, 1.02);
+brandmark(5800, 8000);
+KIN.seek(0);
+</script></body></html>

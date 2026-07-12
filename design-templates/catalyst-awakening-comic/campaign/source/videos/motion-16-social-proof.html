@@ -1,0 +1,30 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  body { background: var(--gold); }
+  .stage { background: var(--gold); }
+  .title { position: absolute; top: 220px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 130px; color: var(--black); letter-spacing: 4px; }
+  .stat { position: absolute; left: 0; right: 0; text-align: center; }
+  .s1 { top: 460px; } .s2 { top: 800px; } .s3 { top: 1140px; }
+  .num { font-family: 'Bebas Neue'; font-size: 220px; color: var(--red); line-height: 0.9; }
+  .lab { font-family: 'Oswald'; font-weight: 700; font-size: 40px; letter-spacing: 12px; color: var(--black); }
+</style></head><body><div class="stage" id="cam">
+  <div class="title" id="title">LAGOS IS READING.</div>
+  <div class="stat s1" id="st1"><div class="num" id="n1">50K+</div><div class="lab">PAGES READ</div></div>
+  <div class="stat s2" id="st2"><div class="num" id="n2">4.9★</div><div class="lab">READER RATING</div></div>
+  <div class="stat s3" id="st3"><div class="num" id="n3">4</div><div class="lab">FREE ISSUES LIVE</div></div>
+  <div class="brandmark" style="color:var(--black)">CATALYST · <b style="color:var(--red)">THE AWAKENING</b><div class="sitemark" style="color:var(--iron)">CATALYST-AWAKENING.NETLIFY.APP</div></div>
+  <div class="grain"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+KIT.charCascade($('title'), 100, 34, 320);
+[['st1','n1',1300],['st2','n2',2400],['st3','n3',3500]].forEach(([sid,nid,t])=>{
+  KIN.add($(sid), {t0:t, t1:t+400, from:{opacity:0, y:60}, to:{opacity:1, y:0}, ease:'outQuart'});
+  KIT.slam($(nid), t+80, {from: 2.2, dur: 380});
+});
+KIT.drift($('cam'), 0, 7000, 1, 1.03);
+brandmark(5000, 7000);
+KIN.seek(0);
+</script></body></html>
