@@ -7489,6 +7489,59 @@ kbd {
 }
 @media (prefers-reduced-motion: reduce) { .reader-page.current { animation: none; } }
 
+/* ── Batch 9: Premium polish — brand selection + scrollbars ── */
+::selection { background: #F4B800; color: #06060d; }
+::-moz-selection { background: #F4B800; color: #06060d; }
+html { scrollbar-color: #2a2a3e #0a0a14; }
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-track { background: #0a0a14; }
+::-webkit-scrollbar-thumb { background: #2a2a3e; border-radius: 6px; border: 2px solid #0a0a14; }
+::-webkit-scrollbar-thumb:hover { background: rgba(244,184,0,0.55); }
+
+/* ── Batch 9: Reader type scale + focus mode ── */
+.story-content { --rs: 1; }
+.story-content .story-prose { font-size: calc(0.88rem * var(--rs)); }
+.story-content .speech-bubble { font-size: calc(0.88rem * var(--rs)); }
+.story-content .panel-narration { font-size: calc(0.82rem * var(--rs)); }
+.story-content .rt-open { font-size: calc(0.95rem * var(--rs)); }
+.reader-tools { display: inline-flex; gap: 0.35rem; margin-left: 0.6rem; }
+.reader-tools button {
+  background: none; border: 1px solid rgba(240,237,229,0.2);
+  color: rgba(240,237,229,0.6); font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.62rem; letter-spacing: 0.04em; padding: 0.28rem 0.5rem;
+  border-radius: 3px; cursor: pointer; transition: all 0.2s ease; line-height: 1;
+}
+.reader-tools button:hover { border-color: #F4B800; color: #F4B800; }
+.reader-tools button.active { border-color: #00C9B1; color: #00C9B1; background: rgba(0,201,177,0.08); }
+.rc-time { color: rgba(240,237,229,0.35); font-family: 'Space Grotesk', sans-serif; font-size: 0.62rem; letter-spacing: 0.1em; margin-left: 0.5rem; }
+body.reader-focus .reader-cover { display: none; }
+body.reader-focus .reader-grid { grid-template-columns: 1fr !important; }
+body.reader-focus .issue-reader-panel .story-content { max-width: 68ch; margin: 0 auto; }
+body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
+
+/* ── Batch 9: Universe Pulse widget ── */
+#universe-pulse {
+  display: none; flex-wrap: wrap; justify-content: center; gap: 1.6rem;
+  margin: 2.2rem auto 0; padding: 1rem 1.4rem; max-width: 640px;
+  border: 1px solid rgba(244,184,0,0.18); border-radius: 6px;
+  background: rgba(244,184,0,0.03);
+}
+#universe-pulse.live { display: flex; }
+#universe-pulse .up-stat { text-align: center; }
+#universe-pulse .up-num {
+  font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: #F4B800;
+  line-height: 1; font-variant-numeric: tabular-nums;
+}
+#universe-pulse .up-label {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.58rem;
+  letter-spacing: 0.2em; text-transform: uppercase; color: rgba(240,237,229,0.45);
+  margin-top: 0.35rem;
+}
+#universe-pulse .up-title {
+  flex-basis: 100%; text-align: center; font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.72rem; letter-spacing: 0.3em; color: #00C9B1; margin-bottom: -0.4rem;
+}
+
 /* ── Batch 7: Reading journey strip ── */
 .reader-journey {
   display: flex; flex-wrap: wrap; gap: 0.55rem; margin-top: 1.4rem;
@@ -19852,9 +19905,11 @@ document.addEventListener('DOMContentLoaded', function(){
 
     function score(item, q) {
       var label = item.label.toLowerCase();
-      if (label.indexOf(q) === 0) return 3;
-      if (label.indexOf(q) > -1) return 2;
-      // subsequence match
+      if (label.indexOf(q) === 0) return 4;
+      if (label.indexOf(q) > -1) return 3;
+      // full-text match against indexed story prose (item.search)
+      if (item.search && q.length >= 3 && item.search.indexOf(q) > -1) return 2;
+      // subsequence match on the label
       var i = 0;
       for (var c = 0; c < label.length && i < q.length; c++) {
         if (label[c] === q[i]) i++;
@@ -20167,15 +20222,30 @@ document.addEventListener('DOMContentLoaded', function(){
     var pageEls = [titlePage].concat(chapters);
     var total = pageEls.length;
 
+    // Reading time from actual word count (~220 wpm)
+    var wordCount = 0;
+    chapters.forEach(function(ch) { wordCount += (ch.textContent.match(/\S+/g) || []).length; });
+    var readMins = Math.max(1, Math.round(wordCount / 220));
+
     // Chrome (top bar)
     var chrome = document.createElement('div');
     chrome.className = 'reader-chrome';
     var ticksHtml = '';
     for (var t = 0; t < total; t++) ticksHtml += '<span></span>';
     chrome.innerHTML =
-      '<span class="rc-issue">Issue #0' + issueNum + '</span>' +
+      '<span class="rc-issue">Issue #0' + issueNum +
+        '<span class="rc-time">· ' + readMins + ' min read</span>' +
+        '<span class="reader-tools">' +
+          '<button class="rt-dec" aria-label="Decrease text size" title="Smaller text">A−</button>' +
+          '<button class="rt-inc" aria-label="Increase text size" title="Larger text">A+</button>' +
+          '<button class="rt-focus" aria-label="Toggle focus mode" title="Focus mode — hide everything but the story">⛶</button>' +
+        '</span>' +
+      '</span>' +
       '<div class="reader-ticks" role="presentation">' + ticksHtml + '</div>' +
       '<span class="rc-count" aria-live="polite"></span>';
+    chrome.querySelector('.rt-dec').addEventListener('click', function() { window.catalystReaderScale(-1); });
+    chrome.querySelector('.rt-inc').addEventListener('click', function() { window.catalystReaderScale(1); });
+    chrome.querySelector('.rt-focus').addEventListener('click', function() { window.catalystReaderFocus(); });
 
     // Nav (bottom bar)
     var nav = document.createElement('div');
@@ -20249,6 +20319,7 @@ document.addEventListener('DOMContentLoaded', function(){
         heading.focus({ preventScroll: true });
       }
       if (window.catalystUpdateJourney) catalystUpdateJourney();
+      if (window.catalystSyncProgress) catalystSyncProgress(issueNum, current);
     }
 
     function go(delta, scroll) {
@@ -20274,25 +20345,30 @@ document.addEventListener('DOMContentLoaded', function(){
       afterUserTurn();
     }
 
-    function setPage(page, scroll) {
+    function setPage(page, scroll, silent) {
       var next = Math.min(Math.max(page | 0, 0), total - 1);
       current = next;
       render(scroll !== false);
-      afterUserTurn();
+      if (!silent) afterUserTurn();
+      else if (window.catalystUpdateJourney) catalystUpdateJourney();
     }
 
     prevBtn.addEventListener('click', function() { go(-1); });
     nextBtn.addEventListener('click', function() { go(1); });
 
-    // Chapter index for the command palette / deep links
+    // Chapter index for the command palette / deep links, with the page's
+    // full prose indexed so any phrase from the story is searchable
     var chapterIndex = pageEls.map(function(el, i) {
       if (i === 0) return ISSUE_TITLES[issueNum] + ' — Cold Open';
       var t = el.querySelector && el.querySelector('.chapter-title');
       if (t) return t.textContent;
       return 'Cliffhanger';
     });
+    var searchIndex = pageEls.map(function(el) {
+      return (el.textContent || '').replace(/\s+/g, ' ').toLowerCase().slice(0, 4000);
+    });
 
-    pagers[issueNum] = { go: go, set: setPage, total: total, panel: panel, chapters: chapterIndex, pos: function() { return current; } };
+    pagers[issueNum] = { go: go, set: setPage, total: total, panel: panel, chapters: chapterIndex, searchText: searchIndex, pos: function() { return current; } };
     render(false);
   }
 
@@ -20397,6 +20473,7 @@ document.addEventListener('DOMContentLoaded', function(){
         items.push({
           label: 'Issue #0' + n + ' · ' + title,
           kind: 'Story',
+          search: (pagers[n].searchText && pagers[n].searchText[page]) || '',
           action: (function(issue, pg) {
             return function() { window.catalystJumpTo(issue, pg); };
           })(+n, page)
@@ -20404,6 +20481,114 @@ document.addEventListener('DOMContentLoaded', function(){
       });
     });
     window.catalystPaletteAdd(items);
+  })(0);
+
+  /* ── Batch 9: Reader type scale (persisted) ── */
+  var SCALE_KEY = 'catalyst_reader_scale';
+  var SCALE_STEPS = [0.85, 1, 1.12, 1.25, 1.4];
+  function applyScale(scale) {
+    document.querySelectorAll('.issue-reader-panel .story-content').forEach(function(c) {
+      c.style.setProperty('--rs', scale);
+    });
+  }
+  window.catalystReaderScale = function(dir) {
+    var cur = 1;
+    try { cur = parseFloat(localStorage.getItem(SCALE_KEY)) || 1; } catch(e) {}
+    var idx = SCALE_STEPS.indexOf(cur);
+    if (idx === -1) idx = 1;
+    idx = Math.min(Math.max(idx + dir, 0), SCALE_STEPS.length - 1);
+    var next = SCALE_STEPS[idx];
+    applyScale(next);
+    try { localStorage.setItem(SCALE_KEY, String(next)); } catch(e) {}
+    if (window.showToast) showToast('Text size: ' + Math.round(next * 100) + '%', 'info', 1500);
+  };
+  try {
+    var savedScale = parseFloat(localStorage.getItem(SCALE_KEY));
+    if (savedScale && savedScale !== 1) applyScale(savedScale);
+  } catch(e) {}
+
+  /* ── Batch 9: Focus mode — nothing but the story ── */
+  var FOCUS_KEY = 'catalyst_reader_focus';
+  function setFocusUI(on) {
+    document.body.classList.toggle('reader-focus', on);
+    document.querySelectorAll('.reader-tools .rt-focus').forEach(function(b) {
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+  window.catalystReaderFocus = function() {
+    var on = !document.body.classList.contains('reader-focus');
+    setFocusUI(on);
+    try { localStorage.setItem(FOCUS_KEY, on ? '1' : ''); } catch(e) {}
+    if (window.catalystTrack) catalystTrack('focus_mode', { on: on });
+  };
+  try { if (localStorage.getItem(FOCUS_KEY)) setFocusUI(true); } catch(e) {}
+
+  /* ── Batch 9: Cross-device reading sync (signed-in readers) ── */
+  var syncTimers = {};
+  window.catalystSyncProgress = function(issue, page) {
+    clearTimeout(syncTimers[issue]);
+    syncTimers[issue] = setTimeout(function() {
+      var sb = window._supabase;
+      if (!sb) return;
+      sb.auth.getSession().then(function(r) {
+        var u = r && r.data && r.data.session && r.data.session.user;
+        if (!u) return;
+        sb.from('reading_progress')
+          .upsert({ user_id: u.id, issue: issue, page: page }, { onConflict: 'user_id,issue' })
+          .then(function() {}, function() {});
+      }, function() {});
+    }, 1500);
+  };
+  (function restoreCloudProgress(attempt) {
+    var sb = window._supabase;
+    if (!sb) {
+      if (attempt < 25) setTimeout(function() { restoreCloudProgress(attempt + 1); }, 400);
+      return;
+    }
+    sb.auth.getSession().then(function(r) {
+      var u = r && r.data && r.data.session && r.data.session.user;
+      if (!u) return;
+      sb.from('reading_progress').select('issue,page').then(function(res) {
+        if (!res || res.error || !res.data) return;
+        res.data.forEach(function(row) {
+          var localPage = 0;
+          try { localPage = parseInt(localStorage.getItem('catalyst_page_i' + row.issue), 10) || 0; } catch(e) {}
+          if (row.page > localPage && pagers[row.issue]) {
+            pagers[row.issue].set(row.page, false, true); // silent: no hash/focus steal on load
+          }
+        });
+      }, function() {});
+    }, function() {});
+  })(0);
+
+  /* ── Batch 9: Universe Pulse — live aggregate stats, hidden until real ── */
+  (function pulse(attempt) {
+    var sb = window._supabase;
+    if (!sb) {
+      if (attempt < 25) setTimeout(function() { pulse(attempt + 1); }, 400);
+      return;
+    }
+    var host = document.querySelector('#social-hub > div') || document.getElementById('social-hub');
+    if (!host) return;
+    sb.rpc('get_universe_pulse').then(function(res) {
+      if (!res || res.error || !res.data) return;
+      var d = res.data;
+      var stats = [
+        { n: d.subscribers, label: 'Awakened Readers' },
+        { n: d.pages_read, label: 'Story Pages Read' },
+        { n: d.heroes_revealed, label: 'Heroes Revealed' }
+      ].filter(function(s) { return s.n > 0; });
+      if (!stats.length) return; // nothing real to show yet — stay hidden
+      var el = document.createElement('div');
+      el.id = 'universe-pulse';
+      el.setAttribute('aria-label', 'Live community stats');
+      el.innerHTML = '<div class="up-title">◈ UNIVERSE PULSE — LIVE</div>' + stats.map(function(s) {
+        return '<div class="up-stat"><div class="up-num">' + Number(s.n).toLocaleString() + '</div><div class="up-label">' + s.label + '</div></div>';
+      }).join('');
+      host.appendChild(el);
+      requestAnimationFrame(function() { el.classList.add('live'); });
+    }, function() {});
   })(0);
 
   /* Arrow-key page turns for the visible issue */
