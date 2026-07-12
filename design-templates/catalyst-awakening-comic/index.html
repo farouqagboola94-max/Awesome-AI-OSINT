@@ -7413,6 +7413,81 @@ kbd {
 @media (prefers-reduced-motion: reduce) {
   #cmdk, #cmdk-backdrop, #resume-banner { transition: none; }
 }
+
+/* ── Batch 6: Paginated story reader ── */
+.reader-page { display: none; }
+.reader-page.current { display: block; animation: pageIn 0.4s ease; }
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reader-chrome {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; margin-bottom: 1.6rem; padding-bottom: 0.9rem;
+  border-bottom: 1px solid rgba(244,184,0,0.15);
+}
+.reader-chrome .rc-issue {
+  font-family: 'Bebas Neue', sans-serif; font-size: 0.8rem;
+  letter-spacing: 0.22em; color: #F4B800;
+}
+.reader-chrome .rc-count {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.68rem;
+  letter-spacing: 0.14em; color: rgba(240,237,229,0.45); white-space: nowrap;
+}
+.reader-ticks { display: flex; gap: 4px; flex: 1; max-width: 220px; }
+.reader-ticks span {
+  flex: 1; height: 2px; border-radius: 1px;
+  background: rgba(240,237,229,0.14); transition: background 0.3s ease;
+}
+.reader-ticks span.done { background: #F4B800; }
+.reader-ticks span.now { background: #00C9B1; }
+.reader-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; margin-top: 2.2rem; padding-top: 1.2rem;
+  border-top: 1px solid rgba(244,184,0,0.15);
+}
+.reader-nav button {
+  background: none; border: 1px solid rgba(244,184,0,0.3);
+  color: rgba(240,237,229,0.85); font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.82rem; letter-spacing: 0.18em; padding: 0.65rem 1.3rem;
+  cursor: pointer; border-radius: 3px; transition: all 0.2s ease;
+}
+.reader-nav button:hover:not(:disabled) { border-color: #F4B800; color: #F4B800; background: rgba(244,184,0,0.07); }
+.reader-nav button:disabled { opacity: 0.25; cursor: default; }
+.reader-nav .rn-next-issue { border-color: rgba(0,201,177,0.45); color: #00C9B1; }
+.reader-nav .rn-next-issue:hover { border-color: #00C9B1; background: rgba(0,201,177,0.08); color: #00C9B1; }
+.reader-nav .rn-hint {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.62rem;
+  letter-spacing: 0.1em; color: rgba(240,237,229,0.3); text-align: center;
+}
+@media (max-width: 640px) { .reader-nav .rn-hint { display: none; } }
+/* Cold-open title page */
+.reader-titlepage { padding: 1.2rem 0 0.4rem; }
+.reader-titlepage .rt-arc {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.66rem;
+  letter-spacing: 0.3em; color: rgba(240,237,229,0.45); text-transform: uppercase;
+  margin-bottom: 0.9rem;
+}
+.reader-titlepage .rt-title {
+  font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.6rem, 6vw, 4.2rem);
+  line-height: 0.95; color: #F0EDE5; letter-spacing: 0.03em; margin-bottom: 1.6rem;
+}
+.reader-titlepage .rt-title em { font-style: normal; color: #F4B800; }
+.reader-titlepage .rt-open {
+  font-size: 0.95rem; line-height: 2; color: rgba(240,237,229,0.78);
+  max-width: 58ch; margin-bottom: 1.1rem;
+}
+.reader-titlepage .rt-pull {
+  border-left: 3px solid #C41E3A; padding: 0.6rem 0 0.6rem 1.1rem;
+  margin: 1.8rem 0 0.6rem; font-style: italic; font-size: 1.02rem;
+  line-height: 1.75; color: #F4B800;
+}
+.reader-titlepage .rt-begin {
+  display: inline-block; margin-top: 1.6rem;
+  font-family: 'Bebas Neue', sans-serif; font-size: 0.8rem; letter-spacing: 0.25em;
+  color: #00C9B1;
+}
+@media (prefers-reduced-motion: reduce) { .reader-page.current { animation: none; } }
 </style>
 </head>
 <body>
@@ -19969,6 +20044,266 @@ document.addEventListener('DOMContentLoaded', function(){
       localStorage.setItem('catalyst_vault_scrubbed_v1', '1');
     } catch(e) {}
   })();
+
+})();
+</script>
+
+<!-- ═══ BATCH 6: PAGINATED STORY READER ═══ -->
+<script>
+(function() {
+  'use strict';
+
+  /* Cold-open title pages — page zero of every issue */
+  var COLD_OPENS = {
+    1: {
+      arc: 'Arc I : The Catalyst · Issue #01 · Cold Open',
+      title: 'AWAKEN, <em>O CITY</em>',
+      open: [
+        'Lagos, 2:47 AM. Twenty million people asleep with one eye open. Tonight, the sky above Balogun Market remembers that it used to be a door.',
+        'Adebayo Adeyemi has thirty-two naira, a dead phone, and six weeks of grief where his mother used to be. He is nobody — Mushin has ten thousand of him. By sunrise, every god in the Yoruba pantheon and every enemy they have ever made will know his name.',
+        'This is the night the city wakes up.'
+      ],
+      pull: 'The Ọ̀run is bleeding. He is the bandage — or the wound.'
+    },
+    2: {
+      arc: 'Arc I : The Catalyst · Issue #02 · Cold Open',
+      title: 'ṢÀNGÓ’S <em>DAUGHTER</em>',
+      open: [
+        'A talking drum is not an instrument. It is a telephone — the oldest one in existence — and for eleven years Amara Okafor has been learning the number for thunder.',
+        'Now something in Geneva wants the line cut. The signal harvested. The voice on the other end bottled, labelled, and sold. They sent their best: a quiet man with medical instruments who has emptied twelve vessels across nine countries and never once raised his voice.',
+        'He has never met a girl who answers back.'
+      ],
+      pull: 'One wrong pitch and you are not calling Ṣàngó. You are calling whatever else is on that frequency.'
+    },
+    3: {
+      arc: 'Arc I : The Catalyst · Issue #03 · Cold Open',
+      title: 'IRON IN <em>THE BLOOD</em>',
+      open: [
+        'In a Mushin workshop that smells of engine oil and old prayers, the iron has started answering to its name.',
+        'Ikenna Eze welds car chassis by day and fights sleep by night — because sleep is where Ògún waits. Patient as rust. Honest as a blade. The god of iron does not shout. He simply never, ever leaves.',
+        'And in a white room three floors under Geneva, the Pale Council has finished something they call a vaccine. Not against a disease. Against gods. Lagos is the trial site.'
+      ],
+      pull: 'The metal remembers every hand that ever shaped it. Tonight it starts collecting the debt.'
+    },
+    4: {
+      arc: 'Arc I : The Catalyst · Issue #04 · Finale · Cold Open',
+      title: 'THE CHOSEN <em>FOUR</em>',
+      open: [
+        'Every one of the 847 paths Bayo can see ends in the same place: Balogun Nexus, the sky torn open, four strangers who became something more standing exactly where the door used to be.',
+        'The Architect has waited six centuries to make his opening move. He does not fight. He offers. And what he offers each of them is the one thing they want most in the world — priced at the only thing they cannot afford to give.',
+        'Arc I does not end with a victory. It ends with a choice.'
+      ],
+      pull: 'The city chose four. The Architect only needs one to say yes.'
+    }
+  };
+
+  var ISSUE_TITLES = { 1: 'AWAKEN, O CITY', 2: 'ṢÀNGÓ’S DAUGHTER', 3: 'IRON IN THE BLOOD', 4: 'THE CHOSEN FOUR' };
+  var pagers = {};
+
+  function markIssueRead(n) {
+    try {
+      if (localStorage.getItem('catalyst_read_' + n)) return;
+      localStorage.setItem('catalyst_read_' + n, '1');
+      var card = document.querySelector('.issue-card[data-issue="' + n + '"]');
+      if (card) {
+        card.classList.add('is-read');
+        var btn = card.querySelector('.issue-read-btn-track');
+        if (btn) btn.textContent = '✓ Read';
+      }
+      if (window.showToast) showToast('Issue #' + n + ' complete. The story continues…', 'success', 3500);
+    } catch(e) {}
+  }
+
+  function buildPager(panel) {
+    var issueNum = parseInt(panel.id.replace('panel-i', ''), 10);
+    var content = panel.querySelector('.story-content');
+    if (!content) return;
+
+    var chapters = [].slice.call(content.children).filter(function(el) {
+      return el.classList.contains('story-chapter') || el.classList.contains('cliffhanger-box');
+    });
+    if (!chapters.length) return;
+
+    // Page 0: cold-open title page
+    var co = COLD_OPENS[issueNum];
+    var titlePage = document.createElement('div');
+    titlePage.className = 'reader-titlepage';
+    if (co) {
+      var openHtml = co.open.map(function(p) { return '<p class="rt-open">' + p + '</p>'; }).join('');
+      titlePage.innerHTML =
+        '<div class="rt-arc">' + co.arc + '</div>' +
+        '<h3 class="rt-title">' + co.title + '</h3>' +
+        openHtml +
+        '<div class="rt-pull">' + co.pull + '</div>' +
+        '<span class="rt-begin">Turn the page ▸</span>';
+    }
+
+    var pageEls = [titlePage].concat(chapters);
+    var total = pageEls.length;
+
+    // Chrome (top bar)
+    var chrome = document.createElement('div');
+    chrome.className = 'reader-chrome';
+    var ticksHtml = '';
+    for (var t = 0; t < total; t++) ticksHtml += '<span></span>';
+    chrome.innerHTML =
+      '<span class="rc-issue">Issue #0' + issueNum + '</span>' +
+      '<div class="reader-ticks" role="presentation">' + ticksHtml + '</div>' +
+      '<span class="rc-count" aria-live="polite"></span>';
+
+    // Nav (bottom bar)
+    var nav = document.createElement('div');
+    nav.className = 'reader-nav';
+    var prevBtn = document.createElement('button');
+    prevBtn.textContent = '◀ Previous Page';
+    prevBtn.setAttribute('aria-label', 'Previous page');
+    var hint = document.createElement('span');
+    hint.className = 'rn-hint';
+    hint.textContent = '← → arrow keys turn pages';
+    var nextBtn = document.createElement('button');
+    nextBtn.setAttribute('aria-label', 'Next page');
+    nav.appendChild(prevBtn); nav.appendChild(hint); nav.appendChild(nextBtn);
+
+    // Wrap each page; the title page starts detached, chapters are in the DOM
+    var wraps = pageEls.map(function(el) {
+      var wrap = document.createElement('div');
+      wrap.className = 'reader-page';
+      if (el.parentNode) content.insertBefore(wrap, el);
+      wrap.appendChild(el);
+      return wrap;
+    });
+    content.insertBefore(wraps[0], wraps[1]);
+    content.insertBefore(chrome, wraps[0]);
+    content.appendChild(nav);
+
+    var current = 0;
+    var storageKey = 'catalyst_page_i' + issueNum;
+    try {
+      var saved = parseInt(localStorage.getItem(storageKey), 10);
+      if (!isNaN(saved) && saved >= 0 && saved < total) current = saved;
+    } catch(e) {}
+
+    var ticks = chrome.querySelectorAll('.reader-ticks span');
+    var counter = chrome.querySelector('.rc-count');
+
+    function render(scroll) {
+      wraps.forEach(function(w, i) { w.classList.toggle('current', i === current); });
+      for (var i = 0; i < total; i++) {
+        ticks[i].className = i < current ? 'done' : (i === current ? 'now' : '');
+      }
+      counter.textContent = current === 0
+        ? 'COLD OPEN'
+        : 'PAGE ' + current + ' OF ' + (total - 1);
+      prevBtn.disabled = current === 0;
+      var onLast = current === total - 1;
+      if (onLast) {
+        markIssueRead(issueNum);
+        if (issueNum < 4) {
+          nextBtn.textContent = 'Next: Issue #0' + (issueNum + 1) + ' ▶';
+          nextBtn.className = 'rn-next-issue';
+        } else {
+          nextBtn.textContent = 'Arc II Awaits — Join ▶';
+          nextBtn.className = 'rn-next-issue';
+        }
+      } else {
+        nextBtn.textContent = 'Next Page ▶';
+        nextBtn.className = '';
+      }
+      try { localStorage.setItem(storageKey, String(current)); } catch(e) {}
+      if (scroll) content.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function go(delta, scroll) {
+      var onLast = current === total - 1;
+      if (delta > 0 && onLast) {
+        // Hand off to the next issue (or the newsletter after the finale)
+        if (issueNum < 4) {
+          var tab = document.querySelectorAll('.issue-tab')[issueNum]; // 0-indexed: tab for issue+1
+          if (tab) tab.click();
+          var nextPanelContent = document.querySelector('#panel-i' + (issueNum + 1) + ' .story-content');
+          if (nextPanelContent) nextPanelContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          var nl = document.getElementById('newsletter');
+          if (nl) nl.scrollIntoView({ behavior: 'smooth' });
+        }
+        return;
+      }
+      var next = Math.min(Math.max(current + delta, 0), total - 1);
+      if (next === current) return;
+      current = next;
+      if (window.catalystTrack) catalystTrack('story_page_view', { issue: issueNum, page: current });
+      render(scroll !== false);
+    }
+
+    prevBtn.addEventListener('click', function() { go(-1); });
+    nextBtn.addEventListener('click', function() { go(1); });
+
+    pagers[issueNum] = { go: go, panel: panel };
+    render(false);
+  }
+
+  document.querySelectorAll('.issue-reader-panel').forEach(buildPager);
+
+  /* Arrow-key page turns for the visible issue */
+  document.addEventListener('keydown', function(e) {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    var tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || tag === 'select' || e.target.isContentEditable) return;
+    var lb = document.getElementById('img-lightbox');
+    if (lb && lb.classList.contains('active')) return;
+    var cmdk = document.getElementById('cmdk');
+    if (cmdk && cmdk.classList.contains('open')) return;
+    var active = document.querySelector('.issue-reader-panel.active');
+    if (!active) return;
+    var rect = active.getBoundingClientRect();
+    if (rect.bottom < 0 || rect.top > window.innerHeight) return; // reader off-screen
+    var issueNum = parseInt(active.id.replace('panel-i', ''), 10);
+    if (!pagers[issueNum]) return;
+    e.preventDefault();
+    pagers[issueNum].go(e.key === 'ArrowRight' ? 1 : -1, false);
+  });
+
+  /* Headless-CMS overrides: story_pages rows with body_html replace the
+     embedded chapter content, so copy edits ship without a redeploy */
+  (function applyCmsOverrides(attempt) {
+    if (!window._supabase) {
+      if (attempt < 25) setTimeout(function() { applyCmsOverrides(attempt + 1); }, 400);
+      return;
+    }
+    window._supabase
+      .from('story_pages')
+      .select('issue,page,chapter_label,chapter_title,body_html')
+      .not('body_html', 'is', null)
+      .then(function(res) {
+        if (!res || res.error || !res.data) return;
+        res.data.forEach(function(row) {
+          var panel = document.getElementById('panel-i' + row.issue);
+          if (!panel) return;
+          var wraps = panel.querySelectorAll('.reader-page');
+          var wrap = wraps[row.page];
+          if (!wrap) return;
+          var chapter = wrap.querySelector('.story-chapter');
+          if (!chapter) return;
+          if (row.chapter_label) {
+            var lbl = chapter.querySelector('.chapter-label');
+            if (lbl) lbl.textContent = row.chapter_label;
+          }
+          if (row.chapter_title) {
+            var ttl = chapter.querySelector('.chapter-title');
+            if (ttl) ttl.textContent = row.chapter_title;
+          }
+          var proseHost = chapter;
+          var keepLabel = chapter.querySelector('.chapter-label');
+          var keepTitle = chapter.querySelector('.chapter-title');
+          proseHost.innerHTML = '';
+          if (keepLabel) proseHost.appendChild(keepLabel);
+          if (keepTitle) proseHost.appendChild(keepTitle);
+          var body = document.createElement('div');
+          body.innerHTML = row.body_html;
+          proseHost.appendChild(body);
+        });
+      }, function() {});
+  })(0);
 
 })();
 </script>
