@@ -1,10 +1,13 @@
 'use strict';
 
-const CACHE = 'catalyst-v3';
-const IMG_CACHE = 'catalyst-img-v3';
+const CACHE = 'catalyst-v4';
+const IMG_CACHE = 'catalyst-img-v4';
 const IMG_CACHE_MAX = 60;
 const PRECACHE = [
   '/favicon.svg',
+  '/assets/icon-192.png',
+  '/assets/icon-512.png',
+  '/assets/apple-touch-icon.png',
   '/assets/bayo-bridge.webp',
   '/assets/cover-issue1.webp',
   '/assets/cover-issue2.webp',
