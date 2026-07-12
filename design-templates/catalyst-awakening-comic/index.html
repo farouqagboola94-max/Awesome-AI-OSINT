@@ -7488,6 +7488,25 @@ kbd {
   color: #00C9B1;
 }
 @media (prefers-reduced-motion: reduce) { .reader-page.current { animation: none; } }
+
+/* ── Batch 7: Reading journey strip ── */
+.reader-journey {
+  display: flex; flex-wrap: wrap; gap: 0.55rem; margin-top: 1.4rem;
+}
+.reader-journey button {
+  background: rgba(240,237,229,0.04); border: 1px solid rgba(240,237,229,0.18);
+  color: rgba(240,237,229,0.65); font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.64rem; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 0.42rem 0.75rem; border-radius: 3px; cursor: pointer;
+  transition: all 0.2s ease;
+}
+.reader-journey button:hover { border-color: #F4B800; color: #F4B800; }
+.reader-journey button.j-done {
+  border-color: rgba(244,184,0,0.5); color: #F4B800; background: rgba(244,184,0,0.07);
+}
+.reader-journey button.j-progress {
+  border-color: rgba(0,201,177,0.45); color: #00C9B1; background: rgba(0,201,177,0.06);
+}
 </style>
 </head>
 <body>
@@ -19820,6 +19839,13 @@ document.addEventListener('DOMContentLoaded', function(){
     // Only offer sections that actually exist on the page
     ITEMS = ITEMS.filter(function(it) { return it.action || document.getElementById(it.target); });
 
+    // Later scripts (e.g. the story reader) can register their own entries
+    window.catalystPaletteAdd = function(newItems) {
+      ITEMS = ITEMS.concat((newItems || []).filter(function(it) {
+        return it && it.label && (it.action || document.getElementById(it.target));
+      }));
+    };
+
     var filtered = ITEMS.slice();
     var activeIdx = 0;
     var isOpen = false;
@@ -20213,6 +20239,18 @@ document.addEventListener('DOMContentLoaded', function(){
       if (scroll) content.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
+    function afterUserTurn() {
+      // Shareable deep link for the exact page being read
+      try { history.replaceState(null, '', '#read-i' + issueNum + '-p' + current); } catch(e) {}
+      // Move screen-reader/keyboard focus to the new page's heading
+      var heading = wraps[current].querySelector('.chapter-title, .rt-title, .cliffhanger-label');
+      if (heading) {
+        heading.setAttribute('tabindex', '-1');
+        heading.focus({ preventScroll: true });
+      }
+      if (window.catalystUpdateJourney) catalystUpdateJourney();
+    }
+
     function go(delta, scroll) {
       var onLast = current === total - 1;
       if (delta > 0 && onLast) {
@@ -20233,16 +20271,140 @@ document.addEventListener('DOMContentLoaded', function(){
       current = next;
       if (window.catalystTrack) catalystTrack('story_page_view', { issue: issueNum, page: current });
       render(scroll !== false);
+      afterUserTurn();
+    }
+
+    function setPage(page, scroll) {
+      var next = Math.min(Math.max(page | 0, 0), total - 1);
+      current = next;
+      render(scroll !== false);
+      afterUserTurn();
     }
 
     prevBtn.addEventListener('click', function() { go(-1); });
     nextBtn.addEventListener('click', function() { go(1); });
 
-    pagers[issueNum] = { go: go, panel: panel };
+    // Chapter index for the command palette / deep links
+    var chapterIndex = pageEls.map(function(el, i) {
+      if (i === 0) return ISSUE_TITLES[issueNum] + ' — Cold Open';
+      var t = el.querySelector && el.querySelector('.chapter-title');
+      if (t) return t.textContent;
+      return 'Cliffhanger';
+    });
+
+    pagers[issueNum] = { go: go, set: setPage, total: total, panel: panel, chapters: chapterIndex, pos: function() { return current; } };
     render(false);
   }
 
   document.querySelectorAll('.issue-reader-panel').forEach(buildPager);
+
+  /* ── Batch 7: jump API — activate an issue's tab and open a page ── */
+  window.catalystJumpTo = function(issue, page, scroll) {
+    var p = pagers[issue];
+    if (!p) return;
+    var tab = document.querySelectorAll('.issue-tab')[issue - 1];
+    if (tab && !p.panel.classList.contains('active')) tab.click();
+    p.set(page, false);
+    if (scroll !== false) {
+      var content = p.panel.querySelector('.story-content');
+      if (content) content.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  /* ── Batch 7: deep links — #read-i2-p3 opens issue 2, page 3 ── */
+  (function() {
+    var m = /^#read-i([1-4])-p(\d+)$/.exec(location.hash);
+    if (m) setTimeout(function() { window.catalystJumpTo(+m[1], +m[2]); }, 150);
+  })();
+
+  /* ── Batch 7: proper tab semantics for the issue switcher ── */
+  (function() {
+    var tabs = document.querySelectorAll('.issue-tab');
+    var tabBar = document.querySelector('.issue-tabs');
+    if (tabBar) tabBar.setAttribute('role', 'tablist');
+    tabs.forEach(function(tab, i) {
+      var n = i + 1;
+      tab.setAttribute('role', 'tab');
+      tab.id = 'issue-tab-' + n;
+      tab.setAttribute('aria-controls', 'panel-i' + n);
+      tab.setAttribute('aria-selected', tab.classList.contains('active') ? 'true' : 'false');
+      var panel = document.getElementById('panel-i' + n);
+      if (panel) {
+        panel.setAttribute('role', 'tabpanel');
+        panel.setAttribute('aria-labelledby', 'issue-tab-' + n);
+      }
+    });
+    var origShowIssue = window.showIssue;
+    if (typeof origShowIssue === 'function') {
+      window.showIssue = function(id, btn) {
+        origShowIssue(id, btn);
+        tabs.forEach(function(t) {
+          t.setAttribute('aria-selected', t.classList.contains('active') ? 'true' : 'false');
+        });
+        if (window.catalystUpdateJourney) catalystUpdateJourney();
+      };
+    }
+  })();
+
+  /* ── Batch 7: reading journey strip in the reader header ── */
+  (function() {
+    var header = document.querySelector('#read .read-header');
+    if (!header) return;
+    var strip = document.createElement('div');
+    strip.className = 'reader-journey';
+    strip.setAttribute('aria-label', 'Your reading progress');
+    header.appendChild(strip);
+
+    window.catalystUpdateJourney = function() {
+      strip.innerHTML = '';
+      for (var n = 1; n <= 4; n++) {
+        if (!pagers[n]) continue;
+        var total = pagers[n].total - 1; // pages excluding cold open
+        var read = false, pos = 0;
+        try {
+          read = !!localStorage.getItem('catalyst_read_' + n);
+          pos = parseInt(localStorage.getItem('catalyst_page_i' + n), 10) || 0;
+        } catch(e) {}
+        var chip = document.createElement('button');
+        if (read) {
+          chip.className = 'j-done';
+          chip.textContent = 'Issue 0' + n + ' ✓';
+        } else if (pos > 0) {
+          chip.className = 'j-progress';
+          chip.textContent = 'Issue 0' + n + ' · Page ' + pos + '/' + total;
+        } else {
+          chip.textContent = 'Issue 0' + n + ' · Unread';
+        }
+        chip.setAttribute('aria-label', 'Open issue ' + n + (read ? ' (completed)' : pos > 0 ? ' at page ' + pos : ''));
+        (function(issue, page) {
+          chip.addEventListener('click', function() { window.catalystJumpTo(issue, page); });
+        })(n, read ? 0 : pos);
+        strip.appendChild(chip);
+      }
+    };
+    catalystUpdateJourney();
+  })();
+
+  /* ── Batch 7: every story chapter searchable in the command palette ── */
+  (function registerChapters(attempt) {
+    if (!window.catalystPaletteAdd) {
+      if (attempt < 10) setTimeout(function() { registerChapters(attempt + 1); }, 200);
+      return;
+    }
+    var items = [];
+    Object.keys(pagers).forEach(function(n) {
+      pagers[n].chapters.forEach(function(title, page) {
+        items.push({
+          label: 'Issue #0' + n + ' · ' + title,
+          kind: 'Story',
+          action: (function(issue, pg) {
+            return function() { window.catalystJumpTo(issue, pg); };
+          })(+n, page)
+        });
+      });
+    });
+    window.catalystPaletteAdd(items);
+  })(0);
 
   /* Arrow-key page turns for the visible issue */
   document.addEventListener('keydown', function(e) {
