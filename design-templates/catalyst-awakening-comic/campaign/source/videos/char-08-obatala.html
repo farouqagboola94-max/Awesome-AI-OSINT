@@ -1,0 +1,112 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css">
+<link rel="stylesheet" href="../pipeline/motion.css">
+<link rel="stylesheet" href="../pipeline/cinematic.css">
+<style>
+  .charname { font-family: 'Bebas Neue'; font-size: 220px; color: var(--bone); line-height: 0.85; letter-spacing: 2px; }
+  .charsur { font-family: 'Oswald'; font-weight: 700; font-size: 70px; color: var(--bone); letter-spacing: 6px; margin-top: 8px; }
+  .charaka { font-family: 'Oswald'; font-weight: 300; font-size: 36px; color: var(--bone); letter-spacing: 12px; margin-top: 14px; }
+  .chartag { font-family: 'Oswald'; font-weight: 700; font-size: 26px; color: var(--bone); letter-spacing: 12px; }
+  .domain-bg { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 40%, rgba(255,255,255,0.06), var(--black) 70%); }
+  .domain-title { position: absolute; top: 700px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 160px; color: var(--bone); letter-spacing: 4px; }
+  .stat-grid { position: absolute; top: 500px; left: 0; right: 0; padding: 0 100px; display: flex; flex-direction: column; gap: 60px; }
+  .stat-row { display: flex; justify-content: space-between; border-bottom: 2px solid var(--iron); padding-bottom: 30px; }
+  .stat-lab { font-family: 'Space Grotesk'; font-weight: 500; letter-spacing: 6px; font-size: 32px; color: var(--ash); }
+  .stat-val { font-family: 'Oswald'; font-weight: 700; font-size: 46px; letter-spacing: 4px; color: var(--bone); }
+  .quote-txt { position: absolute; left: 100px; right: 100px; top: 700px; font-family: 'Crimson Pro'; font-style: italic; font-size: 74px; line-height: 1.2; color: var(--bone); text-align: center; }
+  .quote-txt em { color: var(--bone); font-style: italic; }
+  .glitch-flicker { position: absolute; inset: 0; z-index: 45; pointer-events: none; background: var(--bone); opacity: 0; mix-blend-mode: overlay; }
+</style></head>
+<body><div class="stage" id="cam">
+  <!-- scene A: tag -->
+  <div id="sA" class="scene" style="opacity:0"><div class="center">
+    <div class="chartag" id="tagline">◈ THE FOURTH POWER ◈</div>
+  </div></div>
+  <!-- scene B: name slam -->
+  <div id="sB" class="scene" style="opacity:0">
+    <div class="corner-tl" style="border-color:var(--bone)"></div><div class="corner-tr" style="border-color:var(--bone)"></div>
+    <div class="corner-bl" style="border-color:var(--bone)"></div><div class="corner-br" style="border-color:var(--bone)"></div>
+    <div class="center">
+      <div class="charname" id="cname">OBATÀLÁ</div>
+      
+      <div class="charaka" id="caka">— ORISHA OF THE SKY —</div>
+    </div>
+  </div>
+  <!-- scene C: art or domain -->
+  <div id="sC" class="scene cine-stage" style="opacity:0">
+    
+  <div class="cine-art" id="art" style="background-image: url('../artwork/circle.jpg');"></div>
+  <div class="wash wash-dark"></div>
+  <div class="wash wash-dark"></div>
+    
+    <div class="cine-grain"></div>
+    
+  </div>
+  <!-- scene D: stats -->
+  <div id="sD" class="scene" style="opacity:0">
+    <div class="stat-grid" id="statGrid">
+      <div class="stat-row" id="row0"><span class="stat-lab">DOMAIN</span><span class="stat-val" style="color:var(--bone)">WISDOM</span></div>
+      <div class="stat-row" id="row1"><span class="stat-lab">ELEMENT</span><span class="stat-val" style="color:var(--bone)">SKY</span></div>
+      <div class="stat-row" id="row2"><span class="stat-lab">SYMBOL</span><span class="stat-val" style="color:var(--bone)">STAFF</span></div>
+      <div class="stat-row" id="row3"><span class="stat-lab">STATUS</span><span class="stat-val" style="color:var(--bone)">AWAKENED</span></div>
+    </div>
+  </div>
+  <!-- scene E: quote -->
+  <div id="sE" class="scene" style="opacity:0">
+    <div class="quote-txt" id="quoteTxt">The oldest of them<br>speaks last.<br><em>On purpose</em>.</div>
+  </div>
+  <!-- scene F: brand outro -->
+  <div id="sF" class="scene" style="opacity:0"><div class="center" id="lockup">
+    <div class="word" style="font-family:'Bebas Neue'; font-size:220px; color:var(--gold)" id="logoA">CATALYST</div>
+    <div style="font-family:'Oswald'; font-weight:600; font-size:56px; color:var(--bone); letter-spacing:16px" id="logoB">THE AWAKENING</div>
+    <div style="width:300px;height:6px;background:var(--gold);margin:36px auto" id="ruleEl"></div>
+    <div style="font-family:'Oswald'; font-weight:700; font-size:36px; letter-spacing:6px; color:var(--bone)" id="cta">MEET THE FULL CAST</div>
+    <div style="font-family:'Space Grotesk'; font-size:26px; letter-spacing:4px; color:var(--ash); margin-top:20px" id="urlEl">catalyst-awakening.netlify.app</div>
+  </div></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script>
+<script src="../pipeline/kit.js"></script>
+<script src="../pipeline/cinematic.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const { cut, cutFade, slam, wordPop, charCascade, shake, flash, drift, fade, linePop, scaleIn } = KIT;
+
+// A: tag  0-1200
+cutFade($('sA'), 0, 1200, 200);
+KIN.add($('tagline'), {t0:100, t1:600, from:{opacity:0, ls:36}, to:{opacity:1, ls:12}, ease:'outExpo'});
+
+// B: name  1200-5200
+cutFade($('sB'), 1200, 5200, 300);
+charCascade($('cname'), 1300, 44, 380);
+
+KIN.add($('caka'), {t0:2600, t1:3100, from:{opacity:0, ls:32}, to:{opacity:1, ls:14}, ease:'outExpo'});
+shake($('cam'), 1320, 300, 12);
+
+// C: art/domain  5200-10200
+cutFade($('sC'), 5200, 10200, 400);
+CINE.kenBurns($('art'), 5200, 10200, 1.0, 1.14, 0, -30, 0, 20);
+
+
+// D: stats  10200-15200
+cutFade($('sD'), 10200, 15200, 300);
+KIN.add($('row0'), {t0:10300, t1:10700, from:{opacity:0, x: -60}, to:{opacity:1, x:0}, ease:'outQuart'});
+KIN.add($('row1'), {t0:10500, t1:10900, from:{opacity:0, x: 60}, to:{opacity:1, x:0}, ease:'outQuart'});
+KIN.add($('row2'), {t0:10700, t1:11100, from:{opacity:0, x: -60}, to:{opacity:1, x:0}, ease:'outQuart'});
+KIN.add($('row3'), {t0:10900, t1:11300, from:{opacity:0, x: 60}, to:{opacity:1, x:0}, ease:'outQuart'});
+
+// E: quote  15200-19700
+cutFade($('sE'), 15200, 19700, 400);
+linePop($('quoteTxt'), 15400, 340, 560);
+
+// F: brand outro  19700-22000
+cutFade($('sF'), 19700, 22000, 500);
+charCascade($('logoA'), 19800, 30, 300);
+KIN.add($('logoB'), {t0:20300, t1:20900, from:{opacity:0, ls:44}, to:{opacity:1, ls:16}, ease:'outExpo'});
+KIN.add($('ruleEl'), {t0:20700, t1:21200, from:{sx:0, sy:1}, to:{sx:1, sy:1}, ease:'outExpo'});
+fade($('cta'), 21200, 21600, 0, 1);
+fade($('urlEl'), 21500, 21900, 0, 1);
+drift($('lockup'), 19700, 22000, 1, 1.05);
+
+KIN.seek(0);
+</script></body></html>

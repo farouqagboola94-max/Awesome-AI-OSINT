@@ -11,6 +11,7 @@ Complete marketing arsenal for **Catalyst: The Awakening** — a Lagos noir comi
 | **Cinematic 40-pack** | 40 | 1080×1920 MP4 · scored | Ken Burns treatments of existing 4K artwork with letterbox, film grain, and synthesized cinematic scores. |
 | **Brand IP Kit** | 58 files | SVG · CSS · JSON · HTML · Markdown | Full identity system: logos, tokens, social templates, print, brand book, Canva/Express-ready. |
 | **Sizzle reels** | 3 | 1080×1920 MP4 · scored, 41–58s | Combined highlight reels crossfading clips from all three video packs, each a distinct narrative cut, under one continuous synthesized score. |
+| **Character reels** | 15 | 1080×1920 MP4 · scored, 22s each | Full introduction video per character — name, art/domain, stats, quote, brand outro. One person per video. |
 
 ## Directory
 
@@ -55,6 +56,24 @@ Combined highlight reels crossfading clips (0.4s fades) from the trailers, motio
 - **catalyst-sizzle-reel-03.mp4** (43s, 15 clips) · portraits → powers → "he's 19, from Mushin" → free-forever → CTA outro (ends on a cinematic endcard rather than a flat brand lockup)
 
 All three draw from different, mostly non-overlapping segments of the source library for visual variety.
+
+## Character reels (15)
+
+One self-contained ~22-second introduction video per character: eyebrow tag → name slam → art-or-domain beat → 4-stat grid → quote → brand outro. Each with its own synthesized score.
+
+**Established cast (9)** — grounded in what's already on the site:
+- `char-01-bayo-adeyemi` · `char-02-amara-okafor` · `char-03-ikenna-obi` · `char-04-zara-ibrahim` — the four named humans, each using their existing portrait/cover art.
+- `char-05-sango` · `char-06-ogun` · `char-07-osun` · `char-08-obatala` · `char-09-esu` — the five Orishas, each paired with existing 4K art thematically matched to their domain (forge → thunder/iron, shipyard → rivers, circle → wisdom, intersection → crossroads).
+
+**New supporting cast (6) — ⚠️ invented, not yet canon, for your review:**
+- `char-10-mama-adunni` — "Iya Aje," The Elder. Mentor, keeper of the Ile-Aye shrine in Mushin.
+- `char-11-tunde-wire` — Tunde "Wire" Balogun, The Hacker. Runs intel/comms from Yaba.
+- `char-12-chidinma-naija` — Chidinma "Naija" Okoye, The Journalist. Runs an underground blog out of Surulere.
+- `char-13-obasi-kalu` — Chief Obasi Kalu, The Syndicate Boss. Antagonist based in Victoria Island, wants the Vessel.
+- `char-14-funke-adebayo` — Dr. Funke Adebayo, The Researcher. Antagonist running a federal "Awakened Origins" program.
+- `char-15-ashen-man` — The Ashen Man. Unknown mystery figure, first seen at the crossroads.
+
+These 6 have no commissioned artwork yet, so their reels are typography/motion-graphics only (no photo art) — swap in art later once available and re-render from `source/videos/char-1{0-5}-*.html`. None of these six should be treated as official canon until you sign off.
 
 ## Brand kit
 
