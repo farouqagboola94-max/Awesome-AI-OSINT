@@ -1,0 +1,43 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  body { background: #0d0206; }
+  .stage { background: #0d0206; }
+  .silhouette { position: absolute; top: 380px; left: 50%; transform: translateX(-50%); width: 420px; height: 620px; background: radial-gradient(ellipse at 50% 30%, #1a0308, transparent 70%); border-radius: 50% 50% 40% 40%; }
+  .glow { position: absolute; top: 380px; left: 50%; transform: translateX(-50%); width: 420px; height: 620px; background: radial-gradient(ellipse at 50% 25%, rgba(122,14,32,0.5), transparent 65%); }
+  .eyes { position: absolute; top: 560px; left: 50%; transform: translateX(-50%); display: flex; gap: 60px; }
+  .eye { width: 18px; height: 18px; border-radius: 999px; background: #C41E3A; box-shadow: 0 0 20px 6px rgba(196,30,58,0.8); }
+  .tag { position: absolute; top: 180px; left: 0; right: 0; text-align: center; font-family: 'Oswald'; font-weight: 700; font-size: 28px; letter-spacing: 14px; color: var(--ash); }
+  .name { position: absolute; bottom: 420px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 60px; color: var(--red); letter-spacing: 20px; opacity: 0; }
+  .name2 { position: absolute; bottom: 340px; left: 0; right: 0; text-align: center; font-family: 'Oswald'; font-weight: 300; font-size: 30px; color: var(--ash); letter-spacing: 12px; }
+  .cta { position: absolute; bottom: 230px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 90px; color: var(--bone); }
+</style></head><body><div class="stage" id="cam">
+  <div class="tag" id="tag">◈ ISSUE 05 · NEW ANTAGONIST ◈</div>
+  <div class="silhouette"></div>
+  <div class="glow" id="glow"></div>
+  <div class="eyes" id="eyes"><div class="eye"></div><div class="eye"></div></div>
+  <div class="name" id="name">CHIEF OBASI KALU</div>
+  <div class="name2" id="name2">THE SYNDICATE BOSS</div>
+  <div class="cta" id="cta">EVERY GOD<br>HAS A PRICE.</div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+KIN.add($('tag'), {t0:0, t1:700, from:{opacity:0, ls:34}, to:{opacity:1, ls:14}, ease:'outExpo'});
+KIN.add($('glow'), {t0:400, t1:1400, from:{opacity:0}, to:{opacity:1}, ease:'outQuart'});
+KIN.add($('eyes'), {t0:1200, t1:1700, from:{opacity:0, scale:0.4}, to:{opacity:1, scale:1}, ease:'outBack'});
+KIT.flash('rgba(196,30,58,0.35)', 1200, 80);
+KIN.fx($('eyes'), 1700, 7000, (p,t)=>{
+  if (t<1700) return;
+  const pulse = 0.85 + Math.sin((t-1700)/500)*0.15;
+  $('eyes').style.opacity = pulse;
+});
+KIN.add($('name'), {t0:2200, t1:2900, from:{opacity:0, ls:60}, to:{opacity:1, ls:20}, ease:'outExpo'});
+KIN.add($('name2'), {t0:2900, t1:3500, from:{opacity:0, ls:30}, to:{opacity:1, ls:12}, ease:'outExpo'});
+KIT.linePop($('cta'), 4000, 340, 500);
+KIT.shake($('cam'), 1220, 260, 10);
+KIT.drift($('cam'), 0, 7500, 1, 1.03);
+brandmark(5500, 7500);
+KIN.seek(0);
+</script></body></html>

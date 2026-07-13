@@ -1,0 +1,42 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  body { background: #06060d; }
+  .title { position: absolute; top: 180px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 110px; color: var(--gold); letter-spacing: 4px; }
+  .sub { position: absolute; top: 320px; left: 0; right: 0; text-align: center; font-family: 'Oswald'; font-weight: 300; letter-spacing: 10px; font-size: 32px; color: var(--ash); }
+  .step { position: absolute; left: 100px; right: 100px; display: flex; align-items: center; gap: 34px; }
+  .s1 { top: 460px; } .s2 { top: 600px; } .s3 { top: 740px; } .s4 { top: 880px; }
+  .stepnum { width: 90px; height: 90px; border-radius: 999px; background: var(--gold); color: var(--black); font-family: 'Bebas Neue'; font-size: 50px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .steptxt { font-family: 'Oswald'; font-weight: 700; font-size: 42px; letter-spacing: 4px; color: var(--bone); }
+  .arrow { position: absolute; left: 145px; width: 4px; background: var(--iron); }
+  .a1 { top: 550px; height: 50px; } .a2 { top: 690px; height: 50px; } .a3 { top: 830px; height: 50px; }
+</style></head><body><div class="stage" id="cam">
+  <div class="corner-tl"></div><div class="corner-tr"></div><div class="corner-bl"></div><div class="corner-br"></div>
+  <div class="title" id="title">START HERE.</div>
+  <div class="sub" id="sub">◈ NEW READER GUIDE ◈</div>
+  <div class="arrow a1"></div><div class="arrow a2"></div><div class="arrow a3"></div>
+  <div class="step s1" id="st1"><div class="stepnum">1</div><div class="steptxt">ISSUE ONE — THE AWAKENING</div></div>
+  <div class="step s2" id="st2"><div class="stepnum">2</div><div class="steptxt">ISSUE TWO — THE BLOODLINE</div></div>
+  <div class="step s3" id="st3"><div class="stepnum">3</div><div class="steptxt">ISSUE THREE — THE RIVER</div></div>
+  <div class="step s4" id="st4"><div class="stepnum">4</div><div class="steptxt">ISSUE FOUR — THE RECKONING</div></div>
+  <div class="brandmark">CATALYST · <b>THE AWAKENING</b><div class="sitemark">CATALYST-AWAKENING.NETLIFY.APP</div></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+cornerFrame(150, 700);
+KIT.charCascade($('title'), 300, 32, 300);
+KIN.add($('sub'), {t0:1000, t1:1500, from:{opacity:0, ls:30}, to:{opacity:1, ls:10}, ease:'outExpo'});
+['st1','st2','st3','st4'].forEach((id,i)=>{
+  const t = 1700 + i*350;
+  KIN.add($(id), {t0:t, t1:t+420, from:{opacity:0, y:60}, to:{opacity:1, y:0}, ease:'outBack'});
+});
+document.querySelectorAll('.arrow').forEach((el,i)=>{
+  el.style.transformOrigin = 'top';
+  KIN.add(el, {t0:2050+i*350, t1:2400+i*350, from:{sy:0}, to:{sy:1}, ease:'outExpo'});
+});
+KIT.drift($('cam'), 0, 8000, 1, 1.03);
+brandmark(5800, 8000);
+KIN.seek(0);
+</script></body></html>

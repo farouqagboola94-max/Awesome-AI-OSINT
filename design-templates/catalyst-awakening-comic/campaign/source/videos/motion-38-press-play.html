@@ -1,0 +1,32 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  body { background: #06060d; }
+  .playbtn { position: absolute; top: 350px; left: 50%; transform: translateX(-50%); width: 240px; height: 240px; border-radius: 999px; background: var(--gold); display: flex; align-items: center; justify-content: center; }
+  .playbtn:before { content: ''; border-left: 60px solid var(--black); border-top: 40px solid transparent; border-bottom: 40px solid transparent; margin-left: 12px; }
+  .title { position: absolute; top: 720px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 130px; color: var(--bone); line-height: 0.9; }
+  .sub { position: absolute; top: 900px; left: 0; right: 0; text-align: center; font-family: 'Oswald'; font-weight: 700; font-size: 32px; letter-spacing: 8px; color: var(--gold); }
+</style></head><body><div class="stage" id="cam">
+  <div class="playbtn" id="playbtn"></div>
+  <div class="title" id="title">TRAILER<br>OUT NOW.</div>
+  <div class="sub" id="sub">◈ WATCH THE AWAKENING ◈</div>
+  <div class="brandmark">CATALYST · <b>THE AWAKENING</b><div class="sitemark">CATALYST-AWAKENING.NETLIFY.APP</div></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const btn = document.getElementById('playbtn');
+btn.dataset.kbase = 'translateX(-50%)';
+KIN.add(btn, {t0:0, t1:600, from:{opacity:0, scale:0.3}, to:{opacity:1, scale:1}, ease:'outBack'});
+KIN.fx(btn, 600, 7000, (p,t)=>{
+  if (t<600) return;
+  const pulse = 1 + Math.sin((t-600)/400)*0.05;
+  btn.style.transform = `translateX(-50%) scale(${pulse})`;
+});
+KIT.charCascade($('title'), 1200, 34, 320);
+KIN.add($('sub'), {t0:2200, t1:2700, from:{opacity:0, ls:30}, to:{opacity:1, ls:8}, ease:'outExpo'});
+KIT.drift($('cam'), 0, 7000, 1, 1.02);
+brandmark(5000, 7000);
+KIN.seek(0);
+</script></body></html>

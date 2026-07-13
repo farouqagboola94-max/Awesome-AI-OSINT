@@ -1,0 +1,30 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  body { background: var(--indigo); }
+  .stage { background: linear-gradient(180deg, #1a1a6e, #0a0a1f); }
+  .marks { position: absolute; top: 240px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 220px; color: var(--gold); line-height: 0.7; }
+  .quote { position: absolute; top: 500px; left: 100px; right: 100px; text-align: center; font-family: 'Crimson Pro'; font-style: italic; font-size: 76px; line-height: 1.2; color: var(--bone); }
+  .attr { position: absolute; bottom: 480px; left: 0; right: 0; text-align: center; font-family: 'Oswald'; font-weight: 600; letter-spacing: 12px; font-size: 32px; color: var(--gold); }
+  .rule { position: absolute; bottom: 580px; left: 50%; transform: translateX(-50%); width: 200px; height: 4px; background: var(--gold); }
+</style></head><body><div class="stage" id="cam">
+  <div class="marks" id="marks">"</div>
+  <div class="quote" id="quote">She lit the first candle<br>before anyone knew<br>there'd be a <em style="color:var(--gold);font-style:italic">fire</em> to fear.</div>
+  <div class="rule" id="rule"></div>
+  <div class="attr" id="attr">— MAMA ADUNNI, THE ELDER —</div>
+  <div class="brandmark">CATALYST · <b>THE AWAKENING</b><div class="sitemark">CATALYST-AWAKENING.NETLIFY.APP</div></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+KIN.add($('marks'), {t0:0, t1:600, from:{opacity:0, scale:2.2}, to:{opacity:1, scale:1}, ease:'outBack'});
+KIT.linePop($('quote'), 400, 320, 540);
+const rule = document.getElementById('rule');
+rule.dataset.kbase = 'translateX(-50%)';
+KIN.add(rule, {t0:2400, t1:2900, from:{sx:0, sy:1}, to:{sx:1, sy:1}, ease:'outExpo'});
+KIN.add($('attr'), {t0:2700, t1:3200, from:{opacity:0, ls:34}, to:{opacity:1, ls:12}, ease:'outExpo'});
+KIT.drift($('cam'), 0, 7500, 1, 1.03);
+brandmark(5300, 7500);
+KIN.seek(0);
+</script></body></html>

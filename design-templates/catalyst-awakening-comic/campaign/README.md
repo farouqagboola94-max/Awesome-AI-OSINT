@@ -7,7 +7,7 @@ Complete marketing arsenal for **Catalyst: The Awakening** — a Lagos noir comi
 | Pack | Count | Format | Details |
 |------|-------|--------|---------|
 | **Launch trailers** | 3 | 1080×1920 MP4 · silent | Kinetic typography, brand-timed. Add trending audio at post time. |
-| **Motion 20-pack** | 20 | 1080×1920 MP4 · with beats | Punchy motion graphics with procedurally-generated afro-house percussion. |
+| **Motion 40-pack** | 40 | 1080×1920 MP4 · with beats | Punchy motion graphics with procedurally-generated afro-house percussion. |
 | **Cinematic 40-pack** | 40 | 1080×1920 MP4 · scored | Ken Burns treatments of existing 4K artwork with letterbox, film grain, and synthesized cinematic scores. |
 | **Brand IP Kit** | 58 files | SVG · CSS · JSON · HTML · Markdown | Full identity system: logos, tokens, social templates, print, brand book, Canva/Express-ready. |
 | **Sizzle reels** | 3 | 1080×1920 MP4 · scored, 41–58s | Combined highlight reels crossfading clips from all three video packs, each a distinct narrative cut, under one continuous synthesized score. |
@@ -33,11 +33,13 @@ campaign/
 - **trailer-02-bloodline.mp4** (16s) · "1478 → 1861 → 2026 · The bloodline"
 - **trailer-03-mushin.mp4** (15s) · "19 · 5 · 1 · No capes. Only Lagos."
 
-## Motion pack (20)
+## Motion pack (40)
 
 01. Read Chapter One · 02. Meet Bayo · 03. Five Gods · 04. Coordinates · 05. Free Forever · 06. Four Issues · 07. Made in Lagos · 08. Issue 5 teaser · 09. Which Orisha are you? · 10. Editorial quote
 
 **Part two (11–20)**: 11. Meet Amara · 12. Meet Ikenna · 13. Meet Zara · 14. This Isn't Marvel (differentiation hook) · 15. Five Powers explainer · 16. Social proof stats · 17. Tap to Unlock · 18. Release Log calendar · 19. Poll Results (follow-up to #9) · 20. Follow for More outro
+
+**Part three (21–40)**: 21. Origin in 10 Seconds · 22. Villain Tease (Chief Obasi Kalu silhouette reveal) · 23. The Elder's Warning (Mama Adunni quote) · 24. The Map (Lagos locations tied to each character) · 25. Reading Order guide · 26. Fan Art Friday · 27. Trivia (Yoruba mythology fact) · 28. Power Ranking (the 5 Orishas ranked) · 29. Hero vs Villain split-screen · 30. Community Vote teaser · 31. Anniversary/milestone celebration · 32. Merch Teaser · 33. Behind the Panel (BTS) · 34. Cliffhanger (Issue 4 ending tease) · 35. Comment Prompt ("who's your favorite?") · 36. Speed Read (5-minute read stat) · 37. The Signal (Tunde "Wire" teaser) · 38. Press Play (trailer announcement) · 39. New Chapter countdown · 40. Thank You / reader milestone
 
 ## Cinematic pack (40)
 

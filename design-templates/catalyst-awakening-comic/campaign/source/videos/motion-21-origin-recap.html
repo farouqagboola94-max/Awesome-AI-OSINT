@@ -1,0 +1,32 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  body { background: #06060d; }
+  .beat { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; }
+  .beat .txt { font-family: 'Bebas Neue'; font-size: 180px; color: var(--bone); text-align: center; line-height: 0.9; }
+  .beat .txt span { color: var(--gold); }
+  .tag { position: absolute; top: 200px; left: 0; right: 0; text-align: center; font-family: 'Oswald'; font-weight: 700; font-size: 30px; letter-spacing: 14px; color: var(--gold); }
+</style></head><body><div class="stage" id="cam">
+  <div class="corner-tl"></div><div class="corner-tr"></div><div class="corner-bl"></div><div class="corner-br"></div>
+  <div class="tag" id="tag">◈ THE ORIGIN IN 10 SECONDS ◈</div>
+  <div class="beat" id="b1"><div class="txt">A BOY.</div></div>
+  <div class="beat" id="b2"><div class="txt">FIVE <span>GODS</span>.</div></div>
+  <div class="beat" id="b3"><div class="txt">ONE NIGHT<br>IN MUSHIN.</div></div>
+  <div class="beat" id="b4"><div class="txt"><span>NOTHING</span><br>WAS THE SAME.</div></div>
+  <div class="brandmark">CATALYST · <b>THE AWAKENING</b><div class="sitemark">CATALYST-AWAKENING.NETLIFY.APP</div></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+cornerFrame(150, 700);
+KIN.add($('tag'), {t0:0, t1:600, from:{opacity:0, ls:32}, to:{opacity:1, ls:14}, ease:'outExpo'});
+[['b1',900],['b2',2300],['b3',3700],['b4',5300]].forEach(([id,t],i)=>{
+  KIT.cut($(id), t, i<3 ? [2300,3700,5300,7000][i] : 7000);
+  KIT.slam($(id).firstElementChild, t+20, {from: 2.2, dur: 400});
+});
+KIT.shake($('cam'), 5320, 320, 12);
+KIT.drift($('cam'), 0, 7000, 1, 1.03);
+brandmark(5000, 7000);
+KIN.seek(0);
+</script></body></html>

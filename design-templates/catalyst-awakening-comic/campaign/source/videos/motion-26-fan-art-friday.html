@@ -1,0 +1,27 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  body { background: var(--teal); }
+  .stage { background: var(--teal); }
+  .title { position: absolute; top: 300px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 190px; color: var(--black); line-height: 0.85; }
+  .sub { position: absolute; top: 640px; left: 0; right: 0; text-align: center; font-family: 'Oswald'; font-weight: 700; font-size: 44px; color: var(--black); letter-spacing: 8px; }
+  .tag-row { position: absolute; top: 800px; left: 0; right: 0; text-align: center; }
+  .tag-chip { display: inline-block; padding: 14px 32px; background: var(--black); color: var(--teal); font-family: 'Oswald'; font-weight: 700; font-size: 28px; letter-spacing: 4px; border-radius: 999px; margin: 0 8px; }
+  .cta { position: absolute; bottom: 300px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 80px; color: var(--black); }
+</style></head><body><div class="stage" id="cam">
+  <div class="title" id="title">FAN ART<br>FRIDAY.</div>
+  <div class="sub" id="sub">SHOW US YOUR BAYO.</div>
+  <div class="tag-row" id="tags"><span class="tag-chip">#CATALYSTVERSE</span><span class="tag-chip">@CATALYSTCOMICSHQ</span></div>
+  <div class="cta" id="cta">WE REPOST<br>THE BEST ONES.</div>
+  <div class="grain"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+KIT.linePop($('title'), 100, 260, 460);
+KIN.add($('sub'), {t0:1300, t1:1800, from:{opacity:0, ls:30}, to:{opacity:1, ls:8}, ease:'outExpo'});
+KIN.add($('tags'), {t0:2000, t1:2500, from:{opacity:0, y:30}, to:{opacity:1, y:0}, ease:'outQuart'});
+KIT.linePop($('cta'), 3000, 260, 440);
+KIT.drift($('cam'), 0, 7000, 1, 1.03);
+KIN.seek(0);
+</script></body></html>

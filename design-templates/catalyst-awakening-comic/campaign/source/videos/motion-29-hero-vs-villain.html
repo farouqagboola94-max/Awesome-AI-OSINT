@@ -1,0 +1,34 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  body { background: #06060d; }
+  .half { position: absolute; top: 0; bottom: 0; width: 50%; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+  .left { left: 0; background: linear-gradient(90deg, #06060d, #0a0a1f); }
+  .right { right: 0; background: linear-gradient(270deg, #06060d, #1a0308); }
+  .vs { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-family: 'Bebas Neue'; font-size: 130px; color: var(--gold); z-index: 10; }
+  .hname { font-family: 'Bebas Neue'; font-size: 100px; text-align: center; }
+  .htag { font-family: 'Oswald'; font-weight: 600; font-size: 22px; letter-spacing: 6px; color: var(--ash); margin-top: 8px; }
+  .divider { position: absolute; top: 0; bottom: 0; left: 50%; width: 4px; background: var(--iron); transform: translateX(-50%); }
+  .headline { position: absolute; bottom: 300px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 70px; color: var(--bone); letter-spacing: 4px; }
+</style></head><body><div class="stage" id="cam">
+  <div class="half left" id="left"><div class="hname" style="color:var(--gold)">BAYO</div><div class="htag">THE VESSEL</div></div>
+  <div class="half right" id="right"><div class="hname" style="color:#c0203a">CHIEF KALU</div><div class="htag">THE SYNDICATE BOSS</div></div>
+  <div class="divider"></div>
+  <div class="vs" id="vs">VS</div>
+  <div class="headline" id="headline">ISSUE 05 — THE COLLISION</div>
+  <div class="brandmark">CATALYST · <b>THE AWAKENING</b><div class="sitemark">CATALYST-AWAKENING.NETLIFY.APP</div></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+KIN.add($('left'), {t0:0, t1:600, from:{opacity:0, x:-80}, to:{opacity:1, x:0}, ease:'outExpo'});
+KIN.add($('right'), {t0:200, t1:800, from:{opacity:0, x:80}, to:{opacity:1, x:0}, ease:'outExpo'});
+KIT.slam($('vs'), 900, {from: 2.6, dur: 400, ease:'outBackHard'});
+KIT.shake($('cam'), 920, 300, 14);
+KIT.flash('rgba(244,184,0,0.3)', 900, 70);
+KIT.linePop($('headline'), 1700, 300, 480);
+KIT.drift($('cam'), 0, 7500, 1, 1.02);
+brandmark(5300, 7500);
+KIN.seek(0);
+</script></body></html>

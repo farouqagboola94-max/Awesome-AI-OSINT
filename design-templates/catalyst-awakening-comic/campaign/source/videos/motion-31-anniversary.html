@@ -1,0 +1,41 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  body { background: #06060d; }
+  .confetti { position: absolute; width: 14px; height: 14px; opacity: 0; }
+  .num { position: absolute; top: 280px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 400px; color: var(--gold); line-height: 0.8; }
+  .lab { position: absolute; top: 720px; left: 0; right: 0; text-align: center; font-family: 'Oswald'; font-weight: 700; font-size: 46px; letter-spacing: 14px; color: var(--bone); }
+  .thanks { position: absolute; bottom: 320px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 100px; color: var(--bone); }
+  .thanks span { color: var(--gold); }
+</style></head><body><div class="stage" id="cam">
+  <div id="confettiWrap"></div>
+  <div class="num" id="num">1</div>
+  <div class="lab" id="lab">YEAR IN LAGOS</div>
+  <div class="thanks" id="thanks">THANK YOU, <span>READERS</span>.</div>
+  <div class="brandmark">CATALYST · <b>THE AWAKENING</b><div class="sitemark">CATALYST-AWAKENING.NETLIFY.APP</div></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const wrap = document.getElementById('confettiWrap');
+const colors = ['var(--gold)','var(--red)','var(--teal)','var(--orange)','var(--bone)'];
+for (let i=0;i<28;i++) {
+  const el = document.createElement('div');
+  el.className = 'confetti';
+  el.style.left = Math.random()*1080+'px';
+  el.style.top = (Math.random()*400-200)+'px';
+  el.style.background = colors[i%colors.length];
+  wrap.appendChild(el);
+  const t0 = 300+Math.random()*400;
+  const fall = 900+Math.random()*700;
+  KIN.add(el, {t0, t1:t0+300, from:{opacity:0}, to:{opacity:1}, ease:'linear'});
+  KIN.add(el, {t0, t1:t0+fall, from:{y:0, rot:0}, to:{y:900+Math.random()*300, rot:360+Math.random()*360}, ease:'linear'});
+}
+KIT.slam($('num'), 300, {from: 2.4, dur: 420});
+KIN.add($('lab'), {t0:800, t1:1300, from:{opacity:0, ls:34}, to:{opacity:1, ls:14}, ease:'outExpo'});
+KIT.linePop($('thanks'), 2200, 280, 460);
+KIT.drift($('cam'), 0, 7000, 1, 1.03);
+brandmark(5000, 7000);
+KIN.seek(0);
+</script></body></html>

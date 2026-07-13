@@ -1,0 +1,37 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  body { background: #06060d; }
+  .title { position: absolute; top: 160px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 100px; color: var(--gold); letter-spacing: 4px; }
+  .row { position: absolute; left: 90px; right: 90px; display: flex; align-items: center; gap: 24px; height: 130px; }
+  .r1 { top: 360px; } .r2 { top: 500px; } .r3 { top: 640px; } .r4 { top: 780px; } .r5 { top: 920px; }
+  .rank { font-family: 'Bebas Neue'; font-size: 100px; width: 110px; text-align: center; }
+  .rname { font-family: 'Oswald'; font-weight: 700; font-size: 48px; letter-spacing: 4px; }
+  .rmeter { position: absolute; bottom: 0; left: 134px; right: 0; height: 6px; background: var(--iron); }
+  .rmeter-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0%; }
+</style></head><body><div class="stage" id="cam">
+  <div class="corner-tl"></div><div class="corner-tr"></div><div class="corner-bl"></div><div class="corner-br"></div>
+  <div class="title" id="title">POWER RANKING.</div>
+  <div class="row r1" id="row1"><span class="rank" style="color:var(--red)">1</span><span class="rname" style="color:var(--bone)">ṢÀNGÓ</span><div class="rmeter"><div class="rmeter-fill" id="f1" style="background:var(--red)"></div></div></div>
+  <div class="row r2" id="row2"><span class="rank" style="color:var(--orange)">2</span><span class="rname" style="color:var(--bone)">ÒGÚN</span><div class="rmeter"><div class="rmeter-fill" id="f2" style="background:var(--orange)"></div></div></div>
+  <div class="row r3" id="row3"><span class="rank" style="color:var(--gold)">3</span><span class="rname" style="color:var(--bone)">ẸṢÙ</span><div class="rmeter"><div class="rmeter-fill" id="f3" style="background:var(--gold)"></div></div></div>
+  <div class="row r4" id="row4"><span class="rank" style="color:var(--bone)">4</span><span class="rname" style="color:var(--bone)">OBATÀLÁ</span><div class="rmeter"><div class="rmeter-fill" id="f4" style="background:var(--bone)"></div></div></div>
+  <div class="row r5" id="row5"><span class="rank" style="color:var(--teal)">5</span><span class="rname" style="color:var(--bone)">Ọ̀ṢUN</span><div class="rmeter"><div class="rmeter-fill" id="f5" style="background:var(--teal)"></div></div></div>
+  <div class="brandmark">CATALYST · <b>THE AWAKENING</b><div class="sitemark">CATALYST-AWAKENING.NETLIFY.APP</div></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+cornerFrame(140, 700);
+KIT.charCascade($('title'), 200, 26, 280);
+const rows = [['row1','f1',95],['row2','f2',82],['row3','f3',70],['row4','f4',60],['row5','f5',55]];
+rows.forEach(([rid,fid,pct],i)=>{
+  const t = 1200 + i*260;
+  KIN.add($(rid), {t0:t, t1:t+380, from:{opacity:0, x:-80}, to:{opacity:1, x:0}, ease:'outQuart'});
+  KIN.add($(fid), {t0:t+150, t1:t+650, from:{sx:0.001,sy:1}, to:{sx:pct/100,sy:1}, ease:'outExpo'});
+});
+KIT.drift($('cam'), 0, 8000, 1, 1.03);
+brandmark(5800, 8000);
+KIN.seek(0);
+</script></body></html>

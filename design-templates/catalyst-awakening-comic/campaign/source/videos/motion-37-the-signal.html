@@ -1,0 +1,38 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  body { background: #06060d; }
+  .scanlines { position: absolute; inset: 0; background: repeating-linear-gradient(0deg, rgba(244,184,0,0.04) 0px, transparent 2px, transparent 4px); }
+  .term { position: absolute; top: 340px; left: 120px; right: 120px; font-family: 'Space Grotesk'; font-size: 32px; color: var(--gold); line-height: 1.7; }
+  .term .line { opacity: 0; }
+  .cursor { display: inline-block; width: 16px; height: 32px; background: var(--gold); opacity: 0; vertical-align: middle; }
+  .title { position: absolute; top: 900px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 110px; color: var(--bone); }
+</style></head><body><div class="stage" id="cam">
+  <div class="scanlines"></div>
+  <div class="corner-tl"></div><div class="corner-tr"></div><div class="corner-bl"></div><div class="corner-br"></div>
+  <div class="term">
+    <div class="line" id="l1">&gt; scanning frequency...</div>
+    <div class="line" id="l2">&gt; signal found: MUSHIN_NODE_04</div>
+    <div class="line" id="l3">&gt; decrypting...<span class="cursor" id="cursor">_</span></div>
+  </div>
+  <div class="title" id="title">THE SIGNAL.</div>
+  <div class="brandmark">CATALYST · <b>THE AWAKENING</b><div class="sitemark">CATALYST-AWAKENING.NETLIFY.APP</div></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+cornerFrame(150, 700);
+['l1','l2','l3'].forEach((id,i)=>{
+  const t = 400 + i*700;
+  KIN.add($(id), {t0:t, t1:t+300, from:{opacity:0}, to:{opacity:1}, ease:'linear'});
+});
+KIN.fx($('cursor'), 2500, 7500, (p,t)=>{
+  if (t<2500) return;
+  $('cursor').style.opacity = Math.floor((t-2500)/300) % 2 === 0 ? 1 : 0;
+});
+KIT.slam($('title'), 3200, {from: 2.2, dur: 400});
+KIT.drift($('cam'), 0, 7500, 1, 1.02);
+brandmark(5300, 7500);
+KIN.seek(0);
+</script></body></html>

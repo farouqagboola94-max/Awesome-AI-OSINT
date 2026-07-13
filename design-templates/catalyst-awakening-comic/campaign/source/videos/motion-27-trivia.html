@@ -1,0 +1,28 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  body { background: #06060d; }
+  .stamp { position: absolute; top: 220px; left: 50%; transform: translateX(-50%); padding: 14px 40px; border: 3px solid var(--gold); border-radius: 999px; font-family: 'Oswald'; font-weight: 700; font-size: 28px; letter-spacing: 10px; color: var(--gold); }
+  .fact { position: absolute; top: 420px; left: 100px; right: 100px; text-align: center; font-family: 'Bebas Neue'; font-size: 100px; color: var(--bone); line-height: 1.05; }
+  .fact span { color: var(--gold); }
+  .sub { position: absolute; bottom: 400px; left: 100px; right: 100px; text-align: center; font-family: 'Crimson Pro'; font-style: italic; font-size: 42px; color: var(--ash); }
+</style></head><body><div class="stage" id="cam">
+  <div class="corner-tl"></div><div class="corner-tr"></div><div class="corner-bl"></div><div class="corner-br"></div>
+  <div class="stamp" id="stamp">◈ DID YOU KNOW ◈</div>
+  <div class="fact" id="fact">ẸṢÙ ISN'T EVIL.<br>HE'S <span>NEUTRAL</span>.</div>
+  <div class="sub" id="sub">In Yoruba tradition, Ẹṣù is the messenger between worlds — not a devil, a mediator.</div>
+  <div class="brandmark">CATALYST · <b>THE AWAKENING</b><div class="sitemark">CATALYST-AWAKENING.NETLIFY.APP</div></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const stamp = document.querySelector('.stamp');
+stamp.dataset.kbase = 'translateX(-50%)';
+KIN.add(stamp, {t0:0, t1:600, from:{opacity:0, y:-20}, to:{opacity:1, y:0}, ease:'outExpo'});
+KIT.linePop($('fact'), 700, 300, 500);
+KIT.linePop($('sub'), 2400, 260, 460);
+KIT.drift($('cam'), 0, 8000, 1, 1.03);
+brandmark(5800, 8000);
+KIN.seek(0);
+</script></body></html>

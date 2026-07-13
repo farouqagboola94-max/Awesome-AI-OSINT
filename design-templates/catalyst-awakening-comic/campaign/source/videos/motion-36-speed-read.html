@@ -1,0 +1,36 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  body { background: #06060d; }
+  .clock { position: absolute; top: 300px; left: 50%; transform: translateX(-50%); width: 320px; height: 320px; border-radius: 999px; border: 8px solid var(--gold); }
+  .hand { position: absolute; top: 50%; left: 50%; width: 6px; background: var(--gold); transform-origin: bottom center; }
+  .h-min { height: 130px; margin-top: -130px; margin-left: -3px; }
+  .h-sec { height: 145px; width: 3px; background: var(--red); margin-top: -145px; margin-left: -1.5px; }
+  .title { position: absolute; top: 720px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 130px; color: var(--bone); line-height: 0.9; }
+  .sub { position: absolute; top: 900px; left: 0; right: 0; text-align: center; font-family: 'Oswald'; font-weight: 700; font-size: 34px; letter-spacing: 8px; color: var(--gold); }
+</style></head><body><div class="stage" id="cam">
+  <div class="clock" id="clock">
+    <div class="hand h-min" id="hmin"></div>
+    <div class="hand h-sec" id="hsec"></div>
+  </div>
+  <div class="title" id="title">5 MIN READ.</div>
+  <div class="sub" id="sub">◈ ISSUE ONE, START TO FINISH ◈</div>
+  <div class="brandmark">CATALYST · <b>THE AWAKENING</b><div class="sitemark">CATALYST-AWAKENING.NETLIFY.APP</div></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+KIN.add($('clock'), {t0:0, t1:600, from:{opacity:0, scale:0.6}, to:{opacity:1, scale:1}, ease:'outBack'});
+KIN.add($('hmin'), {t0:400, t1:2000, from:{rot:0}, to:{rot:300}, ease:'outQuart'});
+KIN.fx($('hsec'), 400, 5000, (p,t)=>{
+  if (t<400) return;
+  const spins = (t-400)/1000 * 340;
+  $('hsec').style.transform = `rotate(${spins}deg)`;
+});
+KIT.slam($('title'), 1600, {from: 2, dur: 380});
+KIN.add($('sub'), {t0:2200, t1:2700, from:{opacity:0, ls:30}, to:{opacity:1, ls:8}, ease:'outExpo'});
+KIT.drift($('cam'), 0, 7000, 1, 1.02);
+brandmark(5000, 7000);
+KIN.seek(0);
+</script></body></html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  body { background: #06060d; }
+  .tag { position: absolute; top: 220px; left: 0; right: 0; text-align: center; font-family: 'Oswald'; font-weight: 700; font-size: 28px; letter-spacing: 14px; color: var(--gold); }
+  .title { position: absolute; top: 340px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 130px; color: var(--bone); line-height: 0.9; }
+  .frame { position: absolute; top: 700px; left: 140px; right: 140px; height: 420px; border: 3px dashed var(--iron); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk'; font-size: 28px; letter-spacing: 4px; color: var(--ash); }
+  .note { position: absolute; bottom: 300px; left: 100px; right: 100px; text-align: center; font-family: 'Crimson Pro'; font-style: italic; font-size: 40px; color: var(--bone); }
+</style></head><body><div class="stage" id="cam">
+  <div class="corner-tl"></div><div class="corner-tr"></div><div class="corner-bl"></div><div class="corner-br"></div>
+  <div class="tag" id="tag">◈ BEHIND THE PANEL ◈</div>
+  <div class="title" id="title">HOW WE<br>DRAW LAGOS.</div>
+  <div class="frame" id="frame">[ SKETCH → INK → COLOR ]</div>
+  <div class="note" id="note">Every panel starts with a real street.</div>
+  <div class="brandmark">CATALYST · <b>THE AWAKENING</b><div class="sitemark">CATALYST-AWAKENING.NETLIFY.APP</div></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+cornerFrame(160, 700);
+KIN.add($('tag'), {t0:0, t1:600, from:{opacity:0, ls:34}, to:{opacity:1, ls:14}, ease:'outExpo'});
+KIT.charCascade($('title'), 700, 36, 340);
+KIN.add($('frame'), {t0:2000, t1:2600, from:{opacity:0, scale:0.92}, to:{opacity:1, scale:1}, ease:'outQuart'});
+KIT.linePop($('note'), 3200, 280, 440);
+KIT.drift($('cam'), 0, 7500, 1, 1.02);
+brandmark(5300, 7500);
+KIN.seek(0);
+</script></body></html>

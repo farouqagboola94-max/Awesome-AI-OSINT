@@ -1,0 +1,29 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  body { background: var(--gold); }
+  .stage { background: var(--gold); }
+  .title { position: absolute; top: 260px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 150px; color: var(--black); line-height: 0.85; }
+  .q { position: absolute; top: 560px; left: 100px; right: 100px; text-align: center; font-family: 'Oswald'; font-weight: 700; font-size: 46px; color: var(--black); letter-spacing: 2px; }
+  .opt { position: absolute; left: 140px; right: 140px; padding: 26px 0; border-bottom: 4px solid var(--black); font-family: 'Bebas Neue'; font-size: 60px; color: var(--black); text-align: center; }
+  .o1 { top: 750px; } .o2 { top: 860px; }
+  .cta { position: absolute; bottom: 260px; left: 0; right: 0; text-align: center; font-family: 'Oswald'; font-weight: 700; font-size: 36px; letter-spacing: 8px; color: var(--black); }
+</style></head><body><div class="stage" id="cam">
+  <div class="title" id="title">YOU DECIDE.</div>
+  <div class="q" id="q">WHO SHOULD BAYO TRUST NEXT?</div>
+  <div class="opt o1" id="o1">A — TUNDE "WIRE"</div>
+  <div class="opt o2" id="o2">B — CHIDINMA "NAIJA"</div>
+  <div class="cta" id="cta">VOTE IN THE COMMENTS ↓</div>
+  <div class="grain"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+KIT.slam($('title'), 100, {from: 2, dur: 400});
+KIN.add($('q'), {t0:1000, t1:1500, from:{opacity:0, y:30}, to:{opacity:1, y:0}, ease:'outQuart'});
+KIN.add($('o1'), {t0:1900, t1:2400, from:{opacity:0, x:-60}, to:{opacity:1, x:0}, ease:'outQuart'});
+KIN.add($('o2'), {t0:2200, t1:2700, from:{opacity:0, x:60}, to:{opacity:1, x:0}, ease:'outQuart'});
+KIN.add($('cta'), {t0:3200, t1:3700, from:{opacity:0, ls:30}, to:{opacity:1, ls:8}, ease:'outExpo'});
+KIT.drift($('cam'), 0, 7000, 1, 1.03);
+KIN.seek(0);
+</script></body></html>

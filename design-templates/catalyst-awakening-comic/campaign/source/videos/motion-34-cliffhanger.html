@@ -1,0 +1,28 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../pipeline/base.css"><link rel="stylesheet" href="../pipeline/motion.css">
+<style>
+  body { background: var(--red); }
+  .stage { background: var(--red); }
+  .warn { position: absolute; top: 240px; left: 0; right: 0; text-align: center; font-family: 'Oswald'; font-weight: 700; font-size: 30px; letter-spacing: 14px; color: var(--black); }
+  .big { position: absolute; top: 400px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 220px; color: var(--black); line-height: 0.85; }
+  .q { position: absolute; top: 900px; left: 0; right: 0; text-align: center; font-family: 'Bebas Neue'; font-size: 90px; color: var(--bone); }
+  .cta { position: absolute; bottom: 300px; left: 0; right: 0; text-align: center; font-family: 'Oswald'; font-weight: 700; font-size: 34px; letter-spacing: 8px; color: var(--black); }
+</style></head><body><div class="stage" id="cam">
+  <div class="warn" id="warn">◈ ISSUE 4 · FINAL PAGE ◈</div>
+  <div class="big" id="big">HE FELL.</div>
+  <div class="q" id="q">DOES HE GET UP?</div>
+  <div class="cta" id="cta">FIND OUT — READ FREE ↗</div>
+  <div class="grain"></div>
+</div>
+<script src="../pipeline/kinetic.js"></script><script src="../pipeline/kit.js"></script><script src="../pipeline/motion-common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+KIN.add($('warn'), {t0:0, t1:600, from:{opacity:0, ls:32}, to:{opacity:1, ls:14}, ease:'outExpo'});
+KIT.slam($('big'), 700, {from: 2.6, dur: 460, ease:'outBackHard'});
+KIT.shake($('cam'), 720, 380, 16);
+KIT.flash('rgba(0,0,0,0.4)', 700, 90);
+KIN.add($('q'), {t0:1700, t1:2300, from:{opacity:0, y:60, blur:10}, to:{opacity:1, y:0, blur:0}, ease:'outQuart'});
+KIN.add($('cta'), {t0:2800, t1:3300, from:{opacity:0, ls:30}, to:{opacity:1, ls:8}, ease:'outExpo'});
+KIT.drift($('cam'), 0, 7000, 1, 1.03);
+KIN.seek(0);
+</script></body></html>
