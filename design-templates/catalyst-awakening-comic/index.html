@@ -7489,6 +7489,85 @@ kbd {
 }
 @media (prefers-reduced-motion: reduce) { .reader-page.current { animation: none; } }
 
+/* ── Batch 10: Covenant of the Awakened ── */
+#covenant-overlay {
+  position: fixed; inset: 0; z-index: 9950;
+  background: rgba(6,6,13,0.9); backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center; padding: 1.2rem;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+}
+#covenant-overlay.open { opacity: 1; pointer-events: auto; }
+#covenant-card {
+  max-width: 480px; width: 100%; text-align: center;
+  background: linear-gradient(165deg, #0d0d1c 0%, #0a0a14 60%, #100c06 100%);
+  border: 1px solid rgba(244,184,0,0.4); border-radius: 8px;
+  padding: 2.6rem 2.2rem 2.2rem;
+  box-shadow: 0 0 90px rgba(244,184,0,0.14), 0 30px 80px rgba(0,0,0,0.8);
+  transform: scale(0.92) translateY(12px); transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+#covenant-overlay.open #covenant-card { transform: scale(1) translateY(0); }
+.cov-eyebrow {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.6rem;
+  letter-spacing: 0.34em; color: #00C9B1; margin-bottom: 1.5rem;
+}
+.cov-no {
+  font-family: 'Bebas Neue', sans-serif; font-size: 1rem;
+  letter-spacing: 0.3em; color: rgba(240,237,229,0.5); margin-bottom: 0.4rem;
+}
+.cov-no strong { color: #F4B800; font-weight: 400; font-size: 2.6rem; display: block; line-height: 1.1; letter-spacing: 0.06em; }
+.cov-name {
+  font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.9rem, 5vw, 2.6rem);
+  color: #F0EDE5; margin: 0.8rem 0 0.2rem; letter-spacing: 0.04em; line-height: 1.05;
+}
+.cov-district {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.78rem;
+  letter-spacing: 0.22em; text-transform: uppercase; color: rgba(244,184,0,0.75);
+}
+.cov-rule { height: 1px; background: linear-gradient(90deg, transparent, rgba(244,184,0,0.5), transparent); margin: 1.6rem 0; }
+.cov-vow {
+  font-size: 0.86rem; line-height: 1.85; color: rgba(240,237,229,0.68);
+  margin-bottom: 1.7rem;
+}
+.cov-vow em { color: #F4B800; font-style: italic; }
+.cov-actions { display: flex; gap: 0.7rem; justify-content: center; flex-wrap: wrap; }
+.cov-actions button {
+  font-family: 'Bebas Neue', sans-serif; font-size: 0.82rem; letter-spacing: 0.18em;
+  padding: 0.7rem 1.3rem; border-radius: 3px; cursor: pointer; transition: all 0.2s ease;
+}
+#cov-share { background: rgba(244,184,0,0.12); border: 1px solid rgba(244,184,0,0.5); color: #F4B800; }
+#cov-share:hover { background: rgba(244,184,0,0.22); }
+#cov-close { background: none; border: 1px solid rgba(240,237,229,0.25); color: rgba(240,237,229,0.75); }
+#cov-close:hover { border-color: #00C9B1; color: #00C9B1; }
+
+/* Wall of the Awakened */
+#awakened-wall { margin: 0 auto 2.8rem; max-width: 900px; text-align: center; }
+#awakened-wall .aw-title {
+  font-family: 'Bebas Neue', sans-serif; font-size: 0.78rem; letter-spacing: 0.32em;
+  color: #F4B800; margin-bottom: 1.1rem;
+}
+#awakened-wall .aw-chips { display: flex; flex-wrap: wrap; gap: 0.55rem; justify-content: center; }
+#awakened-wall .aw-chip {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.66rem; letter-spacing: 0.1em;
+  color: rgba(240,237,229,0.7); border: 1px solid rgba(0,201,177,0.3);
+  background: rgba(0,201,177,0.05); border-radius: 3px; padding: 0.45rem 0.8rem;
+}
+#awakened-wall .aw-chip strong { color: #00C9B1; font-weight: 500; margin-right: 0.4rem; }
+
+/* Àṣẹ secret pulse */
+@keyframes asePulse {
+  0% { box-shadow: inset 0 0 0 rgba(244,184,0,0); }
+  35% { box-shadow: inset 0 0 140px rgba(244,184,0,0.28); }
+  100% { box-shadow: inset 0 0 0 rgba(244,184,0,0); }
+}
+body.ase-pulse::after {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 10000;
+  animation: asePulse 1.6s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  #covenant-overlay, #covenant-card { transition: none; }
+  body.ase-pulse::after { animation: none; }
+}
+
 /* ── Batch 9: Premium polish — brand selection + scrollbars ── */
 ::selection { background: #F4B800; color: #06060d; }
 ::-moz-selection { background: #F4B800; color: #06060d; }
@@ -7798,6 +7877,26 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   <input type="text" name="premium_since">
   <input type="text" name="paystack_ref">
 </form>
+
+<!-- ── Covenant of the Awakened — naming ceremony ── -->
+<div id="covenant-overlay" role="dialog" aria-modal="true" aria-label="Covenant of the Awakened">
+  <div id="covenant-card">
+    <div class="cov-eyebrow">◈ THE ORACLE HAS RECORDED YOUR NAME ◈</div>
+    <div class="cov-no">AWAKENED<strong id="cov-no-val">№ —</strong></div>
+    <h3 class="cov-name" id="cov-name">—</h3>
+    <div class="cov-district" id="cov-district">—</div>
+    <div class="cov-rule"></div>
+    <p class="cov-vow" id="cov-vow">
+      <em>“Ẹnìkan kì í jẹ́ àwa dé.”</em> — One person alone does not say <em>“we have arrived.”</em><br>
+      This name and this number are yours for as long as the city stands.
+      When the Ọ̀run opens and the roll of the Awakened is read, yours is on it.
+    </p>
+    <div class="cov-actions">
+      <button id="cov-share">◈ Share Your Covenant</button>
+      <button id="cov-close">Àṣẹ — Continue</button>
+    </div>
+  </div>
+</div>
 
 <!-- ── Image Lightbox Overlay ── -->
 <div id="img-lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
@@ -20129,6 +20228,155 @@ document.addEventListener('DOMContentLoaded', function(){
 })();
 </script>
 
+<!-- ═══ BATCH 10: COVENANT OF THE AWAKENED ═══ -->
+<script>
+(function() {
+  'use strict';
+  var COV_KEY = 'catalyst_covenant';
+  var overlay = document.getElementById('covenant-overlay');
+  var pendingCeremony = null;
+
+  function showCeremony(cov) {
+    if (!overlay || !cov) return;
+    document.getElementById('cov-no-val').textContent = '№ ' + cov.member_no;
+    document.getElementById('cov-name').textContent = cov.covenant_name;
+    document.getElementById('cov-district').textContent = 'of ' + cov.district + ' · Neo-Lagos';
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    if (window.catalystTrack) catalystTrack('covenant_ceremony', { member_no: cov.member_no, is_new: !!cov.is_new });
+  }
+  function closeCeremony() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  if (overlay) {
+    document.getElementById('cov-close').addEventListener('click', closeCeremony);
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) closeCeremony(); });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && overlay.classList.contains('open')) closeCeremony();
+    });
+    document.getElementById('cov-share').addEventListener('click', function() {
+      var cov = null;
+      try { cov = JSON.parse(localStorage.getItem(COV_KEY)); } catch(e) {}
+      if (!cov) return;
+      var txt = 'I am Awakened № ' + cov.member_no + ' — "' + cov.covenant_name + '" of ' + cov.district +
+        '. The Covenant has my name. Read Catalyst: The Awakening free: https://catalyst-awakening.netlify.app/';
+      if (navigator.share) {
+        navigator.share({ title: 'The Covenant of the Awakened', text: txt }).catch(function() {});
+      } else if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(txt).then(function() {
+          if (window.showToast) showToast('Covenant copied — share it!', 'success', 2500);
+        }).catch(function() {});
+      }
+    });
+  }
+
+  /* The operative briefing modal plays first; the ceremony follows its close */
+  function queueCeremony(cov) {
+    var op = document.getElementById('opOverlay');
+    if (op && op.classList.contains('open')) {
+      pendingCeremony = cov;
+    } else {
+      setTimeout(function() { showCeremony(cov); }, 600);
+    }
+  }
+  var origCloseOp = window.closeOpModal;
+  if (typeof origCloseOp === 'function') {
+    window.closeOpModal = function() {
+      origCloseOp.apply(this, arguments);
+      if (pendingCeremony) {
+        var cov = pendingCeremony;
+        pendingCeremony = null;
+        setTimeout(function() { showCeremony(cov); }, 450);
+      }
+    };
+  }
+
+  function joinCovenant(email) {
+    if (!email || !window._supabase) return;
+    window._supabase.rpc('join_covenant', { p_email: email }).then(function(res) {
+      if (!res || res.error || !res.data) return;
+      var cov = res.data;
+      try { localStorage.setItem(COV_KEY, JSON.stringify(cov)); } catch(e) {}
+      // The operative briefing shows a placeholder number — make it real
+      var opNum = document.getElementById('opNum');
+      if (opNum) opNum.textContent = '#' + String(cov.member_no).padStart(4, '0');
+      queueCeremony(cov);
+    }, function() {});
+  }
+
+  /* Bestow the covenant whenever the operative briefing fires (i.e. after a
+     successful, non-bot newsletter signup) */
+  var origShowOp = window.showOperativeModal;
+  if (typeof origShowOp === 'function') {
+    window.showOperativeModal = function(name, email) {
+      origShowOp.apply(this, arguments);
+      joinCovenant(email);
+    };
+  }
+
+  /* Wall of the Awakened — public honour roll, in-universe names only */
+  (function wall(attempt) {
+    if (!window._supabase) {
+      if (attempt < 25) setTimeout(function() { wall(attempt + 1); }, 400);
+      return;
+    }
+    window._supabase.rpc('get_recent_awakened', { p_limit: 12 }).then(function(res) {
+      if (!res || res.error || !res.data || !res.data.length) return;
+      var host = document.querySelector('#community .quotes-grid');
+      if (!host) return;
+      var wallEl = document.createElement('div');
+      wallEl.id = 'awakened-wall';
+      wallEl.setAttribute('aria-label', 'Wall of the Awakened — newest covenant members');
+      wallEl.innerHTML = '<div class="aw-title">◈ WALL OF THE AWAKENED — THE COVENANT GROWS ◈</div>' +
+        '<div class="aw-chips">' + res.data.map(function(m) {
+          return '<span class="aw-chip"><strong>№ ' + m.member_no + '</strong>' + m.covenant_name + ', ' + m.district + '</span>';
+        }).join('') + '</div>';
+      host.parentNode.insertBefore(wallEl, host);
+    }, function() {});
+  })(0);
+
+  /* Returning members can summon their card from the palette */
+  (function registerPaletteCard(attempt) {
+    if (!window.catalystPaletteAdd) {
+      if (attempt < 10) setTimeout(function() { registerPaletteCard(attempt + 1); }, 300);
+      return;
+    }
+    window.catalystPaletteAdd([{
+      label: 'My Covenant Card',
+      kind: 'Covenant',
+      action: function() {
+        var cov = null;
+        try { cov = JSON.parse(localStorage.getItem(COV_KEY)); } catch(e) {}
+        if (cov) showCeremony(cov);
+        else if (window.showToast) showToast('Join the movement first — the Oracle records every name.', 'info', 3500);
+      }
+    }]);
+  })(0);
+
+  /* Àṣẹ — typing the word anywhere wakes the city */
+  (function() {
+    var buffer = '';
+    document.addEventListener('keydown', function(e) {
+      var tag = (e.target.tagName || '').toLowerCase();
+      if (tag === 'input' || tag === 'textarea' || tag === 'select' || e.target.isContentEditable) return;
+      if (e.key.length !== 1) return;
+      buffer = (buffer + e.key.toLowerCase()).slice(-3);
+      if (buffer === 'ase') {
+        buffer = '';
+        document.body.classList.remove('ase-pulse');
+        void document.body.offsetWidth; /* restart the animation */
+        document.body.classList.add('ase-pulse');
+        if (window.showToast) showToast('Àṣẹ. The city hears you. ✦', 'success', 2500);
+        if (window.catalystTrack) catalystTrack('ase_invoked');
+        setTimeout(function() { document.body.classList.remove('ase-pulse'); }, 1700);
+      }
+    });
+  })();
+
+})();
+</script>
+
 <!-- ═══ BATCH 6: PAGINATED STORY READER ═══ -->
 <script>
 (function() {
@@ -20575,6 +20823,7 @@ document.addEventListener('DOMContentLoaded', function(){
       if (!res || res.error || !res.data) return;
       var d = res.data;
       var stats = [
+        { n: d.awakened, label: 'Covenant Members' },
         { n: d.subscribers, label: 'Awakened Readers' },
         { n: d.pages_read, label: 'Story Pages Read' },
         { n: d.heroes_revealed, label: 'Heroes Revealed' }
