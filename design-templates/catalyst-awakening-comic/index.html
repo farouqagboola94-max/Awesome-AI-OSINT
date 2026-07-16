@@ -7554,6 +7554,53 @@ kbd {
 }
 #awakened-wall .aw-chip strong { color: #00C9B1; font-weight: 500; margin-right: 0.4rem; }
 
+/* ── Batch 12: Lore glossary tooltips ── */
+.lore-term {
+  border-bottom: 1px dotted rgba(244,184,0,0.55);
+  cursor: help; text-decoration: none; color: inherit;
+}
+.lore-term:hover, .lore-term:focus-visible {
+  border-bottom-color: #F4B800; color: #F4B800; outline: none;
+}
+#lore-tip {
+  position: fixed; z-index: 10002; max-width: 300px;
+  background: #0d0d1c; border: 1px solid rgba(244,184,0,0.45);
+  border-radius: 5px; padding: 0.75rem 0.9rem;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.7);
+  opacity: 0; pointer-events: none; transition: opacity 0.15s ease;
+}
+#lore-tip.show { opacity: 1; }
+#lore-tip .lt-term {
+  font-family: 'Bebas Neue', sans-serif; font-size: 0.85rem;
+  letter-spacing: 0.14em; color: #F4B800; margin-bottom: 0.3rem;
+}
+#lore-tip .lt-def {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.74rem;
+  line-height: 1.65; color: rgba(240,237,229,0.8);
+}
+@media (prefers-reduced-motion: reduce) { #lore-tip { transition: none; } }
+
+/* ── Batch 12: print the page you're reading, cleanly ── */
+@media print {
+  body * { visibility: hidden; }
+  #read, #read * { visibility: visible; }
+  #read .issue-reader-panel:not(.active),
+  #read .reader-cover, #read .reader-nav, #read .reader-tools,
+  #read .reader-journey, #read .issue-tabs, #read .section-photo-bg,
+  #read .reader-page:not(.current) { display: none !important; }
+  #read { position: absolute; left: 0; top: 0; width: 100%; padding: 0; }
+  body { background: #fff !important; }
+  #read .story-content, #read .story-content * {
+    color: #111 !important; background: transparent !important;
+    text-shadow: none !important; border-color: #999 !important;
+  }
+  #read .reader-chrome { border-bottom: 1px solid #999; }
+  #read .reader-ticks span { background: #ccc !important; }
+  .lore-term { border-bottom: none; }
+  #scroll-progress, #kb-trigger-btn, #covenant-chip, #back-to-top,
+  #toast-container, #cookie-banner, #resume-banner { display: none !important; }
+}
+
 /* Covenant member chip — quiet, permanent presence */
 #covenant-chip {
   position: fixed; bottom: 9.8rem; right: 1.5rem; z-index: 9000;
@@ -21033,6 +21080,123 @@ document.addEventListener('DOMContentLoaded', function(){
       }
     };
   }
+
+})();
+</script>
+
+<!-- ═══ BATCH 12: LORE GLOSSARY ═══ -->
+<script>
+(function() {
+  'use strict';
+
+  /* Yoruba & Lagos terms defined for readers meeting them for the first
+     time. First occurrence per story page gets a dotted-gold underline. */
+  var GLOSSARY = [
+    { term: 'Aṣẹ', variants: ['Aṣẹ', 'ASẸ', 'Àṣẹ', 'Ase'], def: 'The divine power to make things happen — the current every Orisha and vessel runs on. Spoken aloud, it is an affirmation: "so be it."' },
+    { term: 'Ọ̀run', variants: ['Ọ̀run', 'Orun'], def: 'The Yoruba spirit realm — the other side of the veil. It has begun bleeding into Lagos.' },
+    { term: 'Orisha', variants: ['Orisha', 'Orishas'], def: 'The divine spirits of Yoruba cosmology — Ṣàngó, Ògún, Ẹṣù, and hundreds more. They are reawakening.' },
+    { term: 'Ṣàngó', variants: ['Ṣàngó', 'Sango'], def: 'Orisha of thunder, lightning, and justice. He speaks in storms and answers the talking drum.' },
+    { term: 'Ògún', variants: ['Ògún', 'Ogun'], def: 'Orisha of iron, metalwork, and war. Patient as rust. Honest as a blade.' },
+    { term: 'Ẹṣù', variants: ['Ẹṣù', 'Esu'], def: 'Orisha of crossroads, chance, and choice. He sees every path at once — and now, so does Bayo.' },
+    { term: 'Ifá', variants: ['Ifá', 'Ifa'], def: 'The Yoruba divination system and its four-thousand-year body of knowledge, kept by priests of Ọ̀rúnmìlà.' },
+    { term: 'danfo', variants: ['danfo'], def: "Lagos's yellow minibus taxis — fast, loud, and held together by faith and duct tape." },
+    { term: 'NEPA', variants: ['NEPA'], def: 'The old name Lagosians still use for the power company. "NEPA don take light" — the power is out. Again.' },
+    { term: 'wahala', variants: ['wahala'], def: 'Trouble. Palaver. The thing Lagos always has in surplus.' },
+    { term: 'ìyá’lù', variants: ['ìyá’lù', "ìyá'lù", 'iya ilu'], def: 'The "mother drum" — the lead talking drum whose tonal phrases carry the message. The oldest telephone in existence.' },
+    { term: 'area boy', variants: ['area boys', 'area boy'], def: 'Street-corner operators of Lagos — unofficial toll collectors, occasional muscle, always watching.' },
+    { term: 'Mushin', variants: ['Mushin'], def: 'Dense, working-class district of mainland Lagos. Bayo’s home turf. It never sleeps — it rests with one eye open.' },
+    { term: 'Balogun', variants: ['Balogun'], def: 'The vast market sprawl on Lagos Island — ground zero of the first Ọ̀run-Bleed.' },
+    { term: 'Third Mainland Bridge', variants: ['Third Mainland Bridge'], def: 'The long bridge across the Lagos Lagoon. Lately it whispers names at 3 AM.' },
+    { term: 'Ajele', variants: ['Ajele'], def: 'Spirit-agents that fall through tears in the sky — things that learned to pretend to have bodies but haven’t committed to the lie.' }
+  ];
+
+  /* Tooltip singleton */
+  var tip = document.createElement('div');
+  tip.id = 'lore-tip';
+  tip.setAttribute('role', 'tooltip');
+  tip.innerHTML = '<div class="lt-term"></div><div class="lt-def"></div>';
+  document.body.appendChild(tip);
+  var tipTerm = tip.querySelector('.lt-term');
+  var tipDef = tip.querySelector('.lt-def');
+  var activeEl = null;
+
+  function showTip(el) {
+    activeEl = el;
+    tipTerm.textContent = el.getAttribute('data-term');
+    tipDef.textContent = el.getAttribute('data-def');
+    tip.classList.add('show');
+    var r = el.getBoundingClientRect();
+    var tw = Math.min(300, window.innerWidth - 24);
+    var left = Math.min(Math.max(r.left, 12), window.innerWidth - tw - 12);
+    tip.style.left = left + 'px';
+    // Prefer above the term; flip below if there's no room
+    tip.style.top = '0px';
+    var th = tip.offsetHeight;
+    var top = r.top - th - 10;
+    if (top < 12) top = r.bottom + 10;
+    tip.style.top = top + 'px';
+    el.setAttribute('aria-describedby', 'lore-tip');
+  }
+  function hideTip() {
+    tip.classList.remove('show');
+    if (activeEl) { activeEl.removeAttribute('aria-describedby'); activeEl = null; }
+  }
+  document.addEventListener('scroll', hideTip, { passive: true });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') hideTip(); });
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest || (!e.target.closest('.lore-term') && !e.target.closest('#lore-tip'))) hideTip();
+  });
+
+  function bindTerm(span) {
+    span.addEventListener('mouseenter', function() { showTip(span); });
+    span.addEventListener('mouseleave', function() { if (activeEl === span) hideTip(); });
+    span.addEventListener('focus', function() { showTip(span); });
+    span.addEventListener('blur', function() { if (activeEl === span) hideTip(); });
+    span.addEventListener('click', function(e) {
+      e.stopPropagation();
+      activeEl === span && tip.classList.contains('show') ? hideTip() : showTip(span);
+    });
+  }
+
+  /* Mark the first occurrence of each term within a reader page */
+  function markPage(pageEl) {
+    var hosts = pageEl.querySelectorAll('.story-prose, .speech-bubble, .panel-narration, .rt-open');
+    var found = {};
+    GLOSSARY.forEach(function(g) {
+      if (found[g.term]) return;
+      for (var h = 0; h < hosts.length && !found[g.term]; h++) {
+        var walker = document.createTreeWalker(hosts[h], NodeFilter.SHOW_TEXT, null);
+        var node;
+        while ((node = walker.nextNode())) {
+          if (node.parentNode.closest('.lore-term')) continue;
+          var text = node.nodeValue;
+          for (var v = 0; v < g.variants.length; v++) {
+            var re;
+            try { re = new RegExp('(?<![\\p{L}\\p{M}’\'])' + g.variants[v].replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?![\\p{L}\\p{M}])', 'u'); }
+            catch(e) { return; } // lookbehind unsupported — skip glossary gracefully
+            var m = re.exec(text);
+            if (m) {
+              var span = document.createElement('span');
+              span.className = 'lore-term';
+              span.setAttribute('tabindex', '0');
+              span.setAttribute('data-term', g.term);
+              span.setAttribute('data-def', g.def);
+              span.textContent = m[0];
+              var after = node.splitText(m.index);
+              after.nodeValue = after.nodeValue.slice(m[0].length);
+              node.parentNode.insertBefore(span, after);
+              bindTerm(span);
+              found[g.term] = true;
+              break;
+            }
+          }
+          if (found[g.term]) break;
+        }
+      }
+    });
+  }
+
+  document.querySelectorAll('.issue-reader-panel .reader-page').forEach(markPage);
 
 })();
 </script>
