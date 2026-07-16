@@ -29,3 +29,11 @@
   Cache-Control: no-cache, no-store, must-revalidate
   Content-Type: application/javascript; charset=UTF-8
   Service-Worker-Allowed: /
+
+/feed.xml
+  Cache-Control: public, max-age=3600
+  Content-Type: application/rss+xml; charset=UTF-8
+
+/llms.txt
+  Cache-Control: public, max-age=86400
+  Content-Type: text/plain; charset=UTF-8

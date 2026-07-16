@@ -77,6 +77,20 @@
     Content-Type = "application/javascript; charset=UTF-8"
     Service-Worker-Allowed = "/"
 
+# RSS feed
+[[headers]]
+  for = "/feed.xml"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+    Content-Type = "application/rss+xml; charset=UTF-8"
+
+# llms.txt
+[[headers]]
+  for = "/llms.txt"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+    Content-Type = "text/plain; charset=UTF-8"
+
 # SPA fallback — keeps hash routing + deep links working
 [[redirects]]
   from = "/*"

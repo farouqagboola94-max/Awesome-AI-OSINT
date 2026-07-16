@@ -1,0 +1,39 @@
+# Catalyst: The Awakening
+
+> A Lagos noir comic universe rooted in Yoruba mythology. Four free issues follow
+> Adebayo "Bayo" Adeyemi, a 19-year-old from Mushin who awakens as the Catalyst —
+> a vessel carrying the Aṣẹ of every Orisha at once — as the spirit world (the Ọ̀run)
+> bleeds into Neo-Lagos and the Pale Council moves against the city.
+
+Site: https://catalyst-awakening.netlify.app/
+
+## Reading the story
+
+- Issues 1–4 are free, presented as a paginated reader with deep links:
+  - Issue #01 — Awaken, O City: /#read-i1-p0
+  - Issue #02 — Ṣàngó's Daughter: /#read-i2-p0
+  - Issue #03 — Iron in the Blood: /#read-i3-p0
+  - Issue #04 — The Chosen Four (Arc I finale): /#read-i4-p0
+- Any page is addressable as /#read-i{issue}-p{page}.
+- RSS: /feed.xml · Sitemap: /sitemap.xml
+
+## Key characters
+
+- Bayo Adeyemi — The Catalyst; multi-Orisha vessel, classification ÌMỌ̀LẸ̀-ÀÁRỌ̀
+- Amara Okafor — Thunderstrike; Ṣàngó conduit through the talking drum
+- Ikenna Eze — The Iron Wolf; Ògún vessel, iron-skinned Mushin mechanic
+- Zara — The Mirror; shadow operative
+- The Oracle (Chief Adesanya) — 144-year-old seer and handler
+- The Architect & the Pale Council — Geneva-based harvesters of Orisha power
+
+## Community
+
+Joining the newsletter enrolls readers in the Covenant of the Awakened: a
+permanent numbered membership with a deterministic in-universe name (only an
+email hash is stored server-side; the public honour roll shows in-universe
+names only).
+
+## Attribution
+
+Original fiction by the CatalystVerse team, Lagos. Do not reproduce full issue
+text; quoting short excerpts with a link to the reader page is welcome.

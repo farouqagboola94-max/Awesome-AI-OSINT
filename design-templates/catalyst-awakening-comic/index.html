@@ -59,6 +59,7 @@
 ═══════════════════════════════════════════════════════════ -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="alternate" type="application/rss+xml" title="Catalyst: The Awakening — Issues" href="/feed.xml">
 <link rel="manifest" href="/manifest.json">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -7553,6 +7554,22 @@ kbd {
 }
 #awakened-wall .aw-chip strong { color: #00C9B1; font-weight: 500; margin-right: 0.4rem; }
 
+/* Covenant member chip — quiet, permanent presence */
+#covenant-chip {
+  position: fixed; bottom: 9.8rem; right: 1.5rem; z-index: 9000;
+  min-width: 2.8rem; height: 2.8rem; padding: 0 0.6rem;
+  border-radius: 1.4rem;
+  background: rgba(16,12,4,0.92);
+  border: 1px solid rgba(244,184,0,0.55);
+  color: #F4B800; font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.82rem; letter-spacing: 0.1em;
+  display: none; align-items: center; justify-content: center;
+  cursor: pointer; box-shadow: 0 2px 14px rgba(244,184,0,0.15);
+  transition: all 0.2s ease;
+}
+#covenant-chip.on { display: inline-flex; }
+#covenant-chip:hover { background: rgba(244,184,0,0.15); box-shadow: 0 2px 20px rgba(244,184,0,0.3); }
+
 /* Àṣẹ secret pulse */
 @keyframes asePulse {
   0% { box-shadow: inset 0 0 0 rgba(244,184,0,0); }
@@ -7877,6 +7894,9 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   <input type="text" name="premium_since">
   <input type="text" name="paystack_ref">
 </form>
+
+<!-- ── Covenant member chip ── -->
+<button id="covenant-chip" aria-label="Show my covenant card" title="My Covenant"></button>
 
 <!-- ── Covenant of the Awakened — naming ceremony ── -->
 <div id="covenant-overlay" role="dialog" aria-modal="true" aria-label="Covenant of the Awakened">
@@ -17427,8 +17447,38 @@ window.volunteerForMission = function(){
       check:function(d){return Object.keys(d.perks).length>=3;}, progress:function(d){return [Math.min(Object.keys(d.perks).length,3),3];}},
     {id:'oracle_operative',name:'ORACLE OPERATIVE',emoji:'👁',rarity:'legendary',desc:'Reach Oracle Operative rank or higher.',
       check:function(d){var t=d.stats.battles+d.stats.wins+d.stats.idCards+d.stats.ciphers+d.stats.quizzes+d.stats.vault+d.stats.warRoom+d.stats.interrogations;return d.stats.vault>=1||t>=10;},
-      progress:function(d){var t=d.stats.battles+d.stats.wins+d.stats.idCards+d.stats.ciphers+d.stats.quizzes+d.stats.vault+d.stats.warRoom+d.stats.interrogations;return [Math.min(t,10),10];}}
+      progress:function(d){var t=d.stats.battles+d.stats.wins+d.stats.idCards+d.stats.ciphers+d.stats.quizzes+d.stats.vault+d.stats.warRoom+d.stats.interrogations;return [Math.min(t,10),10];}},
+    /* ── Story & Covenant milestones (read from reader/covenant state) ── */
+    {id:'first_light',name:'FIRST LIGHT',emoji:'🌅',rarity:'common',desc:'Turn your first page of the story.',
+      check:function(){return _storyPages()>=1;}, progress:function(){return [Math.min(_storyPages(),1),1];}},
+    {id:'awakened_reader',name:'AWAKENED READER',emoji:'📖',rarity:'common',desc:'Finish Issue #01 — Awaken, O City.',
+      check:function(){return _issuesRead()>=1;}, progress:function(){return [Math.min(_issuesRead(),1),1];}},
+    {id:'deep_reader',name:'DEEP READER',emoji:'🔥',rarity:'rare',desc:'Turn 25 story pages across the universe.',
+      check:function(){return _storyPages()>=25;}, progress:function(){return [Math.min(_storyPages(),25),25];}},
+    {id:'ase_initiate',name:'ÀṢẸ INITIATE',emoji:'⚡',rarity:'rare',desc:'Speak the word the city listens for.',
+      check:function(){try{return !!localStorage.getItem('catalyst_ase_invoked');}catch(e){return false;}},
+      progress:function(){try{return [localStorage.getItem('catalyst_ase_invoked')?1:0,1];}catch(e){return [0,1];}}},
+    {id:'covenant_sealed',name:'COVENANT SEALED',emoji:'🗝',rarity:'epic',desc:'Take your permanent place among the Awakened.',
+      check:function(){try{return !!localStorage.getItem('catalyst_covenant');}catch(e){return false;}},
+      progress:function(){try{return [localStorage.getItem('catalyst_covenant')?1:0,1];}catch(e){return [0,1];}}},
+    {id:'arc_one_complete',name:'THE CHOSEN',emoji:'👑',rarity:'legendary',desc:'Complete all four issues of Arc I.',
+      check:function(){return _issuesRead()>=4;}, progress:function(){return [_issuesRead(),4];}}
   ];
+
+  function _issuesRead(){
+    var n=0;
+    try{ for(var i=1;i<=4;i++){ if(localStorage.getItem('catalyst_read_'+i)) n++; } }catch(e){}
+    return n;
+  }
+  function _storyPages(){
+    try{
+      var q=JSON.parse(localStorage.getItem('catalyst_analytics')||'[]'), n=0;
+      for(var i=0;i<q.length;i++){ if(q[i].e==='story_page_view') n++; }
+      // Saved positions also count for readers who predate event logging
+      for(var j=1;j<=4;j++){ n=Math.max(n, parseInt(localStorage.getItem('catalyst_page_i'+j),10)||0); }
+      return n;
+    }catch(e){ return 0; }
+  }
 
   window.bdgRender = function(){
     var el = document.getElementById('bdg-grid');
@@ -20292,6 +20342,14 @@ document.addEventListener('DOMContentLoaded', function(){
     };
   }
 
+  /* Re-show the stored covenant card (used by the palette and member chip) */
+  window.catalystShowCovenant = function() {
+    var cov = null;
+    try { cov = JSON.parse(localStorage.getItem(COV_KEY)); } catch(e) {}
+    if (cov) showCeremony(cov);
+    else if (window.showToast) showToast('Join the movement first — the Oracle records every name.', 'info', 3500);
+  };
+
   function joinCovenant(email) {
     if (!email || !window._supabase) return;
     window._supabase.rpc('join_covenant', { p_email: email }).then(function(res) {
@@ -20301,6 +20359,7 @@ document.addEventListener('DOMContentLoaded', function(){
       // The operative briefing shows a placeholder number — make it real
       var opNum = document.getElementById('opNum');
       if (opNum) opNum.textContent = '#' + String(cov.member_no).padStart(4, '0');
+      if (window.catalystCovenantChip) catalystCovenantChip();
       queueCeremony(cov);
     }, function() {});
   }
@@ -20367,6 +20426,7 @@ document.addEventListener('DOMContentLoaded', function(){
         document.body.classList.remove('ase-pulse');
         void document.body.offsetWidth; /* restart the animation */
         document.body.classList.add('ase-pulse');
+        try { localStorage.setItem('catalyst_ase_invoked', '1'); } catch(err) {}
         if (window.showToast) showToast('Àṣẹ. The city hears you. ✦', 'success', 2500);
         if (window.catalystTrack) catalystTrack('ase_invoked');
         setTimeout(function() { document.body.classList.remove('ase-pulse'); }, 1700);
@@ -20900,6 +20960,79 @@ document.addEventListener('DOMContentLoaded', function(){
         });
       }, function() {});
   })(0);
+
+})();
+</script>
+
+<!-- ═══ BATCH 11: MILESTONES, MEMBER CHIP ═══ -->
+<script>
+(function() {
+  'use strict';
+
+  /* ── Covenant member chip: your № is always one tap away ── */
+  window.catalystCovenantChip = function() {
+    var chip = document.getElementById('covenant-chip');
+    if (!chip) return;
+    var cov = null;
+    try { cov = JSON.parse(localStorage.getItem('catalyst_covenant')); } catch(e) {}
+    if (!cov) { chip.classList.remove('on'); return; }
+    chip.textContent = '№' + cov.member_no;
+    chip.title = cov.covenant_name + ' of ' + cov.district + ' — view your covenant';
+    chip.classList.add('on');
+  };
+  var chipEl = document.getElementById('covenant-chip');
+  if (chipEl) chipEl.addEventListener('click', function() {
+    if (window.catalystShowCovenant) catalystShowCovenant();
+  });
+  catalystCovenantChip();
+
+  /* ── Badge unlock toasts: celebrate the moment a milestone lands ── */
+  var SEEN_KEY = 'catalyst_badges_seen';
+  function unlockedNow() {
+    return [].map.call(document.querySelectorAll('#bdg-grid .bdg-card:not(.locked) .bdg-name'), function(el) {
+      return el.textContent;
+    });
+  }
+  function diffAndToast() {
+    var now = unlockedNow();
+    var seen = null;
+    try { seen = JSON.parse(localStorage.getItem(SEEN_KEY)); } catch(e) {}
+    if (Array.isArray(seen)) {
+      now.forEach(function(name) {
+        if (seen.indexOf(name) === -1 && window.showToast) {
+          showToast('◈ BADGE UNLOCKED — ' + name, 'success', 4000);
+          if (window.catalystTrack) catalystTrack('badge_unlocked', { badge: name });
+        }
+      });
+    }
+    // First run seeds silently so long-time readers don't get a toast storm
+    try { localStorage.setItem(SEEN_KEY, JSON.stringify(now)); } catch(e) {}
+  }
+  var origRender = window.bdgRender;
+  if (typeof origRender === 'function') {
+    window.bdgRender = function() {
+      origRender.apply(this, arguments);
+      diffAndToast();
+    };
+    diffAndToast(); // seed from the initial render that already ran
+  }
+
+  /* Refresh the badge case when milestone-relevant activity happens */
+  var refreshTimer = null;
+  var MILESTONE_EVENTS = { story_page_view: 1, ase_invoked: 1, covenant_ceremony: 1, issue_read_toggle: 1 };
+  var origTrack = window.catalystTrack;
+  if (typeof origTrack === 'function') {
+    window.catalystTrack = function(event, data) {
+      origTrack.apply(this, arguments);
+      if (MILESTONE_EVENTS[event]) {
+        clearTimeout(refreshTimer);
+        refreshTimer = setTimeout(function() {
+          if (window.bdgRender) bdgRender();
+          if (window.catalystCovenantChip) catalystCovenantChip();
+        }, 900);
+      }
+    };
+  }
 
 })();
 </script>
