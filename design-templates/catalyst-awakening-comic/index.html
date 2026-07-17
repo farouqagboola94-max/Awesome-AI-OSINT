@@ -7554,6 +7554,62 @@ kbd {
 }
 #awakened-wall .aw-chip strong { color: #00C9B1; font-weight: 500; margin-right: 0.4rem; }
 
+/* ── Batch 13: Voices of the Awakened ── */
+#voices-wall { margin: 0 auto 3rem; max-width: 720px; }
+#voices-wall .vw-title {
+  font-family: 'Bebas Neue', sans-serif; font-size: 0.78rem; letter-spacing: 0.32em;
+  color: #F4B800; text-align: center; margin-bottom: 0.5rem;
+}
+#voices-wall .vw-sub {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; line-height: 1.7;
+  color: rgba(240,237,229,0.45); text-align: center; margin-bottom: 1.6rem;
+}
+#voices-wall .vw-list { display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 1.8rem; }
+#voices-wall .voice-card {
+  border: 1px solid rgba(244,184,0,0.18); background: rgba(244,184,0,0.03);
+  border-radius: 4px; padding: 0.9rem 1.1rem;
+}
+#voices-wall .voice-card .vc-msg {
+  font-size: 0.86rem; line-height: 1.7; color: rgba(240,237,229,0.85);
+  font-style: italic; margin-bottom: 0.5rem;
+}
+#voices-wall .voice-card .vc-by {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.62rem; letter-spacing: 0.1em;
+  color: #00C9B1; text-transform: uppercase;
+}
+#voices-wall .voice-card .vc-by span { color: rgba(240,237,229,0.4); text-transform: none; letter-spacing: 0.02em; }
+#voices-wall .vw-empty {
+  text-align: center; font-size: 0.78rem; color: rgba(240,237,229,0.35);
+  font-style: italic; padding: 1.2rem 0;
+}
+#voices-wall .vw-form {
+  border-top: 1px solid rgba(244,184,0,0.15); padding-top: 1.4rem;
+}
+#voices-wall .vw-form-label {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.64rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: rgba(240,237,229,0.4); margin-bottom: 0.7rem; text-align: center;
+}
+#voices-wall .vw-email, #voices-wall .vw-message {
+  width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,237,229,0.18);
+  color: var(--bone-white, #F0EDE5); font-family: 'Space Grotesk', sans-serif; font-size: 0.82rem;
+  padding: 0.7rem 0.9rem; border-radius: 3px; margin-bottom: 0.6rem; transition: border-color 0.2s ease;
+}
+#voices-wall .vw-message { resize: vertical; min-height: 4.2rem; font-family: inherit; line-height: 1.6; }
+#voices-wall .vw-email:focus, #voices-wall .vw-message:focus { outline: none; border-color: #F4B800; background: rgba(244,184,0,0.05); }
+#voices-wall .vw-form-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+#voices-wall .vw-counter { font-family: 'Space Grotesk', sans-serif; font-size: 0.62rem; color: rgba(240,237,229,0.35); }
+#voices-wall .vw-counter.limit { color: #C41E3A; }
+#voices-wall .vw-submit {
+  background: rgba(244,184,0,0.12); border: 1px solid rgba(244,184,0,0.5); color: #F4B800;
+  font-family: 'Bebas Neue', sans-serif; font-size: 0.8rem; letter-spacing: 0.16em;
+  padding: 0.6rem 1.4rem; border-radius: 3px; cursor: pointer; transition: all 0.2s ease; white-space: nowrap;
+}
+#voices-wall .vw-submit:hover:not(:disabled) { background: rgba(244,184,0,0.22); }
+#voices-wall .vw-submit:disabled { opacity: 0.45; cursor: default; }
+#voices-wall .vw-hint {
+  font-size: 0.66rem; color: rgba(240,237,229,0.3); text-align: center; margin-top: 0.7rem; line-height: 1.6;
+}
+
 /* ── Batch 12: Lore glossary tooltips ── */
 .lore-term {
   border-bottom: 1px dotted rgba(244,184,0,0.55);
@@ -20440,6 +20496,109 @@ document.addEventListener('DOMContentLoaded', function(){
         }).join('') + '</div>';
       host.parentNode.insertBefore(wallEl, host);
     }, function() {});
+  })(0);
+
+  /* Voices of the Awakened — moderated message wall. Only Covenant
+     members can sign (identity verified server-side by email hash);
+     nothing appears publicly until approved from the Supabase dashboard. */
+  (function voicesWall(attempt) {
+    if (!window._supabase) {
+      if (attempt < 25) setTimeout(function() { voicesWall(attempt + 1); }, 400);
+      return;
+    }
+    var host = document.querySelector('#community .quotes-grid');
+    if (!host) return;
+
+    function esc(s) {
+      var d = document.createElement('div');
+      d.textContent = s == null ? '' : String(s);
+      return d.innerHTML;
+    }
+
+    var section = document.createElement('div');
+    section.id = 'voices-wall';
+    section.innerHTML =
+      '<div class="vw-title">◈ VOICES OF THE AWAKENED ◈</div>' +
+      '<div class="vw-sub">Messages left by Covenant members for the community — each one read by the Oracle before Lagos hears it.</div>' +
+      '<div class="vw-list" id="vw-list"></div>' +
+      '<form class="vw-form" id="vw-form" novalidate>' +
+        '<div class="vw-form-label">Speak to the Covenant</div>' +
+        '<input type="email" id="vw-email" class="vw-email" placeholder="Your email — verifies your Covenant identity" required autocomplete="email">' +
+        '<textarea id="vw-message" class="vw-message" maxlength="280" placeholder="Leave your voice for the Covenant (3–280 characters)..." required></textarea>' +
+        '<div class="vw-form-row">' +
+          '<span class="vw-counter" id="vw-counter">0 / 280</span>' +
+          '<button type="submit" class="vw-submit" id="vw-submit">◈ Speak</button>' +
+        '</div>' +
+        '<div class="vw-hint">Only sworn members of the Covenant may speak here. Not yet a member? Join below — the Oracle records every name.</div>' +
+      '</form>';
+    host.parentNode.insertBefore(section, host);
+
+    var listEl = section.querySelector('#vw-list');
+    var msgEl = section.querySelector('#vw-message');
+    var counterEl = section.querySelector('#vw-counter');
+    var submitBtn = section.querySelector('#vw-submit');
+    var emailEl = section.querySelector('#vw-email');
+    var formEl = section.querySelector('#vw-form');
+
+    function renderVoices() {
+      window._supabase.rpc('get_wall_voices', { p_limit: 12 }).then(function(res) {
+        if (!res || res.error || !res.data || !res.data.length) {
+          listEl.innerHTML = '<div class="vw-empty">No voices recorded yet. Be the first the Covenant hears.</div>';
+          return;
+        }
+        listEl.innerHTML = res.data.map(function(v) {
+          return '<div class="voice-card">' +
+            '<div class="vc-msg">“' + esc(v.message) + '”</div>' +
+            '<div class="vc-by">— ' + esc(v.covenant_name) + ' <span>· ' + esc(v.district) + ' · ' + esc(v.signed_on) + '</span></div>' +
+          '</div>';
+        }).join('');
+      }, function() {
+        listEl.innerHTML = '<div class="vw-empty">The Oracle could not reach the wall just now.</div>';
+      });
+    }
+    renderVoices();
+
+    msgEl.addEventListener('input', function() {
+      var n = msgEl.value.length;
+      counterEl.textContent = n + ' / 280';
+      counterEl.classList.toggle('limit', n > 280);
+    });
+
+    formEl.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var email = emailEl.value.trim();
+      var message = msgEl.value.trim();
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        if (window.showToast) showToast('Enter a valid email to verify your Covenant identity.', 'error', 3000);
+        return;
+      }
+      if (message.length < 3 || message.length > 280) {
+        if (window.showToast) showToast('Your voice must be 3–280 characters.', 'error', 3000);
+        return;
+      }
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+      window._supabase.rpc('sign_wall', { p_email: email, p_message: message }).then(function(res) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = '◈ Speak';
+        if (!res || res.error) {
+          var msg = (res && res.error && /not a covenant member/i.test(res.error.message || ''))
+            ? 'Only Covenant members may speak here. Join the movement first — the Oracle records every name.'
+            : 'The Oracle could not record your voice — try again shortly.';
+          if (window.showToast) showToast(msg, 'error', 4200);
+          return;
+        }
+        msgEl.value = '';
+        counterEl.textContent = '0 / 280';
+        counterEl.classList.remove('limit');
+        if (window.showToast) showToast('✦ Your voice has been recorded — the Oracle will weigh it before Lagos hears it.', 'success', 4200);
+        if (window.catalystTrack) catalystTrack('wall_voice_signed');
+      }, function() {
+        submitBtn.disabled = false;
+        submitBtn.textContent = '◈ Speak';
+        if (window.showToast) showToast('The Oracle could not record your voice — try again shortly.', 'error', 4000);
+      });
+    });
   })(0);
 
   /* Returning members can summon their card from the palette */
