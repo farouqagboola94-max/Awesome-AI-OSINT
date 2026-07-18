@@ -1,0 +1,35 @@
+{
+  "_comment": "CatalystVerse visual style bible. The Director Node checks drafted panel prompts against these tag sets. Extend per scene_type as new visual motifs get established in canon — this file is the single source of truth for 'does this panel look like our universe'.",
+  "base_tags": ["chiaroscuro", "neon", "shadow", "rain"],
+  "scene_types": {
+    "establishing": {
+      "description": "Wide shots that set a location — market sprawl, bridge, skyline, workshop.",
+      "required_tags": ["chiaroscuro", "neon", "wide shot"],
+      "flavor_pool": ["danfo", "market stalls", "generator smoke", "NEPA blackout", "Lagos lagoon", "harmattan haze", "power lines"]
+    },
+    "action": {
+      "description": "Kinetic combat or chase panels — Ajele fights, trials, pursuit.",
+      "required_tags": ["chiaroscuro", "shadow", "motion blur", "impact"],
+      "flavor_pool": ["shattered concrete", "sparks", "iron plating", "torn fabric", "dust cloud", "debris"]
+    },
+    "orisha_manifestation": {
+      "description": "A god's power made visible — Bleeds, resonance surges, divine strikes.",
+      "required_tags": ["purple-gold light", "Yoruba script overlay", "chiaroscuro"],
+      "flavor_pool": ["Ọ̀run tear", "floating glyphs", "electrical arc", "levitating debris", "reality distortion", "gold particles"]
+    },
+    "character_reveal": {
+      "description": "Close-up, character-defining panels — a hero's first full appearance, a villain's unmasking.",
+      "required_tags": ["shadow", "close-up", "chiaroscuro"],
+      "flavor_pool": ["rim light", "eye detail", "rain-soaked", "torn clothing", "scars", "steady gaze"]
+    },
+    "quiet": {
+      "description": "Dialogue-heavy or emotional beats — grief, doubt, quiet resolve.",
+      "required_tags": ["chiaroscuro", "shadow"],
+      "flavor_pool": ["soft neon reflection", "empty street", "single light source", "rain on glass", "stillness"]
+    }
+  },
+  "banned_phrases": [
+    "generic superhero", "spandex", "capes flowing", "american flag", "downtown manhattan", "typical hero pose"
+  ],
+  "min_prompt_length": 40
+}

@@ -7673,6 +7673,81 @@ kbd {
 #covenant-chip.on { display: inline-flex; }
 #covenant-chip:hover { background: rgba(244,184,0,0.15); box-shadow: 0 2px 20px rgba(244,184,0,0.3); }
 
+/* ── Batch 14: Covenant Reactivation Loop — welcome-back banner ── */
+#welcome-back-banner {
+  position: fixed; left: 50%; bottom: -140px; transform: translateX(-50%);
+  z-index: 9600; width: min(560px, calc(100vw - 2.4rem));
+  background: linear-gradient(165deg, #0d0d1c 0%, #0a0a14 70%);
+  border: 1px solid rgba(0,201,177,0.4); border-radius: 8px;
+  padding: 1.2rem 1.4rem; box-shadow: 0 -10px 50px rgba(0,0,0,0.6), 0 0 40px rgba(0,201,177,0.1);
+  transition: bottom 0.5s cubic-bezier(0.2,0.9,0.3,1.1);
+}
+#welcome-back-banner.show { bottom: 1.4rem; }
+#welcome-back-banner .wb-eyebrow {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.6rem; letter-spacing: 0.24em;
+  color: #00C9B1; text-transform: uppercase; margin-bottom: 0.4rem;
+}
+#welcome-back-banner .wb-title {
+  font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; letter-spacing: 0.03em;
+  color: #F0EDE5; margin-bottom: 0.3rem; line-height: 1.2;
+}
+#welcome-back-banner .wb-sub {
+  font-size: 0.78rem; line-height: 1.6; color: rgba(240,237,229,0.6); margin-bottom: 0.9rem;
+}
+#welcome-back-banner .wb-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+#welcome-back-banner button {
+  font-family: 'Bebas Neue', sans-serif; font-size: 0.76rem; letter-spacing: 0.14em;
+  padding: 0.55rem 1.1rem; border-radius: 3px; cursor: pointer; transition: all 0.2s ease;
+}
+#wb-resume { background: rgba(0,201,177,0.14); border: 1px solid rgba(0,201,177,0.55); color: #00C9B1; }
+#wb-resume:hover { background: rgba(0,201,177,0.24); }
+#wb-dismiss { background: none; border: 1px solid rgba(240,237,229,0.2); color: rgba(240,237,229,0.6); }
+#wb-dismiss:hover { border-color: rgba(240,237,229,0.4); color: rgba(240,237,229,0.85); }
+@media (prefers-reduced-motion: reduce) { #welcome-back-banner { transition: none; } }
+
+/* ── Batch 14: Aṣẹ Memory Bank ── */
+#memory-bank-btn {
+  position: fixed; bottom: 13rem; right: 1.5rem; z-index: 9000;
+  width: 2.8rem; height: 2.8rem; border-radius: 50%;
+  background: rgba(8,8,20,0.9); border: 1px solid rgba(0,201,177,0.3);
+  color: rgba(0,201,177,0.7); font-size: 1rem; cursor: pointer;
+  display: none; align-items: center; justify-content: center;
+  transition: all 0.2s ease; box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+}
+#memory-bank-btn.on { display: flex; }
+#memory-bank-btn:hover { border-color: #00C9B1; color: #00C9B1; }
+#memory-bank-overlay {
+  position: fixed; inset: 0; z-index: 9960; background: rgba(6,6,13,0.88);
+  backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center;
+  padding: 1.2rem; opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+}
+#memory-bank-overlay.open { opacity: 1; pointer-events: auto; }
+#memory-bank-card {
+  max-width: 440px; width: 100%; background: #0d0d1c;
+  border: 1px solid rgba(0,201,177,0.4); border-radius: 8px; padding: 2rem 1.8rem;
+  text-align: center; box-shadow: 0 0 60px rgba(0,201,177,0.1);
+}
+#memory-bank-card .mb-eyebrow {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.6rem; letter-spacing: 0.26em;
+  color: #00C9B1; margin-bottom: 1.2rem;
+}
+#memory-bank-card .mb-memory {
+  font-size: 1rem; line-height: 1.7; color: #F0EDE5; margin-bottom: 0.6rem; font-style: italic;
+}
+#memory-bank-card .mb-when {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.66rem; letter-spacing: 0.12em;
+  color: rgba(240,237,229,0.4); text-transform: uppercase; margin-bottom: 1.6rem;
+}
+#memory-bank-card .mb-empty { color: rgba(240,237,229,0.45); font-size: 0.85rem; margin-bottom: 1.6rem; }
+#memory-bank-card button {
+  font-family: 'Bebas Neue', sans-serif; font-size: 0.78rem; letter-spacing: 0.16em;
+  padding: 0.6rem 1.3rem; border-radius: 3px; cursor: pointer; margin: 0 0.3rem;
+}
+#mb-another { background: rgba(0,201,177,0.12); border: 1px solid rgba(0,201,177,0.5); color: #00C9B1; }
+#mb-another:hover { background: rgba(0,201,177,0.22); }
+#mb-close { background: none; border: 1px solid rgba(240,237,229,0.25); color: rgba(240,237,229,0.75); }
+#mb-close:hover { border-color: #F4B800; color: #F4B800; }
+
 /* Àṣẹ secret pulse */
 @keyframes asePulse {
   0% { box-shadow: inset 0 0 0 rgba(244,184,0,0); }
@@ -8000,6 +8075,28 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 
 <!-- ── Covenant member chip ── -->
 <button id="covenant-chip" aria-label="Show my covenant card" title="My Covenant"></button>
+
+<!-- ── Batch 14: Aṣẹ Memory Bank trigger ── -->
+<button id="memory-bank-btn" aria-label="Open your Aṣẹ Memory Bank" title="The Oracle Remembers">◈</button>
+<div id="memory-bank-overlay" role="dialog" aria-modal="true" aria-label="Aṣẹ Memory Bank">
+  <div id="memory-bank-card">
+    <div class="mb-eyebrow">◈ THE ORACLE REMEMBERS ◈</div>
+    <div id="mb-body"></div>
+    <button id="mb-another">◈ Another Memory</button>
+    <button id="mb-close">Close</button>
+  </div>
+</div>
+
+<!-- ── Batch 14: Covenant Reactivation Loop — welcome-back banner ── -->
+<div id="welcome-back-banner" role="dialog" aria-label="Welcome back">
+  <div class="wb-eyebrow">◈ THE CITY REMEMBERS YOU ◈</div>
+  <div class="wb-title" id="wb-title">Welcome back.</div>
+  <div class="wb-sub" id="wb-sub"></div>
+  <div class="wb-actions">
+    <button id="wb-resume">Resume Reading</button>
+    <button id="wb-dismiss">Dismiss</button>
+  </div>
+</div>
 
 <!-- ── Covenant of the Awakened — naming ceremony ── -->
 <div id="covenant-overlay" role="dialog" aria-modal="true" aria-label="Covenant of the Awakened">
@@ -21356,6 +21453,233 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 
   document.querySelectorAll('.issue-reader-panel .reader-page').forEach(markPage);
+
+})();
+</script>
+
+<!-- ═══ BATCH 14: THE REACTIVATION LOOP ═══
+     Three distinct patterns, each mapped onto something real in this
+     project rather than left as buzzwords:
+     A) Agentic suspend/resume  -> Àṣẹ Standby Protocol (page-visibility
+        governor; new widgets opt in, existing ones untouched to avoid
+        regressing already-working code)
+     B) CRM dormant-user loop   -> Covenant Reactivation: a returning
+        member who's been away gets a tailored "resume where you left
+        off" prompt, built entirely from their own local data
+     C) RL experience replay    -> Aṣẹ Memory Bank: resurfaces a random
+        past entry from the site's own activity log (ofrGetData().entries)
+        back to the reader, the same "sample stored past experience"
+        principle as a replay buffer ── -->
+<script>
+(function() {
+  'use strict';
+
+  /* ── A) Àṣẹ Standby Protocol ──
+     Widgets register a {start, stop} pair. When the tab is backgrounded
+     every registered loop suspends; when it's foregrounded again each
+     one resumes via its own start() — exactly where it left off, not
+     restarted from scratch. Applied below to the Memory Bank's own
+     ambient pulse; existing setInterval-driven widgets elsewhere on the
+     page are untouched so nothing already working can regress. */
+  var standbyLoops = [];
+  window.catalystStandby = {
+    register: function(id, start, stop) {
+      standbyLoops.push({ id: id, start: start, stop: stop, active: true });
+    },
+    isStandby: function() { return document.hidden; }
+  };
+  document.addEventListener('visibilitychange', function() {
+    standbyLoops.forEach(function(l) {
+      if (document.hidden && l.active) { l.stop(); l.active = false; }
+      else if (!document.hidden && !l.active) { l.start(); l.active = true; }
+    });
+  });
+
+  /* ── B) Covenant Reactivation Loop ──
+     Fully local: no email is held client-side (by design, since Batch
+     10), so this never phones home to trigger — it reads the same
+     reading-position keys the reader already writes on every page turn.
+     Presence itself is refreshed server-side by join_covenant/sign_wall,
+     the two points where a member's email is actually re-verified. */
+  var LAST_VISIT_KEY = 'catalyst_last_visit_ts';
+  var DORMANT_MS = 3 * 24 * 60 * 60 * 1000; // 3 days
+
+  function resumeTarget() {
+    // Furthest issue with unread progress, or the furthest completed one
+    var best = null;
+    for (var i = 1; i <= 4; i++) {
+      var page = 0;
+      try { page = parseInt(localStorage.getItem('catalyst_page_i' + i), 10) || 0; } catch(e) {}
+      var read = false;
+      try { read = !!localStorage.getItem('catalyst_read_' + i); } catch(e) {}
+      if (page > 0 && !read) { best = { issue: i, page: page }; }
+    }
+    if (best) return best;
+    // Nobody mid-issue — offer the next unread issue from the start
+    for (var j = 1; j <= 4; j++) {
+      var r = false;
+      try { r = !!localStorage.getItem('catalyst_read_' + j); } catch(e) {}
+      if (!r) return { issue: j, page: 0 };
+    }
+    return null;
+  }
+
+  function fmtGap(ms) {
+    var days = Math.floor(ms / (24 * 60 * 60 * 1000));
+    if (days >= 14) return Math.floor(days / 7) + ' weeks';
+    if (days >= 2) return days + ' days';
+    return 'a while';
+  }
+
+  (function reactivationCheck() {
+    var cov = null;
+    try { cov = JSON.parse(localStorage.getItem('catalyst_covenant')); } catch(e) {}
+    var lastVisit = null;
+    try { lastVisit = parseInt(localStorage.getItem(LAST_VISIT_KEY), 10) || null; } catch(e) {}
+    var now = Date.now();
+
+    if (cov && lastVisit && (now - lastVisit) > DORMANT_MS) {
+      var target = resumeTarget();
+      var banner = document.getElementById('welcome-back-banner');
+      var titleEl = document.getElementById('wb-title');
+      var subEl = document.getElementById('wb-sub');
+      var resumeBtn = document.getElementById('wb-resume');
+      if (banner && titleEl && subEl) {
+        titleEl.textContent = 'Welcome back, ' + cov.covenant_name + '.';
+        if (target) {
+          subEl.textContent = "It's been " + fmtGap(now - lastVisit) + '. Issue #0' + target.issue +
+            (target.page > 0 ? ' is waiting exactly where you left it.' : ' is ready whenever you are.');
+          resumeBtn.style.display = '';
+          resumeBtn.onclick = function() {
+            banner.classList.remove('show');
+            if (window.catalystJumpTo) catalystJumpTo(target.issue, target.page);
+          };
+        } else {
+          subEl.textContent = "It's been " + fmtGap(now - lastVisit) + '. Arc I is waiting — and the Covenant grew while you were gone.';
+          resumeBtn.style.display = 'none';
+        }
+        setTimeout(function() { banner.classList.add('show'); }, 1400);
+        if (window.catalystTrack) catalystTrack('reactivation_shown', { gap_ms: now - lastVisit });
+      }
+    }
+    try { localStorage.setItem(LAST_VISIT_KEY, String(now)); } catch(e) {}
+  })();
+
+  var wbDismiss = document.getElementById('wb-dismiss');
+  if (wbDismiss) wbDismiss.addEventListener('click', function() {
+    var b = document.getElementById('welcome-back-banner');
+    if (b) b.classList.remove('show');
+  });
+
+  /* ── C) Aṣẹ Memory Bank — experience replay ──
+     Samples from the site's own activity log (the Operative Field
+     Record's `entries` array, already populated by every mini-game on
+     the site) plus covenant/badge milestones, and resurfaces one at
+     random. Same principle as an RL replay buffer: reinforce by
+     periodically re-presenting stored past experience instead of only
+     ever reacting to the newest event. */
+  function gatherMemories() {
+    var memories = [];
+    var data = window.ofrGetData ? window.ofrGetData() : null;
+    if (data && data.entries) {
+      data.entries.forEach(function(e) {
+        memories.push({ text: e.text, ts: e.ts });
+      });
+    }
+    var cov = null;
+    try { cov = JSON.parse(localStorage.getItem('catalyst_covenant')); } catch(e) {}
+    if (cov) {
+      memories.push({ text: 'You are Awakened № ' + cov.member_no + ' — "' + cov.covenant_name + '" of ' + cov.district + '.', ts: null });
+    }
+    var seen = null;
+    try { seen = JSON.parse(localStorage.getItem('catalyst_badges_seen')); } catch(e) {}
+    if (Array.isArray(seen)) {
+      seen.forEach(function(name) {
+        memories.push({ text: 'Badge unlocked: ' + name + '.', ts: null });
+      });
+    }
+    for (var i = 1; i <= 4; i++) {
+      var r = false;
+      try { r = !!localStorage.getItem('catalyst_read_' + i); } catch(e) {}
+      if (r) memories.push({ text: 'You completed Issue #0' + i + '.', ts: null });
+    }
+    return memories;
+  }
+
+  function timeAgo(ts) {
+    if (!ts) return 'the record does not say when';
+    var d = new Date(ts);
+    if (isNaN(d.getTime())) return 'the record does not say when';
+    var days = Math.floor((Date.now() - d.getTime()) / (24 * 60 * 60 * 1000));
+    if (days <= 0) return 'earlier today';
+    if (days === 1) return 'yesterday';
+    if (days < 14) return days + ' days ago';
+    return Math.floor(days / 7) + ' weeks ago';
+  }
+
+  function renderMemory() {
+    var body = document.getElementById('mb-body');
+    var againBtn = document.getElementById('mb-another');
+    if (!body) return;
+    var memories = gatherMemories();
+    if (!memories.length) {
+      body.innerHTML = '<div class="mb-empty">No memories logged yet. Read a little, play a little — the Oracle keeps every record.</div>';
+      if (againBtn) againBtn.style.display = 'none';
+      return;
+    }
+    if (againBtn) againBtn.style.display = '';
+    var pick = memories[Math.floor(Math.random() * memories.length)];
+    body.innerHTML = '<div class="mb-memory">"' + pick.text.replace(/</g, '&lt;') + '"</div>' +
+      '<div class="mb-when">' + timeAgo(pick.ts) + '</div>';
+  }
+
+  var mbBtn = document.getElementById('memory-bank-btn');
+  var mbOverlay = document.getElementById('memory-bank-overlay');
+  var mbAnother = document.getElementById('mb-another');
+  var mbClose = document.getElementById('mb-close');
+
+  function openMemoryBank() {
+    if (!mbOverlay) return;
+    renderMemory();
+    mbOverlay.classList.add('open');
+    if (window.catalystTrack) catalystTrack('memory_bank_open');
+  }
+  function closeMemoryBank() {
+    if (mbOverlay) mbOverlay.classList.remove('open');
+  }
+  if (mbBtn) mbBtn.addEventListener('click', openMemoryBank);
+  if (mbAnother) mbAnother.addEventListener('click', renderMemory);
+  if (mbClose) mbClose.addEventListener('click', closeMemoryBank);
+  if (mbOverlay) mbOverlay.addEventListener('click', function(e) { if (e.target === mbOverlay) closeMemoryBank(); });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && mbOverlay && mbOverlay.classList.contains('open')) closeMemoryBank();
+  });
+
+  /* Show the trigger button only once there's at least one real memory,
+     and keep it in sync as new ones accrue. A gentle pulse animation
+     demonstrates the Standby Protocol on genuinely new code: it stops
+     spending cycles the instant the tab is backgrounded. */
+  var pulseTimer = null;
+  function pulseStart() {
+    if (pulseTimer || !mbBtn) return;
+    pulseTimer = setInterval(function() {
+      mbBtn.style.boxShadow = mbBtn.style.boxShadow === '0 0 16px rgba(0,201,177,0.5)'
+        ? '0 2px 12px rgba(0,0,0,0.4)' : '0 0 16px rgba(0,201,177,0.5)';
+    }, 1800);
+  }
+  function pulseStop() {
+    if (pulseTimer) { clearInterval(pulseTimer); pulseTimer = null; }
+  }
+  window.catalystStandby.register('memory-bank-pulse', pulseStart, pulseStop);
+
+  function refreshTriggerVisibility() {
+    if (!mbBtn) return;
+    var has = gatherMemories().length > 0;
+    mbBtn.classList.toggle('on', has);
+    if (has) pulseStart(); else pulseStop();
+  }
+  refreshTriggerVisibility();
+  setTimeout(refreshTriggerVisibility, 1500); // catch ofrGetData once it's ready
 
 })();
 </script>
