@@ -7834,6 +7834,46 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 .reader-journey button.j-progress {
   border-color: rgba(0,201,177,0.45); color: #00C9B1; background: rgba(0,201,177,0.06);
 }
+
+/* ── Batch 15: Cinematic Lagos Noir grade ──
+   The hero's Three.js scene (mouse parallax, scroll-dolly camera,
+   glowing geometry) already runs and is untouched here — this layer is
+   additive, unifying the site's existing noir photography into one
+   consistent film grade rather than each section's independently tuned
+   filter, plus depth/tilt polish elsewhere on the page. */
+#noir-grain {
+  position: fixed; inset: -60px; z-index: 30; pointer-events: none;
+  opacity: 0.045; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: noirGrainShift 0.5s steps(3) infinite;
+}
+@keyframes noirGrainShift {
+  0%   { transform: translate(0,0); }
+  33%  { transform: translate(-1.5%,1%); }
+  66%  { transform: translate(1%,-1.5%); }
+  100% { transform: translate(0,0); }
+}
+#noir-vignette {
+  position: fixed; inset: 0; z-index: 29; pointer-events: none;
+  background: radial-gradient(ellipse at 50% 45%, transparent 42%, rgba(2,2,6,0.5) 100%);
+}
+#noir-gradewash {
+  position: fixed; inset: 0; z-index: 28; pointer-events: none;
+  background: linear-gradient(155deg, rgba(0,70,60,0.05) 0%, transparent 45%, rgba(170,50,10,0.045) 100%);
+  mix-blend-mode: color;
+}
+@media (prefers-reduced-motion: reduce) { #noir-grain { animation: none; } }
+@media (max-width: 640px) { #noir-grain { opacity: 0.03; } }
+
+/* 3D tilt — issue cards only (character cards use a click-flip transform
+   this would fight with, so they're deliberately left alone) */
+.issue-card.tilt-armed { transform-style: preserve-3d; transition: transform 0.12s ease-out; will-change: transform; }
+@media (hover: none), (pointer: coarse) { .issue-card.tilt-armed { transform: none !important; } }
+@media (prefers-reduced-motion: reduce) { .issue-card.tilt-armed { transition: none !important; transform: none !important; } }
+
+/* Scroll parallax for section background photography */
+.section-photo-bg.parallax-armed { will-change: transform; }
+@media (prefers-reduced-motion: reduce) { .section-photo-bg.parallax-armed { transform: none !important; } }
 </style>
 </head>
 <body>
@@ -21680,6 +21720,97 @@ document.addEventListener('DOMContentLoaded', function(){
   }
   refreshTriggerVisibility();
   setTimeout(refreshTriggerVisibility, 1500); // catch ofrGetData once it's ready
+
+})();
+</script>
+
+<!-- ═══ BATCH 15: CINEMATIC LAGOS NOIR — depth, grain, tilt ═══
+     The hero's existing Three.js scene is untouched (it already does
+     mouse parallax + scroll-driven camera dolly and works). This layer
+     is purely additive: a unified film grade over the site's existing
+     noir photography, 3D tilt on the issue cards, and scroll parallax
+     on section backgrounds — the parallax loop only runs while a
+     parallax-armed section is actually on screen, same "don't spend
+     cycles on what isn't visible" principle as Batch 14's Standby
+     Protocol, reusing that registry when it's ready. ── -->
+<script>
+(function() {
+  'use strict';
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── Film grade overlay: grain + vignette + duotone wash ── */
+  var grain = document.createElement('div'); grain.id = 'noir-grain';
+  var vignette = document.createElement('div'); vignette.id = 'noir-vignette';
+  var gradewash = document.createElement('div'); gradewash.id = 'noir-gradewash';
+  document.body.appendChild(vignette);
+  document.body.appendChild(gradewash);
+  document.body.appendChild(grain);
+
+  /* ── 3D tilt on issue cards (desktop/fine-pointer only, CSS media
+     query backstops touch devices even if this still runs there) ── */
+  if (!reduceMotion && window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    document.querySelectorAll('.issue-card').forEach(function(card) {
+      card.classList.add('tilt-armed');
+      var raf = null;
+      card.addEventListener('mousemove', function(e) {
+        if (raf) return;
+        raf = requestAnimationFrame(function() {
+          raf = null;
+          var r = card.getBoundingClientRect();
+          var px = (e.clientX - r.left) / r.width - 0.5;
+          var py = (e.clientY - r.top) / r.height - 0.5;
+          var maxDeg = 7;
+          card.style.transform = 'perspective(900px) rotateX(' + (-py * maxDeg) + 'deg) rotateY(' + (px * maxDeg) + 'deg) translateZ(6px)';
+        });
+      });
+      card.addEventListener('mouseleave', function() {
+        card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+      });
+    });
+  }
+
+  /* ── Scroll parallax for section background photography ──
+     Single shared rAF loop, only alive while at least one parallax
+     target is intersecting the viewport. Registers with the Standby
+     Protocol (if it's loaded by the time this runs) so it also freezes
+     when the tab is backgrounded, not just when scrolled away. */
+  if (!reduceMotion) {
+    var targets = document.querySelectorAll('.section-photo-bg');
+    var active = new Set();
+    var rafId = null;
+
+    function tick() {
+      active.forEach(function(el) {
+        var r = el.parentElement.getBoundingClientRect();
+        var progress = (window.innerHeight - r.top) / (window.innerHeight + r.height); // 0..1 through view
+        var offset = (progress - 0.5) * 46; // px of drift, bounded
+        el.style.transform = 'translateY(' + offset.toFixed(1) + 'px) scale(1.08)';
+      });
+      rafId = active.size ? requestAnimationFrame(tick) : null;
+    }
+    function startLoop() { if (!rafId && active.size) rafId = requestAnimationFrame(tick); }
+    function stopLoop() { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } }
+
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          entry.target.classList.add('parallax-armed');
+          if (entry.isIntersecting) active.add(entry.target);
+          else active.delete(entry.target);
+        });
+        startLoop();
+      }, { rootMargin: '120px 0px 120px 0px' });
+      targets.forEach(function(el) { io.observe(el); });
+    }
+
+    if (window.catalystStandby) {
+      window.catalystStandby.register('noir-parallax', startLoop, stopLoop);
+    } else {
+      document.addEventListener('visibilitychange', function() {
+        if (document.hidden) stopLoop(); else startLoop();
+      });
+    }
+  }
 
 })();
 </script>
