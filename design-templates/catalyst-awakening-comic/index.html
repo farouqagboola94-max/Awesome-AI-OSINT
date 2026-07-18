@@ -7874,6 +7874,35 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 /* Scroll parallax for section background photography */
 .section-photo-bg.parallax-armed { will-change: transform; }
 @media (prefers-reduced-motion: reduce) { .section-photo-bg.parallax-armed { transform: none !important; } }
+
+/* ── Batch 17: cinematic depth for the cover gallery — same tilt
+   approach as the issue cards above, plus a cursor-tracking glare
+   sweep. (Character cards already have their own tilt+shine system
+   from initTiltCards() earlier in the page — not touched here.) */
+.cover-art-item.tilt-armed {
+  transform-style: preserve-3d;
+  transition: transform 0.12s ease-out, border-color 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform;
+}
+.cover-art-item.tilt-armed::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0;
+  background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(244,184,0,0.24), transparent 55%);
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.cover-art-item.tilt-armed:hover::before { opacity: 1; }
+@media (hover: none), (pointer: coarse) {
+  .cover-art-item.tilt-armed { transform: none !important; }
+  .cover-art-item.tilt-armed::before { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cover-art-item.tilt-armed { transition: none !important; transform: none !important; }
+  .cover-art-item.tilt-armed::before { display: none; }
+}
 </style>
 </head>
 <body>
@@ -21863,6 +21892,48 @@ document.addEventListener('DOMContentLoaded', function(){
     }
   }
 
+})();
+</script>
+
+<!-- ═══ BATCH 17: CINEMATIC GALLERY CARD DEPTH ═══
+     Cursor-tilt plus a cursor-tracking glare sweep on the cover-art
+     gallery (20 pieces now). Same armed-class / hover-fine /
+     reduced-motion gating as Batch 15's issue-card tilt. (Character
+     cards already have their own tilt+shine system from
+     initTiltCards() earlier in the page, so they're left alone here —
+     adding a second competing mousemove handler there would just make
+     the two fight over the same transform property.) ── -->
+<script>
+(function() {
+  'use strict';
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion || !window.matchMedia || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+  function armTilt(card, maxDeg, liftTransform) {
+    card.classList.add('tilt-armed');
+    var raf = null;
+    card.addEventListener('mousemove', function(e) {
+      var r = card.getBoundingClientRect();
+      var px = (e.clientX - r.left) / r.width;
+      var py = (e.clientY - r.top) / r.height;
+      card.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
+      card.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+      if (raf) return;
+      raf = requestAnimationFrame(function() {
+        raf = null;
+        var rx = (0.5 - py) * maxDeg;
+        var ry = (px - 0.5) * maxDeg;
+        card.style.transform = 'perspective(900px) rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg) ' + liftTransform;
+      });
+    });
+    card.addEventListener('mouseleave', function() {
+      card.style.transform = '';
+    });
+  }
+
+  document.querySelectorAll('.cover-art-item').forEach(function(card) {
+    armTilt(card, 6, 'translateY(-10px) scale(1.025) translateZ(6px)');
+  });
 })();
 </script>
 
