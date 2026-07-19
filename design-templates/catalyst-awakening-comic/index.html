@@ -20799,8 +20799,15 @@ document.addEventListener('DOMContentLoaded', function(){
         submitBtn.disabled = false;
         submitBtn.textContent = '◈ Speak';
         if (!res || res.error) {
-          var msg = (res && res.error && /not a covenant member/i.test(res.error.message || ''))
+          var errText = (res && res.error && res.error.message) || '';
+          var msg = /not a covenant member/i.test(errText)
             ? 'Only Covenant members may speak here. Join the movement first — the Oracle records every name.'
+            : /patience/i.test(errText)
+            ? 'You already have 3 voices awaiting the Oracle\'s judgment — wait for one to be approved before sending another.'
+            : /3.?280 characters/i.test(errText)
+            ? 'Your voice must be 3–280 characters.'
+            : /invalid email/i.test(errText)
+            ? 'Enter a valid email to verify your Covenant identity.'
             : 'The Oracle could not record your voice — try again shortly.';
           if (window.showToast) showToast(msg, 'error', 4200);
           return;
