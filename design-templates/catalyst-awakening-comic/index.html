@@ -3909,6 +3909,52 @@
   98%   { opacity: 0; }
 }
 
+/* ── THE Ọ̀RUN-BLEED — animated sky-tear motion graphic ───────── */
+.orun-tear-wrap {
+  position: absolute;
+  top: 6%; right: 6%;
+  width: min(22vw, 220px);
+  height: min(34vw, 340px);
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.8;
+}
+.orun-tear { width: 100%; height: 100%; overflow: visible; }
+.orun-tear-core {
+  animation: orunShimmer 4.5s ease-in-out infinite;
+  transform-origin: 50% 50%;
+}
+.orun-tear-glow {
+  animation: orunBreathe 4.5s ease-in-out infinite;
+  transform-origin: 50% 50%;
+}
+@keyframes orunShimmer {
+  0%, 100% { opacity: 0.85; }
+  50%      { opacity: 1; }
+}
+@keyframes orunBreathe {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50%      { opacity: 0.7; transform: scale(1.08); }
+}
+.orun-mote {
+  position: absolute;
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: #F0B858;
+  box-shadow: 0 0 7px #F0B858, 0 0 14px #9b59b6;
+  animation: orunMoteDrift linear infinite;
+}
+@keyframes orunMoteDrift {
+  0%   { opacity: 0; transform: translate(0,0) scale(0); }
+  10%  { opacity: 1; transform: translate(2px,-6px) scale(1); }
+  90%  { opacity: 0.4; transform: translate(-6px,-70px) scale(0.6); }
+  100% { opacity: 0; transform: translate(-8px,-90px) scale(0); }
+}
+@media (max-width: 900px) {
+  .orun-tear-wrap { top: 4%; right: 3%; width: min(30vw, 150px); height: min(46vw, 230px); opacity: 0.55; }
+}
+}
+
 /* ── HERO TITLE GLITCH ────────────────────────────────── */
 .hero-title-glitch { position: relative; display: block; }
 .hero-title-glitch::after {
@@ -8434,6 +8480,30 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   <svg class="hero-lightning hero-lightning-3" style="top:6%;right:32%;width:18px;height:65px;" viewBox="0 0 18 65" fill="#00C9B1">
     <path d="M12,0 L4,26 L9,26 L1,65 L13,21 L9,21 Z"/>
   </svg>
+
+  <!-- ✦ THE Ọ̀RUN-BLEED — animated motion graphic: the tear in the sky
+       above Balogun Nexus, "light the wrong colour" from Issue #01 ✦ -->
+  <div class="orun-tear-wrap" aria-hidden="true">
+    <svg class="orun-tear" viewBox="0 0 220 340" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <linearGradient id="orunGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#F4B800"/>
+          <stop offset="45%" stop-color="#F0904A"/>
+          <stop offset="100%" stop-color="#9b59b6"/>
+        </linearGradient>
+        <filter id="orunBlur" x="-80%" y="-80%" width="260%" height="260%">
+          <feGaussianBlur stdDeviation="7" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <path class="orun-tear-glow" filter="url(#orunBlur)" d="M110,4 L96,58 L128,70 L84,132 L120,146 L74,214 L112,226 L92,300 L134,336 L104,242 L142,230 L100,166 L138,150 L98,90 L124,76 Z" fill="url(#orunGrad)" opacity="0.55"/>
+      <path class="orun-tear-core" d="M110,4 L96,58 L128,70 L84,132 L120,146 L74,214 L112,226 L92,300 L134,336 L104,242 L142,230 L100,166 L138,150 L98,90 L124,76 Z" fill="url(#orunGrad)"/>
+    </svg>
+    <span class="orun-mote" style="left:38%;top:62%;animation-delay:0.4s;animation-duration:5.2s;"></span>
+    <span class="orun-mote" style="left:58%;top:40%;animation-delay:2.1s;animation-duration:4.4s;"></span>
+    <span class="orun-mote" style="left:46%;top:78%;animation-delay:3.4s;animation-duration:6.1s;"></span>
+    <span class="orun-mote" style="left:64%;top:55%;animation-delay:1.2s;animation-duration:5.7s;"></span>
+  </div>
 
   <!-- ── HERO LAYOUT: text left + cover right ── -->
   <div class="hero-layout">
