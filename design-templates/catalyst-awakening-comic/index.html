@@ -6160,14 +6160,14 @@ body.ase-vision .ase-glyph-field { display:block; }
 
 /* ============ ASẹ FREQUENCY SCANNER ============ */
 /* ============ INK NOIR — comic-panel reskin for the interactive games ============ */
-#ase-battle, #hero-quiz, #ase-scanner, #oracle-terminal, #cipher-terminal, #memory-match, #panel-order {
+#ase-battle, #hero-quiz, #ase-scanner, #oracle-terminal, #cipher-terminal, #memory-match, #panel-order, #case-file {
   --ink-line: #f0ece4;
   --ink-accent: #C41E3A;
   --ink-gold: #F4B800;
   position: relative;
 }
 #ase-battle::before, #hero-quiz::before, #ase-scanner::before, #oracle-terminal::before,
-#cipher-terminal::before, #memory-match::before, #panel-order::before {
+#cipher-terminal::before, #memory-match::before, #panel-order::before, #case-file::before {
   content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1;
   background-image: radial-gradient(rgba(240,236,228,0.16) 1px, transparent 1px);
   background-size: 5px 5px;
@@ -6175,7 +6175,7 @@ body.ase-vision .ase-glyph-field { display:block; }
 }
 #ase-battle .section-label, #hero-quiz .section-label, #ase-scanner .section-label,
 #oracle-terminal .section-label, #cipher-terminal .section-label, #memory-match .section-label,
-#panel-order .section-label {
+#panel-order .section-label, #case-file .section-label {
   color: var(--ink-line); letter-spacing: 0.22em;
 }
 .asb-char-card { clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px); }
@@ -6229,6 +6229,21 @@ body.ase-vision .ase-glyph-field { display:block; }
 .po-status{text-align:center;margin-top:18px;font-family:'Courier New',monospace;font-size:.8rem;color:var(--ink-line);min-height:1.2em}
 .po-reset-btn{display:block;margin:16px auto 0;background:transparent;border:2px solid var(--ink-line);color:var(--ink-line);padding:9px 18px;font-size:.66rem;letter-spacing:.12em;cursor:pointer;font-family:'Courier New',monospace;clip-path:polygon(6px 0,100% 0,100% 100%,0 100%,0 6px)}
 .po-reset-btn:hover{background:var(--ink-line);color:#000}
+
+/* ============ CASE FILE ============ */
+#case-file{background:#050505;padding:80px 0}
+.cf-wrap{max-width:680px;margin:0 auto;padding:0 24px}
+.cf-hud{display:flex;align-items:center;justify-content:center;gap:28px;margin:28px 0 24px;flex-wrap:wrap}
+.cf-clue{background:#111;border:2px solid rgba(240,236,228,.3);padding:22px 26px;font-family:'Courier New',monospace;font-size:.92rem;line-height:1.7;color:#ddd;clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);position:relative}
+.cf-clue::before{content:'CLASSIFIED — ORACLE EYES ONLY';display:block;font-size:.6rem;letter-spacing:.14em;color:var(--ink-accent);margin-bottom:10px}
+.cf-choices{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.cf-choice{background:#0d0d0d;border:2px solid rgba(240,236,228,.3);color:#eee;padding:14px 16px;font-size:.82rem;text-align:left;cursor:pointer;transition:border-color .2s,background .2s;clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
+.cf-choice:hover{border-color:var(--ink-line)}
+.cf-choice.correct{border-color:var(--ink-gold);background:rgba(244,184,0,.1);color:var(--ink-gold)}
+.cf-choice.wrong{border-color:var(--ink-accent);background:rgba(196,30,58,.1);color:var(--ink-accent)}
+.cf-choice:disabled{cursor:default}
+.cf-actions{text-align:center}
+@media(max-width:540px){ .cf-choices{grid-template-columns:1fr} }
 
 #ase-scanner{background:#050008;padding:80px 0}
 .scanner-wrap{max-width:740px;margin:0 auto;padding:0 24px}
@@ -11444,6 +11459,32 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
     <div class="po-strip" id="poStrip"></div>
     <div class="po-status" id="poStatus"></div>
     <button class="po-reset-btn" onclick="poNewGame()">↻ RESCRAMBLE</button>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ CASE FILE -->
+<section id="case-file">
+  <div class="cf-wrap">
+    <div class="section-header reveal">
+      <div class="section-label">ORACLE INTELLIGENCE — REDACTED DOSSIER</div>
+      <h2 class="section-title reveal">CASE <span class="gold">FILE</span></h2>
+      <p class="section-sub">Six redacted dossier lines. Identify the operative each one describes.</p>
+    </div>
+    <div class="cf-hud">
+      <div class="mm-stat"><span class="mm-stat-lbl">FILE</span><span class="mm-stat-val" id="cfRound">1/6</span></div>
+      <div class="mm-stat"><span class="mm-stat-lbl">SCORE</span><span class="mm-stat-val" id="cfScore">0</span></div>
+      <div class="mm-stat"><span class="mm-stat-lbl">BEST</span><span class="mm-stat-val" id="cfBest">—</span></div>
+    </div>
+    <div class="cf-clue" id="cfClue"></div>
+    <div class="cf-choices" id="cfChoices"></div>
+    <div class="cf-actions">
+      <button class="po-reset-btn" id="cfNextBtn" onclick="cfNext()" style="display:none;">NEXT FILE →</button>
+    </div>
+    <div class="mm-win" id="cfWin" style="display:none;">
+      <div class="mm-win-title">DOSSIER COMPLETE</div>
+      <div class="mm-win-body" id="cfWinBody"></div>
+      <button class="po-reset-btn" onclick="cfNewGame()" style="margin-top:14px;">↻ NEW DOSSIER</button>
+    </div>
   </div>
 </section>
 
@@ -17339,6 +17380,90 @@ function pvCopyLink() {
   };
 
   poNewGame();
+})();
+
+/* ----- CASE FILE ----- */
+(function(){
+  var clueEl = document.getElementById('cfClue');
+  if(!clueEl) return;
+  var ROSTER = [
+    { name: 'Bayo — Catalyst', clue: 'Third Mainland Bridge, 2AM. The city itself reached into a broke nineteen-year-old and grabbed him by the soul. Ọ̀run\'s bandage — or its wound.' },
+    { name: 'Amara — Thunderstrike', clue: 'Lightning-speed precision fighter. Discharges arc between multiple targets. Speed advantage is decisive in open terrain.' },
+    { name: 'Ikenna — Iron Wolf', clue: 'Near-invulnerable defence, blessed by Ògún\'s iron. Can absorb enormous punishment. Loses the edge against faster opponents.' },
+    { name: 'Zara Osei — The Mirror', clue: 'Vessel of Ògún\'s road-clearing aspect. Works the perimeter unseen. "Tell the Architect Lagos says no."' },
+    { name: 'The Oracle', clue: 'Has watched this city for six centuries. Knows every secret it thinks it has buried.' },
+    { name: 'The Architect', clue: 'Weaponised Aṣẹ extraction, decades of refinement. Field-tested against multiple awakened individuals simultaneously. No confirmed weaknesses on record.' }
+  ];
+  var BEST_KEY = 'catalyst_cf_best';
+  var order = [], round = 0, score = 0, choices = [], answered = false;
+
+  function shuffle(arr){
+    var a = arr.slice();
+    for(var i=a.length-1;i>0;i--){
+      var j=Math.floor(Math.random()*(i+1));
+      var t=a[i];a[i]=a[j];a[j]=t;
+    }
+    return a;
+  }
+
+  function renderRound(){
+    var file = ROSTER[order[round]];
+    var distractors = shuffle(ROSTER.filter(function(r){return r.name!==file.name;})).slice(0,3);
+    choices = shuffle([file].concat(distractors));
+    answered = false;
+    document.getElementById('cfRound').textContent = (round+1)+'/'+ROSTER.length;
+    document.getElementById('cfNextBtn').style.display = 'none';
+    clueEl.textContent = file.clue;
+    document.getElementById('cfChoices').innerHTML = choices.map(function(c, i){
+      return '<button class="cf-choice" onclick="cfAnswer('+i+')">'+c.name+'</button>';
+    }).join('');
+  }
+
+  window.cfAnswer = function(i){
+    if(answered) return;
+    answered = true;
+    var file = ROSTER[order[round]];
+    var btns = document.querySelectorAll('#cfChoices .cf-choice');
+    btns.forEach(function(b){ b.disabled = true; });
+    if(choices[i].name === file.name){
+      btns[i].classList.add('correct');
+      score++;
+      document.getElementById('cfScore').textContent = score;
+    } else {
+      btns[i].classList.add('wrong');
+      choices.forEach(function(c, ci){ if(c.name === file.name) btns[ci].classList.add('correct'); });
+    }
+    document.getElementById('cfNextBtn').style.display = 'inline-block';
+  };
+
+  window.cfNext = function(){
+    round++;
+    if(round >= ROSTER.length){
+      var best = localStorage.getItem(BEST_KEY);
+      if(!best || score > parseInt(best,10)){ localStorage.setItem(BEST_KEY, score); best = score; }
+      document.getElementById('cfBest').textContent = best+'/'+ROSTER.length;
+      document.getElementById('cfWinBody').textContent = 'Score: '+score+'/'+ROSTER.length+'. Best on this device: '+best+'/'+ROSTER.length+'.';
+      document.getElementById('cfWin').style.display = 'block';
+      document.getElementById('cfClue').style.display = 'none';
+      document.getElementById('cfChoices').innerHTML = '';
+      document.getElementById('cfNextBtn').style.display = 'none';
+      return;
+    }
+    renderRound();
+  };
+
+  window.cfNewGame = function(){
+    order = shuffle(ROSTER.map(function(_, i){ return i; }));
+    round = 0; score = 0;
+    document.getElementById('cfScore').textContent = '0';
+    document.getElementById('cfWin').style.display = 'none';
+    document.getElementById('cfClue').style.display = 'block';
+    var best = localStorage.getItem(BEST_KEY);
+    document.getElementById('cfBest').textContent = best ? best+'/'+ROSTER.length : '—';
+    renderRound();
+  };
+
+  cfNewGame();
 })();
 
 /* ----- CHRONICLE TIMELINE IntersectionObserver ----- */
