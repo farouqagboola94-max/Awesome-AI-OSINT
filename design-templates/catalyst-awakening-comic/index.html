@@ -6159,57 +6159,76 @@ body.ase-vision .ase-glyph-field { display:block; }
 }
 
 /* ============ ASẹ FREQUENCY SCANNER ============ */
-/* ============ ARCADE ZONE — retro neon reskin for the interactive games ============ */
-#ase-battle, #hero-quiz, #ase-scanner, #oracle-terminal, #cipher-terminal, #memory-match {
-  --arcade-magenta: #ff2fd6;
-  --arcade-cyan: #00f0ff;
+/* ============ INK NOIR — comic-panel reskin for the interactive games ============ */
+#ase-battle, #hero-quiz, #ase-scanner, #oracle-terminal, #cipher-terminal, #memory-match, #panel-order {
+  --ink-line: #f0ece4;
+  --ink-accent: #C41E3A;
+  --ink-gold: #F4B800;
   position: relative;
 }
-#ase-battle::before, #hero-quiz::before, #ase-scanner::before, #oracle-terminal::before, #cipher-terminal::before, #memory-match::before {
+#ase-battle::before, #hero-quiz::before, #ase-scanner::before, #oracle-terminal::before,
+#cipher-terminal::before, #memory-match::before, #panel-order::before {
   content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1;
-  background: repeating-linear-gradient(180deg, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 3px);
-  mix-blend-mode: overlay; opacity: 0.5;
+  background-image: radial-gradient(rgba(240,236,228,0.16) 1px, transparent 1px);
+  background-size: 5px 5px;
+  mix-blend-mode: overlay; opacity: 0.4;
 }
 #ase-battle .section-label, #hero-quiz .section-label, #ase-scanner .section-label,
-#oracle-terminal .section-label, #cipher-terminal .section-label, #memory-match .section-label {
-  color: var(--arcade-cyan); text-shadow: 0 0 10px rgba(0,240,255,0.6);
+#oracle-terminal .section-label, #cipher-terminal .section-label, #memory-match .section-label,
+#panel-order .section-label {
+  color: var(--ink-line); letter-spacing: 0.22em;
 }
-.asb-char-card:hover { border-color: var(--arcade-cyan); background: rgba(0,240,255,0.1); box-shadow: 0 0 18px rgba(0,240,255,0.35); }
-.asb-char-card[style*="border-color"] { box-shadow: 0 0 20px rgba(255,47,214,0.4); }
-.asb-fight-btn { border: 1px solid var(--arcade-magenta); color: var(--arcade-magenta); text-shadow: 0 0 8px rgba(255,47,214,0.5); transition: all .2s; }
-.asb-fight-btn:not(:disabled):hover { background: var(--arcade-magenta); color: #000; box-shadow: 0 0 24px rgba(255,47,214,0.7); text-shadow: none; }
-.quiz-pip.done { background: var(--arcade-magenta); box-shadow: 0 0 8px rgba(255,47,214,0.6); }
-.quiz-pip.cur { background: rgba(0,240,255,0.55); box-shadow: 0 0 8px rgba(0,240,255,0.5); }
-.scanner-status-badge { color: var(--arcade-cyan); text-shadow: 0 0 8px rgba(0,240,255,0.6); }
-.scan-decode-progress { background: var(--arcade-magenta) !important; box-shadow: 0 0 10px rgba(255,47,214,0.6); }
-.term-tab.active { color: var(--arcade-magenta); border-color: var(--arcade-magenta); text-shadow: 0 0 8px rgba(255,47,214,0.5); }
-.term-send-btn { box-shadow: 0 0 14px rgba(0,240,255,0.25); }
-@keyframes arcadePulse { 0%,100%{ opacity:0.6; } 50%{ opacity:1; } }
-#ase-battle .section-title em, #hero-quiz .section-title em, #memory-match .section-title .gold { animation: arcadePulse 2.4s ease-in-out infinite; }
+.asb-char-card { clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px); }
+.asb-char-card:hover { border-color: var(--ink-line); background: rgba(240,236,228,0.08); box-shadow: none; }
+.asb-char-card[style*="border-color"] { box-shadow: 0 0 0 2px var(--ink-accent) inset; }
+.asb-fight-btn { border: 2px solid var(--ink-line); color: var(--ink-line); text-shadow: none; clip-path: polygon(6px 0, 100% 0, 100% 100%, 0 100%, 0 6px); }
+.asb-fight-btn:not(:disabled):hover { background: var(--ink-line); color: #000; box-shadow: none; }
+.quiz-pip.done { background: var(--ink-accent); box-shadow: none; }
+.quiz-pip.cur  { background: var(--ink-gold); box-shadow: none; }
+.scanner-status-badge { color: var(--ink-line); text-shadow: none; }
+.scan-decode-progress { background: var(--ink-accent) !important; box-shadow: none; }
+.term-tab.active { color: var(--ink-accent); border-color: var(--ink-accent); text-shadow: none; }
+.term-send-btn { box-shadow: none; border: 2px solid var(--ink-line); }
 
 /* ============ ORISHA MEMORY MATCH ============ */
-#memory-match{background:#050008;padding:80px 0}
+#memory-match{background:#050505;padding:80px 0}
 .mm-wrap{max-width:760px;margin:0 auto;padding:0 24px}
 .mm-hud{display:flex;align-items:center;justify-content:center;gap:28px;margin:32px 0 24px;flex-wrap:wrap}
 .mm-stat{display:flex;flex-direction:column;align-items:center;gap:2px}
 .mm-stat-lbl{font-size:.6rem;letter-spacing:.14em;color:#888;font-family:'Courier New',monospace}
-.mm-stat-val{font-size:1.1rem;font-weight:900;color:var(--arcade-cyan);text-shadow:0 0 8px rgba(0,240,255,.5)}
-.mm-shuffle-btn{background:transparent;border:1px solid var(--arcade-magenta);color:var(--arcade-magenta);padding:9px 16px;font-size:.66rem;letter-spacing:.12em;cursor:pointer;border-radius:3px;font-family:'Courier New',monospace;transition:all .2s;text-shadow:0 0 8px rgba(255,47,214,.4)}
-.mm-shuffle-btn:hover{background:var(--arcade-magenta);color:#000;box-shadow:0 0 20px rgba(255,47,214,.6);text-shadow:none}
+.mm-stat-val{font-size:1.1rem;font-weight:900;color:var(--ink-line)}
+.mm-shuffle-btn{background:transparent;border:2px solid var(--ink-accent);color:var(--ink-accent);padding:9px 16px;font-size:.66rem;letter-spacing:.12em;cursor:pointer;font-family:'Courier New',monospace;transition:all .2s;clip-path:polygon(6px 0,100% 0,100% 100%,0 100%,0 6px)}
+.mm-shuffle-btn:hover{background:var(--ink-accent);color:#000}
 .mm-board{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;perspective:1000px}
 .mm-card{aspect-ratio:1;cursor:pointer;position:relative;transform-style:preserve-3d;transition:transform .45s cubic-bezier(.2,.8,.3,1)}
 .mm-card.flipped,.mm-card.matched{transform:rotateY(180deg)}
-.mm-card-face{position:absolute;inset:0;border-radius:8px;display:flex;align-items:center;justify-content:center;backface-visibility:hidden;font-size:1.8rem}
-.mm-card-back{background:rgba(0,0,0,.5);border:1px solid rgba(0,240,255,.25);box-shadow:inset 0 0 20px rgba(0,240,255,.08)}
-.mm-card-back::after{content:'?';color:rgba(0,240,255,.35);font-family:'Courier New',monospace;font-weight:900}
-.mm-card-front{background:rgba(20,0,20,.85);border:1px solid rgba(255,47,214,.35);transform:rotateY(180deg)}
-.mm-card.matched .mm-card-front{border-color:var(--arcade-cyan);box-shadow:0 0 18px rgba(0,240,255,.4)}
-.mm-card.wrong .mm-card-back{border-color:#C41E3A;animation:mmShake .3s}
+.mm-card-face{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;backface-visibility:hidden;font-size:1.8rem;clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
+.mm-card-back{background:#0a0a0a;border:2px solid rgba(240,236,228,.3)}
+.mm-card-back::after{content:'?';color:rgba(240,236,228,.4);font-family:'Bebas Neue',sans-serif;font-size:2rem;font-weight:900}
+.mm-card-front{background:#111;border:2px solid var(--ink-line);transform:rotateY(180deg)}
+.mm-card.matched .mm-card-front{border-color:var(--ink-accent);box-shadow:0 0 0 2px var(--ink-accent) inset}
+.mm-card.wrong .mm-card-back{border-color:var(--ink-accent);animation:mmShake .3s}
 @keyframes mmShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
-.mm-win{text-align:center;margin-top:28px;padding:20px;border:1px solid rgba(0,240,255,.25);border-radius:6px;background:rgba(0,20,20,.4)}
-.mm-win-title{font-size:1rem;letter-spacing:.14em;color:var(--arcade-cyan);text-shadow:0 0 10px rgba(0,240,255,.6);margin-bottom:6px}
+.mm-win{text-align:center;margin-top:28px;padding:20px;border:2px solid var(--ink-line);background:rgba(240,236,228,.04)}
+.mm-win-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.1em;color:var(--ink-line);margin-bottom:6px}
 .mm-win-body{font-size:.82rem;color:#ccc;font-family:'Courier New',monospace}
 @media(max-width:560px){ .mm-board{grid-template-columns:repeat(4,1fr);gap:8px} .mm-card-face{font-size:1.4rem} }
+
+/* ============ PANEL ORDER ============ */
+#panel-order{background:#080808;padding:80px 0}
+.po-wrap{max-width:720px;margin:0 auto;padding:0 24px}
+.po-hud{display:flex;align-items:center;justify-content:center;gap:24px;margin:28px 0 20px;flex-wrap:wrap}
+.po-hint{text-align:center;font-size:.78rem;color:#999;font-family:'Courier New',monospace;margin-bottom:20px}
+.po-strip{display:flex;flex-direction:column;gap:10px}
+.po-panel{display:flex;align-items:center;gap:14px;background:#111;border:2px solid rgba(240,236,228,.3);padding:14px 18px;cursor:pointer;transition:border-color .2s,background .2s;clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px)}
+.po-panel:hover{border-color:var(--ink-line)}
+.po-panel.selected{border-color:var(--ink-gold);background:rgba(244,184,0,.06)}
+.po-panel.correct{border-color:var(--ink-accent);background:rgba(196,30,58,.08)}
+.po-panel-num{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--ink-line);min-width:28px}
+.po-panel-txt{font-size:.85rem;color:#ddd;line-height:1.5}
+.po-status{text-align:center;margin-top:18px;font-family:'Courier New',monospace;font-size:.8rem;color:var(--ink-line);min-height:1.2em}
+.po-reset-btn{display:block;margin:16px auto 0;background:transparent;border:2px solid var(--ink-line);color:var(--ink-line);padding:9px 18px;font-size:.66rem;letter-spacing:.12em;cursor:pointer;font-family:'Courier New',monospace;clip-path:polygon(6px 0,100% 0,100% 100%,0 100%,0 6px)}
+.po-reset-btn:hover{background:var(--ink-line);color:#000}
 
 #ase-scanner{background:#050008;padding:80px 0}
 .scanner-wrap{max-width:740px;margin:0 auto;padding:0 24px}
@@ -11410,6 +11429,21 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
       <div class="mm-win-title">BOARD CLEARED</div>
       <div class="mm-win-body" id="mmWinBody"></div>
     </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ PANEL ORDER -->
+<section id="panel-order">
+  <div class="po-wrap">
+    <div class="section-header reveal">
+      <div class="section-label">ORACLE ARCHIVE — SEQUENCE RECOVERY</div>
+      <h2 class="section-title reveal">PANEL <span class="gold">ORDER</span></h2>
+      <p class="section-sub">The Oracle's archive got scrambled. Click two panels to swap them back into order.</p>
+    </div>
+    <p class="po-hint">Click a panel, then click another to swap places. Rebuild Issue #1's opening beats in order.</p>
+    <div class="po-strip" id="poStrip"></div>
+    <div class="po-status" id="poStatus"></div>
+    <button class="po-reset-btn" onclick="poNewGame()">↻ RESCRAMBLE</button>
   </div>
 </section>
 
@@ -17237,6 +17271,74 @@ function pvCopyLink() {
   };
 
   mmNewGame();
+})();
+
+/* ----- PANEL ORDER ----- */
+(function(){
+  var strip = document.getElementById('poStrip');
+  if(!strip) return;
+  var BEATS = [
+    'Bayo is 19, broke, and dodging his landlord across a Lagos he can barely afford.',
+    'He takes a danfo ride across the Third Mainland Bridge — and the city itself reaches out and grabs him by the soul.',
+    'The Ọ̀run bleeds through into Lagos, and Bayo becomes the bandage — or the wound.',
+    'A stranger\'s dying name lodges in Bayo\'s memory, half-read, refusing to let go.',
+    'Six Pale Council operatives move into Lagos as the Architect\'s lab stirs, for the first time in months, to hope.'
+  ];
+  var order = [];
+  var selectedIdx = null;
+
+  function shuffle(arr){
+    var a = arr.slice();
+    do {
+      for(var i=a.length-1;i>0;i--){
+        var j=Math.floor(Math.random()*(i+1));
+        var t=a[i];a[i]=a[j];a[j]=t;
+      }
+    } while(a.every(function(v,i){return v===i;}));
+    return a;
+  }
+
+  function render(){
+    strip.innerHTML = order.map(function(beatIdx, pos){
+      return '<div class="po-panel" data-pos="'+pos+'" onclick="poClick('+pos+')">' +
+        '<div class="po-panel-num">'+(pos+1)+'</div>' +
+        '<div class="po-panel-txt">'+BEATS[beatIdx]+'</div>' +
+        '</div>';
+    }).join('');
+  }
+
+  window.poNewGame = function(){
+    order = shuffle(BEATS.map(function(_, i){ return i; }));
+    selectedIdx = null;
+    document.getElementById('poStatus').textContent = '';
+    render();
+  };
+
+  window.poClick = function(pos){
+    var panels = strip.querySelectorAll('.po-panel');
+    if(selectedIdx === null){
+      selectedIdx = pos;
+      panels[pos].classList.add('selected');
+      return;
+    }
+    if(selectedIdx === pos){
+      panels[pos].classList.remove('selected');
+      selectedIdx = null;
+      return;
+    }
+    var t = order[selectedIdx];
+    order[selectedIdx] = order[pos];
+    order[pos] = t;
+    selectedIdx = null;
+    render();
+    var solved = order.every(function(beatIdx, i){ return beatIdx === i; });
+    if(solved){
+      document.getElementById('poStatus').textContent = 'SEQUENCE RESTORED — the Oracle archive is intact again.';
+      Array.prototype.forEach.call(strip.querySelectorAll('.po-panel'), function(p){ p.classList.add('correct'); });
+    }
+  };
+
+  poNewGame();
 })();
 
 /* ----- CHRONICLE TIMELINE IntersectionObserver ----- */
