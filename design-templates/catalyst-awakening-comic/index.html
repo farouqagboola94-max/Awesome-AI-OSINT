@@ -12461,8 +12461,6 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
           </div>
         </div>
 
-        <div id="dynamic-chapters-1"></div>
-
         <div class="cliffhanger-box">
           <div class="cliffhanger-label">End of Issue #01 · Continue in Issue #02 — THE MIRROR'S EDGE</div>
           <div class="cliffhanger-text">A stranger's name, half-read in dying script, now lives somewhere in Bayo's memory that wasn't there yesterday. Six Pale Council operatives are already in Lagos. And four hundred kilometres east, in a tower built on reclaimed land, something in a sub-basement laboratory has just started, for the first time in months, to hope.</div>
@@ -12757,8 +12755,6 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
           <div class="panel-narration">VISUAL FINAL PANEL: The Collector's reflection in the café window. Behind his reflection — the Lagos skyline. Somewhere in that skyline, four people are learning to trust each other. He does not know he will never return to Lagos. He does not know that, six arcs from now, his report will be entered as evidence in a tribunal that does not yet exist, for crimes that have not yet been committed. Lagos takes its time. But Lagos always settles its accounts.</div>
         </div>
 
-        <div id="dynamic-chapters-2"></div>
-
         <div class="cliffhanger-box">
           <div class="cliffhanger-label">End of Issue #02 · Continue in Issue #03</div>
           <div class="cliffhanger-text">The Collector retreats. The Pale Council receives his report: "Classification impossible. Recommend immediate containment. Send the Architect."</div>
@@ -13020,8 +13016,6 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
           </div>
           <div class="panel-narration">VISUAL FINAL PANEL: The Architect's face — finally shown clearly for the first time in the series. She is young. That is the first surprise. The second: she does not look like a villain. She looks like someone who has done the mathematics and arrived at a conclusion she finds genuinely regrettable. This is the most frightening thing about her.</div>
         </div>
-
-        <div id="dynamic-chapters-3"></div>
 
         <div class="cliffhanger-box">
           <div class="cliffhanger-label">End of Issue #03 · Continue in Issue #04</div>
@@ -13292,8 +13286,6 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
             <div class="ase-popup-line gold">ẸṢÙ'S FINAL NOTE ON ARC I: "You found your team. You found your reason. Now you need to find the version of yourself that can actually stop what is coming. That version does not yet exist. You have 34 days to build it." <span class="ase-cursor"></span></div>
           </div>
         </div>
-
-        <div id="dynamic-chapters-4"></div>
 
         <div class="cliffhanger-box">
           <div class="cliffhanger-label">End of Issue #04 — Arc I: The Catalyst Continues</div>
@@ -17472,49 +17464,6 @@ function pvCopyLink() {
   };
 
   cfNewGame();
-})();
-
-/* ----- DYNAMIC STORY CHAPTERS (from Supabase story_pages table) -----
-   Appends any rows with body_html filled in from the public.story_pages
-   table to the end of that issue's reader, before the "End of Issue"
-   cliffhanger. Rows with no body_html (the skeleton outline) are skipped,
-   so this has no effect until content is actually added via the
-   Supabase dashboard Table Editor. */
-(function(){
-  function escapeHtml(s){
-    var d = document.createElement('div');
-    d.textContent = s;
-    return d.innerHTML;
-  }
-  function renderDynamicChapters(retries){
-    if(!window._supabase){
-      if(retries > 0) setTimeout(function(){ renderDynamicChapters(retries-1); }, 400);
-      return;
-    }
-    window._supabase.from('story_pages')
-      .select('issue,page,chapter_label,chapter_title,body_html')
-      .not('body_html', 'is', null)
-      .order('issue', { ascending: true })
-      .order('page', { ascending: true })
-      .then(function(res){
-        if(!res || res.error || !res.data) return;
-        res.data.forEach(function(row){
-          if(!row.body_html || !row.body_html.trim()) return;
-          var anchor = document.getElementById('dynamic-chapters-' + row.issue);
-          if(!anchor) return;
-          var chap = document.createElement('div');
-          chap.className = 'story-chapter';
-          var html = '';
-          if(row.chapter_label) html += '<div class="chapter-label">' + escapeHtml(row.chapter_label) + '</div>';
-          if(row.chapter_title) html += '<div class="chapter-title">' + escapeHtml(row.chapter_title) + '</div>';
-          html += row.body_html;
-          chap.innerHTML = html;
-          anchor.parentNode.insertBefore(chap, anchor);
-        });
-      })
-      .catch(function(e){ console.warn('Dynamic story chapters failed to load:', e); });
-  }
-  renderDynamicChapters(15);
 })();
 
 /* ----- CHRONICLE TIMELINE IntersectionObserver ----- */
@@ -22309,8 +22258,8 @@ document.addEventListener('DOMContentLoaded', function(){
           var keepLabel = chapter.querySelector('.chapter-label');
           var keepTitle = chapter.querySelector('.chapter-title');
           proseHost.innerHTML = '';
-          if (keepLabel) proseHost.appendChild(keepLabel);
-          if (keepTitle) proseHost.appendChild(keepTitle);
+          if (keepLabel) { proseHost.appendChild(keepLabel); proseHost.appendChild(document.createTextNode('\n')); }
+          if (keepTitle) { proseHost.appendChild(keepTitle); proseHost.appendChild(document.createTextNode('\n')); }
           var body = document.createElement('div');
           body.innerHTML = row.body_html;
           proseHost.appendChild(body);
