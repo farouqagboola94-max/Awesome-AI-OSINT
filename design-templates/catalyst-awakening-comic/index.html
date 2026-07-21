@@ -4963,7 +4963,7 @@
 }
 
 /* ── Comics Issue Canva Overlay ──────────────────────────── */
-.issue-bg { position: relative; overflow: hidden; }
+.issue-bg { position: absolute; inset: 0; overflow: hidden; }
 .issue-canva-overlay {
   position: absolute;
   inset: 0;
@@ -5483,7 +5483,7 @@ body { padding-top: 26px; }
 #codex           .section-photo-bg { opacity: 0.07; filter: saturate(0.35) brightness(0.55); object-position: center 40%; }
 #lore            .section-photo-bg { opacity: 0.08; filter: saturate(0.4) brightness(0.6) hue-rotate(220deg); }
 /* ensure relative positioning for sections that don't already have it */
-#manifesto, #universe, #lagos-map, #oracle-terminal,
+#manifesto, #universe, #lagos-map, #characters, #oracle-terminal,
 #arcs, #ase-system, #read, #realms, #codex, #lore {
   position: relative; overflow: hidden;
 }
@@ -6159,6 +6159,58 @@ body.ase-vision .ase-glyph-field { display:block; }
 }
 
 /* ============ ASẹ FREQUENCY SCANNER ============ */
+/* ============ ARCADE ZONE — retro neon reskin for the interactive games ============ */
+#ase-battle, #hero-quiz, #ase-scanner, #oracle-terminal, #cipher-terminal, #memory-match {
+  --arcade-magenta: #ff2fd6;
+  --arcade-cyan: #00f0ff;
+  position: relative;
+}
+#ase-battle::before, #hero-quiz::before, #ase-scanner::before, #oracle-terminal::before, #cipher-terminal::before, #memory-match::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  background: repeating-linear-gradient(180deg, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 3px);
+  mix-blend-mode: overlay; opacity: 0.5;
+}
+#ase-battle .section-label, #hero-quiz .section-label, #ase-scanner .section-label,
+#oracle-terminal .section-label, #cipher-terminal .section-label, #memory-match .section-label {
+  color: var(--arcade-cyan); text-shadow: 0 0 10px rgba(0,240,255,0.6);
+}
+.asb-char-card:hover { border-color: var(--arcade-cyan); background: rgba(0,240,255,0.1); box-shadow: 0 0 18px rgba(0,240,255,0.35); }
+.asb-char-card[style*="border-color"] { box-shadow: 0 0 20px rgba(255,47,214,0.4); }
+.asb-fight-btn { border: 1px solid var(--arcade-magenta); color: var(--arcade-magenta); text-shadow: 0 0 8px rgba(255,47,214,0.5); transition: all .2s; }
+.asb-fight-btn:not(:disabled):hover { background: var(--arcade-magenta); color: #000; box-shadow: 0 0 24px rgba(255,47,214,0.7); text-shadow: none; }
+.quiz-pip.done { background: var(--arcade-magenta); box-shadow: 0 0 8px rgba(255,47,214,0.6); }
+.quiz-pip.cur { background: rgba(0,240,255,0.55); box-shadow: 0 0 8px rgba(0,240,255,0.5); }
+.scanner-status-badge { color: var(--arcade-cyan); text-shadow: 0 0 8px rgba(0,240,255,0.6); }
+.scan-decode-progress { background: var(--arcade-magenta) !important; box-shadow: 0 0 10px rgba(255,47,214,0.6); }
+.term-tab.active { color: var(--arcade-magenta); border-color: var(--arcade-magenta); text-shadow: 0 0 8px rgba(255,47,214,0.5); }
+.term-send-btn { box-shadow: 0 0 14px rgba(0,240,255,0.25); }
+@keyframes arcadePulse { 0%,100%{ opacity:0.6; } 50%{ opacity:1; } }
+#ase-battle .section-title em, #hero-quiz .section-title em, #memory-match .section-title .gold { animation: arcadePulse 2.4s ease-in-out infinite; }
+
+/* ============ ORISHA MEMORY MATCH ============ */
+#memory-match{background:#050008;padding:80px 0}
+.mm-wrap{max-width:760px;margin:0 auto;padding:0 24px}
+.mm-hud{display:flex;align-items:center;justify-content:center;gap:28px;margin:32px 0 24px;flex-wrap:wrap}
+.mm-stat{display:flex;flex-direction:column;align-items:center;gap:2px}
+.mm-stat-lbl{font-size:.6rem;letter-spacing:.14em;color:#888;font-family:'Courier New',monospace}
+.mm-stat-val{font-size:1.1rem;font-weight:900;color:var(--arcade-cyan);text-shadow:0 0 8px rgba(0,240,255,.5)}
+.mm-shuffle-btn{background:transparent;border:1px solid var(--arcade-magenta);color:var(--arcade-magenta);padding:9px 16px;font-size:.66rem;letter-spacing:.12em;cursor:pointer;border-radius:3px;font-family:'Courier New',monospace;transition:all .2s;text-shadow:0 0 8px rgba(255,47,214,.4)}
+.mm-shuffle-btn:hover{background:var(--arcade-magenta);color:#000;box-shadow:0 0 20px rgba(255,47,214,.6);text-shadow:none}
+.mm-board{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;perspective:1000px}
+.mm-card{aspect-ratio:1;cursor:pointer;position:relative;transform-style:preserve-3d;transition:transform .45s cubic-bezier(.2,.8,.3,1)}
+.mm-card.flipped,.mm-card.matched{transform:rotateY(180deg)}
+.mm-card-face{position:absolute;inset:0;border-radius:8px;display:flex;align-items:center;justify-content:center;backface-visibility:hidden;font-size:1.8rem}
+.mm-card-back{background:rgba(0,0,0,.5);border:1px solid rgba(0,240,255,.25);box-shadow:inset 0 0 20px rgba(0,240,255,.08)}
+.mm-card-back::after{content:'?';color:rgba(0,240,255,.35);font-family:'Courier New',monospace;font-weight:900}
+.mm-card-front{background:rgba(20,0,20,.85);border:1px solid rgba(255,47,214,.35);transform:rotateY(180deg)}
+.mm-card.matched .mm-card-front{border-color:var(--arcade-cyan);box-shadow:0 0 18px rgba(0,240,255,.4)}
+.mm-card.wrong .mm-card-back{border-color:#C41E3A;animation:mmShake .3s}
+@keyframes mmShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.mm-win{text-align:center;margin-top:28px;padding:20px;border:1px solid rgba(0,240,255,.25);border-radius:6px;background:rgba(0,20,20,.4)}
+.mm-win-title{font-size:1rem;letter-spacing:.14em;color:var(--arcade-cyan);text-shadow:0 0 10px rgba(0,240,255,.6);margin-bottom:6px}
+.mm-win-body{font-size:.82rem;color:#ccc;font-family:'Courier New',monospace}
+@media(max-width:560px){ .mm-board{grid-template-columns:repeat(4,1fr);gap:8px} .mm-card-face{font-size:1.4rem} }
+
 #ase-scanner{background:#050008;padding:80px 0}
 .scanner-wrap{max-width:740px;margin:0 auto;padding:0 24px}
 .scanner-unit{background:rgba(5,0,12,.8);border:1px solid rgba(0,201,177,.2);border-radius:6px;padding:28px 32px;box-shadow:0 0 40px rgba(0,201,177,.05);position:relative;overflow:hidden}
@@ -6185,40 +6237,6 @@ body.ase-vision .ase-glyph-field { display:block; }
 .scan-redact{background:#222;color:#222;border-radius:2px;padding:0 4px;user-select:none;transition:background .3s,color .3s}
 .scan-redact:hover{background:rgba(196,30,58,.3);color:#ccc}
 .scan-decode-progress{position:absolute;bottom:0;left:0;height:2px;background:#00C9B1;transition:width .05s linear;width:0}
-
-/* ============ COMBAT POWER CLASH ============ */
-#power-clash{background:#0a0000;padding:80px 0}
-.clash-wrap{max-width:860px;margin:0 auto;padding:0 24px}
-.clash-arena{display:grid;grid-template-columns:1fr auto 1fr;gap:20px;align-items:start;margin-bottom:28px}
-.clash-pick{background:rgba(10,0,0,.7);border:1px solid rgba(255,255,255,.08);border-radius:6px;padding:20px;text-align:center;transition:border-color .3s}
-.clash-pick.selected{border-color:rgba(244,184,0,.4)}
-.clash-avatar-box{width:90px;height:90px;margin:0 auto 12px;border-radius:50%;background:rgba(255,255,255,.04);border:2px solid rgba(255,255,255,.1);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:2.4rem}
-.clash-avatar-img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-.clash-fighter-name{font-size:.8rem;letter-spacing:.08em;color:#f0ece4;font-weight:700;margin-bottom:8px;min-height:20px}
-.clash-sel{width:100%;background:#0e0005;border:1px solid rgba(255,255,255,.12);color:#ccc;padding:7px 10px;font-size:.72rem;border-radius:3px;cursor:pointer}
-.clash-sel:focus{outline:none;border-color:#F4B800}
-.clash-vs-col{display:flex;flex-direction:column;align-items:center;gap:12px;padding-top:48px}
-.clash-vs-badge{font-size:1.1rem;font-weight:900;letter-spacing:.1em;color:#F4B800;text-shadow:0 0 14px rgba(244,184,0,.5)}
-.clash-run-btn{background:transparent;border:1px solid #F4B800;color:#F4B800;padding:10px 16px;font-size:.66rem;letter-spacing:.14em;cursor:pointer;border-radius:3px;font-family:'Courier New',monospace;transition:all .2s;white-space:nowrap}
-.clash-run-btn:hover{background:#F4B800;color:#000}
-.clash-run-btn:disabled{opacity:.35;cursor:default}
-.clash-result-panel{background:rgba(5,0,12,.8);border:1px solid rgba(244,184,0,.15);border-radius:6px;padding:24px 28px;display:none}
-.clash-result-panel.active{display:block}
-.clash-stats-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:8px 12px;align-items:center;margin-bottom:20px}
-.clash-stat-bar-wrap{display:flex;align-items:center;gap:8px}
-.clash-stat-label{font-size:.62rem;letter-spacing:.08em;color:#888;font-family:'Courier New',monospace;white-space:nowrap}
-.clash-bar-a,.clash-bar-b{height:6px;border-radius:3px;transition:width 1s cubic-bezier(.2,.8,.3,1);width:0}
-.clash-bar-a{background:linear-gradient(90deg,rgba(0,201,177,.2),#00C9B1);margin-left:auto}
-.clash-bar-b{background:linear-gradient(90deg,rgba(196,30,58,.2),#C41E3A)}
-.clash-stat-mid{font-size:.6rem;color:#555;text-align:center;font-family:'Courier New',monospace}
-.clash-verdict{text-align:center;padding:16px;border:1px solid rgba(244,184,0,.2);border-radius:4px;margin-top:8px}
-.clash-verdict-title{font-size:.7rem;letter-spacing:.15em;color:#888;margin-bottom:6px}
-.clash-verdict-body{font-size:.85rem;color:#f0ece4;line-height:1.5}
-.clash-winner-name{color:#F4B800;font-weight:700}
-@media(max-width:620px){
-  .clash-arena{grid-template-columns:1fr;gap:12px}
-  .clash-vs-col{flex-direction:row;padding-top:0;justify-content:center}
-}
 
 /* ============ FACTION DOSSIER WALL ============ */
 #faction-dossiers{background:#050008;padding:80px 0}
@@ -11164,8 +11182,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 
 <div class="energy-beam-divider" aria-hidden="true"></div>
 
-<!-- ══════════════════════════════════════ HERO QUIZ -->
-<!-- ════ COMBAT POWER CLASH ════ -->
+<!-- ══════════════════════════════════════ ASẸ BATTLE SIMULATOR -->
 
 <section id="ase-battle">
   <div class="asb-wrap">
@@ -11208,53 +11225,6 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
       <div class="asb-log-line system">[ SIMULATION SYSTEM READY &mdash; SELECT TWO OPERATIVES ]</div>
     </div>
     <div class="asb-result" id="asb-result" style="display:none;"></div>
-  </div>
-</section>
-<section id="power-clash">
-  <div class="clash-wrap">
-    <div class="section-header reveal">
-      <div class="section-label">BATTLE INTELLIGENCE</div>
-      <h2 class="section-title reveal">ASẸ <span class="gold">POWER CLASH</span></h2>
-      <p class="section-sub">Select two operatives and run an ASẹ confrontation analysis</p>
-    </div>
-    <div class="clash-arena reveal">
-      <!-- Fighter A -->
-      <div class="clash-pick" id="clashPickA">
-        <div class="clash-avatar-box" id="clashAvA"><span id="clashEmoA">⚔</span></div>
-        <div class="clash-fighter-name" id="clashNameA">SELECT OPERATIVE</div>
-        <select class="clash-sel" id="clashSelA" onchange="clashSelectFighter('A',this.value)">
-          <option value="">— Pick Operative —</option>
-          <option value="bayo">Bayo — Catalyst ⚡</option>
-          <option value="amara">Amara — Thunderstrike ⚡</option>
-          <option value="ikenna">Ikenna — Iron Wolf 🐺</option>
-          <option value="zara">Zara — The Mirror 🪞</option>
-          <option value="architect">The Architect 🜏</option>
-        </select>
-      </div>
-      <!-- VS -->
-      <div class="clash-vs-col">
-        <div class="clash-vs-badge">VS</div>
-        <button class="clash-run-btn" id="clashRunBtn" onclick="runPowerClash()" disabled>ANALYZE CLASH</button>
-      </div>
-      <!-- Fighter B -->
-      <div class="clash-pick" id="clashPickB">
-        <div class="clash-avatar-box" id="clashAvB"><span id="clashEmoB">⚔</span></div>
-        <div class="clash-fighter-name" id="clashNameB">SELECT OPERATIVE</div>
-        <select class="clash-sel" id="clashSelB" onchange="clashSelectFighter('B',this.value)">
-          <option value="">— Pick Operative —</option>
-          <option value="bayo">Bayo — Catalyst ⚡</option>
-          <option value="amara">Amara — Thunderstrike ⚡</option>
-          <option value="ikenna">Ikenna — Iron Wolf 🐺</option>
-          <option value="zara">Zara — The Mirror 🪞</option>
-          <option value="architect">The Architect 🜏</option>
-        </select>
-      </div>
-    </div>
-    <!-- Result panel -->
-    <div class="clash-result-panel" id="clashResult">
-      <div class="clash-stats-grid" id="clashStatsGrid"></div>
-      <div class="clash-verdict" id="clashVerdict"></div>
-    </div>
   </div>
 </section>
 <section id="hero-quiz">
@@ -11417,6 +11387,28 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
       <div class="res-name" id="result-name"></div>
       <div class="res-tag" id="result-tag"></div>
       <button class="res-retry" onclick="quizReset()">RETAKE THE TEST</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ ORISHA MEMORY MATCH -->
+<section id="memory-match">
+  <div class="mm-wrap">
+    <div class="section-header reveal">
+      <div class="section-label">ARCADE MODE — ORACLE TRAINING SIM</div>
+      <h2 class="section-title reveal">ORISHA <span class="gold">MEMORY MATCH</span></h2>
+      <p class="section-sub">Flip two glyphs at a time. Match every ASẹ signature to clear the board.</p>
+    </div>
+    <div class="mm-hud">
+      <div class="mm-stat"><span class="mm-stat-lbl">MOVES</span><span class="mm-stat-val" id="mmMoves">0</span></div>
+      <div class="mm-stat"><span class="mm-stat-lbl">MATCHES</span><span class="mm-stat-val" id="mmMatches">0/8</span></div>
+      <div class="mm-stat"><span class="mm-stat-lbl">BEST</span><span class="mm-stat-val" id="mmBest">—</span></div>
+      <button class="mm-shuffle-btn" onclick="mmNewGame()">↻ NEW BOARD</button>
+    </div>
+    <div class="mm-board" id="mmBoard"></div>
+    <div class="mm-win" id="mmWin" style="display:none;">
+      <div class="mm-win-title">BOARD CLEARED</div>
+      <div class="mm-win-body" id="mmWinBody"></div>
     </div>
   </div>
 </section>
@@ -17177,108 +17169,74 @@ function pvCopyLink() {
   };
 })();
 
-/* ----- COMBAT POWER CLASH ----- */
+/* ----- ORISHA MEMORY MATCH ----- */
 (function(){
-  var FIGHTERS = {
-    bayo: {name:'Catalyst — Bayo',emo:'⚡',orisha:'Ṣàngó',
-      atk:82,def:55,spd:74,ase:90,ctrl:48,
-      desc:'Raw explosive ASẹ output. Unpredictable under pressure but devastating at full power. Ṣàngó\'s storm energy amplifies every strike.'},
-    amara: {name:'Thunderstrike — Amara',emo:'⚡',orisha:'Ṣàngó',
-      atk:79,def:49,spd:91,ase:85,ctrl:52,
-      desc:'Lightning-speed precision fighter. Her Thunderstrike discharges can arc between multiple targets. Speed advantage is decisive in open terrain.'},
-    ikenna: {name:'Iron Wolf — Ikenna',emo:'🐺',orisha:'Ògún',
-      atk:88,def:94,spd:44,ase:70,ctrl:78,
-      desc:'Near-invulnerable defence with Ògún\'s iron blessing. Can absorb enormous punishment. Loses the edge in speed matchups against faster opponents.'},
-    zara: {name:'The Mirror — Zara',emo:'🪞',orisha:'Unconfirmed',
-      atk:65,def:71,spd:68,ase:95,ctrl:88,
-      desc:'Her mirror ASẹ reflects and redirects energy attacks back at the source. High control and field awareness. Opponent\'s own power becomes her weapon.'},
-    architect: {name:'The Architect',emo:'🜏',orisha:'None',
-      atk:92,def:86,spd:61,ase:99,ctrl:97,
-      desc:'Weaponised ASẹ extraction with decades of refinement. Field-tested against multiple awakened individuals simultaneously. No confirmed weaknesses on record.'}
-  };
-  var STAT_LABELS = ['ATK','DEF','SPD','ASẸ','CTRL'];
-  var STAT_KEYS = ['atk','def','spd','ase','ctrl'];
-  var OUTCOMES = [
-    '{winnerName} overwhelms {loserName} before they can establish a defence. The clash is decisive.',
-    '{winnerName}\'s ASẹ output peaks at 4.7 lumens — {loserName} cannot maintain suppression for long.',
-    'An extended clash favours {winnerName}\'s control and discipline. {loserName} makes the first mistake.',
-    '{winnerName} exploits {loserName}\'s ASẹ frequency — a devastating counter lands at minute three.',
-    'Oracle projections give {winnerName} a 71% edge. The numbers prove accurate.'
-  ];
-  var selA = null, selB = null;
+  var SYMBOLS = ['⚡','🐺','🪞','👁','🜏','🔱','🌊','🔥'];
+  var board = document.getElementById('mmBoard');
+  if(!board) return;
+  var deck = [], flipped = [], matched = 0, moves = 0, lock = false;
+  var BEST_KEY = 'catalyst_mm_best';
 
-  window.clashSelectFighter = function(side, val){
-    if(side==='A') selA=val||null; else selB=val||null;
-    var f = FIGHTERS[val];
-    if(f){
-      var emo = document.getElementById('clashEmo'+side);
-      var nm = document.getElementById('clashName'+side);
-      var pick = document.getElementById('clashPick'+side);
-      if(emo) emo.textContent = f.emo;
-      if(nm) nm.textContent = f.name;
-      if(pick) pick.classList.add('selected');
-    } else {
-      var emo2 = document.getElementById('clashEmo'+side);
-      var nm2 = document.getElementById('clashName'+side);
-      var pick2 = document.getElementById('clashPick'+side);
-      if(emo2) emo2.textContent='⚔';
-      if(nm2) nm2.textContent='SELECT OPERATIVE';
-      if(pick2) pick2.classList.remove('selected');
+  function shuffle(arr){
+    for(var i=arr.length-1;i>0;i--){
+      var j=Math.floor(Math.random()*(i+1));
+      var t=arr[i];arr[i]=arr[j];arr[j]=t;
     }
-    var btn = document.getElementById('clashRunBtn');
-    if(btn) btn.disabled = !(selA && selB && selA!==selB);
-    var res = document.getElementById('clashResult');
-    if(res) res.classList.remove('active');
+    return arr;
+  }
+
+  window.mmNewGame = function(){
+    deck = shuffle(SYMBOLS.concat(SYMBOLS));
+    flipped = []; matched = 0; moves = 0; lock = false;
+    document.getElementById('mmMoves').textContent = '0';
+    document.getElementById('mmMatches').textContent = '0/'+SYMBOLS.length;
+    document.getElementById('mmWin').style.display = 'none';
+    var best = localStorage.getItem(BEST_KEY);
+    document.getElementById('mmBest').textContent = best ? best+' moves' : '—';
+    board.innerHTML = deck.map(function(sym, i){
+      return '<div class="mm-card" data-idx="'+i+'" data-sym="'+sym+'" onclick="mmFlip(this)">' +
+        '<div class="mm-card-face mm-card-back"></div>' +
+        '<div class="mm-card-face mm-card-front">'+sym+'</div>' +
+        '</div>';
+    }).join('');
   };
 
-  window.runPowerClash = function(){
-    if(!selA||!selB||selA===selB) return;
-    var a = FIGHTERS[selA], b = FIGHTERS[selB];
-    var scoreA = 0, scoreB = 0;
-    var rows = '';
-    STAT_KEYS.forEach(function(k,i){
-      var va=a[k], vb=b[k];
-      scoreA+=va; scoreB+=vb;
-      var maxV = Math.max(va,vb,1);
-      rows += '<div class="clash-stat-bar-wrap" style="justify-content:flex-end">' +
-        '<span class="clash-stat-label">'+va+'</span>' +
-        '<div class="clash-bar-a" style="width:0" data-w="'+Math.round(va/100*100)+'%"></div>' +
-        '</div>' +
-        '<div class="clash-stat-mid">'+STAT_LABELS[i]+'</div>' +
-        '<div class="clash-stat-bar-wrap">' +
-        '<div class="clash-bar-b" style="width:0" data-w="'+Math.round(vb/100*100)+'%"></div>' +
-        '<span class="clash-stat-label">'+vb+'</span>' +
-        '</div>';
-    });
-    var grid = document.getElementById('clashStatsGrid');
-    var verdict = document.getElementById('clashVerdict');
-    var res = document.getElementById('clashResult');
-    if(grid) grid.innerHTML = rows;
-    var winner = scoreA>=scoreB ? a : b;
-    var loser  = scoreA>=scoreB ? b : a;
-    var diff = Math.abs(scoreA-scoreB);
-    var margin = diff<20?'NARROW EDGE':diff<50?'CLEAR ADVANTAGE':'DOMINANT VICTORY';
-    var outcomeTemplate = OUTCOMES[Math.floor(Math.random()*OUTCOMES.length)];
-    var outcomeText = outcomeTemplate
-      .replace('{winnerName}',winner.name)
-      .replace('{loserName}',loser.name);
-    if(verdict) verdict.innerHTML =
-      '<div class="clash-verdict-title">ORACLE ANALYSIS — '+margin+'</div>' +
-      '<div class="clash-verdict-body">' +
-      '<span class="clash-winner-name">'+winner.name+'</span> wins.<br>' +
-      '<span style="font-size:.76rem;color:#a09890">'+outcomeText+'</span><br><br>' +
-      '<span style="font-size:.7rem;color:#666;font-family:Courier New,monospace">'+winner.name+': '+scoreA+(scoreA>scoreB?' ↑':'')+' pts | '+loser.name+': '+(scoreA>scoreB?scoreB:scoreA)+' pts</span>' +
-      '</div>';
-    if(res) res.classList.add('active');
-    setTimeout(function(){
-      document.querySelectorAll('.clash-bar-a').forEach(function(el){
-        el.style.width = el.getAttribute('data-w');
-      });
-      document.querySelectorAll('.clash-bar-b').forEach(function(el){
-        el.style.width = el.getAttribute('data-w');
-      });
-    },80);
+  window.mmFlip = function(el){
+    if(lock || el.classList.contains('flipped') || el.classList.contains('matched')) return;
+    el.classList.add('flipped');
+    flipped.push(el);
+    if(flipped.length === 2){
+      lock = true;
+      moves++;
+      document.getElementById('mmMoves').textContent = moves;
+      var a = flipped[0], b = flipped[1];
+      if(a.dataset.sym === b.dataset.sym){
+        a.classList.add('matched'); b.classList.add('matched');
+        matched++;
+        document.getElementById('mmMatches').textContent = matched+'/'+SYMBOLS.length;
+        flipped = []; lock = false;
+        if(matched === SYMBOLS.length){
+          var best = localStorage.getItem(BEST_KEY);
+          if(!best || moves < parseInt(best,10)){
+            localStorage.setItem(BEST_KEY, moves);
+            best = moves;
+          }
+          var winEl = document.getElementById('mmWin');
+          document.getElementById('mmWinBody').textContent = 'Cleared in '+moves+' moves. Best on this device: '+best+' moves.';
+          winEl.style.display = 'block';
+        }
+      } else {
+        a.classList.add('wrong'); b.classList.add('wrong');
+        setTimeout(function(){
+          a.classList.remove('flipped','wrong');
+          b.classList.remove('flipped','wrong');
+          flipped = []; lock = false;
+        }, 650);
+      }
+    }
   };
+
+  mmNewGame();
 })();
 
 /* ----- CHRONICLE TIMELINE IntersectionObserver ----- */
