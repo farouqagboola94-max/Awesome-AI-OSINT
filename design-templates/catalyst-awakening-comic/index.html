@@ -1388,15 +1388,19 @@
   }
 
   .reveal {
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    transition: opacity 0.9s cubic-bezier(.22,.7,.2,1), transform 0.9s cubic-bezier(.22,.7,.2,1), filter 0.9s ease, clip-path 0.9s cubic-bezier(.22,.7,.2,1);
   }
   .js-ready .reveal {
     opacity: 0;
     transform: translateY(40px);
+    filter: blur(5px);
+    clip-path: inset(0 0 14% 0);
   }
   .js-ready .reveal.visible {
     opacity: 1;
     transform: translateY(0);
+    filter: blur(0);
+    clip-path: inset(0 0 0% 0);
   }
   .reveal-delay-1 { transition-delay: 0.1s; }
   .reveal-delay-2 { transition-delay: 0.2s; }
@@ -1945,7 +1949,7 @@
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
-    .reveal { opacity: 1; transform: none; }
+    .reveal { opacity: 1; transform: none; filter: none; clip-path: none; }
   }
 </style>
 <style>
@@ -4059,6 +4063,33 @@
   background: radial-gradient(ellipse at 68% 18%, rgba(255,255,255,0.18) 0%, rgba(190,130,255,0.1) 28%, transparent 60%);
   animation: sky-flash 12s ease-in-out infinite;
   animation-delay: -5s;
+}
+.hero-rain {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; opacity: 0.5;
+}
+.hero-rain::before, .hero-rain::after {
+  content: ''; position: absolute; inset: -20% -10%;
+  background-image: repeating-linear-gradient(
+    100deg,
+    transparent 0px, transparent 2px,
+    rgba(200,210,230,0.16) 2px, rgba(200,210,230,0.16) 3px,
+    transparent 3px, transparent 90px
+  );
+  animation: rainFall 0.6s linear infinite;
+}
+.hero-rain::after {
+  background-image: repeating-linear-gradient(
+    100deg,
+    transparent 0px, transparent 1px,
+    rgba(160,170,200,0.1) 1px, rgba(160,170,200,0.1) 2px,
+    transparent 2px, transparent 60px
+  );
+  animation: rainFall 0.9s linear infinite reverse;
+  opacity: 0.7;
+}
+@keyframes rainFall {
+  0% { transform: translateY(-10%); }
+  100% { transform: translateY(10%); }
 }
 .hero-bolt {
   position: absolute; pointer-events: none; z-index: 2; overflow: visible;
@@ -8322,6 +8353,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   <div class="hero-cloud hero-cloud-r" aria-hidden="true"></div>
   <div class="hero-sky-flash" aria-hidden="true"></div>
   <div class="hero-sky-flash-2" aria-hidden="true"></div>
+  <div class="hero-rain" aria-hidden="true"></div>
   <svg class="hero-bolt hero-bolt-1" viewBox="0 0 36 110" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <polygon points="22,0 8,52 18,52 4,110 32,42 20,42" fill="#F4B800"/>
     <polygon points="22,0 8,52 18,52 4,110 32,42 20,42" fill="#FFF8C0" opacity="0.4"/>
