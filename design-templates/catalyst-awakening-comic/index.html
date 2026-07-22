@@ -16088,7 +16088,7 @@ function quizShowResult() {
   document.getElementById('quiz-result').classList.add('show');
   // Save result to Supabase
   if (window._supabase) {
-    try { window._supabase.from('quiz_results').insert({ hero: h.name }); } catch(e) {}
+    try { window._supabase.from('quiz_results').insert({ hero: h.name }).then(function(){}, function(){}); } catch(e) {}
   }
 }
 
