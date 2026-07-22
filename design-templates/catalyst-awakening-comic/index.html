@@ -1407,6 +1407,30 @@
   .reveal-delay-3 { transition-delay: 0.3s; }
   .reveal-delay-4 { transition-delay: 0.4s; }
 
+  /* Scroll-hook: a dangling one-liner between sections that creates a reason to keep scrolling */
+  .scroll-hook {
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.1rem, 2.6vw, 1.6rem);
+    letter-spacing: 0.04em;
+    color: rgba(240,237,229,0.75);
+    background: #050505;
+    position: relative;
+  }
+  .scroll-hook em { font-style: normal; color: var(--danfo-gold, #F4B800); }
+  .scroll-hook .sh-arrow {
+    display: block;
+    margin-top: 0.6rem;
+    font-size: 1.1rem;
+    color: var(--blood-red, #C41E3A);
+    animation: shBounce 1.8s ease-in-out infinite;
+  }
+  @keyframes shBounce {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(6px); opacity: 1; }
+  }
+
   /* Glitch effect on hover */
   .glitch {
     position: relative;
@@ -6191,22 +6215,21 @@ body.ase-vision .ase-glyph-field { display:block; }
 
 /* ============ ASẹ FREQUENCY SCANNER ============ */
 /* ============ INK NOIR — comic-panel reskin for the interactive games ============ */
-#ase-battle, #hero-quiz, #ase-scanner, #oracle-terminal, #cipher-terminal, #memory-match, #panel-order, #case-file {
+#ase-battle, #hero-quiz, #ase-scanner, #oracle-terminal, #cipher-terminal, #case-file {
   --ink-line: #f0ece4;
   --ink-accent: #C41E3A;
   --ink-gold: #F4B800;
   position: relative;
 }
 #ase-battle::before, #hero-quiz::before, #ase-scanner::before, #oracle-terminal::before,
-#cipher-terminal::before, #memory-match::before, #panel-order::before, #case-file::before {
+#cipher-terminal::before, #case-file::before {
   content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1;
   background-image: radial-gradient(rgba(240,236,228,0.16) 1px, transparent 1px);
   background-size: 5px 5px;
   mix-blend-mode: overlay; opacity: 0.4;
 }
 #ase-battle .section-label, #hero-quiz .section-label, #ase-scanner .section-label,
-#oracle-terminal .section-label, #cipher-terminal .section-label, #memory-match .section-label,
-#panel-order .section-label, #case-file .section-label {
+#oracle-terminal .section-label, #cipher-terminal .section-label, #case-file .section-label {
   color: var(--ink-line); letter-spacing: 0.22em;
 }
 .asb-char-card { clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px); }
@@ -6221,43 +6244,13 @@ body.ase-vision .ase-glyph-field { display:block; }
 .term-tab.active { color: var(--ink-accent); border-color: var(--ink-accent); text-shadow: none; }
 .term-send-btn { box-shadow: none; border: 2px solid var(--ink-line); }
 
-/* ============ ORISHA MEMORY MATCH ============ */
-#memory-match{background:#050505;padding:80px 0}
-.mm-wrap{max-width:760px;margin:0 auto;padding:0 24px}
-.mm-hud{display:flex;align-items:center;justify-content:center;gap:28px;margin:32px 0 24px;flex-wrap:wrap}
+/* Shared HUD/win-panel styles (used by Case File) */
 .mm-stat{display:flex;flex-direction:column;align-items:center;gap:2px}
 .mm-stat-lbl{font-size:.6rem;letter-spacing:.14em;color:#888;font-family:'Courier New',monospace}
 .mm-stat-val{font-size:1.1rem;font-weight:900;color:var(--ink-line)}
-.mm-shuffle-btn{background:transparent;border:2px solid var(--ink-accent);color:var(--ink-accent);padding:9px 16px;font-size:.66rem;letter-spacing:.12em;cursor:pointer;font-family:'Courier New',monospace;transition:all .2s;clip-path:polygon(6px 0,100% 0,100% 100%,0 100%,0 6px)}
-.mm-shuffle-btn:hover{background:var(--ink-accent);color:#000}
-.mm-board{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;perspective:1000px}
-.mm-card{aspect-ratio:1;cursor:pointer;position:relative;transform-style:preserve-3d;transition:transform .45s cubic-bezier(.2,.8,.3,1)}
-.mm-card.flipped,.mm-card.matched{transform:rotateY(180deg)}
-.mm-card-face{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;backface-visibility:hidden;font-size:1.8rem;clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
-.mm-card-back{background:#0a0a0a;border:2px solid rgba(240,236,228,.3)}
-.mm-card-back::after{content:'?';color:rgba(240,236,228,.4);font-family:'Bebas Neue',sans-serif;font-size:2rem;font-weight:900}
-.mm-card-front{background:#111;border:2px solid var(--ink-line);transform:rotateY(180deg)}
-.mm-card.matched .mm-card-front{border-color:var(--ink-accent);box-shadow:0 0 0 2px var(--ink-accent) inset}
-.mm-card.wrong .mm-card-back{border-color:var(--ink-accent);animation:mmShake .3s}
-@keyframes mmShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
 .mm-win{text-align:center;margin-top:28px;padding:20px;border:2px solid var(--ink-line);background:rgba(240,236,228,.04)}
 .mm-win-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.1em;color:var(--ink-line);margin-bottom:6px}
 .mm-win-body{font-size:.82rem;color:#ccc;font-family:'Courier New',monospace}
-@media(max-width:560px){ .mm-board{grid-template-columns:repeat(4,1fr);gap:8px} .mm-card-face{font-size:1.4rem} }
-
-/* ============ PANEL ORDER ============ */
-#panel-order{background:#080808;padding:80px 0}
-.po-wrap{max-width:720px;margin:0 auto;padding:0 24px}
-.po-hud{display:flex;align-items:center;justify-content:center;gap:24px;margin:28px 0 20px;flex-wrap:wrap}
-.po-hint{text-align:center;font-size:.78rem;color:#999;font-family:'Courier New',monospace;margin-bottom:20px}
-.po-strip{display:flex;flex-direction:column;gap:10px}
-.po-panel{display:flex;align-items:center;gap:14px;background:#111;border:2px solid rgba(240,236,228,.3);padding:14px 18px;cursor:pointer;transition:border-color .2s,background .2s;clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px)}
-.po-panel:hover{border-color:var(--ink-line)}
-.po-panel.selected{border-color:var(--ink-gold);background:rgba(244,184,0,.06)}
-.po-panel.correct{border-color:var(--ink-accent);background:rgba(196,30,58,.08)}
-.po-panel-num{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--ink-line);min-width:28px}
-.po-panel-txt{font-size:.85rem;color:#ddd;line-height:1.5}
-.po-status{text-align:center;margin-top:18px;font-family:'Courier New',monospace;font-size:.8rem;color:var(--ink-line);min-height:1.2em}
 .po-reset-btn{display:block;margin:16px auto 0;background:transparent;border:2px solid var(--ink-line);color:var(--ink-line);padding:9px 18px;font-size:.66rem;letter-spacing:.12em;cursor:pointer;font-family:'Courier New',monospace;clip-path:polygon(6px 0,100% 0,100% 100%,0 100%,0 6px)}
 .po-reset-btn:hover{background:var(--ink-line);color:#000}
 
@@ -8771,6 +8764,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 <div class="energy-beam-divider" aria-hidden="true"></div>
 
 <!-- ============================================================ UNIVERSE -->
+<div class="scroll-hook reveal">The declaration is done. Now the <em>city itself</em> starts talking.<span class="sh-arrow">↓</span></div>
 <section id="universe">
     <img class="section-photo-bg" src="./assets/lagos-spirits.webp" alt="Lagos Orisha spirits — the city where two worlds bleed" loading="lazy" aria-hidden="true">
   <div class="universe-grid">
@@ -11457,43 +11451,6 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   </div>
 </section>
 
-<!-- ══════════════════════════════════════ ORISHA MEMORY MATCH -->
-<section id="memory-match">
-  <div class="mm-wrap">
-    <div class="section-header reveal">
-      <div class="section-label">ARCADE MODE — ORACLE TRAINING SIM</div>
-      <h2 class="section-title reveal">ORISHA <span class="gold">MEMORY MATCH</span></h2>
-      <p class="section-sub">Flip two glyphs at a time. Match every ASẹ signature to clear the board.</p>
-    </div>
-    <div class="mm-hud">
-      <div class="mm-stat"><span class="mm-stat-lbl">MOVES</span><span class="mm-stat-val" id="mmMoves">0</span></div>
-      <div class="mm-stat"><span class="mm-stat-lbl">MATCHES</span><span class="mm-stat-val" id="mmMatches">0/8</span></div>
-      <div class="mm-stat"><span class="mm-stat-lbl">BEST</span><span class="mm-stat-val" id="mmBest">—</span></div>
-      <button class="mm-shuffle-btn" onclick="mmNewGame()">↻ NEW BOARD</button>
-    </div>
-    <div class="mm-board" id="mmBoard"></div>
-    <div class="mm-win" id="mmWin" style="display:none;">
-      <div class="mm-win-title">BOARD CLEARED</div>
-      <div class="mm-win-body" id="mmWinBody"></div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════ PANEL ORDER -->
-<section id="panel-order">
-  <div class="po-wrap">
-    <div class="section-header reveal">
-      <div class="section-label">ORACLE ARCHIVE — SEQUENCE RECOVERY</div>
-      <h2 class="section-title reveal">PANEL <span class="gold">ORDER</span></h2>
-      <p class="section-sub">The Oracle's archive got scrambled. Click two panels to swap them back into order.</p>
-    </div>
-    <p class="po-hint">Click a panel, then click another to swap places. Rebuild Issue #1's opening beats in order.</p>
-    <div class="po-strip" id="poStrip"></div>
-    <div class="po-status" id="poStatus"></div>
-    <button class="po-reset-btn" onclick="poNewGame()">↻ RESCRAMBLE</button>
-  </div>
-</section>
-
 <!-- ══════════════════════════════════════ CASE FILE -->
 <section id="case-file">
   <div class="cf-wrap">
@@ -11640,6 +11597,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
     <div class="acm-result" id="acm-result"></div>
   </div>
 </section>
+<div class="scroll-hook reveal">Four issues, free, read. What you just finished is <em>less than a tenth</em> of the story.<span class="sh-arrow">↓</span></div>
 <section id="arcs">
     <img class="section-photo-bg" src="./assets/shipyard.jpg" alt="Dark port with containers" loading="lazy" aria-hidden="true">
   <div class="arcs-header">
@@ -11877,6 +11835,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 </section>
 
 <!-- ============================================================ ASE SYSTEM -->
+<div class="scroll-hook reveal">Eleven arcs. One legend. But <em>only Bayo</em> can see what powers it.<span class="sh-arrow">↓</span></div>
 <section id="ase-system">
     <img class="section-photo-bg" src="./assets/shipyard.jpg" alt="Dark port atmosphere" loading="lazy" aria-hidden="true">
   <div class="ase-grid">
@@ -13521,6 +13480,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
     </div>
   </div>
 </section>
+<div class="scroll-hook reveal">Lagos is only half the map. The other half is where the <em>Orishas</em> actually live.<span class="sh-arrow">↓</span></div>
 <section id="realms">
     <img class="section-photo-bg" src="./assets/circle.jpg" alt="Glowing team circle" loading="lazy" aria-hidden="true">
   <div class="realms-header">
@@ -13860,6 +13820,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
     <div class="oit-ending" id="oit-ending"></div>
   </div>
 </section>
+<div class="scroll-hook reveal">Every name below has a price already paid. <em>Someone</em> is still paying it.<span class="sh-arrow">↓</span></div>
 <section id="codex">
     <img class="section-photo-bg" src="./assets/noir-window.jpg" alt="Rain-streaked city night" loading="lazy" aria-hidden="true">
   <div class="codex-header">
@@ -17274,144 +17235,6 @@ function pvCopyLink() {
       if(progEl) progEl.style.width = '0%';
     }
   };
-})();
-
-/* ----- ORISHA MEMORY MATCH ----- */
-(function(){
-  var SYMBOLS = ['⚡','🐺','🪞','👁','🜏','🔱','🌊','🔥'];
-  var board = document.getElementById('mmBoard');
-  if(!board) return;
-  var deck = [], flipped = [], matched = 0, moves = 0, lock = false;
-  var BEST_KEY = 'catalyst_mm_best';
-
-  function shuffle(arr){
-    for(var i=arr.length-1;i>0;i--){
-      var j=Math.floor(Math.random()*(i+1));
-      var t=arr[i];arr[i]=arr[j];arr[j]=t;
-    }
-    return arr;
-  }
-
-  window.mmNewGame = function(){
-    deck = shuffle(SYMBOLS.concat(SYMBOLS));
-    flipped = []; matched = 0; moves = 0; lock = false;
-    document.getElementById('mmMoves').textContent = '0';
-    document.getElementById('mmMatches').textContent = '0/'+SYMBOLS.length;
-    document.getElementById('mmWin').style.display = 'none';
-    var best = localStorage.getItem(BEST_KEY);
-    document.getElementById('mmBest').textContent = best ? best+' moves' : '—';
-    board.innerHTML = deck.map(function(sym, i){
-      return '<div class="mm-card" data-idx="'+i+'" data-sym="'+sym+'" onclick="mmFlip(this)">' +
-        '<div class="mm-card-face mm-card-back"></div>' +
-        '<div class="mm-card-face mm-card-front">'+sym+'</div>' +
-        '</div>';
-    }).join('');
-  };
-
-  window.mmFlip = function(el){
-    if(lock || el.classList.contains('flipped') || el.classList.contains('matched')) return;
-    el.classList.add('flipped');
-    flipped.push(el);
-    if(flipped.length === 2){
-      lock = true;
-      moves++;
-      document.getElementById('mmMoves').textContent = moves;
-      var a = flipped[0], b = flipped[1];
-      if(a.dataset.sym === b.dataset.sym){
-        a.classList.add('matched'); b.classList.add('matched');
-        matched++;
-        document.getElementById('mmMatches').textContent = matched+'/'+SYMBOLS.length;
-        flipped = []; lock = false;
-        if(matched === SYMBOLS.length){
-          var best = localStorage.getItem(BEST_KEY);
-          if(!best || moves < parseInt(best,10)){
-            localStorage.setItem(BEST_KEY, moves);
-            best = moves;
-          }
-          var winEl = document.getElementById('mmWin');
-          document.getElementById('mmWinBody').textContent = 'Cleared in '+moves+' moves. Best on this device: '+best+' moves.';
-          winEl.style.display = 'block';
-        }
-      } else {
-        a.classList.add('wrong'); b.classList.add('wrong');
-        setTimeout(function(){
-          a.classList.remove('flipped','wrong');
-          b.classList.remove('flipped','wrong');
-          flipped = []; lock = false;
-        }, 650);
-      }
-    }
-  };
-
-  mmNewGame();
-})();
-
-/* ----- PANEL ORDER ----- */
-(function(){
-  var strip = document.getElementById('poStrip');
-  if(!strip) return;
-  var BEATS = [
-    'Bayo is 19, broke, and dodging his landlord across a Lagos he can barely afford.',
-    'He takes a danfo ride across the Third Mainland Bridge — and the city itself reaches out and grabs him by the soul.',
-    'The Ọ̀run bleeds through into Lagos, and Bayo becomes the bandage — or the wound.',
-    'A stranger\'s dying name lodges in Bayo\'s memory, half-read, refusing to let go.',
-    'Six Pale Council operatives move into Lagos as the Architect\'s lab stirs, for the first time in months, to hope.'
-  ];
-  var order = [];
-  var selectedIdx = null;
-
-  function shuffle(arr){
-    var a = arr.slice();
-    do {
-      for(var i=a.length-1;i>0;i--){
-        var j=Math.floor(Math.random()*(i+1));
-        var t=a[i];a[i]=a[j];a[j]=t;
-      }
-    } while(a.every(function(v,i){return v===i;}));
-    return a;
-  }
-
-  function render(){
-    strip.innerHTML = order.map(function(beatIdx, pos){
-      return '<div class="po-panel" data-pos="'+pos+'" onclick="poClick('+pos+')">' +
-        '<div class="po-panel-num">'+(pos+1)+'</div>' +
-        '<div class="po-panel-txt">'+BEATS[beatIdx]+'</div>' +
-        '</div>';
-    }).join('');
-  }
-
-  window.poNewGame = function(){
-    order = shuffle(BEATS.map(function(_, i){ return i; }));
-    selectedIdx = null;
-    document.getElementById('poStatus').textContent = '';
-    render();
-  };
-
-  window.poClick = function(pos){
-    var panels = strip.querySelectorAll('.po-panel');
-    if(selectedIdx === null){
-      selectedIdx = pos;
-      panels[pos].classList.add('selected');
-      return;
-    }
-    if(selectedIdx === pos){
-      panels[pos].classList.remove('selected');
-      selectedIdx = null;
-      return;
-    }
-    var t = order[selectedIdx];
-    order[selectedIdx] = order[pos];
-    order[pos] = t;
-    selectedIdx = null;
-    render();
-    var solved = order.every(function(beatIdx, i){ return beatIdx === i; });
-    if(solved){
-      document.getElementById('poStatus').textContent = 'SEQUENCE RESTORED — the Oracle archive is intact again.';
-      Array.prototype.forEach.call(strip.querySelectorAll('.po-panel'), function(p){ p.classList.add('correct'); });
-    }
-  };
-
-  poNewGame();
 })();
 
 /* ----- CASE FILE ----- */
