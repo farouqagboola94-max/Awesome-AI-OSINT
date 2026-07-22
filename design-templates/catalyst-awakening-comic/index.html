@@ -4115,6 +4115,19 @@
   0% { transform: translateY(-10%); }
   100% { transform: translateY(10%); }
 }
+.hero-ambient-toggle {
+  position: absolute; left: 1.5rem; bottom: 1.5rem; z-index: 6;
+  display: flex; align-items: center; gap: 0.5rem;
+  background: rgba(6,6,13,0.6); border: 1px solid rgba(240,237,229,0.25);
+  color: rgba(240,237,229,0.75); font-family: 'Courier New', monospace;
+  font-size: 0.65rem; letter-spacing: 0.1em; padding: 0.5rem 0.9rem;
+  cursor: pointer; transition: border-color 0.2s, color 0.2s;
+  backdrop-filter: blur(4px);
+}
+.hero-ambient-toggle:hover { border-color: #F4B800; color: #F4B800; }
+.hero-ambient-toggle.on { border-color: #00C9B1; color: #00C9B1; }
+.hero-ambient-toggle .amb-icon { font-size: 0.9rem; }
+@media (max-width: 640px) { .hero-ambient-toggle { left: 1rem; bottom: 1rem; font-size: 0.6rem; padding: 0.45rem 0.7rem; } }
 .hero-bolt {
   position: absolute; pointer-events: none; z-index: 2; overflow: visible;
 }
@@ -5438,6 +5451,44 @@ body { padding-top: 26px; }
 .res-tag { font-family:'Space Grotesk',sans-serif; font-size:0.87rem; color:rgba(240,237,229,0.5); max-width:400px; margin:0 auto 2rem; line-height:1.75; }
 .res-retry { background:transparent; border:1px solid rgba(244,184,0,0.35); color:#F4B800; font-family:'Bebas Neue',sans-serif; font-size:0.85rem; letter-spacing:3px; padding:0.7rem 2rem; cursor:pointer; transition:all 0.2s; }
 .res-retry:hover { background:rgba(244,184,0,0.08); }
+.res-actions { display:flex; gap:0.8rem; justify-content:center; flex-wrap:wrap; }
+.res-idcard-btn { background:#F4B800; border:1px solid #F4B800; color:#06060d; font-family:'Bebas Neue',sans-serif; font-size:0.85rem; letter-spacing:2px; padding:0.7rem 1.6rem; cursor:pointer; transition:all 0.2s; }
+.res-idcard-btn:hover { background:#ffcf33; }
+.vessel-card-wrap { margin:2rem auto 0; max-width:640px; }
+.vessel-card-wrap canvas { width:100%; height:auto; display:block; border:1px solid rgba(244,184,0,0.3); }
+.vessel-card-actions { display:flex; gap:0.8rem; justify-content:center; margin-top:1rem; flex-wrap:wrap; }
+.vessel-card-actions button { background:transparent; border:1px solid rgba(240,237,229,0.35); color:rgba(240,237,229,0.85); font-family:'Bebas Neue',sans-serif; font-size:0.78rem; letter-spacing:2px; padding:0.6rem 1.4rem; cursor:pointer; transition:all 0.2s; }
+.vessel-card-actions button:hover { border-color:#F4B800; color:#F4B800; }
+
+/* ── RELATIONSHIP CONSTELLATION ──────────────────────────── */
+#constellation { padding:6rem 1.5rem; background:#050505; position:relative; }
+.const-wrap { max-width:1000px; margin:0 auto; }
+.const-graph-wrap { margin-top:2.5rem; }
+.const-svg { width:100%; height:auto; display:block; overflow:visible; }
+.const-line { stroke:rgba(240,237,229,0.22); stroke-width:1.4; transition:stroke 0.3s, stroke-width 0.3s, opacity 0.3s; }
+.const-line.threat { stroke:rgba(196,30,58,0.35); stroke-dasharray:4 4; }
+.const-line.dim { opacity:0.08; }
+.const-line.lit { stroke:#F4B800; stroke-width:2.2; opacity:1; }
+.const-node { cursor:pointer; }
+.const-node circle.const-dot { fill:#111; stroke:rgba(240,237,229,0.35); stroke-width:1.6; transition:all 0.25s; }
+.const-node:hover circle.const-dot, .const-node.active circle.const-dot { stroke:#F4B800; fill:rgba(244,184,0,0.12); }
+.const-node.dim { opacity:0.28; }
+.const-node text { fill:rgba(240,237,229,0.8); font-family:'Bebas Neue',sans-serif; letter-spacing:0.06em; pointer-events:none; }
+.const-node.active text, .const-node:hover text { fill:#F4B800; }
+.const-node .const-sub { fill:rgba(240,237,229,0.35); font-family:'Courier New',monospace; font-size:9px; letter-spacing:0.05em; }
+.const-node.mystery circle.const-dot { stroke:rgba(196,30,58,0.5); stroke-dasharray:3 3; }
+.const-info {
+  margin-top:2rem; min-height:120px; background:rgba(240,236,228,0.03);
+  border:1px solid rgba(240,237,229,0.12); padding:1.6rem 1.8rem;
+  clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
+}
+.const-info-hint { color:rgba(240,237,229,0.4); font-size:0.85rem; text-align:center; font-style:italic; }
+.const-info-name { font-family:'Bebas Neue',sans-serif; font-size:1.6rem; letter-spacing:0.06em; color:#F4B800; margin-bottom:0.4rem; }
+.const-info-role { font-family:'Courier New',monospace; font-size:0.72rem; letter-spacing:0.1em; color:rgba(0,201,177,0.75); margin-bottom:0.8rem; text-transform:uppercase; }
+.const-info-body { font-size:0.88rem; line-height:1.75; color:rgba(240,237,229,0.65); margin-bottom:1rem; }
+.const-info-links { font-family:'Courier New',monospace; font-size:0.72rem; color:rgba(240,237,229,0.4); letter-spacing:0.04em; }
+.const-info-links b { color:rgba(240,237,229,0.7); }
+@media (max-width:640px) { .const-node text { font-size:13px; } .const-node .const-sub { font-size:8px; } }
 
 /* ── FIELD DISPATCH ────────────────────────────────────── */
 #dispatch {
@@ -8347,6 +8398,9 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   <div class="hero-sky-flash" aria-hidden="true"></div>
   <div class="hero-sky-flash-2" aria-hidden="true"></div>
   <div class="hero-rain" aria-hidden="true"></div>
+  <button class="hero-ambient-toggle" id="ambientToggle" onclick="toggleAmbientSound()" aria-label="Toggle ambient Lagos storm sound" title="Ambient sound">
+    <span class="amb-icon">🔊</span><span class="amb-label">SOUND: OFF</span>
+  </button>
   <svg class="hero-bolt hero-bolt-1" viewBox="0 0 36 110" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <polygon points="22,0 8,52 18,52 4,110 32,42 20,42" fill="#F4B800"/>
     <polygon points="22,0 8,52 18,52 4,110 32,42 20,42" fill="#FFF8C0" opacity="0.4"/>
@@ -9921,6 +9975,26 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   </div>
 </section>
 
+<!-- ══════════════════════════════════════ RELATIONSHIP CONSTELLATION -->
+<section id="constellation">
+  <div class="const-wrap">
+    <div class="section-header reveal">
+      <p class="section-label reveal" style="justify-content:center">The Web Beneath the War</p>
+      <h2 class="section-title reveal" style="text-align:center">HOW THEY ALL <em class="gold">CONNECT</em></h2>
+      <p class="reveal" style="max-width:560px;margin:1rem auto 0;text-align:center;font-size:0.88rem;line-height:1.8;color:rgba(240,237,229,0.55);">Tap any name. The lines that light up are real. The one that stays dark isn't a bug — it's a Orisha nobody has confirmed the vessel of yet.</p>
+    </div>
+    <div class="const-graph-wrap reveal">
+      <svg id="constSvg" viewBox="0 0 1000 620" class="const-svg">
+        <g id="constLines"></g>
+        <g id="constNodes"></g>
+      </svg>
+    </div>
+    <div class="const-info" id="constInfo">
+      <div class="const-info-hint">Select a name above to see who they're bound to.</div>
+    </div>
+  </div>
+</section>
+
 <!-- ============================================================ COMIC PANELS — SEQUENTIAL ART -->
 <section id="panels" class="panels-section">
   <div class="panels-header">
@@ -11446,7 +11520,17 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
       <div class="res-label">YOU ARE</div>
       <div class="res-name" id="result-name"></div>
       <div class="res-tag" id="result-tag"></div>
-      <button class="res-retry" onclick="quizReset()">RETAKE THE TEST</button>
+      <div class="res-actions">
+        <button class="res-idcard-btn" onclick="generateVesselCard()">🪪 GENERATE MY VESSEL ID CARD</button>
+        <button class="res-retry" onclick="quizReset()">RETAKE THE TEST</button>
+      </div>
+      <div class="vessel-card-wrap" id="vesselCardWrap" style="display:none;">
+        <canvas id="vesselCardCanvas" width="1000" height="600"></canvas>
+        <div class="vessel-card-actions">
+          <button onclick="downloadVesselCard()">⬇ DOWNLOAD CARD</button>
+          <button onclick="shareVesselCard()">↗ SHARE</button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -15995,6 +16079,7 @@ function quizShowResult() {
     if (quizScores[k] > max) { max = quizScores[k]; winner = k; }
   });
   var h = QUIZ_HEROES[winner];
+  window._lastQuizWinner = winner;
   document.getElementById('result-name').textContent = h.name;
   document.getElementById('result-tag').textContent = h.tag;
   document.getElementById('result-img').src = h.img;
@@ -16013,12 +16098,372 @@ function quizReset() {
   document.querySelectorAll('.quiz-step').forEach(function(s) { s.classList.remove('active'); });
   document.getElementById('qs0').classList.add('active');
   document.getElementById('quiz-result').classList.remove('show');
+  var vcw = document.getElementById('vesselCardWrap');
+  if (vcw) vcw.style.display = 'none';
   var prog = document.querySelectorAll('.quiz-progress')[0];
   if (prog) prog.style.display = 'flex';
   for (var i = 0; i < 5; i++) {
     var p = document.getElementById('pip' + i);
     if (p) p.className = 'quiz-pip' + (i === 0 ? ' cur' : '');
   }
+}
+
+// ── VESSEL ID CARD (shareable quiz-result card) ────────────
+var VESSEL_MID = {
+  T: { orisha: 'ṢÀNGÓ', code: 'SAN', resonance: 86, tier: 'II', cls: 'CONDUIT' },
+  O: { orisha: 'ÒRÌṢÀ-ÌMỌ̀', code: 'IMO', resonance: 91, tier: 'I', cls: 'ORACLE-CLASS' },
+  W: { orisha: 'ÒGÚN', code: 'OGU', resonance: 88, tier: 'II', cls: 'IRON-BOUND' },
+  C: { orisha: 'MULTI', code: 'ESU/OGU/SAN', resonance: 97, tier: 'UNCLASSIFIED', cls: 'CATALYST' }
+};
+
+function wrapCanvasText(ctx, text, x, y, maxWidth, lineHeight) {
+  var words = text.split(' ');
+  var line = '';
+  var lines = [];
+  for (var n = 0; n < words.length; n++) {
+    var testLine = line + words[n] + ' ';
+    if (ctx.measureText(testLine).width > maxWidth && n > 0) {
+      lines.push(line);
+      line = words[n] + ' ';
+    } else {
+      line = testLine;
+    }
+  }
+  lines.push(line);
+  lines.forEach(function(l, i) { ctx.fillText(l.trim(), x, y + i * lineHeight); });
+  return lines.length * lineHeight;
+}
+
+function generateVesselCard() {
+  var winner = window._lastQuizWinner || 'C';
+  var h = QUIZ_HEROES[winner];
+  var mid = VESSEL_MID[winner];
+  var canvas = document.getElementById('vesselCardCanvas');
+  var wrap = document.getElementById('vesselCardWrap');
+  var ctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height;
+
+  function draw(portrait) {
+    // Background
+    var grad = ctx.createLinearGradient(0, 0, W, H);
+    grad.addColorStop(0, '#06060d');
+    grad.addColorStop(1, '#0d0a18');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Outer gold frame with clipped corners
+    ctx.strokeStyle = '#F4B800';
+    ctx.lineWidth = 3;
+    var m = 18, c = 22;
+    ctx.beginPath();
+    ctx.moveTo(m + c, m);
+    ctx.lineTo(W - m, m);
+    ctx.lineTo(W - m, H - m - c);
+    ctx.lineTo(W - m - c, H - m);
+    ctx.lineTo(m, H - m);
+    ctx.lineTo(m, m + c);
+    ctx.closePath();
+    ctx.stroke();
+
+    // Header
+    ctx.fillStyle = '#F4B800';
+    ctx.font = '700 20px "Courier New", monospace';
+    ctx.textBaseline = 'alphabetic';
+    ctx.fillText('ASẸ SYSTEM — VESSEL IDENTIFICATION CARD', 50, 62);
+    ctx.strokeStyle = 'rgba(244,184,0,0.4)';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(50, 78); ctx.lineTo(W - 50, 78); ctx.stroke();
+
+    // Portrait
+    var pw = 260, ph = 340, px = 50, py = 100;
+    if (portrait) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(px, py, pw, ph);
+      ctx.clip();
+      var scale = Math.max(pw / portrait.width, ph / portrait.height);
+      var dw = portrait.width * scale, dh = portrait.height * scale;
+      ctx.drawImage(portrait, px - (dw - pw) / 2, py - (dh - ph) / 2, dw, dh);
+      ctx.restore();
+    }
+    ctx.strokeStyle = '#F4B800';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(px, py, pw, ph);
+
+    // Right column text
+    var tx = 340;
+    ctx.fillStyle = 'rgba(240,237,229,0.4)';
+    ctx.font = '600 13px "Courier New", monospace';
+    ctx.fillText('CLASSIFICATION RESULT', tx, 108);
+
+    ctx.fillStyle = '#F4B800';
+    ctx.font = '900 52px "Arial Narrow", sans-serif';
+    ctx.fillText(h.name, tx, 165);
+
+    ctx.fillStyle = 'rgba(240,237,229,0.7)';
+    ctx.font = '400 15px "Georgia", serif';
+    ctx.fillStyle = 'rgba(240,237,229,0.72)';
+    ctx.font = 'italic 15px Georgia, serif';
+    wrapCanvasText(ctx, h.tag, tx, 200, W - tx - 50, 22);
+
+    // MID block
+    var midY = 360;
+    ctx.strokeStyle = 'rgba(240,237,229,0.15)';
+    ctx.strokeRect(tx, midY, W - tx - 50, 150);
+    ctx.fillStyle = 'rgba(0,201,177,0.85)';
+    ctx.font = '700 12px "Courier New", monospace';
+    ctx.fillText('MANIFESTATION IDENTITY DESCRIPTOR', tx + 18, midY + 28);
+    var seed = Math.floor(Math.random() * 900 + 100);
+    ctx.fillStyle = '#F4B800';
+    ctx.font = '700 14px "Courier New", monospace';
+    ctx.fillText('MID: VSL·' + seed + '·Λ:' + mid.code + '·TIER:' + mid.tier + '·CLASS:' + mid.cls, tx + 18, midY + 54);
+    ctx.fillStyle = 'rgba(240,237,229,0.6)';
+    ctx.font = '400 13px "Courier New", monospace';
+    ctx.fillText(mid.orisha + ' RESONANCE: ' + mid.resonance + ' / 100', tx + 18, midY + 82);
+    var today = new Date(2026, 6, 22);
+    ctx.fillText('ISSUED: LAGOS FIELD OFFICE · CATALYST: THE AWAKENING', tx + 18, midY + 108);
+
+    // Footer
+    ctx.fillStyle = 'rgba(240,237,229,0.3)';
+    ctx.font = '600 12px "Courier New", monospace';
+    ctx.fillText('catalyst-awakening.netlify.app', 50, H - 34);
+    ctx.textAlign = 'right';
+    ctx.fillText('WHICH HERO ARE YOU? — TAKE THE TEST', W - 50, H - 34);
+    ctx.textAlign = 'left';
+
+    wrap.style.display = 'block';
+    wrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  var img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = function() { draw(img); };
+  img.onerror = function() { draw(null); };
+  img.src = h.img;
+}
+
+function downloadVesselCard() {
+  var canvas = document.getElementById('vesselCardCanvas');
+  var link = document.createElement('a');
+  link.download = 'catalyst-vessel-id-card.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+function shareVesselCard() {
+  var canvas = document.getElementById('vesselCardCanvas');
+  canvas.toBlob(function(blob) {
+    if (!blob) return;
+    var file = new File([blob], 'catalyst-vessel-id-card.png', { type: 'image/png' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      navigator.share({
+        files: [file],
+        title: 'My Catalyst Vessel ID',
+        text: 'I just found out which Catalyst: The Awakening hero I am. Take the test yourself:'
+      }).catch(function() {});
+    } else {
+      downloadVesselCard();
+    }
+  }, 'image/png');
+}
+
+// ── RELATIONSHIP CONSTELLATION ─────────────────────────────
+(function(){
+  var svg = document.getElementById('constSvg');
+  if (!svg) return;
+  var NS = 'http://www.w3.org/2000/svg';
+
+  var NODES = [
+    { id:'esu', x:150, y:70, r:26, label:'ẸṢÙ', sub:'ORISHA' },
+    { id:'sango', x:340, y:55, r:26, label:'ṢÀNGÓ', sub:'ORISHA' },
+    { id:'ogun', x:520, y:45, r:26, label:'ÒGÚN', sub:'ORISHA' },
+    { id:'oya', x:700, y:55, r:26, label:'ỌYÁ', sub:'ORISHA · UNCONFIRMED', mystery:true },
+    { id:'osun', x:870, y:75, r:26, label:'ỌṢUN', sub:'ORISHA' },
+    { id:'amara', x:250, y:290, r:32, label:'AMARA', sub:'THUNDERSTRIKE' },
+    { id:'bayo', x:520, y:270, r:42, label:'BAYO', sub:'CATALYST' },
+    { id:'ikenna', x:790, y:290, r:32, label:'IKENNA', sub:'IRON WOLF' },
+    { id:'zara', x:520, y:420, r:32, label:'ZARA', sub:'THE MIRROR' },
+    { id:'oracle', x:170, y:480, r:30, label:'THE ORACLE', sub:'MENTOR' },
+    { id:'architect', x:880, y:480, r:30, label:'THE ARCHITECT', sub:'PALE COUNCIL' },
+    { id:'palecouncil', x:660, y:580, r:28, label:'PALE COUNCIL', sub:'FACTION' }
+  ];
+
+  var EDGES = [
+    ['bayo','esu'], ['bayo','sango'], ['bayo','ogun'], ['bayo','osun'],
+    ['amara','sango'], ['ikenna','ogun'], ['zara','ogun'],
+    ['bayo','amara'], ['bayo','ikenna'], ['bayo','zara'],
+    ['bayo','oracle'], ['oracle','amara'], ['oracle','ikenna'], ['oracle','zara'],
+    ['architect','palecouncil'],
+    ['architect','bayo','threat'], ['palecouncil','bayo','threat']
+  ];
+
+  var INFO = {
+    esu: { role:'Orisha · The Crossroads', body:'Trickster, translator, thief and diplomat depending on which century you ask. One of the four affinities that hit Bayo simultaneously — something that had never happened before in four thousand years of record.', links:'Bound to: <b>Bayo</b>' },
+    sango: { role:'Orisha · Thunder & Justice', body:'Ṣàngó\'s line runs through Amara\'s family for generations, and simultaneously through Bayo — the first time this Orisha has ever answered two vessels who barely know each other.', links:'Bound to: <b>Bayo</b>, <b>Amara</b>' },
+    ogun: { role:'Orisha · Iron & the Road', body:'Two very different aspects of the same Orisha: Ikenna carries the smith\'s iron, Zara carries the older road-clearer aspect. Same god, two people who fight nothing alike.', links:'Bound to: <b>Bayo</b>, <b>Ikenna</b>, <b>Zara</b>' },
+    oya: { role:'Orisha · Storms & Transformation — status unconfirmed', body:'No living vessel has been confirmed for Ọya. What the team does know: a captive held by the Pale Council for three years and two months resolved as a vessel of Ọya the moment Bayo touched her card. She has a name now. She is still not free.', links:'Bound to: <em>unconfirmed</em>' },
+    osun: { role:'Orisha · Love, Water & Inheritance', body:'Bayo\'s mother was under consideration to be Ọṣun\'s vessel before he was born — she chose to pass the resonance to her son instead, a fact the Oracle only told Bayo after the Pale Council escalated to open conflict.', links:'Bound to: <b>Bayo</b> (through his mother)' },
+    amara: { role:'Vessel of Ṣàngó · Thunderstrike', body:'A busker who sends most of her earnings home to Enugu. Her talking drum doesn\'t make thunder — it requests it, in a tonal grammar her grandfather spent forty years teaching her.', links:'Team: <b>Bayo</b>, <b>Ikenna</b>, <b>Zara</b> · Mentor: <b>The Oracle</b>' },
+    bayo: { role:'The Catalyst · Ìmọ̀lẹ̀ Àárọ̀', body:'Not a vessel — a Catalyst. He doesn\'t hold an Orisha\'s power, he changes it, and it changes him back. The only known case in recorded Aṣẹ history of multi-Orisha resonance above 40% in one person.', links:'Bound to every Orisha above · Team: <b>Amara</b>, <b>Ikenna</b>, <b>Zara</b> · Hunted by: <b>The Architect</b>, <b>Pale Council</b>' },
+    ikenna: { role:'Vessel of Ògún · Iron Wolf', body:'A mechanic\'s apprentice whose iron has memory — every piece of metal he\'s ever worked, he can still feel. Ògún\'s trials tested his patience and what he chooses to finish, not his strength.', links:'Team: <b>Bayo</b>, <b>Amara</b>, <b>Zara</b> · Mentor: <b>The Oracle</b>' },
+    zara: { role:'Vessel of Ògún · The Mirror', body:'The road-clearer aspect of Ògún — perception manipulation, not force. She tracked the Pale Council\'s Lagos operation for nine months before the team ever knew there was a "we."', links:'Team: <b>Bayo</b>, <b>Amara</b>, <b>Ikenna</b> · Mentor: <b>The Oracle</b>' },
+    oracle: { role:'144 years old · Aṣẹ-sighted since age 9', body:'Prepared thirty-seven years for the day a Catalyst arrived. The only person who saw Bayo coming before Balogun Nexus ever happened.', links:'Mentors: <b>Bayo</b>, <b>Amara</b>, <b>Ikenna</b>, <b>Zara</b>' },
+    architect: { role:'Pale Council · Weapons Design', body:'Built the Orisha Vaccine — a compound that doesn\'t kill divinity, just permanently occupies the neural receptors that let a person feel it. Young, precise, and genuinely regretful about the math.', links:'Commands: <b>Pale Council</b> · Hunting: <b>Bayo</b>' },
+    palecouncil: { role:'Faction · Geneva-based', body:'Has harvested Orisha resonance from twelve vessels across nine countries before ever reaching Lagos. Comfort Ibe, vessel of Ọya, is one of them — found, not yet freed.', links:'Commands: <b>The Architect</b> · Hunting: <b>Bayo</b> and the team' }
+  };
+
+  var linesG = document.getElementById('constLines');
+  var nodesG = document.getElementById('constNodes');
+  var nodeById = {};
+  NODES.forEach(function(n){ nodeById[n.id] = n; });
+
+  EDGES.forEach(function(e){
+    var a = nodeById[e[0]], b = nodeById[e[1]];
+    var line = document.createElementNS(NS, 'line');
+    line.setAttribute('x1', a.x); line.setAttribute('y1', a.y);
+    line.setAttribute('x2', b.x); line.setAttribute('y2', b.y);
+    line.setAttribute('class', 'const-line' + (e[2] === 'threat' ? ' threat' : ''));
+    line.dataset.a = e[0]; line.dataset.b = e[1];
+    linesG.appendChild(line);
+  });
+
+  NODES.forEach(function(n){
+    var g = document.createElementNS(NS, 'g');
+    g.setAttribute('class', 'const-node' + (n.mystery ? ' mystery' : ''));
+    g.dataset.id = n.id;
+    var circle = document.createElementNS(NS, 'circle');
+    circle.setAttribute('class', 'const-dot');
+    circle.setAttribute('cx', n.x); circle.setAttribute('cy', n.y); circle.setAttribute('r', n.r);
+    g.appendChild(circle);
+    var label = document.createElementNS(NS, 'text');
+    label.setAttribute('x', n.x); label.setAttribute('y', n.y - 2);
+    label.setAttribute('text-anchor', 'middle');
+    label.setAttribute('font-size', n.id === 'bayo' ? 15 : 12);
+    label.textContent = n.label;
+    g.appendChild(label);
+    var sub = document.createElementNS(NS, 'text');
+    sub.setAttribute('class', 'const-sub');
+    sub.setAttribute('x', n.x); sub.setAttribute('y', n.y + n.r + 14);
+    sub.setAttribute('text-anchor', 'middle');
+    sub.textContent = n.sub;
+    g.appendChild(sub);
+    g.addEventListener('click', function(){ selectConstNode(n.id); });
+    nodesG.appendChild(g);
+  });
+
+  window.selectConstNode = function(id){
+    var connected = { };
+    connected[id] = true;
+    EDGES.forEach(function(e){
+      if (e[0] === id) connected[e[1]] = true;
+      if (e[1] === id) connected[e[0]] = true;
+    });
+    nodesG.querySelectorAll('.const-node').forEach(function(g){
+      var nid = g.dataset.id;
+      g.classList.toggle('active', nid === id);
+      g.classList.toggle('dim', !connected[nid]);
+    });
+    linesG.querySelectorAll('.const-line').forEach(function(l){
+      var touches = l.dataset.a === id || l.dataset.b === id;
+      l.classList.toggle('lit', touches);
+      l.classList.toggle('dim', !touches);
+    });
+    var info = INFO[id];
+    var n = nodeById[id];
+    if (info) {
+      document.getElementById('constInfo').innerHTML =
+        '<div class="const-info-name">' + n.label + '</div>' +
+        '<div class="const-info-role">' + info.role + '</div>' +
+        '<div class="const-info-body">' + info.body + '</div>' +
+        '<div class="const-info-links">' + info.links + '</div>';
+    }
+  };
+})();
+
+// ── AMBIENT LAGOS STORM SOUND (opt-in, procedurally generated) ──
+var _ambientCtx = null, _ambientNodes = null, _ambientOn = false, _ambientTimer = null;
+
+function toggleAmbientSound() {
+  var btn = document.getElementById('ambientToggle');
+  if (_ambientOn) {
+    _ambientOn = false;
+    stopAmbientSound();
+    btn.classList.remove('on');
+    btn.querySelector('.amb-label').textContent = 'SOUND: OFF';
+  } else {
+    _ambientOn = true;
+    startAmbientSound();
+    btn.classList.add('on');
+    btn.querySelector('.amb-label').textContent = 'SOUND: ON';
+  }
+}
+
+function startAmbientSound() {
+  var AC = window.AudioContext || window.webkitAudioContext;
+  if (!AC) return;
+  if (!_ambientCtx) _ambientCtx = new AC();
+  if (_ambientCtx.state === 'suspended') _ambientCtx.resume();
+  var ctx = _ambientCtx;
+
+  var bufferSize = 2 * ctx.sampleRate;
+  var noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+  var output = noiseBuffer.getChannelData(0);
+  for (var i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
+  var noise = ctx.createBufferSource();
+  noise.buffer = noiseBuffer;
+  noise.loop = true;
+
+  var rainFilter = ctx.createBiquadFilter();
+  rainFilter.type = 'bandpass';
+  rainFilter.frequency.value = 2400;
+  rainFilter.Q.value = 0.6;
+
+  var rainGain = ctx.createGain();
+  rainGain.gain.value = 0;
+  noise.connect(rainFilter).connect(rainGain).connect(ctx.destination);
+  noise.start();
+  rainGain.gain.linearRampToValueAtTime(0.05, ctx.currentTime + 1.2);
+
+  var rumbleOsc = ctx.createOscillator();
+  rumbleOsc.type = 'sine';
+  rumbleOsc.frequency.value = 55;
+  var rumbleGain = ctx.createGain();
+  rumbleGain.gain.value = 0;
+  rumbleOsc.connect(rumbleGain).connect(ctx.destination);
+  rumbleOsc.start();
+
+  _ambientNodes = { noise: noise, rumbleOsc: rumbleOsc, rainGain: rainGain, rumbleGain: rumbleGain };
+
+  function scheduleThunder() {
+    if (!_ambientOn) return;
+    var delay = 6000 + Math.random() * 14000;
+    _ambientTimer = setTimeout(function(){
+      if (!_ambientOn || !_ambientNodes) return;
+      var now = ctx.currentTime;
+      rumbleGain.gain.cancelScheduledValues(now);
+      rumbleGain.gain.setValueAtTime(0.001, now);
+      rumbleGain.gain.linearRampToValueAtTime(0.1, now + 0.4);
+      rumbleGain.gain.exponentialRampToValueAtTime(0.001, now + 3.5);
+      scheduleThunder();
+    }, delay);
+  }
+  scheduleThunder();
+}
+
+function stopAmbientSound() {
+  if (_ambientTimer) { clearTimeout(_ambientTimer); _ambientTimer = null; }
+  if (!_ambientNodes || !_ambientCtx) return;
+  var nodes = _ambientNodes;
+  var now = _ambientCtx.currentTime;
+  try {
+    nodes.rainGain.gain.linearRampToValueAtTime(0, now + 0.3);
+    nodes.rumbleGain.gain.linearRampToValueAtTime(0, now + 0.3);
+  } catch(e) {}
+  setTimeout(function(){
+    try { nodes.noise.stop(); } catch(e) {}
+    try { nodes.rumbleOsc.stop(); } catch(e) {}
+  }, 400);
+  _ambientNodes = null;
 }
 
 // ── FIELD DISPATCH ────────────────────────────────────────
