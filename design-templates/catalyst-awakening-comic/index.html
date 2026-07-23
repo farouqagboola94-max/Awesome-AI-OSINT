@@ -7305,10 +7305,10 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
       <form id="signup-form" method="post" onsubmit="handleSignUp(event)" data-netlify="true" name="catalyst-signup" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="catalyst-signup">
         <input type="hidden" name="bot-field" style="display:none">
-        <input type="text" class="auth-input" name="fullname" placeholder="Full Name" required autocomplete="name">
-        <input type="email" class="auth-input" name="email" placeholder="Email Address" required autocomplete="email">
+        <input type="text" class="auth-input" name="fullname" placeholder="Full Name" aria-label="Full Name" required autocomplete="name">
+        <input type="email" class="auth-input" name="email" placeholder="Email Address" aria-label="Email Address" required autocomplete="email">
         <div class="pw-wrap">
-          <input type="password" class="auth-input" name="password" id="signup-password" placeholder="Password (min 8 characters)" minlength="8" required autocomplete="new-password">
+          <input type="password" class="auth-input" name="password" id="signup-password" placeholder="Password (min 8 characters)" aria-label="Password, minimum 8 characters" minlength="8" required autocomplete="new-password">
         </div>
         <button type="submit" class="auth-submit-btn" id="signup-btn">Join the Universe →</button>
       </form>
@@ -7322,9 +7322,9 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
       <form id="signin-form" method="post" onsubmit="handleSignIn(event)" data-netlify="true" name="catalyst-signin" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="catalyst-signin">
         <input type="hidden" name="bot-field" style="display:none">
-        <input type="email" class="auth-input" name="email" placeholder="Email Address" required autocomplete="email">
+        <input type="email" class="auth-input" name="email" placeholder="Email Address" aria-label="Email Address" required autocomplete="email">
         <div class="pw-wrap">
-          <input type="password" class="auth-input" name="password" id="signin-password" placeholder="Password" required autocomplete="current-password">
+          <input type="password" class="auth-input" name="password" id="signin-password" placeholder="Password" aria-label="Password" required autocomplete="current-password">
         </div>
         <a href="#" class="auth-forgot" onclick="handleForgotPassword(event)">Forgot password?</a>
         <button type="submit" class="auth-submit-btn" id="signin-btn">Enter the Universe →</button>
@@ -7363,7 +7363,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 <div id="paymentEmailCapture" style="display:none;margin-top:0.75rem;">
   <div style="font-size:0.72rem;letter-spacing:0.12em;color:rgba(240,237,229,0.5);margin-bottom:0.6rem;text-align:center;">JOIN THE WAITLIST &middot; BE FIRST WHEN WE LAUNCH</div>
   <div style="display:flex;gap:0.5rem;">
-    <input type="email" id="waitlistEmail" placeholder="your@email.com" style="flex:1;background:rgba(240,237,229,0.06);border:1px solid rgba(244,184,0,0.25);color:#F0EDE5;padding:0.6rem 0.8rem;border-radius:3px;font-size:0.85rem;font-family:inherit;outline:none;">
+    <input type="email" id="waitlistEmail" placeholder="your@email.com" aria-label="Email address for waitlist" style="flex:1;background:rgba(240,237,229,0.06);border:1px solid rgba(244,184,0,0.25);color:#F0EDE5;padding:0.6rem 0.8rem;border-radius:3px;font-size:0.85rem;font-family:inherit;outline:none;">
     <button onclick="submitWaitlist()" style="background:rgba(244,184,0,0.15);border:1px solid rgba(244,184,0,0.4);color:#F4B800;padding:0.6rem 1rem;border-radius:3px;cursor:pointer;font-family:'Oswald',sans-serif;font-size:0.7rem;letter-spacing:0.15em;white-space:nowrap;transition:background 0.2s;">JOIN &#x2726;</button>
   </div>
 </div>
@@ -7384,7 +7384,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 
 <!-- ============================================================ NAV -->
 <nav>
-  <a href="#hero" class="nav-logo">CATALYST<span>:</span>TA</a>
+  <a href="#hero" class="nav-logo">CATALYST</a>
   <ul class="nav-links">
     <li><a href="#arcs">Arcs</a></li>
     <li><a href="#cover-gallery">Covers</a></li>
@@ -7395,7 +7395,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
     <li><a href="#read">Read Free</a></li>
     <li><a href="#lore">Lore</a></li>
         <li><a href="#illustrated">Gallery</a></li>
-    <li><a href="#architects-vault">Vault</a></li>
+    <li><a href="#access">Vault</a></li>
     <li><a href="#access" class="nav-cta">Subscribe</a></li>
   </ul>
   <div style="display:flex;align-items:center;gap:0.8rem;">
@@ -7536,7 +7536,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 <!-- MOBILE NAV OVERLAY -->
 <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="toggleMobileNav()"></div>
 <nav class="mobile-nav" id="mobileNav">
-  <div class="mobile-nav-logo">CATALYST:TA</div>
+  <div class="mobile-nav-logo">CATALYST</div>
   <a href="#arcs" onclick="toggleMobileNav()">Arcs</a>
   <a href="#characters" onclick="toggleMobileNav()">Heroes</a>
   <a href="#cover-gallery" onclick="toggleMobileNav()">Covers</a>
@@ -7546,7 +7546,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   <a href="#read" onclick="toggleMobileNav()">Read Free</a>
   <a href="#lore" onclick="toggleMobileNav()">Lore</a>
   <a href="#illustrated" onclick="toggleMobileNav()">Gallery</a>
-  <a href="#architects-vault" onclick="toggleMobileNav()">Vault 🔓</a>
+  <a href="#access" onclick="toggleMobileNav()">Vault 🔓</a>
   <a href="#access" class="nav-cta-mobile" onclick="toggleMobileNav()">Subscribe ✦</a>
 </nav>
 
@@ -9173,7 +9173,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 
     <!-- Panel 1: Establishing — wide Lagos Noir corridor -->
     <div class="photo-panel pnl-wide-top reveal">
-      <img src="./assets/corridor.jpg" alt="Lagos Noir neon corridor" loading="lazy">
+      <img src="./assets/corridor.webp" alt="Lagos Noir neon corridor" loading="lazy">
       <div class="pnl-narration">Lagos, 3:47 AM. The city never sleeps.<br>Something in the walls was breathing.</div>
       <div class="pnl-caption">Panel 1 — "The city never forgave the men who built it on stolen water."</div>
       <div class="pnl-num">01</div>
@@ -9181,7 +9181,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 
     <!-- Panel 2: Portrait — Blacksmith forge, spans both rows -->
     <div class="photo-panel pnl-portrait-right reveal">
-      <img src="./assets/forge.jpg" alt="The Awakening — forge and sparks" loading="lazy">
+      <img src="./assets/forge.webp" alt="The Awakening — forge and sparks" loading="lazy">
       <div class="pnl-badge">ỌRUN<br>CALLS</div>
       <div class="pnl-caption">Panel 4 — The gold takes him. Every cell, every nerve. Bayo becomes the lightning.</div>
       <div class="pnl-num">04</div>
@@ -9189,7 +9189,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 
     <!-- Panel 3: Bottom wide — Lagos industrial neon -->
     <div class="photo-panel pnl-wide-bot reveal">
-      <img src="./assets/industrial.jpg" alt="Lagos industrial neon district" loading="lazy">
+      <img src="./assets/industrial.webp" alt="Lagos industrial neon district" loading="lazy">
       <div class="pnl-narration">The sky cracked like old leather.<br>Something older than Lagos pushed through.</div>
       <div class="pnl-caption">Panel 3 — "Something older than Lagos is awake tonight."</div>
       <div class="pnl-num">03</div>
@@ -9207,7 +9207,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 <!-- ══════════════════════════════════════ ORACLE TERMINAL -->
 <!-- ════ MISSION DISPATCH TERMINAL ════ -->
 <section id="oracle-terminal">
-    <img class="section-photo-bg" src="./assets/industrial.jpg" alt="Lagos industrial neon" loading="lazy" aria-hidden="true">
+    <img class="section-photo-bg" src="./assets/industrial.webp" alt="Lagos industrial neon" loading="lazy" aria-hidden="true">
   <div class="terminal-wrap">
     <div class="terminal-hdr">
       <p class="section-label reveal" style="justify-content:center">Classified Intel</p>
@@ -9267,7 +9267,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
       <span class="cover-art-label">THE AWAKENING — Official Cover</span>
     </a>
 
-    <a href="#comics" class="cover-art-item reveal" title="Issue #2 — THE MIRROR'S EDGE (Official Cover)" data-lightbox-src="./assets/cover-issue2.webp" data-lightbox-alt="Issue #2 — SANGO'S DAUGHTER (Official Cover)">
+    <a href="#comics" class="cover-art-item reveal" title="Issue #2 — THE MIRROR'S EDGE (Official Cover)" data-lightbox-src="./assets/cover-issue2.webp" data-lightbox-alt="Issue #2 — THE MIRROR'S EDGE (Official Cover)">
       <img src="./assets/cover-issue2.webp"
            alt="Issue #2 — THE MIRROR'S EDGE" loading="lazy"
            onerror="this.parentElement.style.background='linear-gradient(160deg,#001a14,#00C9B1 60%,#001410)'">
@@ -9275,7 +9275,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
       <span class="cover-art-label">THE MIRROR'S EDGE — Official Cover</span>
     </a>
 
-    <a href="#comics" class="cover-art-item reveal" title="Issue #3 — ORISHA RISING (Official Cover)" data-lightbox-src="./assets/cover-issue3.webp" data-lightbox-alt="Issue #3 — IRON IN THE BLOOD (Official Cover)">
+    <a href="#comics" class="cover-art-item reveal" title="Issue #3 — ORISHA RISING (Official Cover)" data-lightbox-src="./assets/cover-issue3.webp" data-lightbox-alt="Issue #3 — ORISHA RISING (Official Cover)">
       <img src="./assets/cover-issue3.webp"
            alt="Issue #3 — ORISHA RISING" loading="lazy"
            onerror="this.parentElement.style.background='linear-gradient(160deg,#150a00,#F4B800 60%,#0f0800)'">
@@ -9283,7 +9283,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
       <span class="cover-art-label">ORISHA RISING — Official Cover</span>
     </a>
 
-    <a href="#comics" class="cover-art-item reveal" title="Issue #4 — LAGOS ETERNAL (Official Cover)" data-lightbox-src="./assets/cover-issue4.webp" data-lightbox-alt="Issue #4 — THE CHOSEN FOUR (Official Cover)">
+    <a href="#comics" class="cover-art-item reveal" title="Issue #4 — LAGOS ETERNAL (Official Cover)" data-lightbox-src="./assets/cover-issue4.webp" data-lightbox-alt="Issue #4 — LAGOS ETERNAL (Official Cover)">
       <img src="./assets/cover-issue4.webp"
            alt="Issue #4 — LAGOS ETERNAL" loading="lazy"
            onerror="this.parentElement.style.background='linear-gradient(160deg,#050015,#9b59b6 60%,#050010)'">
@@ -9720,7 +9720,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 
     <!-- THE ARCHITECT (Featured — spans full width) -->
     <div class="villain-card featured reveal">
-      <img class="villain-photo-portrait" src="./assets/circle.jpg" alt="The Architect — Dark Assembly sovereign" loading="lazy">
+      <img class="villain-photo-portrait" src="./assets/circle.webp" alt="The Architect — Dark Assembly sovereign" loading="lazy">
       <div class="villain-art-bg">Ì</div>
       <div class="villain-rank">Grand Sovereign · Rank I</div>
       <div class="villain-name" data-text="THE ARCHITECT">THE ARCHITECT</div>
@@ -9768,7 +9768,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 
     <!-- MOTHER STORM -->
     <div class="villain-card villain-storm reveal reveal-delay-2">
-      <img class="villain-photo-portrait" src="./assets/shipyard.jpg" alt="Mother Storm — dark port commander" loading="lazy">
+      <img class="villain-photo-portrait" src="./assets/shipyard.webp" alt="Mother Storm — dark port commander" loading="lazy">
       <div class="villain-art-bg">Ẹ</div>
       <div class="villain-rank">Dark Assembly · Rank III</div>
       <div class="villain-name" data-text="MOTHER STORM">MOTHER STORM</div>
@@ -10207,7 +10207,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 
 <div class="scroll-hook reveal">Four issues, free, read. What you just finished is <em>less than a tenth</em> of the story.<span class="sh-arrow">↓</span></div>
 <section id="arcs">
-    <img class="section-photo-bg" src="./assets/shipyard.jpg" alt="Dark port with containers" loading="lazy" aria-hidden="true">
+    <img class="section-photo-bg" src="./assets/shipyard.webp" alt="Dark port with containers" loading="lazy" aria-hidden="true">
   <div class="arcs-header">
     <p class="section-label reveal">The Saga</p>
     <h2 class="section-title reveal">ELEVEN ARCS.<br>ONE <em>LEGEND</em></h2>
@@ -10446,7 +10446,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 <!-- ============================================================ ASE SYSTEM -->
 <div class="scroll-hook reveal">Eleven arcs. One legend. But <em>only Bayo</em> can see what powers it.<span class="sh-arrow">↓</span></div>
 <section id="ase-system">
-    <img class="section-photo-bg" src="./assets/shipyard.jpg" alt="Dark port atmosphere" loading="lazy" aria-hidden="true">
+    <img class="section-photo-bg" src="./assets/shipyard.webp" alt="Dark port atmosphere" loading="lazy" aria-hidden="true">
   <div class="ase-grid">
     <div>
       <p class="section-label reveal">The Power System</p>
@@ -10545,7 +10545,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 
 <!-- ============================================================ FREE ISSUE READER -->
 <section id="read">
-    <img class="section-photo-bg" src="./assets/corridor.jpg" alt="Neon corridor depth" loading="lazy" aria-hidden="true">
+    <img class="section-photo-bg" src="./assets/corridor.webp" alt="Neon corridor depth" loading="lazy" aria-hidden="true">
   <div class="read-header">
     <span class="read-free-badge reveal">✦ Free to Read — Issues 1 Through 4</span>
     <p class="section-label reveal">The Stories</p>
@@ -10564,7 +10564,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   <div class="issue-reader-panel active" id="panel-i1">
     <div class="reader-grid">
       <div class="reader-cover">
-        <div class="reader-cover-art" style="background:#060606;border-radius:4px;overflow:hidden;cursor:pointer;" onclick="openPanelViewer(ISSUE1_PANELS, 0)" title="Click to open panel viewer">
+        <div class="reader-cover-art" style="background:#060606;border-radius:4px;overflow:hidden;cursor:pointer;" onclick="openPanelViewer(ISSUE1_PANELS, 0)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openPanelViewer(ISSUE1_PANELS, 0);}" role="button" tabindex="0" aria-label="Open Issue #1 panel viewer" title="Click to open panel viewer">
           <img loading="lazy" src="./assets/cover-issue1.webp" alt="Catalyst: The Awakening — Issue #1: The Awakening" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform 0.4s ease;">
           <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,4,15,0.7) 0%,transparent 60%);pointer-events:none;"></div>
           <div style="position:absolute;bottom:0.8rem;left:0.8rem;right:0.8rem;text-align:center;pointer-events:none;">
@@ -11074,7 +11074,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   <div class="issue-reader-panel" id="panel-i2">
     <div class="reader-grid">
       <div class="reader-cover">
-                <div class="reader-cover-art" style="background:#060606;border-radius:4px;overflow:hidden;cursor:pointer;" onclick="openPanelViewer(ISSUE2_PANELS, 0)" title="Click to open panel viewer">
+                <div class="reader-cover-art" style="background:#060606;border-radius:4px;overflow:hidden;cursor:pointer;" onclick="openPanelViewer(ISSUE2_PANELS, 0)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openPanelViewer(ISSUE2_PANELS, 0);}" role="button" tabindex="0" aria-label="Open Issue #2 panel viewer" title="Click to open panel viewer">
           <img loading="lazy" src="./assets/cover-issue2.webp" alt="Catalyst: The Awakening — Issue #2: The Mirror's Edge" style="width:100%;height:100%;object-fit:cover;border-radius:4px;display:block;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#1a0400,#3a0800)'">
           <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,4,15,0.7) 0%,transparent 60%);pointer-events:none;"></div>
           <div style="position:absolute;bottom:0.8rem;left:0.8rem;right:0.8rem;text-align:center;pointer-events:none;">
@@ -11368,7 +11368,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   <div class="issue-reader-panel" id="panel-i3">
     <div class="reader-grid">
       <div class="reader-cover">
-                <div class="reader-cover-art" style="background:#060606;border-radius:4px;overflow:hidden;cursor:pointer;" onclick="openPanelViewer(ISSUE3_PANELS, 0)" title="Click to open panel viewer">
+                <div class="reader-cover-art" style="background:#060606;border-radius:4px;overflow:hidden;cursor:pointer;" onclick="openPanelViewer(ISSUE3_PANELS, 0)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openPanelViewer(ISSUE3_PANELS, 0);}" role="button" tabindex="0" aria-label="Open Issue #3 panel viewer" title="Click to open panel viewer">
           <img loading="lazy" src="./assets/cover-issue3.webp" alt="Catalyst: The Awakening — Issue #3: Orisha Rising" style="width:100%;height:100%;object-fit:cover;border-radius:4px;display:block;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#0a1a00,#1a3000)'">
           <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,4,15,0.7) 0%,transparent 60%);pointer-events:none;"></div>
           <div style="position:absolute;bottom:0.8rem;left:0.8rem;right:0.8rem;text-align:center;pointer-events:none;">
@@ -11630,7 +11630,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   <div class="issue-reader-panel" id="panel-i4">
     <div class="reader-grid">
       <div class="reader-cover">
-                <div class="reader-cover-art" style="background:#060606;border-radius:4px;overflow:hidden;cursor:pointer;" onclick="openPanelViewer(ISSUE4_PANELS, 0)" title="Click to open panel viewer">
+                <div class="reader-cover-art" style="background:#060606;border-radius:4px;overflow:hidden;cursor:pointer;" onclick="openPanelViewer(ISSUE4_PANELS, 0)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openPanelViewer(ISSUE4_PANELS, 0);}" role="button" tabindex="0" aria-label="Open Issue #4 panel viewer" title="Click to open panel viewer">
           <img loading="lazy" src="./assets/cover-issue4.webp" alt="Catalyst: The Awakening — Issue #4: Lagos Eternal" style="width:100%;height:100%;object-fit:cover;border-radius:4px;display:block;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(160deg,#1a0010,#3a0020)'">
           <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,4,15,0.7) 0%,transparent 60%);pointer-events:none;"></div>
           <div style="position:absolute;bottom:0.8rem;left:0.8rem;right:0.8rem;text-align:center;pointer-events:none;">
@@ -12078,7 +12078,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 
 <div class="scroll-hook reveal">Lagos is only half the map. The other half is where the <em>Orishas</em> actually live.<span class="sh-arrow">↓</span></div>
 <section id="realms">
-    <img class="section-photo-bg" src="./assets/circle.jpg" alt="Glowing team circle" loading="lazy" aria-hidden="true">
+    <img class="section-photo-bg" src="./assets/circle.webp" alt="Glowing team circle" loading="lazy" aria-hidden="true">
   <div class="realms-header">
     <p class="section-label reveal" style="justify-content:center">The Multiverse</p>
     <h2 class="section-title reveal">THE KNOWN<br><em>REALMS</em></h2>
@@ -12374,7 +12374,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 
 <div class="scroll-hook reveal">Every name below has a price already paid. <em>Someone</em> is still paying it.<span class="sh-arrow">↓</span></div>
 <section id="codex">
-    <img class="section-photo-bg" src="./assets/noir-window.jpg" alt="Rain-streaked city night" loading="lazy" aria-hidden="true">
+    <img class="section-photo-bg" src="./assets/noir-window.webp" alt="Rain-streaked city night" loading="lazy" aria-hidden="true">
   <div class="codex-header">
     <p class="section-label reveal" style="justify-content:center">Power Classification</p>
     <h2 class="section-title reveal">THE ASẸ<br><em>CODEX</em></h2>
@@ -12517,7 +12517,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 <!-- ============================================================ LORE -->
 
 <section id="lore">
-    <img class="section-photo-bg" src="./assets/noir-window.jpg" alt="Rainy noir atmosphere" loading="lazy" aria-hidden="true">
+    <img class="section-photo-bg" src="./assets/noir-window.webp" alt="Rainy noir atmosphere" loading="lazy" aria-hidden="true">
   <svg class="lore-bg-pattern" viewBox="0 0 1440 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
     <pattern id="lorePat" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
       <path d="M0,30 L30,0 L60,30 L30,60 Z" fill="none" stroke="#F4B800" stroke-width="0.5"/>
@@ -12683,7 +12683,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 
 <!-- ============================================================ ILLUSTRATED UNIVERSE -->
 <section id="illustrated">
-  <img loading="lazy" class="section-photo-bg" src="./assets/industrial.jpg" alt="">
+  <img loading="lazy" class="section-photo-bg" src="./assets/industrial.webp" alt="">
 
   <div class="gallery-intro">
     <p class="section-label reveal"><span>◆</span>Visual Records</p>
@@ -12734,7 +12734,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 
     <!-- Teaser 1: BAYO PORTRAIT — the real artwork -->
     <div class="teaser-panel" style="background:#000;">
-      <img loading="lazy" src="images/bayo-portrait.png" alt="Bayo Adeyemi — Powered by ASẸ" style="object-position:top center;">
+      <img loading="lazy" src="./assets/bayo-panel-portrait.webp" alt="Bayo Adeyemi — Powered by ASẸ" style="object-position:top center;">
       <div class="teaser-header">
         <span class="th-label">ISSUE 01 · CHARACTER REVEAL</span>
         <span class="th-bar"></span>
@@ -12749,7 +12749,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 
     <!-- Teaser 2: BAYO ACTION COLOR -->
     <div class="teaser-panel" style="background:#0a0a12;">
-      <img loading="lazy" src="images/bayo-action-color.png" alt="Bayo — ASE Energy Lagos Power" style="object-fit:cover;object-position:center;">
+      <img loading="lazy" src="./assets/bayo-action-color.webp" alt="Bayo — ASE Energy Lagos Power" style="object-fit:cover;object-position:center;">
       <div class="teaser-header">
         <span class="th-label">ISSUE 01 · ACTION PANEL</span>
         <span class="th-bar"></span>
@@ -12764,7 +12764,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 
     <!-- Teaser 3: BAYO ACTION BW MANGA -->
     <div class="teaser-panel" style="background:#0a0a0a;">
-      <img loading="lazy" src="images/bayo-action-bw.png" alt="ASE! — Oshodi Street Lagos" style="object-fit:cover;object-position:center;">
+      <img loading="lazy" src="./assets/bayo-action-bw.webp" alt="ASE! — Oshodi Street Lagos" style="object-fit:cover;object-position:center;">
       <div class="teaser-header">
         <span class="th-label">ISSUE 02 · OSHODI CONFRONTATION</span>
         <span class="th-bar"></span>
@@ -12794,7 +12794,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
       <!-- Row 1: Wide feature + tall portrait -->
       <!-- Panel A: wide — Bayo Action (actual artwork) -->
       <div class="gp gp-wide" style="aspect-ratio:2/1;background:#0a0a12;">
-        <img loading="lazy" src="images/bayo-action-color.png" alt="Bayo Action — Lagos Street" style="object-fit:cover;object-position:center top;">
+        <img loading="lazy" src="./assets/bayo-action-color.webp" alt="Bayo Action — Lagos Street" style="object-fit:cover;object-position:center top;">
         <div class="gp-header">
           <span class="gp-arc-label">ARC I · ISSUE 01 · PANEL 7</span>
           <span class="gp-line"></span>
@@ -12810,7 +12810,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 
       <!-- Panel B: tall portrait — Bayo BW Power (actual artwork) -->
       <div class="gp gp-tall" style="aspect-ratio:3/4; grid-row: span 2; background:#0a0a0a;">
-        <img loading="lazy" src="images/bayo-action-bw.png" alt="Bayo — ASE Full Release Oshodi" style="object-fit:cover;object-position:center top;">
+        <img loading="lazy" src="./assets/bayo-action-bw.webp" alt="Bayo — ASE Full Release Oshodi" style="object-fit:cover;object-position:center top;">
         <div class="gp-header">
           <span class="gp-arc-label">ARC I · ISSUE 02 · PANEL 12</span>
           <span class="gp-line"></span>
@@ -12845,7 +12845,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 
       <!-- Panel D: square — Pale Council Room -->
       <div class="gp gp-sq tint-esu">
-        <img loading="lazy" src="./assets/noir-window.jpg" alt="Geneva — The Pale Council" class="grade-esu" style="transform:scaleX(-1);">
+        <img loading="lazy" src="./assets/noir-window.webp" alt="Geneva — The Pale Council" class="grade-esu" style="transform:scaleX(-1);">
         <div class="gp-header">
           <span class="gp-arc-label">ARC I · ISSUE 01 · PANEL 6</span>
           <span class="gp-line"></span>
@@ -12861,7 +12861,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
       <!-- Row 3: 4-column layout -->
       <!-- Panel E: wide feature — The Lagoon Vision -->
       <div class="gp gp-wide tint-esu" style="aspect-ratio:2/1;">
-        <img loading="lazy" src="./assets/flares.jpg" alt="The Lagoon Vision" class="grade-esu">
+        <img loading="lazy" src="./assets/flares.webp" alt="The Lagoon Vision" class="grade-esu">
         <div class="gp-header">
           <span class="gp-arc-label">ARC I · ISSUE 04 · PANEL 5</span>
           <span class="gp-line"></span>
@@ -12892,7 +12892,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 
       <!-- Panel G: square — Arc II teaser -->
       <div class="gp gp-sq tint-sango">
-        <img loading="lazy" src="./assets/corridor.jpg" alt="Arc II — The Iron Trials" class="grade-sango" style="transform:scaleX(-1) scaleY(-1);">
+        <img loading="lazy" src="./assets/corridor.webp" alt="Arc II — The Iron Trials" class="grade-sango" style="transform:scaleX(-1) scaleY(-1);">
         <div class="gp-header">
           <span class="gp-arc-label">ARC II · TEASER</span>
           <span class="gp-line"></span>
@@ -12955,9 +12955,9 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
       <form class="newsletter-form" method="post" onsubmit="handleSignup(event)" data-netlify="true" name="catalyst-newsletter" netlify-honeypot="bot-field" style="flex-direction:column;max-width:500px">
         <input type="hidden" name="form-name" value="catalyst-newsletter">
         <input type="hidden" name="bot-field" style="display:none">
-        <input type="text" name="nl_name" class="newsletter-input" placeholder="Your name..." autocomplete="name" style="border-right:1px solid rgba(244,184,0,0.3);clip-path:polygon(10px 0%,100% 0%,100% 100%,0% 100%);margin-bottom:0.6rem">
+        <input type="text" name="nl_name" class="newsletter-input" placeholder="Your name..." aria-label="Your name" autocomplete="name" style="border-right:1px solid rgba(244,184,0,0.3);clip-path:polygon(10px 0%,100% 0%,100% 100%,0% 100%);margin-bottom:0.6rem">
         <div style="display:flex;gap:0;width:100%">
-          <input type="email" name="nl_email" class="newsletter-input" placeholder="Enter your email address..." required autocomplete="email" style="flex:1">
+          <input type="email" name="nl_email" class="newsletter-input" placeholder="Enter your email address..." aria-label="Email address" required autocomplete="email" style="flex:1">
           <button type="submit" class="newsletter-btn">Awaken</button>
         </div>
       </form>
@@ -12989,7 +12989,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
-      <a href="#hero" class="nav-logo">CATALYST<span>:</span>TA</a>
+      <a href="#hero" class="nav-logo">CATALYST</a>
       <p>A Lagos noir comic universe rooted in Yoruba mythology, street culture, and the eternal tension between ancient power and modern ambition. Built in Lagos. For the world.</p>
     </div>
     <div class="footer-col">
@@ -13019,7 +13019,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
         <li><a href="https://tiktok.com/@catalystcomicshq" target="_blank" rel="noopener">TikTok</a></li>
         <li><a href="https://youtube.com/@CatalystComicsHQ" target="_blank" rel="noopener">YouTube</a></li>
         <li><a href="mailto:catalystcomicstudio@gmail.com">Contact</a></li>
-        <li><a href="#architects-vault">🔓 Architect's Vault</a></li>
+        <li><a href="#access">🔓 Architect's Vault</a></li>
       </ul>
     </div>
   </div>
@@ -13770,27 +13770,27 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 
   // Issue 1 panels — 3 actual manga artworks
   var ISSUE1_PANELS = [
-    { src: 'images/bayo-portrait.png', caption: 'Issue #01 · Panel 1 — Bayo Adeyemi. 19. Lagos. Powered by ASẸ.' },
-    { src: 'images/bayo-action-color.png', caption: 'Issue #01 · Panel 7 — First Strike. Lagos Street. ZAP! CRACKLE! SHOOOM!' },
-    { src: 'images/bayo-action-bw.png', caption: 'Issue #02 · Panel 12 — Oshodi Confrontation. ASẸ!! Full Release. ZZZZAP!' },
+    { src: './assets/bayo-panel-portrait.webp', caption: 'Issue #01 · Panel 1 — Bayo Adeyemi. 19. Lagos. Powered by ASẸ.' },
+    { src: './assets/bayo-action-color.webp', caption: 'Issue #01 · Panel 7 — First Strike. Lagos Street. ZAP! CRACKLE! SHOOOM!' },
+    { src: './assets/bayo-action-bw.webp', caption: 'Issue #02 · Panel 12 — Oshodi Confrontation. ASẸ!! Full Release. ZZZZAP!' },
   ];
 
   var ISSUE2_PANELS = [
     { src: './assets/cover-issue2.webp', caption: 'Issue #02 · Cover — Ṣàngó\'s Daughter. Amara carries the oldest telephone in Lagos.' },
-    { src: 'images/bayo-action-color.png', caption: 'Issue #02 · Panel 3 — The Collector Arrives. Geneva → Lagos. The harvest begins.' },
-    { src: 'images/bayo-action-bw.png', caption: 'Issue #02 · Panel 6 — Bayo walks toward The Collector. 847 futures. One path. Nobody dies.' },
+    { src: './assets/bayo-action-color.webp', caption: 'Issue #02 · Panel 3 — The Collector Arrives. Geneva → Lagos. The harvest begins.' },
+    { src: './assets/bayo-action-bw.webp', caption: 'Issue #02 · Panel 6 — Bayo walks toward The Collector. 847 futures. One path. Nobody dies.' },
   ];
 
   var ISSUE3_PANELS = [
     { src: './assets/cover-issue3.webp', caption: 'Issue #03 · Cover — Iron in the Blood. Ikenna and the iron that thinks.' },
     { src: './assets/ikenna-portrait.webp', caption: 'Issue #03 · Panel 4 — Iron Wolf\'s awakening. 416 metal objects orient at once.' },
-    { src: 'images/bayo-action-color.png', caption: 'Issue #03 · Panel 7 — The Pale Council\'s strike team. Six operatives. They didn\'t expect the iron.' },
+    { src: './assets/bayo-action-color.webp', caption: 'Issue #03 · Panel 7 — The Pale Council\'s strike team. Six operatives. They didn\'t expect the iron.' },
   ];
 
   var ISSUE4_PANELS = [
     { src: './assets/cover-issue4.webp', caption: 'Issue #04 · Cover — The Price of ASẸ. The Oracle\'s truth. The Architect\'s arrival.' },
     { src: './assets/architect-portrait.webp', caption: 'Issue #04 · Panel 2 — The Orisha Vaccine. Six weeks from completion. Eko Atlantic.' },
-    { src: 'images/bayo-portrait.png', caption: 'Issue #04 · Panel 3 — The Choice. Control it or let it grow wild. Bayo decides.' },
+    { src: './assets/bayo-panel-portrait.webp', caption: 'Issue #04 · Panel 3 — The Choice. Control it or let it grow wild. Bayo decides.' },
   ];
 
   // ─── WAITLIST EMAIL CAPTURE ────────────────────────────────────
@@ -15186,12 +15186,12 @@ function pvCopyLink() {
 
   // ─── LOCATION MODAL ───────────────────────────────────────────
   var LOC_DATA = {
-    'mushin': { num:'01', name:'Mushin', yoruba:'Mushin — "Spirit of the Warrior"', photo:'./assets/industrial.jpg', desc:'Where Bayo grew up. A neighbourhood of thirty-two naira, borrowed beds, and the specific kind of survival intelligence that only grinding poverty produces. The Orishas have always known about Mushin — they chose it deliberately. Power hidden in plain sight.', events:['Bayo first experiences ASẸ surge — Issue #01','Area boys confront Bayo behind the old Odeon shell','NEPA wire sparks: the Awakening begins'], chars:['Bayo Adeyemi','Area Boys','Mushin Elders'] },
-    'balogun': { num:'02', name:'Balogun Nexus', yoruba:'Ọjà Bálógún — "Market of the General"', photo:'./assets/intersection.jpg', desc:'The ancient market hums on two frequencies — the physical bustle of traders and hawkers, and the Aṣẹ frequency that has run through its foundations since the 16th century. The first team battle takes place here. The Collector begins his harvest operations within 200m of this location.', events:['First full team assembly — Issue #01','The Collector\'s initial harvest attempt','847 futures visible to Bayo: one path survives','Amara\'s drum resonance drops to critical 40%'], chars:['Bayo','Amara','Ikenna','Zara','The Collector'] },
-    'eko-atlantic': { num:'03', name:'Eko Atlantic', yoruba:'Ẹko Atlantic — "The Extraction Engine"', photo:'./assets/flares.jpg', desc:'Built on reclaimed land from Lagos Lagoon — drilled straight through Ọṣun\'s domain. The towers are not offices. They are spiritual extraction machines. Each foundation column drives into the seabed at a frequency calculated to siphon Aṣẹ. The Pale Council\'s Lagos HQ is Tower 7, sub-basement Level B3. The Orisha Vaccine is being assembled there now.', events:['Pale Council Lagos HQ — Tower 7','Orisha Vaccine assembly — B3 sub-basement','The Architect arrives — Issue #03','30 Ọ̀run breaches directly caused by drilling'], chars:['The Architect','Pale Council Operatives','The Collector'] },
-    'oshodi': { num:'04', name:'Oshodi Market', yoruba:'Ọ̀ṣòdì — "Where the spirits haggle"', photo:'./assets/circle.jpg', desc:'The largest informal economy in West Africa. Oshodi processes more Aṣẹ transactions than any other location in Lagos — not because it is sacred, but because it is alive. Ẹṣù has more agents per square metre here than anywhere on the continent. Every misunderstanding, every impossible deal that somehow closes, every near-accident avoided at the last second — that is Ẹṣù, taxing the crossroads.', events:['Bayo spots Pale Council surveillance — Issue #01','Oshodi confrontation — Bayo releases full ASẸ','ZZZZAP! — BW panel full power discharge'], chars:['Bayo','Ẹṣù agents','Pale Council Surveillance'] },
-    'paul-street': { num:'05', name:'Paul Street Workshop', yoruba:'Àgò Paul — "The forge that listens"', photo:'./assets/forge.jpg', desc:'Ikenna\'s workplace for three years. A mechanic\'s workshop that smells of iron dust, engine oil, and something electrical with no physical source. The morning of Issue 3, Pale Council operatives attempt a raid through the rear. 416 separate metal objects in the workshop turn toward the threat at the same moment. Ògún has been awake here for years.', events:['Pale Council strike team raids — Issue #03','416 metal objects orient simultaneously','Iron Wolf emerges — first full Ògún manifestation','Workshop becomes team base of operations'], chars:['Ikenna Chukwuemeka','Ògún','Pale Council Strike Team'] },
-    'oracle-compound': { num:'06', name:'Oracle\'s Compound', yoruba:'Ilé Àgbà Adesanya — "The Elder\'s House"', photo:'./assets/corridor.jpg', desc:'Chief Adesanya Adewale has lived here for 62 of his 144 years. The compound in Idumota smells of ìtò, palm oil, and old paper in three different languages. The walls remember every conversation that happened in this space. Zara presents her 9-night intelligence report here. Bayo receives the truth about what he is. The Oracle has been waiting for this day since 1987.', events:['Oracle reveals Bayo\'s true nature — Issue #04','Zara\'s intelligence briefing — 37 Pale Council positions','The Choice: control or grow wild','Oracle has been alive 144 years — Orishas took his eyes'], chars:['The Oracle','Bayo','Amara','Ikenna','Zara'] }
+    'mushin': { num:'01', name:'Mushin', yoruba:'Mushin — "Spirit of the Warrior"', photo:'./assets/industrial.webp', desc:'Where Bayo grew up. A neighbourhood of thirty-two naira, borrowed beds, and the specific kind of survival intelligence that only grinding poverty produces. The Orishas have always known about Mushin — they chose it deliberately. Power hidden in plain sight.', events:['Bayo first experiences ASẸ surge — Issue #01','Area boys confront Bayo behind the old Odeon shell','NEPA wire sparks: the Awakening begins'], chars:['Bayo Adeyemi','Area Boys','Mushin Elders'] },
+    'balogun': { num:'02', name:'Balogun Nexus', yoruba:'Ọjà Bálógún — "Market of the General"', photo:'./assets/intersection.webp', desc:'The ancient market hums on two frequencies — the physical bustle of traders and hawkers, and the Aṣẹ frequency that has run through its foundations since the 16th century. The first team battle takes place here. The Collector begins his harvest operations within 200m of this location.', events:['First full team assembly — Issue #01','The Collector\'s initial harvest attempt','847 futures visible to Bayo: one path survives','Amara\'s drum resonance drops to critical 40%'], chars:['Bayo','Amara','Ikenna','Zara','The Collector'] },
+    'eko-atlantic': { num:'03', name:'Eko Atlantic', yoruba:'Ẹko Atlantic — "The Extraction Engine"', photo:'./assets/flares.webp', desc:'Built on reclaimed land from Lagos Lagoon — drilled straight through Ọṣun\'s domain. The towers are not offices. They are spiritual extraction machines. Each foundation column drives into the seabed at a frequency calculated to siphon Aṣẹ. The Pale Council\'s Lagos HQ is Tower 7, sub-basement Level B3. The Orisha Vaccine is being assembled there now.', events:['Pale Council Lagos HQ — Tower 7','Orisha Vaccine assembly — B3 sub-basement','The Architect arrives — Issue #03','30 Ọ̀run breaches directly caused by drilling'], chars:['The Architect','Pale Council Operatives','The Collector'] },
+    'oshodi': { num:'04', name:'Oshodi Market', yoruba:'Ọ̀ṣòdì — "Where the spirits haggle"', photo:'./assets/circle.webp', desc:'The largest informal economy in West Africa. Oshodi processes more Aṣẹ transactions than any other location in Lagos — not because it is sacred, but because it is alive. Ẹṣù has more agents per square metre here than anywhere on the continent. Every misunderstanding, every impossible deal that somehow closes, every near-accident avoided at the last second — that is Ẹṣù, taxing the crossroads.', events:['Bayo spots Pale Council surveillance — Issue #01','Oshodi confrontation — Bayo releases full ASẸ','ZZZZAP! — BW panel full power discharge'], chars:['Bayo','Ẹṣù agents','Pale Council Surveillance'] },
+    'paul-street': { num:'05', name:'Paul Street Workshop', yoruba:'Àgò Paul — "The forge that listens"', photo:'./assets/forge.webp', desc:'Ikenna\'s workplace for three years. A mechanic\'s workshop that smells of iron dust, engine oil, and something electrical with no physical source. The morning of Issue 3, Pale Council operatives attempt a raid through the rear. 416 separate metal objects in the workshop turn toward the threat at the same moment. Ògún has been awake here for years.', events:['Pale Council strike team raids — Issue #03','416 metal objects orient simultaneously','Iron Wolf emerges — first full Ògún manifestation','Workshop becomes team base of operations'], chars:['Ikenna Chukwuemeka','Ògún','Pale Council Strike Team'] },
+    'oracle-compound': { num:'06', name:'Oracle\'s Compound', yoruba:'Ilé Àgbà Adesanya — "The Elder\'s House"', photo:'./assets/corridor.webp', desc:'Chief Adesanya Adewale has lived here for 62 of his 144 years. The compound in Idumota smells of ìtò, palm oil, and old paper in three different languages. The walls remember every conversation that happened in this space. Zara presents her 9-night intelligence report here. Bayo receives the truth about what he is. The Oracle has been waiting for this day since 1987.', events:['Oracle reveals Bayo\'s true nature — Issue #04','Zara\'s intelligence briefing — 37 Pale Council positions','The Choice: control or grow wild','Oracle has been alive 144 years — Orishas took his eyes'], chars:['The Oracle','Bayo','Amara','Ikenna','Zara'] }
   };
 
   function openLocModal(id) {
@@ -16903,8 +16903,8 @@ function pvCopyLink() {
       '<div class="vw-list" id="vw-list"></div>' +
       '<form class="vw-form" id="vw-form" novalidate>' +
         '<div class="vw-form-label">Speak to the Covenant</div>' +
-        '<input type="email" id="vw-email" class="vw-email" placeholder="Your email — verifies your Covenant identity" required autocomplete="email">' +
-        '<textarea id="vw-message" class="vw-message" maxlength="280" placeholder="Leave your voice for the Covenant (3–280 characters)..." required></textarea>' +
+        '<input type="email" id="vw-email" class="vw-email" placeholder="Your email — verifies your Covenant identity" aria-label="Your email" required autocomplete="email">' +
+        '<textarea id="vw-message" class="vw-message" maxlength="280" placeholder="Leave your voice for the Covenant (3–280 characters)..." aria-label="Your message to the Covenant" required></textarea>' +
         '<div class="vw-form-row">' +
           '<span class="vw-counter" id="vw-counter">0 / 280</span>' +
           '<button type="submit" class="vw-submit" id="vw-submit">◈ Speak</button>' +
