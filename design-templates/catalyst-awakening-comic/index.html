@@ -12828,7 +12828,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 
       <!-- Panel C: square — Amara's Drum Table -->
       <div class="gp gp-sq tint-osun">
-        <img loading="lazy" src="./assets/circle.jpg" alt="Amara's Drum Table" class="grade-osun">
+        <img loading="lazy" src="./assets/amara-portrait.webp" alt="Amara's Drum Table" class="grade-osun">
         <div class="gp-header">
           <span class="gp-arc-label">ARC I · ISSUE 02 · PANEL 4</span>
           <span class="gp-line"></span>
@@ -12877,7 +12877,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 
       <!-- Panel F: square — Zara's Report -->
       <div class="gp gp-sq tint-oya">
-        <img loading="lazy" src="./assets/industrial.jpg" alt="Zara's Intelligence Map" class="grade-oya">
+        <img loading="lazy" src="./assets/zara-portrait.webp" alt="Zara's Intelligence Map" class="grade-oya">
         <div class="gp-header">
           <span class="gp-arc-label">ARC I · ISSUE 04 · PANEL 4</span>
           <span class="gp-line"></span>
@@ -14315,22 +14315,22 @@ var quizCurrent = 0;
 var QUIZ_HEROES = {
   T: {
     name: 'THUNDERSTRIKE',
-    img: './assets/flares.jpg',
+    img: './assets/amara-portrait.webp',
     tag: 'You move like lightning and think even faster. When others hesitate, you have already acted. The city\'s pace matches yours — fast, electric, and alive. Amara would recognize you.'
   },
   O: {
     name: 'THE ORACLE',
-    img: './assets/noir-window.jpg',
+    img: './assets/oracle-badagry-portrait.webp',
     tag: 'You see things others miss. You plan seven moves ahead and never tell anyone what you know until the exact right moment. The city holds no secrets from you. Zara sees herself in you.'
   },
   W: {
     name: 'IRON WOLF',
-    img: './assets/industrial.jpg',
+    img: './assets/ikenna-portrait.webp',
     tag: 'You are made of this city\'s iron — forged in its fires, shaped by its losses. You do not ask for respect. You have already earned it. Ikenna would call you kin.'
   },
   C: {
     name: 'CATALYST',
-    img: './assets/forge.jpg',
+    img: './assets/bayo-portrait.webp',
     tag: 'You are the variable no one accounted for. You don\'t just change the game — you change everyone around you, without even trying. The city chose you. Lagos dey awaken.'
   }
 };
@@ -15189,7 +15189,7 @@ function pvCopyLink() {
     'mushin': { num:'01', name:'Mushin', yoruba:'Mushin — "Spirit of the Warrior"', photo:'./assets/industrial.jpg', desc:'Where Bayo grew up. A neighbourhood of thirty-two naira, borrowed beds, and the specific kind of survival intelligence that only grinding poverty produces. The Orishas have always known about Mushin — they chose it deliberately. Power hidden in plain sight.', events:['Bayo first experiences ASẸ surge — Issue #01','Area boys confront Bayo behind the old Odeon shell','NEPA wire sparks: the Awakening begins'], chars:['Bayo Adeyemi','Area Boys','Mushin Elders'] },
     'balogun': { num:'02', name:'Balogun Nexus', yoruba:'Ọjà Bálógún — "Market of the General"', photo:'./assets/intersection.jpg', desc:'The ancient market hums on two frequencies — the physical bustle of traders and hawkers, and the Aṣẹ frequency that has run through its foundations since the 16th century. The first team battle takes place here. The Collector begins his harvest operations within 200m of this location.', events:['First full team assembly — Issue #01','The Collector\'s initial harvest attempt','847 futures visible to Bayo: one path survives','Amara\'s drum resonance drops to critical 40%'], chars:['Bayo','Amara','Ikenna','Zara','The Collector'] },
     'eko-atlantic': { num:'03', name:'Eko Atlantic', yoruba:'Ẹko Atlantic — "The Extraction Engine"', photo:'./assets/flares.jpg', desc:'Built on reclaimed land from Lagos Lagoon — drilled straight through Ọṣun\'s domain. The towers are not offices. They are spiritual extraction machines. Each foundation column drives into the seabed at a frequency calculated to siphon Aṣẹ. The Pale Council\'s Lagos HQ is Tower 7, sub-basement Level B3. The Orisha Vaccine is being assembled there now.', events:['Pale Council Lagos HQ — Tower 7','Orisha Vaccine assembly — B3 sub-basement','The Architect arrives — Issue #03','30 Ọ̀run breaches directly caused by drilling'], chars:['The Architect','Pale Council Operatives','The Collector'] },
-    'oshodi': { num:'04', name:'Oshodi Market', yoruba:'Ọ̀ṣòdì — "Where the spirits haggle"', photo:'./assets/industrial.jpg', desc:'The largest informal economy in West Africa. Oshodi processes more Aṣẹ transactions than any other location in Lagos — not because it is sacred, but because it is alive. Ẹṣù has more agents per square metre here than anywhere on the continent. Every misunderstanding, every impossible deal that somehow closes, every near-accident avoided at the last second — that is Ẹṣù, taxing the crossroads.', events:['Bayo spots Pale Council surveillance — Issue #01','Oshodi confrontation — Bayo releases full ASẸ','ZZZZAP! — BW panel full power discharge'], chars:['Bayo','Ẹṣù agents','Pale Council Surveillance'] },
+    'oshodi': { num:'04', name:'Oshodi Market', yoruba:'Ọ̀ṣòdì — "Where the spirits haggle"', photo:'./assets/circle.jpg', desc:'The largest informal economy in West Africa. Oshodi processes more Aṣẹ transactions than any other location in Lagos — not because it is sacred, but because it is alive. Ẹṣù has more agents per square metre here than anywhere on the continent. Every misunderstanding, every impossible deal that somehow closes, every near-accident avoided at the last second — that is Ẹṣù, taxing the crossroads.', events:['Bayo spots Pale Council surveillance — Issue #01','Oshodi confrontation — Bayo releases full ASẸ','ZZZZAP! — BW panel full power discharge'], chars:['Bayo','Ẹṣù agents','Pale Council Surveillance'] },
     'paul-street': { num:'05', name:'Paul Street Workshop', yoruba:'Àgò Paul — "The forge that listens"', photo:'./assets/forge.jpg', desc:'Ikenna\'s workplace for three years. A mechanic\'s workshop that smells of iron dust, engine oil, and something electrical with no physical source. The morning of Issue 3, Pale Council operatives attempt a raid through the rear. 416 separate metal objects in the workshop turn toward the threat at the same moment. Ògún has been awake here for years.', events:['Pale Council strike team raids — Issue #03','416 metal objects orient simultaneously','Iron Wolf emerges — first full Ògún manifestation','Workshop becomes team base of operations'], chars:['Ikenna Chukwuemeka','Ògún','Pale Council Strike Team'] },
     'oracle-compound': { num:'06', name:'Oracle\'s Compound', yoruba:'Ilé Àgbà Adesanya — "The Elder\'s House"', photo:'./assets/corridor.jpg', desc:'Chief Adesanya Adewale has lived here for 62 of his 144 years. The compound in Idumota smells of ìtò, palm oil, and old paper in three different languages. The walls remember every conversation that happened in this space. Zara presents her 9-night intelligence report here. Bayo receives the truth about what he is. The Oracle has been waiting for this day since 1987.', events:['Oracle reveals Bayo\'s true nature — Issue #04','Zara\'s intelligence briefing — 37 Pale Council positions','The Choice: control or grow wild','Oracle has been alive 144 years — Orishas took his eyes'], chars:['The Oracle','Bayo','Amara','Ikenna','Zara'] }
   };
