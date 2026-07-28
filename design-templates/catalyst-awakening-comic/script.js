@@ -357,6 +357,16 @@
     btn.classList.add('active');
   }
 
+  // Jump to the #read section and open a specific issue's tab - used by
+  // "Read Now" buttons elsewhere on the page (e.g. the #comics preview grid)
+  // so they land on the actual story instead of just scrolling to #read.
+  window.goToIssue = function(id) {
+    var section = document.getElementById('read');
+    if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    var btn = document.querySelector('.issue-tab[onclick*="\'' + id + '\'"]');
+    if (btn) showIssue(id, btn);
+  };
+
   // ─── MARQUEE DUPLICATE for seamless loop ─────────────────────
   const track = document.querySelector('.marquee-track');
   const clone = track.cloneNode(true);
