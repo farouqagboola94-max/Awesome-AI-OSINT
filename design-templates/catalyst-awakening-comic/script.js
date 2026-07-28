@@ -3579,7 +3579,7 @@ function pvCopyLink() {
     var banner = document.getElementById('resume-banner');
     if (!banner) return;
     var DISMISS_KEY = 'catalyst_resume_dismissed';
-    var TITLES = { 1: 'The Awakening', 2: "Sango's Daughter", 3: 'Iron in the Blood', 4: 'The Chosen Four' };
+    var TITLES = { 1: 'Awaken, O City', 2: "Ṣàngó's Daughter", 3: 'Iron in the Blood', 4: 'The Price of Aṣẹ' };
     try {
       var dismissed = localStorage.getItem(DISMISS_KEY);
       if (dismissed && Date.now() - parseInt(dismissed, 10) < 7 * 86400000) return;
@@ -3595,8 +3595,7 @@ function pvCopyLink() {
       document.getElementById('resume-go').addEventListener('click', function() {
         banner.classList.remove('show');
         window.catalystTrack('resume_click', { issue: nextUnread });
-        var el = document.getElementById('comics');
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        window.goToIssue('i' + nextUnread);
       });
       document.getElementById('resume-dismiss').addEventListener('click', function() {
         banner.classList.remove('show');
@@ -3971,7 +3970,7 @@ function pvCopyLink() {
     },
     4: {
       arc: 'Arc I : The Catalyst · Issue #04 · Finale · Cold Open',
-      title: 'THE CHOSEN <em>FOUR</em>',
+      title: 'THE PRICE OF <em>AṢẸ</em>',
       open: [
         'Every one of the 847 paths Bayo can see ends in the same place: Balogun Nexus, the sky torn open, four strangers who became something more standing exactly where the door used to be.',
         'The Architect has waited six centuries to make his opening move. He does not fight. He offers. And what he offers each of them is the one thing they want most in the world — priced at the only thing they cannot afford to give.',
@@ -3981,7 +3980,7 @@ function pvCopyLink() {
     }
   };
 
-  var ISSUE_TITLES = { 1: 'AWAKEN, O CITY', 2: 'ṢÀNGÓ’S DAUGHTER', 3: 'IRON IN THE BLOOD', 4: 'THE CHOSEN FOUR' };
+  var ISSUE_TITLES = { 1: 'AWAKEN, O CITY', 2: 'ṢÀNGÓ’S DAUGHTER', 3: 'IRON IN THE BLOOD', 4: 'THE PRICE OF AṢẸ' };
   var pagers = {};
 
   function markIssueRead(n) {
