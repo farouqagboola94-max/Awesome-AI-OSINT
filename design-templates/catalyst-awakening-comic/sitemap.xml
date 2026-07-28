@@ -3,21 +3,41 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://catalyst-awakening.netlify.app/</loc>
-    <lastmod>2026-07-12</lastmod>
+    <lastmod>2026-07-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://design.canva.ai/2WXCujGc81pSOdi</image:loc>
+      <image:loc>https://catalyst-awakening.netlify.app/assets/cover-issue1.webp</image:loc>
       <image:title>Catalyst: The Awakening — Issue #1 Cover</image:title>
       <image:caption>Catalyst: The Awakening Issue #1 — Lagos noir comic book cover featuring Bayo Adeyemi</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://design.canva.ai/PuQ4js2Q-n4sGHC</image:loc>
-      <image:title>Zara — The Mirror, Catalyst Comics character art</image:title>
-      <image:caption>Zara, The Mirror — character art from Catalyst: The Awakening</image:caption>
+      <image:loc>https://catalyst-awakening.netlify.app/assets/bayo-portrait.webp</image:loc>
+      <image:title>Bayo Adeyemi — The Catalyst, Catalyst Comics character art</image:title>
+      <image:caption>Bayo Adeyemi, The Catalyst — character art from Catalyst: The Awakening</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://design.canva.ai/NT0F238ti9sNXlD</image:loc>
+      <image:loc>https://catalyst-awakening.netlify.app/assets/amara-portrait.webp</image:loc>
+      <image:title>Amara Okafor — Thunderstrike, Catalyst Comics character art</image:title>
+      <image:caption>Amara Okafor, Thunderstrike — character art from Catalyst: The Awakening</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://catalyst-awakening.netlify.app/assets/ikenna-portrait.webp</image:loc>
+      <image:title>Ikenna Chukwuemeka — Iron Wolf, Catalyst Comics character art</image:title>
+      <image:caption>Ikenna Chukwuemeka, Iron Wolf — character art from Catalyst: The Awakening</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://catalyst-awakening.netlify.app/assets/oracle-badagry-portrait.webp</image:loc>
+      <image:title>Chief Adesanya Adewale — The Oracle, Catalyst Comics character art</image:title>
+      <image:caption>The Oracle — character art from Catalyst: The Awakening</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://catalyst-awakening.netlify.app/assets/zara-portrait.webp</image:loc>
+      <image:title>Zara Osei — The Mirror, Catalyst Comics character art</image:title>
+      <image:caption>Zara Osei, The Mirror — character art from Catalyst: The Awakening</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://catalyst-awakening.netlify.app/assets/architect-portrait.webp</image:loc>
       <image:title>The Architect — Villain character art, Catalyst Comics</image:title>
       <image:caption>The Architect — antagonist character art from Catalyst: The Awakening</image:caption>
     </image:image>
