@@ -1,9 +1,11 @@
 'use strict';
 
-const CACHE = 'catalyst-v4';
-const IMG_CACHE = 'catalyst-img-v4';
+const CACHE = 'catalyst-v5';
+const IMG_CACHE = 'catalyst-img-v5';
 const IMG_CACHE_MAX = 60;
 const PRECACHE = [
+  '/styles.css',
+  '/script.js',
   '/favicon.svg',
   '/assets/icon-192.png',
   '/assets/icon-512.png',
@@ -68,6 +70,23 @@ self.addEventListener('fetch', e => {
       } catch (err) {
         return (await caches.match(e.request)) || (await caches.match('/')) || Response.error();
       }
+    })());
+    return;
+  }
+
+  // CSS/JS: cache-first with background refresh, so styles.css/script.js
+  // work offline and don't get re-fetched from the network on every load
+  if (dest === 'style' || dest === 'script') {
+    e.respondWith((async () => {
+      const cached = await caches.match(e.request);
+      const net = fetch(e.request).then(r => {
+        if (r.ok) {
+          const c = r.clone();
+          caches.open(CACHE).then(ch => ch.put(e.request, c));
+        }
+        return r;
+      }).catch(() => cached);
+      return cached || net;
     })());
     return;
   }
