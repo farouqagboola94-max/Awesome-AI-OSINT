@@ -1269,9 +1269,9 @@ var TERM_DATA = {
     { t: 0,   txt: '\x1b[red][ ACCESSING FILE: UNKNOWN — CODENAME: THE ARCHITECT ]\n\x1b[/]', cls: 't-red' },
     { t: 300, txt: '\x1b[dim]CLEARANCE REQUIRED: OMEGA — GRANTED — LOGGING THIS ACCESS\n\n\x1b[/]', cls: 't-dim' },
     { t: 800, txt: '\x1b[red]WARNING: Accessing this file is noted. The Architect WILL know.\nThe Architect already knows. The Architect knew before you clicked.\n\n\x1b[/]', cls: 't-red' },
-    { t: 1600,txt: '\x1b[gold]Known facts:\x1b[/]\n\x1b[white]— Real name: erased from every Ifá text in existence\n— Age: 617 years minimum. Upper limit unknown.\n— Achieved Sovereign-tier Aṣẹ: first human ever. Six centuries ago.\n— Current goal: collapse the Orisha-Human accord. Permanently.\n\n\x1b[/]', cls: 't-white' },
-    { t: 2500,txt: '\x1b[dim]He does not fight battles. He writes them.\nEvery war in this city for three hundred years — chapter in his plan.\nEvery hero who rose and fell — chapter in his plan.\nThe Catalyst is the first variable he has not written.\n\n\x1b[/]', cls: 't-dim' },
-    { t: 3300,txt: '\x1b[red]Oracle personal note: I have spoken with him twice.\nOnce in 1847. Once last Thursday.\nBoth times, he already knew what I would say.\nBoth times, he smiled.\nI do not know what to do with this.\x1b[/]', cls: 't-red' },
+    { t: 1600,txt: '\x1b[gold]Known facts:\x1b[/]\n\x1b[white]— Real name: classified — Pale Council scrubbed every record\n— Age: 31\n— Built the Orisha Vaccine. Six weeks from completion.\n— Current goal: collapse the Orisha-Human accord. Permanently.\n\n\x1b[/]', cls: 't-white' },
+    { t: 2500,txt: '\x1b[dim]She does not fight battles. She writes them.\nEvery containment plan since Balogun Nexus — chapter in hers.\nEvery hero who rose and fell — chapter in hers.\nThe Catalyst is the first variable she has not written.\n\n\x1b[/]', cls: 't-dim' },
+    { t: 3300,txt: '\x1b[red]Oracle personal note: I have spoken with her twice.\nOnce at the Balogun briefing. Once last Thursday.\nBoth times, she already knew what I would say.\nBoth times, she smiled.\nI do not know what to do with this.\x1b[/]', cls: 't-red' },
   ],
 };
 
@@ -2310,8 +2310,8 @@ function pvCopyLink() {
     'architect': [
       { t:0,   txt:'> QUERYING: THE ARCHITECT — WARNING ACTIVE\n', cls:'t-red' },
       { t:300, txt:'This query has been logged. The Architect has been notified.\n', cls:'t-red' },
-      { t:700, txt:'617 years. First human Sovereign-tier Aṣẹ. Goal: end the divine.\n', cls:'t-white' },
-      { t:1200,txt:'He does not fight battles. He writes them. Every war in Lagos for 300 years.\n', cls:'t-dim' },
+      { t:700, txt:'Age: 31. Pale Council lead engineer, Orisha Vaccine programme.\n', cls:'t-white' },
+      { t:1200,txt:'She does not fight battles. She writes them. Every containment plan since Balogun Nexus has her signature.\n', cls:'t-dim' },
     ],
     'ase': [
       { t:0,   txt:'> QUERYING: ASẸ SYSTEM — OPEN RECORD\n', cls:'t-gold' },
@@ -3980,7 +3980,7 @@ function pvCopyLink() {
       title: 'THE PRICE OF <em>AṢẸ</em>',
       open: [
         'Every one of the 847 paths Bayo can see ends in the same place: Balogun Nexus, the sky torn open, four strangers who became something more standing exactly where the door used to be.',
-        'The Architect has waited six centuries to make his opening move. He does not fight. He offers. And what he offers each of them is the one thing they want most in the world — priced at the only thing they cannot afford to give.',
+        'The Architect has run the numbers on every one of them. She does not fight. She offers. And what she offers each of them is the one thing they want most in the world — priced at the only thing they cannot afford to give.',
         'Arc I does not end with a victory. It ends with a choice.'
       ],
       pull: 'The city chose four. The Architect only needs one to say yes.'
