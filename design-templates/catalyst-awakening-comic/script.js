@@ -1372,6 +1372,7 @@ function quizShowResult() {
   document.getElementById('result-img').alt = h.name;
   document.querySelectorAll('.quiz-progress')[0].style.display = 'none';
   document.getElementById('quiz-result').classList.add('show');
+  if (window.ClearanceTracker) ClearanceTracker.mark('quiz');
   // Save result to Supabase
   if (window._supabase) {
     try { window._supabase.from('quiz_results').insert({ hero: h.name }).then(function(){}, function(){}); } catch(e) {}
@@ -1421,6 +1422,7 @@ function wrapCanvasText(ctx, text, x, y, maxWidth, lineHeight) {
 }
 
 function generateVesselCard() {
+  if (window.ClearanceTracker) ClearanceTracker.mark('vessel_card');
   var winner = window._lastQuizWinner || 'C';
   var h = QUIZ_HEROES[winner];
   var mid = VESSEL_MID[winner];
@@ -1892,7 +1894,9 @@ var DOSSIERS = {
 document.querySelectorAll('.char-card').forEach(function(card) {
   card.addEventListener('click', function() {
     var key = card.getAttribute('data-dossier');
-    if (!key || !DOSSIERS[key]) return;
+    if (!key) return;
+    if (window.ClearanceTracker) ClearanceTracker.mark('dossier_' + key);
+    if (!DOSSIERS[key]) return;
     dosOpen(DOSSIERS[key]);
   });
 });
@@ -2202,6 +2206,7 @@ function pvCopyLink() {
   function openLocModal(id) {
     var d = LOC_DATA[id];
     if (!d) return;
+    if (window.ClearanceTracker) ClearanceTracker.mark('map_' + id);
     document.getElementById('locModalNum').textContent = d.num;
     document.getElementById('locModalName').textContent = d.name;
     document.getElementById('locModalYoruba').textContent = d.yoruba;
@@ -2370,6 +2375,7 @@ function pvCopyLink() {
     var q = (raw || '').trim().toLowerCase();
     if (!q) return;
     if (inp) inp.value = '';
+    if (window.ClearanceTracker) ClearanceTracker.mark('terminal');
 
     var out = document.getElementById('terminal-out');
     if (!out) return;
@@ -2868,6 +2874,7 @@ function pvCopyLink() {
   window.cfNext = function(){
     round++;
     if(round >= ROSTER.length){
+      if (window.ClearanceTracker) ClearanceTracker.mark('case_file');
       var best = localStorage.getItem(BEST_KEY);
       if(!best || score > parseInt(best,10)){ localStorage.setItem(BEST_KEY, score); best = score; }
       document.getElementById('cfBest').textContent = best+'/'+ROSTER.length;
@@ -3994,6 +4001,7 @@ function pvCopyLink() {
         if (btn) btn.textContent = '✓ Read';
       }
       if (window.showToast) showToast('Issue #' + n + ' complete. The story continues…', 'success', 3500);
+      if (window.ClearanceTracker) ClearanceTracker.render();
     } catch(e) {}
   }
 
@@ -4963,4 +4971,159 @@ function pvCopyLink() {
   document.querySelectorAll('.cover-art-item').forEach(function(card) {
     armTilt(card, 6, 'translateY(-10px) scale(1.025) translateZ(6px)');
   });
+})();
+
+/* ── OPERATIVE CLEARANCE TRACKER ─────────────────────────────
+   Cross-cuts every interactive system on the site (story reader,
+   Lagos map, personnel dossiers, Hero Quiz, Case File, Oracle
+   terminal, Vessel ID card) into one persistent progress meter. */
+window.ClearanceTracker = (function() {
+  var KEY = 'catalyst_clearance_v1';
+
+  var CATEGORIES = [
+    { id: 'story', label: 'Story Archive', items: [
+      { id: 'read_i1', label: 'Issue #01 — read', check: function(){ return !!localStorage.getItem('catalyst_read_1'); } },
+      { id: 'read_i2', label: 'Issue #02 — read', check: function(){ return !!localStorage.getItem('catalyst_read_2'); } },
+      { id: 'read_i3', label: 'Issue #03 — read', check: function(){ return !!localStorage.getItem('catalyst_read_3'); } },
+      { id: 'read_i4', label: 'Issue #04 — read', check: function(){ return !!localStorage.getItem('catalyst_read_4'); } },
+    ]},
+    { id: 'intel', label: 'Field Intel', items: [
+      { id: 'map_balogun', label: 'Balogun Market surveyed' },
+      { id: 'map_eko-atlantic', label: 'Eko Atlantic surveyed' },
+      { id: 'map_mushin', label: 'Mushin surveyed' },
+      { id: 'map_oracle-compound', label: 'Oracle’s Compound surveyed' },
+    ]},
+    { id: 'personnel', label: 'Personnel Files', items: [
+      { id: 'dossier_catalyst', label: 'Catalyst dossier accessed' },
+      { id: 'dossier_thunderstrike', label: 'Thunderstrike dossier accessed' },
+      { id: 'dossier_iron-wolf', label: 'Iron Wolf dossier accessed' },
+      { id: 'dossier_mirror', label: 'The Mirror dossier accessed' },
+      { id: 'dossier_oracle', label: 'Oracle dossier accessed' },
+      { id: 'dossier_architect', label: 'Architect dossier accessed' },
+    ]},
+    { id: 'ops', label: 'Field Operations', items: [
+      { id: 'quiz', label: 'Hero Quiz completed' },
+      { id: 'case_file', label: 'Case File completed' },
+      { id: 'terminal', label: 'Oracle terminal queried' },
+      { id: 'vessel_card', label: 'Vessel ID card generated' },
+      { id: 'vault', label: 'Architect’s Vault located' },
+    ]},
+  ];
+
+  var TIERS = [
+    { min: 0,   name: 'LEVEL 0 — UNVERIFIED', desc: 'The Oracle doesn’t know your name yet. Start exploring.' },
+    { min: 1,   name: 'LEVEL 1 — SYMPATHIZER', desc: 'Noted. The Oracle has opened a file on you.' },
+    { min: 25,  name: 'LEVEL 2 — CONTACT', desc: 'You keep showing up. In this city, that is not nothing.' },
+    { min: 50,  name: 'LEVEL 3 — FIELD ASSET', desc: 'Half the city’s secrets, and you went looking for the rest.' },
+    { min: 75,  name: 'LEVEL 4 — TRUSTED OPERATIVE', desc: 'Very few get this far. The Oracle is paying attention now.' },
+    { min: 100, name: 'LEVEL 5 — OMEGA CLEARANCE', desc: 'Full clearance granted. There is nothing left the Oracle is keeping from you.' },
+  ];
+
+  var manual = {};
+  try { manual = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e) { manual = {}; }
+
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(manual)); } catch(e) {}
+  }
+
+  function isChecked(item) {
+    if (item.check) return !!item.check();
+    return !!manual[item.id];
+  }
+
+  function summary() {
+    var total = 0, done = 0;
+    CATEGORIES.forEach(function(cat) {
+      cat.items.forEach(function(item) {
+        total++;
+        if (isChecked(item)) done++;
+      });
+    });
+    return { total: total, done: done, pct: total ? Math.round((done / total) * 100) : 0 };
+  }
+
+  function tierFor(pct) {
+    var t = TIERS[0];
+    for (var i = 0; i < TIERS.length; i++) { if (pct >= TIERS[i].min) t = TIERS[i]; }
+    return t;
+  }
+
+  function grantOmega() {
+    if (window.showToast) showToast('OMEGA CLEARANCE GRANTED — the Oracle has declassified a file for you.', 'success', 6000);
+    var rewardEl = document.getElementById('clearanceReward');
+    if (rewardEl) rewardEl.style.display = 'block';
+  }
+
+  function render() {
+    var s = summary();
+    var grid = document.getElementById('clearanceGrid');
+    if (grid) {
+      grid.innerHTML = CATEGORIES.map(function(cat) {
+        var rows = cat.items.map(function(item) {
+          var on = isChecked(item);
+          return '<div class="clearance-item' + (on ? ' done' : '') + '">' +
+            '<span class="clearance-item-mark">' + (on ? '✓' : '•') + '</span>' +
+            '<span class="clearance-item-label">' + item.label + '</span>' +
+            '</div>';
+        }).join('');
+        return '<div class="clearance-category"><div class="clearance-cat-label">' + cat.label + '</div>' + rows + '</div>';
+      }).join('');
+    }
+    var tier = tierFor(s.pct);
+    var pctEl = document.getElementById('clearancePct');
+    if (pctEl) pctEl.textContent = s.pct + '%';
+    var tierEl = document.getElementById('clearanceTier');
+    if (tierEl) tierEl.textContent = tier.name.split('—')[0].trim();
+    var nameEl = document.getElementById('clearanceLevelName');
+    if (nameEl) nameEl.textContent = tier.name;
+    var descEl = document.getElementById('clearanceLevelDesc');
+    if (descEl) descEl.textContent = tier.desc;
+    var countEl = document.getElementById('clearanceCount');
+    if (countEl) countEl.textContent = s.done;
+    var totalEl = document.getElementById('clearanceTotal');
+    if (totalEl) totalEl.textContent = s.total;
+    var ring = document.getElementById('clearanceRingFill');
+    if (ring) {
+      var circumference = 2 * Math.PI * 52;
+      ring.style.strokeDasharray = String(circumference);
+      ring.style.strokeDashoffset = String(circumference * (1 - s.pct / 100));
+    }
+    if (s.pct === 100) {
+      var rewardEl = document.getElementById('clearanceReward');
+      if (rewardEl) rewardEl.style.display = 'block';
+    }
+    return s;
+  }
+
+  function mark(id) {
+    if (manual[id]) return;
+    manual[id] = 1;
+    save();
+    var s = render();
+    if (s.pct === 100 && !manual._rewarded) {
+      manual._rewarded = 1;
+      save();
+      grantOmega();
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', render);
+  if (document.readyState === 'complete' || document.readyState === 'interactive') render();
+
+  return { mark: mark, render: render, summary: summary };
+})();
+
+/* Architect's Vault visited — IntersectionObserver, mirrors chronicle-timeline pattern */
+(function() {
+  var vault = document.getElementById('architects-vault');
+  if (!vault || !window.IntersectionObserver) return;
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting && window.ClearanceTracker) {
+        ClearanceTracker.mark('vault');
+        obs.disconnect();
+      }
+    });
+  }, { threshold: 0.2 });
+  obs.observe(vault);
 })();

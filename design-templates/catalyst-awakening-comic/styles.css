@@ -6826,6 +6826,151 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 @media (max-width: 900px) {
   .vault-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ── OPERATIVE CLEARANCE ──────────────────────────────────── */
+#clearance { padding: 7rem 1.5rem; background: rgba(0,0,0,0.35); }
+.clearance-wrap { max-width: 1100px; margin: 0 auto; }
+
+.clearance-meter {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  max-width: 640px;
+  margin: 3rem auto 0;
+  padding: 1.8rem 2rem;
+  background: rgba(6,6,13,0.55);
+  border: 1px solid rgba(0,201,177,0.25);
+  clip-path: polygon(14px 0%, 100% 0%, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0% 100%);
+}
+.clearance-ring-wrap { position: relative; width: 116px; height: 116px; flex-shrink: 0; }
+.clearance-ring { width: 100%; height: 100%; transform: rotate(-90deg); }
+.clearance-ring-bg, .clearance-ring-fill {
+  fill: none;
+  stroke-width: 8;
+}
+.clearance-ring-bg { stroke: rgba(240,237,229,0.1); }
+.clearance-ring-fill {
+  stroke: var(--orisha-teal);
+  stroke-linecap: round;
+  stroke-dasharray: 326.7;
+  stroke-dashoffset: 326.7;
+  transition: stroke-dashoffset 0.6s cubic-bezier(0.4,0,0.2,1);
+}
+.clearance-ring-label {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.clearance-pct {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.7rem;
+  color: var(--danfo-gold);
+  line-height: 1;
+}
+.clearance-tier {
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  color: var(--orisha-teal);
+  margin-top: 0.3rem;
+}
+.clearance-summary { flex: 1; min-width: 0; }
+.clearance-level-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.15rem;
+  letter-spacing: 0.05em;
+  color: var(--bone-white);
+  margin-bottom: 0.5rem;
+}
+.clearance-level-desc {
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: rgba(240,237,229,0.6);
+  margin-bottom: 0.6rem;
+}
+.clearance-count {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: rgba(240,237,229,0.4);
+  text-transform: uppercase;
+}
+.clearance-count span { color: var(--danfo-gold); font-weight: 700; }
+
+.clearance-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.2rem;
+  max-width: 1100px;
+  margin: 3rem auto 0;
+}
+.clearance-category {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 1.1rem 1.2rem;
+}
+.clearance-cat-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  color: var(--danfo-gold);
+  margin-bottom: 0.7rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.clearance-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: rgba(240,237,229,0.35);
+  padding: 0.3rem 0;
+  transition: color 0.3s;
+}
+.clearance-item-mark {
+  flex-shrink: 0;
+  width: 1rem;
+  font-family: monospace;
+  color: rgba(240,237,229,0.25);
+}
+.clearance-item.done { color: rgba(240,237,229,0.85); }
+.clearance-item.done .clearance-item-mark { color: var(--orisha-teal); }
+
+.clearance-reward {
+  max-width: 640px;
+  margin: 3rem auto 0;
+  padding: 2rem 2.2rem;
+  background: rgba(244,184,0,0.05);
+  border: 1px solid rgba(244,184,0,0.4);
+  text-align: center;
+  animation: clearanceRewardIn 0.6s ease-out;
+}
+@keyframes clearanceRewardIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.clearance-reward-stamp {
+  display: inline-block;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  color: var(--danfo-gold);
+  border: 2px solid rgba(244,184,0,0.5);
+  padding: 0.3rem 0.8rem;
+  margin-bottom: 1.2rem;
+  transform: rotate(-2deg);
+}
+.clearance-reward-text {
+  font-size: 0.85rem;
+  line-height: 1.9;
+  color: rgba(240,237,229,0.75);
+}
+@media (max-width: 900px) {
+  .clearance-grid { grid-template-columns: repeat(2, 1fr); }
+  .clearance-meter { flex-direction: column; text-align: center; gap: 1.2rem; }
+  .clearance-summary { text-align: center; }
+}
+@media (max-width: 560px) {
+  .clearance-grid { grid-template-columns: 1fr; }
+}
 @media (max-width: 600px) {
   .vault-grid { grid-template-columns: 1fr; }
   .vault-card { height: 220px; }

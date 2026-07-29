@@ -367,6 +367,7 @@
     <li><a href="#read">Read Free</a></li>
     <li><a href="#lore">Lore</a></li>
         <li><a href="#illustrated">Gallery</a></li>
+    <li><a href="#clearance">Clearance</a></li>
     <li><a href="#architects-vault">Vault</a></li>
     <li><a href="#access" class="nav-cta">Subscribe</a></li>
   </ul>
@@ -518,6 +519,7 @@
   <a href="#read" onclick="toggleMobileNav()">Read Free</a>
   <a href="#lore" onclick="toggleMobileNav()">Lore</a>
   <a href="#illustrated" onclick="toggleMobileNav()">Gallery</a>
+  <a href="#clearance" onclick="toggleMobileNav()">Clearance</a>
   <a href="#architects-vault" onclick="toggleMobileNav()">Vault 🔓</a>
   <a href="#access" class="nav-cta-mobile" onclick="toggleMobileNav()">Subscribe ✦</a>
 </nav>
@@ -5393,6 +5395,41 @@
       </div>
     </div>
 
+  </div>
+</section>
+
+<!-- ============================================================ OPERATIVE CLEARANCE -->
+
+<section id="clearance">
+  <div class="clearance-wrap">
+    <p class="section-label reveal" style="justify-content:center">Oracle Intelligence Collective</p>
+    <h2 class="section-title reveal" style="text-align:center">YOUR <em>CLEARANCE</em> FILE</h2>
+    <p class="reveal" style="max-width:560px;margin:1rem auto 0;font-size:0.88rem;line-height:1.8;color:rgba(240,237,229,0.6);text-align:center;">Every operative who explores this city leaves a trail. The Oracle is watching yours. Nineteen field markers, five clearance tiers — see how deep you've gone.</p>
+
+    <div class="clearance-meter reveal">
+      <div class="clearance-ring-wrap">
+        <svg class="clearance-ring" viewBox="0 0 120 120" aria-hidden="true">
+          <circle class="clearance-ring-bg" cx="60" cy="60" r="52"></circle>
+          <circle class="clearance-ring-fill" id="clearanceRingFill" cx="60" cy="60" r="52"></circle>
+        </svg>
+        <div class="clearance-ring-label">
+          <div class="clearance-pct" id="clearancePct">0%</div>
+          <div class="clearance-tier" id="clearanceTier">LEVEL 0</div>
+        </div>
+      </div>
+      <div class="clearance-summary">
+        <div class="clearance-level-name" id="clearanceLevelName">LEVEL 0 — UNVERIFIED</div>
+        <div class="clearance-level-desc" id="clearanceLevelDesc">The Oracle doesn't know your name yet. Start exploring.</div>
+        <div class="clearance-count"><span id="clearanceCount">0</span> / <span id="clearanceTotal">19</span> field markers logged</div>
+      </div>
+    </div>
+
+    <div class="clearance-grid reveal" id="clearanceGrid"></div>
+
+    <div class="clearance-reward" id="clearanceReward" style="display:none;">
+      <div class="clearance-reward-stamp">OMEGA CLEARANCE GRANTED</div>
+      <p class="clearance-reward-text">TRANSMISSION 007 / UNLOGGED — DECLASSIFIED FOR YOU ALONE:<br><br><em>"You have been thorough. More thorough than most operatives who claim clearance they haven't earned. I noted the order you did this in — Balogun before Mushin, the Architect's file before mine, four minutes' hesitation before Zara's. It tells me things you didn't mean to say. Welcome to actual clearance. I will be in touch."</em><br><br>— The Oracle</p>
+    </div>
   </div>
 </section>
 
