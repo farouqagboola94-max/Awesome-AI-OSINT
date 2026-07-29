@@ -361,6 +361,7 @@
     <li><a href="#arcs">Arcs</a></li>
     <li><a href="#cover-gallery">Covers</a></li>
     <li><a href="#villains">Villains</a></li>
+    <li><a href="#combat-sim">Combat Sim</a></li>
     <li><a href="#characters">Heroes</a></li>
     <li><a href="#realms">Realms</a></li>
     <li><a href="#codex">Codex</a></li>
@@ -514,6 +515,7 @@
   <a href="#characters" onclick="toggleMobileNav()">Heroes</a>
   <a href="#cover-gallery" onclick="toggleMobileNav()">Covers</a>
   <a href="#villains" onclick="toggleMobileNav()">Villains</a>
+  <a href="#combat-sim" onclick="toggleMobileNav()">Combat Sim</a>
   <a href="#realms" onclick="toggleMobileNav()">Realms</a>
   <a href="#codex" onclick="toggleMobileNav()">Codex</a>
   <a href="#read" onclick="toggleMobileNav()">Read Free</a>
@@ -2819,13 +2821,49 @@
   </div>
 </section>
 
+<!-- ══════════════════════════════════════ AṢẸ COMBAT SIMULATOR -->
 
-<!-- ══════════════════════════════════════ POWER TIER LEADERBOARD -->
-<!-- ════ FACTION DOSSIER WALL ════ -->
+<section id="combat-sim">
+  <div class="cs-wrap">
+    <p class="section-label reveal" style="justify-content:center">Oracle Intelligence Collective — Simulation Engine</p>
+    <h2 class="section-title reveal" style="text-align:center">AṢẸ COMBAT<br><em>SIMULATOR</em></h2>
+    <p class="reveal" style="max-width:580px;margin:1rem auto 0;font-size:0.9rem;line-height:1.8;color:rgba(240,237,229,0.55);text-align:center;">Pick any two combatants — hero or villain. Every rating below is pulled straight from their own dossier and threat-level files. Nothing here is invented. The odds are real. The outcome isn't guaranteed.</p>
+
+    <div class="cs-picker reveal">
+      <div class="cs-side" id="csSideA">
+        <div class="cs-side-label">FIGHTER ONE</div>
+        <div class="cs-roster" id="csRosterA" role="listbox" aria-label="Choose Fighter One"></div>
+      </div>
+      <div class="cs-vs">
+        <div class="cs-vs-text">VS</div>
+        <button class="cs-fight-btn" id="csFightBtn" disabled>SIMULATE</button>
+      </div>
+      <div class="cs-side" id="csSideB">
+        <div class="cs-side-label">FIGHTER TWO</div>
+        <div class="cs-roster" id="csRosterB" role="listbox" aria-label="Choose Fighter Two"></div>
+      </div>
+    </div>
+
+    <div class="cs-result" id="csResult">
+      <div class="cs-result-header">
+        <div class="cs-result-fighter" id="csResultA"></div>
+        <div class="cs-result-odds" id="csResultOdds"></div>
+        <div class="cs-result-fighter" id="csResultB"></div>
+      </div>
+      <div class="cs-log" id="csLog"></div>
+      <div class="cs-verdict" id="csVerdict" style="display:none;">
+        <div class="cs-verdict-stamp" id="csVerdictStamp"></div>
+        <div class="cs-verdict-text" id="csVerdictText"></div>
+      </div>
+      <div class="cs-result-actions" id="csResultActions" style="display:none;">
+        <button class="cs-again-btn" onclick="csRunAgain()">RUN IT BACK</button>
+        <button class="cs-share-btn" onclick="csShareResult()">↗ SHARE RESULT</button>
+      </div>
+    </div>
+  </div>
+</section>
 
 <div class="energy-beam-divider" aria-hidden="true"></div>
-
-<!-- ══════════════════════════════════════ ASẸ BATTLE SIMULATOR -->
 
 <section id="hero-quiz">
   <div class="quiz-wrap">
@@ -5404,7 +5442,7 @@
   <div class="clearance-wrap">
     <p class="section-label reveal" style="justify-content:center">Oracle Intelligence Collective</p>
     <h2 class="section-title reveal" style="text-align:center">YOUR <em>CLEARANCE</em> FILE</h2>
-    <p class="reveal" style="max-width:560px;margin:1rem auto 0;font-size:0.88rem;line-height:1.8;color:rgba(240,237,229,0.6);text-align:center;">Every operative who explores this city leaves a trail. The Oracle is watching yours. Nineteen field markers, five clearance tiers — see how deep you've gone.</p>
+    <p class="reveal" style="max-width:560px;margin:1rem auto 0;font-size:0.88rem;line-height:1.8;color:rgba(240,237,229,0.6);text-align:center;">Every operative who explores this city leaves a trail. The Oracle is watching yours. Twenty field markers, five clearance tiers — see how deep you've gone.</p>
 
     <div class="clearance-meter reveal">
       <div class="clearance-ring-wrap">
@@ -5420,7 +5458,7 @@
       <div class="clearance-summary">
         <div class="clearance-level-name" id="clearanceLevelName">LEVEL 0 — UNVERIFIED</div>
         <div class="clearance-level-desc" id="clearanceLevelDesc">The Oracle doesn't know your name yet. Start exploring.</div>
-        <div class="clearance-count"><span id="clearanceCount">0</span> / <span id="clearanceTotal">19</span> field markers logged</div>
+        <div class="clearance-count"><span id="clearanceCount">0</span> / <span id="clearanceTotal">20</span> field markers logged</div>
       </div>
     </div>
 

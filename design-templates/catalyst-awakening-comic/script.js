@@ -5007,6 +5007,7 @@ window.ClearanceTracker = (function() {
       { id: 'terminal', label: 'Oracle terminal queried' },
       { id: 'vessel_card', label: 'Vessel ID card generated' },
       { id: 'vault', label: 'Architect’s Vault located' },
+      { id: 'battle_sim', label: 'Combat Simulator run' },
     ]},
   ];
 
@@ -5126,4 +5127,150 @@ window.ClearanceTracker = (function() {
     });
   }, { threshold: 0.2 });
   obs.observe(vault);
+})();
+
+/* ── AṢẸ COMBAT SIMULATOR ─────────────────────────────────────
+   Every rating below is pulled directly from an already-published
+   number on the site (DOSSIERS 4-stat averages for the four heroes
+   with full dossiers, Zara's character-card stat average, and each
+   villain's own Threat Level % from the villains section) — nothing
+   here is invented. Two entries share the "The Mirror" codename (a
+   pre-existing naming collision between Zara's hero alias and a
+   separate Dark Assembly villain) — disambiguated in the roster
+   labels so the simulator doesn't compound the site's confusion. */
+var CS_ROSTER = [
+  { id: 'bayo', name: 'BAYO — CATALYST', side: 'hero', img: './assets/bayo-portrait.webp', rating: 83, move: 'channels raw, unfiltered Aṣẹ output', source: 'Dossier avg — Power 82 · Speed 61 · Intelligence 88 · Aṣẹ Output 100' },
+  { id: 'amara', name: 'AMARA — THUNDERSTRIKE', side: 'hero', img: './assets/amara-portrait.webp', rating: 86, move: 'unleashes a Ṣàngó thunder-arc', source: 'Dossier avg — Power 91 · Speed 94 · Intelligence 82 · Aṣẹ Output 78' },
+  { id: 'ikenna', name: 'IKENNA — IRON WOLF', side: 'hero', img: './assets/ikenna-portrait.webp', rating: 80, move: 'raises Ògún’s iron guard', source: 'Dossier avg — Power 86 · Speed 100 · Intelligence 80 · Aṣẹ Output 55' },
+  { id: 'zara', name: 'ZARA — THE MIRROR (HERO)', side: 'hero', img: './assets/zara-portrait.webp', rating: 91, move: 'vanishes into total invisibility', source: 'Card avg — Aṣẹ 78 · Speed 92 · Stealth 99 · Intel 95' },
+  { id: 'oracle', name: 'THE ORACLE', side: 'hero', img: './assets/oracle-badagry-portrait.webp', rating: 60, move: 'reads the fight forty moves ahead', source: 'Dossier avg — Power 32 · Speed 20 · Intelligence 100 · Knowledge Aṣẹ 89' },
+  { id: 'architect', name: 'THE ARCHITECT', side: 'villain', img: './assets/architect-portrait.webp', rating: 98, move: 'reroutes the fight three moves ahead of the first hit', source: 'Villain file — Threat Level 98%' },
+  { id: 'mirror-v', name: 'THE MIRROR (DARK ASSEMBLY)', side: 'villain', img: './assets/mirror-villain-portrait.webp', rating: 90, move: 'perfectly mimics the opponent’s last technique', source: 'Villain file — Threat Level 90%' },
+  { id: 'hollow-king', name: 'HOLLOW KING', side: 'villain', img: './assets/hollow-king-portrait.webp', rating: 84, move: 'drains Aṣẹ through Soul Harvest', source: 'Villain file — Threat Level 84%' },
+  { id: 'mother-storm', name: 'MOTHER STORM', side: 'villain', img: './assets/shipyard.webp', rating: 79, move: 'rips open a corrupted Ọ̀run Rift', source: 'Villain file — Threat Level 79%' },
+  { id: 'iron-preacher', name: 'IRON PREACHER', side: 'villain', img: './assets/iron-preacher-portrait.webp', rating: 72, move: 'summons Iron Constructs on the Ògún Wrath doctrine', source: 'Villain file — Threat Level 72%' },
+];
+
+(function() {
+  var rosterA = document.getElementById('csRosterA');
+  var rosterB = document.getElementById('csRosterB');
+  var fightBtn = document.getElementById('csFightBtn');
+  if (!rosterA || !rosterB || !fightBtn) return;
+
+  var selA = null, selB = null, lastResult = null;
+
+  function renderRoster(container) {
+    container.innerHTML = CS_ROSTER.map(function(f) {
+      return '<button type="button" class="cs-fighter-btn" data-id="' + f.id + '" title="' + f.source + '">' +
+        '<img src="' + f.img + '" alt="' + f.name + '" loading="lazy">' +
+        '<span class="cs-fighter-name">' + f.name + '</span>' +
+        '<span class="cs-fighter-rating">' + f.rating + '</span>' +
+        '</button>';
+    }).join('');
+  }
+  renderRoster(rosterA);
+  renderRoster(rosterB);
+
+  function updateSelection() {
+    Array.prototype.forEach.call(rosterA.querySelectorAll('.cs-fighter-btn'), function(b) {
+      b.classList.toggle('selected', selA === b.getAttribute('data-id'));
+    });
+    Array.prototype.forEach.call(rosterB.querySelectorAll('.cs-fighter-btn'), function(b) {
+      b.classList.toggle('selected', selB === b.getAttribute('data-id'));
+    });
+    fightBtn.disabled = !(selA && selB && selA !== selB);
+  }
+
+  rosterA.addEventListener('click', function(e) {
+    var btn = e.target.closest ? e.target.closest('.cs-fighter-btn') : null;
+    if (!btn) return;
+    selA = btn.getAttribute('data-id');
+    updateSelection();
+  });
+  rosterB.addEventListener('click', function(e) {
+    var btn = e.target.closest ? e.target.closest('.cs-fighter-btn') : null;
+    if (!btn) return;
+    selB = btn.getAttribute('data-id');
+    updateSelection();
+  });
+
+  function getFighter(id) {
+    for (var i = 0; i < CS_ROSTER.length; i++) { if (CS_ROSTER[i].id === id) return CS_ROSTER[i]; }
+    return null;
+  }
+
+  function fighterChip(f) {
+    return '<img src="' + f.img + '" alt="' + f.name + '"><span>' + f.name + '</span><span class="cs-rating">' + f.rating + '</span>';
+  }
+
+  function runSim() {
+    if (!selA || !selB || selA === selB) return;
+    var A = getFighter(selA), B = getFighter(selB);
+    var pA = A.rating / (A.rating + B.rating);
+    var winner = Math.random() < pA ? A : B;
+    var loser = winner === A ? B : A;
+    var margin = Math.abs(A.rating - B.rating);
+    var closerText = margin < 8
+      ? 'A close one. Either fighter could have taken this.'
+      : (winner.rating > loser.rating ? 'A decisive result — the numbers favoured this outcome.' : 'An upset. The numbers said otherwise.');
+
+    lastResult = { A: A, B: B, winner: winner, loser: loser };
+
+    var resultEl = document.getElementById('csResult');
+    resultEl.classList.add('show');
+    document.getElementById('csResultA').innerHTML = fighterChip(A);
+    document.getElementById('csResultB').innerHTML = fighterChip(B);
+    document.getElementById('csResultOdds').textContent = Math.round(pA * 100) + '% / ' + Math.round((1 - pA) * 100) + '%';
+
+    var log = document.getElementById('csLog');
+    log.innerHTML = '';
+    var verdict = document.getElementById('csVerdict');
+    verdict.style.display = 'none';
+    document.getElementById('csResultActions').style.display = 'none';
+
+    var lines = [
+      A.name + ' ' + A.move + '.',
+      B.name + ' ' + B.move + '.',
+      winner.name + ' comes out on top. ' + closerText,
+    ];
+    var delay = 300;
+    lines.forEach(function(line, i) {
+      setTimeout(function() {
+        var p = document.createElement('div');
+        p.className = 'cs-log-line';
+        p.textContent = line;
+        log.appendChild(p);
+        if (i === lines.length - 1) {
+          setTimeout(function() {
+            document.getElementById('csVerdictStamp').textContent = winner.name + ' WINS';
+            document.getElementById('csVerdictStamp').className = 'cs-verdict-stamp ' + (winner.side === 'villain' ? 'cs-stamp-villain' : 'cs-stamp-hero');
+            document.getElementById('csVerdictText').textContent = winner.side === 'villain'
+              ? 'The Dark Assembly logs this as a confirmed victory.'
+              : 'The Oracle logs this as a confirmed hero victory.';
+            verdict.style.display = 'block';
+            document.getElementById('csResultActions').style.display = 'flex';
+            if (window.ClearanceTracker) ClearanceTracker.mark('battle_sim');
+          }, 500);
+        }
+      }, delay);
+      delay += 900;
+    });
+
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  fightBtn.addEventListener('click', runSim);
+  window.csRunAgain = function() { if (selA && selB) runSim(); };
+
+  window.csShareResult = function() {
+    if (!lastResult) return;
+    var txt = 'AṢẸ COMBAT SIMULATOR: ' + lastResult.winner.name + ' defeated ' + lastResult.loser.name + '. Run your own matchup free: https://catalyst-awakening.netlify.app/#combat-sim';
+    if (navigator.share) {
+      navigator.share({ title: 'Aṣẹ Combat Simulator', text: txt }).catch(function() {});
+    } else if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(function() {
+        if (window.showToast) showToast('Result copied — share it!', 'success', 2500);
+      }).catch(function() {});
+    }
+  };
 })();
