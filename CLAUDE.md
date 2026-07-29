@@ -49,7 +49,13 @@ design-templates/
 
 ## The awesome list (README.md)
 
-- Follow standard awesome-list conventions: entries are `[Title](URL)` links with two trailing spaces for line breaks, grouped under `##`/`###` headings (Articles and videos → per-tool subsections like ChatGPT, Grok, Claude; Tools; etc.).
+- Follow standard awesome-list conventions: entries are `[Title](URL)` links with **two trailing spaces** for line breaks, grouped under `##`/`###` headings. Top-level `##` sections are separated by `---------` rules.
+- Current top-level sections and their `###` subsections:
+  - **Articles and videos** — Universal, ChatGPT, Grok, Claude, AI comparisons, Anti AI
+  - **Skills and templates** — Claude, OpenClaw
+  - **MCP servers**
+  - **Tools** — AI image search/identification, ChatGPT based online tools, IP search engines AI, AI GEOINT, AI worldwide events monitoring dashboards, Face search/analysis tools, Subdomain enumeration/search, Username search, Google Dorks AI tools, Contacts search/leads generation, AI generated content detection, Multitask AI Tools, Command line/self hosted tools
+- Some entries carry a trailing `- description` (e.g. `- self-hosted`, `- online`) or UTM params; leave those as-is.
 - Add new entries to the appropriate existing section rather than creating new top-level sections.
 - Do not remove existing entries when adding new ones.
 
