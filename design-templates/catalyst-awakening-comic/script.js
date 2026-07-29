@@ -1782,7 +1782,7 @@ var DISPATCHES = [
   {
     loc: 'ORACLE\'S COMPOUND — LOCATION CLASSIFIED',
     num: 'TRANSMISSION 006 / 006',
-    body: 'The Oracle does not sleep.<br><br>He has not slept in forty-three years. He says this calmly, the way one says they have not eaten meat, or have not been to the cinema in a while.<br><br>He says it is because the city never sleeps, and someone has to be watching. He says it is because every time he closes his eyes, he sees six hundred years of choices replaying, and some of them he is not finished examining yet.<br><br>He says he does not mind. He has good tea. He has good books. He has a window that faces the lagoon, and at 4 AM the water turns a colour that has no name in any language he has found yet.<br><br><em>He is looking for the name. He thinks he is close.</em>'
+    body: 'The Oracle does not sleep.<br><br>He has not slept in forty-three years. He says this calmly, the way one says they have not eaten meat, or have not been to the cinema in a while.<br><br>He says it is because the city never sleeps, and someone has to be watching. He says it is because every time he closes his eyes, he sees 144 years of choices replaying, and some of them he is not finished examining yet.<br><br>He says he does not mind. He has good tea. He has good books. He has a window that faces the lagoon, and at 4 AM the water turns a colour that has no name in any language he has found yet.<br><br><em>He is looking for the name. He thinks he is close.</em>'
   }
 ];
 
@@ -2481,7 +2481,7 @@ function pvCopyLink() {
     var arc2El = document.getElementById('arc2-teaser');
     var qEl    = document.getElementById('arc2CinQInner');
     var qTyped = false;
-    var ARC2_QUOTE = '"The Architect\'s file arrived at 4:17 AM. The Oracle went pale for the first time in six hundred years. \"This one,\" he said very quietly. \"This one we were not ready for.\"  He was wrong. They were ready for nothing that came next."';
+    var ARC2_QUOTE = '"The Architect\'s file arrived at 4:17 AM. The Oracle went pale for the first time in 144 years. \"This one,\" he said very quietly. \"This one we were not ready for.\"  He was wrong. They were ready for nothing that came next."';
 
     if (arc2El && qEl) {
       var qObs = new IntersectionObserver(function(entries) {
@@ -2660,7 +2660,7 @@ function pvCopyLink() {
       description: 'Ọ̀ṣun commands fresh water — rivers, tears, blood, rain. She is beauty and grief and the space between them. She was the only female Orisha excluded from the original divine council. When they ignored her, the world dried. They never ignored her again.',
       manifests: 'The Lagoon\'s water flowing upward in certain locations. Tears that heal minor wounds. Water sources in Mushin that never go dry even in drought years. A honey-amber light visible in the lagoon at night.',
       vessel: 'ORACLE (secondary resonance) · No primary vessel identified yet',
-      intel: '"She is the only Orisha who has spoken to me directly, in full sentences, in my six hundred years. She told me the Catalyst was coming in 2003. She told me the name of his mother. She told me not to interfere too soon. I have spent twenty years trying to understand what too soon means." — Oracle',
+      intel: '"She is the only Orisha who has spoken to me directly, in full sentences, in my 144 years. She told me the Catalyst was coming in 2003. She told me the name of his mother. She told me not to interfere too soon. I have spent twenty years trying to understand what too soon means." — Oracle',
       appearances: '▸ Issue #01 — Lagoon scene, amber light beneath the surface\n▸ Issue #04 — Oracle\'s compound, water responds to Bayo\'s presence',
     },
     obatala: {
@@ -2820,7 +2820,7 @@ function pvCopyLink() {
     { name: 'Amara — Thunderstrike', clue: 'Lightning-speed precision fighter. Discharges arc between multiple targets. Speed advantage is decisive in open terrain.' },
     { name: 'Ikenna — Iron Wolf', clue: 'Near-invulnerable defence, blessed by Ògún\'s iron. Can absorb enormous punishment. Loses the edge against faster opponents.' },
     { name: 'Zara Osei — The Mirror', clue: 'Vessel of Ògún\'s road-clearing aspect. Works the perimeter unseen. "Tell the Architect Lagos says no."' },
-    { name: 'The Oracle', clue: 'Has watched this city for six centuries. Knows every secret it thinks it has buried.' },
+    { name: 'The Oracle', clue: 'Has watched this city for 144 years. Knows every secret it thinks it has buried.' },
     { name: 'The Architect', clue: 'Weaponised Aṣẹ extraction, decades of refinement. Field-tested against multiple awakened individuals simultaneously. No confirmed weaknesses on record.' }
   ];
   var BEST_KEY = 'catalyst_cf_best';
