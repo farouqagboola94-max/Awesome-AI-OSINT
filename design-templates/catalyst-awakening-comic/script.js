@@ -2226,30 +2226,8 @@ function pvCopyLink() {
   }
   document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLocModal(); });
 
-  // ═══════════════════════════════════════════════════════════════
-  // ACTIVE NAV — highlight link for the section currently in view
-  // ═══════════════════════════════════════════════════════════════
-  (function() {
-    var navLinks = Array.from(document.querySelectorAll('.nav-links a[href^="#"]'));
-    var sections = navLinks.map(function(a) {
-      var id = a.getAttribute('href').slice(1);
-      return document.getElementById(id);
-    });
-    function setActive(id) {
-      navLinks.forEach(function(a) {
-        var match = a.getAttribute('href') === '#' + id;
-        a.classList.toggle('nav-active', match);
-      });
-    }
-    if ('IntersectionObserver' in window) {
-      var navObs = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) setActive(entry.target.id);
-        });
-      }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
-      sections.forEach(function(s) { if (s) navObs.observe(s); });
-    }
-  })();
+  // Nav-link active-state highlighting: see the "Scrollspy" block further
+  // down — it's the only place .nav-active should be toggled from.
 
   // ═══════════════════════════════════════════════════════════════
   // MOBILE NAV — auto-close on scroll
@@ -3045,10 +3023,18 @@ function pvCopyLink() {
   });
 
   function updateSpy() {
+    // Picks the qualifying section closest to (at or above) the current
+    // scroll position — NOT simply the last one iterated. Nav-link order
+    // doesn't match document order for every entry (e.g. "Heroes" links to
+    // #characters, which sits earlier in the page than #villains, even
+    // though "Villains" appears first in the nav list), so overwriting on
+    // every match in array order previously locked onto whichever mismatched
+    // section happened to be iterated last, not whichever was actually
+    // nearest on screen.
     var scrollY = window.pageYOffset || document.documentElement.scrollTop;
     var active = null;
     sections.forEach(function(s) {
-      if (s.el.offsetTop - 120 <= scrollY) active = s;
+      if (s.el.offsetTop - 120 <= scrollY && (!active || s.el.offsetTop > active.el.offsetTop)) active = s;
     });
     navLinks.forEach(function(a) { a.classList.remove('nav-active'); });
     if (active) active.a.classList.add('nav-active');
