@@ -1233,7 +1233,7 @@ var TERM_DATA = {
     { t: 1100,txt: '\x1b[green]> CONNECTION ESTABLISHED\n\x1b[/]', cls: '' },
     { t: 1400,txt: '> VERIFYING CLEARANCE LEVEL...\n', cls: '' },
     { t: 1900,txt: '\x1b[gold]> LEVEL 5 GRANTED — WELCOME, OPERATIVE\n\n\x1b[/]', cls: 't-gold' },
-    { t: 2200,txt: '\x1b[dim]The Oracle has been monitoring this city for 617 years.\nHe has seen three wars, six Ọ̀run-Bleeds, and eleven false Catalysts.\nHe says this one is different. He will not say why.\n\n\x1b[/]', cls: 't-dim' },
+    { t: 2200,txt: '\x1b[dim]The Oracle has been monitoring this city for 144 years.\nHe has seen three wars, six Ọ̀run-Bleeds, and eleven false Catalysts.\nHe says this one is different. He will not say why.\n\n\x1b[/]', cls: 't-dim' },
     { t: 3000,txt: '\x1b[white]"The city breathes. The city remembers. The city has been waiting\nfor something it cannot name. Tonight, it is very close to naming it."\n\x1b[/]', cls: 't-white' },
     { t: 3800,txt: '\n\x1b[dim]— Oracle, classification: UNKNOWN — filed 03:14 hrs, this morning\n\n\x1b[/]', cls: 't-dim' },
     { t: 4200,txt: '\x1b[gold]SELECT A FILE ABOVE TO ACCESS CLASSIFIED RECORDS ↑\x1b[/]', cls: 't-gold' },
@@ -1828,11 +1828,11 @@ var DOSSIERS = {
     notes: 'Subject does not amplify Aṣẹ — he MULTIPLIES it. Classified as existential variable by Pale Council. The Architect has reviewed his file seven times. Oracle\'s assessment: "Do not tell him yet. He is not ready. The city doesn\'t care."'
   },
   thunderstrike: {
-    name: 'AMARA IBRAHIM',
+    name: 'AMARA OKAFOR',
     codename: 'CODENAME: THUNDERSTRIKE  ◈  TIER: ALPHA',
     stamp: 'ARMED',
     fields: [
-      { label: 'REAL NAME', val: 'Amara Ibrahim' },
+      { label: 'REAL NAME', val: 'Amara Okafor' },
       { label: 'AGE', val: '23' },
       { label: 'DISTRICT', val: 'Victoria Island (safehouse)' },
       { label: 'STATUS', val: '⚡ ACTIVE — ARMED' },
@@ -1848,11 +1848,11 @@ var DOSSIERS = {
     notes: 'Sustained output: 12,000V (unverified ceiling). Flight altitude: 3,400m. Speed: Mach 0.82 observed. Is correct approximately 94% of the time. The remaining 6% has been witnessed. We do not discuss it.'
   },
   'iron-wolf': {
-    name: 'IKENNA OKAFOR',
+    name: 'IKENNA CHUKWUEMEKA',
     codename: 'CODENAME: IRON WOLF  ◈  TIER: ALPHA',
     stamp: 'DANGER',
     fields: [
-      { label: 'REAL NAME', val: 'Ikenna Okafor' },
+      { label: 'REAL NAME', val: 'Ikenna Chukwuemeka' },
       { label: 'AGE', val: '26' },
       { label: 'DISTRICT', val: 'Unknown — last: Iron District' },
       { label: 'STATUS', val: '⚠ SEMI-HOSTILE' },
@@ -1868,13 +1868,13 @@ var DOSSIERS = {
     notes: 'Father: 14-generation Ògún ironsmith lineage — killed in Iron District during Pale Council operation. Do NOT mention the father. Not even as strategy. The Architect has attempted recruitment three times. Fourth approach is imminent. Outcome: uncertain.'
   },
   oracle: {
-    name: 'ZARA ADENIYI',
+    name: 'ADESANYA ADEWALE',
     codename: 'CODENAME: THE ORACLE  ◈  TIER: SOVEREIGN',
     stamp: 'CLASSIFIED',
     fields: [
-      { label: 'KNOWN NAME', val: 'Zara Adeniyi (current vessel)' },
-      { label: 'TRUE AGE', val: '617+ years' },
-      { label: 'VESSEL AGE', val: '28' },
+      { label: 'REAL NAME', val: 'Chief Adesanya Adewale' },
+      { label: 'AGE', val: '144' },
+      { label: 'DISTRICT', val: 'Idumota' },
       { label: 'LOCATION', val: '████ CLASSIFIED ████', red: true },
       { label: 'ASẸ CLASS', val: 'Ìmọ̀lẹ̀ Sovereign — Knowledge Tier' },
       { label: 'STATUS', val: '⚠ DO NOT ENGAGE — EVER' },
@@ -2272,7 +2272,7 @@ function pvCopyLink() {
       { t: 1000,txt: 'Age: 27. Origin: ERASED from Ifá records.\nPassport: Three nationalities, all legitimate, all impossible.\nOccupation declared: "Photographer." (Unverified.)\n\n', cls: 't-white' },
       { t: 1800,txt: 'Unique classification: Subject has attended 2 confirmed Pale Council briefings\nundetected. The Pale Council does not know this.\nThe Pale Council does not know she exists.\nThe Pale Council has never seen her. \n\n', cls: '' },
       { t: 2600,txt: 'Aṣẹ signature: NONE. No divine trace. No orisha bond. No aura.\nClassification systems report: CIVILIAN.\nClassification systems are wrong.\n\n', cls: 't-dim' },
-      { t: 3400,txt: 'Oracle personal note: I have been doing this 617 years.\nI cannot read her. This has happened once before.\nThat person was The Architect.\nI am choosing not to think about this too hard right now.\n', cls: 't-red' },
+      { t: 3400,txt: 'Oracle personal note: I have been doing this 144 years.\nI cannot read her. This has happened once before.\nThat person was The Architect.\nI am choosing not to think about this too hard right now.\n', cls: 't-red' },
     ];
   }
 
@@ -2321,7 +2321,7 @@ function pvCopyLink() {
     ],
     'oracle': [
       { t:0,   txt:'> QUERYING: THE ORACLE — SELF-REFERENCE DETECTED\n', cls:'t-gold' },
-      { t:400, txt:'Age: 617 years confirmed. Possibly older. He does not clarify.\n', cls:'t-white' },
+      { t:400, txt:'Age: 144 years confirmed. Possibly older. He does not clarify.\n', cls:'t-white' },
       { t:900, txt:'Classification: Mortal. But the city listens when he speaks.\n', cls:'' },
       { t:1300,txt:'"I have seen eleven false Catalysts. This one is not false.\nThis terrifies me more than the false ones did."\n', cls:'t-dim' },
     ],
@@ -2520,8 +2520,8 @@ function pvCopyLink() {
       'ALERT: GORA — Global Orisha Regulatory Authority — has opened an "active monitoring file" on Lagos',
       'INTERCEPTED: "She was at the briefing again. We still have no image. We still have no name."',
       'ORACLE NOTE: The Lagoon is speaking. I have not heard it speak since 1847. I do not like what it is saying.',
-      'DISPATCH: Iron Wolf — Ikenna Okafor — sighted near Pale Council perimeter. He was not followed. He was not found.',
-      'PALE COUNCIL LOG [INTERCEPTED]: "The Oracle has been 617 years in this city. Tonight he looked afraid."',
+      'DISPATCH: Iron Wolf — Ikenna Chukwuemeka — sighted near Pale Council perimeter. He was not followed. He was not found.',
+      'PALE COUNCIL LOG [INTERCEPTED]: "The Oracle has been 144 years in this city. Tonight he looked afraid."',
       'BREAKING: Ọ̀run-bleed reading at Lagos Island — third this week — Oracle Intel confirms: accelerating',
       'CLASSIFIED: Zara Osei — THE MIRROR — last surveillance ping: 27 days ago. Status: UNKNOWN. Priority: OMEGA.',
       'INTELLIGENCE: The Architect has not been seen in 6 days. When he disappears, something ends. Monitor all assets.',
@@ -2567,7 +2567,7 @@ function pvCopyLink() {
     'Maintain your cover. The Architect already suspects. Do not confirm.',
   ];
   var OP_WELCOMES = [
-    'The Oracle has been watching this city for 617 years.<br>He does not send for people without reason.<br>You were sent for. Act accordingly.',
+    'The Oracle has been watching this city for 144 years.<br>He does not send for people without reason.<br>You were sent for. Act accordingly.',
     'This city has been holding its breath for nineteen years.<br>It chose tonight to exhale.<br>It chose you to be here when it did.',
     'Every hero in this city thought it was coincidence, at first.<br>It is never coincidence.<br>The city knows what it is doing.',
     'You arrived at the right time. The Oracle says this is not an accident.<br>The Oracle is never wrong about timing.<br>He is occasionally wrong about everything else.',
@@ -3963,7 +3963,7 @@ function pvCopyLink() {
       title: 'IRON IN <em>THE BLOOD</em>',
       open: [
         'In a Mushin workshop that smells of engine oil and old prayers, the iron has started answering to its name.',
-        'Ikenna Eze welds car chassis by day and fights sleep by night — because sleep is where Ògún waits. Patient as rust. Honest as a blade. The god of iron does not shout. He simply never, ever leaves.',
+        'Ikenna Chukwuemeka welds car chassis by day and fights sleep by night — because sleep is where Ògún waits. Patient as rust. Honest as a blade. The god of iron does not shout. He simply never, ever leaves.',
         'And in a white room three floors under Geneva, the Pale Council has finished something they call a vaccine. Not against a disease. Against gods. Lagos is the trial site.'
       ],
       pull: 'The metal remembers every hand that ever shaped it. Tonight it starts collecting the debt.'
