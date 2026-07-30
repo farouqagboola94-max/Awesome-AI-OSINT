@@ -2977,21 +2977,10 @@ function pvCopyLink() {
   updateProgress();
   updateBtt();
 
-  // ── Scroll-reveal IntersectionObserver ──
+  // .reveal fade-in-on-scroll is handled by the single IntersectionObserver
+  // near the top of this file (the one that adds the "visible" class) — do
+  // not add a second one here, it just duplicates that work on every scroll.
   if ('IntersectionObserver' in window) {
-    var revealObs = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
-          revealObs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
-    document.querySelectorAll('.reveal').forEach(function(el) {
-      revealObs.observe(el);
-    });
-
     // Also reveal char-cards and cover-art-items on scroll
     var cardObs = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry, i) {
