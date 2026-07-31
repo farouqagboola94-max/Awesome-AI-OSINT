@@ -1,6 +1,10 @@
 'use strict';
 
-const CACHE = 'catalyst-v5';
+// Bump CACHE whenever styles.css / script.js / precached assets change, so the
+// activate handler below evicts the previous generation. IMG_CACHE is versioned
+// separately and deliberately left behind: image bytes are immutable per URL, so
+// there's no reason to make returning visitors re-download them on a code change.
+const CACHE = 'catalyst-v6';
 const IMG_CACHE = 'catalyst-img-v5';
 const IMG_CACHE_MAX = 60;
 const PRECACHE = [
@@ -74,19 +78,26 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  // CSS/JS: cache-first with background refresh, so styles.css/script.js
-  // work offline and don't get re-fetched from the network on every load
+  // CSS/JS: network-first with cache fallback — deliberately NOT cache-first.
+  // index.html references these as plain `styles.css` / `script.js` with no
+  // content hash or version query, and the document handler above is
+  // network-first. Under a cache-first policy a returning visitor gets fresh
+  // HTML paired with last-deploy's CSS/JS, so any newly added section renders
+  // as unstyled, non-functional markup until a second reload. Network-first
+  // keeps code in lockstep with the HTML that references it; the cache
+  // fallback preserves full offline support.
   if (dest === 'style' || dest === 'script') {
     e.respondWith((async () => {
-      const cached = await caches.match(e.request);
-      const net = fetch(e.request).then(r => {
+      try {
+        const r = await fetch(e.request);
         if (r.ok) {
           const c = r.clone();
           caches.open(CACHE).then(ch => ch.put(e.request, c));
         }
         return r;
-      }).catch(() => cached);
-      return cached || net;
+      } catch (err) {
+        return (await caches.match(e.request)) || Response.error();
+      }
     })());
     return;
   }
