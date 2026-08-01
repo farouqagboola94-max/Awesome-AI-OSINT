@@ -4983,6 +4983,7 @@ window.ClearanceTracker = (function() {
       { id: 'vessel_card', label: 'Vessel ID card generated' },
       { id: 'vault', label: 'Architect’s Vault located' },
       { id: 'battle_sim', label: 'Combat Simulator run' },
+      { id: 'glossary', label: 'Glossary term consulted' },
     ]},
   ];
 
@@ -5247,5 +5248,230 @@ var CS_ROSTER = [
         if (window.showToast) showToast('Result copied — share it!', 'success', 2500);
       }).catch(function() {});
     }
+  };
+})();
+
+/* ── ÌTUMỌ̀ GLOSSARY ───────────────────────────────────────────
+   Every definition below is grounded in how the site itself already
+   uses the term (the lore panels, realm cards, Orisha list and the
+   inline "Term — meaning" glosses scattered through the story), not
+   invented. Pronunciations are English-reader approximations and are
+   labelled as such in the UI — Yoruba is tonal and the diacritics
+   carry pitch, which a respelling can only hint at. */
+var GLOSSARY = [
+  { t: 'Aṣẹ', alt: ['Ase'], pron: 'AH-sheh', cat: 'Power',
+    s: 'The divine power underlying all things.',
+    l: 'The force the whole story runs on. The site describes it flowing through the world "like electricity through a copper wire" — the Orishas hold it, vessels channel it, and the Pale Council built an industry out of siphoning it. Also used in everyday Yoruba as an affirmation, roughly "so be it" / "it is done".' },
+  { t: 'Ọ̀run', alt: ['Orun'], pron: 'OH-roon', cat: 'Realm',
+    s: 'The spirit realm — home of the Orishas.',
+    l: 'One of the two parallel tracks existence runs on. Its formal name on the realm map is Ilé Àwọn Òrìṣà — Home of the Orishas: where the Orishas reign, where the dead hold court, and where Aṣẹ originates before it reaches the physical world.' },
+  { t: 'Àiyé', alt: ['Aiye'], pron: 'ah-YEH', cat: 'Realm',
+    s: 'The physical world — the one Lagos is in.',
+    l: 'The counterpart to Ọ̀run. The site puts it plainly: "the physical world of Lagos, concrete and exhaust and hunger and joy." For centuries a membrane held the two apart. The Pale Council broke it.' },
+  { t: 'Ọ̀run-Bleed', alt: ['Orun-Bleed', 'Ọ̀run-bleed'], pron: 'OH-roon bleed', cat: 'Story',
+    s: 'What happens when the two realms tear into each other.',
+    l: 'The story\'s own term for the membrane between Ọ̀run and Àiyé failing. Spirits walk Balogun Market, dead ancestors turn up at weddings, and the readings keep accelerating. Ground zero was the first Bleed at Balogun.' },
+  { t: 'Orisha', alt: ['Orishas', 'Òrìṣà', 'Orisa'], pron: 'oh-REE-shah', cat: 'Divine',
+    s: 'A deity of the Yoruba pantheon.',
+    l: 'The divine powers at the centre of Yoruba cosmology. They cannot fully manifest in the physical world without human vessels — which is why, once the membrane tore, they began choosing champions.' },
+  { t: 'Ṣàngó', alt: ['Sango', 'Shango'], pron: 'SHAHN-go', cat: 'Orisha',
+    s: 'Thunder King — lightning, justice, royalty.',
+    l: 'Amara\'s Orisha, and simultaneously one of Bayo\'s — the first time this Orisha has answered two vessels at once. Her talking drum does not make thunder; it requests it.' },
+  { t: 'Ògún', alt: ['Ogun'], pron: 'OH-goon', cat: 'Orisha',
+    s: 'Lord of Iron — iron, war, labour, technology.',
+    l: 'Carried by two very different people: Ikenna holds the smith\'s iron, Zara the older road-clearer aspect. Same god, two people who fight nothing alike.' },
+  { t: 'Ọ̀ṣun', alt: ['Osun', 'Ọṣun', 'Oshun'], pron: 'OH-shoon', cat: 'Orisha',
+    s: 'River Goddess — water, love, fertility, art.',
+    l: 'Commands fresh water: rivers, tears, blood, rain. The only female Orisha excluded from the original divine council — when they ignored her, the world dried, and they never ignored her again.' },
+  { t: 'Ọya', alt: ['Oya', 'Oyá', 'Ọ̀yà'], pron: 'OH-yah', cat: 'Orisha',
+    s: 'Lady of Storms — wind, change, death, markets.',
+    l: 'Rules Balogun Market and its sudden storms. No living vessel has been confirmed for her; the story says she is still choosing.' },
+  { t: 'Ẹṣù', alt: ['Esu', 'Eshu'], pron: 'EH-shoo', cat: 'Orisha',
+    s: 'The Trickster — crossroads, chance, communication.',
+    l: 'The Orisha of the crossroads and of messages between realms. Appears across the story as tricksters, translators, thieves and diplomats — the same Orisha wearing different coats depending on what the crossroads demanded.' },
+  { t: 'Obatálá', alt: ['Obatala', 'Obatàlá'], pron: 'oh-bah-TAH-lah', cat: 'Orisha',
+    s: 'The Arch-Orisha.',
+    l: 'The senior figure of the divine council. When the Orisha court splits six-six over what Bayo is, Obatala refuses to speak either position.' },
+  { t: 'Ifá', alt: ['Ifa'], pron: 'ee-FAH', cat: 'Practice',
+    s: 'The Yoruba divination system and its body of knowledge.',
+    l: 'The recorded corpus the Oracle works from — four thousand years of it. The Architect\'s true name has been erased from every Ifá text in existence, which the story treats as the most frightening detail about her.' },
+  { t: 'Ìmọ̀lẹ̀', alt: ['Imole', 'Ìmọ́lẹ̀'], pron: 'ee-MAW-leh', cat: 'Power',
+    s: 'Light, illumination — and Bayo\'s classification.',
+    l: 'Used on the site both for Bayo\'s designation, Ìmọ̀lẹ̀ Àárọ̀, and for the Ìmọ̀lẹ̀ Circle. The Tier I power name is glossed on the Codex as Ìmọ́lẹ̀ Àkọ́kọ́ — "The First Light".' },
+  { t: 'Eégun', alt: ['Egun', 'Egúngún', 'Egungun'], pron: 'EH-goon', cat: 'Practice',
+    s: 'The ancestral masquerade.',
+    l: 'The masked ancestral tradition. In the story\'s cosmology, Eégun masquerades were one of the sanctioned ways the door between realms opened — briefly, on festival days, by agreement.' },
+  { t: 'Àgbà', alt: ['Agba'], pron: 'ahg-BAH', cat: 'Everyday',
+    s: 'Elder — a person owed deference.',
+    l: 'The Oracle\'s compound is called Ilé Àgbà Adesanya — "The Elder\'s House". The word carries authority earned by age and knowledge, not rank.' },
+  { t: 'Adire', alt: ['Àdìrẹ', 'Adìre'], pron: 'ah-DEE-reh', cat: 'Everyday',
+    s: 'Yoruba resist-dyed indigo cloth.',
+    l: 'The patterned indigo textile tradition of the Yoruba. Its motifs run through the site\'s art direction and through the fabric the characters actually wear.' },
+  { t: 'danfo', alt: ['DANFO', 'Danfo'], pron: 'DAN-fo', cat: 'Everyday',
+    s: 'The yellow Lagos minibus.',
+    l: 'The battered yellow commercial minibus that is the circulatory system of Lagos transport — and the vehicle Bayo stops with nothing but his hands in Issue #1.' },
+  { t: 'naira', alt: ['Naira', '₦'], pron: 'NYE-rah', cat: 'Everyday',
+    s: 'Nigeria\'s currency.',
+    l: 'Used in the story to measure exactly how little Bayo has: thirty-two naira, a dead phone, and six weeks of grief.' },
+  { t: 'Ìlú Àgbáyé', alt: ['Ilu Agbaye'], pron: 'ee-LOO ahg-BAH-yeh', cat: 'Realm',
+    s: 'The World City — Neo-Lagos.',
+    l: 'The realm map\'s formal name for the city itself, positioning Lagos not as a setting but as one of the six realms the story moves between.' },
+  { t: 'Àgbègbè Òfò', alt: ['Agbegbe Ofo'], pron: 'ahg-BEG-beh OH-foh', cat: 'Realm',
+    s: 'Territory of Loss — the Void.',
+    l: 'Neither Ọ̀run nor Earth: the space between worlds, where forgotten things go and destroyed Aṣẹ falls. Entering without a Sovereign-tier anchor is a death sentence.' }
+];
+
+(function() {
+  var grid = document.getElementById('glGrid');
+  var pop = document.getElementById('glPop');
+  if (!grid || !pop) return;
+
+  var byKey = {};
+  GLOSSARY.forEach(function(g) { byKey[g.t] = g; });
+
+  /* ---------- browsable grid ---------- */
+  var cats = ['All'].concat(GLOSSARY.map(function(g) { return g.cat; })
+    .filter(function(c, i, a) { return a.indexOf(c) === i; }).sort());
+  var activeCat = 'All';
+
+  var filters = document.getElementById('glFilters');
+  filters.innerHTML = cats.map(function(c) {
+    return '<button type="button" class="gl-filter' + (c === 'All' ? ' active' : '') + '" data-cat="' + c + '">' + c + '</button>';
+  }).join('');
+
+  function renderGrid() {
+    var q = (document.getElementById('glSearch').value || '').trim().toLowerCase();
+    var rows = GLOSSARY.filter(function(g) {
+      if (activeCat !== 'All' && g.cat !== activeCat) return false;
+      if (!q) return true;
+      return (g.t + ' ' + g.alt.join(' ') + ' ' + g.s + ' ' + g.l + ' ' + g.cat).toLowerCase().indexOf(q) !== -1;
+    });
+    grid.innerHTML = rows.map(function(g) {
+      return '<article class="gl-card" id="gl-card-' + slug(g.t) + '">' +
+        '<div class="gl-card-head"><h3 class="gl-term">' + g.t + '</h3><span class="gl-cat">' + g.cat + '</span></div>' +
+        '<div class="gl-pron">' + g.pron + '</div>' +
+        '<p class="gl-short">' + g.s + '</p>' +
+        '<p class="gl-long">' + g.l + '</p>' +
+        '</article>';
+    }).join('');
+    document.getElementById('glEmpty').style.display = rows.length ? 'none' : 'block';
+  }
+
+  function slug(s) { return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'term'; }
+
+  filters.addEventListener('click', function(e) {
+    var b = e.target.closest && e.target.closest('.gl-filter');
+    if (!b) return;
+    activeCat = b.getAttribute('data-cat');
+    Array.prototype.forEach.call(filters.querySelectorAll('.gl-filter'), function(x) {
+      x.classList.toggle('active', x === b);
+    });
+    renderGrid();
+  });
+  document.getElementById('glSearch').addEventListener('input', renderGrid);
+  renderGrid();
+
+  /* ---------- shared popover ---------- */
+  function openPop(entry, anchor) {
+    document.getElementById('glPopTerm').textContent = entry.t;
+    document.getElementById('glPopPron').textContent = entry.pron;
+    document.getElementById('glPopShort').textContent = entry.s;
+    pop.hidden = false;
+    var r = anchor.getBoundingClientRect();
+    var w = pop.offsetWidth || 260;
+    var left = Math.min(Math.max(8, r.left + r.width / 2 - w / 2), window.innerWidth - w - 8);
+    var top = r.bottom + window.scrollY + 8;
+    // flip above if it would run off the bottom of the viewport
+    if (r.bottom + (pop.offsetHeight || 140) + 16 > window.innerHeight) {
+      top = r.top + window.scrollY - (pop.offsetHeight || 140) - 8;
+    }
+    pop.style.left = left + 'px';
+    pop.style.top = top + 'px';
+    pop.classList.add('open');
+    if (window.ClearanceTracker) ClearanceTracker.mark('glossary');
+    if (window.catalystTrack) catalystTrack('glossary_term', { term: entry.t });
+  }
+  function closePop() { pop.classList.remove('open'); pop.hidden = true; }
+  document.getElementById('glPopClose').addEventListener('click', closePop);
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closePop(); });
+  document.addEventListener('click', function(e) {
+    if (pop.hidden) return;
+    if (pop.contains(e.target) || (e.target.closest && e.target.closest('.gloss-term'))) return;
+    closePop();
+  });
+  window.addEventListener('resize', closePop);
+
+  /* ---------- inline annotation ---------- */
+  // Longest first so "Ọ̀run-Bleed" wins over "Ọ̀run", and "Ìlú Àgbáyé" over "Àgbà".
+  var VARIANTS = [];
+  GLOSSARY.forEach(function(g) {
+    [g.t].concat(g.alt).forEach(function(v) { VARIANTS.push({ v: v, entry: g }); });
+  });
+  VARIANTS.sort(function(a, b) { return b.v.length - a.v.length; });
+
+  function esc(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+  // \p{M} covers Yoruba combining diacritics, so a boundary check doesn't
+  // split a term mid-accent the way a plain \b would.
+  var reCache = {};
+  function reFor(v) {
+    if (!reCache[v]) {
+      try {
+        reCache[v] = new RegExp('(^|[^\\p{L}\\p{M}\\p{N}])(' + esc(v) + ')(?![\\p{L}\\p{M}\\p{N}])', 'u');
+      } catch (err) {
+        reCache[v] = new RegExp('(^|[^A-Za-z0-9])(' + esc(v) + ')(?![A-Za-z0-9])');
+      }
+    }
+    return reCache[v];
+  }
+
+  var SKIP = 'a,button,input,textarea,select,script,style,code,pre,.gloss-term,#glossary,.gl-pop';
+  function annotate(root) {
+    var seen = {};
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: function(node) {
+        if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        if (node.parentElement && node.parentElement.closest(SKIP)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var texts = [];
+    var n;
+    while ((n = walker.nextNode())) texts.push(n);
+
+    texts.forEach(function(node) {
+      for (var i = 0; i < VARIANTS.length; i++) {
+        var key = VARIANTS[i].entry.t;
+        if (seen[key]) continue;              // once per container, not per sentence
+        var m = reFor(VARIANTS[i].v).exec(node.nodeValue);
+        if (!m) continue;
+        var start = m.index + m[1].length;
+        var mid = node.splitText(start);
+        mid.splitText(m[2].length);
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'gloss-term';
+        btn.textContent = mid.nodeValue;
+        btn.setAttribute('data-term', key);
+        btn.setAttribute('aria-label', mid.nodeValue + ' — tap for definition');
+        mid.parentNode.replaceChild(btn, mid);
+        seen[key] = true;
+        return;                                // one annotation per text node
+      }
+    });
+  }
+
+  document.querySelectorAll('.story-prose, .panel-narration').forEach(annotate);
+
+  document.addEventListener('click', function(e) {
+    var b = e.target.closest && e.target.closest('.gloss-term');
+    if (!b) return;
+    e.preventDefault();
+    var entry = byKey[b.getAttribute('data-term')];
+    if (entry) openPop(entry, b);
+  });
+
+  window.catalystGlossaryCount = function() {
+    return document.querySelectorAll('.gloss-term').length;
   };
 })();

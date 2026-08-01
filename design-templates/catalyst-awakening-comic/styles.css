@@ -7176,3 +7176,108 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   .cs-result-header { flex-direction: column; }
   .cs-result-odds { order: 2; }
 }
+
+/* ── ÌTUMỌ̀ GLOSSARY ──────────────────────────────────────── */
+#glossary { padding: 7rem 1.5rem; background: rgba(0,0,0,0.3); }
+.gl-wrap { max-width: 1100px; margin: 0 auto; }
+
+.gl-controls {
+  display: flex; flex-direction: column; align-items: center; gap: 1rem;
+  margin: 2.5rem auto 0; max-width: 640px;
+}
+.gl-search-label {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+.gl-search {
+  width: 100%; padding: 0.85rem 1.1rem;
+  background: rgba(6,6,13,0.7);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: var(--bone-white); font-family: inherit; font-size: 0.9rem;
+  clip-path: polygon(10px 0%,100% 0%,100% calc(100% - 10px),calc(100% - 10px) 100%,0% 100%);
+}
+.gl-search:focus { outline: none; border-color: var(--danfo-gold); }
+.gl-search::placeholder { color: rgba(240,237,229,0.35); }
+
+.gl-filters { display: flex; flex-wrap: wrap; gap: 0.45rem; justify-content: center; }
+.gl-filter {
+  padding: 0.35rem 0.8rem; background: transparent;
+  border: 1px solid rgba(255,255,255,0.14);
+  color: rgba(240,237,229,0.55);
+  font-family: 'Bebas Neue', sans-serif; font-size: 0.7rem; letter-spacing: 0.12em;
+  cursor: pointer; transition: all 0.2s;
+}
+.gl-filter:hover { border-color: rgba(244,184,0,0.5); color: var(--danfo-gold); }
+.gl-filter.active { background: rgba(244,184,0,0.14); border-color: var(--danfo-gold); color: var(--danfo-gold); }
+
+.gl-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem;
+  margin: 2.5rem auto 0;
+}
+.gl-card {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-left: 2px solid rgba(244,184,0,0.45);
+  padding: 1.1rem 1.2rem;
+}
+.gl-card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem; }
+.gl-term {
+  font-family: 'Bebas Neue', sans-serif; font-size: 1.35rem;
+  letter-spacing: 0.03em; color: var(--danfo-gold); line-height: 1.2;
+}
+.gl-cat {
+  font-family: monospace; font-size: 0.55rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--orisha-teal); flex-shrink: 0;
+}
+.gl-pron {
+  font-family: monospace; font-size: 0.7rem;
+  color: rgba(240,237,229,0.45); margin: 0.15rem 0 0.6rem;
+}
+.gl-short { font-size: 0.85rem; line-height: 1.55; color: rgba(240,237,229,0.9); margin-bottom: 0.5rem; }
+.gl-long { font-size: 0.78rem; line-height: 1.7; color: rgba(240,237,229,0.55); }
+.gl-empty { text-align: center; color: rgba(240,237,229,0.45); font-size: 0.85rem; margin-top: 2rem; }
+.gl-note {
+  max-width: 620px; margin: 2.5rem auto 0; text-align: center;
+  font-size: 0.72rem; line-height: 1.7; color: rgba(240,237,229,0.38);
+}
+
+/* inline annotated term inside story prose */
+.gloss-term {
+  background: none; border: none; padding: 0; margin: 0;
+  font: inherit; color: inherit; cursor: help;
+  border-bottom: 1px dashed rgba(244,184,0,0.55);
+  transition: color 0.2s, border-color 0.2s;
+}
+.gloss-term:hover, .gloss-term:focus-visible { color: var(--danfo-gold); border-bottom-color: var(--danfo-gold); }
+.gloss-term:focus-visible { outline: 2px solid var(--danfo-gold); outline-offset: 2px; }
+
+/* shared popover */
+.gl-pop {
+  position: absolute; z-index: 10050; width: 270px; max-width: calc(100vw - 16px);
+  background: #0b0b16; border: 1px solid rgba(244,184,0,0.45);
+  padding: 0.9rem 1rem 0.85rem; opacity: 0; transform: translateY(-4px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  box-shadow: 0 12px 34px rgba(0,0,0,0.65);
+}
+.gl-pop.open { opacity: 1; transform: translateY(0); }
+.gl-pop-close {
+  position: absolute; top: 0.35rem; right: 0.5rem;
+  background: none; border: none; color: rgba(240,237,229,0.4);
+  font-size: 1.1rem; line-height: 1; cursor: pointer; padding: 0.2rem;
+}
+.gl-pop-close:hover { color: var(--danfo-gold); }
+.gl-pop-term {
+  font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem;
+  color: var(--danfo-gold); letter-spacing: 0.03em; padding-right: 1rem;
+}
+.gl-pop-pron { font-family: monospace; font-size: 0.66rem; color: rgba(240,237,229,0.45); margin-bottom: 0.5rem; }
+.gl-pop-short { font-size: 0.82rem; line-height: 1.6; color: rgba(240,237,229,0.85); }
+.gl-pop-more {
+  display: inline-block; margin-top: 0.7rem;
+  font-family: 'Bebas Neue', sans-serif; font-size: 0.68rem; letter-spacing: 0.12em;
+  color: var(--orisha-teal); text-decoration: none;
+}
+.gl-pop-more:hover { color: var(--danfo-gold); }
+
+@media (max-width: 900px) { .gl-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .gl-grid { grid-template-columns: 1fr; } }
