@@ -4148,6 +4148,10 @@
   transition: transform 0.5s cubic-bezier(0.22,1,0.36,1), filter 0.4s;
 }
 .villain-card:hover .villain-photo-portrait { transform: scale(1.06); }
+/* The featured card is wide and short, so a tall portrait cropped at
+   "center top" lands on the top of the skull. Pull the framing down so the
+   face sits in the visible band. */
+.villain-card.featured .villain-photo-portrait { object-position: center 30%; }
 /* Per-villain color tints via CSS filter */
 .villain-card.featured .villain-photo-portrait       { filter: contrast(1.2) saturate(0.6) brightness(0.6) hue-rotate(300deg); }
 .villain-card.villain-hollow .villain-photo-portrait { filter: contrast(1.25) saturate(0.4) brightness(0.55) hue-rotate(240deg); }
