@@ -367,6 +367,7 @@
     <li><a href="#codex">Codex</a></li>
     <li><a href="#glossary">Glossary</a></li>
     <li><a href="#read">Read Free</a></li>
+    <li><a href="#the-choice">The Choice</a></li>
     <li><a href="#lore">Lore</a></li>
         <li><a href="#illustrated">Gallery</a></li>
     <li><a href="#clearance">Clearance</a></li>
@@ -521,6 +522,7 @@
   <a href="#codex" onclick="toggleMobileNav()">Codex</a>
   <a href="#glossary" onclick="toggleMobileNav()">Glossary</a>
   <a href="#read" onclick="toggleMobileNav()">Read Free</a>
+  <a href="#the-choice" onclick="toggleMobileNav()">The Choice</a>
   <a href="#lore" onclick="toggleMobileNav()">Lore</a>
   <a href="#illustrated" onclick="toggleMobileNav()">Gallery</a>
   <a href="#clearance" onclick="toggleMobileNav()">Clearance</a>
@@ -4879,6 +4881,55 @@
 
 <!-- ============================================================ ARC II PREMIUM TEASER -->
 <!-- ════ CHRONICLE TIMELINE ════ -->
+<!-- ============================================================ THE CHOICE -->
+
+<section id="the-choice">
+  <div class="tc-wrap">
+    <p class="section-label reveal" style="justify-content:center">Interactive Ordeal · Issue #04, Panel 3</p>
+    <h2 class="section-title reveal" style="text-align:center">THE <em>CHOICE</em></h2>
+    <p class="reveal" style="max-width:620px;margin:1rem auto 0;font-size:0.9rem;line-height:1.8;color:rgba(240,237,229,0.55);text-align:center;">You have read what Bayo decided. Now the Oracle asks <em>you</em>. Six moments, thirty-four days, and no option that costs nothing. Five endings exist. Most people never find the fifth.</p>
+
+    <div class="tc-endings reveal" id="tcEndings" aria-live="polite"></div>
+
+    <div class="tc-stage reveal">
+      <div class="tc-screen" id="tcIntro">
+        <div class="tc-quote">&ldquo;You are not special in being asked. You are special in being able to say yes.&rdquo;</div>
+        <div class="tc-quote-by">— The Oracle, Issue #04</div>
+        <button class="tc-begin" id="tcBegin">BEGIN THE ORDEAL</button>
+        <div class="tc-hint">Roughly four minutes. Your endings are remembered on this device.</div>
+      </div>
+
+      <div class="tc-screen" id="tcNode" hidden>
+        <div class="tc-meta">
+          <span class="tc-loc" id="tcLoc"></span>
+          <span class="tc-step" id="tcStep"></span>
+        </div>
+        <div class="tc-bar"><div class="tc-bar-fill" id="tcBarFill"></div></div>
+        <p class="tc-narration" id="tcNarration"></p>
+        <div class="tc-prompt" id="tcPrompt"></div>
+        <div class="tc-choices" id="tcChoices"></div>
+      </div>
+
+      <div class="tc-screen" id="tcEnd" hidden>
+        <div class="tc-end-stamp" id="tcEndStamp"></div>
+        <h3 class="tc-end-title" id="tcEndTitle"></h3>
+        <p class="tc-end-body" id="tcEndBody"></p>
+        <div class="tc-axes">
+          <div class="tc-axis"><span class="tc-axis-l">Control</span><div class="tc-axis-track"><div class="tc-axis-dot" id="tcDotResolve"></div></div><span class="tc-axis-r">Grow wild</span></div>
+          <div class="tc-axis"><span class="tc-axis-l">Alone</span><div class="tc-axis-track"><div class="tc-axis-dot" id="tcDotBond"></div></div><span class="tc-axis-r">Together</span></div>
+        </div>
+        <div class="tc-canon" id="tcCanon"></div>
+        <div class="tc-end-actions">
+          <button class="tc-again" id="tcAgain">WALK IT AGAIN</button>
+          <button class="tc-share" id="tcShare">↗ SHARE YOUR ENDING</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="energy-beam-divider" aria-hidden="true"></div>
+
 <section id="chronicle-timeline">
   <div class="section-header reveal">
     <div class="section-label">CLASSIFIED ARCHIVE — EYES ONLY</div>
@@ -5474,7 +5525,7 @@
   <div class="clearance-wrap">
     <p class="section-label reveal" style="justify-content:center">Oracle Intelligence Collective</p>
     <h2 class="section-title reveal" style="text-align:center">YOUR <em>CLEARANCE</em> FILE</h2>
-    <p class="reveal" style="max-width:560px;margin:1rem auto 0;font-size:0.88rem;line-height:1.8;color:rgba(240,237,229,0.6);text-align:center;">Every operative who explores this city leaves a trail. The Oracle is watching yours. Twenty-one field markers, five clearance tiers — see how deep you've gone.</p>
+    <p class="reveal" style="max-width:560px;margin:1rem auto 0;font-size:0.88rem;line-height:1.8;color:rgba(240,237,229,0.6);text-align:center;">Every operative who explores this city leaves a trail. The Oracle is watching yours. Twenty-two field markers, five clearance tiers — see how deep you've gone.</p>
 
     <div class="clearance-meter reveal">
       <div class="clearance-ring-wrap">
@@ -5490,7 +5541,7 @@
       <div class="clearance-summary">
         <div class="clearance-level-name" id="clearanceLevelName">LEVEL 0 — UNVERIFIED</div>
         <div class="clearance-level-desc" id="clearanceLevelDesc">The Oracle doesn't know your name yet. Start exploring.</div>
-        <div class="clearance-count"><span id="clearanceCount">0</span> / <span id="clearanceTotal">21</span> field markers logged</div>
+        <div class="clearance-count"><span id="clearanceCount">0</span> / <span id="clearanceTotal">22</span> field markers logged</div>
       </div>
     </div>
 

@@ -4984,6 +4984,7 @@ window.ClearanceTracker = (function() {
       { id: 'vault', label: 'Architect’s Vault located' },
       { id: 'battle_sim', label: 'Combat Simulator run' },
       { id: 'glossary', label: 'Glossary term consulted' },
+      { id: 'the_choice', label: 'The Choice walked to an ending' },
     ]},
   ];
 
@@ -5473,5 +5474,231 @@ var GLOSSARY = [
 
   window.catalystGlossaryCount = function() {
     return document.querySelectorAll('.gloss-term').length;
+  };
+})();
+
+/* ── THE CHOICE — interactive ordeal ──────────────────────────
+   Dramatises the canonical Issue #04 Panel 3 decision ("Control It or
+   Let It Grow Wild"). Every premise is taken from the published scene:
+   the Oracle's answer that control means no time before the Vaccine,
+   the danfo Bayo pulled off the road with a thought, the thirty-four
+   day window, Tower 7 powering up, and the three teammates who had each
+   already made a version of the same bet. The hidden fifth ending is
+   licensed by the scene's own line — "He expects someone to say there
+   has to be a third option. Nobody says that." */
+var TC_NODES = [
+  {
+    loc: 'ORACLE\'S COMPOUND — IDUMOTA · 06:12',
+    narration: 'The Oracle does not soften it. The Vaccine is six weeks from completion. Your Aṣẹ is updating faster than your understanding of it — last night you pulled a danfo off the road with a thought you did not finish thinking. The driver was fine. The danfo was not.',
+    prompt: 'He asks what you intend to do about it.',
+    choices: [
+      { t: 'Slow it down. Learn the shape of it before it gets any bigger.', r: -2, b: 0 },
+      { t: 'Let it run. I will learn on the way or I will not learn at all.', r: +2, b: 0 },
+      { t: 'Ask him what he would do if he were nineteen and holding this.', r: 0, b: +1 }
+    ]
+  },
+  {
+    loc: 'COMPOUND COURTYARD — MINUTES LATER',
+    narration: 'Amara, Ikenna and Zara are in the courtyard. None of them know yet what the Oracle just told you. Ikenna is cleaning a spanner that does not need cleaning. Zara is watching the gate.',
+    prompt: 'What do they get from you?',
+    choices: [
+      { t: 'All of it. The odds, the Vaccine, what "grow wild" might cost.', r: 0, b: +2 },
+      { t: 'The deadline only. They do not need the part about me.', r: +1, b: -2 },
+      { t: 'Ask them first what they would want to be told.', r: -1, b: +2 }
+    ]
+  },
+  {
+    loc: 'MUSHIN — 02:40, THE NIGHT AFTER',
+    narration: 'You cannot sleep. The Aṣẹ System is showing you a capacity you have not trained for and cannot name. Somewhere on the third floor a baby is crying. The whole street is thin walls and other people\'s lives.',
+    prompt: 'You are alone with something enormous.',
+    choices: [
+      { t: 'Test it. Out past the estate, where there is nothing to break.', r: +2, b: -1 },
+      { t: 'Shut it down and sit with the fear until morning.', r: -2, b: 0 },
+      { t: 'Wake Ikenna. He has done three nights of this alone already.', r: 0, b: +2 }
+    ]
+  },
+  {
+    loc: 'EKO ATLANTIC — TOWER 7 · POWERING UP',
+    narration: 'Across the lagoon, something new comes online in Tower 7. The Architect has arrived, and the Architect has been told: no more gentle approaches. Zara puts a number on the table — thirty-four days, if the schedule holds.',
+    prompt: 'Thirty-four days. How do you spend them?',
+    choices: [
+      { t: 'Push the ceiling every single day. Find out what I actually am.', r: +2, b: 0 },
+      { t: 'Drill the four of us until we move like one thing.', r: 0, b: +2 },
+      { t: 'Build a fail-safe. Someone has to be able to stop me.', r: -2, b: +1 },
+      { t: 'There has to be an option nobody in this courtyard has said out loud.', r: 0, b: 0, third: true }
+    ]
+  },
+  {
+    loc: 'DAY 31 — THE LAGOON AT 4 AM',
+    narration: 'Three days out. The water turns the colour the Oracle has spent forty-three sleepless years failing to name. You have felt the thing at the edge of your own capacity now. It does not feel like a weapon. It feels like a door that only opens outward.',
+    prompt: 'The last quiet moment you are going to get.',
+    choices: [
+      { t: 'Step through it now, alone, before anyone can be standing too close.', r: +2, b: -2 },
+      { t: 'Hold at the threshold. Cross it only when the city needs me to.', r: -1, b: +1 },
+      { t: 'Bring the three of them down here and cross it in front of them.', r: +1, b: +2 }
+    ]
+  },
+  {
+    loc: 'DAY 34 — WHATEVER THE ARCHITECT BRINGS',
+    narration: 'It begins the way Zara said it would: all four of you standing in front of it regardless. Every decision you have made in thirty-four days is now a fact about your body and the people beside you.',
+    prompt: 'Last call.',
+    choices: [
+      { t: 'Open all the way. Everything I have, without a ceiling.', r: +2, b: 0 },
+      { t: 'Exactly as much as the moment needs. Not one degree more.', r: -2, b: 0 },
+      { t: 'Whatever the other three need me to be right now.', r: 0, b: +2 }
+    ]
+  }
+];
+
+var TC_ENDINGS = {
+  catalyst: {
+    stamp: 'CANON ALIGNED',
+    title: 'THE CATALYST',
+    body: 'You let it grow wild, and you did not do it alone. You went past the ceiling with three people close enough to be hurt by it — and told them exactly what they were standing next to. This is, almost exactly, what Bayo does. The Oracle called it the only answer that was ever available; he simply refused to say so before you found it yourself.',
+    canon: 'This is the path the published Issue #04 takes.'
+  },
+  wildfire: {
+    stamp: 'DIVERGENT',
+    title: 'THE WILDFIRE',
+    body: 'You grew wild and you did it at arm\'s length — testing alone, crossing alone, carrying the worst of it where nobody could see. Lagos may well survive you. The question the Oracle never answered is whether the four of them do, and whether the person who walks out is the one who walked in.',
+    canon: 'Bayo was offered this path. Zara talked him out of it without ever naming it.'
+  },
+  anchor: {
+    stamp: 'DIVERGENT',
+    title: 'THE ANCHOR',
+    body: 'You chose control, and you chose it out loud, with the other three holding the rope. Nothing you did was reckless and nothing you did was solo. It is the most careful version of this story — and the Oracle already told you what careful costs: there is not enough time. You may have built something that outlasts you and arrives late.',
+    canon: 'The Oracle answers this one in the published scene with a single word: "No."'
+  },
+  small: {
+    stamp: 'DIVERGENT',
+    title: 'THE MAN WHO STAYED SMALL',
+    body: 'You slowed it down and you carried it by yourself. Every individual decision was defensible. Together they add up to the one outcome the Oracle warned you about in the first sixty seconds — you stay small, and Lagos loses. Nobody in the courtyard will blame you. That is the part that will be hard to live with.',
+    canon: 'This is the outcome Issue #04 exists to argue against.'
+  },
+  third: {
+    stamp: 'UNCLASSIFIED — RARE PATH',
+    title: 'THE THIRD OPTION',
+    body: 'You said the sentence nobody in the courtyard said. In the published scene Bayo expects someone to argue that there has to be another way, and the narration is explicit: nobody says that. You said it — and then you held the line, refusing to be pushed all the way to either pole. The Oracle has no answer on file for this. He has been keeping records for 144 years. He writes it down.',
+    canon: 'Issue #04: "He expects someone to say there has to be a third option. Nobody says that."'
+  }
+};
+
+(function() {
+  var stage = document.getElementById('tcNode');
+  if (!stage) return;
+
+  var KEY = 'catalyst_choice_endings_v1';
+  var idx = 0, resolve = 0, bond = 0, saidThird = false;
+
+  function found() {
+    try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { return []; }
+  }
+  function remember(id) {
+    var f = found();
+    if (f.indexOf(id) === -1) { f.push(id); try { localStorage.setItem(KEY, JSON.stringify(f)); } catch (e) {} }
+    renderEndings();
+  }
+  function renderEndings() {
+    var f = found();
+    var order = ['catalyst', 'wildfire', 'anchor', 'small', 'third'];
+    document.getElementById('tcEndings').innerHTML =
+      '<span class="tc-end-count">' + f.length + ' / 5 endings found</span>' +
+      order.map(function(id) {
+        var got = f.indexOf(id) !== -1;
+        return '<span class="tc-end-chip' + (got ? ' got' : '') + (id === 'third' ? ' secret' : '') + '">' +
+          (got ? TC_ENDINGS[id].title : (id === 'third' ? '???' : '—')) + '</span>';
+      }).join('');
+  }
+  renderEndings();
+
+  function show(which) {
+    ['tcIntro', 'tcNode', 'tcEnd'].forEach(function(id) {
+      document.getElementById(id).hidden = (id !== which);
+    });
+  }
+
+  function renderNode() {
+    var n = TC_NODES[idx];
+    document.getElementById('tcLoc').textContent = n.loc;
+    document.getElementById('tcStep').textContent = 'MOMENT ' + (idx + 1) + ' / ' + TC_NODES.length;
+    document.getElementById('tcBarFill').style.width = ((idx / TC_NODES.length) * 100) + '%';
+    document.getElementById('tcNarration').textContent = n.narration;
+    document.getElementById('tcPrompt').textContent = n.prompt;
+    document.getElementById('tcChoices').innerHTML = n.choices.map(function(c, i) {
+      return '<button type="button" class="tc-choice" data-i="' + i + '">' +
+        '<span class="tc-choice-ltr">' + String.fromCharCode(65 + i) + '</span>' +
+        '<span class="tc-choice-txt">' + c.t + '</span></button>';
+    }).join('');
+    show('tcNode');
+  }
+
+  function endingId() {
+    // The rare path needs BOTH the spoken third option and a genuine refusal
+    // to be driven to either pole — saying it once but then going hard wild
+    // or hard control is just talk, and resolves to the matching pole.
+    if (saidThird && Math.abs(resolve) <= 2 && bond >= 0) return 'third';
+    var wild = resolve > 0, together = bond > 0;
+    if (wild && together) return 'catalyst';
+    if (wild && !together) return 'wildfire';
+    if (!wild && together) return 'anchor';
+    return 'small';
+  }
+
+  function finish() {
+    var id = endingId();
+    var e = TC_ENDINGS[id];
+    document.getElementById('tcEndStamp').textContent = e.stamp;
+    document.getElementById('tcEndStamp').className = 'tc-end-stamp' + (id === 'catalyst' ? ' canon' : (id === 'third' ? ' rare' : ''));
+    document.getElementById('tcEndTitle').textContent = e.title;
+    document.getElementById('tcEndBody').textContent = e.body;
+    document.getElementById('tcCanon').textContent = e.canon;
+    // clamp the axis dots to the track
+    var rPct = Math.max(0, Math.min(100, 50 + (resolve / 10) * 50));
+    var bPct = Math.max(0, Math.min(100, 50 + (bond / 10) * 50));
+    document.getElementById('tcDotResolve').style.left = rPct + '%';
+    document.getElementById('tcDotBond').style.left = bPct + '%';
+    window._tcLast = e.title;
+    remember(id);
+    show('tcEnd');
+    if (window.ClearanceTracker) ClearanceTracker.mark('the_choice');
+    if (window.catalystTrack) catalystTrack('choice_ending', { ending: id });
+  }
+
+  function reset() { idx = 0; resolve = 0; bond = 0; saidThird = false; }
+
+  document.getElementById('tcBegin').addEventListener('click', function() {
+    reset(); renderNode();
+    stage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  document.getElementById('tcChoices').addEventListener('click', function(ev) {
+    var b = ev.target.closest && ev.target.closest('.tc-choice');
+    if (!b) return;
+    var c = TC_NODES[idx].choices[parseInt(b.getAttribute('data-i'), 10)];
+    resolve += c.r; bond += c.b;
+    if (c.third) saidThird = true;
+    idx++;
+    if (idx >= TC_NODES.length) finish(); else renderNode();
+  });
+
+  document.getElementById('tcAgain').addEventListener('click', function() {
+    reset(); renderNode();
+    stage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  document.getElementById('tcShare').addEventListener('click', function() {
+    var f = found();
+    var txt = 'I walked The Choice from Catalyst: The Awakening and got "' + (window._tcLast || '') +
+      '" (' + f.length + '/5 endings found). Six moments, thirty-four days. Walk it yourself: https://catalyst-awakening.netlify.app/#the-choice';
+    if (navigator.share) { navigator.share({ title: 'The Choice — Catalyst', text: txt }).catch(function() {}); }
+    else if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(function() {
+        if (window.showToast) showToast('Ending copied — share it!', 'success', 2500);
+      }).catch(function() {});
+    }
+  });
+
+  window.catalystChoiceState = function() {
+    return { idx: idx, resolve: resolve, bond: bond, saidThird: saidThird, found: found() };
   };
 })();
