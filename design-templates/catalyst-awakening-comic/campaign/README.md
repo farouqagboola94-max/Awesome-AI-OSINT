@@ -8,7 +8,7 @@ Complete marketing arsenal for **Catalyst: The Awakening** — a Lagos noir comi
 |------|-------|--------|---------|
 | **Launch trailers** | 3 | 1080×1920 MP4 · silent | Kinetic typography, brand-timed. Add trending audio at post time. |
 | **Motion 40-pack** | 40 | 1080×1920 MP4 · with beats | Punchy motion graphics with procedurally-generated afro-house percussion. |
-| **Cinematic 40-pack** | 40 | 1080×1920 MP4 · scored | Ken Burns treatments of existing 4K artwork with letterbox, film grain, and synthesized cinematic scores. |
+| **Cinematic 90-pack** | 90 | 1080×1920 MP4 · scored | Ken Burns treatments of existing 4K artwork with letterbox, film grain, and synthesized cinematic scores. |
 | **Brand IP Kit** | 58 files | SVG · CSS · JSON · HTML · Markdown | Full identity system: logos, tokens, social templates, print, brand book, Canva/Express-ready. |
 | **Sizzle reels** | 3 | 1080×1920 MP4 · scored, 41–58s | Combined highlight reels crossfading clips from all three video packs, each a distinct narrative cut, under one continuous synthesized score. |
 | **Character reels** | 15 | 1080×1920 MP4 · scored, 22s each | Full introduction video per character — name, art/domain, stats, quote, brand outro. One person per video. |
@@ -41,13 +41,15 @@ campaign/
 
 **Part three (21–40)**: 21. Origin in 10 Seconds · 22. Villain Tease (Chief Obasi Kalu silhouette reveal) · 23. The Elder's Warning (Mama Adunni quote) · 24. The Map (Lagos locations tied to each character) · 25. Reading Order guide · 26. Fan Art Friday · 27. Trivia (Yoruba mythology fact) · 28. Power Ranking (the 5 Orishas ranked) · 29. Hero vs Villain split-screen · 30. Community Vote teaser · 31. Anniversary/milestone celebration · 32. Merch Teaser · 33. Behind the Panel (BTS) · 34. Cliffhanger (Issue 4 ending tease) · 35. Comment Prompt ("who's your favorite?") · 36. Speed Read (5-minute read stat) · 37. The Signal (Tunde "Wire" teaser) · 38. Press Play (trailer announcement) · 39. New Chapter countdown · 40. Thank You / reader milestone
 
-## Cinematic pack (40)
+## Cinematic pack (90)
 
 Ken-Burns-treated cinematics of existing 4K art.
 
 **Chapters 1–20**: `mushin-3am`, `forge`, `shipyard`, `corridor`, `industrial`, `flares`, `intersection`, `circle`, `bayo-portrait`, `bayo-bridge`, `amara-portrait`, `ikenna`, `zara-portrait`, `zara-raw`, `battle-raw`, `team-aurora`, `team-highway`, `team-constellation`, `lagos-spirits`, `cover-finale`.
 
-**Chapters 21–40** (part two — issue covers + epilogue beats): `issue-one` through `issue-four`, `amara-awakening`, `first-orisha`, `lagos-eternal`, `orisha-rising`, `the-strike`, plus 11 reused locations (`forge`, `shipyard`, `corridor`, `industrial`, `flares`, `intersection`, `circle`, `battle-raw`, `team-highway`, `lagos-spirits`, `noir-window`) re-treated with new crops, washes, and captions for a distinct "part two" arc.
+**Chapters 21–40** (part two — issue covers + epilogue beats): `issue-one` through `issue-four`, `amara-awakening`, `first-orisha`, `lagos-eternal`, `orisha-rising`, `the-strike`, plus 11 reused locations re-treated with new crops, washes, and captions.
+
+**Chapters 41–90** (part three — origin flashbacks, character interiority, deleted-scene vibes, new-cast integration): the full 29-asset art library cycled again with entirely new titles/captions/quotes and fresh Ken Burns pans/washes per chapter — includes moments like "The Sight Costs" (Amara), "Cold Iron" (Ògún at rest), "Container 12" (Wire's world), "The Vote" (the Elders' council), and "The Final Awakening" (a teased sixth power). No two chapters reuse the same title, caption, or quote even where the source art repeats.
 
 ## Sizzle reels (3)
 
