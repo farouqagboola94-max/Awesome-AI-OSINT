@@ -357,24 +357,28 @@
 <!-- ============================================================ NAV -->
 <nav>
   <a href="#hero" class="nav-logo">CATALYST</a>
+  <!-- Desktop bar carries the primary destinations only: fifteen links
+       plus the search and account controls cannot share a bar narrower
+       than ~1900px without overlapping. Covers, Combat Sim, Codex, Lore
+       and Gallery still live in the mobile nav, on the page, and one
+       ⌘K away in the archive search. -->
   <ul class="nav-links">
     <li><a href="#arcs">Arcs</a></li>
-    <li><a href="#cover-gallery">Covers</a></li>
-    <li><a href="#villains">Villains</a></li>
-    <li><a href="#combat-sim">Combat Sim</a></li>
     <li><a href="#characters">Heroes</a></li>
+    <li><a href="#villains">Villains</a></li>
     <li><a href="#realms">Realms</a></li>
-    <li><a href="#codex">Codex</a></li>
     <li><a href="#glossary">Glossary</a></li>
     <li><a href="#read">Read Free</a></li>
     <li><a href="#the-choice">The Choice</a></li>
-    <li><a href="#lore">Lore</a></li>
-        <li><a href="#illustrated">Gallery</a></li>
     <li><a href="#clearance">Clearance</a></li>
     <li><a href="#architects-vault">Vault</a></li>
     <li><a href="#access" class="nav-cta">Subscribe</a></li>
   </ul>
   <div style="display:flex;align-items:center;gap:0.8rem;">
+    <button class="nav-search-btn" id="navSearchBtn" type="button" aria-label="Search the archive — Control or Command K">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+      <kbd class="nav-search-kbd">⌘K</kbd>
+    </button>
     <button class="nav-auth-btn" id="navAuthBtn" onclick="openAuthModal()">Sign In</button>
     <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -411,18 +415,6 @@
   <div class="kb-row"><kbd>Ctrl K</kbd><span class="kb-desc">Command palette</span></div>
   <div class="kb-row"><kbd>?</kbd><span class="kb-desc">Toggle this panel</span></div>
   <div class="kb-row"><kbd>Esc</kbd><span class="kb-desc">Close overlays</span></div>
-</div>
-
-<!-- ── Command Palette ── -->
-<div id="cmdk-backdrop" role="presentation"></div>
-<div id="cmdk" role="dialog" aria-modal="true" aria-label="Command palette">
-  <input id="cmdk-input" type="text" placeholder="Search the universe — sections, heroes, actions…" autocomplete="off" spellcheck="false" aria-label="Search commands">
-  <div id="cmdk-list" role="listbox"></div>
-  <div id="cmdk-footer">
-    <span><kbd>↑↓</kbd> navigate</span>
-    <span><kbd>↵</kbd> select</span>
-    <span><kbd>Esc</kbd> close</span>
-  </div>
 </div>
 
 <!-- ── Continue Reading Banner ── -->
@@ -513,6 +505,10 @@
 <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="toggleMobileNav()"></div>
 <nav class="mobile-nav" id="mobileNav">
   <div class="mobile-nav-logo">CATALYST</div>
+  <button type="button" class="mobile-nav-search" id="mobileNavSearch">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+    Search the archive
+  </button>
   <a href="#arcs" onclick="toggleMobileNav()">Arcs</a>
   <a href="#characters" onclick="toggleMobileNav()">Heroes</a>
   <a href="#cover-gallery" onclick="toggleMobileNav()">Covers</a>
@@ -5525,7 +5521,7 @@
   <div class="clearance-wrap">
     <p class="section-label reveal" style="justify-content:center">Oracle Intelligence Collective</p>
     <h2 class="section-title reveal" style="text-align:center">YOUR <em>CLEARANCE</em> FILE</h2>
-    <p class="reveal" style="max-width:560px;margin:1rem auto 0;font-size:0.88rem;line-height:1.8;color:rgba(240,237,229,0.6);text-align:center;">Every operative who explores this city leaves a trail. The Oracle is watching yours. Twenty-two field markers, five clearance tiers — see how deep you've gone.</p>
+    <p class="reveal" style="max-width:560px;margin:1rem auto 0;font-size:0.88rem;line-height:1.8;color:rgba(240,237,229,0.6);text-align:center;">Every operative who explores this city leaves a trail. The Oracle is watching yours. Twenty-three field markers, five clearance tiers — see how deep you've gone.</p>
 
     <div class="clearance-meter reveal">
       <div class="clearance-ring-wrap">
@@ -5541,7 +5537,7 @@
       <div class="clearance-summary">
         <div class="clearance-level-name" id="clearanceLevelName">LEVEL 0 — UNVERIFIED</div>
         <div class="clearance-level-desc" id="clearanceLevelDesc">The Oracle doesn't know your name yet. Start exploring.</div>
-        <div class="clearance-count"><span id="clearanceCount">0</span> / <span id="clearanceTotal">22</span> field markers logged</div>
+        <div class="clearance-count"><span id="clearanceCount">0</span> / <span id="clearanceTotal">23</span> field markers logged</div>
       </div>
     </div>
 
@@ -6174,6 +6170,34 @@
     <span>Made with Aṣẹ in Lagos</span>
   </div>
 </footer>
+
+<!-- ══════════════════════════════════════ UNIVERSAL SEARCH — ORACLE ARCHIVE (⌘K)
+     One entry point into every piece of content on the site: heroes,
+     villains, districts, arcs, realms, issues, glossary terms, sections
+     and jump-to-action commands. The index is built from the live DOM at
+     first open rather than hand-maintained, so it cannot drift out of
+     sync with the page the way a duplicated list would. -->
+<div class="cmdk-overlay" id="cmdk" hidden>
+  <div class="cmdk-panel" role="dialog" aria-modal="true" aria-label="Search the Catalyst archive">
+    <div class="cmdk-inputrow">
+      <span class="cmdk-prompt" aria-hidden="true">&gt;</span>
+      <input id="cmdkInput" class="cmdk-input" type="text" autocomplete="off" autocorrect="off"
+             autocapitalize="off" spellcheck="false"
+             placeholder="Search heroes, terms, districts, issues…"
+             role="combobox" aria-expanded="true" aria-controls="cmdkResults"
+             aria-autocomplete="list" aria-label="Search the Catalyst archive">
+      <kbd class="cmdk-esc">ESC</kbd>
+    </div>
+    <div class="cmdk-results" id="cmdkResults" role="listbox" aria-label="Search results"></div>
+    <div class="cmdk-status" id="cmdkStatus" role="status" aria-live="polite"></div>
+    <div class="cmdk-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+      <span><kbd>↵</kbd> open</span>
+      <span><kbd>esc</kbd> close</span>
+      <span class="cmdk-foot-brand">ORACLE ARCHIVE</span>
+    </div>
+  </div>
+</div>
 
 <!-- SDKs loaded just before main script so they're available when the inline code runs -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>

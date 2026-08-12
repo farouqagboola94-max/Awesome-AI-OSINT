@@ -3372,156 +3372,23 @@ function pvCopyLink() {
     } catch(e) {}
   };
 
-  /* ── Command palette (Ctrl+K / Cmd+K) ── */
-  (function() {
-    var backdrop = document.getElementById('cmdk-backdrop');
-    var panel = document.getElementById('cmdk');
-    var input = document.getElementById('cmdk-input');
-    var list = document.getElementById('cmdk-list');
-    if (!panel || !input || !list) return;
-
-    var ITEMS = [
-      { label: 'Home — The Awakening', target: 'hero', kind: 'Section' },
-      { label: 'Manifesto', target: 'manifesto', kind: 'Section' },
-      { label: 'Story Arcs', target: 'arcs', kind: 'Section' },
-      { label: 'Read Comics — All Issues', target: 'comics', kind: 'Section' },
-      { label: 'Heroes & Characters', target: 'characters', kind: 'Section' },
-      { label: 'Villains — The Pale Council', target: 'villains', kind: 'Section' },
-      { label: 'Locations — Neo-Lagos', target: 'locations', kind: 'Section' },
-      { label: 'Lore Codex', target: 'codex', kind: 'Section' },
-      { label: 'The Universe', target: 'universe', kind: 'Section' },
-      { label: 'Cover Gallery', target: 'cover-gallery', kind: 'Gallery' },
-      { label: 'Artwork Gallery', target: 'artwork-gallery', kind: 'Gallery' },
-      { label: 'Comic Panels', target: 'panels', kind: 'Gallery' },
-      { label: 'ASẸ Power System', target: 'ase-system', kind: 'Section' },
-      { label: 'Power Tier Rankings', target: 'power-tier', kind: 'Section' },
-      { label: 'Chronicle Timeline', target: 'chronicle-timeline', kind: 'Section' },
-      { label: 'Lagos Map', target: 'lagos-map', kind: 'Section' },
-      { label: 'Oracle Terminal', target: 'oracle-terminal', kind: 'Interactive' },
-      { label: 'Hero Quiz — Which Orisha Are You?', target: 'hero-quiz', kind: 'Interactive' },
-      { label: 'Character Relationship Web', target: 'char-web', kind: 'Interactive' },
-      { label: 'Faction Dossiers', target: 'faction-dossiers', kind: 'Section' },
-      { label: 'Wanted Board', target: 'wanted-board', kind: 'Section' },
-      { label: 'War Feed', target: 'war-feed', kind: 'Section' },
-      { label: 'Newsletter — Join the Movement', target: 'newsletter', kind: 'Section' },
-      { label: 'Community', target: 'community', kind: 'Section' },
-      { label: 'Social Hub', target: 'social-hub', kind: 'Section' },
-      { label: 'Share this site', action: function() { var b = document.getElementById('hero-share-btn'); if (b) b.click(); }, kind: 'Action' },
-      { label: 'Keyboard shortcuts', action: function() { var b = document.getElementById('kb-trigger-btn'); if (b) b.click(); }, kind: 'Action' },
-      { label: 'Sign in / Join the universe', action: function() { var b = document.getElementById('navAuthBtn'); if (b) b.click(); }, kind: 'Action' },
-      { label: 'Back to top', action: function() { window.scrollTo({ top: 0, behavior: 'smooth' }); }, kind: 'Action' }
-    ];
-    // Only offer sections that actually exist on the page
-    ITEMS = ITEMS.filter(function(it) { return it.action || document.getElementById(it.target); });
-
-    // Later scripts (e.g. the story reader) can register their own entries
-    window.catalystPaletteAdd = function(newItems) {
-      ITEMS = ITEMS.concat((newItems || []).filter(function(it) {
-        return it && it.label && (it.action || document.getElementById(it.target));
-      }));
-    };
-
-    var filtered = ITEMS.slice();
-    var activeIdx = 0;
-    var isOpen = false;
-
-    function score(item, q) {
-      var label = item.label.toLowerCase();
-      if (label.indexOf(q) === 0) return 4;
-      if (label.indexOf(q) > -1) return 3;
-      // full-text match against indexed story prose (item.search)
-      if (item.search && q.length >= 3 && item.search.indexOf(q) > -1) return 2;
-      // subsequence match on the label
-      var i = 0;
-      for (var c = 0; c < label.length && i < q.length; c++) {
-        if (label[c] === q[i]) i++;
+  /* ── Command palette registration shim ──────────────────────────
+     The palette itself lives at the bottom of this file (Oracle
+     Archive / universal search). Other systems — the story reader's
+     per-chapter index, the covenant card — register their entries the
+     moment they are ready, which is long before that module runs, so
+     this queue holds the entries until it can drain them. The real
+     implementation replaces this function and takes the backlog with
+     it; keeping one queue here is what stops a second, competing
+     palette from growing back. */
+  window.__cmdkQueue = window.__cmdkQueue || [];
+  window.catalystPaletteAdd = function(newItems) {
+    (newItems || []).forEach(function(it) {
+      if (it && it.label && (it.action || document.getElementById(it.target))) {
+        window.__cmdkQueue.push(it);
       }
-      return i === q.length ? 1 : 0;
-    }
-
-    function render() {
-      list.innerHTML = '';
-      if (!filtered.length) {
-        var empty = document.createElement('div');
-        empty.className = 'cmdk-empty';
-        empty.textContent = 'The Oracle finds nothing. Try another word.';
-        list.appendChild(empty);
-        return;
-      }
-      filtered.forEach(function(item, i) {
-        var row = document.createElement('div');
-        row.className = 'cmdk-item' + (i === activeIdx ? ' active' : '');
-        row.setAttribute('role', 'option');
-        row.setAttribute('aria-selected', i === activeIdx ? 'true' : 'false');
-        var lbl = document.createElement('span');
-        lbl.textContent = item.label;
-        var kind = document.createElement('span');
-        kind.className = 'cmdk-kind';
-        kind.textContent = item.kind;
-        row.appendChild(lbl);
-        row.appendChild(kind);
-        row.addEventListener('click', function() { pick(item); });
-        row.addEventListener('mousemove', function() {
-          if (activeIdx !== i) { activeIdx = i; render(); }
-        });
-        list.appendChild(row);
-      });
-      var activeEl = list.children[activeIdx];
-      if (activeEl && activeEl.scrollIntoView) activeEl.scrollIntoView({ block: 'nearest' });
-    }
-
-    function filter() {
-      var q = input.value.trim().toLowerCase();
-      if (!q) { filtered = ITEMS.slice(); }
-      else {
-        filtered = ITEMS
-          .map(function(it) { return { it: it, s: score(it, q) }; })
-          .filter(function(x) { return x.s > 0; })
-          .sort(function(a, b) { return b.s - a.s; })
-          .map(function(x) { return x.it; });
-      }
-      activeIdx = 0;
-      render();
-    }
-
-    function open() {
-      isOpen = true;
-      backdrop.classList.add('open');
-      panel.classList.add('open');
-      input.value = '';
-      filter();
-      setTimeout(function() { input.focus(); }, 30);
-      window.catalystTrack('palette_open');
-    }
-    function close() {
-      isOpen = false;
-      backdrop.classList.remove('open');
-      panel.classList.remove('open');
-      input.blur();
-    }
-    function pick(item) {
-      close();
-      window.catalystTrack('palette_pick', { label: item.label });
-      if (item.action) { item.action(); return; }
-      var el = document.getElementById(item.target);
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    }
-
-    document.addEventListener('keydown', function(e) {
-      if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
-        e.preventDefault();
-        isOpen ? close() : open();
-        return;
-      }
-      if (!isOpen) return;
-      if (e.key === 'Escape') { e.preventDefault(); close(); }
-      else if (e.key === 'ArrowDown') { e.preventDefault(); activeIdx = Math.min(activeIdx + 1, filtered.length - 1); render(); }
-      else if (e.key === 'ArrowUp') { e.preventDefault(); activeIdx = Math.max(activeIdx - 1, 0); render(); }
-      else if (e.key === 'Enter') { e.preventDefault(); if (filtered[activeIdx]) pick(filtered[activeIdx]); }
     });
-    input.addEventListener('input', filter);
-    backdrop.addEventListener('click', close);
-  })();
+  };
 
   /* ── Password strength meter (signup) ── */
   (function() {
@@ -4985,6 +4852,7 @@ window.ClearanceTracker = (function() {
       { id: 'battle_sim', label: 'Combat Simulator run' },
       { id: 'glossary', label: 'Glossary term consulted' },
       { id: 'the_choice', label: 'The Choice walked to an ending' },
+      { id: 'archive_search', label: 'Oracle Archive searched' },
     ]},
   ];
 
@@ -5700,5 +5568,620 @@ var TC_ENDINGS = {
 
   window.catalystChoiceState = function() {
     return { idx: idx, resolve: resolve, bond: bond, saidThird: saidThird, found: found() };
+  };
+})();
+
+/* ══════════════════════════════════════════════════════════════════
+   UNIVERSAL SEARCH — ORACLE ARCHIVE (⌘K)
+
+   The site now carries ~33 sections, 10 fighters, 20 glossary terms,
+   dozens of districts, arcs, realms and dossiers. Until now the only
+   way to reach any of it was to know which nav link it hid behind.
+   This is one keystroke to everything.
+
+   The index is built by reading the rendered DOM on first open, not
+   from a hand-written list. That is deliberate: every duplicated
+   content list on this site has eventually drifted out of sync with
+   the page it describes, and a search index that lies is worse than
+   no search at all. The only hand-written parts are the section
+   registry (labels that read better than the split <h2> markup) and
+   the small set of verb-style commands.
+   ══════════════════════════════════════════════════════════════════ */
+(function() {
+  'use strict';
+
+  var overlay   = document.getElementById('cmdk');
+  var input     = document.getElementById('cmdkInput');
+  var resultsEl = document.getElementById('cmdkResults');
+  var statusEl  = document.getElementById('cmdkStatus');
+  if (!overlay || !input || !resultsEl) return;
+
+  var RECENT_KEY  = 'catalyst_cmdk_recent_v1';
+  var MAX_RESULTS = 24;
+  var MAX_RECENT  = 5;
+
+  /* ---------- text utilities ---------- */
+
+  /* Yoruba diacritics carry tone and meaning, but nobody types them
+     into a search box. Decomposing to NFD and dropping the combining
+     marks lets "sango" find "Ṣàngó" and "ase" find "Aṣẹ" — while the
+     displayed text keeps its correct orthography. */
+  function fold(s) {
+    return (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  }
+
+  /* Same fold, but keeping a character-index map back to the original
+     string so matches can be highlighted on the undecomposed text. */
+  function foldMap(s) {
+    var out = '', map = [], i, j, f;
+    for (i = 0; i < s.length; i++) {
+      f = s[i].normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+      for (j = 0; j < f.length; j++) { out += f[j]; map.push(i); }
+    }
+    return { f: out, map: map };
+  }
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function(c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+
+  function highlight(title, tokens) {
+    var fm = foldMap(title), ranges = [];
+    tokens.forEach(function(t) {
+      var i = fm.f.indexOf(t);
+      while (i !== -1) {
+        var endIdx = fm.map[i + t.length - 1];
+        if (endIdx != null) ranges.push([fm.map[i], endIdx + 1]);
+        i = fm.f.indexOf(t, i + t.length);
+      }
+    });
+    if (!ranges.length) return esc(title);
+    ranges.sort(function(a, b) { return a[0] - b[0]; });
+    var merged = [];
+    ranges.forEach(function(r) {
+      var last = merged[merged.length - 1];
+      if (last && r[0] <= last[1]) last[1] = Math.max(last[1], r[1]);
+      else merged.push([r[0], r[1]]);
+    });
+    var out = '', pos = 0;
+    merged.forEach(function(r) {
+      out += esc(title.slice(pos, r[0])) + '<mark>' + esc(title.slice(r[0], r[1])) + '</mark>';
+      pos = r[1];
+    });
+    return out + esc(title.slice(pos));
+  }
+
+  function reduced() {
+    return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+
+  /* ---------- navigation ---------- */
+
+  function scrollToEl(el, flash) {
+    if (!el) return;
+    var nav = document.querySelector('nav');
+    var off = (nav && nav.offsetHeight ? nav.offsetHeight : 70) + 18;
+    var y = el.getBoundingClientRect().top + window.scrollY - off;
+    window.scrollTo({ top: Math.max(0, y), behavior: reduced() ? 'auto' : 'smooth' });
+    if (!flash) return;
+    el.classList.remove('cmdk-target-flash');
+    void el.offsetWidth;                       // restart the animation
+    el.classList.add('cmdk-target-flash');
+    setTimeout(function() { el.classList.remove('cmdk-target-flash'); }, 1800);
+  }
+
+  function jump(selectorOrEl, flash) {
+    close();
+    var el = typeof selectorOrEl === 'string' ? document.querySelector(selectorOrEl) : selectorOrEl;
+    // The overlay closing restores scrolling; scroll on the next frame so
+    // the restored body overflow is in effect before we move.
+    requestAnimationFrame(function() { scrollToEl(el, flash); });
+  }
+
+  /* ---------- index ---------- */
+
+  /* Curated because the real <h2>s are split across <br> and <em> for
+     the poster typography ("READ THE / STORY") and read badly as
+     one-line search results. */
+  var SECTIONS = [
+    ['universe',          'The Universe',              'A city where the gods walk again'],
+    ['lagos-map',         'Interactive Lagos Map',     'Survey the districts, unlock intel'],
+    ['locations',         'Districts & Locations',     'Where the story lives'],
+    ['characters',        'Heroes',                    'Vessels of the Orishas'],
+    ['constellation',     'How They Connect',          'Relationship constellation'],
+    ['oracle-terminal',   'Oracle Terminal',           'Query the archive directly'],
+    ['cover-gallery',     'Cover Gallery',             'Every issue cover'],
+    ['artwork-gallery',   'Artwork Gallery',           'Original comic art'],
+    ['villains',          'Villains',                  'The Dark Assembly and the Pale Council'],
+    ['combat-sim',        'Aṣẹ Combat Simulator',      'Pick two fighters, see who wins'],
+    ['hero-quiz',         'Hero Quiz',                 'Which vessel are you?'],
+    ['case-file',         'Case File',                 'Identify the operative from the clues'],
+    ['comics',            'The Comics',                'Issues and release status'],
+    ['arcs',              'Eleven Arcs',               'The full story roadmap'],
+    ['ase-system',        'The Aṣẹ System',            'How power works in this world'],
+    ['read',              'Read Free',                 'Four issues, no paywall'],
+    ['the-choice',        'The Choice',                'Branching narrative — five endings'],
+    ['chronicle-timeline','Chronicle Timeline',        'The story in order'],
+    ['arc2-teaser',       'Arc II Teaser',             'What comes next'],
+    ['realms',            'The Known Realms',          'Ìlú Àgbáyé, Ọ̀run and the rest'],
+    ['codex',             'Realm Codex',               'Deep lore on each realm'],
+    ['glossary',          'Ìtumọ̀ Glossary',            'Yoruba and Lagos terms explained'],
+    ['clearance',         'Your Clearance',            'Progress, markers and tiers'],
+    ['architects-vault',  'The Architect’s Vault',     'Hidden files'],
+    ['lore',              'The Orishas',               'Yoruba mythology behind the comic'],
+    ['illustrated',       'Illustrated Universe',      'The full art gallery'],
+    ['dispatch',          'Field Dispatches',          'Transmissions from the city'],
+    ['community',         'Community',                 'Join the readers'],
+    ['newsletter',        'Newsletter',                'Get every issue in your inbox'],
+    ['access',            'Subscribe',                 'Support the book']
+  ];
+
+  var index = null;
+
+  function txt(root, sel) {
+    var n = root.querySelector(sel);
+    return n ? n.textContent.trim().replace(/\s+/g, ' ') : '';
+  }
+
+  function entry(o) {
+    var fm = fold(o.title);
+    o._title = fm;
+    o._words = fm.split(/[^a-z0-9]+/).filter(Boolean);
+    o._keys  = fold([o.sub || ''].concat(o.keywords || []).join(' '));
+    o._body  = fold(o.body || '');
+    return o;
+  }
+
+  function buildIndex() {
+    var items = [];
+
+    SECTIONS.forEach(function(s) {
+      if (!document.getElementById(s[0])) return;
+      items.push(entry({
+        title: s[1], sub: s[2], cat: 'Sections', icon: '§', weight: 40,
+        go: function() { jump('#' + s[0], false); }
+      }));
+    });
+
+    document.querySelectorAll('.char-card[data-dossier]').forEach(function(card) {
+      var alias = txt(card, '.char-alias');
+      if (!alias) return;
+      var key = card.getAttribute('data-dossier');
+      items.push(entry({
+        title: alias,
+        sub: txt(card, '.char-real-name') + ' · ' + txt(card, '.char-power'),
+        body: txt(card, '.char-power'),
+        keywords: [txt(card, '.char-real-name'), key, 'hero', 'vessel', 'dossier'],
+        cat: 'Heroes', icon: '◈', weight: 60,
+        go: function() {
+          jump(card, true);
+          setTimeout(function() { card.click(); }, reduced() ? 60 : 700);
+        }
+      }));
+    });
+
+    document.querySelectorAll('.villain-card').forEach(function(card) {
+      var name = txt(card, '.villain-name');
+      if (!name) return;
+      items.push(entry({
+        title: name,
+        sub: txt(card, '.villain-alias') || txt(card, '.villain-rank'),
+        body: txt(card, '.villain-desc'),
+        keywords: [txt(card, '.villain-rank'), 'villain', 'antagonist', 'threat'],
+        cat: 'Villains', icon: '☠', weight: 55,
+        go: function() { jump(card, true); }
+      }));
+    });
+
+    document.querySelectorAll('.location-card').forEach(function(card) {
+      var name = txt(card, '.location-name');
+      if (!name) return;
+      items.push(entry({
+        title: name,
+        sub: txt(card, '.location-yoruba') + ' · ' + txt(card, '.location-tag'),
+        body: txt(card, '.location-desc'),
+        keywords: [txt(card, '.location-yoruba'), txt(card, '.location-tag'), 'district', 'location', 'lagos'],
+        cat: 'Districts', icon: '⌖', weight: 45,
+        go: function() { jump(card, true); }
+      }));
+    });
+
+    document.querySelectorAll('.arc-card').forEach(function(card) {
+      var title = txt(card, '.arc-title');
+      if (!title) return;
+      items.push(entry({
+        title: title,
+        sub: txt(card, '.arc-subtitle') + ' · ' + txt(card, '.arc-issues'),
+        body: txt(card, '.arc-synopsis') + ' ' + txt(card, '.arc-power-name'),
+        keywords: ['arc', 'storyline', txt(card, '.arc-num')],
+        cat: 'Story Arcs', icon: '❖', weight: 50,
+        go: function() { jump(card, true); }
+      }));
+    });
+
+    document.querySelectorAll('.realm-card').forEach(function(card) {
+      var name = txt(card, '.realm-name');
+      if (!name) return;
+      items.push(entry({
+        title: name,
+        sub: txt(card, '.realm-native'),
+        body: txt(card, '.realm-desc'),
+        keywords: [txt(card, '.realm-native'), 'realm', 'world', 'plane'],
+        cat: 'Realms', icon: '◉', weight: 45,
+        go: function() { jump(card, true); }
+      }));
+    });
+
+    document.querySelectorAll('.issue-card[data-issue]').forEach(function(card) {
+      var title = txt(card, '.issue-title-main');
+      if (!title) return;
+      var num = card.getAttribute('data-issue');
+      items.push(entry({
+        title: 'Issue #' + (num.length < 2 ? '0' + num : num) + ' — ' + title,
+        sub: txt(card, '.issue-arc'),
+        body: txt(card, '.issue-synopsis'),
+        keywords: ['issue', 'comic', 'read', num, title],
+        cat: 'Issues', icon: '▤', weight: 55,
+        go: function() { jump(card, true); }
+      }));
+    });
+
+    if (typeof GLOSSARY !== 'undefined' && GLOSSARY && GLOSSARY.length) {
+      GLOSSARY.forEach(function(g) {
+        var slug = g.t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'term';
+        items.push(entry({
+          title: g.t,
+          sub: g.pron + ' · ' + g.s,
+          body: g.l,
+          keywords: (g.alt || []).concat([g.cat, 'glossary', 'term', 'meaning', 'yoruba']),
+          cat: 'Glossary', icon: 'Ì', weight: 50,
+          go: function() {
+            var card = document.getElementById('gl-card-' + slug);
+            // The grid is filtered by the glossary's own search box —
+            // clear it so the term is definitely rendered before jumping.
+            var glSearch = document.getElementById('glSearch');
+            if (!card && glSearch) {
+              glSearch.value = '';
+              glSearch.dispatchEvent(new Event('input'));
+              card = document.getElementById('gl-card-' + slug);
+            }
+            jump(card || '#glossary', !!card);
+          }
+        }));
+      });
+    }
+
+    /* Entries registered by other systems through catalystPaletteAdd:
+       every story chapter (with its full prose indexed for search, so a
+       half-remembered line finds the page it is on) and the covenant
+       card. These arrive asynchronously, which is why the index is
+       rebuilt rather than cached forever. */
+    (window.__cmdkQueue || []).forEach(function(it) {
+      var CAT = { Story: 'Story Pages', Covenant: 'Commands' };
+      items.push(entry({
+        title: it.label,
+        sub: it.kind === 'Story' ? 'Jump to this page in the reader' : '',
+        body: it.search || '',
+        keywords: [it.kind],
+        cat: CAT[it.kind] || 'Sections',
+        icon: it.kind === 'Story' ? '▤' : '▸',
+        weight: it.kind === 'Story' ? 35 : 60,
+        go: function() {
+          close();
+          if (it.action) { it.action(); return; }
+          var el = document.getElementById(it.target);
+          requestAnimationFrame(function() { scrollToEl(el, false); });
+        }
+      }));
+    });
+
+    /* Verb-style commands — the things you *do* rather than read. */
+    [
+      ['Take the Hero Quiz',          'Find out which vessel you are',        '#hero-quiz',        ['quiz','which hero','personality','test']],
+      ['Run a combat simulation',     'Pick two fighters and settle it',      '#combat-sim',       ['fight','battle','versus','vs','simulator']],
+      ['Solve the Case File',         'Identify the operative from clues',    '#case-file',        ['case','puzzle','deduce','detective']],
+      ['Ask the Oracle',              'Query the terminal',                   '#oracle-terminal',  ['terminal','ask','command','console']],
+      ['Walk The Choice',             'Branching narrative, five endings',    '#the-choice',       ['branching','endings','decision','interactive']],
+      ['Check my clearance level',    'Markers logged and tier reached',      '#clearance',        ['progress','achievements','level','tier','score']],
+      ['Start reading — free issues', 'Four issues, no paywall',              '#read',             ['read','free','start','begin','issue 1']],
+      ['Subscribe for new issues',    'Get every drop in your inbox',         '#access',           ['subscribe','newsletter','email','join']]
+    ].forEach(function(a) {
+      if (!document.querySelector(a[2])) return;
+      items.push(entry({
+        title: a[0], sub: a[1], keywords: a[3],
+        cat: 'Commands', icon: '▸', weight: 80,
+        go: function() { jump(a[2], false); }
+      }));
+    });
+
+    /* Button-backed commands, carried over from the palette this one
+       replaced. Each is skipped when its control isn't on the page. */
+    [
+      ['Share this site',        'Send Catalyst to someone',      'hero-share-btn',   ['share','send','link','tell a friend']],
+      ['Keyboard shortcuts',     'Every key this site listens to', 'kb-trigger-btn',  ['keys','shortcuts','hotkeys','help']],
+      ['Sign in / Join',         'Create or open your account',    'navAuthBtn',      ['login','sign in','account','register']]
+    ].forEach(function(a) {
+      if (!document.getElementById(a[2])) return;
+      items.push(entry({
+        title: a[0], sub: a[1], keywords: a[3],
+        cat: 'Commands', icon: '▸', weight: 70,
+        go: function() { close(); document.getElementById(a[2]).click(); }
+      }));
+    });
+
+    items.push(entry({
+      title: 'Back to top', sub: 'Return to the hero', keywords: ['top','home','start','scroll up'],
+      cat: 'Commands', icon: '▸', weight: 60,
+      go: function() { close(); window.scrollTo({ top: 0, behavior: reduced() ? 'auto' : 'smooth' }); }
+    }));
+
+    return items;
+  }
+
+  /* ---------- ranking ---------- */
+
+  function score(it, tokens) {
+    var total = 0;
+    for (var i = 0; i < tokens.length; i++) {
+      var t = tokens[i], s = 0, j;
+      if (it._title === t) s = 1000;
+      else if (it._title.indexOf(t) === 0) s = 700;
+      else {
+        for (j = 0; j < it._words.length; j++) {
+          if (it._words[j].indexOf(t) === 0) { s = 500; break; }
+        }
+        if (!s && it._title.indexOf(t) !== -1) s = 320;
+        else if (!s && it._keys.indexOf(t) !== -1) s = 200;
+        else if (!s && it._body.indexOf(t) !== -1) s = 90;
+      }
+      if (!s) return 0;              // every token has to land somewhere
+      total += s;
+    }
+    return total + (it.weight || 0);
+  }
+
+  function search(q) {
+    var tokens = fold(q).split(/\s+/).filter(Boolean);
+    if (!tokens.length) return [];
+    var hits = [];
+    index.forEach(function(it) {
+      var s = score(it, tokens);
+      if (s) hits.push({ it: it, s: s });
+    });
+    hits.sort(function(a, b) { return b.s - a.s || a.it.title.length - b.it.title.length; });
+    hits = hits.slice(0, MAX_RESULTS);
+
+    /* Rank first, then cluster. Purely score-ordered results interleave
+       categories, which makes the group headings repeat down the list
+       ("Sections… Issues… Sections…"). Clustering keeps each heading
+       appearing once while preserving the ranking: categories are
+       ordered by their best hit, rows within a category by score. */
+    var order = [], byCat = {};
+    hits.forEach(function(h) {
+      if (!byCat[h.it.cat]) { byCat[h.it.cat] = []; order.push(h.it.cat); }
+      byCat[h.it.cat].push(h.it);
+    });
+    var out = [];
+    order.forEach(function(cat) { out = out.concat(byCat[cat]); });
+    return out;
+  }
+
+  /* ---------- recents ---------- */
+
+  function recents() {
+    try { return JSON.parse(localStorage.getItem(RECENT_KEY) || '[]'); } catch (e) { return []; }
+  }
+  function rememberRecent(title) {
+    try {
+      var list = recents().filter(function(r) { return r !== title; });
+      list.unshift(title);
+      localStorage.setItem(RECENT_KEY, JSON.stringify(list.slice(0, MAX_RECENT)));
+    } catch (e) { /* private mode — recents are a nicety, not a feature */ }
+  }
+
+  /* ---------- rendering ---------- */
+
+  var rows = [];      // flat list of { it, el } in display order
+  var active = -1;
+
+  function render(items, tokens, headingOverride) {
+    rows = [];
+    if (!items.length) {
+      resultsEl.innerHTML = '<div class="cmdk-empty"><strong>NO RECORD FOUND</strong>' +
+        'The archive has nothing under that name.<br>Try a district, an Orisha, or a character.</div>';
+      statusEl.textContent = 'No results';
+      active = -1;
+      return;
+    }
+
+    var html = '', lastCat = null, i = 0;
+    items.forEach(function(it) {
+      var cat = headingOverride || it.cat;
+      if (cat !== lastCat) {
+        html += '<div class="cmdk-group">' + esc(cat) + '</div>';
+        lastCat = cat;
+      }
+      html += '<button type="button" class="cmdk-row" role="option" aria-selected="false" data-i="' + i + '">' +
+        '<span class="cmdk-row-icon" aria-hidden="true">' + esc(it.icon || '·') + '</span>' +
+        '<span class="cmdk-row-body">' +
+          '<span class="cmdk-row-title">' + (tokens.length ? highlight(it.title, tokens) : esc(it.title)) + '</span>' +
+          (it.sub ? '<span class="cmdk-row-sub">' + esc(it.sub) + '</span>' : '') +
+        '</span>' +
+        '<span class="cmdk-row-go" aria-hidden="true">↵</span>' +
+      '</button>';
+      i++;
+    });
+    resultsEl.innerHTML = html;
+
+    var els = resultsEl.querySelectorAll('.cmdk-row');
+    items.forEach(function(it, n) { rows.push({ it: it, el: els[n] }); });
+    setActive(0);
+    statusEl.textContent = items.length + (items.length === 1 ? ' result' : ' results');
+  }
+
+  function renderDefault() {
+    var recentTitles = recents();
+    var recentItems = [];
+    recentTitles.forEach(function(t) {
+      var hit = index.filter(function(it) { return it.title === t; })[0];
+      if (hit) recentItems.push(hit);
+    });
+    if (recentItems.length) {
+      render(recentItems, [], 'Recent');
+      return;
+    }
+    var suggested = index.filter(function(it) { return it.cat === 'Commands'; }).slice(0, 8);
+    render(suggested, [], 'Try');
+  }
+
+  function setActive(n) {
+    if (!rows.length) { active = -1; return; }
+    if (n < 0) n = rows.length - 1;
+    if (n >= rows.length) n = 0;
+    if (active >= 0 && rows[active]) {
+      rows[active].el.classList.remove('active');
+      rows[active].el.setAttribute('aria-selected', 'false');
+    }
+    active = n;
+    rows[active].el.classList.add('active');
+    rows[active].el.setAttribute('aria-selected', 'true');
+    rows[active].el.scrollIntoView({ block: 'nearest' });
+  }
+
+  function activate(n) {
+    var row = rows[n];
+    if (!row) return;
+    rememberRecent(row.it.title);
+    if (window.ClearanceTracker) ClearanceTracker.mark('archive_search');
+    if (window.catalystTrack) catalystTrack('archive_search', { result: row.it.title, cat: row.it.cat });
+    row.it.go();
+  }
+
+  /* ---------- open / close ---------- */
+
+  var lastFocus = null;
+  var isOpen = false;
+
+  function open(seed) {
+    if (isOpen) return;
+    if (!index) index = buildIndex();
+    lastFocus = document.activeElement;
+    isOpen = true;
+    overlay.hidden = false;
+    document.body.style.overflow = 'hidden';
+    // Force a reflow so the opacity/transform transition actually runs.
+    void overlay.offsetWidth;
+    overlay.classList.add('open');
+    input.value = seed || '';
+    if (input.value) render(search(input.value), fold(input.value).split(/\s+/).filter(Boolean));
+    else renderDefault();
+    input.focus();
+    input.select();
+  }
+
+  function close() {
+    if (!isOpen) return;
+    isOpen = false;
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+    var finish = function() { if (!isOpen) overlay.hidden = true; };
+    if (reduced()) finish(); else setTimeout(finish, 200);
+    if (lastFocus && lastFocus.focus) { try { lastFocus.focus(); } catch (e) {} }
+  }
+
+  /* ---------- wiring ---------- */
+
+  input.addEventListener('input', function() {
+    var q = input.value.trim();
+    if (!q) { renderDefault(); return; }
+    render(search(q), fold(q).split(/\s+/).filter(Boolean));
+  });
+
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowDown') { e.preventDefault(); setActive(active + 1); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); setActive(active - 1); }
+    else if (e.key === 'Home' && rows.length) { e.preventDefault(); setActive(0); }
+    else if (e.key === 'End' && rows.length) { e.preventDefault(); setActive(rows.length - 1); }
+    else if (e.key === 'Enter') { e.preventDefault(); activate(active); }
+    else if (e.key === 'Escape') { e.preventDefault(); close(); }
+    else if (e.key === 'Tab') { e.preventDefault(); setActive(active + (e.shiftKey ? -1 : 1)); }
+  });
+
+  resultsEl.addEventListener('mousemove', function(e) {
+    var row = e.target.closest && e.target.closest('.cmdk-row');
+    if (!row) return;
+    var n = parseInt(row.getAttribute('data-i'), 10);
+    if (n !== active) setActive(n);
+  });
+
+  resultsEl.addEventListener('click', function(e) {
+    var row = e.target.closest && e.target.closest('.cmdk-row');
+    if (!row) return;
+    activate(parseInt(row.getAttribute('data-i'), 10));
+  });
+
+  overlay.addEventListener('mousedown', function(e) {
+    if (e.target === overlay) close();
+  });
+
+  /* Global shortcut. "/" is a convenience but must never steal a
+     keystroke from someone typing into the Oracle terminal, the
+     newsletter form or the glossary's own filter. */
+  function typingInField(el) {
+    if (!el) return false;
+    var tag = el.tagName;
+    return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || el.isContentEditable;
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if ((e.metaKey || e.ctrlKey) && (e.key === 'k' || e.key === 'K')) {
+      e.preventDefault();
+      isOpen ? close() : open();
+      return;
+    }
+    if (isOpen) return;
+    if (e.key === '/' && !e.metaKey && !e.ctrlKey && !e.altKey && !typingInField(document.activeElement)) {
+      e.preventDefault();
+      open();
+    }
+  });
+
+  var navBtn = document.getElementById('navSearchBtn');
+  if (navBtn) navBtn.addEventListener('click', function() { open(); });
+
+  var mobBtn = document.getElementById('mobileNavSearch');
+  if (mobBtn) mobBtn.addEventListener('click', function() {
+    if (typeof toggleMobileNav === 'function') toggleMobileNav();
+    open();
+  });
+
+  /* Non-Mac keyboards say Ctrl, not ⌘. */
+  if (!/Mac|iPhone|iPad|iPod/i.test(navigator.platform || navigator.userAgent)) {
+    var kbd = document.querySelector('.nav-search-kbd');
+    if (kbd) kbd.textContent = 'Ctrl K';
+  }
+
+  /* Take over the registration shim. Anything registered from here on
+     (the story reader retries for up to two seconds while `pagers`
+     builds) invalidates the index so the next open picks it up. */
+  window.catalystPaletteAdd = function(newItems) {
+    var added = false;
+    (newItems || []).forEach(function(it) {
+      if (it && it.label && (it.action || document.getElementById(it.target))) {
+        window.__cmdkQueue.push(it);
+        added = true;
+      }
+    });
+    if (added) index = null;
+  };
+
+  window.CatalystSearch = {
+    open: open,
+    close: close,
+    // Exposed for tests and for anything that changes indexable content.
+    refresh: function() { index = null; },
+    size: function() { if (!index) index = buildIndex(); return index.length; }
   };
 })();
