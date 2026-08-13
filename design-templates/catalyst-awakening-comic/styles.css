@@ -5961,6 +5961,10 @@ body.ase-vision .ase-glyph-field { display:block; }
   min-width: 270px;
   max-width: 360px;
   width: calc(100vw - 3rem);
+  /* The keymap grew past a short list; keep it inside the viewport. */
+  max-height: calc(100vh - 3rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   opacity: 0; visibility: hidden;
   transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
   backdrop-filter: blur(16px);
@@ -5983,10 +5987,15 @@ body.ase-vision .ase-glyph-field { display:block; }
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 0.9rem;
   padding: 0.38rem 0;
   border-bottom: 1px solid rgba(255,255,255,0.05);
   font-size: 0.78rem;
 }
+/* Rows that show a key pair (← →, ↑ ↓) keep the two keys together on the
+   left instead of letting space-between push them to opposite edges. */
+.kb-row kbd + kbd { margin-left: -0.55rem; }
+.kb-row .kb-desc { margin-left: auto; text-align: right; }
 .kb-row:last-child { border-bottom: none; }
 kbd {
   font-family: 'Space Mono', monospace;

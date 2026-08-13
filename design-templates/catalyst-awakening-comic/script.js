@@ -3121,6 +3121,12 @@ function pvCopyLink() {
       var tag = (e.target.tagName || '').toLowerCase();
       if (tag === 'input' || tag === 'textarea' || tag === 'select' || e.target.isContentEditable) return;
 
+      // Escape is always allowed through; every other key here acts on the
+      // page, which must not move while a dialog is open over it. "?" may
+      // still act when this panel is itself the only thing open.
+      if (e.key !== 'Escape' && window.CatalystFocusTrap &&
+          CatalystFocusTrap.anyOpen('kb-panel')) return;
+
       switch (e.key) {
         case '?':
           panel.classList.contains('open') ? closeKb() : openKb();
@@ -3765,6 +3771,7 @@ function pvCopyLink() {
     document.addEventListener('keydown', function(e) {
       var tag = (e.target.tagName || '').toLowerCase();
       if (tag === 'input' || tag === 'textarea' || tag === 'select' || e.target.isContentEditable) return;
+      if (window.CatalystFocusTrap && CatalystFocusTrap.anyOpen()) { buffer = ''; return; }
       if (e.key.length !== 1) return;
       buffer = (buffer + e.key.toLowerCase()).slice(-3);
       if (buffer === 'ase') {
@@ -6168,6 +6175,8 @@ var TC_ENDINGS = {
     }
     if (isOpen) return;
     if (e.key === '/' && !e.metaKey && !e.ctrlKey && !e.altKey && !typingInField(document.activeElement)) {
+      // Don't stack the search on top of a dialog that is already open.
+      if (window.CatalystFocusTrap && CatalystFocusTrap.anyOpen()) return;
       e.preventDefault();
       open();
     }
@@ -6182,10 +6191,16 @@ var TC_ENDINGS = {
     open();
   });
 
-  /* Non-Mac keyboards say Ctrl, not ⌘. */
-  if (!/Mac|iPhone|iPad|iPod/i.test(navigator.platform || navigator.userAgent)) {
-    var kbd = document.querySelector('.nav-search-kbd');
-    if (kbd) kbd.textContent = 'Ctrl K';
+  /* Label the modifier for the keyboard actually in front of the reader,
+     in both places the shortcut is advertised. */
+  if (/Mac|iPhone|iPad|iPod/i.test(navigator.platform || navigator.userAgent)) {
+    var navKbd = document.querySelector('.nav-search-kbd');
+    if (navKbd) navKbd.textContent = '⌘K';
+    var helpKbd = document.getElementById('kb-cmdk-key');
+    if (helpKbd) helpKbd.textContent = '⌘ K';
+  } else {
+    var navKbd2 = document.querySelector('.nav-search-kbd');
+    if (navKbd2) navKbd2.textContent = 'Ctrl K';
   }
 
   /* Take over the registration shim. Anything registered from here on
@@ -6854,8 +6869,26 @@ var TC_ENDINGS = {
     wire();
   }
 
+  /* Every full-screen layer, including the two the trap deliberately does
+     not manage. Global single-key shortcuts consult this: a page-level
+     shortcut must not fire while something is open over the page. */
+  var LAYERS = DIALOGS.concat([{ id: 'cmdk', cls: 'open' }]);
+
+  function openLayers() {
+    return LAYERS.filter(function(d) {
+      var el = document.getElementById(d.id);
+      return el && el.classList.contains(d.cls) && !el.hidden;
+    }).map(function(d) { return d.id; });
+  }
+
   window.CatalystFocusTrap = {
     current: function() { return active ? active.el.id : null; },
-    dialogs: function() { return DIALOGS.map(function(d) { return d.id; }); }
+    dialogs: function() { return DIALOGS.map(function(d) { return d.id; }); },
+    openLayers: openLayers,
+    /* True when anything is open over the page. Pass an id to ignore one
+       layer — e.g. "?" still closes the shortcuts panel from inside it. */
+    anyOpen: function(exceptId) {
+      return openLayers().some(function(id) { return id !== exceptId; });
+    }
   };
 })();
