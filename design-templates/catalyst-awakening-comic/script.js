@@ -4853,6 +4853,7 @@ window.ClearanceTracker = (function() {
       { id: 'glossary', label: 'Glossary term consulted' },
       { id: 'the_choice', label: 'The Choice walked to an ending' },
       { id: 'archive_search', label: 'Oracle Archive searched' },
+      { id: 'field_note', label: 'Passage saved to Field Notes' },
     ]},
   ];
 
@@ -5911,6 +5912,16 @@ var TC_ENDINGS = {
       }));
     });
 
+    if (window.CatalystFieldNotes) {
+      items.push(entry({
+        title: 'Open my Field Notes',
+        sub: 'Passages you saved while reading',
+        keywords: ['notes','highlights','saved','bookmarks','quotes','annotations'],
+        cat: 'Commands', icon: '◈', weight: 75,
+        go: function() { close(); CatalystFieldNotes.open(); }
+      }));
+    }
+
     items.push(entry({
       title: 'Back to top', sub: 'Return to the hero', keywords: ['top','home','start','scroll up'],
       cat: 'Commands', icon: '▸', weight: 60,
@@ -6088,7 +6099,21 @@ var TC_ENDINGS = {
     document.body.style.overflow = '';
     var finish = function() { if (!isOpen) overlay.hidden = true; };
     if (reduced()) finish(); else setTimeout(finish, 200);
-    if (lastFocus && lastFocus.focus) { try { lastFocus.focus(); } catch (e) {} }
+    restoreFocus(overlay, lastFocus);
+  }
+
+  /* Hand focus back out of a dialog that is closing. Blurring first is the
+     load-bearing part: element.focus() is a no-op on a non-focusable
+     restore target such as <body>, which would otherwise leave focus
+     parked inside the hidden overlay — bad for screen readers, and it
+     silently disables the "/" shortcut, which refuses to fire while the
+     user is typing in a field. */
+  function restoreFocus(container, target) {
+    var a = document.activeElement;
+    if (a && a.blur && container.contains(a)) a.blur();
+    if (target && target.focus && target !== document.body && document.contains(target)) {
+      try { target.focus(); } catch (e) {}
+    }
   }
 
   /* ---------- wiring ---------- */
@@ -6183,5 +6208,511 @@ var TC_ENDINGS = {
     // Exposed for tests and for anything that changes indexable content.
     refresh: function() { index = null; },
     size: function() { if (!index) index = buildIndex(); return index.length; }
+  };
+})();
+
+/* ══════════════════════════════════════════════════════════════════
+   FIELD NOTES — keep what you read
+
+   The reader already does paging, focus mode, text scale, deep links and
+   full-text search. The one thing it could not do was let a reader keep
+   anything: every passage worth remembering was gone the moment the page
+   turned.
+
+   ANCHORING. A highlight is stored as {issue, page, start, end, quote} —
+   a character range over the concatenated text of one reader page. That
+   works here because every transform this page applies to story text
+   (the glossary annotator, the lore-term annotator, and this module's
+   own <mark> wrapping) only ever splits and wraps text nodes; none of
+   them add or remove a single character. So offsets taken before any
+   annotation still resolve after all of it.
+
+   The quote is stored anyway, and restore verifies the text at the range
+   before trusting it — falling back to searching for the quote, and
+   finally to listing the note as orphaned rather than highlighting the
+   wrong words. Silently highlighting the wrong passage would be worse
+   than not highlighting at all.
+   ══════════════════════════════════════════════════════════════════ */
+(function() {
+  'use strict';
+
+  var KEY = 'catalyst_field_notes_v1';
+  var MAX_QUOTE = 600;
+
+  var bar     = document.getElementById('fnBar');
+  var drawer  = document.getElementById('fnDrawer');
+  var listEl  = document.getElementById('fnList');
+  var subEl   = document.getElementById('fnSub');
+  if (!bar || !drawer || !listEl) return;
+
+  /* ---------- store ---------- */
+
+  var notes = [];
+  function load() {
+    try { notes = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { notes = []; }
+    if (!Array.isArray(notes)) notes = [];
+  }
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(notes)); } catch (e) { /* private mode */ }
+    updateCounts();
+  }
+  function nextId() {
+    // Monotonic per-session ids; the timestamp alone can collide when two
+    // highlights are saved inside the same millisecond.
+    var max = 0;
+    notes.forEach(function(n) { var v = parseInt(n.id, 10); if (v > max) max = v; });
+    return String(max + 1);
+  }
+
+  /* ---------- page geometry ---------- */
+
+  function pageEl(issue, page) {
+    var panel = document.getElementById('panel-i' + issue);
+    if (!panel) return null;
+    return panel.querySelectorAll('.reader-page')[page] || null;
+  }
+
+  function textNodes(root) {
+    var out = [], w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null), n;
+    while ((n = w.nextNode())) out.push(n);
+    return out;
+  }
+
+  function pageText(root) {
+    return textNodes(root).map(function(n) { return n.nodeValue; }).join('');
+  }
+
+  /* Where in the page's text does this Range start and end? Returns null
+     when an endpoint sits on an element rather than a text node, which
+     happens when a selection snaps to a block boundary — the caller then
+     falls back to locating the quote by string search. */
+  function offsetsFor(root, range) {
+    var nodes = textNodes(root), pos = 0, start = -1, end = -1;
+    for (var i = 0; i < nodes.length; i++) {
+      var n = nodes[i];
+      if (n === range.startContainer) start = pos + range.startOffset;
+      if (n === range.endContainer) end = pos + range.endOffset;
+      pos += n.nodeValue.length;
+    }
+    return (start >= 0 && end > start) ? { start: start, end: end } : null;
+  }
+
+  /* Wrap [start, end) in <mark> elements — one per text node the range
+     crosses, so existing inline elements (glossary terms, <strong>, the
+     dialogue markup) survive intact. */
+  function wrapRange(root, start, end, id) {
+    var nodes = textNodes(root), pos = 0, made = [];
+    nodes.forEach(function(n) {
+      var len = n.nodeValue.length, ns = pos, ne = pos + len;
+      pos = ne;
+      if (ne <= start || ns >= end) return;
+      if (n.parentNode && n.parentNode.nodeName === 'MARK' &&
+          n.parentNode.classList.contains('fn-hl')) return;   // already highlighted
+      var a = Math.max(start, ns) - ns, b = Math.min(end, ne) - ns;
+      var node = n;
+      if (b < len) node.splitText(b);
+      if (a > 0) node = node.splitText(a);
+      var mark = document.createElement('mark');
+      mark.className = 'fn-hl';
+      mark.setAttribute('data-fn', id);
+      mark.setAttribute('title', 'Saved to Field Notes — click to open');
+      node.parentNode.replaceChild(mark, node);
+      mark.appendChild(node);
+      made.push(mark);
+    });
+    return made;
+  }
+
+  function unwrap(id) {
+    document.querySelectorAll('mark.fn-hl[data-fn="' + id + '"]').forEach(function(m) {
+      var parent = m.parentNode;
+      while (m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+  }
+
+  /* ---------- restore ---------- */
+
+  var restored = {};   // "issue:page" -> true
+
+  function restorePage(issue, page) {
+    var k = issue + ':' + page;
+    if (restored[k]) return;
+    var root = pageEl(issue, page);
+    if (!root) return;
+    restored[k] = true;
+
+    var text = pageText(root);
+    notes.forEach(function(n) {
+      if (n.issue !== issue || n.page !== page) return;
+      if (document.querySelector('mark.fn-hl[data-fn="' + n.id + '"]')) return;
+
+      var start = n.start, end = n.end;
+      if (text.slice(start, end) !== n.quote) {
+        var idx = text.indexOf(n.quote);
+        if (idx === -1) { n.orphan = true; return; }   // copy changed under it
+        start = idx; end = idx + n.quote.length;
+        n.start = start; n.end = end;                  // re-anchor for next time
+      }
+      n.orphan = false;
+      wrapRange(root, start, end, n.id);
+    });
+  }
+
+  function restoreAll() {
+    var seen = {};
+    notes.forEach(function(n) {
+      var k = n.issue + ':' + n.page;
+      if (seen[k]) return;
+      seen[k] = true;
+      restorePage(n.issue, n.page);
+    });
+  }
+
+  /* ---------- selection toolbar ---------- */
+
+  var pending = null;   // { issue, page, start, end, quote }
+
+  function hideBar() { bar.hidden = true; pending = null; }
+
+  function locateSelection() {
+    var sel = window.getSelection && window.getSelection();
+    if (!sel || sel.isCollapsed || !sel.rangeCount) return null;
+    var range = sel.getRangeAt(0);
+    var quote = sel.toString().replace(/\s+/g, ' ').trim();
+    if (quote.length < 4) return null;
+    if (quote.length > MAX_QUOTE) return null;
+
+    var anchor = range.commonAncestorContainer;
+    if (anchor.nodeType === 3) anchor = anchor.parentNode;
+    var root = anchor.closest && anchor.closest('.reader-page');
+    if (!root) return null;
+    var panel = root.closest('.issue-reader-panel');
+    if (!panel) return null;
+
+    var issue = parseInt(panel.id.replace('panel-i', ''), 10);
+    var pages = panel.querySelectorAll('.reader-page');
+    var page = Array.prototype.indexOf.call(pages, root);
+    if (isNaN(issue) || page < 0) return null;
+
+    var text = pageText(root);
+    var off = offsetsFor(root, range);
+    // Selections that snap to a block boundary land on an element rather
+    // than a text node; find the quote by search in that case.
+    if (!off || text.slice(off.start, off.end).replace(/\s+/g, ' ').trim() !== quote) {
+      var raw = sel.toString();
+      var idx = text.indexOf(raw);
+      if (idx === -1) return null;
+      off = { start: idx, end: idx + raw.length };
+    }
+    // Drag-selections routinely pick up a leading or trailing space. Shrink
+    // the range rather than trimming the string, so the stored offsets and
+    // the stored quote stay in agreement for re-anchoring.
+    var raw = text.slice(off.start, off.end);
+    off.start += raw.length - raw.replace(/^\s+/, '').length;
+    off.end   -= raw.length - raw.replace(/\s+$/, '').length;
+    if (off.end <= off.start) return null;
+
+    return { issue: issue, page: page, start: off.start, end: off.end,
+             quote: text.slice(off.start, off.end), rect: range.getBoundingClientRect() };
+  }
+
+  function showBar() {
+    var hit = locateSelection();
+    if (!hit) { hideBar(); return; }
+    pending = hit;
+    bar.hidden = false;
+    var w = bar.offsetWidth || 240, h = bar.offsetHeight || 34;
+    var left = hit.rect.left + hit.rect.width / 2 - w / 2 + window.scrollX;
+    left = Math.min(Math.max(8, left), window.innerWidth - w - 8 + window.scrollX);
+    var top = hit.rect.top + window.scrollY - h - 10;
+    if (hit.rect.top - h - 10 < 0) top = hit.rect.bottom + window.scrollY + 10;
+    bar.style.left = left + 'px';
+    bar.style.top = top + 'px';
+  }
+
+  document.addEventListener('mouseup', function(e) {
+    if (bar.contains(e.target)) return;
+    setTimeout(showBar, 10);
+  });
+  document.addEventListener('touchend', function(e) {
+    if (bar.contains(e.target)) return;
+    setTimeout(showBar, 60);
+  });
+  document.addEventListener('mousedown', function(e) {
+    if (!bar.contains(e.target)) hideBar();
+  });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') hideBar(); });
+  window.addEventListener('scroll', function() { if (!bar.hidden) hideBar(); }, { passive: true });
+
+  document.getElementById('fnCopy').addEventListener('click', function() {
+    if (!pending) return;
+    copy(pending.quote);
+    hideBar();
+  });
+
+  document.getElementById('fnSave').addEventListener('click', function() {
+    if (!pending) return;
+    var p = pending;
+    var dupe = notes.filter(function(n) {
+      return n.issue === p.issue && n.page === p.page && n.start === p.start && n.end === p.end;
+    })[0];
+    if (dupe) {
+      if (window.showToast) showToast('Already in your Field Notes.', 'info', 2600);
+      hideBar();
+      return;
+    }
+    var note = { id: nextId(), issue: p.issue, page: p.page, start: p.start, end: p.end,
+                 quote: p.quote, note: '', ts: Date.now() };
+    notes.push(note);
+    save();
+    var root = pageEl(p.issue, p.page);
+    if (root) wrapRange(root, p.start, p.end, note.id);
+    if (window.getSelection) window.getSelection().removeAllRanges();
+    hideBar();
+    if (window.ClearanceTracker) ClearanceTracker.mark('field_note');
+    if (window.catalystTrack) catalystTrack('field_note_saved', { issue: p.issue, page: p.page });
+    if (window.showToast) showToast('Saved to Field Notes.', 'success', 2600);
+    render();
+  });
+
+  function copy(text) {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text);
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+      if (window.showToast) showToast('Copied.', 'success', 2000);
+    } catch (e) {
+      if (window.showToast) showToast('Could not copy on this browser.', 'info', 2600);
+    }
+  }
+
+  /* ---------- clicking a highlight opens its note ---------- */
+
+  document.addEventListener('click', function(e) {
+    var m = e.target.closest && e.target.closest('mark.fn-hl');
+    if (!m) return;
+    openDrawer(m.getAttribute('data-fn'));
+  });
+
+  /* ---------- drawer ---------- */
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function(c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+
+  /* The reader's ISSUE_TITLES map is scoped inside another IIFE, so the
+     title is read off the issue card instead — same source the covers
+     and the archive search use, so it cannot disagree with them. */
+  var titleCache = {};
+  function issueTitle(n) {
+    if (!(n in titleCache)) {
+      var el = document.querySelector('.issue-card[data-issue="' + n + '"] .issue-title-main');
+      titleCache[n] = el ? el.textContent.trim().replace(/\s+/g, ' ') : '';
+    }
+    return 'Issue #0' + n + (titleCache[n] ? ' — ' + titleCache[n] : '');
+  }
+
+  function pageLabel(n) {
+    return n.page === 0 ? 'Cold open' : 'Page ' + n.page;
+  }
+
+  function render() {
+    if (!notes.length) {
+      listEl.innerHTML = '<div class="fn-empty"><strong>NOTHING FILED YET</strong>' +
+        'Select any passage while reading and choose<br>“Save to Field Notes”. It will be here when you come back.</div>';
+      subEl.textContent = 'Everything you marked while reading.';
+      return;
+    }
+
+    var byIssue = {}, order = [];
+    notes.slice().sort(function(a, b) {
+      return a.issue - b.issue || a.page - b.page || a.start - b.start;
+    }).forEach(function(n) {
+      if (!byIssue[n.issue]) { byIssue[n.issue] = []; order.push(n.issue); }
+      byIssue[n.issue].push(n);
+    });
+
+    var html = '';
+    order.forEach(function(iss) {
+      html += '<div class="fn-issue-head">' + esc(issueTitle(iss)) + '</div>';
+      byIssue[iss].forEach(function(n) {
+        html += '<article class="fn-note' + (n.orphan ? ' fn-orphan' : '') + '" data-id="' + n.id + '">' +
+          '<button type="button" class="fn-quote" data-act="jump">“' + esc(n.quote) + '”</button>' +
+          '<div class="fn-meta">' + esc(pageLabel(n)) +
+            (n.orphan ? ' · passage moved — jump still works' : '') + '</div>' +
+          '<textarea class="fn-annot" data-act="annot" rows="1" placeholder="Add your own note…">' +
+            esc(n.note || '') + '</textarea>' +
+          '<div class="fn-note-actions">' +
+            '<button type="button" class="fn-act" data-act="copy">Copy</button>' +
+            '<button type="button" class="fn-act fn-act-danger" data-act="del">Delete</button>' +
+          '</div>' +
+        '</article>';
+      });
+    });
+    listEl.innerHTML = html;
+    subEl.textContent = notes.length + (notes.length === 1 ? ' passage kept.' : ' passages kept.');
+  }
+
+  listEl.addEventListener('click', function(e) {
+    var btn = e.target.closest && e.target.closest('[data-act]');
+    if (!btn) return;
+    var art = btn.closest('.fn-note');
+    if (!art) return;
+    var id = art.getAttribute('data-id');
+    var note = notes.filter(function(n) { return n.id === id; })[0];
+    if (!note) return;
+    var act = btn.getAttribute('data-act');
+
+    if (act === 'jump') {
+      closeDrawer();
+      if (window.catalystJumpTo) catalystJumpTo(note.issue, note.page);
+      setTimeout(function() {
+        restored[note.issue + ':' + note.page] = false;
+        restorePage(note.issue, note.page);
+        var m = document.querySelector('mark.fn-hl[data-fn="' + id + '"]');
+        if (!m) return;
+        m.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        m.classList.remove('fn-flash');
+        void m.offsetWidth;
+        m.classList.add('fn-flash');
+        setTimeout(function() { m.classList.remove('fn-flash'); }, 1800);
+      }, 500);
+    } else if (act === 'copy') {
+      copy('“' + note.quote + '”\n— ' + issueTitle(note.issue) + ', ' + pageLabel(note).toLowerCase() +
+           (note.note ? '\n\n' + note.note : ''));
+    } else if (act === 'del') {
+      unwrap(id);
+      notes = notes.filter(function(n) { return n.id !== id; });
+      save();
+      render();
+    }
+  });
+
+  listEl.addEventListener('input', function(e) {
+    if (!e.target.matches || !e.target.matches('[data-act="annot"]')) return;
+    var art = e.target.closest('.fn-note');
+    var id = art && art.getAttribute('data-id');
+    var note = notes.filter(function(n) { return n.id === id; })[0];
+    if (!note) return;
+    note.note = e.target.value;
+    save();
+  });
+
+  document.getElementById('fnCopyAll').addEventListener('click', function() {
+    if (!notes.length) return;
+    var out = ['FIELD NOTES — Catalyst: The Awakening', ''];
+    var lastIssue = null;
+    notes.slice().sort(function(a, b) { return a.issue - b.issue || a.page - b.page || a.start - b.start; })
+      .forEach(function(n) {
+        if (n.issue !== lastIssue) { out.push('', issueTitle(n.issue), ''); lastIssue = n.issue; }
+        out.push('“' + n.quote + '”  (' + pageLabel(n).toLowerCase() + ')');
+        if (n.note) out.push('   → ' + n.note);
+        out.push('');
+      });
+    copy(out.join('\n'));
+  });
+
+  document.getElementById('fnClear').addEventListener('click', function() {
+    if (!notes.length) return;
+    if (!window.confirm('Delete all ' + notes.length + ' field notes? This cannot be undone.')) return;
+    notes.forEach(function(n) { unwrap(n.id); });
+    notes = [];
+    save();
+    render();
+  });
+
+  var lastFocus = null;
+  function openDrawer(focusId) {
+    lastFocus = document.activeElement;
+    render();
+    drawer.hidden = false;
+    void drawer.offsetWidth;
+    drawer.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    if (window.ClearanceTracker) ClearanceTracker.mark('field_note');
+    var target = focusId && listEl.querySelector('.fn-note[data-id="' + focusId + '"]');
+    if (target) target.scrollIntoView({ block: 'center' });
+    var close = document.getElementById('fnClose');
+    if (close) close.focus();
+  }
+
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(function() { drawer.hidden = true; }, 220);
+    // Same reason as the archive search: never leave focus inside a
+    // dialog that is on its way to display:none.
+    var a = document.activeElement;
+    if (a && a.blur && drawer.contains(a)) a.blur();
+    if (lastFocus && lastFocus.focus && lastFocus !== document.body && document.contains(lastFocus)) {
+      try { lastFocus.focus(); } catch (e) {}
+    }
+  }
+
+  document.getElementById('fnClose').addEventListener('click', closeDrawer);
+  drawer.addEventListener('mousedown', function(e) { if (e.target === drawer) closeDrawer(); });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && !drawer.hidden) closeDrawer();
+  });
+
+  /* ---------- reader chrome trigger ---------- */
+
+  function updateCounts() {
+    document.querySelectorAll('.rt-notes-count').forEach(function(el) {
+      el.textContent = notes.length;
+      el.hidden = notes.length === 0;
+    });
+  }
+
+  function mountTriggers() {
+    document.querySelectorAll('.issue-reader-panel .reader-tools').forEach(function(tools) {
+      if (tools.querySelector('.rt-notes')) return;
+      var b = document.createElement('button');
+      b.className = 'rt-notes';
+      b.type = 'button';
+      b.setAttribute('aria-label', 'Open your Field Notes');
+      b.setAttribute('title', 'Field Notes — passages you saved');
+      b.innerHTML = '◈<span class="rt-notes-count" hidden>0</span>';
+      b.addEventListener('click', function() { openDrawer(); });
+      tools.appendChild(b);
+    });
+    updateCounts();
+  }
+
+  /* ---------- boot ---------- */
+
+  load();
+  mountTriggers();
+  restoreAll();
+  render();
+
+  // Pages are only annotated by the glossary/lore passes after load, and a
+  // reader can turn to a page whose notes were never restored, so re-run
+  // on page turns. restorePage is idempotent per page.
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest) return;
+    if (e.target.closest('.reader-nav') || e.target.closest('.issue-tab')) {
+      setTimeout(restoreAll, 120);
+    }
+  });
+
+  window.CatalystFieldNotes = {
+    open: openDrawer,
+    close: closeDrawer,
+    all: function() { return notes.slice(); },
+    count: function() { return notes.length; }
   };
 })();
