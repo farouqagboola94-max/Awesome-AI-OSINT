@@ -6653,13 +6653,9 @@ var TC_ENDINGS = {
     drawer.classList.remove('open');
     document.body.style.overflow = '';
     setTimeout(function() { drawer.hidden = true; }, 220);
-    // Same reason as the archive search: never leave focus inside a
-    // dialog that is on its way to display:none.
-    var a = document.activeElement;
-    if (a && a.blur && drawer.contains(a)) a.blur();
-    if (lastFocus && lastFocus.focus && lastFocus !== document.body && document.contains(lastFocus)) {
-      try { lastFocus.focus(); } catch (e) {}
-    }
+    // Blurring and handing focus back is the shared modal focus trap's
+    // job — it watches this drawer's open class. Doing it here as well
+    // would be two implementations racing over the same thing.
   }
 
   document.getElementById('fnClose').addEventListener('click', closeDrawer);
@@ -6714,5 +6710,152 @@ var TC_ENDINGS = {
     close: closeDrawer,
     all: function() { return notes.slice(); },
     count: function() { return notes.length; }
+  };
+})();
+
+/* ══════════════════════════════════════════════════════════════════
+   MODAL FOCUS TRAP
+
+   Audited every full-screen dialog on the page. The click-blocking
+   defect was already absent everywhere, but focus handling was not:
+
+     dossier overlay  — focus never entered the dialog, so Tab walked
+                        the page *behind* the modal
+     image lightbox   — focus entered, but one Tab escaped to the mobile
+                        nav button behind the overlay
+     keyboard help    — focus did not enter on open
+
+   Rather than edit eight separately-scoped open/close functions, this
+   watches each dialog's open class and does the same three things for
+   all of them: move focus in, cycle Tab inside, hand focus back to
+   whatever opened it. The archive search is the one dialog
+   deliberately left out: it binds Tab to move through its result list,
+   so a trap would fight its own key handling. Everything else — the
+   Field Notes drawer included — is listed here. The drawer picks which
+   element takes focus on open; the trap owns Tab cycling and handing
+   focus back.
+   ══════════════════════════════════════════════════════════════════ */
+(function() {
+  'use strict';
+
+  var DIALOGS = [
+    { id: 'dossier-overlay',     cls: 'open' },
+    { id: 'img-lightbox',        cls: 'active' },
+    { id: 'kb-panel',            cls: 'open' },
+    { id: 'locModal',            cls: 'open' },
+    { id: 'opOverlay',           cls: 'open' },
+    { id: 'orishaOverlay',       cls: 'open' },
+    { id: 'memory-bank-overlay', cls: 'open' },
+    { id: 'covenant-overlay',    cls: 'open' },
+    { id: 'panel-viewer',        cls: 'pv-open' },
+    { id: 'fnDrawer',            cls: 'open' }
+  ];
+
+  var FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), ' +
+                  'select:not([disabled]), textarea:not([disabled]), ' +
+                  '[tabindex]:not([tabindex="-1"])';
+
+  var active = null;      // { el, restore }
+
+  function visible(el) {
+    if (el.hidden || el.getAttribute('aria-hidden') === 'true') return false;
+    var r = el.getBoundingClientRect();
+    if (!r.width && !r.height) return false;
+    var cs = getComputedStyle(el);
+    return cs.visibility !== 'hidden' && cs.display !== 'none';
+  }
+
+  function focusables(root) {
+    return Array.prototype.filter.call(root.querySelectorAll(FOCUSABLE), visible);
+  }
+
+  function enter(el) {
+    if (active && active.el === el) return;
+    var restore = document.activeElement;
+    // Don't record a restore target that is inside another dialog, or the
+    // one being opened — that would hand focus back into hidden content.
+    if (restore && (el.contains(restore) || restore === document.body)) restore = null;
+    active = { el: el, restore: restore };
+
+    // focus() is a silent no-op on an element that is not visible yet, and
+    // several of these dialogs fade in — they are still visibility:hidden at
+    // the moment their open class lands. So attempt, verify, and retry for a
+    // few frames rather than assuming the first call took. This is why the
+    // keyboard-shortcuts panel's own closeBtn.focus() never worked.
+    var tries = 0;
+    (function attempt() {
+      if (!active || active.el !== el) return;
+      if (el.contains(document.activeElement) && document.activeElement !== document.body) return;
+
+      var f = focusables(el);
+      if (f.length) {
+        f[0].focus({ preventScroll: true });
+      } else {
+        // Nothing focusable inside: make the dialog itself the focus holder so
+        // the reading position at least moves out of the page behind it.
+        if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '-1');
+        el.focus({ preventScroll: true });
+      }
+
+      if (!el.contains(document.activeElement) && ++tries < 20) {
+        requestAnimationFrame(attempt);
+      }
+    })();
+  }
+
+  function leave(el) {
+    if (!active || active.el !== el) return;
+    var restore = active.restore;
+    active = null;
+    var a = document.activeElement;
+    // Blur first: focus() is a no-op on a non-focusable restore target, which
+    // would otherwise strand focus inside a dialog on its way to display:none.
+    if (a && a.blur && el.contains(a)) a.blur();
+    if (restore && restore.focus && document.contains(restore) && visible(restore)) {
+      try { restore.focus(); } catch (e) {}
+    }
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key !== 'Tab' || !active) return;
+    var f = focusables(active.el);
+    if (!f.length) { e.preventDefault(); return; }
+    var first = f[0], last = f[f.length - 1];
+    var a = document.activeElement;
+    if (!active.el.contains(a)) { e.preventDefault(); first.focus(); return; }
+    if (e.shiftKey && a === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && a === last) { e.preventDefault(); first.focus(); }
+  }, true);
+
+  function wire() {
+    DIALOGS.forEach(function(d) {
+      var el = document.getElementById(d.id);
+      if (!el || el.__catalystTrapped) return;
+      el.__catalystTrapped = true;
+      var was = el.classList.contains(d.cls);
+      new MutationObserver(function() {
+        var now = el.classList.contains(d.cls);
+        if (now === was) return;
+        was = now;
+        // Let the dialog finish rendering its contents before hunting for
+        // something to focus — several of these fill innerHTML on open.
+        if (now) setTimeout(function() { enter(el); }, 30);
+        else leave(el);
+      }).observe(el, { attributes: true, attributeFilter: ['class'] });
+    });
+  }
+
+  // Most of these dialogs are declared *below* the <script> tag, so they do
+  // not exist yet while this runs. Wiring on DOM ready is what makes the
+  // observer attach to them at all.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', wire);
+  } else {
+    wire();
+  }
+
+  window.CatalystFocusTrap = {
+    current: function() { return active ? active.el.id : null; },
+    dialogs: function() { return DIALOGS.map(function(d) { return d.id; }); }
   };
 })();
