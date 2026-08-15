@@ -69,10 +69,14 @@
 <!-- ═══════════════════════════════════════════════════════════
      FONTS & RESOURCE HINTS
 ═══════════════════════════════════════════════════════════ -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://design.canva.ai">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<!-- Typefaces are self-hosted in styles.css. The Google Fonts stylesheet
+     that used to sit here was render-blocking: measured at 13,320ms to
+     first paint on a degraded connection versus 644ms without it. The two
+     faces the first screen needs are preloaded so they arrive with the
+     stylesheet rather than after it. Space Mono is included now — it is
+     used 67 times across the UI and was never actually being loaded. -->
+<link rel="preload" href="./assets/fonts/bebas-neue-400-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="./assets/fonts/space-grotesk-400-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 
 <!-- ═══════════════════════════════════════════════════════════
      JSON-LD STRUCTURED DATA
@@ -6237,12 +6241,18 @@
   </div>
 </div>
 
-<!-- SDKs loaded just before main script so they're available when the inline code runs -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="https://js.paystack.co/v1/inline.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<!-- All four are deferred, which keeps them out of the render path while
+     preserving execution order: deferred scripts run in document order after
+     parsing, so the SDKs are still defined before script.js runs. Undeferred,
+     these three third-party requests were the whole remaining delay to first
+     paint once the fonts came in-house. Deferring also means script.js now
+     runs against a fully parsed document, so markup declared below this point
+     exists when it looks for it. -->
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script defer src="https://js.paystack.co/v1/inline.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 
-<script src="script.js"></script>
+<script defer src="script.js"></script>
 
 
 

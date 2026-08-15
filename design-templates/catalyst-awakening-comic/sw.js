@@ -4,13 +4,16 @@
 // activate handler below evicts the previous generation. IMG_CACHE is versioned
 // separately and deliberately left behind: image bytes are immutable per URL, so
 // there's no reason to make returning visitors re-download them on a code change.
-const CACHE = 'catalyst-v10';
+const CACHE = 'catalyst-v11';
 const IMG_CACHE = 'catalyst-img-v5';
 const IMG_CACHE_MAX = 60;
 const PRECACHE = [
   '/styles.css',
   '/script.js',
   '/favicon.svg',
+  // The two faces above the fold; the rest arrive on demand per unicode-range
+  '/assets/fonts/bebas-neue-400-normal-latin.woff2',
+  '/assets/fonts/space-grotesk-400-normal-latin.woff2',
   '/assets/icon-192.png',
   '/assets/icon-512.png',
   '/assets/apple-touch-icon.png',
@@ -97,6 +100,28 @@ self.addEventListener('fetch', e => {
         return r;
       } catch (err) {
         return (await caches.match(e.request)) || Response.error();
+      }
+    })());
+    return;
+  }
+
+  // Fonts: cache-first and never revalidated. Filenames encode family,
+  // weight, style and subset, so a given URL's bytes never change — there
+  // is nothing to check for. Lives in the versioned CSS cache so a cache
+  // bump still evicts them if the set ever changes.
+  if (dest === 'font') {
+    e.respondWith((async () => {
+      const cached = await caches.match(e.request);
+      if (cached) return cached;
+      try {
+        const r = await fetch(e.request);
+        if (r.ok) {
+          const c = r.clone();
+          caches.open(CACHE).then(ch => ch.put(e.request, c));
+        }
+        return r;
+      } catch (err) {
+        return Response.error();
       }
     })());
     return;
