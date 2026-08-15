@@ -8270,3 +8270,67 @@ mark.fn-hl.fn-flash { animation: fn-flash 1.6s ease-in-out 1; }
   .fn-drawer, .fn-drawer-panel { transition: none; }
   mark.fn-hl.fn-flash { animation: none; outline: 2px solid var(--danfo-gold); }
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   CHARACTER KEY ART — free row above the gallery paywall
+   Promotional art for the protagonist, displayed on-site rather than
+   linked out to Canva like the artwork-gallery cards.
+   ══════════════════════════════════════════════════════════════════ */
+.keyart-row {
+  max-width: 1100px;
+  margin: 2.5rem auto 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+.keyart-card {
+  position: relative;
+  margin: 0;
+  border: 1px solid rgba(244,184,0,0.22);
+  background: #0a0a12;
+  overflow: hidden;
+  aspect-ratio: 5 / 4;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.keyart-card:hover { border-color: rgba(244,184,0,0.6); transform: translateY(-3px); }
+.keyart-card img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  display: block;
+  cursor: zoom-in;
+}
+.keyart-card figcaption {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 1.6rem 0.9rem 0.8rem;
+  background: linear-gradient(to top, rgba(6,6,13,0.96) 45%, transparent);
+  pointer-events: none;
+}
+.keyart-kicker {
+  display: block;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--danfo-gold);
+  margin-bottom: 0.25rem;
+}
+.keyart-line {
+  display: block;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: rgba(240,237,229,0.9);
+}
+
+@media (max-width: 900px) {
+  .keyart-row { grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+  .keyart-row .keyart-card:first-child { grid-column: span 2; }
+}
+@media (max-width: 560px) {
+  .keyart-row { grid-template-columns: 1fr; }
+  .keyart-row .keyart-card:first-child { grid-column: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .keyart-card { transition: none; }
+  .keyart-card:hover { transform: none; }
+}
