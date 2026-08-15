@@ -10,7 +10,9 @@
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
   <link rel="dns-prefetch" href="https://qeoqxowpnrmttjupxkeb.supabase.co">
   <!-- Hero image preload for LCP -->
-  <link rel="preload" as="image" href="./assets/bayo-bridge.webp" fetchpriority="high">
+  <link rel="preload" as="image" href="./assets/bayo-bridge.webp"
+        imagesrcset="./assets/bayo-bridge-640w.webp 640w, ./assets/bayo-bridge-1024w.webp 1024w, ./assets/bayo-bridge.webp 1280w"
+        imagesizes="100vw" fetchpriority="high">
 
 
 <!-- ═══════════════════════════════════════════════════════════
@@ -541,7 +543,9 @@
 <section id="hero">
   
   <canvas id="spark-canvas"></canvas>
-  <img class="hero-canva-bg" src="./assets/bayo-bridge.webp" alt="" loading="eager" decoding="async" fetchpriority="high">
+  <img class="hero-canva-bg" src="./assets/bayo-bridge.webp"
+       srcset="./assets/bayo-bridge-640w.webp 640w, ./assets/bayo-bridge-1024w.webp 1024w, ./assets/bayo-bridge.webp 1280w"
+       sizes="100vw" alt="" loading="eager" decoding="async" fetchpriority="high">
   <div class="hero-glow"></div>
   <div class="hero-glow-2"></div>
 
@@ -895,7 +899,9 @@
 
 <!-- ============================================================ MANIFESTO -->
 <section id="manifesto">
-    <img class="section-photo-bg" src="./assets/team-aurora.webp" alt="Heroes of the Awakening — Aurora over Lagos" loading="lazy" aria-hidden="true">
+    <img class="section-photo-bg" src="./assets/team-aurora.webp"
+         srcset="./assets/team-aurora-640w.webp 640w, ./assets/team-aurora-1024w.webp 1024w, ./assets/team-aurora.webp 1280w"
+         sizes="100vw" alt="Heroes of the Awakening — Aurora over Lagos" loading="lazy" aria-hidden="true">
   <div class="manifesto-bg-text">ASẸ</div>
   <!-- Floating orisha energy symbols -->
   <div class="manifesto-float-symbols" aria-hidden="true">
@@ -2272,6 +2278,8 @@
 
     <div class="cover-art-item reveal">
       <img src="./assets/team-aurora.webp"
+           srcset="./assets/team-aurora-640w.webp 640w, ./assets/team-aurora-1024w.webp 1024w, ./assets/team-aurora.webp 1280w"
+           sizes="(max-width: 700px) 92vw, 30vw"
            alt="Heroes united under the Aurora — Lagos rooftop" loading="lazy">
       <span class="cover-art-badge">Team Art</span>
       <span class="cover-art-label">AURORA OVER LAGOS</span>
@@ -2293,6 +2301,8 @@
 
     <div class="cover-art-item reveal">
       <img src="./assets/bayo-bridge.webp"
+           srcset="./assets/bayo-bridge-640w.webp 640w, ./assets/bayo-bridge-1024w.webp 1024w, ./assets/bayo-bridge.webp 1280w"
+           sizes="(max-width: 700px) 92vw, 30vw"
            alt="Bayo — The Awakening begins on the Third Mainland Bridge" loading="lazy">
       <span class="cover-art-badge">Key Art</span>
       <span class="cover-art-label">BAYO — THE AWAKENING BEGINS</span>
@@ -5701,7 +5711,7 @@
   <div class="lore-grid">
     <div class="orisha-list">
       <div class="orisha-item active reveal" data-orisha="esu">
-        <div class="orisha-icon" style="background-image:url('./assets/esu-portrait.webp');background-size:cover;background-position:center top;"></div>
+        <div class="orisha-icon" style="background-image:url('./assets/esu-icon-144.webp');background-size:cover;background-position:center top;"></div>
         <div>
           <div class="orisha-name">Ẹṣù — The Trickster</div>
           <div class="orisha-domain">Crossroads · Chance · Communication</div>
@@ -5709,7 +5719,7 @@
         </div>
       </div>
       <div class="orisha-item reveal reveal-delay-1" data-orisha="sango">
-        <div class="orisha-icon" style="background-image:url('./assets/sango-portrait.webp');background-size:cover;background-position:center top;"></div>
+        <div class="orisha-icon" style="background-image:url('./assets/sango-icon-144.webp');background-size:cover;background-position:center top;"></div>
         <div>
           <div class="orisha-name">Ṣàngó — Thunder King</div>
           <div class="orisha-domain">Lightning · Justice · Royalty</div>
@@ -5717,7 +5727,7 @@
         </div>
       </div>
       <div class="orisha-item reveal reveal-delay-2" data-orisha="ogun">
-        <div class="orisha-icon" style="background-image:url('./assets/ogun-portrait.webp');background-size:cover;background-position:center top;"></div>
+        <div class="orisha-icon" style="background-image:url('./assets/ogun-icon-144.webp');background-size:cover;background-position:center top;"></div>
         <div>
           <div class="orisha-name">Ògún — Lord of Iron</div>
           <div class="orisha-domain">Iron · War · Labour · Technology</div>
