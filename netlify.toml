@@ -91,6 +91,30 @@
     Cache-Control = "public, max-age=86400"
     Content-Type = "text/plain; charset=UTF-8"
 
+# Standalone issue pages. The "/*.html" rule above matches the file, but these
+# are served at extensionless URLs (/read/issue-1), which that glob does not
+# cover — so they are named explicitly. Without this they would ship without a
+# Content-Security-Policy.
+[[headers]]
+  for = "/read/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    X-XSS-Protection = "1; mode=block"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://js.paystack.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://*.cloudfront.net; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.paystack.co https://*.paystack.co; frame-src https://checkout.paystack.com https://*.paystack.co https://*.paystack.com; frame-ancestors 'none';"
+
+# Serve the per-issue pages at /read/issue-N, ahead of the catch-all below.
+# Netlify's pretty-URL handling would usually resolve this on its own, but the
+# SPA fallback that follows rewrites everything to index.html — being explicit
+# and first means a real page is served, not the home page wearing its URL.
+[[redirects]]
+  from = "/read/:slug"
+  to = "/read/:slug.html"
+  status = 200
+
 # SPA fallback — keeps hash routing + deep links working
 [[redirects]]
   from = "/*"

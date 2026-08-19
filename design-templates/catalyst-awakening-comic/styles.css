@@ -452,8 +452,14 @@
   /* 3D BACKGROUND CANVAS */
   #bg3d { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
 
-  /* NAV */
-  nav {
+  /* NAV
+     Scoped to the two navigation bars that are actually chrome. This used to
+     be a bare `nav {}`, which meant any <nav> anywhere on the site silently
+     became a fixed, full-width, z-index-1000 bar — a breadcrumb added to the
+     issue pages turned into an invisible overlay covering the page and
+     swallowing every click. Both existing bars are named here, so their
+     rendering is unchanged; new <nav> elements are simply left alone. */
+  nav:not([class]), .mobile-nav {
     position: fixed; top: 36px; width: 100%; z-index: 1000;
     padding: 1.2rem clamp(1.2rem, 2.4vw, 4rem);
     display: flex; align-items: center; justify-content: space-between;
@@ -2094,7 +2100,7 @@
 
   /* Mobile */
   @media (max-width: 900px) {
-    nav { padding: 1rem 1.5rem; }
+    nav:not([class]) { padding: 1rem 1.5rem; }
     .nav-links { display: none; }
     .hamburger { display: flex; }
     #universe, #locations, #characters, #comics, #lore, #community, #newsletter { padding: 5rem 1.5rem; }
@@ -8334,3 +8340,158 @@ mark.fn-hl.fn-flash { animation: fn-flash 1.6s ease-in-out 1; }
   .keyart-card { transition: none; }
   .keyart-card:hover { transform: none; }
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   STANDALONE ISSUE PAGES  ·  /read/issue-1 … /read/issue-4
+
+   Each issue is also its own page, so it can carry its own title,
+   description and share image. Those pages reuse every reader style
+   above; what follows is only the chrome the tabbed reader on the
+   home page does not need — a breadcrumb, tabs that are links to
+   other pages rather than buttons that swap a panel, and a
+   previous/next pair at the end of the story.
+   ══════════════════════════════════════════════════════════════════ */
+
+#issue-main {
+  /* Clears the fixed nav, which the home page handles with its hero. */
+  padding-top: 5.5rem;
+}
+
+.issue-crumbs {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 4rem 1.25rem;
+}
+.issue-crumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(240,237,229,0.45);
+}
+.issue-crumbs li + li::before {
+  content: '/';
+  margin-right: 0.5rem;
+  color: rgba(244,184,0,0.35);
+}
+.issue-crumbs a {
+  color: rgba(240,237,229,0.6);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+.issue-crumbs a:hover,
+.issue-crumbs a:focus-visible { color: var(--danfo-gold); border-bottom-color: currentColor; }
+.issue-crumbs [aria-current='page'] { color: rgba(240,237,229,0.85); }
+
+/* The tab bar, as links. Inherits .issue-tab's look; only the bits that
+   differ between a <button> and an <a> are restated. */
+.issue-page-tab {
+  flex: 0 0 auto;
+  background: transparent;
+  border: 1px solid rgba(244,184,0,0.25);
+  color: var(--ash-grey);
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.6rem 1.4rem;
+  text-decoration: none;
+  transition: background 0.3s, border-color 0.3s, color 0.3s;
+  clip-path: polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
+}
+.issue-page-tab:hover,
+.issue-page-tab:focus-visible,
+.issue-page-tab.active {
+  background: var(--danfo-gold);
+  border-color: var(--danfo-gold);
+  color: var(--black);
+}
+
+/* Previous / next, at the foot of the story where a reader who has just
+   finished is actually looking. */
+.issue-seq {
+  max-width: 1200px;
+  margin: 3rem auto 0;
+  padding: 2rem 4rem 0;
+  border-top: 1px solid rgba(244,184,0,0.15);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+}
+.issue-seq-link {
+  flex: 1 1 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1rem 1.25rem;
+  text-decoration: none;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(244,184,0,0.18);
+  transition: border-color 0.3s, background 0.3s, transform 0.3s;
+}
+.issue-seq-link.next { text-align: right; align-items: flex-end; }
+.issue-seq-link:hover,
+.issue-seq-link:focus-visible {
+  border-color: var(--danfo-gold);
+  background: rgba(244,184,0,0.06);
+  transform: translateY(-2px);
+}
+.issue-seq-dir {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--danfo-gold);
+}
+.issue-seq-name {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  color: var(--bone);
+}
+
+@media (max-width: 768px) {
+  #issue-main { padding-top: 4.5rem; }
+  .issue-crumbs { padding: 0 1.5rem 1rem; }
+  .issue-seq { padding: 1.5rem 1.5rem 0; }
+  .issue-seq-link,
+  .issue-seq-link.next { text-align: left; align-items: flex-start; }
+}
+
+/* On a standalone page the section follows a breadcrumb rather than another
+   full section, so it does not need the 8rem of separation the home page uses. */
+#read.issue-standalone { padding-top: 2rem; padding-bottom: 4rem; }
+@media (max-width: 768px) {
+  #read.issue-standalone { padding-top: 1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .issue-seq-link { transition: none; }
+  .issue-seq-link:hover { transform: none; }
+}
+
+/* Link from the tabbed reader on the home page out to that issue's own page. */
+.reader-permalink {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(240,237,229,0.5);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(244,184,0,0.3);
+  padding-bottom: 2px;
+  transition: color 0.25s, border-color 0.25s;
+}
+.reader-permalink:hover,
+.reader-permalink:focus-visible { color: var(--danfo-gold); border-bottom-color: var(--danfo-gold); }

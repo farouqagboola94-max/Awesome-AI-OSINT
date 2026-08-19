@@ -42,4 +42,48 @@
       <image:caption>The Architect — antagonist character art from Catalyst: The Awakening</image:caption>
     </image:image>
   </url>
+  <url>
+    <loc>https://catalyst-awakening.netlify.app/read/issue-1</loc>
+    <lastmod>2026-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://catalyst-awakening.netlify.app/assets/cover-issue1.webp</image:loc>
+      <image:title>Catalyst: The Awakening — Issue #01 Cover</image:title>
+      <image:caption>Cover art for Catalyst: The Awakening, Issue #01: Awaken, O City</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://catalyst-awakening.netlify.app/read/issue-2</loc>
+    <lastmod>2026-03-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://catalyst-awakening.netlify.app/assets/cover-issue2.webp</image:loc>
+      <image:title>Catalyst: The Awakening — Issue #02 Cover</image:title>
+      <image:caption>Cover art for Catalyst: The Awakening, Issue #02: Ṣàngó's Daughter</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://catalyst-awakening.netlify.app/read/issue-3</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://catalyst-awakening.netlify.app/assets/cover-issue3.webp</image:loc>
+      <image:title>Catalyst: The Awakening — Issue #03 Cover</image:title>
+      <image:caption>Cover art for Catalyst: The Awakening, Issue #03: Iron in the Blood</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://catalyst-awakening.netlify.app/read/issue-4</loc>
+    <lastmod>2026-06-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://catalyst-awakening.netlify.app/assets/cover-issue4.webp</image:loc>
+      <image:title>Catalyst: The Awakening — Issue #04 Cover</image:title>
+      <image:caption>Cover art for Catalyst: The Awakening, Issue #04: The Price of Aṣẹ</image:caption>
+    </image:image>
+  </url>
 </urlset>

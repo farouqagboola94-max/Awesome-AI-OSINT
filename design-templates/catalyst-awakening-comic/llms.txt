@@ -9,12 +9,15 @@ Site: https://catalyst-awakening.netlify.app/
 
 ## Reading the story
 
-- Issues 1–4 are free, presented as a paginated reader with deep links:
-  - Issue #01 — Awaken, O City: /#read-i1-p0
-  - Issue #02 — Ṣàngó's Daughter: /#read-i2-p0
-  - Issue #03 — Iron in the Blood: /#read-i3-p0
-  - Issue #04 — The Chosen Four (Arc I finale): /#read-i4-p0
-- Any page is addressable as /#read-i{issue}-p{page}.
+- Issues 1–4 are free. Each has its own page, and all four are also
+  readable as tabs within the home page:
+  - Issue #01 — Awaken, O City: /read/issue-1
+  - Issue #02 — Ṣàngó's Daughter: /read/issue-2
+  - Issue #03 — Iron in the Blood: /read/issue-3
+  - Issue #04 — The Price of Aṣẹ (Arc I finale): /read/issue-4
+- Individual story pages are addressable two ways: /read/issue-{issue}#p{page}
+  on an issue's own page, and /#read-i{issue}-p{page} on the home page.
+  Either form redirects to the other if given to the wrong page.
 - RSS: /feed.xml · Sitemap: /sitemap.xml
 
 ## Key characters

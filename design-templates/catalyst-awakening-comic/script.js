@@ -1,5 +1,17 @@
   document.documentElement.classList.add('js-ready');
 
+  // ─── WHICH PAGE IS THIS? ─────────────────────────────────────
+  // One script serves the home page and the four standalone issue pages
+  // (/read/issue-1 … /read/issue-4). Nearly everything works on both because
+  // it is written to no-op when its markup is absent. The handful of places
+  // that genuinely have to behave differently — the next-issue handoff at the
+  // end of a story, deep links, where a search result points — check these.
+  var CATALYST_ISSUE_PAGE = document.body.getAttribute('data-page') === 'issue';
+  var CATALYST_ISSUE_NUM = CATALYST_ISSUE_PAGE
+    ? parseInt(document.body.getAttribute('data-issue'), 10) || 0
+    : 0;
+  window.CATALYST_PAGE = { issuePage: CATALYST_ISSUE_PAGE, issue: CATALYST_ISSUE_NUM };
+
   // ─── OWNER PREVIEW BYPASS ───────────────────────────────────
   // Add ?preview=catalyst to URL to unlock all premium gates (site owner only)
   (function() {
@@ -368,9 +380,13 @@
   };
 
   // ─── MARQUEE DUPLICATE for seamless loop ─────────────────────
+  // Guarded: this runs at the top level of the main IIFE, so an unguarded
+  // dereference here throws before every module defined below it ever
+  // registers. The marquee only exists on the home page.
   const track = document.querySelector('.marquee-track');
-  const clone = track.cloneNode(true);
-  track.parentElement.appendChild(clone);
+  if (track && track.parentElement) {
+    track.parentElement.appendChild(track.cloneNode(true));
+  }
 
   // ═══════════════════════════════════════════════════════════════
   // CATALYST: THE AWAKENING — MULTI-LAYER DATA CAPTURE SYSTEM
@@ -3984,8 +4000,14 @@ function pvCopyLink() {
     function go(delta, scroll) {
       var onLast = current === total - 1;
       if (delta > 0 && onLast) {
-        // Hand off to the next issue (or the newsletter after the finale)
+        // Hand off to the next issue (or the newsletter after the finale).
+        // On a standalone /read/issue-N page the other three issues are other
+        // documents, so the handoff is a navigation rather than a tab switch.
         if (issueNum < 4) {
+          if (CATALYST_ISSUE_PAGE) {
+            location.href = './issue-' + (issueNum + 1);
+            return;
+          }
           var tab = document.querySelectorAll('.issue-tab')[issueNum]; // 0-indexed: tab for issue+1
           if (tab) tab.click();
           var nextPanelContent = document.querySelector('#panel-i' + (issueNum + 1) + ' .story-content');
@@ -3993,6 +4015,7 @@ function pvCopyLink() {
         } else {
           var nl = document.getElementById('newsletter');
           if (nl) nl.scrollIntoView({ behavior: 'smooth' });
+          else location.href = '/#access';
         }
         return;
       }
@@ -4036,7 +4059,15 @@ function pvCopyLink() {
   /* ── Batch 7: jump API — activate an issue's tab and open a page ── */
   window.catalystJumpTo = function(issue, page, scroll) {
     var p = pagers[issue];
-    if (!p) return;
+    if (!p) {
+      // Asked for an issue this document does not contain. On a standalone
+      // issue page that is a link to a sibling page, so go there rather than
+      // silently doing nothing.
+      if (CATALYST_ISSUE_PAGE && issue >= 1 && issue <= 4) {
+        location.href = './issue-' + issue + '#read-i' + issue + '-p' + (page || 0);
+      }
+      return;
+    }
     var tab = document.querySelectorAll('.issue-tab')[issue - 1];
     if (tab && !p.panel.classList.contains('active')) tab.click();
     p.set(page, false);
@@ -4046,10 +4077,25 @@ function pvCopyLink() {
     }
   };
 
-  /* ── Batch 7: deep links — #read-i2-p3 opens issue 2, page 3 ── */
+  /* ── Batch 7: deep links — #read-i2-p3 opens issue 2, page 3 ──
+     Every link ever shared uses this form, including the ones pointing at
+     the home page, so the standalone pages honour it too: a #read-i2-p3 that
+     lands on /read/issue-2 opens page 3, and one that lands on the wrong
+     issue page redirects to the right one instead of breaking. */
   (function() {
-    var m = /^#read-i([1-4])-p(\d+)$/.exec(location.hash);
-    if (m) setTimeout(function() { window.catalystJumpTo(+m[1], +m[2]); }, 150);
+    function openFromHash(delay) {
+      var m = /^#read-i([1-4])-p(\d+)$/.exec(location.hash);
+      if (m) { setTimeout(function() { window.catalystJumpTo(+m[1], +m[2]); }, delay); return true; }
+      // Short form for a page you are already on: /read/issue-2#p3
+      var s = CATALYST_ISSUE_PAGE && /^#p(\d+)$/.exec(location.hash);
+      if (s) { setTimeout(function() { window.catalystJumpTo(CATALYST_ISSUE_NUM, +s[1]); }, delay); return true; }
+      return false;
+    }
+    openFromHash(150);
+    // Also honour the hash changing on an already-loaded page — following a
+    // deep link from elsewhere on the site, or pressing Back after reading.
+    // Without this, only a cold load ever acted on a deep link.
+    window.addEventListener('hashchange', function() { openFromHash(0); });
   })();
 
   /* ── Batch 7: proper tab semantics for the issue switcher ── */
@@ -5746,10 +5792,29 @@ var TC_ENDINGS = {
     var items = [];
 
     SECTIONS.forEach(function(s) {
-      if (!document.getElementById(s[0])) return;
+      var here = document.getElementById(s[0]);
+      // A standalone issue page holds one section, but search there should
+      // still reach the whole site — so sections that live on the home page
+      // are indexed as links to it rather than dropped.
+      if (!here && !CATALYST_ISSUE_PAGE) return;
       items.push(entry({
         title: s[1], sub: s[2], cat: 'Sections', icon: '§', weight: 40,
-        go: function() { jump('#' + s[0], false); }
+        go: here
+          ? function() { jump('#' + s[0], false); }
+          : function() { close(); location.href = '/#' + s[0]; }
+      }));
+    });
+
+    // On a standalone issue page, the other three issues are other documents.
+    // Read them off the tab bar that is already in the markup rather than
+    // keeping a second list of issue names in here.
+    document.querySelectorAll('.issue-page-tab:not(.active)').forEach(function(a) {
+      var label = (a.textContent || '').trim();
+      if (!label) return;
+      items.push(entry({
+        title: label, sub: 'Open the full issue', cat: 'Story', icon: '◈', weight: 38,
+        keywords: ['issue', 'read', 'chapter'],
+        go: function() { close(); location.href = a.getAttribute('href'); }
       }));
     });
 
