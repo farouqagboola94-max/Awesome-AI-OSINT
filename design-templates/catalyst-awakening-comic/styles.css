@@ -4869,14 +4869,19 @@
 .pv-share-wa:hover { background:rgba(37,211,102,0.12);border-color:#25d366;color:#25d366; }
 .pv-share-copy:hover { background:rgba(0,201,177,0.12);border-color:#00C9B1;color:#00C9B1; }
 
+/* visibility, not just opacity: an element at opacity:0 is still in the
+   accessibility tree and still a tab stop, so a closed dialog left buttons
+   reachable by keyboard and announced by screen readers. visibility
+   transitions discretely, so the fade-out still plays. Matches
+   .modal-backdrop, which already did this correctly. */
 #panel-viewer {
   position: fixed; inset: 0; z-index: 9999;
   background: rgba(0,0,0,0.97);
   display: flex; align-items: center; justify-content: center;
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.25s ease;
+  opacity: 0; pointer-events: none; visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
 }
-#panel-viewer.pv-open { opacity: 1; pointer-events: all; }
+#panel-viewer.pv-open { opacity: 1; pointer-events: all; visibility: visible; }
 .pv-stage {
   position: relative;
   max-width: min(90vw, 700px);
@@ -5214,9 +5219,10 @@ body { padding-top: 26px; }
   padding:1.5rem;
   opacity:0;
   pointer-events:none;
-  transition:opacity 0.35s ease;
+  visibility:hidden;
+  transition:opacity 0.35s ease, visibility 0.35s ease;
 }
-#dossier-overlay.open { opacity:1; pointer-events:all; }
+#dossier-overlay.open { opacity:1; pointer-events:all; visibility:visible; }
 .dossier-modal {
   background:#06060A;
   border:1px solid rgba(196,30,58,0.25);
@@ -6509,10 +6515,10 @@ kbd {
   position: fixed; inset: 0; z-index: 9900;
   background: rgba(6,6,13,0.96);
   display: flex; align-items: center; justify-content: center;
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.25s ease;
+  opacity: 0; pointer-events: none; visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
 }
-#img-lightbox.active { opacity: 1; pointer-events: auto; }
+#img-lightbox.active { opacity: 1; pointer-events: auto; visibility: visible; }
 #img-lightbox img {
   max-width: min(90vw, 700px);
   max-height: 85vh;
@@ -6700,9 +6706,10 @@ kbd {
   position: fixed; inset: 0; z-index: 9950;
   background: rgba(6,6,13,0.9); backdrop-filter: blur(6px);
   display: flex; align-items: center; justify-content: center; padding: 1.2rem;
-  opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+  opacity: 0; pointer-events: none; visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
-#covenant-overlay.open { opacity: 1; pointer-events: auto; }
+#covenant-overlay.open { opacity: 1; pointer-events: auto; visibility: visible; }
 #covenant-card {
   max-width: 480px; width: 100%; text-align: center;
   background: linear-gradient(165deg, #0d0d1c 0%, #0a0a14 60%, #100c06 100%);
@@ -6885,9 +6892,10 @@ kbd {
   background: linear-gradient(165deg, #0d0d1c 0%, #0a0a14 70%);
   border: 1px solid rgba(0,201,177,0.4); border-radius: 8px;
   padding: 1.2rem 1.4rem; box-shadow: 0 -10px 50px rgba(0,0,0,0.6), 0 0 40px rgba(0,201,177,0.1);
-  transition: bottom 0.5s cubic-bezier(0.2,0.9,0.3,1.1);
+  visibility: hidden;
+  transition: bottom 0.5s cubic-bezier(0.2,0.9,0.3,1.1), visibility 0.5s;
 }
-#welcome-back-banner.show { bottom: 1.4rem; }
+#welcome-back-banner.show { bottom: 1.4rem; visibility: visible; }
 #welcome-back-banner .wb-eyebrow {
   font-family: 'Space Grotesk', sans-serif; font-size: 0.6rem; letter-spacing: 0.24em;
   color: #00C9B1; text-transform: uppercase; margin-bottom: 0.4rem;
@@ -6924,9 +6932,10 @@ kbd {
 #memory-bank-overlay {
   position: fixed; inset: 0; z-index: 9960; background: rgba(6,6,13,0.88);
   backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center;
-  padding: 1.2rem; opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+  padding: 1.2rem; opacity: 0; pointer-events: none; visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
 }
-#memory-bank-overlay.open { opacity: 1; pointer-events: auto; }
+#memory-bank-overlay.open { opacity: 1; pointer-events: auto; visibility: visible; }
 #memory-bank-card {
   max-width: 440px; width: 100%; background: #0d0d1c;
   border: 1px solid rgba(0,201,177,0.4); border-radius: 8px; padding: 2rem 1.8rem;

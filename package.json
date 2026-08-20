@@ -1,0 +1,13 @@
+{
+  "name": "awesome-ai-osint-site-checks",
+  "private": true,
+  "description": "Dev-only: browser checks for the Catalyst: The Awakening site. The site itself has no build step and ships no JavaScript dependencies.",
+  "scripts": {
+    "test": "node design-templates/catalyst-awakening-comic/tests/run.js",
+    "build:pages": "python3 design-templates/catalyst-awakening-comic/tools/build_pages.py",
+    "check:pages": "python3 design-templates/catalyst-awakening-comic/tools/build_pages.py --check"
+  },
+  "devDependencies": {
+    "playwright": "^1.49.0"
+  }
+}

@@ -425,10 +425,12 @@ def build_page(n, parts, all_titles, feed, canon):
     # The same depth photo the section carries on the home page.
     body.append('  <img class="section-photo-bg" src="../assets/corridor.webp" '
                 'alt="" loading="lazy" aria-hidden="true">\n')
+    # <h1>, not <h2>: on the home page the page's one top-level heading is the
+    # hero title, but here the issue IS the page, so its title is the h1.
     body.append('''  <div class="read-header">
     <span class="read-free-badge reveal">✦ Free to Read — Issues 1 Through 4</span>
     <p class="section-label reveal">%s</p>
-    <h2 class="section-title reveal">%s</h2>
+    <h1 class="section-title reveal">%s</h1>
   </div>
 ''' % (esc(label), esc(display_title)))
     body.append(issue_nav(n, title, all_titles))

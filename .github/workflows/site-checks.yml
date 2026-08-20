@@ -1,0 +1,53 @@
+name: Site checks
+
+# The Catalyst site is hand-written HTML/CSS/JS with no build step, which is
+# exactly why these checks exist: there is no compiler to catch a broken
+# selector, a dialog left in the tab order, a feed pointing at a page that no
+# longer exists, or issue pages that have drifted from the index.html they are
+# generated from. Every check here corresponds to a bug that actually shipped.
+
+on:
+  push:
+    paths: &paths
+      - 'design-templates/catalyst-awakening-comic/**'
+      - 'netlify.toml'
+      - 'package.json'
+      - '.github/workflows/site-checks.yml'
+  pull_request:
+    paths: *paths
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # The four issue pages are generated from index.html. Edit the nav, the
+      # footer or a story without re-running the generator and they go stale
+      # silently — this is the guard. Runs first because it needs nothing.
+      - name: Issue pages are in sync with index.html
+        run: python3 design-templates/catalyst-awakening-comic/tools/build_pages.py --check
+
+      - name: Static files (XML, JSON-LD, links, canonicals)
+        run: python3 design-templates/catalyst-awakening-comic/tests/validate_static.py
+
+      - name: Install Playwright chromium
+        run: |
+          npm install --no-audit --no-fund
+          npx playwright install --with-deps chromium
+
+      - name: Browser checks
+        run: npm test
