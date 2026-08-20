@@ -2,12 +2,18 @@
 // issue.css is styles.css with the rules removed that cannot match on an issue
 // page. "Cannot match" is a claim, and this is the check that it is true.
 //
-// Screenshots are the wrong instrument for it — lazy images and the live
-// ticker move pixels between two captures of the same build, so a small real
-// regression is indistinguishable from noise. Instead: render an issue page
-// under each stylesheet and compare the computed style of every element and
-// its ::before/::after. If the subset really is sufficient, every property
-// resolves identically, and the comparison is exact rather than approximate.
+// Both readings come from ONE document, against the same element objects, with
+// nothing between them but a stylesheet swap. That matters more than it
+// sounds. The first version of this test loaded the page twice and compared
+// the two loads; it passed here and failed in CI, because on a slower machine
+// the loads disagreed about how many elements existed — the glossary
+// annotator wraps terms in spans after load, so the DOM is still changing
+// while you sample it. Comparing two loads measures that race as much as it
+// measures the stylesheet. Comparing one document against itself cannot.
+//
+// Screenshots were tried before that and rejected for a related reason: lazy
+// imagery and the live ticker move ~0.006% of pixels between two captures of
+// the same build, so a small real regression would be lost in the noise.
 
 const { newPage, Results } = require('./lib/harness');
 
@@ -16,7 +22,7 @@ const { newPage, Results } = require('./lib/harness');
 //
 // margin-* is deliberately absent: for `margin: 0 auto` Chrome reports either
 // the computed value (0px) or the used value (120px) depending on when it is
-// asked, so comparing it produces differences that are not differences. The
+// asked, so comparing it produces differences that are not differences. Each
 // element's box is captured instead — that is what a margin is for, and it is
 // stable.
 const PROPS = [
@@ -37,103 +43,111 @@ const PROPS = [
   'cursor', 'mix-blend-mode', 'aspect-ratio',
 ];
 
+const PSEUDO_PROPS = ['content', 'display', 'width', 'height', 'transform',
+                      'background-color', 'color'];
+const GEOM = ['box.x', 'box.y', 'box.width', 'box.height'];
+
 module.exports = async function cssSubset(ctx, base) {
   const r = new Results();
 
-  // A fresh page per stylesheet: swapping one in place can leave stale
-  // cascade state behind and would make a real difference invisible.
-  async function snapshot(url, href) {
+  for (const n of [1, 2, 3, 4]) {
     const page = await newPage(ctx);
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto(base + url, { waitUntil: 'networkidle' });
-    await page.evaluate(async h => {
-      const link = document.querySelector('link[rel=stylesheet]');
-      if (!link || link.getAttribute('href') === h) return;
-      await new Promise(done => {
-        const next = document.createElement('link');
-        next.rel = 'stylesheet';
-        next.href = h;
-        next.onload = next.onerror = done;
-        link.replaceWith(next);
-      });
-    }, href);
-    // Freeze time-varying values. The ticker dot pulses, so two loads sample
-    // its opacity at different points in the animation and the comparison
-    // reports a difference that is not a difference. Static values are
-    // unaffected, so a real regression still shows.
-    // `overflow-y: scroll` reserves the scrollbar unconditionally. Without it,
-    // whether one is present when we sample depends on how much lazy imagery
-    // has arrived, and that changes the used value of every `margin: 0 auto`
-    // — a difference in the harness, not in the stylesheet.
+    await page.goto(`${base}/read/issue-${n}`, { waitUntil: 'networkidle' });
+
+    // Reserve the scrollbar unconditionally, and stop animations. Without the
+    // first, whether a scrollbar happens to be present changes the box of
+    // every centred element; without the second, a pulsing ticker dot gets
+    // sampled at two points in its cycle. Neither is a stylesheet difference.
     await page.addStyleTag({ content:
       'html{overflow-y:scroll!important}' +
       '*,*::before,*::after{animation:none!important;transition:none!important}' });
+
+    // Let the page finish mutating itself before either reading.
     await page.evaluate(() => new Promise(done => {
-      // Let every already-requested image settle so layout stops moving.
-      const imgs = [...document.images].filter(i => !i.complete);
-      if (!imgs.length) return done();
-      let left = imgs.length;
-      const tick = () => (--left <= 0) && done();
-      imgs.forEach(i => { i.addEventListener('load', tick); i.addEventListener('error', tick); });
-      setTimeout(done, 3000);
+      const pending = [...document.images].filter(i => !i.complete);
+      let left = pending.length;
+      if (!left) return done();
+      const tick = () => { if (--left <= 0) done(); };
+      pending.forEach(i => { i.addEventListener('load', tick); i.addEventListener('error', tick); });
+      setTimeout(done, 4000);
     }));
-    await page.waitForTimeout(600);
-    const snap = await page.evaluate(props => {
-      const rows = [];
-      for (const el of document.querySelectorAll('*')) {
+    await page.waitForTimeout(900);
+
+    const result = await page.evaluate(async ([props, pseudoProps, other]) => {
+      // Body only: <head> holds the stylesheet <link> this test swaps, and a
+      // detached node reports empty computed styles, which would read as a
+      // difference. Nothing in <head> renders anyway.
+      const els = [...document.body.querySelectorAll('*')];
+
+      const read = () => els.map(el => {
         const cs = getComputedStyle(el);
         const row = props.map(p => cs.getPropertyValue(p));
         for (const pseudo of ['::before', '::after']) {
           const ps = getComputedStyle(el, pseudo);
-          row.push(ps.content, ps.display, ps.width, ps.height,
-                   ps.transform, ps.backgroundColor, ps.color);
+          for (const p of pseudoProps) row.push(ps.getPropertyValue(p));
         }
         const box = el.getBoundingClientRect();
-        row.push(Math.round(box.x), Math.round(box.y),
-                 Math.round(box.width), Math.round(box.height));
-        rows.push({ tag: el.tagName, cls: (el.className || '').toString().slice(0, 40), row });
-      }
-      return rows;
-    }, PROPS);
+        row.push(String(Math.round(box.x)), String(Math.round(box.y)),
+                 String(Math.round(box.width)), String(Math.round(box.height)));
+        return row;
+      });
+
+      const link = document.querySelector('link[rel=stylesheet]');
+      const started = link.getAttribute('href');
+      const before = read();
+
+      // Point the same <link> at the other stylesheet, rather than replacing
+      // the node: the element stays attached and the document keeps its
+      // identity, so the second reading differs only in the CSS applied.
+      await new Promise(done => {
+        link.addEventListener('load', done, { once: true });
+        link.addEventListener('error', done, { once: true });
+        link.href = other;
+      });
+      await new Promise(done => requestAnimationFrame(() => requestAnimationFrame(done)));
+      const after = read();
+
+      return {
+        started,
+        count: els.length,
+        // If the page mutated itself between the readings the comparison is
+        // void; report that rather than a difference that is really a race.
+        countAfter: document.body.querySelectorAll('*').length,
+        before, after,
+      };
+    }, [PROPS, PSEUDO_PROPS, '../styles.css']);
+
     await page.close();
-    return snap;
-  }
 
-  for (const n of [1, 2, 3, 4]) {
-    const url = `/read/issue-${n}`;
-    const subset = await snapshot(url, '../issue.css');
-    const full = await snapshot(url, '../styles.css');
+    r.ok(`i${n}: sampled under issue.css first`,
+      result.started.endsWith('issue.css'), result.started);
+    r.ok(`i${n}: DOM stable across both readings`,
+      result.count === result.countAfter, `${result.count} then ${result.countAfter}`);
 
-    r.ok(`i${n}: both stylesheets rendered`, subset.length > 0 && full.length > 0);
-    r.ok(`i${n}: same element count`, subset.length === full.length,
-      `${subset.length} vs ${full.length}`);
+    const labels = [
+      ...PROPS,
+      ...['::before', '::after'].flatMap(p => PSEUDO_PROPS.map(x => `${p} ${x}`)),
+      ...GEOM,
+    ];
 
-    const len = Math.min(subset.length, full.length);
     let differing = 0;
     let first = '';
-    for (let i = 0; i < len; i++) {
-      const a = subset[i].row;
-      const b = full[i].row;
-      let same = true;
+    for (let i = 0; i < result.before.length; i++) {
+      const a = result.before[i];
+      const b = result.after[i];
       for (let k = 0; k < a.length; k++) {
-        if (a[k] !== b[k]) {
-          same = false;
-          if (!first) {
-            const GEOM = ['box.x', 'box.y', 'box.width', 'box.height'];
-            const pseudoCount = 14;   // 2 pseudo-elements x 7 properties
-            const prop = k < PROPS.length ? PROPS[k]
-              : k < PROPS.length + pseudoCount ? `pseudo[${k - PROPS.length}]`
-              : GEOM[k - PROPS.length - pseudoCount];
-            first = `<${subset[i].tag.toLowerCase()} class="${subset[i].cls}"> ` +
-                    `${prop}: ${JSON.stringify(a[k])} (issue.css) vs ${JSON.stringify(b[k])} (styles.css)`;
-          }
-          break;
+        if (a[k] === b[k]) continue;
+        differing++;
+        if (!first) {
+          first = `element #${i} ${labels[k]}: ` +
+                  `${JSON.stringify(a[k])} (issue.css) vs ${JSON.stringify(b[k])} (styles.css)`;
         }
+        break;
       }
-      if (!same) differing++;
     }
     r.ok(`i${n}: issue.css computes identically to styles.css`,
-      differing === 0, `${differing} of ${len} elements differ — ${first}`);
+      differing === 0, `${differing} of ${result.before.length} elements differ — ${first}`);
   }
 
   return r;
