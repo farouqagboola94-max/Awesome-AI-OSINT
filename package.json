@@ -5,7 +5,10 @@
   "scripts": {
     "test": "node design-templates/catalyst-awakening-comic/tests/run.js",
     "build:pages": "python3 design-templates/catalyst-awakening-comic/tools/build_pages.py",
-    "check:pages": "python3 design-templates/catalyst-awakening-comic/tools/build_pages.py --check"
+    "check:pages": "python3 design-templates/catalyst-awakening-comic/tools/build_pages.py --check",
+    "check:css": "python3 design-templates/catalyst-awakening-comic/tools/split_css.py --check",
+    "check:static": "python3 design-templates/catalyst-awakening-comic/tests/validate_static.py",
+    "build:css": "python3 design-templates/catalyst-awakening-comic/tools/split_css.py"
   },
   "devDependencies": {
     "playwright": "^1.49.0"

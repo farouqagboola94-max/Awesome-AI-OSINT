@@ -4,11 +4,14 @@
 // activate handler below evicts the previous generation. IMG_CACHE is versioned
 // separately and deliberately left behind: image bytes are immutable per URL, so
 // there's no reason to make returning visitors re-download them on a code change.
-const CACHE = 'catalyst-v14';
+const CACHE = 'catalyst-v15';
 const IMG_CACHE = 'catalyst-img-v5';
 const IMG_CACHE_MAX = 60;
 const PRECACHE = [
   '/styles.css',
+  // Issue pages load this instead: styles.css minus the rules that
+  // cannot match there. See tools/split_css.py.
+  '/issue.css',
   '/script.js',
   '/favicon.svg',
   // The two faces above the fold; the rest arrive on demand per unicode-range

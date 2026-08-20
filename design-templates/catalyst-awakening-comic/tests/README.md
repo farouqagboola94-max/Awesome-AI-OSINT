@@ -15,6 +15,7 @@ were written speculatively.
 npm install && npx playwright install chromium   # once
 
 npm run check:pages   # issue pages still match index.html
+npm run check:css     # issue.css still matches styles.css
 npm test              # browser checks (all suites)
 
 node design-templates/catalyst-awakening-comic/tests/run.js a11y   # one suite
@@ -33,6 +34,7 @@ CI runs all four steps on any change under the site directory
 | --- | --- |
 | `validate_static.py` | XML well-formedness, JSON-LD parses, no page links to a missing local file, sitemap and feed point at pages that exist, each page's canonical URL matches its own path |
 | `issue-pages.test.js` | The four generated pages: per-issue metadata and structured data, the story renders, shared chrome survived the slice, JS modules initialise against a one-panel DOM, navigation and deep links between pages |
+| `css-subset.test.js` | That `issue.css` — styles.css minus rules that cannot match on an issue page — renders those pages *identically*: every computed property and box on every element, under both stylesheets |
 | `home.test.js` | index.html is unharmed by changes made for the issue pages: nav geometry, mobile nav, the tabbed reader, search, deep links cold and warm, no horizontal overflow |
 | `a11y.test.js` | Invariants on all five pages: no invisible dialog is keyboard-reachable, one `h1` and it comes first, no placeholder headings, every visible control has a name, every dialog has an accessible name |
 
@@ -52,6 +54,14 @@ CI runs all four steps on any change under the site directory
   five pages; an unguarded `document.querySelector(...).foo` throws and
   silently kills every module defined below it. The "no JS errors" and
   "module live" assertions cover this.
+- **A stylesheet split reordering the cascade.** Splitting styles.css into
+  two linked files and loading both on the home page changed the rendered
+  page — 1% of pixels at 1440px, 1,293px of height at 390px — because lifting
+  rules out of the middle and appending them at the end reorders the cascade
+  for equal-specificity conflicts. That design was measured and abandoned;
+  the home page still loads styles.css whole, and issue pages get a filtered
+  copy whose relative order is untouched. `css-subset.test.js` is what proves
+  the copy is sufficient.
 - **Generated pages drifting from their source.** `--check` rebuilds in
   memory and compares, so an edit to shared chrome that was never re-generated
   fails loudly instead of shipping a stale page.

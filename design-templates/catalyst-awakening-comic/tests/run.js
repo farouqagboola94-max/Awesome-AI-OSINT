@@ -15,6 +15,7 @@ const SUITES = {
   'issue-pages': require('./issue-pages.test.js'),
   home: require('./home.test.js'),
   a11y: require('./a11y.test.js'),
+  'css-subset': require('./css-subset.test.js'),
 };
 
 (async () => {

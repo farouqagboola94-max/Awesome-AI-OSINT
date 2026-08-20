@@ -41,6 +41,9 @@ jobs:
       - name: Issue pages are in sync with index.html
         run: python3 design-templates/catalyst-awakening-comic/tools/build_pages.py --check
 
+      - name: issue.css is in sync with styles.css
+        run: python3 design-templates/catalyst-awakening-comic/tools/split_css.py --check
+
       - name: Static files (XML, JSON-LD, links, canonicals)
         run: python3 design-templates/catalyst-awakening-comic/tests/validate_static.py
 
