@@ -34,6 +34,57 @@ def rel(p):
     return os.path.relpath(p, SITE)
 
 
+# Font families that are safe to name without shipping them: CSS generics and
+# faces every target platform already has.
+GENERIC_FONTS = {
+    'serif', 'sans-serif', 'monospace', 'cursive', 'fantasy', 'system-ui',
+    'ui-sans-serif', 'ui-serif', 'ui-monospace', 'ui-rounded',
+    'inherit', 'initial', 'unset', 'revert',
+    '-apple-system', 'blinkmacsystemfont', 'segoe ui', 'roboto', 'helvetica',
+    'helvetica neue', 'arial', 'georgia', 'times', 'times new roman', 'courier',
+    'courier new', 'verdana', 'tahoma', 'monaco', 'menlo', 'consolas',
+    'apple color emoji', 'segoe ui emoji', 'noto color emoji',
+}
+
+
+def check_fonts(pages):
+    """Every typeface the design names must actually ship.
+
+    The site self-hosts its faces; nothing loads them by side effect any more.
+    So a family named in CSS that has no woff2 in assets/fonts silently falls
+    back and the design quietly stops being the design. This has happened
+    twice: Space Mono was used 67 times and never loaded, and the artwork
+    gallery's category headers asked for Cinzel Decorative and rendered as
+    Times. Neither threw anything; both were invisible until measured.
+    """
+    shipped = set()
+    for f in glob.glob(os.path.join(SITE, 'assets', 'fonts', '*.woff2')):
+        fam = re.sub(r'-\d{3}-.*', '', os.path.basename(f)).replace('-', ' ')
+        shipped.add(fam.lower())
+    check('self-hosted typefaces found', len(shipped) >= 3, sorted(shipped))
+
+    declared = {}
+    for src in ['styles.css', 'issue.css'] + pages:
+        path = os.path.join(SITE, src)
+        if not os.path.exists(path):
+            continue
+        text = open(path, encoding='utf-8').read()
+        for m in re.finditer(r'font-family\s*:\s*([^;}"]*)', text):
+            for raw in m.group(1).split(','):
+                fam = raw.strip().strip('\'"').strip()
+                if not fam or fam.startswith('var(') or fam.endswith(')'):
+                    continue
+                key = fam.lower()
+                if key in GENERIC_FONTS:
+                    continue
+                declared.setdefault(key, (fam, src))
+
+    for key, (fam, src) in sorted(declared.items()):
+        check('typeface is self-hosted: %s' % fam, key in shipped,
+              'named in %s but no assets/fonts/%s-*.woff2'
+              % (src, key.replace(' ', '-')))
+
+
 def main():
     pages = ['index.html'] + sorted(rel(p) for p in glob.glob(os.path.join(SITE, 'read', '*.html')))
 
@@ -95,6 +146,8 @@ def main():
               os.path.exists(p) or os.path.exists(p + '.html'), p)
         check('feed item has a title', bool((item.findtext('title') or '').strip()))
         check('feed item has a date', bool((item.findtext('pubDate') or '').strip()))
+
+    check_fonts(pages)
 
     # ── the canonical URL a page claims is the URL it is served at
     for page in pages:
