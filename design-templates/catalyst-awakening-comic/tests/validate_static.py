@@ -9,6 +9,7 @@ renamed. Run from anywhere:
     python3 tests/validate_static.py
 """
 
+import collections
 import glob
 import json
 import os
@@ -148,6 +149,35 @@ def main():
         check('feed item has a date', bool((item.findtext('pubDate') or '').strip()))
 
     check_fonts(pages)
+
+    # ── no rule may ask for a weight bolder than any face that family ships.
+    # When it does the browser fakes bold by smearing the outlines, which on a
+    # display cut is very visible. Bebas Neue ships one weight, so a heading's
+    # UA-default bold was being faked on 95 elements before this was measured.
+    weights = collections.defaultdict(set)
+    for f in glob.glob(os.path.join(SITE, 'assets', 'fonts', '*.woff2')):
+        m = re.match(r'(.+?)-(\d{3})-(\w+)-', os.path.basename(f))
+        if m:
+            weights[m.group(1).replace('-', ' ').lower()].add(int(m.group(2)))
+    for src in ['styles.css'] + pages:
+        path = os.path.join(SITE, src)
+        if not os.path.exists(path):
+            continue
+        text = open(path, encoding='utf-8').read()
+        over = []
+        for m in re.finditer(r'([^{}]*)\{([^{}]*)\}', text):
+            body = m.group(2)
+            fam = re.search(r"font-family\s*:\s*['\"]([^'\"]+)['\"]", body)
+            wt = re.search(r'font-weight\s*:\s*(\d+)', body)
+            if not (fam and wt):
+                continue
+            key = fam.group(1).lower()
+            if key in weights and int(wt.group(1)) > max(weights[key]):
+                sel = m.group(1).strip().splitlines()[-1][:40] if m.group(1).strip() else '?'
+                over.append('%s wants %s %s (max %d)'
+                            % (sel, fam.group(1), wt.group(1), max(weights[key])))
+        check('%s asks for no weight bolder than ships' % src, not over, '; '.join(over[:3]))
+
 
     # ── the canonical URL a page claims is the URL it is served at
     for page in pages:

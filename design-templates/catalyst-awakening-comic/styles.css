@@ -473,7 +473,11 @@
     letter-spacing: 0.15em;
     color: var(--danfo-gold);
     text-decoration: none;
-  }
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
   .nav-logo span { color: var(--blood-red); }
   /* The link row has to survive from the hamburger breakpoint up to
      wide desktop without pushing the right-hand controls off-screen,
@@ -701,7 +705,11 @@
     color: var(--bone-white);
     text-shadow: 0 0 80px rgba(244,184,0,0.15);
     animation: fadeUp 0.9s ease 0.5s both;
-  }
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
   .hero-title .line-gold { color: var(--danfo-gold); display: block; }
   .hero-title .line-outline {
     -webkit-text-stroke: 2px var(--bone-white);
@@ -823,7 +831,11 @@
     letter-spacing: 0.15em;
     color: var(--black);
     display: flex; align-items: center; gap: 1.5rem; flex-shrink: 0;
-  }
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
   .marquee-dot { width: 6px; height: 6px; background: var(--black); border-radius: 50%; opacity: 0.4; }
   @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
@@ -867,7 +879,11 @@
     line-height: 0.9;
     margin-bottom: 2rem;
     color: var(--bone-white);
-  }
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
   .section-title em { font-style: normal; color: var(--danfo-gold); }
 
   .universe-grid {
@@ -907,7 +923,11 @@
     font-size: 2.5rem;
     color: var(--danfo-gold);
     line-height: 1;
-  }
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
   .stat-box .label {
     font-size: 0.65rem;
     letter-spacing: 0.2em;
@@ -980,7 +1000,11 @@
     line-height: 1;
     margin-bottom: 1rem;
     transition: color 0.4s;
-  }
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
   .location-card:hover .location-number { color: rgba(244,184,0,0.25); }
   .location-name {
     font-family: 'Oswald', sans-serif;
@@ -1114,7 +1138,11 @@
     letter-spacing: 0.05em;
     color: var(--bone-white);
     line-height: 1;
-  }
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
   .char-real-name {
     font-size: 0.7rem;
     letter-spacing: 0.15em;
@@ -1217,7 +1245,11 @@
     color: rgba(255,255,255,0.06);
     position: absolute;
     top: 1rem; left: 1.5rem;
-  }
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
   .issue-status {
     display: inline-block;
     font-size: 0.55rem; letter-spacing: 0.3em; text-transform: uppercase;
@@ -1236,7 +1268,11 @@
     line-height: 1;
     color: var(--bone-white);
     letter-spacing: 0.05em;
-  }
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
   .issue-arc {
     font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
     color: var(--danfo-gold); opacity: 0.8;
@@ -1296,7 +1332,12 @@
 }
 .lore-char-thumb:hover { transform:translateY(-4px);border-color:rgba(244,184,0,0.5);box-shadow:0 12px 32px rgba(184,20,20,0.25); }
 .lore-char-thumb img { width:100%;height:220px;object-fit:cover;display:block; }
-.lore-char-name { text-align:center;font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.15em;color:#F4B800;padding:0.5rem;background:rgba(0,0,0,0.6); }
+.lore-char-name { text-align:center;font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.15em;color:#F4B800;padding:0.5rem;background:rgba(0,0,0,0.6);
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
 .lore-grid {
     display: grid;
     grid-template-columns: 1fr 1.5fr;
@@ -1360,7 +1401,11 @@
     font-size: 2rem;
     color: var(--electric-purple);
     margin-bottom: 0.5rem;
-  }
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
   .lore-panel .subtitle {
     font-family: 'Crimson Pro', serif;
     font-style: italic;
@@ -1623,7 +1668,11 @@
     color: rgba(240,237,229,0.75);
     background: #050505;
     position: relative;
-  }
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
   .scroll-hook em { font-style: normal; color: var(--danfo-gold, #F4B800); }
   .scroll-hook .sh-arrow {
     display: block;
@@ -1721,7 +1770,11 @@
     border-bottom: 1px solid rgba(240,237,229,0.06);
     transition: color 0.3s, padding-left 0.3s;
     opacity: 0.8;
-  }
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
   .mobile-nav a:hover { color: var(--danfo-gold); padding-left: 0.5rem; opacity: 1; }
   .mobile-nav a.nav-cta-mobile {
     margin-top: 1.5rem;
@@ -1741,7 +1794,11 @@
     color: var(--danfo-gold);
     margin-bottom: 2rem;
     opacity: 0.6;
-  }
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
 
   /* ── POWER BARS ──────────────────────────────────────────────── */
   .char-stats {
@@ -1826,8 +1883,18 @@
 .loc-modal-art { position:relative;overflow:hidden; }
 .loc-modal-art-overlay { position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(to top,#0a0810,transparent); }
 .loc-modal-body { padding:1.5rem; }
-.loc-modal-num { font-family:'Bebas Neue',sans-serif;font-size:3rem;line-height:1;color:rgba(244,184,0,0.12);margin-bottom:-0.5rem; }
-.loc-modal-name { font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:0.06em;color:#F4B800;line-height:1.1; }
+.loc-modal-num { font-family:'Bebas Neue',sans-serif;font-size:3rem;line-height:1;color:rgba(244,184,0,0.12);margin-bottom:-0.5rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
+.loc-modal-name { font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:0.06em;color:#F4B800;line-height:1.1;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
 .loc-modal-yoruba { font-family:Georgia,serif;font-style:italic;font-size:0.8rem;color:rgba(240,237,229,0.45);margin:0.2rem 0 0.8rem; }
 .loc-modal-desc { font-size:0.88rem;line-height:1.75;color:rgba(240,237,229,0.65);margin-bottom:1rem; }
 .loc-modal-events { display:flex;flex-direction:column;gap:0.3rem;margin-bottom:0.8rem; }
@@ -1953,7 +2020,11 @@
     font-size: clamp(3rem, 8vw, 7rem);
     line-height: 0.9;
     letter-spacing: 0.05em;
-  }
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
   .arc2-redacted {
     display: inline-block;
     background: var(--blood-red);
@@ -2005,7 +2076,11 @@
     position: absolute;
     top: 1rem; right: 1rem;
     pointer-events: none;
-  }
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
   .arc2-card-label {
     font-family: 'Space Mono', monospace;
     font-size: 0.6rem;
@@ -2229,6 +2304,10 @@
   color: rgba(244,184,0,0.1);
   position: absolute;
   top: 1rem; right: 1.5rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .arc-badge {
   display: inline-block;
@@ -2248,6 +2327,10 @@
   color: var(--bone-white);
   margin-bottom: 0.25rem;
   line-height: 1.1;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .arc-subtitle {
   font-size: 0.72rem;
@@ -2349,6 +2432,10 @@
   font-size: 1.2rem;
   color: var(--electric-purple);
   letter-spacing: 0.2em;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .ase-version { font-size: 0.65rem; color: var(--ash-grey); }
 .ase-line {
@@ -2502,6 +2589,10 @@
   letter-spacing: 0.08em;
   color: var(--bone-white);
   margin-bottom: 0.25rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .reader-pages { font-size: 0.72rem; color: var(--ash-grey); }
 .story-content { max-width: 100%; }
@@ -2593,7 +2684,12 @@
   margin: 2rem 0;
 }
 .cliffhanger-label { font-size: 0.6rem; letter-spacing: 0.25em; color: var(--blood-red); text-transform: uppercase; margin-bottom: 0.5rem; }
-.cliffhanger-text { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.1em; color: var(--bone-white); }
+.cliffhanger-text { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.1em; color: var(--bone-white);
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
 .read-more-block {
   background: linear-gradient(to bottom, transparent, rgba(6,6,13,0.98) 60%);
   padding: 4rem 0 2rem;
@@ -2649,6 +2745,10 @@
   letter-spacing: 0.1em;
   color: var(--bone-white);
   margin-bottom: 0.25rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .access-price {
   font-size: 0.85rem;
@@ -3480,6 +3580,10 @@
   letter-spacing: 0.2em;
   color: var(--danfo-gold);
   margin-bottom: 0.3rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .auth-modal-logo span { color: var(--blood-red); }
 .auth-modal-sub {
@@ -3572,6 +3676,10 @@
   color: var(--danfo-gold);
   margin-bottom: 0.5rem;
   font-family: 'Bebas Neue', sans-serif;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .payment-header h3 {
   font-family: 'Oswald', sans-serif;
@@ -3636,6 +3744,10 @@
   color: var(--danfo-gold);
   letter-spacing: 0.05em;
   line-height: 1;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .payment-period {
   font-family: 'Space Mono', monospace;
@@ -3706,7 +3818,7 @@
   background: var(--danfo-gold);
   color: #06060d;
   font-size: 0.7rem;
-  font-weight: 900;
+  font-weight: 700;
   border-radius: 50%;
   font-family: 'Oswald', sans-serif;
   margin-right: 0.1rem;
@@ -3739,7 +3851,7 @@
   transform: translate(-50%, -50%);
   font-family: 'Oswald', sans-serif;
   font-size: clamp(8rem, 25vw, 22rem);
-  font-weight: 900;
+  font-weight: 700;
   color: rgba(244,184,0,0.03);
   white-space: nowrap;
   pointer-events: none;
@@ -3918,7 +4030,7 @@
   bottom: -20px;
   font-family: 'Oswald', sans-serif;
   font-size: 10rem;
-  font-weight: 900;
+  font-weight: 700;
   color: rgba(196,30,58,0.04);
   line-height: 1;
   pointer-events: none;
@@ -3971,7 +4083,7 @@
 .realm-num {
   font-family: 'Oswald', sans-serif;
   font-size: 5rem;
-  font-weight: 900;
+  font-weight: 700;
   line-height: 1;
   opacity: 0.05;
   position: absolute;
@@ -4035,7 +4147,7 @@
 .codex-tier-num {
   font-family: 'Oswald', sans-serif;
   font-size: 4rem;
-  font-weight: 900;
+  font-weight: 700;
   position: absolute;
   top: 1rem;
   right: 1.5rem;
@@ -4204,6 +4316,10 @@
   color: var(--electric-purple);
   opacity: 0;
   animation: title-glitch 14s linear infinite;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 @keyframes title-glitch {
   0%,88%,100% { opacity:0; transform:none; clip-path:none; }
@@ -5024,6 +5140,10 @@
   gap: 6px;
   border-right: 1px solid rgba(255,255,255,0.15);
   white-space: nowrap;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .ticker-dot {
   width: 6px; height: 6px;
@@ -5254,6 +5374,10 @@ body { padding-top: 26px; }
   padding:0.3rem 0.7rem;
   transform:rotate(-12deg);
   pointer-events:none;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .dos-agency {
   font-family:monospace;
@@ -5269,6 +5393,10 @@ body { padding-top: 26px; }
   color:#F4B800;
   line-height:1;
   margin-bottom:0.2rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .dos-codename {
   font-family:'Space Grotesk',sans-serif;
@@ -5339,6 +5467,10 @@ body { padding-top: 26px; }
   color:rgba(240,237,229,0.93);
   line-height:1.2;
   margin-bottom:0.5rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .quiz-ctx {
   font-family:'Space Grotesk',sans-serif;
@@ -5363,25 +5495,55 @@ body { padding-top: 26px; }
   clip-path:polygon(6px 0%,100% 0%,100% calc(100% - 6px),calc(100% - 6px) 100%,0% 100%,0% 6px);
 }
 .quiz-opt:hover { background:rgba(244,184,0,0.06); border-color:rgba(244,184,0,0.35); }
-.opt-ltr { display:block; font-family:'Bebas Neue',sans-serif; font-size:0.65rem; letter-spacing:3px; color:#F4B800; margin-bottom:0.3rem; }
+.opt-ltr { display:block; font-family:'Bebas Neue',sans-serif; font-size:0.65rem; letter-spacing:3px; color:#F4B800; margin-bottom:0.3rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
 .opt-txt { font-family:'Space Grotesk',sans-serif; font-size:0.82rem; color:rgba(240,237,229,0.72); line-height:1.5; }
 .opt-yor { display:block; font-size:0.68rem; color:rgba(240,237,229,0.28); font-style:italic; margin-top:0.3rem; }
 /* Result */
 .quiz-result { display:none; text-align:center; animation:quiz-in 0.45s ease; }
 .quiz-result.show { display:block; }
 .res-img { width:100%; max-width:300px; height:380px; object-fit:cover; object-position:center top; margin:0 auto 1.5rem; display:block; border:1px solid rgba(244,184,0,0.18); clip-path:polygon(0 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%); }
-.res-label { font-family:'Bebas Neue',sans-serif; font-size:0.75rem; letter-spacing:5px; color:rgba(240,237,229,0.3); margin-bottom:0.2rem; }
-.res-name { font-family:'Bebas Neue',sans-serif; font-size:3.5rem; letter-spacing:4px; color:#F4B800; line-height:1; margin-bottom:0.6rem; }
+.res-label { font-family:'Bebas Neue',sans-serif; font-size:0.75rem; letter-spacing:5px; color:rgba(240,237,229,0.3); margin-bottom:0.2rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
+.res-name { font-family:'Bebas Neue',sans-serif; font-size:3.5rem; letter-spacing:4px; color:#F4B800; line-height:1; margin-bottom:0.6rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
 .res-tag { font-family:'Space Grotesk',sans-serif; font-size:0.87rem; color:rgba(240,237,229,0.5); max-width:400px; margin:0 auto 2rem; line-height:1.75; }
-.res-retry { background:transparent; border:1px solid rgba(244,184,0,0.35); color:#F4B800; font-family:'Bebas Neue',sans-serif; font-size:0.85rem; letter-spacing:3px; padding:0.7rem 2rem; cursor:pointer; transition:all 0.2s; }
+.res-retry { background:transparent; border:1px solid rgba(244,184,0,0.35); color:#F4B800; font-family:'Bebas Neue',sans-serif; font-size:0.85rem; letter-spacing:3px; padding:0.7rem 2rem; cursor:pointer; transition:all 0.2s;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
 .res-retry:hover { background:rgba(244,184,0,0.08); }
 .res-actions { display:flex; gap:0.8rem; justify-content:center; flex-wrap:wrap; }
-.res-idcard-btn { background:#F4B800; border:1px solid #F4B800; color:#06060d; font-family:'Bebas Neue',sans-serif; font-size:0.85rem; letter-spacing:2px; padding:0.7rem 1.6rem; cursor:pointer; transition:all 0.2s; }
+.res-idcard-btn { background:#F4B800; border:1px solid #F4B800; color:#06060d; font-family:'Bebas Neue',sans-serif; font-size:0.85rem; letter-spacing:2px; padding:0.7rem 1.6rem; cursor:pointer; transition:all 0.2s;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
 .res-idcard-btn:hover { background:#ffcf33; }
 .vessel-card-wrap { margin:2rem auto 0; max-width:640px; }
 .vessel-card-wrap canvas { width:100%; height:auto; display:block; border:1px solid rgba(244,184,0,0.3); }
 .vessel-card-actions { display:flex; gap:0.8rem; justify-content:center; margin-top:1rem; flex-wrap:wrap; }
-.vessel-card-actions button { background:transparent; border:1px solid rgba(240,237,229,0.35); color:rgba(240,237,229,0.85); font-family:'Bebas Neue',sans-serif; font-size:0.78rem; letter-spacing:2px; padding:0.6rem 1.4rem; cursor:pointer; transition:all 0.2s; }
+.vessel-card-actions button { background:transparent; border:1px solid rgba(240,237,229,0.35); color:rgba(240,237,229,0.85); font-family:'Bebas Neue',sans-serif; font-size:0.78rem; letter-spacing:2px; padding:0.6rem 1.4rem; cursor:pointer; transition:all 0.2s;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
 .vessel-card-actions button:hover { border-color:#F4B800; color:#F4B800; }
 
 /* ── RELATIONSHIP CONSTELLATION ──────────────────────────── */
@@ -5397,7 +5559,12 @@ body { padding-top: 26px; }
 .const-node circle.const-dot { fill:#111; stroke:rgba(240,237,229,0.35); stroke-width:1.6; transition:all 0.25s; }
 .const-node:hover circle.const-dot, .const-node.active circle.const-dot { stroke:#F4B800; fill:rgba(244,184,0,0.12); }
 .const-node.dim { opacity:0.28; }
-.const-node text { fill:rgba(240,237,229,0.8); font-family:'Bebas Neue',sans-serif; letter-spacing:0.06em; pointer-events:none; }
+.const-node text { fill:rgba(240,237,229,0.8); font-family:'Bebas Neue',sans-serif; letter-spacing:0.06em; pointer-events:none;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
 .const-node.active text, .const-node:hover text { fill:#F4B800; }
 .const-node .const-sub { fill:rgba(240,237,229,0.35); font-family:'Courier New',monospace; font-size:9px; letter-spacing:0.05em; }
 .const-node.mystery circle.const-dot { stroke:rgba(196,30,58,0.5); stroke-dasharray:3 3; }
@@ -5407,7 +5574,12 @@ body { padding-top: 26px; }
   clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
 }
 .const-info-hint { color:rgba(240,237,229,0.4); font-size:0.85rem; text-align:center; font-style:italic; }
-.const-info-name { font-family:'Bebas Neue',sans-serif; font-size:1.6rem; letter-spacing:0.06em; color:#F4B800; margin-bottom:0.4rem; }
+.const-info-name { font-family:'Bebas Neue',sans-serif; font-size:1.6rem; letter-spacing:0.06em; color:#F4B800; margin-bottom:0.4rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
 .const-info-role { font-family:'Courier New',monospace; font-size:0.72rem; letter-spacing:0.1em; color:rgba(0,201,177,0.75); margin-bottom:0.8rem; text-transform:uppercase; }
 .const-info-body { font-size:0.88rem; line-height:1.75; color:rgba(240,237,229,0.65); margin-bottom:1rem; }
 .const-info-links { font-family:'Courier New',monospace; font-size:0.72rem; color:rgba(240,237,229,0.4); letter-spacing:0.04em; }
@@ -5487,9 +5659,19 @@ body { padding-top: 26px; }
 .cd-label { font-family:monospace;font-size:0.6rem;color:rgba(196,30,58,0.65);letter-spacing:4px;text-align:center;margin-bottom:0.5rem;animation:ticker-blink 2s ease infinite; }
 .cd-row { display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;align-items:flex-start; }
 .cd-block { text-align:center;min-width:60px; }
-.cd-num { font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:#F4B800;line-height:1;font-variant-numeric:tabular-nums; }
+.cd-num { font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:#F4B800;line-height:1;font-variant-numeric:tabular-nums;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
 .cd-unit { font-family:monospace;font-size:0.55rem;color:rgba(240,237,229,0.28);letter-spacing:2px;margin-top:2px; }
-.cd-sep { font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:rgba(244,184,0,0.25);line-height:1;padding-top:0; }
+.cd-sep { font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:rgba(244,184,0,0.25);line-height:1;padding-top:0;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
 
 /* ── Section photo backgrounds ─────────────────────────────────────────── */
 .section-photo-bg {
@@ -5619,6 +5801,10 @@ body { padding-top: 26px; }
   color:#F4B800;letter-spacing:0.15em;
   text-shadow:0 0 30px rgba(244,184,0,0.7),0 0 60px rgba(244,184,0,0.3);
   line-height:1;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .ase-levelup-sub {
   font-family:monospace;font-size:0.6rem;color:rgba(244,184,0,0.6);
@@ -5672,6 +5858,10 @@ body { padding-top: 26px; }
   font-family:'Bebas Neue',sans-serif;font-size:2.6rem;
   color:#C41E3A;line-height:1;
   text-shadow:0 0 20px rgba(196,30,58,0.5);
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .arc2-cd-lbl {
   font-family:monospace;font-size:0.48rem;letter-spacing:0.2em;
@@ -5680,6 +5870,10 @@ body { padding-top: 26px; }
 .arc2-cd-sep {
   font-family:'Bebas Neue',sans-serif;font-size:2rem;
   color:rgba(196,30,58,0.4);margin-bottom:0.8rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .arc2-cinematic-quote {
   margin:1.8rem auto 0;max-width:560px;
@@ -5789,6 +5983,10 @@ body { padding-top: 26px; }
 .pt-name {
   font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;
   color:#F0EDE5;line-height:1;margin-bottom:0.2rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .pt-rising { font-size:0.55rem;color:#F4B800;letter-spacing:0.15em; }
 .pt-alias { font-family:monospace;font-size:0.58rem;color:rgba(240,237,229,0.4);letter-spacing:0.06em; }
@@ -5927,6 +6125,10 @@ body.ase-vision .ase-glyph-field { display:block; }
   font-family:'Bebas Neue',sans-serif;font-size:2.8rem;
   color:#C41E3A;letter-spacing:0.1em;line-height:1;
   text-shadow:0 0 30px rgba(196,30,58,0.5);
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .op-classification {
   font-family:monospace;font-size:0.62rem;letter-spacing:0.15em;
@@ -5996,6 +6198,10 @@ body.ase-vision .ase-glyph-field { display:block; }
   font-family:'Bebas Neue',sans-serif;font-size:2.8rem;
   color:#F4B800;letter-spacing:0.1em;line-height:1;
   text-shadow:0 0 30px rgba(244,184,0,0.3);
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .orisha-yoruba {
   font-family:monospace;font-size:0.65rem;color:rgba(244,184,0,0.5);
@@ -6024,6 +6230,10 @@ body.ase-vision .ase-glyph-field { display:block; }
 .orisha-vessel {
   font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;
   color:#F4B800;margin-top:0.2rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .orisha-intel {
   font-size:0.78rem;line-height:1.8;color:rgba(240,237,229,0.6);
@@ -6070,6 +6280,10 @@ body.ase-vision .ase-glyph-field { display:block; }
 .da-node-inner {
   font-family:'Bebas Neue',sans-serif;font-size:0.6rem;letter-spacing:0.08em;
   text-align:center;line-height:1.2;z-index:1;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .da-node-target {
   position:absolute;bottom:-16px;
@@ -6218,9 +6432,14 @@ body.ase-vision .ase-glyph-field { display:block; }
 /* Shared HUD/win-panel styles (used by Case File) */
 .mm-stat{display:flex;flex-direction:column;align-items:center;gap:2px}
 .mm-stat-lbl{font-size:.6rem;letter-spacing:.14em;color:#888;font-family:'Courier New',monospace}
-.mm-stat-val{font-size:1.1rem;font-weight:900;color:var(--ink-line)}
+.mm-stat-val{font-size:1.1rem;font-weight:700;color:var(--ink-line)}
 .mm-win{text-align:center;margin-top:28px;padding:20px;border:2px solid var(--ink-line);background:rgba(240,236,228,.04)}
-.mm-win-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.1em;color:var(--ink-line);margin-bottom:6px}
+.mm-win-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.1em;color:var(--ink-line);margin-bottom:6px
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
+}
 .mm-win-body{font-size:.82rem;color:#ccc;font-family:'Courier New',monospace}
 .po-reset-btn{display:block;margin:16px auto 0;background:transparent;border:2px solid var(--ink-line);color:var(--ink-line);padding:9px 18px;font-size:.66rem;letter-spacing:.12em;cursor:pointer;font-family:'Courier New',monospace;clip-path:polygon(6px 0,100% 0,100% 100%,0 100%,0 6px)}
 .po-reset-btn:hover{background:var(--ink-line);color:#000}
@@ -6477,7 +6696,7 @@ kbd {
   top: 0.6rem; left: 0.6rem;
   background: var(--orisha-teal);
   color: #06060d;
-  font-weight: 800;
+  font-weight: 700;
   font-size: 0.62rem;
   letter-spacing: 0.1em;
   padding: 0.15rem 0.5rem;
@@ -6641,6 +6860,10 @@ kbd {
 .reader-chrome .rc-issue {
   font-family: 'Bebas Neue', sans-serif; font-size: 0.8rem;
   letter-spacing: 0.22em; color: #F4B800;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .reader-chrome .rc-count {
   font-family: 'Space Grotesk', sans-serif; font-size: 0.68rem;
@@ -6663,6 +6886,10 @@ kbd {
   color: rgba(240,237,229,0.85); font-family: 'Bebas Neue', sans-serif;
   font-size: 0.82rem; letter-spacing: 0.18em; padding: 0.65rem 1.3rem;
   cursor: pointer; border-radius: 3px; transition: all 0.2s ease;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .reader-nav button:hover:not(:disabled) { border-color: #F4B800; color: #F4B800; background: rgba(244,184,0,0.07); }
 .reader-nav button:disabled { opacity: 0.25; cursor: default; }
@@ -6683,6 +6910,10 @@ kbd {
 .reader-titlepage .rt-title {
   font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.6rem, 6vw, 4.2rem);
   line-height: 0.95; color: #F0EDE5; letter-spacing: 0.03em; margin-bottom: 1.6rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .reader-titlepage .rt-title em { font-style: normal; color: #F4B800; }
 .reader-titlepage .rt-open {
@@ -6698,6 +6929,10 @@ kbd {
   display: inline-block; margin-top: 1.6rem;
   font-family: 'Bebas Neue', sans-serif; font-size: 0.8rem; letter-spacing: 0.25em;
   color: #00C9B1;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 @media (prefers-reduced-motion: reduce) { .reader-page.current { animation: none; } }
 
@@ -6726,11 +6961,19 @@ kbd {
 .cov-no {
   font-family: 'Bebas Neue', sans-serif; font-size: 1rem;
   letter-spacing: 0.3em; color: rgba(240,237,229,0.5); margin-bottom: 0.4rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .cov-no strong { color: #F4B800; font-weight: 400; font-size: 2.6rem; display: block; line-height: 1.1; letter-spacing: 0.06em; }
 .cov-name {
   font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.9rem, 5vw, 2.6rem);
   color: #F0EDE5; margin: 0.8rem 0 0.2rem; letter-spacing: 0.04em; line-height: 1.05;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .cov-district {
   font-family: 'Space Grotesk', sans-serif; font-size: 0.78rem;
@@ -6746,6 +6989,10 @@ kbd {
 .cov-actions button {
   font-family: 'Bebas Neue', sans-serif; font-size: 0.82rem; letter-spacing: 0.18em;
   padding: 0.7rem 1.3rem; border-radius: 3px; cursor: pointer; transition: all 0.2s ease;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 #cov-share { background: rgba(244,184,0,0.12); border: 1px solid rgba(244,184,0,0.5); color: #F4B800; }
 #cov-share:hover { background: rgba(244,184,0,0.22); }
@@ -6757,6 +7004,10 @@ kbd {
 #awakened-wall .aw-title {
   font-family: 'Bebas Neue', sans-serif; font-size: 0.78rem; letter-spacing: 0.32em;
   color: #F4B800; margin-bottom: 1.1rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 #awakened-wall .aw-chips { display: flex; flex-wrap: wrap; gap: 0.55rem; justify-content: center; }
 #awakened-wall .aw-chip {
@@ -6771,6 +7022,10 @@ kbd {
 #voices-wall .vw-title {
   font-family: 'Bebas Neue', sans-serif; font-size: 0.78rem; letter-spacing: 0.32em;
   color: #F4B800; text-align: center; margin-bottom: 0.5rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 #voices-wall .vw-sub {
   font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; line-height: 1.7;
@@ -6815,6 +7070,10 @@ kbd {
   background: rgba(244,184,0,0.12); border: 1px solid rgba(244,184,0,0.5); color: #F4B800;
   font-family: 'Bebas Neue', sans-serif; font-size: 0.8rem; letter-spacing: 0.16em;
   padding: 0.6rem 1.4rem; border-radius: 3px; cursor: pointer; transition: all 0.2s ease; white-space: nowrap;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 #voices-wall .vw-submit:hover:not(:disabled) { background: rgba(244,184,0,0.22); }
 #voices-wall .vw-submit:disabled { opacity: 0.45; cursor: default; }
@@ -6841,6 +7100,10 @@ kbd {
 #lore-tip .lt-term {
   font-family: 'Bebas Neue', sans-serif; font-size: 0.85rem;
   letter-spacing: 0.14em; color: #F4B800; margin-bottom: 0.3rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 #lore-tip .lt-def {
   font-family: 'Space Grotesk', sans-serif; font-size: 0.74rem;
@@ -6881,6 +7144,10 @@ kbd {
   display: none; align-items: center; justify-content: center;
   cursor: pointer; box-shadow: 0 2px 14px rgba(244,184,0,0.15);
   transition: all 0.2s ease;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 #covenant-chip.on { display: inline-flex; }
 #covenant-chip:hover { background: rgba(244,184,0,0.15); box-shadow: 0 2px 20px rgba(244,184,0,0.3); }
@@ -6903,6 +7170,10 @@ kbd {
 #welcome-back-banner .wb-title {
   font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; letter-spacing: 0.03em;
   color: #F0EDE5; margin-bottom: 0.3rem; line-height: 1.2;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 #welcome-back-banner .wb-sub {
   font-size: 0.78rem; line-height: 1.6; color: rgba(240,237,229,0.6); margin-bottom: 0.9rem;
@@ -6911,6 +7182,10 @@ kbd {
 #welcome-back-banner button {
   font-family: 'Bebas Neue', sans-serif; font-size: 0.76rem; letter-spacing: 0.14em;
   padding: 0.55rem 1.1rem; border-radius: 3px; cursor: pointer; transition: all 0.2s ease;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 #wb-resume { background: rgba(0,201,177,0.14); border: 1px solid rgba(0,201,177,0.55); color: #00C9B1; }
 #wb-resume:hover { background: rgba(0,201,177,0.24); }
@@ -6956,6 +7231,10 @@ kbd {
 #memory-bank-card button {
   font-family: 'Bebas Neue', sans-serif; font-size: 0.78rem; letter-spacing: 0.16em;
   padding: 0.6rem 1.3rem; border-radius: 3px; cursor: pointer; margin: 0 0.3rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 #mb-another { background: rgba(0,201,177,0.12); border: 1px solid rgba(0,201,177,0.5); color: #00C9B1; }
 #mb-another:hover { background: rgba(0,201,177,0.22); }
@@ -7019,6 +7298,10 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 #universe-pulse .up-num {
   font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: #F4B800;
   line-height: 1; font-variant-numeric: tabular-nums;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 #universe-pulse .up-label {
   font-family: 'Space Grotesk', sans-serif; font-size: 0.58rem;
@@ -7028,6 +7311,10 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 #universe-pulse .up-title {
   flex-basis: 100%; text-align: center; font-family: 'Bebas Neue', sans-serif;
   font-size: 0.72rem; letter-spacing: 0.3em; color: #00C9B1; margin-bottom: -0.4rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 
 /* ── Batch 7: Reading journey strip ── */
@@ -7178,6 +7465,10 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   transform: rotate(-8deg);
   z-index: 2;
   pointer-events: none;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .vault-title {
   position: relative;
@@ -7188,6 +7479,10 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   color: var(--danfo-gold);
   line-height: 1.3;
   margin-bottom: 0.5rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .vault-teaser {
   position: relative;
@@ -7258,6 +7553,10 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   font-size: 1.7rem;
   color: var(--danfo-gold);
   line-height: 1;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .clearance-tier {
   font-size: 0.58rem;
@@ -7272,6 +7571,10 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   letter-spacing: 0.05em;
   color: var(--bone-white);
   margin-bottom: 0.5rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .clearance-level-desc {
   font-size: 0.82rem;
@@ -7307,6 +7610,10 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   margin-bottom: 0.7rem;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid rgba(255,255,255,0.08);
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .clearance-item {
   display: flex;
@@ -7350,6 +7657,10 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   padding: 0.3rem 0.8rem;
   margin-bottom: 1.2rem;
   transform: rotate(-2deg);
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .clearance-reward-text {
   font-size: 0.85rem;
@@ -7388,6 +7699,10 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   color: var(--danfo-gold);
   text-align: center;
   margin-bottom: 1rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .cs-roster {
   display: grid;
@@ -7426,6 +7741,10 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   letter-spacing: 0.04em;
   text-align: center;
   line-height: 1.25;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .cs-fighter-rating {
   font-family: monospace;
@@ -7446,6 +7765,10 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   font-size: 1.6rem;
   letter-spacing: 0.1em;
   color: rgba(240,237,229,0.3);
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .cs-fight-btn {
   padding: 0.9rem 1.6rem;
@@ -7459,6 +7782,10 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
   transition: all 0.25s;
   white-space: nowrap;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .cs-fight-btn:hover:not(:disabled) { background: var(--danfo-gold); color: var(--black); }
 .cs-fight-btn:disabled { opacity: 0.25; cursor: not-allowed; }
@@ -7501,6 +7828,10 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   letter-spacing: 0.03em;
   text-align: center;
   line-height: 1.2;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .cs-rating { font-family: monospace; font-size: 0.65rem; color: var(--orisha-teal); }
 .cs-result-odds {
@@ -7509,6 +7840,10 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   color: rgba(240,237,229,0.4);
   letter-spacing: 0.05em;
   flex-shrink: 0;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 
 .cs-log { min-height: 4.5rem; display: flex; flex-direction: column; gap: 0.6rem; }
@@ -7535,6 +7870,10 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   border: 2px solid;
   transform: rotate(-2deg);
   margin-bottom: 0.8rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .cs-stamp-hero { color: var(--danfo-gold); border-color: rgba(244,184,0,0.5); }
 .cs-stamp-villain { color: var(--blood-red); border-color: rgba(196,30,58,0.5); }
@@ -7556,6 +7895,10 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   letter-spacing: 0.12em;
   cursor: pointer;
   transition: all 0.2s;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .cs-again-btn:hover, .cs-share-btn:hover { border-color: var(--danfo-gold); color: var(--danfo-gold); }
 
@@ -7599,6 +7942,10 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   color: rgba(240,237,229,0.55);
   font-family: 'Bebas Neue', sans-serif; font-size: 0.7rem; letter-spacing: 0.12em;
   cursor: pointer; transition: all 0.2s;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .gl-filter:hover { border-color: rgba(244,184,0,0.5); color: var(--danfo-gold); }
 .gl-filter.active { background: rgba(244,184,0,0.14); border-color: var(--danfo-gold); color: var(--danfo-gold); }
@@ -7617,6 +7964,10 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 .gl-term {
   font-family: 'Bebas Neue', sans-serif; font-size: 1.35rem;
   letter-spacing: 0.03em; color: var(--danfo-gold); line-height: 1.2;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .gl-cat {
   font-family: monospace; font-size: 0.55rem; letter-spacing: 0.12em;
@@ -7662,6 +8013,10 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 .gl-pop-term {
   font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem;
   color: var(--danfo-gold); letter-spacing: 0.03em; padding-right: 1rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .gl-pop-pron { font-family: monospace; font-size: 0.66rem; color: rgba(240,237,229,0.45); margin-bottom: 0.5rem; }
 .gl-pop-short { font-size: 0.82rem; line-height: 1.6; color: rgba(240,237,229,0.85); }
@@ -7669,6 +8024,10 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   display: inline-block; margin-top: 0.7rem;
   font-family: 'Bebas Neue', sans-serif; font-size: 0.68rem; letter-spacing: 0.12em;
   color: var(--orisha-teal); text-decoration: none;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .gl-pop-more:hover { color: var(--danfo-gold); }
 
@@ -7686,6 +8045,10 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 .tc-end-count {
   font-family: 'Bebas Neue', sans-serif; font-size: 0.78rem;
   letter-spacing: 0.14em; color: var(--danfo-gold); margin-right: 0.4rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .tc-end-chip {
   font-family: monospace; font-size: 0.58rem; letter-spacing: 0.1em;
@@ -7718,6 +8081,10 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 0.18em;
   cursor: pointer; clip-path: polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);
   transition: all 0.25s;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .tc-begin:hover { background: var(--danfo-gold); color: var(--black); }
 .tc-hint { text-align: center; font-size: 0.68rem; color: rgba(240,237,229,0.35); margin-top: 1rem; }
@@ -7735,6 +8102,10 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 .tc-prompt {
   font-family: 'Bebas Neue', sans-serif; font-size: 1.05rem; letter-spacing: 0.05em;
   color: var(--danfo-gold); margin: 1.4rem 0 1rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .tc-choices { display: flex; flex-direction: column; gap: 0.6rem; }
 .tc-choice {
@@ -7748,6 +8119,10 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 .tc-choice-ltr {
   font-family: 'Bebas Neue', sans-serif; font-size: 0.8rem;
   color: var(--danfo-gold); flex-shrink: 0; padding-top: 0.1rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 
 .tc-end-stamp {
@@ -7755,12 +8130,20 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   font-size: 0.75rem; letter-spacing: 0.2em; padding: 0.3rem 0.8rem;
   border: 2px solid rgba(240,237,229,0.3); color: rgba(240,237,229,0.6);
   transform: rotate(-2deg); margin-bottom: 1rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .tc-end-stamp.canon { border-color: rgba(0,201,177,0.6); color: var(--orisha-teal); }
 .tc-end-stamp.rare { border-color: rgba(244,184,0,0.7); color: var(--danfo-gold); }
 .tc-end-title {
   font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem;
   letter-spacing: 0.03em; color: var(--danfo-gold); line-height: 1.1; margin-bottom: 0.9rem;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .tc-end-body { font-size: 0.92rem; line-height: 1.85; color: rgba(240,237,229,0.8); }
 
@@ -7787,6 +8170,10 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
   background: transparent; color: var(--bone-white);
   font-family: 'Bebas Neue', sans-serif; font-size: 0.78rem; letter-spacing: 0.14em;
   cursor: pointer; transition: all 0.2s;
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .tc-again:hover, .tc-share:hover { border-color: var(--danfo-gold); color: var(--danfo-gold); }
 
@@ -8148,6 +8535,10 @@ mark.fn-hl.fn-flash { animation: fn-flash 1.6s ease-in-out 1; }
   font-size: 1.5rem;
   letter-spacing: 0.18em;
   color: var(--danfo-gold);
+  /* Bebas Neue ships one weight (400). Without pinning it, headings and
+     <strong> inherit the UA default bold and the browser fakes it by
+     smearing the outlines. */
+  font-weight: 400;
 }
 .fn-sub {
   font-family: 'Space Mono', monospace;
