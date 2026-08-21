@@ -441,7 +441,15 @@ def build_page(n, parts, all_titles, feed, canon):
     body.append(footer_nav(n, all_titles))
     body.append('</section>\n</main>\n')
     body.append(absolutise_hashes(to_subdir('\n'.join(parts['extras']) + '\n')))
-    body.append(absolutise_hashes(to_subdir(parts['chrome_bottom'])))
+    bottom = absolutise_hashes(to_subdir(parts['chrome_bottom']))
+    # Three.js drives the animated background behind the hero. An issue page
+    # has no hero — it is long-form reading — but it does carry the shared
+    # #bg3d canvas, so the library would download and run a WebGL particle
+    # field behind the story for the whole time someone reads it. init3DBackground()
+    # already falls back to a cheap 2D canvas when THREE is absent, so dropping
+    # the tag takes a path the code was written for rather than disabling anything.
+    bottom = re.sub(r'\n?\s*<script[^>]*three[^>]*></script>', '', bottom)
+    body.append(bottom)
 
     return ('<!DOCTYPE html>\n<html lang="en">\n<head>\n%s</head>\n'
             '<body data-page="issue" data-issue="%d">\n%s</body>\n</html>\n'

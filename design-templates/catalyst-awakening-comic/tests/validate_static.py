@@ -150,6 +150,32 @@ def main():
 
     check_fonts(pages)
 
+    # -- Yoruba orthography. Ase is written with underdots (U+1E63 s-dot,
+    # U+1EB9 e-dot), never with an acute. Two of the key-art images render it
+    # with an acute, so the wrong form is in circulation and easy to copy into
+    # the copy. Re-lettering the artwork is a separate job; this keeps the
+    # wrong form out of the text, where it would also reach screen readers,
+    # the feed and search engines.
+    WRONG = ['AS\u00c9', 'As\u00e9', 'as\u00e9', 'ASE\u0301', 'Ase\u0301', 'ase\u0301']
+    for src in ['index.html', 'llms.txt', 'feed.xml', 'sitemap.xml', 'script.js'] + pages:
+        path = os.path.join(SITE, src)
+        if not os.path.exists(path):
+            continue
+        text = open(path, encoding='utf-8').read()
+        found = [w for w in WRONG if w in text]
+        check('%s spells Ase with underdots, not acutes' % src, not found, ', '.join(found))
+
+
+    # ── the issue pages must not pull the 3D library. They carry the shared
+    # #bg3d canvas but have no hero, so Three.js would download and run a WebGL
+    # particle field behind the story for as long as someone reads it.
+    # init3DBackground() falls back to a cheap 2D canvas when THREE is absent.
+    for src in [p for p in pages if p.startswith('read/')]:
+        text = open(os.path.join(SITE, src), encoding='utf-8').read()
+        check('%s does not load three.js' % src, 'three' not in text.lower().split('</body>')[0]
+              or not re.search(r'<script[^>]*three', text, re.I), 'three.js script tag present')
+
+
     # ── no rule may ask for a weight bolder than any face that family ships.
     # When it does the browser fakes bold by smearing the outlines, which on a
     # display cut is very visible. Bebas Neue ships one weight, so a heading's
@@ -159,23 +185,32 @@ def main():
         m = re.match(r'(.+?)-(\d{3})-(\w+)-', os.path.basename(f))
         if m:
             weights[m.group(1).replace('-', ' ').lower()].add(int(m.group(2)))
+
+    def css_blocks(text, is_html):
+        """Declaration blocks. For HTML, only what is inside <style> — running a
+        brace-matching scan over prose backtracks catastrophically (39s on one
+        page; the whole check took 104s before this)."""
+        chunks = re.findall(r'<style[^>]*>(.*?)</style>', text, re.S) if is_html else [text]
+        for chunk in chunks:
+            for m in re.finditer(r'([^{}]*)\{([^{}]*)\}', chunk):
+                yield m.group(1), m.group(2)
+
     for src in ['styles.css'] + pages:
         path = os.path.join(SITE, src)
         if not os.path.exists(path):
             continue
         text = open(path, encoding='utf-8').read()
         over = []
-        for m in re.finditer(r'([^{}]*)\{([^{}]*)\}', text):
-            body = m.group(2)
+        for sel, body in css_blocks(text, src.endswith('.html')):
             fam = re.search(r"font-family\s*:\s*['\"]([^'\"]+)['\"]", body)
             wt = re.search(r'font-weight\s*:\s*(\d+)', body)
             if not (fam and wt):
                 continue
             key = fam.group(1).lower()
             if key in weights and int(wt.group(1)) > max(weights[key]):
-                sel = m.group(1).strip().splitlines()[-1][:40] if m.group(1).strip() else '?'
+                name = sel.strip().splitlines()[-1][:40] if sel.strip() else '?'
                 over.append('%s wants %s %s (max %d)'
-                            % (sel, fam.group(1), wt.group(1), max(weights[key])))
+                            % (name, fam.group(1), wt.group(1), max(weights[key])))
         check('%s asks for no weight bolder than ships' % src, not over, '; '.join(over[:3]))
 
 
