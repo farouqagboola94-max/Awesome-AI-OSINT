@@ -17,6 +17,7 @@ const SUITES = {
   a11y: require('./a11y.test.js'),
   'css-subset': require('./css-subset.test.js'),
   'reduced-motion': require('./reduced-motion.test.js'),
+  'reader-features': require('./reader-features.test.js'),
 };
 
 (async () => {

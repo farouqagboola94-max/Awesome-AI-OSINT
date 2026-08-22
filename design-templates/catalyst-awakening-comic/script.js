@@ -2256,8 +2256,18 @@ function pvCopyLink() {
     document.body.style.overflow = 'hidden';
   }
   function closeLocModal() {
-    document.getElementById('locModal').classList.remove('open');
-    document.body.style.overflow = '';
+    // The map modal only exists on the home page, but this is bound to Escape
+    // globally — so on an issue page every Escape press threw here, and the
+    // handler died before anything after it ran.
+    var modal = document.getElementById('locModal');
+    if (!modal) return;
+    // Only release the scroll lock if this modal was the one holding it.
+    // Clearing it unconditionally let an Escape aimed at some other open
+    // dialog unlock the page behind it.
+    if (modal.classList.contains('open')) {
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
   }
   document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLocModal(); });
 
