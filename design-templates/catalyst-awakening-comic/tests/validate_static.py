@@ -150,6 +150,24 @@ def main():
 
     check_fonts(pages)
 
+    # ── @font-face declarations and the files on disk must correspond 1:1.
+    # A declared-but-missing file is a silent fallback. An orphan file is worse
+    # than dead weight: the over-weight check above reads available weights
+    # from the filenames, so a stray woff2 would make it believe a weight is
+    # available that no @font-face actually declares.
+    css = open(os.path.join(SITE, 'styles.css'), encoding='utf-8').read()
+    declared = set(re.findall(r'fonts/([\w.-]+\.woff2)', css))
+    on_disk = {os.path.basename(f)
+               for f in glob.glob(os.path.join(SITE, 'assets', 'fonts', '*.woff2'))}
+    check('every @font-face file exists', not (declared - on_disk),
+          ', '.join(sorted(declared - on_disk)[:4]))
+    check('no orphan font files on disk', not (on_disk - declared),
+          ', '.join(sorted(on_disk - declared)[:4]))
+    check('@font-face count matches file count',
+          css.count('@font-face') == len(on_disk),
+          '%d blocks vs %d files' % (css.count('@font-face'), len(on_disk)))
+
+
     # -- Yoruba orthography. Ase is written with underdots (U+1E63 s-dot,
     # U+1EB9 e-dot), never with an acute. Two of the key-art images render it
     # with an acute, so the wrong form is in circulation and easy to copy into
