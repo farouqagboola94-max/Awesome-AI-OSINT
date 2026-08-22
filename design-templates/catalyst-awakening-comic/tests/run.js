@@ -16,6 +16,7 @@ const SUITES = {
   home: require('./home.test.js'),
   a11y: require('./a11y.test.js'),
   'css-subset': require('./css-subset.test.js'),
+  'reduced-motion': require('./reduced-motion.test.js'),
 };
 
 (async () => {

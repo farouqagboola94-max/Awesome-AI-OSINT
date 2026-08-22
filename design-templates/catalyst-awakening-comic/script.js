@@ -1,5 +1,16 @@
   document.documentElement.classList.add('js-ready');
 
+  // ─── MOTION PREFERENCE ───────────────────────────────────────
+  // The stylesheet already zeroes every CSS animation and transition under
+  // prefers-reduced-motion, but CSS cannot stop a canvas: the background
+  // particle field is driven by requestAnimationFrame and kept moving for
+  // people who had explicitly asked their system to stop exactly this. Live,
+  // not a snapshot, so toggling the OS setting takes effect without a reload.
+  var motionQuery = window.matchMedia
+    ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+  function prefersReducedMotion() { return !!(motionQuery && motionQuery.matches); }
+  window.catalystPrefersReducedMotion = prefersReducedMotion;
+
   // ─── WHICH PAGE IS THIS? ─────────────────────────────────────
   // One script serves the home page and the four standalone issue pages
   // (/read/issue-1 … /read/issue-4). Nearly everything works on both because
@@ -80,7 +91,9 @@
       const resizeFb = () => { W2 = bgCanvas.width = innerWidth; H2 = bgCanvas.height = innerHeight; };
       addEventListener('resize', resizeFb); resizeFb();
       for (let i=0;i<80;i++) pts.push({x:Math.random()*W2,y:Math.random()*H2,r:Math.random()*1.5+0.3,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,c:cols[0|Math.random()*cols.length],o:Math.random()*.4+.1});
-      (function fb(){ctx2.clearRect(0,0,W2,H2);pts.forEach(p=>{ctx2.beginPath();ctx2.arc(p.x,p.y,p.r,0,Math.PI*2);ctx2.fillStyle=p.c;ctx2.globalAlpha=p.o;ctx2.fill();p.x=(p.x+p.vx+W2)%W2;p.y=(p.y+p.vy+H2)%H2;});ctx2.globalAlpha=1;requestAnimationFrame(fb);})();
+      // Under reduced motion this paints the field once and stops, so the
+      // backdrop still looks composed rather than going blank.
+      (function fb(){ctx2.clearRect(0,0,W2,H2);pts.forEach(p=>{ctx2.beginPath();ctx2.arc(p.x,p.y,p.r,0,Math.PI*2);ctx2.fillStyle=p.c;ctx2.globalAlpha=p.o;ctx2.fill();p.x=(p.x+p.vx+W2)%W2;p.y=(p.y+p.vy+H2)%H2;});ctx2.globalAlpha=1;if(!prefersReducedMotion())requestAnimationFrame(fb);})();
       return;
     }
 
@@ -223,7 +236,9 @@
     // ── Animate ───────────────────────────────────────────────────
     let frame3d = 0;
     function animate3d() {
-      requestAnimationFrame(animate3d);
+      // One composed frame under reduced motion, then stop scheduling. The
+      // scene still renders, so the hero keeps its depth without moving.
+      if (!prefersReducedMotion()) requestAnimationFrame(animate3d);
       frame3d++;
       const t = frame3d * 0.012;
 
@@ -1235,7 +1250,11 @@
   function loop() {
     ctx.clearRect(0, 0, W, H);
     sparks.forEach(function(s) { s.update(); s.draw(); });
-    requestAnimationFrame(loop);
+    // One composed frame under reduced motion: the sparks are still drawn, so
+    // the hero keeps its texture, but they stop drifting.
+    if (!window.catalystPrefersReducedMotion || !window.catalystPrefersReducedMotion()) {
+      requestAnimationFrame(loop);
+    }
   }
   loop();
 })();
@@ -3333,6 +3352,12 @@ function pvCopyLink() {
         });
         if (alive) requestAnimationFrame(frame);
         else { canvas.remove(); }
+      }
+      // Flying particles are exactly what the preference is for. Nothing is
+      // lost by skipping them — the celebration also shows a toast.
+      if (window.catalystPrefersReducedMotion && window.catalystPrefersReducedMotion()) {
+        canvas.remove();
+        return;
       }
       requestAnimationFrame(frame);
       setTimeout(function() { if (canvas.parentNode) canvas.remove(); }, 3500);
