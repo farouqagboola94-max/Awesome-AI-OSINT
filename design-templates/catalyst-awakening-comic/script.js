@@ -4015,7 +4015,14 @@ function pvCopyLink() {
         nextBtn.textContent = 'Next Page ▶';
         nextBtn.className = '';
       }
-      try { localStorage.setItem(storageKey, String(current)); } catch(e) {}
+      try {
+        localStorage.setItem(storageKey, String(current));
+        // The denominator, recorded alongside the position. Without it
+        // another page can say "page 4" but not "page 4 of 12", and
+        // guessing the total would be inventing the one number that
+        // makes the claim mean anything.
+        localStorage.setItem('catalyst_pages_i' + issueNum, String(total - 1));
+      } catch(e) {}
       if (scroll) content.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
@@ -4030,6 +4037,7 @@ function pvCopyLink() {
       }
       if (window.catalystUpdateJourney) catalystUpdateJourney();
       if (window.catalystSyncProgress) catalystSyncProgress(issueNum, current);
+      if (window.catalystPaintIssueTabs) catalystPaintIssueTabs();
     }
 
     function go(delta, scroll) {
@@ -4165,7 +4173,10 @@ function pvCopyLink() {
   /* ── Batch 7: reading journey strip in the reader header ── */
   (function() {
     var header = document.querySelector('#read .read-header');
-    if (!header) return;
+    // On a standalone /read/issue-N page pagers{} holds exactly one issue,
+    // so this strip could only render a single chip about the issue being
+    // read. The tab bar carries all four states there instead.
+    if (!header || CATALYST_ISSUE_PAGE) return;
     var strip = document.createElement('div');
     strip.className = 'reader-journey';
     strip.setAttribute('aria-label', 'Your reading progress');
@@ -4199,6 +4210,108 @@ function pvCopyLink() {
       }
     };
     catalystUpdateJourney();
+  })();
+
+
+  /* ── Reading state, on the controls that are already there ──
+
+     A standalone issue page carries a tab bar to the other three issues and,
+     at the foot, a card for whichever one comes next. Both were identical for
+     every reader: someone three pages into Issue #3 and someone who had never
+     opened it saw exactly the same thing.
+
+     The reader already writes their position on every page turn. This reads
+     it back and puts it on the controls that exist, rather than adding a
+     fifth widget that says the same thing — which is also why the journey
+     strip stands down on these pages: on a standalone page pagers{} holds one
+     issue, so it could only ever render a one-chip strip about the issue you
+     are already looking at.
+
+     Everything shown is something this browser recorded. There is no
+     "readers like you", no streak, and nothing is lost by not coming back. */
+  (function() {
+    var tabs = [].slice.call(document.querySelectorAll('.issue-page-tab'));
+    if (!tabs.length) return;
+
+    function stateOf(n) {
+      var read = false, page = 0, total = 0;
+      try {
+        read = !!localStorage.getItem('catalyst_read_' + n);
+        page = parseInt(localStorage.getItem('catalyst_page_i' + n), 10) || 0;
+        // Written by the pager once it has laid the issue out, so it exists
+        // only for an issue this browser has actually opened. An issue with a
+        // position but no total is one read before this shipped; it gets the
+        // honest "in progress" state without a fabricated percentage.
+        total = parseInt(localStorage.getItem('catalyst_pages_i' + n), 10) || 0;
+      } catch (e) {}
+      return { read: read, page: page, total: total };
+    }
+
+    function paint() {
+      tabs.forEach(function(tab) {
+        var n = parseInt((tab.getAttribute('href') || '').replace(/\D/g, ''), 10);
+        if (!n) return;
+        var s = stateOf(n);
+        var note = tab.querySelector('.tab-state');
+        if (!note) {
+          note = document.createElement('span');
+          note.className = 'tab-state';
+          tab.appendChild(note);
+        }
+        var bar = tab.querySelector('.tab-progress');
+        if (!bar) {
+          bar = document.createElement('span');
+          bar.className = 'tab-progress';
+          bar.setAttribute('aria-hidden', 'true');
+          bar.appendChild(document.createElement('span'));
+          tab.appendChild(bar);
+        }
+        var fill = bar.firstChild;
+        tab.classList.remove('tab-read', 'tab-reading');
+        if (s.read) {
+          tab.classList.add('tab-read');
+          note.textContent = ' — read';
+          fill.style.width = '100%';
+        } else if (s.page > 0) {
+          tab.classList.add('tab-reading');
+          note.textContent = s.total
+            ? ' — page ' + s.page + ' of ' + s.total
+            : ' — in progress';
+          fill.style.width = s.total
+            ? Math.max(4, Math.round(s.page / s.total * 100)) + '%'
+            : '18%';
+        } else {
+          note.textContent = '';
+          fill.style.width = '0%';
+        }
+      });
+
+      // The hand-off card asks the reader to start the next issue. If they
+      // have already started it, saying "Read Issue #03" is simply wrong.
+      var cta = document.querySelector('.handoff-cta');
+      var card = document.querySelector('.handoff-card');
+      if (!cta || !card) return;
+      var m = (card.getAttribute('href') || '').match(/issue-(\d)/);
+      if (!m) return;
+      var next = stateOf(parseInt(m[1], 10));
+      if (next.read || !next.page) return;
+      // The arrow is a separate <span>; only the label text changes.
+      cta.firstChild.nodeValue = 'Continue Issue #0' + m[1] + ' ';
+      var facts = document.querySelector('.handoff-facts');
+      if (facts && !facts.querySelector('.fact-resume')) {
+        var chip = document.createElement('span');
+        chip.className = 'fact-resume';
+        chip.textContent = next.total
+          ? 'You stopped on page ' + next.page + ' of ' + next.total
+          : 'You have started this one';
+        facts.insertBefore(chip, facts.firstChild);
+      }
+    }
+
+    paint();
+    // The pager writes a position on every turn, so the bar for the issue
+    // being read has to follow it rather than being painted once at load.
+    window.catalystPaintIssueTabs = paint;
   })();
 
   /* ── Batch 7: every story chapter searchable in the command palette ── */

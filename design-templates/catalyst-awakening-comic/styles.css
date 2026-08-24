@@ -8724,6 +8724,7 @@ mark.fn-hl.fn-flash { animation: fn-flash 1.6s ease-in-out 1; }
 /* The tab bar, as links. Inherits .issue-tab's look; only the bits that
    differ between a <button> and an <a> are restated. */
 .issue-page-tab {
+  position: relative;
   flex: 0 0 auto;
   background: transparent;
   border: 1px solid rgba(244,184,0,0.25);
@@ -8743,6 +8744,62 @@ mark.fn-hl.fn-flash { animation: fn-flash 1.6s ease-in-out 1; }
   background: var(--danfo-gold);
   border-color: var(--danfo-gold);
   color: var(--black);
+}
+
+/* What this reader has actually read, on the tabs that are already there.
+
+   The exact position ("page 4 of 12") is announced to screen readers and
+   spelled out on the hand-off card, where there is room for a sentence. Here
+   it is a proportional rule along the foot of the tab and a tick for a
+   finished issue, because four tabs carrying four clauses of text would wrap
+   the bar on a phone to buy detail nobody reads at a glance. */
+.tab-state {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.tab-progress {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 3px;
+  background: rgba(244,184,0,0.14);
+  pointer-events: none;
+}
+.tab-progress > span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--danfo-gold);
+  transition: width 0.4s ease;
+}
+/* An active or hovered tab is filled gold, so gold-on-gold would be invisible. */
+.issue-page-tab.active .tab-progress,
+.issue-page-tab:hover .tab-progress,
+.issue-page-tab:focus-visible .tab-progress { background: rgba(6,6,13,0.2); }
+.issue-page-tab.active .tab-progress > span,
+.issue-page-tab:hover .tab-progress > span,
+.issue-page-tab:focus-visible .tab-progress > span { background: var(--black); }
+.issue-page-tab.tab-read::after {
+  content: ' \2713';
+  color: var(--danfo-gold);
+  margin-left: 0.4em;
+}
+.issue-page-tab.tab-read.active::after,
+.issue-page-tab.tab-read:hover::after,
+.issue-page-tab.tab-read:focus-visible::after { color: var(--black); }
+
+/* "You stopped on page 4 of 12" — shown only when this browser recorded it. */
+.fact-resume {
+  border-color: var(--danfo-gold) !important;
+  color: var(--danfo-gold) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab-progress > span { transition: none; }
 }
 
 /* The hand-off at the foot of an issue.

@@ -88,7 +88,11 @@ module.exports = async function issuePages(ctx, base) {
     r.ok(`i${n}: story pages rendered`, dom.pages >= 3, String(dom.pages));
     r.ok(`i${n}: prose rendered`, dom.prose >= 5, String(dom.prose));
     r.ok(`i${n}: four issues in the tab bar`, dom.tabs === 4, String(dom.tabs));
-    r.ok(`i${n}: this issue's tab is current`, dom.activeTab === `Issue #0${n}`, dom.activeTab);
+    // startsWith, not equality: a returning reader's tabs also carry an
+    // announced reading state ("Issue #03 — page 4 of 12"), which
+    // reading-state covers.
+    r.ok(`i${n}: this issue's tab is current`,
+      dom.activeTab.startsWith(`Issue #0${n}`), dom.activeTab);
     r.ok(`i${n}: breadcrumb present`, dom.crumbs === 3, String(dom.crumbs));
     chapters[n] = dom.chapters;
     // "Issue #02: Ṣàngó's Daughter — Catalyst…" → the title alone.
