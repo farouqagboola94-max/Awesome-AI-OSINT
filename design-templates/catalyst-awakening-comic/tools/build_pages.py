@@ -368,28 +368,135 @@ def issue_nav(n, title, all_titles):
             + '\n'.join(items) + '\n  </nav>\n')
 
 
-def footer_nav(n, all_titles):
-    """Previous / next issue, at the end of the story where it is wanted."""
-    prev_html = next_html = ''
-    if n > 1:
-        prev_html = ('    <a class="issue-seq-link prev" href="./issue-%d">'
-                     '<span class="issue-seq-dir">← Previous</span>'
-                     '<span class="issue-seq-name">Issue #%02d · %s</span></a>'
-                     % (n - 1, n - 1, esc(all_titles[n - 1])))
-    if n < 4:
-        next_html = ('    <a class="issue-seq-link next" href="./issue-%d">'
-                     '<span class="issue-seq-dir">Next →</span>'
-                     '<span class="issue-seq-name">Issue #%02d · %s</span></a>'
-                     % (n + 1, n + 1, esc(all_titles[n + 1])))
+def webp_size(filename):
+    """Intrinsic pixel size of a cover, read from the file itself.
+
+    The width/height attributes on an <img> are what stops the page jumping
+    while the image loads, and a browser treats them as a presentational hint
+    -- so a guessed pair does not merely fail to help, it actively squashes
+    the image. Reading the VP8 header costs nothing at build time and cannot
+    drift when a cover is re-exported.
+    """
+    import struct
+    with open(os.path.join(ROOT, 'assets', filename), 'rb') as f:
+        head = f.read(32)
+    if head[:4] != b'RIFF' or head[8:12] != b'WEBP':
+        return None
+    kind = head[12:16]
+    if kind == b'VP8 ':
+        return (struct.unpack('<H', head[26:28])[0] & 0x3fff,
+                struct.unpack('<H', head[28:30])[0] & 0x3fff)
+    if kind == b'VP8X':
+        return (int.from_bytes(head[24:27], 'little') + 1,
+                int.from_bytes(head[27:30], 'little') + 1)
+    if kind == b'VP8L':
+        bits = int.from_bytes(head[21:25], 'little')
+        return ((bits & 0x3fff) + 1, ((bits >> 14) & 0x3fff) + 1)
+    return None
+
+
+def issue_stats(panel):
+    """Chapters and an honest reading time for one issue's prose.
+
+    Both are counted off the markup that is actually on the page, not off the
+    "88 Pages" line in the panel header -- that number describes the printed
+    comic, and a card that used it would be promising the reader something
+    this page does not contain. 220 words a minute is the conventional adult
+    prose rate; the result is rounded up and never shown below one minute.
+    """
+    chapters = len(re.findall(r'<div class="chapter-title">', panel))
+    words = sum(len(re.sub(r'<[^>]+>', ' ', block).split())
+                for block in re.findall(r'<p class="story-prose"[^>]*>(.*?)</p>',
+                                        panel, re.S))
+    return chapters, max(1, int(round(words / 220.0)))
+
+
+def clamp(text, limit):
+    """Trim to a word boundary. Cutting mid-word looks like a bug, not a teaser."""
+    if len(text) <= limit:
+        return text
+    return text[:limit - 1].rsplit(' ', 1)[0] + '…'
+
+
+def handoff_card(href, num, name, blurb, facts, cta, cover=None):
+    rows = ['    <a class="handoff-card" href="%s">' % href]
+    if cover:
+        dims = webp_size(cover)
+        size = ' width="%d" height="%d"' % dims if dims else ''
+        rows.append('      <img class="handoff-cover" src="../assets/%s" alt=""%s '
+                    'loading="lazy" decoding="async">' % (cover, size))
     else:
-        next_html = ('    <a class="issue-seq-link next" href="/#access">'
-                     '<span class="issue-seq-dir">Arc II →</span>'
-                     '<span class="issue-seq-name">Issue #05 · Subscribe</span></a>')
-    return ('  <div class="issue-seq">\n%s\n%s\n  </div>\n'
-            % (prev_html, next_html)).replace('\n\n', '\n')
+        rows.append('      <span class="handoff-cover handoff-sigil" '
+                    'aria-hidden="true">II</span>')
+    rows.append('      <span class="handoff-body">')
+    rows.append('        <span class="handoff-num">%s</span>' % num)
+    rows.append('        <span class="handoff-name" id="handoff-title">%s</span>' % esc(name))
+    rows.append('        <span class="handoff-blurb">%s</span>' % esc(blurb))
+    rows.append('        <span class="handoff-facts">%s</span>'
+                % ''.join('<span>%s</span>' % esc(f) for f in facts))
+    rows.append('        <span class="handoff-cta">%s <span aria-hidden="true">'
+                '→</span></span>' % esc(cta))
+    rows.append('      </span>')
+    rows.append('    </a>')
+    return '\n'.join(rows)
 
 
-def build_page(n, parts, all_titles, feed, canon):
+def footer_nav(n, canon, feed, stats):
+    """The hand-off at the end of the story.
+
+    What happens here is the engine of a serial. Someone who has just finished
+    an issue is at the most persuadable moment they will ever be in, and this
+    used to meet them with two underlined words. The card shows the thing
+    itself: the next cover, its real title, the synopsis already written for
+    the feed, the chapter count and how long it takes to read.
+
+    Everything on it is true and already written down somewhere else in the
+    repository, which is deliberate. There is no countdown, no invented
+    scarcity, no "4 people are reading this right now", no streak to lose.
+    The hook is the story; the job here is only to stop hiding it.
+    """
+    if n < 4:
+        m = n + 1
+        chapters, minutes = stats[m]
+        card = handoff_card(
+            './issue-%d' % m,
+            'Issue #%02d' % m,
+            canon[m],
+            clamp(feed[m]['synopsis'], 240),
+            ['%d chapters' % chapters, '%d min read' % minutes, 'Free'],
+            'Read Issue #%02d' % m,
+            cover=ISSUES[m]['cover'])
+        eyebrow = 'The story continues'
+    else:
+        # Arc I is over and there is no Issue #5 to link to, so this says so
+        # rather than dressing the end of the free run up as another chapter.
+        card = handoff_card(
+            '/#access',
+            'Arc II · Iron Trials',
+            'Issues 5 through 12',
+            'Arc I ends on a choice. Arc II is where it costs something — '
+            'fully illustrated, with the key scenes animated. Issues 1 to 4 '
+            'stay free forever.',
+            ['8 issues', 'Illustrated', '\xccmọ̀lẹ̀ Circle'],
+            'See what Arc II includes')
+        eyebrow = 'End of Arc I'
+
+    back = []
+    if n > 1:
+        back.append('      <a class="handoff-back" href="./issue-%d">'
+                    '<span aria-hidden="true">←</span> Issue #%02d · %s</a>'
+                    % (n - 1, n - 1, esc(canon[n - 1])))
+    back.append('      <a class="handoff-all" href="/#read">All four issues</a>')
+
+    return ('  <aside class="issue-handoff%s" aria-labelledby="handoff-title">\n'
+            '    <p class="handoff-eyebrow">%s</p>\n'
+            '%s\n'
+            '    <div class="handoff-aside">\n%s\n    </div>\n'
+            '  </aside>\n'
+            % ('' if n < 4 else ' handoff-finale', eyebrow, card, '\n'.join(back)))
+
+
+def build_page(n, parts, all_titles, feed, canon, stats):
     meta = dict(ISSUES[n], **feed[n])
     panel = parts['panels'][n]
     display_title = extract(panel, 'reader-issue-title') or 'Issue #%d' % n
@@ -438,7 +545,7 @@ def build_page(n, parts, all_titles, feed, canon):
     body.append(issue_nav(n, title, all_titles))
     body.append(to_subdir(panel))
     body.append('\n')
-    body.append(footer_nav(n, all_titles))
+    body.append(footer_nav(n, canon, feed, stats))
     body.append('</section>\n</main>\n')
     body.append(absolutise_hashes(to_subdir('\n'.join(parts['extras']) + '\n')))
     bottom = absolutise_hashes(to_subdir(parts['chrome_bottom']))
@@ -470,12 +577,13 @@ def main():
     canon = read_canonical_titles(html)
     all_titles = canon
     feed = read_feed()
+    stats = {i: issue_stats(parts['panels'][i]) for i in ISSUES}
 
     os.makedirs(OUTDIR, exist_ok=True)
     stale = []
     for n in sorted(ISSUES):
         out = os.path.join(OUTDIR, ISSUES[n]['slug'] + '.html')
-        page = build_page(n, parts, all_titles, feed, canon)
+        page = build_page(n, parts, all_titles, feed, canon, stats)
         if args.check:
             have = open(out, encoding='utf-8').read() if os.path.exists(out) else None
             if have != page:

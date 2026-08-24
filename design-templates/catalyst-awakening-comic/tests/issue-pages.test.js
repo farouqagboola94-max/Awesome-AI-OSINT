@@ -8,6 +8,9 @@ const { newPage, watchErrors, watchBadRequests, Results } = require('./lib/harne
 
 module.exports = async function issuePages(ctx, base) {
   const r = new Results();
+  const handoffs = {};
+  const chapters = {};
+  const titles = {};
 
   for (const n of [1, 2, 3, 4]) {
     const page = await newPage(ctx);
@@ -75,7 +78,7 @@ module.exports = async function issuePages(ctx, base) {
         tabs: document.querySelectorAll('.issue-page-tab').length,
         activeTab: document.querySelector('.issue-page-tab.active')?.textContent.trim(),
         crumbs: document.querySelectorAll('.issue-crumbs li').length,
-        seq: document.querySelectorAll('.issue-seq-link').length,
+        chapters: document.querySelectorAll('.chapter-title').length,
         permalink: document.querySelectorAll('.reader-permalink').length,
       };
     });
@@ -87,7 +90,76 @@ module.exports = async function issuePages(ctx, base) {
     r.ok(`i${n}: four issues in the tab bar`, dom.tabs === 4, String(dom.tabs));
     r.ok(`i${n}: this issue's tab is current`, dom.activeTab === `Issue #0${n}`, dom.activeTab);
     r.ok(`i${n}: breadcrumb present`, dom.crumbs === 3, String(dom.crumbs));
-    r.ok(`i${n}: prev/next present`, dom.seq === (n === 1 ? 1 : 2), String(dom.seq));
+    chapters[n] = dom.chapters;
+    // "Issue #02: Ṣàngó's Daughter — Catalyst…" → the title alone.
+    titles[n] = (meta.title.split(': ')[1] || '').split(' — ')[0];
+    handoffs[n] = await page.evaluate(() => {
+      const aside = document.querySelector('.issue-handoff');
+      if (!aside) return null;
+      const card = aside.querySelector('.handoff-card');
+      const img = aside.querySelector('img.handoff-cover');
+      return {
+        cards: document.querySelectorAll('.handoff-card').length,
+        href: card?.getAttribute('href') || '',
+        name: aside.querySelector('.handoff-name')?.textContent.trim() || '',
+        blurb: (aside.querySelector('.handoff-blurb')?.textContent || '').trim(),
+        cta: aside.querySelector('.handoff-cta')?.textContent.trim() || '',
+        facts: [...aside.querySelectorAll('.handoff-facts span')].map(s => s.textContent.trim()),
+        cover: img?.getAttribute('src') || '',
+        back: aside.querySelector('.handoff-back')?.getAttribute('href') || '',
+        all: aside.querySelector('.handoff-all')?.getAttribute('href') || '',
+        // The whole card is one link. Anything focusable inside it would be
+        // unreachable markup a keyboard user can still land on.
+        nested: card ? card.querySelectorAll('a, button, [tabindex]').length : -1,
+        labelled: aside.getAttribute('aria-labelledby') === 'handoff-title' &&
+                  !!aside.querySelector('#handoff-title'),
+      };
+    });
+    const h = handoffs[n];
+    r.ok(`i${n}: the story hands off at the end`, !!h && h.cards === 1, JSON.stringify(h && h.cards));
+    if (h) {
+      const target = n < 4 ? `./issue-${n + 1}` : '/#access';
+      r.ok(`i${n}: the hand-off points at ${target}`, h.href === target, h.href);
+      r.ok(`i${n}: it names what comes next`, h.name.length > 3, h.name);
+      r.ok(`i${n}: it says what happens in it`, h.blurb.length > 60, String(h.blurb.length));
+      r.ok(`i${n}: it carries three facts`, h.facts.length === 3, h.facts.join(' / '));
+      r.ok(`i${n}: the call to action is explicit`, /^(Read|See)\b/.test(h.cta), h.cta);
+      r.ok(`i${n}: the card is a single link`, h.nested === 0, String(h.nested));
+      r.ok(`i${n}: the card is labelled for screen readers`, h.labelled === true);
+      r.ok(`i${n}: links back to every issue`, h.all === '/#read', h.all);
+      r.ok(`i${n}: ${n > 1 ? 'links back to the previous issue' : 'has no previous issue to link'}`,
+        n > 1 ? h.back === `./issue-${n - 1}` : h.back === '', h.back);
+      if (n < 4) {
+        r.ok(`i${n}: shows the cover of Issue #0${n + 1}`,
+          h.cover.endsWith(`cover-issue${n + 1}.webp`), h.cover);
+        // The cover is loading="lazy" and the card sits at the foot of a long
+        // page, so at load it is correctly still unfetched. Scrolling to it is
+        // what a reader does, and only then is "does it load" a real question.
+        const cover = await page.evaluate(async () => {
+          const img = document.querySelector('img.handoff-cover');
+          img.scrollIntoView({ block: 'center' });
+          if (!img.complete) {
+            await new Promise(done => {
+              img.addEventListener('load', done, { once: true });
+              img.addEventListener('error', done, { once: true });
+              setTimeout(done, 5000);
+            });
+          }
+          return {
+            loaded: img.complete && img.naturalWidth > 0,
+            // A card that reserves the wrong box shifts the page as it loads.
+            ratioOK: Math.abs((img.getAttribute('width') / img.getAttribute('height')) -
+                              (img.naturalWidth / img.naturalHeight)) < 0.01,
+            declared: `${img.getAttribute('width')}x${img.getAttribute('height')}`,
+            natural: `${img.naturalWidth}x${img.naturalHeight}`,
+          };
+        });
+        r.ok(`i${n}: that cover actually loads once scrolled to`,
+          cover.loaded === true, JSON.stringify(cover));
+        r.ok(`i${n}: the cover reserves its true aspect ratio`,
+          cover.ratioOK === true, `${cover.declared} declared vs ${cover.natural} natural`);
+      }
+    }
     r.ok(`i${n}: no link to the page you are on`, dom.permalink === 0, String(dom.permalink));
 
     // ── shared chrome survived the slice
@@ -158,6 +230,20 @@ module.exports = async function issuePages(ctx, base) {
   await page.click('.issue-page-tab:not(.active)');
   await page.waitForLoadState('networkidle');
   r.ok('tab bar navigates to another issue page', /issue-[134]/.test(page.url()), page.url());
+
+  // ── a hand-off card makes a factual claim about a page the reader has not
+  //    opened yet. Checking it against that page is the only way to know the
+  //    card is not quietly lying: a generator bug that read the wrong panel
+  //    would still produce a card that looks completely correct.
+  for (const n of [1, 2, 3]) {
+    const h = handoffs[n];
+    if (!h) continue;
+    const claimed = parseInt((h.facts.find(f => /chapter/i.test(f)) || '').match(/\d+/)?.[0], 10);
+    r.ok(`i${n}: the chapter count it promises is the one Issue #0${n + 1} has`,
+      claimed === chapters[n + 1], `${claimed} claimed vs ${chapters[n + 1]} actual`);
+    r.ok(`i${n}: the title it promises is the one Issue #0${n + 1} carries`,
+      h.name === titles[n + 1], `"${h.name}" promised vs "${titles[n + 1]}" actual`);
+  }
 
   // A short deep link on the page it belongs to
   await page.goto(`${base}/read/issue-3#p2`, { waitUntil: 'networkidle' });

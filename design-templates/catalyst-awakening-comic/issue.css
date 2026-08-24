@@ -1830,7 +1830,7 @@
 
 /* ── Cover Art Gallery Section ─────────────────────────── */
 #cover-gallery {
-  padding: 8rem var(--gutter);
+  padding: 8rem 4rem;
   background: linear-gradient(180deg, #06040F 0%, #0A0818 50%, #06040F 100%);
   position: relative;
   overflow: hidden;
@@ -1842,6 +1842,11 @@
   background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(184,20,20,0.06) 0%, transparent 70%);
   pointer-events: none;
 }
+@media (max-width: 900px) {
+  /* Matches the 5rem 1.5rem every other section drops to on a phone. */
+  #cover-gallery { padding: 5rem 1.5rem; }
+}
+
 
 /* ── Mobile comprehensive fixes ── */
 @media (max-width: 768px) {
@@ -2371,13 +2376,6 @@ body { padding-top: 26px; }
   font-size:0.55rem;letter-spacing:0.15em;
 }
 @keyframes avtPulse { 0%,100%{opacity:0.5} 50%{opacity:1} }
-@keyframes glyphFloat {
-  0%{ transform:translateY(0) rotate(var(--gr)); opacity:0; }
-  10%{ opacity:1; }
-  90%{ opacity:1; }
-  100%{ transform:translateY(-100vh) rotate(var(--gr)); opacity:0; }
-}
-
 /* ── OPERATIVE RECRUITMENT MODAL ─────────────────────────────────────────── */
 .op-overlay {
   display:none;position:fixed;inset:0;z-index:9000;
@@ -4260,56 +4258,160 @@ mark.fn-hl.fn-flash { animation: fn-flash 1.6s ease-in-out 1; }
   color: var(--black);
 }
 
-/* Previous / next, at the foot of the story where a reader who has just
-   finished is actually looking. */
-.issue-seq {
+/* The hand-off at the foot of an issue.
+
+   A reader who has just finished a chapter of a serial is at the most
+   receptive moment the site will ever get, and this used to be two underlined
+   words. It is now the next cover at a size you can see, its real title, the
+   synopsis already written for the feed, and the honest chapter count and
+   reading time counted off the prose on that page. Nothing here is
+   manufactured urgency; it is the story, stopped from hiding. */
+.issue-handoff {
   max-width: 1200px;
-  margin: 3rem auto 0;
-  padding: 2rem 4rem 0;
+  margin: 3.5rem auto 0;
+  padding: 2.5rem 4rem 0;
   border-top: 1px solid rgba(244,184,0,0.15);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: space-between;
 }
-.issue-seq-link {
-  flex: 1 1 260px;
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  padding: 1rem 1.25rem;
-  text-decoration: none;
-  background: rgba(0,0,0,0.35);
-  border: 1px solid rgba(244,184,0,0.18);
-  transition: border-color 0.3s, background 0.3s, transform 0.3s;
-}
-.issue-seq-link.next { text-align: right; align-items: flex-end; }
-.issue-seq-link:hover,
-.issue-seq-link:focus-visible {
-  border-color: var(--danfo-gold);
-  background: rgba(244,184,0,0.06);
-  transform: translateY(-2px);
-}
-.issue-seq-dir {
+.handoff-eyebrow {
   font-family: 'Space Mono', monospace;
   font-size: 0.62rem;
-  letter-spacing: 0.2em;
+  font-weight: 700;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--danfo-gold);
+  margin: 0 0 1rem;
 }
-.issue-seq-name {
-  font-family: 'Oswald', sans-serif;
+.handoff-card {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 2rem;
+  align-items: center;
+  padding: 1.5rem;
+  text-decoration: none;
+  background:
+    linear-gradient(135deg, rgba(244,184,0,0.07), rgba(0,0,0,0.42) 55%);
+  border: 1px solid rgba(244,184,0,0.22);
+  transition: border-color 0.35s, box-shadow 0.35s, transform 0.35s;
+}
+.handoff-card:hover,
+.handoff-card:focus-visible {
+  border-color: var(--danfo-gold);
+  box-shadow: 0 14px 40px rgba(0,0,0,0.45);
+  transform: translateY(-3px);
+}
+.handoff-cover {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid rgba(244,184,0,0.28);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+/* Arc II has no cover to show yet, so the slot carries the arc numeral
+   instead of a placeholder pretending to be artwork. */
+.handoff-sigil {
+  display: grid;
+  aspect-ratio: 2 / 3;
+  place-items: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-weight: 400;
+  font-size: 4.5rem;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  color: rgba(244,184,0,0.55);
+  background: repeating-linear-gradient(
+    -45deg, rgba(244,184,0,0.05) 0 8px, transparent 8px 16px);
+}
+.handoff-body { display: block; max-width: 62ch; }
+.handoff-num {
+  display: block;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--danfo-gold);
+  margin-bottom: 0.4rem;
+}
+.handoff-name {
+  display: block;
+  font-family: 'Bebas Neue', sans-serif;
+  font-weight: 400;
+  font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+  line-height: 1.05;
+  letter-spacing: 0.03em;
+  color: var(--bone-white);
+  margin-bottom: 0.6rem;
+}
+.handoff-blurb {
+  display: block;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 0.95rem;
-  letter-spacing: 0.06em;
-  color: var(--bone);
+  line-height: 1.65;
+  color: rgba(240,237,229,0.72);
+  margin-bottom: 0.9rem;
+}
+.handoff-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.6rem;
+  margin-bottom: 1.1rem;
+}
+.handoff-facts span {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(240,237,229,0.7);
+  padding: 0.3rem 0.6rem;
+  border: 1px solid rgba(244,184,0,0.2);
+}
+.handoff-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--black);
+  background: var(--danfo-gold);
+  padding: 0.7rem 1.4rem;
+}
+.handoff-card:hover .handoff-cta span,
+.handoff-card:focus-visible .handoff-cta span { transform: translateX(4px); }
+.handoff-cta span { transition: transform 0.3s; }
+
+.handoff-aside {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  justify-content: space-between;
+  margin-top: 1.1rem;
+}
+.handoff-back,
+.handoff-all {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(240,237,229,0.6);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.3s, border-color 0.3s;
+}
+.handoff-back:hover, .handoff-back:focus-visible,
+.handoff-all:hover, .handoff-all:focus-visible {
+  color: var(--danfo-gold);
+  border-bottom-color: currentColor;
 }
 
 @media (max-width: 768px) {
   #issue-main { padding-top: 4.5rem; }
   .issue-crumbs { padding: 0 1.5rem 1rem; }
-  .issue-seq { padding: 1.5rem 1.5rem 0; }
-  .issue-seq-link,
-  .issue-seq-link.next { text-align: left; align-items: flex-start; }
+  .issue-handoff { padding: 2rem 1.5rem 0; }
+  .handoff-card { grid-template-columns: 1fr; gap: 1.25rem; }
+  .handoff-cover { max-width: 200px; }
+  .handoff-sigil { max-width: 200px; aspect-ratio: 2 / 3; }
 }
 
 
@@ -4322,6 +4424,8 @@ mark.fn-hl.fn-flash { animation: fn-flash 1.6s ease-in-out 1; }
 
 
 @media (prefers-reduced-motion: reduce) {
-  .issue-seq-link { transition: none; }
-  .issue-seq-link:hover { transform: none; }
+  .handoff-card { transition: none; }
+  .handoff-card:hover { transform: none; }
+  .handoff-cta span { transition: none; }
+  .handoff-card:hover .handoff-cta span { transform: none; }
 }

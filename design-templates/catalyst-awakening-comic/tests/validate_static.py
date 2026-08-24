@@ -35,6 +35,23 @@ def rel(p):
     return os.path.relpath(p, SITE)
 
 
+# Custom properties declared in styles.css's :root, available to every
+# stylesheet and to index.html's inline <style>.
+PALETTE = set(re.findall(
+    r'(--[A-Za-z0-9_-]+)\\s*:',
+    open(os.path.join(SITE, 'styles.css'), encoding='utf-8').read()))
+
+
+# Custom properties set on elements rather than in a stylesheet: inline
+# style attributes in the HTML, and setProperty() calls in script.js.
+INLINE_PROPS = set()
+for _f in ('index.html', 'script.js'):
+    _t = open(os.path.join(SITE, _f), encoding='utf-8').read()
+    for _attr in re.findall(r'style="([^"]*)"', _t):
+        INLINE_PROPS |= set(re.findall(r'(--[A-Za-z0-9_-]+)\s*:', _attr))
+    INLINE_PROPS |= set(re.findall(r'setProperty\(\s*[\'"](--[A-Za-z0-9_-]+)', _t))
+
+
 # Font families that are safe to name without shipping them: CSS generics and
 # faces every target platform already has.
 GENERIC_FONTS = {
@@ -231,6 +248,34 @@ def main():
                             % (name, fam.group(1), wt.group(1), max(weights[key])))
         check('%s asks for no weight bolder than ships' % src, not over, '; '.join(over[:3]))
 
+
+    # ── every var(--x) resolves to a property that is actually declared
+    #
+    # A misspelled custom property is the quietest failure CSS has. There is
+    # no warning and no fallback: the declaration is simply thrown away at
+    # computed-value time and the element inherits instead. `color: var(--bone)`
+    # where the palette declares `--bone-white` does not turn the text bone —
+    # it turns it whatever the parent was, which on a card that is itself a
+    # link means default link blue. That shipped here once already.
+    for src_name in ('styles.css', 'issue.css', 'index.html'):
+        text = open(os.path.join(SITE, src_name), encoding='utf-8').read()
+        if src_name.endswith('.html'):
+            text = '\n'.join(re.findall(r'<style[^>]*>(.*?)</style>', text, re.S))
+        declared = set(re.findall(r'(--[A-Za-z0-9_-]+)\s*:', text))
+        # A property can equally be declared on the element -- style="--stat-w:97%"
+        # -- or set from script with setProperty('--rs', ...). Both are real
+        # declarations; only a name nothing anywhere sets is a typo.
+        declared |= INLINE_PROPS
+        used = set()
+        for m in re.finditer(r'var\(\s*(--[A-Za-z0-9_-]+)\s*([,)])', text):
+            # var(--x, fallback) is a deliberate default, not a typo.
+            if m.group(2) == ')':
+                used.add(m.group(1))
+        # index.html's inline <style> legitimately uses the palette declared in
+        # styles.css, so names are pooled across the three sources.
+        undefined = sorted(used - declared - PALETTE)
+        check('%s uses no undeclared custom property' % src_name,
+              not undefined, ', '.join(undefined[:5]))
 
     # ── the canonical URL a page claims is the URL it is served at
     for page in pages:
