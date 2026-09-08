@@ -21,7 +21,7 @@
   </header>
   <main id="workspace">
     <div class="intro">
-      <div><h1>The story stays.<br>The panels take shape.</h1><p>Bayo’s original story, with a working space for page layouts, camera directions, lettering and transitions.</p></div>
+      <div><h1>The story stays.<br>The panels take shape.</h1><p>Build each published scene into drawable panels and image briefs, with story text, lettering and production notes kept in their own lanes.</p></div>
       <div class="source-status"><span class="seal" aria-hidden="true">✦</span><span>Original story locked<br><small>Production notes stay separate.</small></span></div>
     </div>
     <div id="load-status" class="load-state" role="status">Loading the four published issues...</div>
@@ -30,7 +30,7 @@
       <div class="toolbar">
         <label>Issue<select id="issue-select"></select></label>
         <label>View<select id="view-select"><option value="script">Panel script</option><option value="story">Original story</option></select></label>
-        <div class="tools"><button id="brief-open">Writing framework</button><button id="export-md">Export script</button><button id="print-script">Print issue</button></div>
+        <div class="tools"><button id="brief-open">Writing framework</button><button id="export-md">Export script</button><button id="export-images">Export image briefs</button><button id="print-script">Print issue</button></div>
       </div>
       <div class="workspace-grid">
         <aside class="issue-rail">
@@ -44,7 +44,7 @@
         <section class="script-workspace" aria-label="Script pages">
           <div class="page-toolbar"><button id="previous" aria-label="Previous working page">Previous</button><span id="page-counter" aria-live="polite"></span><button id="next" aria-label="Next working page">Next</button></div>
           <article id="page-content" tabindex="-1"></article>
-          <details class="workflow-note"><summary>How this layout works</summary><p>The story is read directly from the published website. Its wording and sequence aren’t rewritten. Source beats are grouped into working panels, with up to four groups on a working page. These aren’t the comic’s final printed page numbers.</p><p>Existing instructions for spreads, grids and multi-panel sequences are preserved. A working group may contain several draw-able moments. Use the layout and camera notes to plan them before final lettering.</p><p>Notes are saved only in this browser. Export a notes backup to move them to another device. Importing a backup never changes the published story.</p></details>
+          <details class="workflow-note"><summary>Panel and image framework</summary><p>The story is read directly from the published website. Its wording and sequence aren’t rewritten. Source beats are grouped into working panels, with up to four groups on a working page. These aren’t the comic’s final printed page numbers.</p><p>For every panel group, set the frame, action, continuity reference and visual priority. The Image production brief then creates a ready-to-use prompt that carries only those approved details into image creation. Add lettering after the artwork, never inside the image prompt.</p><p>Existing instructions for spreads, grids and multi-panel sequences are preserved. A working group may contain several drawable moments. Split those moments into image panels before final lettering.</p><p>Notes are saved only in this browser. Export a notes backup to move them to another device. Importing a backup never changes the published story.</p></details>
           <div class="backup-tools"><button id="save-notes">Save notes on this device</button><button id="export-notes">Export notes backup</button><label class="file-button">Import notes backup<input id="import-notes" type="file" accept=".json,application/json"></label><span id="save-status" role="status" aria-live="polite"></span></div>
         </section>
       </div>
