@@ -115,6 +115,17 @@
   to = "/read/:slug.html"
   status = 200
 
+[[headers]]
+  for = "/script-studio/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    X-XSS-Protection = "1; mode=block"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://js.paystack.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://*.cloudfront.net; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.paystack.co https://*.paystack.co; frame-src https://checkout.paystack.com https://*.paystack.co https://*.paystack.com; frame-ancestors 'none';"
+
 # SPA fallback — keeps hash routing + deep links working
 [[redirects]]
   from = "/*"
