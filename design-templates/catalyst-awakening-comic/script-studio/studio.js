@@ -2,6 +2,8 @@
   'use strict';
   const PAGE_FIELDS = {purpose:'Page purpose',pacing:'Pacing and emotional beat',layout:'Page layout',turn:'Page-turn or transition'};
   const PANEL_FIELDS = {size:'Panel size and layout',shot:'Shot and camera angle',setting:'Location and background',characters:'Positions and expressions',action:'Visible action / staging',sfx:'Sound effects',lighting:'Lighting and colour',transition:'Transition to next panel'};
+  const IMAGE_FIELDS = {focus:'Visual priority',reference:'Approved artwork or continuity reference',artDirection:'Image-specific direction',status:'Production status'};
+  const IMAGE_RULES = ['Create one clean comic-art image for this panel group.','Use only the source evidence and production notes below. Do not add characters, events, injuries, powers, props, locations or time changes.','Keep Bayo Adeyemi and the existing Lagos Noir visual language consistent with approved Catalyst artwork.','Do not render dialogue, captions, sound effects, logos, watermarks or readable text into the image. Lettering is applied separately.','If the source contains several drawable moments, produce a storyboard thumbnail sheet or split it into consecutive images before final art.'];
   const clean = value => String(value || '').replace(/\s+/gu,' ').trim();
   const plain = node => clean(node ? node.textContent : '');
   const make = (doc, tag, className, text) => {const node=doc.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=text;return node;};
@@ -60,7 +62,7 @@
     if(!input||input.schemaVersion!==1||input.issue!==issue.id||input.sourceSignature!==issue.signature)throw new Error('This backup belongs to a different issue or source version. The story has not been changed.');
     if(!input.notes||typeof input.notes!=='object'||Array.isArray(input.notes))throw new Error('This is not a notes backup.');
     const allowed=new Map();
-    issue.pages.forEach(p=>{allowed.set(p.id,PAGE_FIELDS);p.panels.forEach(panel=>allowed.set(panel.id,PANEL_FIELDS));});
+    issue.pages.forEach(p=>{allowed.set(p.id,PAGE_FIELDS);p.panels.forEach(panel=>allowed.set(panel.id,{...PANEL_FIELDS,...IMAGE_FIELDS}));});
     const result=Object.create(null);
     if(Object.keys(input.notes).length>allowed.size)throw new Error('The backup contains unexpected notes.');
     for(const [id,values] of Object.entries(input.notes)) {
@@ -76,6 +78,16 @@
   }
   function notesLines(id,fields,notes) {
     return Object.entries(fields).map(([key,label])=>label+': '+((notes[id]&&notes[id][key])||'[Not specified]'));
+  }
+  function imagePrompt(issue,page,panel,panelNumber,notes={}) {
+    const direction=notes[panel.id]||{};
+    const source=panel.blocks.map(block=>block.kind==='dialogue'?(block.speaker+' '+block.text):block.text).join('\n');
+    return ['CATALYST: THE AWAKENING — IMAGE PRODUCTION BRIEF','Issue '+issue.number+' / Working page '+page.number+' / Panel group '+panelNumber,'Source sequence: '+page.label,'','IMAGE RULES',...IMAGE_RULES,'','SOURCE EVIDENCE — preserve this event exactly',source,'','PANEL DIRECTION','Panel size and layout: '+(direction.size||'[Not specified]'),'Shot and camera angle: '+(direction.shot||'[Not specified]'),'Location and background: '+(direction.setting||'[Not specified]'),'Character positions and expressions: '+(direction.characters||'[Not specified]'),'Visible action / staging: '+(direction.action||'[Not specified]'),'Lighting and colour: '+(direction.lighting||'[Not specified]'),'Visual priority: '+(direction.focus||'[Not specified]'),'Approved artwork or continuity reference: '+(direction.reference||'[Not specified]'),'Image-specific direction: '+(direction.artDirection||'[Not specified]'),'Production status: '+(direction.status||'Brief only'),'','CONTINUITY CHECK','Match only the published story source. Flag an ambiguity for review instead of inventing a visual fact.'].join('\n');
+  }
+  function exportImagePrompts(issue,notes={}) {
+    const lines=['# Catalyst: The Awakening','# Issue '+issue.number+': '+issue.title,'','## Image production prompt pack','Every prompt is grounded in the existing published source. These are production briefs, not story revisions.',''];
+    issue.pages.forEach(page=>{lines.push('## WORKING PAGE '+page.number+': '+page.title,'');page.panels.forEach((panel,index)=>lines.push('### PANEL GROUP '+(index+1),'',imagePrompt(issue,page,panel,index+1,notes),''));});
+    return lines.join('\n');
   }
   function exportScript(issue,notes={}) {
     const lines=['# Catalyst: The Awakening','# Issue '+issue.number+': '+issue.title,'','Working page and panel plan. Original story wording and order preserved. Working page numbers are not final print pagination.','Production directions are separate annotations; unspecified directions have not been invented.','','Source fingerprint: '+issue.signature,''];
@@ -105,7 +117,7 @@
       '', 'QUALITY CHECK','Show one drawable moment per panel. Use a split sequence where the source requires multiple moments. Preserve all source passages. Flag overcrowded lettering and offer more space rather than cutting text. Check the original ending, character continuity, power costs, source coverage and page-turn placement. If the target page count cannot fit the preserved text, report that conflict instead of omitting material.',
       '', 'BEGIN ORIGINAL STORY',storyText(issue),'END ORIGINAL STORY'].join('\n');
   }
-  const api={readIssues,storyText,validNotes,exportScript,writingPrompt,PAGE_FIELDS,PANEL_FIELDS};
+  const api={readIssues,storyText,validNotes,exportScript,exportImagePrompts,imagePrompt,writingPrompt,PAGE_FIELDS,PANEL_FIELDS,IMAGE_FIELDS};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   if(!root.document)return;
   const doc=root.document;
@@ -149,6 +161,13 @@
         const dialogueWords=panel.blocks.filter(b=>b.kind==='dialogue'||b.kind==='system').reduce((sum,b)=>sum+b.text.split(/\s+/u).length,0);
         if(dialogueWords>75)section.append(make(doc,'p','overflow-note','Dense lettering: '+dialogueWords+' words. Plan additional panels or lettering space; keep the original text.'));
         const details=make(doc,'details','');details.append(make(doc,'summary','','Production directions'),noteFields(panel.id,PANEL_FIELDS,'direction-fields'));section.append(details);
+        const imageDetails=make(doc,'details','image-brief');
+        imageDetails.append(make(doc,'summary','','Image production brief'));
+        const imageBody=make(doc,'div','image-brief-body');
+        imageBody.append(make(doc,'p','image-rule','This prompt plans the image from the published scene. It never changes the story or adds lettering to the art.'));
+        const prompt=doc.createElement('textarea');prompt.rows=10;prompt.readOnly=true;prompt.className='image-prompt';prompt.value=imagePrompt(issue,page,panel,index+1,notes);imageBody.append(prompt);
+        const copy=make(doc,'button','copy-image-prompt','Copy image prompt');copy.type='button';copy.dataset.copyPrompt=prompt.value;imageBody.append(copy,noteFields(panel.id,IMAGE_FIELDS,'image-fields'));
+        imageDetails.append(imageBody);section.append(imageDetails);
       }
       article.append(section);
     });
@@ -218,9 +237,15 @@
     const {noteId,field}=event.target.dataset;if(!noteId||!field)return;
     if(!notes[noteId])notes[noteId]=Object.create(null);notes[noteId][field]=event.target.value;dirty=true;tell('Unsaved notes on this device.');
   });
+  $('page-content').addEventListener('click',async event=>{
+    const button=event.target.closest('[data-copy-prompt]');if(!button)return;
+    try {await root.navigator.clipboard.writeText(button.dataset.copyPrompt);button.textContent='Image prompt copied';setTimeout(()=>{button.textContent='Copy image prompt';},1600);}
+    catch {tell('Select the image prompt and copy it on your device.');}
+  });
   $('save-notes').addEventListener('click',saveNotes);
   $('export-notes').addEventListener('click',()=>{download('catalyst-'+issue.id+'-production-notes.json',JSON.stringify(pack(),null,2),'application/json');tell('Notes backup exported.');});
   $('export-md').addEventListener('click',()=>download('catalyst-'+issue.id+'-panel-script.md',exportScript(issue,notes),'text/markdown;charset=utf-8'));
+  $('export-images').addEventListener('click',()=>download('catalyst-'+issue.id+'-image-production-prompts.md',exportImagePrompts(issue,notes),'text/markdown;charset=utf-8'));
   $('print-script').addEventListener('click',()=>{preparePrint();root.print();});
   root.addEventListener('beforeprint',()=>{if(issue)preparePrint();});
   $('import-notes').addEventListener('change',async event=>{
