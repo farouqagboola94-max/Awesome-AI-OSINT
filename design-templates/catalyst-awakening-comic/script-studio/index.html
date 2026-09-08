@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Script Studio | Catalyst: The Awakening</title>
+  <meta name="description" content="Page and panel planning for Bayo Adeyemi’s existing Catalyst: The Awakening story. Original dialogue and narrative preserved across all four issues.">
+  <meta name="theme-color" content="#06060d">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://catalyst-awakening.netlify.app/script-studio/">
+  <link rel="stylesheet" href="./fonts.css">
+  <link rel="stylesheet" href="./studio.css">
+  <script src="./studio.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#workspace">Skip to script</a>
+  <header class="masthead">
+    <a class="brand" href="../">CATALYST<span>:TA</span></a>
+    <span class="studio-name">Script Studio</span>
+    <a class="back" href="../#read">Read the comic</a>
+  </header>
+  <main id="workspace">
+    <div class="intro">
+      <div><h1>The story stays.<br>The panels take shape.</h1><p>Bayo’s original story, with a working space for page layouts, camera directions, lettering and transitions.</p></div>
+      <div class="source-status"><span class="seal" aria-hidden="true">✦</span><span>Original story locked<br><small>Production notes stay separate.</small></span></div>
+    </div>
+    <div id="load-status" class="load-state" role="status">Loading the four published issues...</div>
+    <div id="load-error" class="load-state" hidden><p>The story couldn’t load. Your published comic is still available.</p><button id="retry">Try again</button> <a href="../#read">Return to the comic</a></div>
+    <div id="studio" hidden>
+      <div class="toolbar">
+        <label>Issue<select id="issue-select"></select></label>
+        <label>View<select id="view-select"><option value="script">Panel script</option><option value="story">Original story</option></select></label>
+        <div class="tools"><button id="brief-open">Writing framework</button><button id="export-md">Export script</button><button id="print-script">Print issue</button></div>
+      </div>
+      <div class="workspace-grid">
+        <aside class="issue-rail">
+          <img id="issue-art" alt="" width="300" height="400">
+          <div class="issue-heading"><span id="issue-number"></span><h2 id="issue-title"></h2></div>
+          <p class="art-note">Existing cover reference. The script pages below are a working layout.</p>
+          <label class="mobile-page-picker">Working page<select id="page-select"></select></label>
+          <div id="page-list" class="page-list" aria-label="Working pages"></div>
+          <a id="source-link" href="../#read">Open the published story</a>
+        </aside>
+        <section class="script-workspace" aria-label="Script pages">
+          <div class="page-toolbar"><button id="previous" aria-label="Previous working page">Previous</button><span id="page-counter" aria-live="polite"></span><button id="next" aria-label="Next working page">Next</button></div>
+          <article id="page-content" tabindex="-1"></article>
+          <details class="workflow-note"><summary>How this layout works</summary><p>The story is read directly from the published website. Its wording and sequence aren’t rewritten. Source beats are grouped into working panels, with up to four groups on a working page. These aren’t the comic’s final printed page numbers.</p><p>Existing instructions for spreads, grids and multi-panel sequences are preserved. A working group may contain several draw-able moments. Use the layout and camera notes to plan them before final lettering.</p><p>Notes are saved only in this browser. Export a notes backup to move them to another device. Importing a backup never changes the published story.</p></details>
+          <div class="backup-tools"><button id="save-notes">Save notes on this device</button><button id="export-notes">Export notes backup</button><label class="file-button">Import notes backup<input id="import-notes" type="file" accept=".json,application/json"></label><span id="save-status" role="status" aria-live="polite"></span></div>
+        </section>
+      </div>
+    </div>
+    <section id="print-output" aria-label="Printable issue"></section>
+  </main>
+  <dialog id="brief-dialog" aria-labelledby="brief-title">
+    <form method="dialog" class="dialog-top"><h2 id="brief-title">The writing framework</h2><button aria-label="Close writing framework">Close</button></form>
+    <p>Build a production prompt around the selected issue. It asks for staging and panel structure while preserving Bayo’s story. No AI service is called here.</p>
+    <form id="brief-form">
+      <div class="brief-fields"><label>Target pages<input id="target-pages" type="number" min="1" max="200" value="48" required></label><label>Format<select id="comic-format"><option>Comic issue</option><option>Graphic novel chapter</option><option>Vertical webtoon</option></select></label></div>
+      <label>Production direction<textarea id="production-direction" rows="3" maxlength="6000" placeholder="For example: fewer speech balloons per panel, more space around the awakening reveal."></textarea></label>
+      <button class="primary" type="submit">Prepare writing prompt</button>
+    </form>
+    <label class="prompt-label">Your prompt<textarea id="brief-output" rows="13" readonly placeholder="The prompt will include the selected issue’s original story and the page-by-page framework."></textarea></label>
+    <div class="dialog-actions"><button id="copy-brief" disabled>Copy prompt</button><button id="download-brief" disabled>Download prompt</button><span id="brief-status" role="status"></span></div>
+  </dialog>
+  <footer>Built in Lagos. The story belongs to Catalyst Comics Studio.</footer>
+  <noscript><p class="load-state">JavaScript is needed for the planning tools. <a href="../#read">Read the original comic here.</a></p></noscript>
+</body>
+</html>
