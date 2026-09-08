@@ -4490,7 +4490,8 @@ mark.fn-hl.fn-flash { animation: fn-flash 1.6s ease-in-out 1; }
 
 
 /* Link from the tabbed reader on the home page out to that issue's own page. */
-.reader-permalink {
+.reader-permalink,
+.script-studio-link {
   display: inline-block;
   margin-top: 0.75rem;
   font-family: 'Space Mono', monospace;
@@ -4504,4 +4505,6 @@ mark.fn-hl.fn-flash { animation: fn-flash 1.6s ease-in-out 1; }
   transition: color 0.25s, border-color 0.25s;
 }
 .reader-permalink:hover,
-.reader-permalink:focus-visible { color: var(--danfo-gold); border-bottom-color: var(--danfo-gold); }
+.reader-permalink:focus-visible,
+.script-studio-link:hover,
+.script-studio-link:focus-visible { color: var(--danfo-gold); border-bottom-color: var(--danfo-gold); }
