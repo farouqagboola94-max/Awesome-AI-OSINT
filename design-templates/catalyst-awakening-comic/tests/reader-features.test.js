@@ -37,6 +37,24 @@ module.exports = async function readerFeatures(ctx, base) {
   r.ok('starts on the first page',
     await page.evaluate(visiblePage) === 0);
 
+  // ── Book navigation keeps the issue order and chapter order visible.
+  const book = await page.evaluate(() => ({
+    nav: document.querySelectorAll('.book-navigator').length,
+    issues: document.querySelectorAll('.book-navigator .book-issue').length,
+    chapters: document.querySelectorAll('.book-navigator [data-page]').length,
+    current: document.querySelector('.book-navigator .book-issue.current')?.textContent.trim() || '',
+  }));
+  r.ok('book navigation is present', book.nav === 1, JSON.stringify(book));
+  r.ok('book navigation keeps all four issues in order', book.issues === 4, JSON.stringify(book));
+  r.ok('book navigation marks the current issue', /Issue #01/.test(book.current), JSON.stringify(book));
+  r.ok('book navigation lists the current issue chapters', book.chapters > 3, JSON.stringify(book));
+
+  await page.click('.book-navigator [data-page="2"]');
+  await page.waitForTimeout(400);
+  r.ok('chapter navigation opens the selected page', await page.evaluate(visiblePage) === 2);
+  await page.click('.book-navigator [data-page="0"]');
+  await page.waitForTimeout(300);
+
   // ── turning pages, by button and by keyboard
   await page.click('.reader-nav button:last-of-type');
   await page.waitForTimeout(400);

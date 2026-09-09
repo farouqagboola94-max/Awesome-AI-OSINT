@@ -3997,6 +3997,12 @@ function pvCopyLink() {
       for (var i = 0; i < total; i++) {
         ticks[i].className = i < current ? 'done' : (i === current ? 'now' : '');
       }
+      panel.querySelectorAll('.book-navigator [data-page]').forEach(function(button) {
+        var selected = parseInt(button.getAttribute('data-page'), 10) === current;
+        button.classList.toggle('is-current', selected);
+        if (selected) button.setAttribute('aria-current', 'location');
+        else button.removeAttribute('aria-current');
+      });
       counter.textContent = current === 0
         ? 'COLD OPEN'
         : 'PAGE ' + current + ' OF ' + (total - 1);
@@ -4098,6 +4104,57 @@ function pvCopyLink() {
   }
 
   document.querySelectorAll('.issue-reader-panel').forEach(buildPager);
+
+  /* ── Book navigation: the standalone reader is the canonical reading path.
+     It keeps the four issues in story order and makes every chapter in the
+     current issue directly reachable without touching the source prose. */
+  function buildBookNavigator(panel) {
+    if (!CATALYST_ISSUE_PAGE || !panel || panel.querySelector('.book-navigator')) return;
+    var issueNum = parseInt(panel.id.replace('panel-i', ''), 10);
+    var pager = pagers[issueNum];
+    if (!pager) return;
+
+    var titles = {
+      1: 'Awaken, O City',
+      2: 'Ṣàngó’s Daughter',
+      3: 'Iron in the Blood',
+      4: 'The Price of Aṣẹ'
+    };
+    var nav = document.createElement('nav');
+    nav.className = 'book-navigator';
+    nav.setAttribute('aria-label', 'Book navigation');
+
+    var issues = '';
+    for (var n = 1; n <= 4; n++) {
+      var active = n === issueNum;
+      issues += active
+        ? '<span class="book-issue current" aria-current="page"><b>Issue #0' + n + '</b><span>' + titles[n] + '</span></span>'
+        : '<a class="book-issue" href="./issue-' + n + '"><b>Issue #0' + n + '</b><span>' + titles[n] + '</span></a>';
+    }
+
+    var chapters = pager.chapters.map(function(title, index) {
+      return '<button type="button" data-page="' + index + '"><span>' + String(index).padStart(2, '0') + '</span>' + title + '</button>';
+    }).join('');
+
+    nav.innerHTML =
+      '<div class="book-nav-heading"><span>Arc I · The Catalyst</span><strong>Reading order</strong></div>' +
+      '<div class="book-issues">' + issues + '</div>' +
+      '<details class="book-chapters" open>' +
+        '<summary>Issue #0' + issueNum + ' chapters <span>' + pager.chapters.length + ' pages</span></summary>' +
+        '<div class="book-chapter-list">' + chapters + '</div>' +
+      '</details>';
+
+    nav.querySelectorAll('[data-page]').forEach(function(button) {
+      button.addEventListener('click', function() {
+        window.catalystJumpTo(issueNum, parseInt(button.getAttribute('data-page'), 10));
+      });
+    });
+
+    panel.insertBefore(nav, panel.firstChild);
+    pager.set(pager.pos(), false, true);
+  }
+
+  document.querySelectorAll('.issue-reader-panel').forEach(buildBookNavigator);
 
   /* ── Batch 7: jump API — activate an issue's tab and open a page ── */
   window.catalystJumpTo = function(issue, page, scroll) {
