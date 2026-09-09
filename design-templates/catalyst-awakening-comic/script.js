@@ -3949,6 +3949,7 @@ function pvCopyLink() {
           '<button class="rt-dec" aria-label="Decrease text size" title="Smaller text">A−</button>' +
           '<button class="rt-inc" aria-label="Increase text size" title="Larger text">A+</button>' +
           '<button class="rt-focus" aria-label="Toggle focus mode" title="Focus mode — hide everything but the story">⛶</button>' +
+          '<button class="rt-contents" aria-label="Open comic contents" aria-expanded="false" title="Issues and pages">☰</button>' +
         '</span>' +
       '</span>' +
       '<div class="reader-ticks" role="presentation">' + ticksHtml + '</div>' +
@@ -3991,13 +3992,15 @@ function pvCopyLink() {
 
     var ticks = chrome.querySelectorAll('.reader-ticks span');
     var counter = chrome.querySelector('.rc-count');
+    var contentsButton = chrome.querySelector('.rt-contents');
+    var contentsMenu = null;
 
     function render(scroll) {
       wraps.forEach(function(w, i) { w.classList.toggle('current', i === current); });
       for (var i = 0; i < total; i++) {
         ticks[i].className = i < current ? 'done' : (i === current ? 'now' : '');
       }
-      panel.querySelectorAll('.book-navigator [data-page]').forEach(function(button) {
+      panel.querySelectorAll('.reader-contents-menu [data-page]').forEach(function(button) {
         var selected = parseInt(button.getAttribute('data-page'), 10) === current;
         button.classList.toggle('is-current', selected);
         if (selected) button.setAttribute('aria-current', 'location');
@@ -4100,61 +4103,80 @@ function pvCopyLink() {
     });
 
     pagers[issueNum] = { go: go, set: setPage, total: total, panel: panel, chapters: chapterIndex, searchText: searchIndex, pos: function() { return current; } };
+
+    // A compact contents menu belongs to the reader chrome. It stays closed
+    // until requested, so the story remains the first and dominant content.
+    contentsMenu = document.createElement('nav');
+    contentsMenu.id = 'reader-contents-i' + issueNum;
+    contentsMenu.className = 'reader-contents-menu';
+    contentsMenu.setAttribute('aria-label', 'Comic issues and pages');
+    contentsMenu.hidden = true;
+    contentsButton.setAttribute('aria-controls', contentsMenu.id);
+
+    var issueOptions = '';
+    for (var n = 1; n <= 4; n++) {
+      if (n === issueNum) {
+        issueOptions += '<span class="reader-contents-issue is-current" aria-current="page">#0' + n + '</span>';
+      } else if (CATALYST_ISSUE_PAGE) {
+        issueOptions += '<a class="reader-contents-issue" href="./issue-' + n + '">#0' + n + '</a>';
+      } else {
+        issueOptions += '<button class="reader-contents-issue" type="button" data-issue="' + n + '">#0' + n + '</button>';
+      }
+    }
+
+    var pageOptions = chapterIndex.map(function(title, index) {
+      return '<button class="reader-contents-page" type="button" data-page="' + index + '">' +
+        '<span>' + (index === 0 ? 'OPEN' : String(index).padStart(2, '0')) + '</span>' + title + '</button>';
+    }).join('');
+
+    contentsMenu.innerHTML =
+      '<div class="reader-contents-label">Arc I · Issues</div>' +
+      '<div class="reader-contents-issues">' + issueOptions + '</div>' +
+      '<div class="reader-contents-label">Issue #0' + issueNum + ' · Pages</div>' +
+      '<div class="reader-contents-pages">' + pageOptions + '</div>';
+    chrome.appendChild(contentsMenu);
+
+    function closeContents() {
+      contentsMenu.hidden = true;
+      contentsButton.setAttribute('aria-expanded', 'false');
+      contentsButton.setAttribute('aria-label', 'Open comic contents');
+    }
+
+    contentsButton.addEventListener('click', function() {
+      var willOpen = contentsMenu.hidden;
+      contentsMenu.hidden = !willOpen;
+      contentsButton.setAttribute('aria-expanded', String(willOpen));
+      contentsButton.setAttribute('aria-label', willOpen ? 'Close comic contents' : 'Open comic contents');
+      if (willOpen) {
+        var selected = contentsMenu.querySelector('[data-page].is-current');
+        if (selected) selected.scrollIntoView({ block: 'nearest' });
+      }
+    });
+    contentsMenu.querySelectorAll('[data-page]').forEach(function(button) {
+      button.addEventListener('click', function() {
+        closeContents();
+        setPage(parseInt(button.getAttribute('data-page'), 10));
+      });
+    });
+    contentsMenu.querySelectorAll('[data-issue]').forEach(function(button) {
+      button.addEventListener('click', function() {
+        closeContents();
+        window.catalystJumpTo(parseInt(button.getAttribute('data-issue'), 10), 0);
+      });
+    });
+    document.addEventListener('click', function(event) {
+      if (!contentsMenu.hidden && !chrome.contains(event.target)) closeContents();
+    });
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape' && !contentsMenu.hidden) {
+        closeContents();
+        contentsButton.focus();
+      }
+    });
     render(false);
   }
 
   document.querySelectorAll('.issue-reader-panel').forEach(buildPager);
-
-  /* ── Book navigation: the standalone reader is the canonical reading path.
-     It keeps the four issues in story order and makes every chapter in the
-     current issue directly reachable without touching the source prose. */
-  function buildBookNavigator(panel) {
-    if (!CATALYST_ISSUE_PAGE || !panel || panel.querySelector('.book-navigator')) return;
-    var issueNum = parseInt(panel.id.replace('panel-i', ''), 10);
-    var pager = pagers[issueNum];
-    if (!pager) return;
-
-    var titles = {
-      1: 'Awaken, O City',
-      2: 'Ṣàngó’s Daughter',
-      3: 'Iron in the Blood',
-      4: 'The Price of Aṣẹ'
-    };
-    var nav = document.createElement('nav');
-    nav.className = 'book-navigator';
-    nav.setAttribute('aria-label', 'Book navigation');
-
-    var issues = '';
-    for (var n = 1; n <= 4; n++) {
-      var active = n === issueNum;
-      issues += active
-        ? '<span class="book-issue current" aria-current="page"><b>Issue #0' + n + '</b><span>' + titles[n] + '</span></span>'
-        : '<a class="book-issue" href="./issue-' + n + '"><b>Issue #0' + n + '</b><span>' + titles[n] + '</span></a>';
-    }
-
-    var chapters = pager.chapters.map(function(title, index) {
-      return '<button type="button" data-page="' + index + '"><span>' + String(index).padStart(2, '0') + '</span>' + title + '</button>';
-    }).join('');
-
-    nav.innerHTML =
-      '<div class="book-nav-heading"><span>Arc I · The Catalyst</span><strong>Reading order</strong></div>' +
-      '<div class="book-issues">' + issues + '</div>' +
-      '<details class="book-chapters" open>' +
-        '<summary>Issue #0' + issueNum + ' chapters <span>' + pager.chapters.length + ' pages</span></summary>' +
-        '<div class="book-chapter-list">' + chapters + '</div>' +
-      '</details>';
-
-    nav.querySelectorAll('[data-page]').forEach(function(button) {
-      button.addEventListener('click', function() {
-        window.catalystJumpTo(issueNum, parseInt(button.getAttribute('data-page'), 10));
-      });
-    });
-
-    panel.insertBefore(nav, panel.firstChild);
-    pager.set(pager.pos(), false, true);
-  }
-
-  document.querySelectorAll('.issue-reader-panel').forEach(buildBookNavigator);
 
   /* ── Batch 7: jump API — activate an issue's tab and open a page ── */
   window.catalystJumpTo = function(issue, page, scroll) {

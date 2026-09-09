@@ -37,22 +37,28 @@ module.exports = async function readerFeatures(ctx, base) {
   r.ok('starts on the first page',
     await page.evaluate(visiblePage) === 0);
 
-  // ── Book navigation keeps the issue order and chapter order visible.
-  const book = await page.evaluate(() => ({
-    nav: document.querySelectorAll('.book-navigator').length,
-    issues: document.querySelectorAll('.book-navigator .book-issue').length,
-    chapters: document.querySelectorAll('.book-navigator [data-page]').length,
-    current: document.querySelector('.book-navigator .book-issue.current')?.textContent.trim() || '',
+  // ── Contents stay inside the reader toolbar and out of the story's way.
+  const contents = await page.evaluate(() => ({
+    menus: document.querySelectorAll('.reader-chrome > .reader-contents-menu').length,
+    closed: document.querySelector('.reader-contents-menu')?.hidden === true,
+    issues: document.querySelectorAll('.reader-contents-menu .reader-contents-issue').length,
+    pages: document.querySelectorAll('.reader-contents-menu [data-page]').length,
+    current: document.querySelector('.reader-contents-menu .reader-contents-issue.is-current')?.textContent.trim() || '',
   }));
-  r.ok('book navigation is present', book.nav === 1, JSON.stringify(book));
-  r.ok('book navigation keeps all four issues in order', book.issues === 4, JSON.stringify(book));
-  r.ok('book navigation marks the current issue', /Issue #01/.test(book.current), JSON.stringify(book));
-  r.ok('book navigation lists the current issue chapters', book.chapters > 3, JSON.stringify(book));
+  r.ok('compact contents is inside the reader chrome', contents.menus === 1, JSON.stringify(contents));
+  r.ok('compact contents starts closed', contents.closed === true, JSON.stringify(contents));
+  r.ok('compact contents keeps all four issues in order', contents.issues === 4, JSON.stringify(contents));
+  r.ok('compact contents marks the current issue', contents.current === '#01', JSON.stringify(contents));
+  r.ok('compact contents lists this issue pages', contents.pages > 3, JSON.stringify(contents));
 
-  await page.click('.book-navigator [data-page="2"]');
+  await page.click('.reader-tools .rt-contents');
+  await page.click('.reader-contents-menu [data-page="2"]');
   await page.waitForTimeout(400);
-  r.ok('chapter navigation opens the selected page', await page.evaluate(visiblePage) === 2);
-  await page.click('.book-navigator [data-page="0"]');
+  r.ok('compact contents opens the selected page', await page.evaluate(visiblePage) === 2);
+  r.ok('compact contents closes after a page is selected',
+    await page.evaluate(() => document.querySelector('.reader-contents-menu').hidden) === true);
+  await page.click('.reader-tools .rt-contents');
+  await page.click('.reader-contents-menu [data-page="0"]');
   await page.waitForTimeout(300);
 
   // ── turning pages, by button and by keyboard
