@@ -462,7 +462,7 @@
         _sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         window._supabase = _sb;
         flushPendingQueue && flushPendingQueue();
-        checkSession && checkSession();
+        initAuth();
       } catch(e) { console.warn('Supabase init failed:', e); }
     } else if (_sbReady) {
       setTimeout(_initSupabase, 200); // CDN still loading, retry
@@ -586,9 +586,18 @@
       const name = meta.full_name || user.email.split('@')[0];
       const isPremium = meta.is_premium;
       const initial = name.charAt(0).toUpperCase();
-      btn.innerHTML = '<span class="nav-user-initial">' + initial + '</span> ' +
-        name.split(' ')[0] +
-        (isPremium ? ' <span class="nav-premium-dot" title="Premium">✦</span>' : '');
+      btn.replaceChildren();
+      const badge = document.createElement('span');
+      badge.className = 'nav-user-initial';
+      badge.textContent = initial;
+      btn.append(badge, document.createTextNode(' ' + name.split(' ')[0]));
+      if (isPremium) {
+        const dot = document.createElement('span');
+        dot.className = 'nav-premium-dot';
+        dot.title = 'Premium';
+        dot.textContent = '✦';
+        btn.append(' ', dot);
+      }
       btn.onclick = openUserMenu;
       if (isPremium) unlockPremiumUI();
     } else {
@@ -637,21 +646,14 @@
     var btn   = document.getElementById('signup-btn');
     btn.textContent = 'Creating account...'; btn.disabled = true;
     var profileData = { email, full_name: name, is_premium: false, created_at: new Date().toISOString(), source: 'signup_form' };
-    // Layer 3+2: Always save to localStorage + Netlify
-    vaultSave('signup', profileData);
-    netlifyCapture('catalyst-signup', { fullname: name, email });
     try {
-      if (_sb) {
-        var r = await _sb.auth.signUp({ email, password: pass, options: { data: { full_name: name } } });
-        if (r.error) throw r.error;
-        if (r.data && r.data.user) {
-          try { await _sb.from('user_profiles').upsert(Object.assign({ id: r.data.user.id }, profileData)); } catch(dbErr) {}
-        }
-        showToast('Account created! Check your email to confirm.', 'success');
-      } else {
-        // Supabase not configured yet — data saved to localStorage + Netlify Forms
-        showToast('Ẹ káàbọ̀, ' + name.split(' ')[0] + '! You\'re registered. ✦', 'success');
+      if (!_sb) throw new Error('Account creation is unavailable right now. Please try again later.');
+      var r = await _sb.auth.signUp({ email, password: pass, options: { data: { full_name: name } } });
+      if (r.error) throw r.error;
+      if (r.data && r.data.user) {
+        try { await _sb.from('user_profiles').upsert(Object.assign({ id: r.data.user.id }, profileData)); } catch(dbErr) {}
       }
+      showToast('Account created! Check your email to confirm.', 'success');
       closeAuthModal();
     } catch(err) {
       showToast(err.message || 'Sign up failed. Try again.', 'error');
@@ -667,16 +669,8 @@
     var pass  = form.querySelector('input[name="password"]').value;
     var btn   = document.getElementById('signin-btn');
     btn.textContent = 'Entering...'; btn.disabled = true;
-    // Always log the sign-in attempt to localStorage for tracking
-    vaultSave('signin_attempt', { email, ts: new Date().toISOString() });
     try {
-      if (!_sb) {
-        // Auth not live yet — record and let them in gracefully
-        showToast('Welcome back. Full auth activates soon — you\'re tracked. ✦', 'success');
-        closeAuthModal();
-        btn.textContent = 'Enter the Universe →'; btn.disabled = false;
-        return;
-      }
+      if (!_sb) throw new Error('Sign in is unavailable right now. Please try again later.');
       var r = await _sb.auth.signInWithPassword({ email, password: pass });
       if (r.error) throw r.error;
       closeAuthModal();
