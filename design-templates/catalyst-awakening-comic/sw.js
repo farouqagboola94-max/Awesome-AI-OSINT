@@ -4,7 +4,7 @@
 // activate handler below evicts the previous generation. IMG_CACHE is versioned
 // separately and deliberately left behind: image bytes are immutable per URL, so
 // there's no reason to make returning visitors re-download them on a code change.
-const CACHE = 'catalyst-v17';
+const CACHE = 'catalyst-v18';
 const IMG_CACHE = 'catalyst-img-v5';
 const IMG_CACHE_MAX = 60;
 const PRECACHE = [
@@ -42,9 +42,16 @@ self.addEventListener('install', e => {
 self.addEventListener('activate', e => {
   e.waitUntil(
     Promise.all([
-      caches.keys().then(keys => Promise.all(
-        keys.filter(k => k !== CACHE && k !== IMG_CACHE).map(k => caches.delete(k))
-      )),
+      caches.keys().then(keys => Promise.all(keys.map(async key => {
+        if (key !== CACHE && key !== IMG_CACHE) return caches.delete(key);
+        // Clear any proof pages retained by the old image/document handlers.
+        const cache = await caches.open(key);
+        const requests = await cache.keys();
+        await Promise.all(requests.filter(request => {
+          const path = new URL(request.url).pathname;
+          return path.startsWith('/private/') || /^\/read\/issue-1-(comic|book)(?:\.html)?$/.test(path);
+        }).map(request => cache.delete(request)));
+      }))),
       // Navigation preload: browser starts the network fetch in parallel
       // with SW boot, shaving ~100-300ms off cold navigations
       self.registration.navigationPreload
@@ -66,6 +73,10 @@ async function trimImageCache() {
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
 
+  // Let Netlify's owner SSO and no-store headers control every proof response.
+  const path = new URL(e.request.url).pathname;
+  if (path.startsWith('/private/') || /^\/read\/issue-1-(comic|book)(?:\.html)?$/.test(path)) return;
+
   const dest = e.request.destination;
 
   // HTML: network-first (with navigation preload), cache fallback
@@ -75,7 +86,7 @@ self.addEventListener('fetch', e => {
         const preloaded = await e.preloadResponse;
         const r = preloaded || await fetch(e.request);
         const c = r.clone();
-        caches.open(CACHE).then(ch => ch.put(e.request, c));
+        if (r.ok) caches.open(CACHE).then(ch => ch.put(e.request, c));
         return r;
       } catch (err) {
         return (await caches.match(e.request)) || (await caches.match('/')) || Response.error();

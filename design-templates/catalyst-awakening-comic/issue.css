@@ -4547,3 +4547,5 @@ mark.fn-hl.fn-flash { animation: fn-flash 1.6s ease-in-out 1; }
 .reader-permalink:focus-visible,
 .script-studio-link:hover,
 .script-studio-link:focus-visible { color: var(--danfo-gold); border-bottom-color: var(--danfo-gold); }
+.issue-edition-links{margin:1rem 0;line-height:1.9;font-size:.95rem}
+.issue-edition-links a{color:#f4b800;text-underline-offset:.2em}
