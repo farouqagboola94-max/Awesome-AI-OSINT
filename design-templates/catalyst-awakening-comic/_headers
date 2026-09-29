@@ -9,6 +9,18 @@
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 
+/private/*
+  Cache-Control: private, no-store, max-age=0
+  X-Robots-Tag: noindex, nofollow, noarchive
+
+/read/issue-1-comic*
+  Cache-Control: private, no-store, max-age=0
+  X-Robots-Tag: noindex, nofollow, noarchive
+
+/read/issue-1-book*
+  Cache-Control: private, no-store, max-age=0
+  X-Robots-Tag: noindex, nofollow, noarchive
+
 /*.webp
   Cache-Control: public, max-age=31536000, immutable
 

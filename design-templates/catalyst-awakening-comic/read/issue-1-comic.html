@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Issue 01 · Lettered comic proof · Catalyst: The Awakening</title>
+  <link rel="canonical" href="https://catalyst-awakening.netlify.app/read/issue-1-comic">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ComicIssue","name":"Catalyst: The Awakening — Issue 01 comic proof"}</script>
+  <link rel="stylesheet" href="../release.css">
+</head>
+<body class="release-body">
+  <a class="skip-link" href="#comic">Skip to comic</a>
+  <header class="release-top"><a href="./issue-1">← Issue 01</a><span>CATALYST / THE AWAKENING</span><a href="./issue-1-book">Story book →</a></header>
+  <main id="comic" class="comic-shell">
+    <section class="comic-cover" aria-labelledby="comic-title">
+      <img src="/private/issue01/cover.webp" alt="Bayo under the storm over Lagos" width="1024" height="1536">
+      <div class="comic-cover-type"><p>ARC I · ISSUE 01</p><h1 id="comic-title">Catalyst<span>The Awakening</span></h1></div>
+      <div class="comic-cover-bottom"><p>AWAKEN, O CITY</p><span>Private 88-page lettering proof</span></div>
+    </section>
+    <div class="comic-intro"><p>Read the lettered panels in page order. Longer passages are adapted into short on-page excerpts. The complete source cues sit beside each page, and the original storyline is available as a book.</p><a href="./issue-1-book">Read the original storyline as a book →</a></div>
+    <nav class="comic-nav" aria-label="Comic pages"><button id="prev" type="button">← Previous</button><label>Page <select id="page-select" aria-label="Choose page"></select> <span id="page-count">of 88</span></label><button id="next" type="button">Next →</button></nav>
+    <div class="comic-page-grid">
+      <figure class="comic-art"><div class="comic-art-viewport" id="art-viewport"><img id="page-art" width="1024" height="1536" alt="" decoding="async"></div><figcaption id="page-caption"></figcaption><button class="comic-zoom" id="zoom-button" type="button" aria-pressed="false">Zoom page</button></figure>
+      <aside class="comic-script" aria-labelledby="cue-heading"><p id="scene-label"></p><h2 id="cue-heading">Source lettering and notes</h2><div id="cues"></div></aside>
+    </div>
+    <nav class="comic-nav comic-nav-bottom" aria-label="More comic pages"><button id="prev-bottom" type="button">← Previous</button><span id="progress">01 / 88</span><button id="next-bottom" type="button">Next →</button></nav>
+    <p class="comic-status" id="status" role="status">Loading the private reader…</p>
+    <footer class="release-footer"><a href="./issue-1-book">Story book</a><a href="./issue-2">Next issue →</a></footer>
+  </main>
+  <script>
+  (() => {
+    const status = document.getElementById('status');
+    const art = document.getElementById('page-art');
+    const cues = document.getElementById('cues');
+    const select = document.getElementById('page-select');
+    const viewport = document.getElementById('art-viewport');
+    const zoomButton = document.getElementById('zoom-button');
+    let pages = [];
+    let current = 1;
+    const safePage = n => Math.max(1, Math.min(pages.length, n));
+    function show(n, scroll = true) {
+      if (!pages.length) return;
+      current = safePage(n);
+      const page = pages[current - 1];
+      viewport.classList.remove('zoomed');
+      zoomButton.setAttribute('aria-pressed', 'false');
+      zoomButton.textContent = 'Zoom page';
+      art.src = page.image;
+      art.alt = `Issue 01 page ${current} draft illustration, scene ${page.scene}: ${page.title}. Exact source cues follow.`;
+      document.getElementById('page-caption').textContent = `ISSUE 01 · PAGE ${String(current).padStart(2, '0')} / 88`;
+      document.getElementById('scene-label').textContent = `SCENE ${String(page.scene).padStart(2, '0')} · ${page.title}`;
+      document.getElementById('progress').textContent = `${String(current).padStart(2, '0')} / 88`;
+      select.value = String(current);
+      cues.replaceChildren();
+      for (const cue of page.cues) {
+        if (!cue.text.trim()) continue;
+        const section = document.createElement('section');
+        section.className = 'source-cue';
+        const label = document.createElement('small');
+        label.textContent = `${cue.type}${cue.speaker ? ' · ' + cue.speaker : ''}`;
+        const p = document.createElement('p');
+        p.textContent = cue.text;
+        section.append(label, p);
+        cues.append(section);
+      }
+      for (const id of ['prev','prev-bottom']) document.getElementById(id).disabled = current === 1;
+      for (const id of ['next','next-bottom']) document.getElementById(id).disabled = current === pages.length;
+      history.replaceState(null, '', `#page-${current}`);
+      if (scroll) document.querySelector('.comic-page-grid').scrollIntoView({block:'start'});
+    }
+    for (const id of ['prev','prev-bottom']) document.getElementById(id).addEventListener('click', () => show(current - 1));
+    for (const id of ['next','next-bottom']) document.getElementById(id).addEventListener('click', () => show(current + 1));
+    select.addEventListener('change', () => show(Number(select.value)));
+    zoomButton.addEventListener('click', () => {
+      const zoomed = viewport.classList.toggle('zoomed');
+      zoomButton.setAttribute('aria-pressed', String(zoomed));
+      zoomButton.textContent = zoomed ? 'Fit page' : 'Zoom page';
+    });
+    document.addEventListener('keydown', event => {
+      if (event.target.closest('select,button,input,textarea')) return;
+      if (event.key === 'ArrowRight') show(current + 1);
+      if (event.key === 'ArrowLeft') show(current - 1);
+    });
+    fetch('/private/issue01/manifest.json', {cache:'no-store'}).then(response => {
+      if (!response.ok) throw new Error('The private comic package is unavailable.');
+      return response.json();
+    }).then(data => {
+      pages = data.pages;
+      if (pages.length !== 88 || pages.some((p, i) => p.page !== i + 1)) throw new Error('The 88-page sequence failed validation.');
+      for (let i = 1; i <= pages.length; i++) select.add(new Option(String(i).padStart(2,'0'), String(i)));
+      status.remove();
+      show(Number(location.hash.match(/^#page-(\d+)$/)?.[1] || 1), false);
+    }).catch(error => {status.textContent = error.message;});
+  })();
+  </script>
+</body>
+</html>
