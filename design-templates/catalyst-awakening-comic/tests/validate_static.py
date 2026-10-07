@@ -28,7 +28,7 @@ def check(name, cond, detail=''):
     global checks
     checks += 1
     if not cond:
-        failures.append(name + (('  →  ' + str(detail)) if detail else ''))
+        failures.append(name + (('  ->  ' + str(detail)) if detail else ''))
 
 
 def rel(p):
@@ -284,7 +284,7 @@ def main():
         check('%s declares a canonical URL' % page, bool(m))
         if not m:
             continue
-        expected = '/' if page == 'index.html' else '/' + page[:-len('.html')]
+        expected = '/' if page == 'index.html' else '/' + page.replace('\\', '/')[:-len('.html')]
         got = m.group(1).replace(SITE_URL, '') or '/'
         check('%s canonical matches its path' % page, got == expected, '%s != %s' % (got, expected))
 

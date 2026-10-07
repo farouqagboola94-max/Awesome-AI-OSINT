@@ -358,6 +358,15 @@
     --bone-white: #F0EDE5;
     --ash-grey: #8a8a9a;
     --iron-grey: #2a2a3a;
+    --threat-critical: #FF0000;
+    --threat-high: #FF4500;
+    --threat-escalating: #FF6B00;
+    --threat-moderate: #FFC107;
+    --threat-low: #4FC3F7;
+    --ase-ember: #FFC107;
+    --ase-forge: #FF6B00;
+    --ase-tempest: #FF3D00;
+    --ase-sovereign: #8B0000;
   }
 
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -9030,3 +9039,621 @@ mark.fn-hl.fn-flash { animation: fn-flash 1.6s ease-in-out 1; }
 .reader-permalink:focus-visible,
 .script-studio-link:hover,
 .script-studio-link:focus-visible { color: var(--danfo-gold); border-bottom-color: var(--danfo-gold); }
+\n
+/* ==================================================================
+   UPGRADE: AUDIO SOUNDSCAPE ENGINE, WORLD 2031 & TERMINAL HUD
+   ================================================================== */
+
+/* NAV AUDIO BUTTON & REALTIME VISUALIZER */
+.nav-audio-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(10, 10, 31, 0.7);
+  border: 1px solid rgba(244, 184, 0, 0.35);
+  color: var(--bone-white);
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: border-color 0.25s, background-color 0.25s, box-shadow 0.25s;
+}
+.nav-audio-btn:hover,
+.nav-audio-btn:focus-visible {
+  border-color: var(--danfo-gold);
+  background: rgba(244, 184, 0, 0.12);
+  box-shadow: 0 0 12px rgba(244, 184, 0, 0.25);
+  outline: none;
+}
+.nav-audio-btn.active {
+  border-color: var(--danfo-gold);
+  background: rgba(244, 184, 0, 0.18);
+  box-shadow: 0 0 14px rgba(244, 184, 0, 0.35);
+  color: var(--danfo-gold);
+}
+.audio-bars {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  width: 12px;
+  height: 12px;
+}
+.audio-bars .abar {
+  width: 2px;
+  height: 3px;
+  background: var(--danfo-gold);
+  border-radius: 1px;
+  transition: height 0.2s ease;
+}
+.nav-audio-btn.active .audio-bars .abar:nth-child(1) {
+  animation: audioEq1 0.7s infinite alternate ease-in-out;
+}
+.nav-audio-btn.active .audio-bars .abar:nth-child(2) {
+  animation: audioEq2 0.5s infinite alternate ease-in-out;
+}
+.nav-audio-btn.active .audio-bars .abar:nth-child(3) {
+  animation: audioEq3 0.9s infinite alternate ease-in-out;
+}
+@keyframes audioEq1 { 0% { height: 2px; } 100% { height: 11px; } }
+@keyframes audioEq2 { 0% { height: 4px; } 100% { height: 12px; } }
+@keyframes audioEq3 { 0% { height: 2px; } 100% { height: 9px; } }
+
+/* LAGOS 2031 INTELLIGENCE COMMAND HUB */
+#world-2031 {
+  position: relative;
+  padding: clamp(4rem, 8vw, 8rem) clamp(1.2rem, 4vw, 5rem);
+  background: linear-gradient(180deg, #06060d 0%, #0a0a1f 50%, #06060d 100%);
+  border-top: 1px solid rgba(244, 184, 0, 0.15);
+  border-bottom: 1px solid rgba(244, 184, 0, 0.15);
+  overflow: hidden;
+}
+.world-hub-header {
+  text-align: center;
+  max-width: 820px;
+  margin: 0 auto 3rem;
+}
+.world-hub-header .section-label {
+  justify-content: center;
+}
+.world-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+.world-tab-btn {
+  background: rgba(10, 10, 31, 0.7);
+  border: 1px solid rgba(240, 237, 229, 0.15);
+  color: rgba(240, 237, 229, 0.7);
+  padding: 0.55rem 1.2rem;
+  border-radius: 3px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.world-tab-btn:hover,
+.world-tab-btn:focus-visible {
+  border-color: var(--danfo-gold);
+  color: var(--bone-white);
+  outline: none;
+}
+.world-tab-btn.active {
+  border-color: var(--danfo-gold);
+  background: rgba(244, 184, 0, 0.16);
+  color: var(--danfo-gold);
+  box-shadow: 0 0 15px rgba(244, 184, 0, 0.2);
+}
+
+/* DISTRICTS GRID & HUD */
+.district-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  max-width: 1240px;
+  margin: 0 auto 2.5rem;
+}
+.district-card {
+  background: rgba(10, 10, 31, 0.65);
+  border: 1px solid rgba(240, 237, 229, 0.12);
+  border-radius: 4px;
+  padding: 1.5rem;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+}
+.district-card:hover,
+.district-card:focus-visible,
+.district-card.active {
+  border-color: var(--danfo-gold);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(244, 184, 0, 0.18);
+  outline: none;
+}
+.district-card.active::before {
+  content: \'\';
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 4px;
+  background: var(--danfo-gold);
+  box-shadow: 0 0 8px var(--danfo-gold);
+}
+.dist-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.8rem;
+}
+.dist-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+  color: var(--bone-white);
+}
+.dist-subtitle {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--danfo-gold);
+  margin-bottom: 0.9rem;
+  letter-spacing: 0.05em;
+}
+.dist-desc {
+  font-size: 0.84rem;
+  line-height: 1.65;
+  color: rgba(240, 237, 229, 0.75);
+  margin-bottom: 1rem;
+}
+.dist-meta {
+  display: flex;
+  gap: 1rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  color: rgba(240, 237, 229, 0.55);
+  border-top: 1px solid rgba(240, 237, 229, 0.08);
+  padding-top: 0.8rem;
+}
+
+/* THREAT BADGES */
+.threat-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 3px 8px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  display: inline-block;
+}
+.threat-tag.critical {
+  color: var(--threat-critical);
+  border: 1px solid rgba(255, 0, 0, 0.4);
+  background: rgba(255, 0, 0, 0.1);
+}
+.threat-tag.high {
+  color: var(--threat-high);
+  border: 1px solid rgba(255, 69, 0, 0.4);
+  background: rgba(255, 69, 0, 0.1);
+}
+.threat-tag.escalating {
+  color: var(--threat-escalating);
+  border: 1px solid rgba(255, 107, 0, 0.4);
+  background: rgba(255, 107, 0, 0.1);
+}
+.threat-tag.moderate {
+  color: var(--threat-moderate);
+  border: 1px solid rgba(255, 193, 7, 0.4);
+  background: rgba(255, 193, 7, 0.1);
+}
+.threat-tag.low {
+  color: var(--threat-low);
+  border: 1px solid rgba(79, 195, 247, 0.4);
+  background: rgba(79, 195, 247, 0.1);
+}
+
+/* FACTION INTELLIGENCE MATRIX */
+.faction-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+.faction-card {
+  background: rgba(10, 10, 31, 0.6);
+  border: 1px solid rgba(240, 237, 229, 0.12);
+  border-radius: 4px;
+  padding: 1.6rem;
+  backdrop-filter: blur(8px);
+  position: relative;
+  transition: all 0.3s ease;
+}
+.faction-card:hover {
+  border-color: rgba(244, 184, 0, 0.4);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+.faction-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.5rem;
+}
+.faction-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.55rem;
+  letter-spacing: 0.08em;
+  color: var(--bone-white);
+}
+.faction-type {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--danfo-gold);
+}
+.faction-motto {
+  font-style: italic;
+  font-size: 0.85rem;
+  color: rgba(240, 237, 229, 0.85);
+  margin-bottom: 0.8rem;
+  border-left: 2px solid var(--danfo-gold);
+  padding-left: 0.6rem;
+}
+.faction-desc {
+  font-size: 0.82rem;
+  line-height: 1.65;
+  color: rgba(240, 237, 229, 0.7);
+  margin-bottom: 1.2rem;
+}
+.power-bar-wrap {
+  margin-top: 0.8rem;
+}
+.power-bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  color: rgba(240, 237, 229, 0.6);
+  margin-bottom: 0.3rem;
+}
+.power-bar-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.power-bar-fill {
+  height: 100%;
+  background: var(--danfo-gold);
+  box-shadow: 0 0 8px var(--danfo-gold);
+  transition: width 1s ease;
+}
+
+/* ASE POWER TIERS & DEBT SIMULATOR */
+.debt-sim-container {
+  max-width: 900px;
+  margin: 3rem auto 0;
+  background: rgba(6, 6, 13, 0.8);
+  border: 1px solid rgba(244, 184, 0, 0.25);
+  border-radius: 4px;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+.debt-sim-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  letter-spacing: 0.08em;
+  color: var(--danfo-gold);
+  margin-bottom: 0.5rem;
+}
+.debt-sim-desc {
+  font-size: 0.86rem;
+  line-height: 1.7;
+  color: rgba(240, 237, 229, 0.75);
+  margin-bottom: 1.8rem;
+}
+.debt-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+.debt-slider-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.debt-slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  color: rgba(240, 237, 229, 0.6);
+}
+.debt-range {
+  width: 100%;
+  accent-color: var(--danfo-gold);
+  cursor: pointer;
+}
+.debt-readout-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.debt-readout-card {
+  background: rgba(10, 10, 31, 0.7);
+  border: 1px solid rgba(240, 237, 229, 0.1);
+  padding: 1rem;
+  border-radius: 3px;
+}
+.debt-readout-card h4 {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--danfo-gold);
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.08em;
+}
+.debt-readout-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.5rem;
+  color: var(--bone-white);
+  letter-spacing: 0.05em;
+}
+.debt-readout-note {
+  font-size: 0.74rem;
+  color: rgba(240, 237, 229, 0.6);
+  line-height: 1.4;
+  margin-top: 0.3rem;
+}
+
+/* INTERACTIVE TERMINAL COMMAND LINE & QUICK PILLS */
+.term-input-line {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(244, 184, 0, 0.2);
+}
+.term-prompt {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--danfo-gold);
+  white-space: nowrap;
+}
+.term-cmd-input {
+  flex: 1;
+  background: rgba(6, 6, 13, 0.9);
+  border: 1px solid rgba(244, 184, 0, 0.25);
+  color: var(--bone-white);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 2px;
+}
+.term-cmd-input:focus {
+  border-color: var(--danfo-gold);
+  outline: none;
+  box-shadow: 0 0 10px rgba(244, 184, 0, 0.2);
+}
+.term-cmd-btn {
+  background: var(--danfo-gold);
+  color: var(--black);
+  border: none;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.45rem 0.9rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.term-cmd-btn:hover {
+  opacity: 0.9;
+}
+.term-quick-cmds {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+}
+.term-qbtn {
+  background: rgba(244, 184, 0, 0.08);
+  border: 1px solid rgba(244, 184, 0, 0.2);
+  color: rgba(240, 237, 229, 0.7);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.64rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.term-qbtn:hover,
+.term-qbtn:focus-visible {
+  background: rgba(244, 184, 0, 0.2);
+  color: var(--danfo-gold);
+  border-color: var(--danfo-gold);
+  outline: none;
+}
+
+
+/* VAULT INTERACTIVE DECLASSIFICATION MODAL */
+.vault-modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(4, 4, 10, 0.88);
+  backdrop-filter: blur(10px);
+  z-index: 10050;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+.vault-modal-backdrop.open {
+  display: flex;
+}
+.vault-modal-window {
+  background: #080814;
+  border: 1px solid rgba(244, 184, 0, 0.4);
+  box-shadow: 0 0 35px rgba(0, 0, 0, 0.9), 0 0 20px rgba(244, 184, 0, 0.2);
+  border-radius: 4px;
+  max-width: 680px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  position: relative;
+  font-family: 'Space Grotesk', sans-serif;
+  color: var(--bone-white);
+}
+.vault-modal-close {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  background: transparent;
+  border: 1px solid rgba(240, 237, 229, 0.2);
+  color: var(--bone-white);
+  font-size: 1.2rem;
+  width: 32px; height: 32px;
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.vault-modal-close:hover {
+  border-color: var(--danfo-gold);
+  color: var(--danfo-gold);
+}
+.vault-modal-stamp {
+  display: inline-block;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--blood-red);
+  border: 1px solid var(--blood-red);
+  padding: 3px 8px;
+  margin-bottom: 0.8rem;
+  text-transform: uppercase;
+}
+.vault-modal-stamp.declassified {
+  color: var(--orisha-teal);
+  border-color: var(--orisha-teal);
+}
+.vault-modal-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem;
+  letter-spacing: 0.08em;
+  color: var(--danfo-gold);
+  line-height: 1.1;
+  margin-bottom: 0.4rem;
+}
+.vault-modal-classification {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  color: rgba(240, 237, 229, 0.6);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid rgba(240, 237, 229, 0.1);
+  padding-bottom: 0.6rem;
+}
+.vault-modal-body {
+  font-size: 0.92rem;
+  line-height: 1.8;
+  color: rgba(240, 237, 229, 0.85);
+  margin-bottom: 1.8rem;
+}
+.vault-unlock-box {
+  background: rgba(10, 10, 31, 0.8);
+  border: 1px solid rgba(244, 184, 0, 0.25);
+  border-radius: 3px;
+  padding: 1.2rem;
+  margin-top: 1.2rem;
+}
+.vault-unlock-prompt {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--danfo-gold);
+  margin-bottom: 0.8rem;
+  letter-spacing: 0.05em;
+}
+.vault-input-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+.vault-pass-input {
+  flex: 1;
+  background: #040408;
+  border: 1px solid rgba(240, 237, 229, 0.2);
+  color: var(--danfo-gold);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.85rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 2px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.vault-pass-input:focus {
+  border-color: var(--danfo-gold);
+  outline: none;
+  box-shadow: 0 0 10px rgba(244, 184, 0, 0.25);
+}
+.vault-pass-btn {
+  background: var(--danfo-gold);
+  color: #06060d;
+  border: none;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0 1.2rem;
+  border-radius: 2px;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  transition: opacity 0.2s;
+}
+.vault-pass-btn:hover {
+  opacity: 0.9;
+}
+.vault-hint {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  color: rgba(240, 237, 229, 0.5);
+  line-height: 1.4;
+}
+
+/* CURSOR ON VAULT CARDS */
+.vault-card {
+  cursor: pointer;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.vault-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--danfo-gold);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7), 0 0 15px rgba(244, 184, 0, 0.15);
+}
+
+/* COMBAT SIM RANDOM BUTTON */
+.cs-rand-btn {
+  background: rgba(244, 184, 0, 0.1);
+  border: 1px solid rgba(244, 184, 0, 0.3);
+  color: var(--danfo-gold);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  padding: 0.6rem 1.2rem;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-top: 0.8rem;
+  transition: all 0.2s;
+}
+.cs-rand-btn:hover {
+  background: rgba(244, 184, 0, 0.22);
+  border-color: var(--danfo-gold);
+  box-shadow: 0 0 10px rgba(244, 184, 0, 0.2);
+}

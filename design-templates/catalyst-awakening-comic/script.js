@@ -336,34 +336,15 @@
     }
     btn.textContent = 'Sending...';
     btn.disabled = true;
-    var subData = { email, full_name: name || null, subscribed_at: new Date().toISOString(), source: 'footer_form' };
-    // Layer 3: localStorage — always
-    vaultSave('newsletter', subData);
-    // Layer 2: Netlify Forms — always (works without any config on Netlify)
-    netlifyCapture('catalyst-newsletter', { nl_name: name, nl_email: email });
     try {
-      // Layer 1: Supabase if configured — RPC handles dedupe/re-subscribe
-      // server-side without exposing UPDATE/SELECT to the anon key
-      if (window._supabase) {
-        var nlRes = await window._supabase.rpc('subscribe_newsletter', { p_email: email, p_name: name || null, p_source: 'footer_form' });
-        if (nlRes && nlRes.error) await window._supabase.from('newsletter_subscribers').insert(subData);
-      }
-      btn.textContent = 'Àṣẹ! ✓';
-      btn.style.background = '#00C9B1';
-      if (emailInput) emailInput.value = '';
-      if (nameInput) nameInput.value = '';
-      showToast('You\'re in the movement! New issues drop to your inbox first.', 'success');
-      if (window.launchConfetti) launchConfetti();
-      setTimeout(() => { btn.textContent = 'Awaken'; btn.style.background = ''; btn.disabled = false; }, 3500);
+      await netlifyCapture('catalyst-newsletter', { nl_name: name, nl_email: email,
+        'bot-field': new FormData(form).get('bot-field') || '' });
+      form.reset();
+      showToast('Subscription saved. Thank you for joining the movement.', 'success');
     } catch (err) {
-      // Even if Supabase fails, data is in localStorage + Netlify
-      btn.textContent = 'Àṣẹ! ✓';
-      btn.style.background = '#00C9B1';
-      if (emailInput) emailInput.value = '';
-      if (nameInput) nameInput.value = '';
-      showToast('You\'re in the movement! ✦', 'success');
-      if (window.launchConfetti) launchConfetti();
-      setTimeout(() => { btn.textContent = 'Awaken'; btn.style.background = ''; btn.disabled = false; }, 3500);
+      showToast('We could not save your subscription. Please retry.', 'error');
+    } finally {
+      btn.textContent = 'Awaken'; btn.disabled = false;
     }
   }
 
@@ -447,9 +428,9 @@
   // 1. Supabase → https://supabase.com → Project Settings → API
   // 2. Paystack → https://dashboard.paystack.com/#/settings/developer
   //
-  const SUPABASE_URL     = 'https://qeoqxowpnrmttjupxkeb.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFlb3F4b3dwbnJtdHRqdXB4a2ViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI0NzAxNjUsImV4cCI6MjA5ODA0NjE2NX0.WOabJrVtEMAFjyF4ns_X6EDhzCwDJQp2mnPGQKGRYL4';
-  const PAYSTACK_KEY     = 'YOUR_PAYSTACK_PUBLIC_KEY';
+  const SUPABASE_URL     = 'https://oxnpmgbwwsjfseirfxej.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_Ac7QJhrz4teLLONsAoU1_Q_MT6o9Yk4';
+  // Checkout remains closed until server-side payment verification is deployed.
   // ═══════════════════════════════════════════════════════════════
 
   // ─── SUPABASE INIT (retries until async CDN script loads) ────
@@ -461,7 +442,8 @@
       try {
         _sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         window._supabase = _sb;
-        flushPendingQueue && flushPendingQueue();
+
+        for (const id of ['signup-btn', 'signin-btn']) document.getElementById(id).disabled = false;
         initAuth();
       } catch(e) { console.warn('Supabase init failed:', e); }
     } else if (_sbReady) {
@@ -470,91 +452,19 @@
   }
   setTimeout(_initSupabase, 100);
 
-  // ═══════════════════════════════════════════════════════════════
-  // LAYER 3+4: localStorage VAULT + PENDING QUEUE
-  // All data is saved here regardless of Supabase status.
-  // When you add real Supabase credentials, call flushPendingQueue()
-  // to automatically sync everything that was captured offline.
-  // ═══════════════════════════════════════════════════════════════
-  var _VAULT_KEY = 'catalyst_data_vault';
-  var _PENDING_KEY = 'catalyst_pending_sync';
-
-  function vaultSave(type, data) {
-    try {
-      var vault = JSON.parse(localStorage.getItem(_VAULT_KEY) || '{}');
-      if (!vault[type]) vault[type] = [];
-      vault[type].push(Object.assign({ _ts: new Date().toISOString(), _id: Math.random().toString(36).slice(2) }, data));
-      localStorage.setItem(_VAULT_KEY, JSON.stringify(vault));
-      // Also queue for Supabase sync
-      var pending = JSON.parse(localStorage.getItem(_PENDING_KEY) || '[]');
-      pending.push({ type: type, data: data, ts: new Date().toISOString() });
-      localStorage.setItem(_PENDING_KEY, JSON.stringify(pending));
-    } catch(e) { /* localStorage full or unavailable */ }
-  }
-
-  function vaultGet(type) {
-    try {
-      var vault = JSON.parse(localStorage.getItem(_VAULT_KEY) || '{}');
-      return vault[type] || [];
-    } catch(e) { return []; }
-  }
-
-  // Call this after adding real Supabase credentials to sync local data
-  async function flushPendingQueue() {
-    if (!_sb) return;
-    var pending = JSON.parse(localStorage.getItem(_PENDING_KEY) || '[]');
-    if (!pending.length) return;
-    var failed = [];
-    for (var i = 0; i < pending.length; i++) {
-      var item = pending[i];
-      try {
-        if (item.type === 'signup' || item.type === 'profile') {
-          await _sb.from('user_profiles').upsert(item.data, { onConflict: 'email' });
-        } else if (item.type === 'newsletter') {
-          var nr = await _sb.rpc('subscribe_newsletter', { p_email: item.data.email, p_name: item.data.full_name || null, p_source: item.data.source || 'pending_sync' });
-          if (nr && nr.error) throw nr.error;
-        } else if (item.type === 'form') {
-          var fr = await _sb.rpc('submit_form', { p_form_id: item.data._form_id || 'unknown', p_payload: item.data });
-          if (fr && fr.error) throw fr.error;
-        } else if (item.type === 'payment') {
-          await _sb.from('user_profiles').upsert(item.data, { onConflict: 'email' });
-        }
-      } catch(e) { failed.push(item); }
-    }
-    localStorage.setItem(_PENDING_KEY, JSON.stringify(failed));
-    if (!failed.length) console.log('✅ Catalyst: All pending data synced to Supabase.');
-  }
-  window.catalystFlushPending = flushPendingQueue;
-
-  // ─── LAYER 2: NETLIFY FORMS SUBMIT ───────────────────────────
-  // Netlify automatically captures forms with data-netlify="true".
-  // This JS function provides a JS-driven fallback for non-form data.
+  // Explicit forms have one durable destination. No auth forms or contact
+  // details are copied into an unprotected browser vault.
   async function netlifyCapture(formName, data) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 20000);
     try {
-      var body = new URLSearchParams({ 'form-name': formName });
-      Object.keys(data).forEach(function(k){ body.append(k, data[k] || ''); });
-      await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString() });
-    } catch(e) { /* non-fatal */ }
+      const body = new URLSearchParams({ 'form-name': formName, ...data });
+      const response = await fetch('/', { method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: body.toString(), signal: controller.signal });
+      if (!response.ok) throw new Error('Submission not saved');
+    } finally { clearTimeout(timeout); }
   }
-
-  // ─── MASTER CAPTURE FUNCTION ─────────────────────────────────
-  // captureData() → tries Supabase first, always saves to localStorage,
-  // always sends to Netlify Forms. Never loses data.
-  async function captureData(type, table, payload, netlifyForm) {
-    // L3: Always save to localStorage vault first
-    vaultSave(type, payload);
-    // L2: Netlify Forms capture (works even without Supabase)
-    if (netlifyForm) netlifyCapture(netlifyForm, payload);
-    // L1: Supabase (if configured)
-    if (_sb) {
-      try {
-        await _sb.from(table).upsert(payload, { onConflict: 'email' });
-      } catch(e) { /* already in localStorage/Netlify */ }
-    }
-  }
-
-  // Run pending sync attempt on load if Supabase is configured
-  if (_sb) flushPendingQueue();
 
   // ─── AUTH STATE ───────────────────────────────────────────────
   let _currentUser = null;
@@ -584,7 +494,7 @@
     if (user) {
       const meta = user.user_metadata || {};
       const name = meta.full_name || user.email.split('@')[0];
-      const isPremium = meta.is_premium;
+      const isPremium = user.app_metadata?.is_premium === true;
       const initial = name.charAt(0).toUpperCase();
       btn.replaceChildren();
       const badge = document.createElement('span');
@@ -609,7 +519,7 @@
   function openUserMenu() {
     if (!_currentUser) return openAuthModal('signup');
     const meta = _currentUser.user_metadata || {};
-    const isPremium = meta.is_premium;
+    const isPremium = _currentUser.app_metadata?.is_premium === true;
     if (isPremium) {
       showToast('You are a Ìmọ̀lẹ̀ member. ✦ Full universe unlocked.', 'success');
     } else {
@@ -645,14 +555,10 @@
     var pass  = form.querySelector('input[name="password"]').value;
     var btn   = document.getElementById('signup-btn');
     btn.textContent = 'Creating account...'; btn.disabled = true;
-    var profileData = { email, full_name: name, is_premium: false, created_at: new Date().toISOString(), source: 'signup_form' };
     try {
       if (!_sb) throw new Error('Account creation is unavailable right now. Please try again later.');
-      var r = await _sb.auth.signUp({ email, password: pass, options: { data: { full_name: name } } });
+      var r = await _sb.auth.signUp({ email, password: pass, options: { data: { full_name: name }, emailRedirectTo: location.origin + '/' } });
       if (r.error) throw r.error;
-      if (r.data && r.data.user) {
-        try { await _sb.from('user_profiles').upsert(Object.assign({ id: r.data.user.id }, profileData)); } catch(dbErr) {}
-      }
       showToast('Account created! Check your email to confirm.', 'success');
       closeAuthModal();
     } catch(err) {
@@ -696,7 +602,7 @@
     var emailEl = document.querySelector('#auth-signin input[name="email"]');
     var email = emailEl ? emailEl.value.trim() : '';
     if (!email) { showToast('Enter your email in the field above first.', 'error'); return; }
-    var r = await _sb.auth.resetPasswordForEmail(email, { redirectTo: window.location.href });
+    var r = await _sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + '/reset-password.html' });
     if (r.error) showToast(r.error.message, 'error');
     else showToast('Reset link sent to ' + email + '! Check your inbox.', 'success');
   }
@@ -791,34 +697,26 @@
   ];
 
   // ─── WAITLIST EMAIL CAPTURE ────────────────────────────────────
-  function submitWaitlist() {
-    var emailEl = document.getElementById('waitlistEmail');
-    var email = emailEl ? emailEl.value.trim() : '';
-    if (!email || !/\S+@\S+\.\S+/.test(email)) {
-      showToast('Enter a valid email address \u2726', 'error'); return;
-    }
-    vaultSave('waitlist_' + Date.now(), { email: email, plan: _currentPlan, ts: new Date().toISOString() });
-    netlifyCapture('catalyst-waitlist', { email: email, plan: _currentPlan });
-    if (emailEl) emailEl.value = '';
-    document.getElementById('paymentEmailCapture').style.display = 'none';
-    document.getElementById('paystackBtn').textContent = '\u2713 On the Waitlist \u2014 We\'ll reach out!';
-    document.getElementById('paystackBtn').style.opacity = '0.5';
-    document.getElementById('paystackBtn').style.pointerEvents = 'none';
-    showToast('You\'re on the \u00cc\u1d39\u1d60\u029d\u1eb9\u0300 Circle waitlist. We\'ll contact you at launch. \u2726', 'success');
+  async function submitWaitlist() {
+    const emailEl = document.getElementById('waitlistEmail');
+    const button = document.getElementById('waitlistSubmit');
+    if (!emailEl.reportValidity()) return;
+    button.disabled = true; button.textContent = 'Saving…';
+    try {
+      await netlifyCapture('catalyst-waitlist', { email: emailEl.value.trim(), plan: _currentPlan,
+        'bot-field': document.getElementById('waitlistBot').value });
+      emailEl.value = '';
+      showToast('Waitlist request saved. No payment was taken and access has not been granted.', 'success');
+    } catch (error) {
+      showToast('Your request was not saved. Please try again.', 'error');
+    } finally { button.disabled = false; button.textContent = 'Join waitlist'; }
   }
 
-  // ─── PAYMENT MODAL ───────────────────────────────────────────
   function openPaymentModal() {
-    // If not logged in, open signup first to capture their email
-    // BUT still show payment if they\'ve been tracked locally
-    if (!_currentUser) {
-      vaultSave('payment_intent', { action: 'clicked_subscribe', ts: new Date().toISOString() });
-      openAuthModal('signup');
-      showToast('Sign up first to activate your subscription. ✦', 'info');
-      return;
-    }
     document.getElementById('paymentBackdrop').classList.add('open');
+    document.getElementById('paymentEmailCapture').style.display = 'block';
     document.body.style.overflow = 'hidden';
+    if (_currentUser?.email) document.getElementById('waitlistEmail').value = _currentUser.email;
   }
   function closePaymentModal() {
     document.getElementById('paymentBackdrop').classList.remove('open');
@@ -838,65 +736,14 @@
   }
 
   function initiatePayment() {
-    var userEmail = (_currentUser && _currentUser.email) || '';
-    if (!userEmail) { openAuthModal('signup'); return; }
-    // Always capture payment intent to vault
-    vaultSave('payment_intent', { email: userEmail, plan: _currentPlan, ts: new Date().toISOString() });
-    netlifyCapture('catalyst-payment-intent', { email: userEmail, plan: _currentPlan });
-    if (PAYSTACK_KEY === 'YOUR_PAYSTACK_PUBLIC_KEY') {
-      // Payment key not live yet — record the intent and inform user
-      vaultSave('paystack_pending', { email: userEmail, plan: _currentPlan, ts: new Date().toISOString() });
-      document.getElementById('paymentEmailCapture').style.display = 'block';
-      showToast('Payment launching soon — join the waitlist below! ✦', 'info');
-      return;
-    }
-    if (!window.PaystackPop) { showToast('Payment system loading. Please wait.', 'error'); return; }
-    var amount = _currentPlan === 'monthly' ? 250000 : 2500000;
-    var handler = PaystackPop.setup({
-      key: PAYSTACK_KEY,
-      email: userEmail,
-      amount: amount,
-      currency: 'NGN',
-      ref: 'CATALYST_' + Date.now(),
-      metadata: {
-        custom_fields: [
-          { display_name: 'Plan', variable_name: 'plan', value: _currentPlan },
-          { display_name: 'User ID', variable_name: 'user_id', value: (_currentUser && _currentUser.id) || 'anon' }
-        ]
-      },
-      callback: async function(response) {
-        var paystackRef = response.reference;
-        var paymentData = {
-          email: userEmail,
-          is_premium: true,
-          premium_plan: _currentPlan,
-          premium_since: new Date().toISOString(),
-          paystack_ref: paystackRef
-        };
-        // Layer 3: Always save to vault
-        vaultSave('payment', paymentData);
-        netlifyCapture('catalyst-payment-intent', Object.assign({ status: 'completed' }, paymentData));
-        try {
-          if (_sb && _currentUser) {
-            await _sb.from('user_profiles').upsert(Object.assign({ id: _currentUser.id }, paymentData));
-            await _sb.auth.updateUser({ data: { is_premium: true, premium_plan: _currentPlan } });
-          }
-        } catch(dbErr) {}
-        closePaymentModal();
-        showToast('Ìmọ̀lẹ̀ activated! The full universe is now yours. ✦', 'success');
-        unlockPremiumUI();
-        _applyUserState(_currentUser);
-      },
-      onClose: function() {
-        showToast('Payment cancelled. Return anytime you\'re ready.', 'info');
-      }
-    });
-    handler.openIframe();
+    document.getElementById('paymentEmailCapture').style.display = 'block';
+    document.getElementById('waitlistEmail').focus();
+    showToast('Paid access is not open yet. You can register interest without making a payment.', 'info');
   }
 
   function unlockPremiumUI() {
-    document.querySelectorAll('.premium-lock-overlay').forEach(function(el){ el.remove(); });
-    document.querySelectorAll('.premium-gate').forEach(function(el){ el.classList.add('unlocked'); });
+    // Do not remove content gates based on client state. Server authorization is required.
+    return;
   }
 
   document.getElementById('paymentBackdrop').addEventListener('click', function(e){
@@ -907,31 +754,6 @@
   });
 
   // showToast is defined earlier in the script — using that consolidated version
-
-  // ─── SAVE ALL FORM SUBMISSIONS — MULTI-LAYER ─────────────────
-  // Every form on the page is captured to: localStorage + Netlify + Supabase
-  document.querySelectorAll('form').forEach(function(form) {
-    if (form.dataset.tracked) return;
-    form.dataset.tracked = 'true';
-    form.addEventListener('submit', async function(e) {
-      var data = {};
-      // Never capture credentials — not to localStorage, not to the network
-      new FormData(form).forEach(function(v, k){
-        if (k === 'bot-field' || k === 'form-name') return;
-        if (/password|token|secret|cvv/i.test(k)) return;
-        data[k] = v;
-      });
-      data._page_url = window.location.href;
-      data._submitted_at = new Date().toISOString();
-      data._form_id = form.id || form.name || form.className || 'unknown';
-      // Layer 3: localStorage always
-      vaultSave('form', data);
-      // Layer 1: Supabase RPC (server strips sensitive keys again, defense in depth)
-      if (_sb) {
-        try { await _sb.rpc('submit_form', { p_form_id: data._form_id, p_payload: data }); } catch(err) {}
-      }
-    });
-  });
 
   // ─── BOOT AUTH ────────────────────────────────────────────────
   initAuth();
@@ -1702,16 +1524,33 @@ var _ambientCtx = null, _ambientNodes = null, _ambientOn = false, _ambientTimer 
 
 function toggleAmbientSound() {
   var btn = document.getElementById('ambientToggle');
+  var navBtn = document.getElementById('navAudioBtn');
   if (_ambientOn) {
     _ambientOn = false;
     stopAmbientSound();
-    btn.classList.remove('on');
-    btn.querySelector('.amb-label').textContent = 'SOUND: OFF';
+    if (btn) {
+      btn.classList.remove('on');
+      var lbl = btn.querySelector('.amb-label');
+      if (lbl) lbl.textContent = 'SOUND: OFF';
+    }
+    if (navBtn) {
+      navBtn.classList.remove('playing');
+      var nlbl = navBtn.querySelector('.audio-state');
+      if (nlbl) nlbl.textContent = 'SOUND';
+    }
   } else {
     _ambientOn = true;
     startAmbientSound();
-    btn.classList.add('on');
-    btn.querySelector('.amb-label').textContent = 'SOUND: ON';
+    if (btn) {
+      btn.classList.add('on');
+      var lbl = btn.querySelector('.amb-label');
+      if (lbl) lbl.textContent = 'SOUND: ON';
+    }
+    if (navBtn) {
+      navBtn.classList.add('playing');
+      var nlbl = navBtn.querySelector('.audio-state');
+      if (nlbl) nlbl.textContent = 'LIVE';
+    }
   }
 }
 
@@ -2379,6 +2218,42 @@ function pvCopyLink() {
       { t:1100,txt:'ase / ase system         — Power system overview\n', cls:'t-white' },
       { t:1250,txt:'oracle                   — Intel on the Oracle\n', cls:'t-white' },
       { t:1400,txt:'mushin                   — Location brief\n', cls:'t-white' },
+    ],
+    'districts': [
+      { t:0,   txt:'> LAGOS 2031: DISTRICT TELEMETRY OVERVIEW\n', cls:'t-gold' },
+      { t:300, txt:'5 PRIMARY SECTORS MONITORED BY ORACLE MESH:\n', cls:'t-white' },
+      { t:600, txt:'- The Void Belt (Oshodi-Mushin corridor): CRITICAL threat\n', cls:'t-red' },
+      { t:900, txt:'- Victoria Prime (Eko Atlantic): ESCALATING threat\n', cls:'' },
+      { t:1200,txt:'- Yaba Deep (Underground tech corridor): MODERATE threat\n', cls:'' },
+      { t:1500,txt:'- Badagry Corridor & Mainland Grid: HIGH / MONITORED\n', cls:'t-dim' },
+      { t:1800,txt:'Navigate to Lagos 2031 Intelligence Hub (#world-2031) for live tactical overlays.\n', cls:'t-gold' },
+    ],
+    'factions': [
+      { t:0,   txt:'> FACTION WARFARE DOSSIER: FOUR CONTENDERS\n', cls:'t-gold' },
+      { t:300, txt:'1. AXIS SYNDICATE — Black-market energy cartel (Void Belt)\n', cls:'t-red' },
+      { t:600, txt:'2. THE FORGE — Tech-mystic weapon smiths under Ikenna Okafor\n', cls:'t-white' },
+      { t:900, txt:'3. PROTOCOL ARCHITECTS — Corporate technocrats (Victoria Prime)\n', cls:'' },
+      { t:1200,txt:'4. MEMORY KEEPERS — Preservationist archivists guarding Ifá roots\n', cls:'t-dim' },
+    ],
+    'void belt': [
+      { t:0,   txt:'> SECTOR REPORT: THE VOID BELT (OSHODI-MUSHIN)\n', cls:'t-red' },
+      { t:300, txt:'Population: 3.2M autonomous. Grid status: ZERO OFFICIAL POWER SINCE 2026.\n', cls:'t-white' },
+      { t:700, txt:'Ruled by mesh-linked generator collectives and AXIS black-market tap lines.\n', cls:'t-dim' },
+    ],
+    'yaba': [
+      { t:0,   txt:'> SECTOR REPORT: YABA DEEP\n', cls:'t-gold' },
+      { t:300, txt:'Subterranean fiber bunkers beneath old tech campuses. 840K specialists.\n', cls:'t-white' },
+      { t:700, txt:'Home of algorithmic diviners and decentralized Aṣẹ battery banks.\n', cls:'t-dim' },
+    ],
+    'victoria prime': [
+      { t:0,   txt:'> SECTOR REPORT: VICTORIA PRIME\n', cls:'t-gold' },
+      { t:300, txt:'Private security state behind kinetic sea walls. Wealth tier: 0.1%.\n', cls:'t-white' },
+      { t:700, txt:'Operates quantum surveillance drones and synthetically stabilized Aṣẹ cells.\n', cls:'t-dim' },
+    ],
+    'badagry': [
+      { t:0,   txt:'> SECTOR REPORT: BADAGRY CORRIDOR\n', cls:'t-gold' },
+      { t:300, txt:'Coastal smuggler haven and historical memory sanctuary.\n', cls:'t-white' },
+      { t:700, txt:'Spiritual anchor for coastal Orisha shrines resisting corporate containment.\n', cls:'t-dim' },
     ],
   };
 
@@ -5393,6 +5268,19 @@ var CS_ROSTER = [
       }).catch(function() {});
     }
   };
+
+  window.csRandomMatch = function() {
+    if (!CS_ROSTER || CS_ROSTER.length < 2) return;
+    var idxA = Math.floor(Math.random() * CS_ROSTER.length);
+    var idxB = Math.floor(Math.random() * CS_ROSTER.length);
+    while (idxB === idxA) {
+      idxB = Math.floor(Math.random() * CS_ROSTER.length);
+    }
+    selA = CS_ROSTER[idxA].id;
+    selB = CS_ROSTER[idxB].id;
+    updateSelection();
+    runSim();
+  };
 })();
 
 /* ── ÌTUMỌ̀ GLOSSARY ───────────────────────────────────────────
@@ -7177,4 +7065,234 @@ var TC_ENDINGS = {
       return openLayers().some(function(id) { return id !== exceptId; });
     }
   };
+})();
+
+/* ── LAGOS 2031 CONTROLLER & VAULT INTEL ENGINE ────────────── */
+(function() {
+  // District Data Dictionary
+  var DISTRICT_DATA = {
+    'void_belt': {
+      title: 'The Void Belt',
+      threat: 'CRITICAL',
+      threatCls: 'critical',
+      coords: '6.5244° N, 3.3792° E (Oshodi-Mushin axis)',
+      pop: '3,200,000 estimated unregistered residents',
+      grid: '0% national grid connectivity since 2026 Blackout',
+      factions: 'AXIS Syndicate, Mesh Outrunners, Local Generators',
+      intel: 'Ground zero of the awakening incident. High concentration of illicit Aṣẹ tap lines powering makeshift industrial yards. Government patrol drones are shot down within minutes of entry.'
+    },
+    'victoria_prime': {
+      title: 'Victoria Prime & Eko Atlantic',
+      threat: 'ESCALATING',
+      threatCls: 'escalating',
+      coords: '6.4281° N, 3.4219° E (Atlantic Seaboard)',
+      pop: '480,000 citizens & sovereign corporate personnel',
+      grid: 'Private geothermal fusion + kinetic sea-wall grid (300% surplus)',
+      factions: 'Protocol Architects, Foreign Security Contractors, Sovereign Elites',
+      intel: 'High-altitude sky bridges protected by auto-targeting kinetic defense batteries. Houses the R&D labs reverse-engineering captured Aṣẹ artifacts for off-world export.'
+    },
+    'yaba_deep': {
+      title: 'Yaba Deep (Underground Corridor)',
+      threat: 'MODERATE',
+      threatCls: 'moderate',
+      coords: '6.5095° N, 3.3711° E (Sub-level 3)',
+      pop: '840,000 bio-hackers, coders & diviners',
+      grid: 'Hybrid optical fiber & decentralized crystal cell array',
+      factions: 'Memory Keepers, Algorithmic Diviners, Code Guilds',
+      intel: 'Underground labyrinth beneath university foundations. Birthplace of the Oracle Mesh and neural-spiritual translators combining ancient Ifá patterns with machine learning models.'
+    },
+    'badagry': {
+      title: 'Badagry Corridor & Coast',
+      threat: 'HIGH',
+      threatCls: 'high',
+      coords: '6.4316° N, 2.8876° E (Western Littoral)',
+      pop: '1,100,000 maritime smugglers & spiritual guardians',
+      grid: 'Solar-tidal hybrid arrays & ancestral beacon points',
+      factions: 'Ancient Order of Orun, Coastal Smuggler Cartels',
+      intel: 'Ancient boundary waters where oceanic and spiritual currents meet. Major transit gateway for illegal tech and relics moving between West Africa and international black markets.'
+    },
+    'mainland_grid': {
+      title: 'Mainland Grid & Industrial Sprawl',
+      threat: 'MONITORED',
+      threatCls: 'low',
+      coords: '6.6018° N, 3.3515° E (Ikeja-Surulere belt)',
+      pop: '5,800,000 industrial and municipal workforce',
+      grid: 'State-rationed rolling brownouts (6 hours daily)',
+      factions: 'The Forge, Municipal Unions, Civil Militia',
+      intel: 'Heavily populated working-class spine of the city. Blacksmiths and mechanical workshops under Ikenna Okafor covertly craft weapons infused with Tier II and Tier III elemental matrices.'
+    }
+  };
+
+  // Tab switching
+  window.switchWorldTab = function(tabName) {
+    var tabs = ['districts', 'factions', 'ase'];
+    tabs.forEach(function(t) {
+      var btn = document.getElementById('wtab-' + t);
+      var pnl = document.getElementById('wpanel-' + t);
+      if (btn) {
+        var active = (t === tabName);
+        btn.classList.toggle('active', active);
+        btn.setAttribute('aria-selected', active ? 'true' : 'false');
+      }
+      if (pnl) {
+        pnl.classList.toggle('active', t === tabName);
+      }
+    });
+    if (window.ClearanceTracker) ClearanceTracker.mark('lore');
+  };
+
+  // District selection
+  window.selectDistrict = function(distKey, el) {
+    if (!DISTRICT_DATA[distKey]) return;
+    var data = DISTRICT_DATA[distKey];
+    
+    // Highlight selected card
+    var cards = document.querySelectorAll('#districtGrid .district-card');
+    cards.forEach(function(c) { c.classList.remove('active'); });
+    if (el) el.classList.add('active');
+
+    // Update detail pane
+    var pane = document.getElementById('districtDetail');
+    if (pane) {
+      pane.innerHTML = '<div class="dist-detail-title">' + data.title + 
+        ' <span class="threat-tag ' + data.threatCls + '">' + data.threat + '</span></div>' +
+        '<div class="dist-detail-meta">' +
+        '<div><strong>Coordinates:</strong> ' + data.coords + '</div>' +
+        '<div><strong>Demographics:</strong> ' + data.pop + '</div>' +
+        '<div><strong>Power Grid Status:</strong> ' + data.grid + '</div>' +
+        '<div><strong>Dominant Factions:</strong> ' + data.factions + '</div>' +
+        '</div>' +
+        '<div class="dist-detail-body">' + data.intel + '</div>';
+    }
+  };
+
+  // Debt Simulator
+  window.updateDebtSim = function() {
+    var slider = document.getElementById('aseDebtSlider');
+    var valEl = document.getElementById('aseDebtVal');
+    var costEl = document.getElementById('debtCost');
+    var recEl = document.getElementById('debtRecovery');
+    var statEl = document.getElementById('debtStatus');
+    if (!slider || !valEl || !costEl || !recEl || !statEl) return;
+
+    var val = parseInt(slider.value, 10);
+    valEl.textContent = val + '%';
+
+    if (val < 25) {
+      costEl.textContent = 'None — Stable cellular harmony';
+      recEl.textContent = 'Immediate natural rest';
+      statEl.textContent = 'COGNITIVE STABLE';
+      statEl.style.color = 'var(--accent-teal)';
+    } else if (val < 50) {
+      costEl.textContent = 'Mild neural burnout, nosebleeds';
+      recEl.textContent = '2-4 hours rest required';
+      statEl.textContent = 'STRAIN DETECTED';
+      statEl.style.color = 'var(--gold)';
+    } else if (val < 75) {
+      costEl.textContent = 'Cellular decay, sensory distortion, auditory ghosts';
+      recEl.textContent = '24-48 hours stabilization required';
+      statEl.textContent = 'CRITICAL DEBT WARNING';
+      statEl.style.color = '#ff6b1a';
+    } else {
+      costEl.textContent = 'Irreversible cellular collapse & soul dissolution into Ọ̀run';
+      recEl.textContent = 'Recovery impossible without Sovereign intervention';
+      statEl.textContent = 'FATAL OVERLOAD THRESHOLD';
+      statEl.style.color = 'var(--crimson)';
+    }
+  };
+
+  // Vault Modal Controller
+  var VAULT_DOCS = {
+    '01': {
+      num: 'DOSSIER #01 · PROTOCOL ARCHITECTS',
+      title: 'THE AWAKENING MANIFESTO & THE VOID BREAK',
+      stamp: 'DECLASSIFIED · CLEARANCE ALPHA',
+      stampCls: 'declassified',
+      body: 'October 12, 2026. Official municipal logs record a catastrophic grid failure across the southern coastline. Classified telemetry reveals the true anomaly: an instantaneous atmospheric surge of unmeasured metaphysical energy centered beneath Mushin. The entity designated Catalyst was not born of this event; he was the lightning rod that prevented total dimensional collapse.'
+    },
+    '02': {
+      num: 'DOSSIER #02 · AXIS SYNDICATE TELEMETRY',
+      title: 'ASẸ CONDUIT THEFT & BLACK MARKET TRANSACTIONS',
+      stamp: 'RESTRICTED INTEL',
+      stampCls: 'restricted',
+      body: 'Intercepted communications indicate illicit distribution of refined Tier II Aṣẹ capacitors through the Balogun water channels. Over 40,000 units diverted to private corporate compounds in Victoria Prime. The AXIS syndicate operates with immunity granted by key ministers within the Ministry of Energy Transition.'
+    },
+    '03': {
+      num: 'DOSSIER #03 · PALE COUNCIL ARCHIVES',
+      title: 'THE VACCINE PROTOCOL: GENETIC ERADICATION',
+      stamp: 'EYES ONLY · THREAT CRITICAL',
+      stampCls: 'eyes-only',
+      body: 'Synthesized compound code-named "Orisha-Zero". Developed under the guise of an anti-viral prophylactic following the 2026 fallout. Biological analysis confirms it suppresses neural reception to ancestral frequencies, severing the spiritual resonance that allows human vessels to manifest Aṣẹ.'
+    },
+    '04': {
+      num: 'DOSSIER #04 · THE ORACLE COMMUNIQUÉ',
+      title: 'THE FIFTH ELEVATION: CATALYST HORIZON',
+      stamp: 'ORACLE DECREE · CLEARANCE OMEGA',
+      stampCls: 'restricted',
+      body: 'Eleven have claimed the mantle of the Catalyst across four centuries of Ifá prophecy. All eleven were swallowed by their own flame. Adebayo Adeyemi does not seek the throne; he seeks peace for a city that has never known stillness. That makes him the first who might survive.'
+    }
+  };
+
+  var activeVaultId = '01';
+
+  window.openVaultCard = function(docId) {
+    if (!VAULT_DOCS[docId]) return;
+    activeVaultId = docId;
+    var doc = VAULT_DOCS[docId];
+    var modal = document.getElementById('vaultModal');
+    if (!modal) return;
+
+    document.getElementById('vaultModalNumber').textContent = doc.num;
+    document.getElementById('vaultModalTitle').textContent = doc.title;
+    var stamp = document.getElementById('vaultModalStamp');
+    stamp.textContent = doc.stamp;
+    stamp.className = 'vault-modal-stamp ' + doc.stampCls;
+    document.getElementById('vaultModalBody').innerHTML = '<p>' + doc.body + '</p>';
+
+    var statusEl = document.getElementById('vaultPasscodeStatus');
+    if (statusEl) statusEl.textContent = '';
+    var inputEl = document.getElementById('vaultPasscodeInput');
+    if (inputEl) inputEl.value = '';
+
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    if (inputEl) inputEl.focus();
+    if (window.ClearanceTracker) ClearanceTracker.mark('vault');
+  };
+
+  window.closeVaultModal = function() {
+    var modal = document.getElementById('vaultModal');
+    if (modal) {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+  };
+
+  window.submitVaultPasscode = function() {
+    var inp = document.getElementById('vaultPasscodeInput');
+    var status = document.getElementById('vaultPasscodeStatus');
+    if (!inp || !status) return;
+    var code = inp.value.trim().toUpperCase();
+    var validCodes = ['CATALYST', 'ASE2031', 'ORACLE', 'MUSHIN', 'IMOLE'];
+
+    if (validCodes.indexOf(code) !== -1) {
+      status.style.color = 'var(--accent-teal)';
+      status.textContent = 'ACCESS GRANTED: FULL DECLASSIFICATION UNLOCKED';
+      var body = document.getElementById('vaultModalBody');
+      if (body) {
+        body.innerHTML += '<div style="margin-top:1.5rem;padding:1rem;border:1px solid var(--accent-teal);background:rgba(0,201,177,0.06);border-radius:4px;"><strong style="color:var(--accent-teal)">[UNRESTRICTED LEVEL 5 ADDENDUM]</strong><p style="margin-top:0.5rem;font-size:0.85rem;line-height:1.7;">Oracle Node 07 reports that the membrane rupture in Balogun is accelerating at 3.2% per lunar cycle. The Catalyst Protocol is currently operating at 71% stability. If Bayo Adeyemi triggers Tier IV Sovereign state before the anchor nodes are stabilized, the entire Bight of Benin may shift permanently into Ọ̀run.</p></div>';
+      }
+      if (window.ClearanceTracker) ClearanceTracker.mark('classified_intel');
+    } else {
+      status.style.color = 'var(--crimson)';
+      status.textContent = 'ACCESS DENIED: INVALID ORACLE AUTHORIZATION TOKEN';
+    }
+  };
+
+  // Close modal on Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      window.closeVaultModal();
+    }
+  });
 })();
