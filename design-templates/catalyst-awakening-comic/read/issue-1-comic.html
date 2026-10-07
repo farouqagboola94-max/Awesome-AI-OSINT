@@ -19,6 +19,17 @@
       <div class="comic-cover-bottom"><p>AWAKEN, O CITY</p><span>Private 88-page lettering proof</span></div>
     </section>
     <div class="comic-intro"><p>Read the lettered panels in page order. Longer passages are adapted into short on-page excerpts. The complete source cues sit beside each page, and the original storyline is available as a book.</p><a href="./issue-1-book">Read the original storyline as a book →</a></div>
+    <div class="comic-toolbar" aria-label="Reader display modes">
+      <div class="theme-toggles" role="group" aria-label="Display theme presets">
+        <span class="toolbar-label">LIGHTING:</span>
+        <button type="button" class="theme-btn active" data-theme="noir" onclick="setReaderTheme('noir')">NOIR</button>
+        <button type="button" class="theme-btn" data-theme="oled" onclick="setReaderTheme('oled')">OLED DARK</button>
+        <button type="button" class="theme-btn" data-theme="sepia" onclick="setReaderTheme('sepia')">SEPIA</button>
+      </div>
+      <div class="view-toggles" role="group" aria-label="View options">
+        <button type="button" class="theme-btn" id="fs-toggle" onclick="toggleComicFullscreen()" title="Toggle Fullscreen">⛶ FULLSCREEN</button>
+      </div>
+    </div>
     <nav class="comic-nav" aria-label="Comic pages"><button id="prev" type="button">← Previous</button><label>Page <select id="page-select" aria-label="Choose page"></select> <span id="page-count">of 88</span></label><button id="next" type="button">Next →</button></nav>
     <div class="comic-page-grid">
       <figure class="comic-art"><div class="comic-art-viewport" id="art-viewport"><img id="page-art" width="1024" height="1536" alt="" decoding="async"></div><figcaption id="page-caption"></figcaption><button class="comic-zoom" id="zoom-button" type="button" aria-pressed="false">Zoom page</button></figure>
@@ -72,6 +83,36 @@
     for (const id of ['prev','prev-bottom']) document.getElementById(id).addEventListener('click', () => show(current - 1));
     for (const id of ['next','next-bottom']) document.getElementById(id).addEventListener('click', () => show(current + 1));
     select.addEventListener('change', () => show(Number(select.value)));
+    window.setReaderTheme = function(mode) {
+      document.body.classList.remove('theme-oled', 'theme-sepia');
+      if (mode === 'oled') document.body.classList.add('theme-oled');
+      if (mode === 'sepia') document.body.classList.add('theme-sepia');
+      document.querySelectorAll('.theme-btn[data-theme]').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-theme') === mode);
+      });
+      try { localStorage.setItem('catalyst_reader_theme', mode); } catch(e) {}
+    };
+
+    window.toggleComicFullscreen = function() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(()=>{});
+        document.getElementById('fs-toggle').textContent = '✕ EXIT FULL';
+      } else {
+        document.exitFullscreen().catch(()=>{});
+        document.getElementById('fs-toggle').textContent = '⛶ FULLSCREEN';
+      }
+    };
+
+    document.addEventListener('fullscreenchange', () => {
+      const btn = document.getElementById('fs-toggle');
+      if (btn) btn.textContent = document.fullscreenElement ? '✕ EXIT FULL' : '⛶ FULLSCREEN';
+    });
+
+    try {
+      const savedTheme = localStorage.getItem('catalyst_reader_theme');
+      if (savedTheme) window.setReaderTheme(savedTheme);
+    } catch(e) {}
+
     zoomButton.addEventListener('click', () => {
       const zoomed = viewport.classList.toggle('zoomed');
       zoomButton.setAttribute('aria-pressed', String(zoomed));

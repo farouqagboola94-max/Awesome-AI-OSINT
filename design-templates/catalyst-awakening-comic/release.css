@@ -17,3 +17,23 @@ a{color:var(--gold)}button,select{font:inherit}.skip-link{position:absolute;left
 .proof-note{border-left:3px solid var(--gold);padding:.6rem 1rem;background:#17140d;color:#ead4a5;text-align:left}
 
 #reset-form{display:grid;gap:1rem}#reset-form label{display:grid;gap:.3rem}#reset-form input,#reset-form button{font:inherit;padding:.8rem;background:#17202c;color:var(--paper);border:1px solid var(--line)}
+
+/* Upgraded Reader Toolbar & Lighting Presets */
+.comic-toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:0.75rem 0;border-bottom:1px solid var(--line);margin-bottom:0.5rem;}
+.toolbar-label{font:600 0.75rem 'Oswald',Arial,sans-serif;letter-spacing:0.12em;color:var(--gold);margin-right:0.25rem;}
+.theme-toggles,.view-toggles{display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;}
+.theme-btn{background:#17202c;color:var(--paper);border:1px solid #657184;border-radius:3px;padding:0.4rem 0.75rem;font:600 0.75rem 'Oswald',Arial,sans-serif;letter-spacing:0.1em;cursor:pointer;transition:all 0.2s ease;}
+.theme-btn:hover{background:#233042;border-color:var(--gold);}
+.theme-btn.active{background:var(--gold);color:#070b13;border-color:var(--gold);font-weight:700;}
+
+/* Theme: OLED Dark */
+body.release-body.theme-oled{background:#000000;color:#f0f0f0;}
+body.release-body.theme-oled .release-top{background:#000000e6;border-color:#1a1a1a;}
+body.release-body.theme-oled .comic-art img{box-shadow:0 1rem 3rem #000;}
+body.release-body.theme-oled .comic-script{background:#000000;}
+
+/* Theme: Sepia Archival */
+body.release-body.theme-sepia{background:#181410;color:#ede0cc;}
+body.release-body.theme-sepia .release-top{background:#181410f2;border-color:#3a2e22;}
+body.release-body.theme-sepia .comic-art img{filter:sepia(0.22) contrast(1.05);}
+body.release-body.theme-sepia .source-cue{border-color:#3a2e22;}
