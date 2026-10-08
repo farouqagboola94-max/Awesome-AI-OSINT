@@ -378,6 +378,26 @@
       </div>
     </div>
 
+    <!-- OPERATIVE CODEX ACHIEVEMENTS -->
+    <div class="profile-achievements-section">
+      <label class="profile-section-label">OPERATIVE CODEX ACHIEVEMENTS</label>
+      <div class="profile-badges-row" id="profileBadgesRow">
+        <div class="profile-badge-chip active" title="Issue #01 Reader"><span class="badge-icon">⚡</span> Ṣàngó Initiate</div>
+        <div class="profile-badge-chip active" title="50 Artworks Explored"><span class="badge-icon">⚔</span> Ògún Ironheart</div>
+        <div class="profile-badge-chip active" title="Soundscape Attuned"><span class="badge-icon">🌊</span> Ọ̀ṣun Diviner</div>
+        <div class="profile-badge-chip active" title="Tactical Simulation Cleared"><span class="badge-icon">🌀</span> Eṣu Cipher</div>
+      </div>
+    </div>
+
+    <!-- RESUME LAST READ SCENE -->
+    <div class="profile-resume-box">
+      <div class="profile-resume-info">
+        <span class="resume-label">LAST SAVED READING POSITION:</span>
+        <strong id="profileResumeScene">Scene 01: Before Everything (Mushin, Lagos)</strong>
+      </div>
+      <button type="button" class="profile-resume-btn" onclick="resumeLastReadingScene()">RESUME READING ➔</button>
+    </div>
+
     <div class="profile-hud-actions">
       <button type="button" class="profile-btn-primary" onclick="closeUserProfileModal(); document.getElementById('artwork-gallery').scrollIntoView({behavior:'smooth'});">Inspect 50 Artworks Unveiled →</button>
       <button type="button" class="profile-btn-export" onclick="exportReaderIdCard()">🪪 Copy Digital Reader Pass</button>
@@ -1401,6 +1421,14 @@
     <p class="section-label reveal">The Battlefield</p>
     <h2 class="section-title reveal">LAGOS<br><em>NEXUS</em> MAP</h2>
     <p class="reveal" style="max-width:560px;font-size:0.88rem;line-height:1.8;color:rgba(240,237,229,0.55);margin-top:1rem;">Every street, every market, every bridge is a contested zone. Hover or tap a district to learn what the city hides beneath its noise.</p>
+    <!-- SECTOR FACTION FILTER MATRIX -->
+    <div class="map-faction-filter-bar reveal" id="mapFactionFilterBar">
+      <span class="map-filter-label">SECTOR SURVEILLANCE:</span>
+      <button type="button" class="map-filter-btn active" onclick="filterMapFaction('all', this)">ALL SECTORS (6)</button>
+      <button type="button" class="map-filter-btn" onclick="filterMapFaction('kooza', this)">KOOZA GRID (2)</button>
+      <button type="button" class="map-filter-btn" onclick="filterMapFaction('eko', this)">EKO VIGILANTES (2)</button>
+      <button type="button" class="map-filter-btn" onclick="filterMapFaction('council', this)">COUNCIL ARCHIVES (2)</button>
+    </div>
   </div>
 
   <div class="map-territory-controls reveal">
@@ -1553,6 +1581,12 @@
           <text x="40" y="-6" text-anchor="middle" fill="rgba(240,237,229,0.4)" font-size="7" font-family="monospace">5 KM</text>
         </g>
 
+        <!-- RADAR SWEEP ANIMATION -->
+        <circle cx="400" cy="300" r="260" fill="none" stroke="rgba(0,201,177,0.12)" stroke-width="1" stroke-dasharray="4,6"/>
+        <circle cx="400" cy="300" r="180" fill="none" stroke="rgba(244,184,0,0.1)" stroke-width="1" stroke-dasharray="2,4"/>
+        <g class="map-radar-sweep-group">
+          <line x1="400" y1="300" x2="660" y2="300" stroke="rgba(0,201,177,0.4)" stroke-width="1.8" class="map-radar-line"/>
+        </g>
         <!-- CLASSIFIED watermark -->
         <text x="400" y="480" text-anchor="middle" fill="rgba(196,30,58,0.06)"
               font-size="60" font-family="'Bebas Neue',sans-serif" letter-spacing="10">CLASSIFIED</text>
@@ -1563,7 +1597,10 @@
     <div class="map-hud-readout" id="mapHudReadout">
       <div class="hud-readout-header">
         <span class="hud-readout-tag">ORACLE SURVEILLANCE // SECTOR TELEMETRY</span>
-        <span class="hud-readout-pulse">LIVE RECON</span>
+        <div class="hud-coords-recon">
+          <span class="hud-coords-text" id="hudCoordsDisplay">LAT: 6°31'14" N · LON: 3°23'48" E</span>
+          <span class="hud-readout-pulse">LIVE RECON</span>
+        </div>
       </div>
       <div class="hud-readout-content">
         <div class="hud-readout-title" id="hudSectorTitle">SELECT SECTOR ON MAP</div>
@@ -3330,10 +3367,13 @@
 
     <div class="hud-preview-pane">
       <div class="hud-zoom-controls">
+        <button type="button" class="hud-zoom-btn" onclick="navHudArt(-1)" title="Previous Artwork (Left Arrow)">◀ PREV</button>
+        <button type="button" class="hud-zoom-btn" onclick="navHudArt(1)" title="Next Artwork (Right Arrow)">NEXT ▶</button>
         <button type="button" class="hud-zoom-btn" onclick="zoomHudImg(-0.25)" title="Zoom Out">−</button>
         <span class="hud-zoom-level" id="hudZoomLevel">100%</span>
         <button type="button" class="hud-zoom-btn" onclick="zoomHudImg(0.25)" title="Zoom In">+</button>
         <button type="button" class="hud-zoom-btn" onclick="resetHudZoom()" title="Reset Zoom">↺</button>
+        <button type="button" class="hud-zoom-btn" onclick="toggleHudSplitMode()" id="hudSplitBtn" title="Compare Variants (Split Slider)">◫ SPLIT SLIDER</button>
         <button type="button" class="hud-zoom-btn" onclick="toggleHudAudio()" id="hudAudioToggle" title="Toggle Sound">🔊 SFX</button>
       </div>
       <div class="hud-preview-fallback" id="hudFallbackBox">
@@ -3343,6 +3383,27 @@
       </div>
       <div class="hud-img-viewport" id="hudImgViewport">
         <img src="" alt="" class="hud-preview-img" id="hudPreviewImg" style="display:none;" />
+        <!-- INTERACTIVE BEFORE/AFTER SPLIT COMPARISON SLIDER -->
+        <div class="hud-split-wrap" id="hudSplitWrap" style="display:none;">
+          <div class="hud-split-layer hud-split-before" id="hudSplitBefore">
+            <img src="" alt="Variant Left" id="hudSplitImgA" />
+            <span class="hud-split-tag tag-a">VARIANT 1: CANON</span>
+          </div>
+          <div class="hud-split-layer hud-split-after" id="hudSplitAfter">
+            <img src="" alt="Variant Right" id="hudSplitImgB" />
+            <span class="hud-split-tag tag-b">VARIANT 3: AṢẸ SURGE</span>
+          </div>
+          <div class="hud-split-handle" id="hudSplitHandle" title="Drag to compare variants">
+            <div class="hud-split-line"></div>
+            <div class="hud-split-knob">⇄</div>
+          </div>
+        </div>
+      </div>
+      <div class="hud-keyboard-hints" id="hudKeyboardHints">
+        <span><kbd>←</kbd> / <kbd>→</kbd> Navigate</span>
+        <span><kbd>1</kbd>-<kbd>4</kbd> Switch Variants</span>
+        <span><kbd>S</kbd> Split View</span>
+        <span><kbd>ESC</kbd> Close</span>
       </div>
     </div>
 
@@ -3363,6 +3424,7 @@
       </div>
 
       <div class="hud-actions-row">
+        <button type="button" class="hud-lore-audio-btn" id="hudLoreAudioBtn" onclick="playCurrentArtworkLore()">▶ TRANSMIT LORE AUDIO</button>
         <a href="#" target="_blank" rel="noopener" class="hud-canva-btn" id="hudCanvaExternalBtn">Open in Canva Studio ↗</a>
         <button type="button" class="hud-download-btn" onclick="copyHudArtDetails()">Copy Identifier</button>
       </div>
@@ -4258,6 +4320,35 @@
     <button class="issue-tab" onclick="showIssue('i2',this)">Issue #02</button>
     <button class="issue-tab" onclick="showIssue('i3',this)">Issue #03</button>
     <button class="issue-tab" onclick="showIssue('i4',this)">Issue #04</button>
+  </div>
+
+  <!-- 19-SCENE FILMSTRIP QUICK-JUMP DRAWER -->
+  <div class="read-filmstrip-drawer reveal" id="readFilmstripDrawer">
+    <div class="filmstrip-header">
+      <span class="filmstrip-tag">ISSUE #01 // 19-SCENE FILMSTRIP QUICK-NAVIGATOR</span>
+      <span class="filmstrip-sub">CLICK TO JUMP DIRECTLY TO SCENE</span>
+    </div>
+    <div class="filmstrip-track" id="filmstripTrack">
+      <button type="button" class="filmstrip-chip active" onclick="jumpToScene(1, this)"><span class="chip-num">01</span> Before Everything</button>
+      <button type="button" class="filmstrip-chip" onclick="jumpToScene(2, this)"><span class="chip-num">02</span> The Ọ̀run-Bleed</button>
+      <button type="button" class="filmstrip-chip" onclick="jumpToScene(3, this)"><span class="chip-num">03</span> Thunderstrike Enters</button>
+      <button type="button" class="filmstrip-chip" onclick="jumpToScene(4, this)"><span class="chip-num">04</span> Iron Wolf Defiance</button>
+      <button type="button" class="filmstrip-chip" onclick="jumpToScene(5, this)"><span class="chip-num">05</span> The Sovereign Fall</button>
+      <button type="button" class="filmstrip-chip" onclick="jumpToScene(6, this)"><span class="chip-num">06</span> Bayo Awakening</button>
+      <button type="button" class="filmstrip-chip" onclick="jumpToScene(7, this)"><span class="chip-num">07</span> Oshodi Firestorm</button>
+      <button type="button" class="filmstrip-chip" onclick="jumpToScene(8, this)"><span class="chip-num">08</span> The Void Rift</button>
+      <button type="button" class="filmstrip-chip" onclick="jumpToScene(9, this)"><span class="chip-num">09</span> Pale Council Shadows</button>
+      <button type="button" class="filmstrip-chip" onclick="jumpToScene(10, this)"><span class="chip-num">10</span> Sacred Forge</button>
+      <button type="button" class="filmstrip-chip" onclick="jumpToScene(11, this)"><span class="chip-num">11</span> Third Mainland Siege</button>
+      <button type="button" class="filmstrip-chip" onclick="jumpToScene(12, this)"><span class="chip-num">12</span> Eko Atlantic Breach</button>
+      <button type="button" class="filmstrip-chip" onclick="jumpToScene(13, this)"><span class="chip-num">13</span> Orisha Bloodline</button>
+      <button type="button" class="filmstrip-chip" onclick="jumpToScene(14, this)"><span class="chip-num">14</span> The Void King Speaks</button>
+      <button type="button" class="filmstrip-chip" onclick="jumpToScene(15, this)"><span class="chip-num">15</span> Aṣẹ Ignition</button>
+      <button type="button" class="filmstrip-chip" onclick="jumpToScene(16, this)"><span class="chip-num">16</span> Iron Trials Climax</button>
+      <button type="button" class="filmstrip-chip" onclick="jumpToScene(17, this)"><span class="chip-num">17</span> Dawn Over Lagos</button>
+      <button type="button" class="filmstrip-chip" onclick="jumpToScene(18, this)"><span class="chip-num">18</span> Epilogue: The Broken Seal</button>
+      <button type="button" class="filmstrip-chip" onclick="jumpToScene(19, this)"><span class="chip-num">19</span> Arc II Dossier Preview</button>
+    </div>
   </div>
 
   <!-- ISSUE 1 -->
@@ -5845,6 +5936,28 @@
   </div>
 
   <div class="sim-container reveal" id="factionSimContainer">
+    <!-- LIVE WAR ROOM OPERATIVE CENSUS -->
+    <div class="war-room-telemetry" id="warRoomTelemetry">
+      <div class="war-room-header">
+        <span class="war-room-tag">ORACLE WAR ROOM // GLOBAL OPERATIVE CENSUS</span>
+        <span class="war-room-live"><span class="war-live-pulse"></span> TRANSMISSION VERIFIED</span>
+      </div>
+      <div class="war-room-bars">
+        <div class="war-bar-row">
+          <div class="war-bar-info"><span>⚡ Ṣàngó Volt Collective</span><span id="warScoreSango">42.8% (4,280 operatives)</span></div>
+          <div class="war-bar-track"><div class="war-bar-fill war-sango" style="width:42.8%"></div></div>
+        </div>
+        <div class="war-bar-row">
+          <div class="war-bar-info"><span>⚔ Ògún Steel Union</span><span id="warScoreOgun">36.1% (3,610 operatives)</span></div>
+          <div class="war-bar-track"><div class="war-bar-fill war-ogun" style="width:36.1%"></div></div>
+        </div>
+        <div class="war-bar-row">
+          <div class="war-bar-info"><span>👁️ Kooza Syndicate</span><span id="warScoreKooza">21.1% (2,110 operatives)</span></div>
+          <div class="war-bar-track"><div class="war-bar-fill war-kooza" style="width:21.1%"></div></div>
+        </div>
+      </div>
+    </div>
+
     <div class="sim-stage" id="simStage">
       <!-- Injected by script.js -->
     </div>
@@ -7294,12 +7407,22 @@
       <span class="sound-dock-icon" id="soundDockIcon">🎧</span>
       <span class="sound-dock-label" id="soundDockLabel">SOUNDSCAPE: OFF</span>
     </button>
+    <!-- REAL-TIME AUDIO FREQUENCY SPECTRUM BARS -->
+    <div class="sound-dock-eq" id="soundDockEq" aria-hidden="true" title="Real-time Audio Spectrum">
+      <span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span>
+      <span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span>
+      <span class="eq-bar"></span><span class="eq-bar"></span>
+    </div>
     <div class="sound-dock-presets" id="soundDockPresets">
       <button type="button" class="preset-btn active" onclick="setAmbientPreset('sango', this)" title="Ṣàngó Tempest: Rain &amp; Thunder">⚡ Ṣàngó</button>
       <button type="button" class="preset-btn" onclick="setAmbientPreset('ogun', this)" title="Ògún Forge: Industrial Resonance">⚔ Ògún</button>
       <button type="button" class="preset-btn" onclick="setAmbientPreset('osun', this)" title="Ọ̀ṣun Tide: Water Flow &amp; Binaural">🌊 Ọ̀ṣun</button>
       <button type="button" class="preset-btn" onclick="setAmbientPreset('noir', this)" title="Lagos Noir: Subterranean Drone">🌃 Noir</button>
     </div>
+    <!-- AUTO-ZONE NARRATIVE SYNC TOGGLE -->
+    <button type="button" class="sound-autozone-btn active" id="soundAutoZoneBtn" onclick="toggleAutoZoneSound()" title="Automatically sync ambient music with page sections as you read">
+      AUTO-ZONE: ON
+    </button>
     <div class="sound-dock-volume">
       <input type="range" id="soundVolumeSlider" min="0" max="1" step="0.05" value="0.4" oninput="setAmbientVolume(this.value)" aria-label="Soundscape Volume">
     </div>

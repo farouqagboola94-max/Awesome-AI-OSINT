@@ -8516,3 +8516,400 @@ var TC_ENDINGS = {
     renderTheories();
   });
 })();
+
+/* ══════════════════════════════════════════════════════════════════
+   CATALYST OS v2.0 INTERACTIVE CONTROLLERS
+   ══════════════════════════════════════════════════════════════════ */
+
+(function initCatalystOSv2() {
+  /* ── 1. HUD LIGHTBOX SPLIT SLIDER & LORE AUDIO ── */
+  let currentArtIndex = 0;
+  let isSplitMode = false;
+  let splitPercent = 50;
+  let isDraggingSplit = false;
+
+  // Track artworks list
+  function getAllArtCards() {
+    return Array.from(document.querySelectorAll('.ag-card'));
+  }
+
+  window.navHudArt = function(direction) {
+    const cards = getAllArtCards();
+    if (!cards.length) return;
+    currentArtIndex = (currentArtIndex + direction + cards.length) % cards.length;
+    const targetCard = cards[currentArtIndex];
+    if (targetCard) {
+      if (typeof window.playHudSound === 'function') window.playHudSound('select');
+      targetCard.click();
+    }
+  };
+
+  window.toggleHudSplitMode = function() {
+    isSplitMode = !isSplitMode;
+    const splitWrap = document.getElementById('hudSplitWrap');
+    const splitBtn = document.getElementById('hudSplitBtn');
+    const singleImg = document.getElementById('hudPreviewImg');
+    const fallback = document.getElementById('hudFallbackBox');
+
+    if (splitWrap) splitWrap.style.display = isSplitMode ? 'block' : 'none';
+    if (splitBtn) {
+      splitBtn.classList.toggle('active', isSplitMode);
+      splitBtn.textContent = isSplitMode ? '◼ SINGLE VIEW' : '◫ SPLIT SLIDER';
+    }
+    if (isSplitMode) {
+      if (fallback) fallback.style.display = 'none';
+      if (singleImg && singleImg.src) {
+        const imgA = document.getElementById('hudSplitImgA');
+        const imgB = document.getElementById('hudSplitImgB');
+        if (imgA) imgA.src = singleImg.src;
+        if (imgB) imgB.src = singleImg.src;
+      }
+      setSplitPosition(50);
+      if (typeof window.playHudSound === 'function') window.playHudSound('activate');
+    }
+  };
+
+  function setSplitPosition(pct) {
+    splitPercent = Math.max(5, Math.min(95, pct));
+    const beforeLayer = document.getElementById('hudSplitBefore');
+    const handle = document.getElementById('hudSplitHandle');
+    if (beforeLayer) beforeLayer.style.clipPath = 'inset(0 ' + (100 - splitPercent) + '% 0 0)';
+    if (handle) handle.style.left = splitPercent + '%';
+  }
+
+  // Split Drag Listeners
+  const splitWrapEl = document.getElementById('hudSplitWrap');
+  if (splitWrapEl) {
+    splitWrapEl.addEventListener('mousedown', function(e) {
+      isDraggingSplit = true;
+      handleSplitMove(e);
+    });
+    window.addEventListener('mousemove', function(e) {
+      if (!isDraggingSplit) return;
+      handleSplitMove(e);
+    });
+    window.addEventListener('mouseup', function() {
+      isDraggingSplit = false;
+    });
+    // Touch support
+    splitWrapEl.addEventListener('touchstart', function(e) {
+      isDraggingSplit = true;
+      if (e.touches && e.touches[0]) handleSplitMove(e.touches[0]);
+    }, { passive: true });
+    window.addEventListener('touchmove', function(e) {
+      if (!isDraggingSplit) return;
+      if (e.touches && e.touches[0]) handleSplitMove(e.touches[0]);
+    }, { passive: true });
+    window.addEventListener('touchend', function() {
+      isDraggingSplit = false;
+    });
+  }
+
+  function handleSplitMove(e) {
+    const wrap = document.getElementById('hudSplitWrap');
+    if (!wrap) return;
+    const rect = wrap.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const pct = (x / rect.width) * 100;
+    setSplitPosition(pct);
+  }
+
+  // Keyboard navigation for Lightbox
+  window.addEventListener('keydown', function(e) {
+    const backdrop = document.getElementById('hudLightboxBackdrop');
+    if (!backdrop || !backdrop.classList.contains('active')) return;
+
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      window.navHudArt(-1);
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      window.navHudArt(1);
+    } else if (e.key === '1' || e.key === '2' || e.key === '3' || e.key === '4') {
+      const idx = parseInt(e.key, 10) - 1;
+      const pills = document.querySelectorAll('.hud-variant-pill');
+      if (pills[idx]) {
+        e.preventDefault();
+        pills[idx].click();
+      }
+    } else if (e.key.toLowerCase() === 's') {
+      e.preventDefault();
+      window.toggleHudSplitMode();
+    } else if (e.key === 'Escape') {
+      if (typeof window.closeHudLightbox === 'function') window.closeHudLightbox();
+    }
+  });
+
+  // Procedural Lore Audio Synthesizer
+  window.playCurrentArtworkLore = function() {
+    const artCode = document.getElementById('hudArtCode')?.textContent || 'SPEC-01';
+    const audioBtn = document.getElementById('hudLoreAudioBtn');
+    if (audioBtn) {
+      audioBtn.textContent = '⚡ TRANSMITTING...';
+      setTimeout(() => { audioBtn.textContent = '▶ TRANSMIT LORE AUDIO'; }, 2200);
+    }
+
+    try {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+      const ctx = new AudioContext();
+
+      // Synthesize cybernetic harmonic carrier
+      const carrier = ctx.createOscillator();
+      const modulator = ctx.createOscillator();
+      const modGain = ctx.createGain();
+      const masterGain = ctx.createGain();
+
+      carrier.type = 'sawtooth';
+      carrier.frequency.setValueAtTime(220, ctx.currentTime);
+      carrier.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.3);
+      carrier.frequency.exponentialRampToValueAtTime(330, ctx.currentTime + 1.2);
+      carrier.frequency.exponentialRampToValueAtTime(165, ctx.currentTime + 2.0);
+
+      modulator.type = 'sine';
+      modulator.frequency.setValueAtTime(12, ctx.currentTime);
+      modGain.gain.setValueAtTime(50, ctx.currentTime);
+      modulator.connect(carrier.frequency);
+
+      masterGain.gain.setValueAtTime(0.01, ctx.currentTime);
+      masterGain.gain.linearRampToValueAtTime(0.18, ctx.currentTime + 0.2);
+      masterGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2.1);
+
+      carrier.connect(masterGain);
+      masterGain.connect(ctx.destination);
+
+      carrier.start();
+      modulator.start();
+      carrier.stop(ctx.currentTime + 2.2);
+      modulator.stop(ctx.currentTime + 2.2);
+    } catch (err) {
+      console.warn('Procedural audio lore unavailable:', err);
+    }
+  };
+
+  /* ── 2. LAGOS 2031 MAP: FACTION MATRIX & TELEMETRY ── */
+  const FACTION_SECTORS = {
+    kooza: {
+      sectors: ['Oshodi Transport Interchange', 'Eko Atlantic Coastal Bulwark'],
+      lat: '6°33'18" N',
+      lon: '3°21'04" E',
+      title: 'KOOZA SYNDICATE HIGH GRID',
+      threat: 'CRITICAL',
+      ase: '950 AṢẸ',
+      rule: 'KOOZA CORPORATE PATROL'
+    },
+    eko: {
+      sectors: ['Mushin Scrap Yards', 'Balogun Market Concourse'],
+      lat: '6°31'52" N',
+      lon: '3°22'40" E',
+      title: 'EKO VIGILANTE TERRITORY',
+      threat: 'ELEVATED',
+      ase: '820 AṢẸ',
+      rule: 'NEO-LAGOS INSURGENTS'
+    },
+    council: {
+      sectors: ['Third Mainland Void Seam', 'Ilubirin Submerged Shrine'],
+      lat: '6°28'44" N',
+      lon: '3°24'19" E',
+      title: 'COUNCIL OF ELDERS ARCHIVES',
+      threat: 'SOVEREIGN',
+      ase: '1,200 AṢẸ',
+      rule: 'PALE COUNCIL CLASSIFIED'
+    }
+  };
+
+  window.filterMapFaction = function(factionKey, btn) {
+    document.querySelectorAll('.map-filter-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    const sectorPins = document.querySelectorAll('.map-sector-pin');
+    sectorPins.forEach(pin => {
+      const title = pin.getAttribute('data-name') || pin.getAttribute('title') || '';
+      if (factionKey === 'all') {
+        pin.style.opacity = '1';
+        pin.style.transform = 'scale(1)';
+      } else {
+        const matches = FACTION_SECTORS[factionKey]?.sectors.some(s => title.includes(s) || s.includes(title));
+        pin.style.opacity = matches ? '1' : '0.25';
+        pin.style.transform = matches ? 'scale(1.2)' : 'scale(0.85)';
+      }
+    });
+
+    // Update telemetry display
+    const data = FACTION_SECTORS[factionKey];
+    if (data) {
+      const titleEl = document.getElementById('hudSectorTitle');
+      const threatEl = document.getElementById('hudThreatVal');
+      const aseEl = document.getElementById('hudAseVal');
+      const ruleEl = document.getElementById('hudFactionVal');
+      const coordsEl = document.getElementById('hudCoordsDisplay');
+
+      if (titleEl) titleEl.textContent = data.title;
+      if (threatEl) threatEl.textContent = data.threat;
+      if (aseEl) aseEl.textContent = data.ase;
+      if (ruleEl) ruleEl.textContent = data.rule;
+      if (coordsEl) coordsEl.textContent = 'LAT: ' + data.lat + ' · LON: ' + data.lon;
+    }
+
+    if (typeof window.playHudSound === 'function') window.playHudSound('select');
+  };
+
+  /* ── 3. AMBIENT SOUND DOCK: EQ BARS & AUTO-ZONE SCENE SYNC ── */
+  let isAutoZoneActive = true;
+
+  window.toggleAutoZoneSound = function() {
+    isAutoZoneActive = !isAutoZoneActive;
+    const btn = document.getElementById('soundAutoZoneBtn');
+    if (btn) {
+      btn.classList.toggle('active', isAutoZoneActive);
+      btn.textContent = isAutoZoneActive ? 'AUTO-ZONE: ON' : 'AUTO-ZONE: OFF';
+    }
+    if (typeof window.playHudSound === 'function') window.playHudSound('select');
+  };
+
+  // Sync EQ bars with ambient audio state
+  const origToggle = window.toggleAmbientSound;
+  window.toggleAmbientSound = function() {
+    if (typeof origToggle === 'function') origToggle();
+    updateEqState();
+  };
+
+  function updateEqState() {
+    const eq = document.getElementById('soundDockEq');
+    const label = document.getElementById('soundDockLabel');
+    if (eq && label) {
+      const isPlaying = label.textContent.includes('ON');
+      eq.classList.toggle('playing', isPlaying);
+    }
+  }
+
+  // Intersection Observer for narrative auto-zone switching
+  if ('IntersectionObserver' in window) {
+    const zoneMap = [
+      { id: 'lagos-map', preset: 'noir' },
+      { id: 'faction-simulator', preset: 'sango' },
+      { id: 'read', preset: 'ogun' },
+      { id: 'orun-council', preset: 'osun' },
+      { id: 'artwork-gallery', preset: 'sango' }
+    ];
+
+    const observer = new IntersectionObserver((entries) => {
+      if (!isAutoZoneActive) return;
+      entries.forEach(entry => {
+        if (entry.isIntersecting && entry.intersectionRatio > 0.3) {
+          const matched = zoneMap.find(z => z.id === entry.target.id);
+          if (matched && typeof window.setAmbientPreset === 'function') {
+            const presetBtn = document.querySelector('.preset-btn[onclick*="' + matched.preset + '"]');
+            if (presetBtn && !presetBtn.classList.contains('active')) {
+              window.setAmbientPreset(matched.preset, presetBtn);
+            }
+          }
+        }
+      });
+    }, { threshold: [0.35] });
+
+    zoneMap.forEach(z => {
+      const el = document.getElementById(z.id);
+      if (el) observer.observe(el);
+    });
+  }
+
+  /* ── 4. Ọ̀RUN COUNCIL: UPVOTES & CLASSIFIED DECRYPTION ── */
+  window.upvoteTheory = function(theoryId, btn) {
+    const key = 'catalyst_upvote_' + theoryId;
+    const hasVoted = localStorage.getItem(key);
+    let count = parseInt(btn.getAttribute('data-votes') || '14', 10);
+
+    if (!hasVoted) {
+      count += 1;
+      localStorage.setItem(key, 'true');
+      btn.setAttribute('data-votes', count);
+      btn.classList.add('voted');
+      btn.innerHTML = '▲ UPVOTED (' + count + ')';
+      if (typeof window.playHudSound === 'function') window.playHudSound('activate');
+    } else {
+      count -= 1;
+      localStorage.removeItem(key);
+      btn.setAttribute('data-votes', count);
+      btn.classList.remove('voted');
+      btn.innerHTML = '▲ UPVOTE (' + count + ')';
+    }
+  };
+
+  window.decryptLore = function(el) {
+    if (el.classList.contains('decrypted')) return;
+    const secret = el.getAttribute('data-secret') || 'CLASSIFIED: Ọ̀run frequency matched to Bayo Adeyemi mitochondrial bloodline.';
+    el.classList.add('decrypted');
+    
+    // Matrix decrypt scramble effect
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789%#$@';
+    let iterations = 0;
+    const interval = setInterval(() => {
+      el.textContent = secret.split('').map((char, index) => {
+        if (index < iterations) return secret[index];
+        return chars[Math.floor(Math.random() * chars.length)];
+      }).join('');
+      if (iterations >= secret.length) {
+        clearInterval(interval);
+      }
+      iterations += 2;
+    }, 25);
+
+    if (typeof window.playHudSound === 'function') window.playHudSound('success');
+  };
+
+  /* ── 5. COMIC READER: 19-SCENE FILMSTRIP JUMP & RESUME ── */
+  window.jumpToScene = function(sceneIdx, btn) {
+    document.querySelectorAll('.filmstrip-chip').forEach(c => c.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    // Save to local storage
+    localStorage.setItem('catalyst_last_scene_idx', sceneIdx);
+    const sceneTitle = btn?.textContent?.trim() || ('Scene ' + sceneIdx);
+    localStorage.setItem('catalyst_last_scene_title', sceneTitle);
+
+    const resumeEl = document.getElementById('profileResumeScene');
+    if (resumeEl) resumeEl.textContent = sceneTitle;
+
+    // Scroll smoothly to read section
+    const readSec = document.getElementById('read');
+    if (readSec) {
+      readSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    if (typeof window.playHudSound === 'function') window.playHudSound('select');
+  };
+
+  window.resumeLastReadingScene = function() {
+    const savedIdx = localStorage.getItem('catalyst_last_scene_idx') || '1';
+    const chip = document.querySelector('.filmstrip-chip:nth-child(' + savedIdx + ')');
+    window.jumpToScene(parseInt(savedIdx, 10), chip);
+    if (typeof window.closeUserProfileModal === 'function') window.closeUserProfileModal();
+  };
+
+  // Populate theories with interactive upvotes and secret redacted lore
+  function enrichTheoryCards() {
+    const cards = document.querySelectorAll('.council-card');
+    cards.forEach((card, i) => {
+      if (!card.querySelector('.theory-upvote-btn')) {
+        const foot = card.querySelector('.council-card-footer') || card;
+        const initialVotes = 24 + (i * 7);
+        const upvoteHtml = document.createElement('div');
+        upvoteHtml.style.display = 'flex';
+        upvoteHtml.style.alignItems = 'center';
+        upvoteHtml.style.justifyContent = 'space-between';
+        upvoteHtml.style.marginTop = '0.8rem';
+        upvoteHtml.innerHTML = '<button type="button" class="theory-upvote-btn" data-votes="' + initialVotes + '" onclick="upvoteTheory(' + i + ', this)">▲ UPVOTE (' + initialVotes + ')</button>' +
+          '<span class="redacted-lore" onclick="decryptLore(this)" data-secret="DECRYPTED LORE: Ancient Ògún anvil resonant frequency 432Hz detected under Balogun Nexus.">[CLASSIFIED DECRYPT]</span>';
+        foot.appendChild(upvoteHtml);
+      }
+    });
+  }
+
+  // Run on ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', enrichTheoryCards);
+  } else {
+    enrichTheoryCards();
+  }
+})();
