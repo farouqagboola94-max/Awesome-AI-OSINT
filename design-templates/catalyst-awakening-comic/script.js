@@ -490,29 +490,47 @@
 
   function _applyUserState(user) {
     const btn = document.getElementById('navAuthBtn');
-    if (!btn) return;
+    const artworkWrap = document.getElementById('artworkGateWrap');
+    const artworkOverlay = document.getElementById('artworkGateOverlay');
+
     if (user) {
       const meta = user.user_metadata || {};
       const name = meta.full_name || user.email.split('@')[0];
       const isPremium = user.app_metadata?.is_premium === true;
       const initial = name.charAt(0).toUpperCase();
-      btn.replaceChildren();
-      const badge = document.createElement('span');
-      badge.className = 'nav-user-initial';
-      badge.textContent = initial;
-      btn.append(badge, document.createTextNode(' ' + name.split(' ')[0]));
-      if (isPremium) {
-        const dot = document.createElement('span');
-        dot.className = 'nav-premium-dot';
-        dot.title = 'Premium';
-        dot.textContent = '✦';
-        btn.append(' ', dot);
+
+      if (btn) {
+        btn.replaceChildren();
+        const badge = document.createElement('span');
+        badge.className = 'nav-user-initial';
+        badge.textContent = initial;
+        btn.append(badge, document.createTextNode(' ' + name.split(' ')[0]));
+        if (isPremium) {
+          const dot = document.createElement('span');
+          dot.className = 'nav-premium-dot';
+          dot.title = 'Premium';
+          dot.textContent = '✦';
+          btn.append(' ', dot);
+        }
+        btn.onclick = openUserMenu;
       }
-      btn.onclick = openUserMenu;
+
+      // Unlock authenticated reader features
+      if (artworkWrap) {
+        artworkWrap.classList.remove('is-locked');
+        if (artworkOverlay) artworkOverlay.style.display = 'none';
+      }
+
       if (isPremium) unlockPremiumUI();
     } else {
-      btn.innerHTML = 'Sign In';
-      btn.onclick = function(){ openAuthModal('signup'); };
+      if (btn) {
+        btn.innerHTML = 'Sign In';
+        btn.onclick = function(){ openAuthModal('signup'); };
+      }
+      if (artworkWrap) {
+        artworkWrap.classList.add('is-locked');
+        if (artworkOverlay) artworkOverlay.style.display = 'flex';
+      }
     }
   }
 
@@ -521,9 +539,9 @@
     const meta = _currentUser.user_metadata || {};
     const isPremium = _currentUser.app_metadata?.is_premium === true;
     if (isPremium) {
-      showToast('You are a Ìmọ̀lẹ̀ member. ✦ Full universe unlocked.', 'success');
+      showToast('You are an Ìmọ̀lẹ̀ member. ✦ Full universe unlocked.', 'success');
     } else {
-      if (confirm('Upgrade to Ìmọ̀lẹ̀ Circle for premium access?')) openPaymentModal();
+      if (confirm('Upgrade to Ìmọ̀lẹ̀ Circle for exclusive stories and Arc II access?')) openPaymentModal();
     }
   }
 
@@ -556,10 +574,39 @@
     var btn   = document.getElementById('signup-btn');
     btn.textContent = 'Creating account...'; btn.disabled = true;
     try {
-      if (!_sb) throw new Error('Account creation is unavailable right now. Please try again later.');
-      var r = await _sb.auth.signUp({ email, password: pass, options: { data: { full_name: name }, emailRedirectTo: location.origin + '/' } });
+      // 1. Capture to Netlify CRM pipeline
+      try {
+        await netlifyCapture('catalyst-signup', { fullname: name, email: email, timestamp: new Date().toISOString() });
+      } catch(netErr) { console.warn('Netlify lead capture notice:', netErr); }
+
+      // 2. Register via Supabase Auth
+      if (!_sb) throw new Error('Authentication is connecting. Please try again in a few moments.');
+      var r = await _sb.auth.signUp({
+        email: email,
+        password: pass,
+        options: {
+          data: { full_name: name, tier: 'reader' },
+          emailRedirectTo: location.origin + '/'
+        }
+      });
       if (r.error) throw r.error;
-      showToast('Account created! Check your email to confirm.', 'success');
+
+      // 3. Upsert user profile record if session returned immediately
+      if (r.data && r.data.user) {
+        try {
+          await _sb.from('profiles').upsert({
+            id: r.data.user.id,
+            email: email,
+            full_name: name,
+            tier: 'reader',
+            created_at: new Date().toISOString()
+          });
+        } catch(_) {}
+        _currentUser = r.data.user;
+        _applyUserState(_currentUser);
+      }
+
+      showToast('Account created! Welcome to Catalyst: The Awakening.', 'success');
       closeAuthModal();
     } catch(err) {
       showToast(err.message || 'Sign up failed. Try again.', 'error');
@@ -577,9 +624,12 @@
     btn.textContent = 'Entering...'; btn.disabled = true;
     try {
       if (!_sb) throw new Error('Sign in is unavailable right now. Please try again later.');
-      var r = await _sb.auth.signInWithPassword({ email, password: pass });
+      var r = await _sb.auth.signInWithPassword({ email: email, password: pass });
       if (r.error) throw r.error;
+      _currentUser = r.data.user;
+      _applyUserState(_currentUser);
       closeAuthModal();
+      showToast('Access granted. Exclusive stories & artworks unlocked.', 'success');
     } catch(err) {
       showToast(err.message || 'Sign in failed. Check your credentials.', 'error');
     } finally {
