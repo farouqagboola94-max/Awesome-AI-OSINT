@@ -1559,6 +1559,24 @@
       </svg>
     </div>
 
+    <!-- TACTICAL TELEMETRY HUD READOUT -->
+    <div class="map-hud-readout" id="mapHudReadout">
+      <div class="hud-readout-header">
+        <span class="hud-readout-tag">ORACLE SURVEILLANCE // SECTOR TELEMETRY</span>
+        <span class="hud-readout-pulse">LIVE RECON</span>
+      </div>
+      <div class="hud-readout-content">
+        <div class="hud-readout-title" id="hudSectorTitle">SELECT SECTOR ON MAP</div>
+        <div class="hud-readout-yoruba" id="hudSectorYoruba">Àwọn Agbègbè Èkó 2031</div>
+        <p class="hud-readout-desc" id="hudSectorDesc">Hover or tap any sector above (Mushin, Balogun, Third Mainland Bridge, Eko Atlantic, Iron District, Void Quarter) to initialize localized intelligence.</p>
+        <div class="hud-readout-stats" id="hudSectorStats">
+          <div class="hud-stat-box"><span class="hud-stat-num" id="hudThreatVal">MODERATE</span><span class="hud-stat-lbl">THREAT LEVEL</span></div>
+          <div class="hud-stat-box"><span class="hud-stat-num" id="hudAseVal">780 AṢẸ</span><span class="hud-stat-lbl">GRID DENSITY</span></div>
+          <div class="hud-stat-box"><span class="hud-stat-num" id="hudFactionVal">CONTESTED</span><span class="hud-stat-lbl">SECTOR RULE</span></div>
+        </div>
+      </div>
+    </div>
+
     <!-- Tooltip (positioned by JS) -->
     <div class="map-tooltip" id="mapTooltip">
       <div class="map-tooltip-name" id="mapTipName">—</div>
@@ -5816,6 +5834,26 @@
   </div>
 </section>
 
+<!-- ============================================================ FACTION ALLEGIANCE & ARC II DECISION SIMULATOR -->
+<section id="faction-simulator" style="padding:5.5rem 1.5rem 6.5rem;background:rgba(8,10,20,0.95);border-top:1px solid rgba(244,184,0,0.25);">
+  <div class="sim-header" style="text-align:center;max-width:760px;margin:0 auto 3rem;">
+    <p class="section-label reveal" style="justify-content:center">Arc II: Iron Trials Protocol</p>
+    <h2 class="section-title reveal">CHOOSE YOUR <em>FACTION</em></h2>
+    <p class="reveal" style="font-size:0.9rem;line-height:1.85;color:rgba(240,237,229,0.65);margin-top:1rem;">
+      The Ọ̀run membrane rupture is accelerating. Five sovereign powers compete for the future of Lagos. Complete the tactical simulation to determine where your Aṣẹ belongs.
+    </p>
+  </div>
+
+  <div class="sim-container reveal" id="factionSimContainer">
+    <div class="sim-stage" id="simStage">
+      <!-- Injected by script.js -->
+    </div>
+    <div class="sim-result" id="simResult" style="display:none;">
+      <!-- Injected by script.js -->
+    </div>
+  </div>
+</section>
+
 <!-- ============================================================ THE KNOWN REALMS -->
 
 <div class="scroll-hook reveal">Lagos is only half the map. The other half is where the <em>Orishas</em> actually live.<span class="sh-arrow">↓</span></div>
@@ -6869,6 +6907,50 @@
 <!-- ============================================================ NEWSLETTER -->
 <!-- ════ OPERATIVE ID CARD GENERATOR ════ -->
 
+<!-- ============================================================ THE Ọ̀RUN COUNCIL — READER THEORIES & CREATOR LOGS -->
+<section id="orun-council" style="padding:5.5rem 1.5rem 6.5rem;background:rgba(5,6,12,0.92);border-top:1px solid rgba(0,201,177,0.25);">
+  <div class="council-header" style="text-align:center;max-width:780px;margin:0 auto 3rem;">
+    <p class="section-label reveal" style="justify-content:center">Community Intelligence &amp; Lore Archive</p>
+    <h2 class="section-title reveal">THE <em>Ọ̀RUN COUNCIL</em></h2>
+    <p class="reveal" style="font-size:0.9rem;line-height:1.85;color:rgba(240,237,229,0.65);margin-top:1rem;">
+      Panel annotations, hidden mythological references, and Arc II predictions declassified by the Catalyst Comics Studio and our global reading community.
+    </p>
+  </div>
+
+  <div class="council-wrap reveal">
+    <!-- Filter Tabs -->
+    <div class="council-tabs" role="tablist">
+      <button type="button" class="council-tab active" onclick="filterTheories('all', this)">⚡ ALL THEORIES (6)</button>
+      <button type="button" class="council-tab" onclick="filterTheories('creator', this)">📜 CREATOR LOGS (2)</button>
+      <button type="button" class="council-tab" onclick="filterTheories('lore', this)">👁 ORISHA LORE (2)</button>
+      <button type="button" class="council-tab" onclick="filterTheories('arc2', this)">🔮 ARC II THEORIES (2)</button>
+    </div>
+
+    <!-- Theories Grid -->
+    <div class="council-grid" id="councilGrid">
+      <!-- Injected by script.js -->
+    </div>
+
+    <!-- Submit Theory Box -->
+    <div class="council-submit-box">
+      <h3 class="council-submit-title">SUBMIT CANON THEORY // ENTER THE ARCHIVE</h3>
+      <p class="council-submit-sub">Have a theory on Bayo's dual lineage or Pale Council motives? Submit your thesis to the Ọ̀run Council.</p>
+      <form id="theoryForm" onsubmit="event.preventDefault(); submitTheory(event);" class="council-form">
+        <div class="council-form-row">
+          <input type="text" name="author" class="council-input" placeholder="Operative Name / Callsign" required>
+          <select name="category" class="council-select">
+            <option value="lore">Orisha Lore Analysis</option>
+            <option value="arc2">Arc II Prediction</option>
+            <option value="easter-egg">Panel Easter Egg</option>
+          </select>
+        </div>
+        <textarea name="theory" class="council-textarea" placeholder="Detail your observation, panel coordinates, and cosmological theory..." required rows="3"></textarea>
+        <button type="submit" class="council-submit-btn" id="submitTheoryBtn">Transmit Thesis to Council →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
 <section id="newsletter">
   <div class="newsletter-inner">
     <p class="section-label reveal" style="justify-content:center">Stay Connected</p>
@@ -7204,6 +7286,25 @@
      initTiltCards() earlier in the page, so they're left alone here —
      adding a second competing mousemove handler there would just make
      the two fight over the same transform property.) ── -->
+
+<!-- ============================================================ AMBIENT COMIC READING SOUNDSCAPE DOCK -->
+<div class="ambient-sound-dock" id="ambientSoundDock" aria-label="Ambient Reading Soundscape">
+  <div class="sound-dock-inner">
+    <button type="button" class="sound-dock-toggle-btn" id="soundDockToggleBtn" onclick="toggleAmbientSound()" title="Toggle Ambient Soundscape">
+      <span class="sound-dock-icon" id="soundDockIcon">🎧</span>
+      <span class="sound-dock-label" id="soundDockLabel">SOUNDSCAPE: OFF</span>
+    </button>
+    <div class="sound-dock-presets" id="soundDockPresets">
+      <button type="button" class="preset-btn active" onclick="setAmbientPreset('sango', this)" title="Ṣàngó Tempest: Rain &amp; Thunder">⚡ Ṣàngó</button>
+      <button type="button" class="preset-btn" onclick="setAmbientPreset('ogun', this)" title="Ògún Forge: Industrial Resonance">⚔ Ògún</button>
+      <button type="button" class="preset-btn" onclick="setAmbientPreset('osun', this)" title="Ọ̀ṣun Tide: Water Flow &amp; Binaural">🌊 Ọ̀ṣun</button>
+      <button type="button" class="preset-btn" onclick="setAmbientPreset('noir', this)" title="Lagos Noir: Subterranean Drone">🌃 Noir</button>
+    </div>
+    <div class="sound-dock-volume">
+      <input type="range" id="soundVolumeSlider" min="0" max="1" step="0.05" value="0.4" oninput="setAmbientVolume(this.value)" aria-label="Soundscape Volume">
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

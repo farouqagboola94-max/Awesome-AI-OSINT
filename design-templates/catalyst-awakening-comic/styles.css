@@ -10640,3 +10640,397 @@ mark.fn-hl.fn-flash { animation: fn-flash 1.6s ease-in-out 1; }
   background: rgba(0, 201, 177, 0.25);
   box-shadow: 0 0 12px rgba(0, 201, 177, 0.3);
 }
+
+
+/* ─── TACTICAL TELEMETRY HUD READOUT (LAGOS MAP) ─── */
+.map-hud-readout {
+  background: rgba(6, 6, 13, 0.94);
+  border: 1px solid rgba(244, 184, 0, 0.35);
+  border-radius: 6px;
+  padding: 1.4rem;
+  margin-top: 1.8rem;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(12px);
+}
+.hud-readout-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--danfo-gold);
+  margin-bottom: 0.9rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(244, 184, 0, 0.15);
+}
+.hud-readout-pulse {
+  color: var(--orisha-teal);
+  animation: pulse 1.8s infinite;
+}
+.hud-readout-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--bone-white);
+  margin-bottom: 0.2rem;
+}
+.hud-readout-yoruba {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--danfo-gold);
+  margin-bottom: 0.6rem;
+}
+.hud-readout-desc {
+  font-size: 0.86rem;
+  line-height: 1.65;
+  color: var(--ash-grey);
+  margin-bottom: 1.2rem;
+}
+.hud-readout-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+}
+.hud-stat-box {
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.75rem;
+  border-radius: 4px;
+  text-align: center;
+}
+.hud-stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.35rem;
+  color: var(--danfo-gold);
+  display: block;
+  letter-spacing: 0.05em;
+}
+.hud-stat-lbl {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  color: var(--ash-grey);
+  display: block;
+  margin-top: 0.2rem;
+}
+
+/* ─── FACTION ALLEGIANCE SIMULATOR ─── */
+.sim-container {
+  max-width: 760px;
+  margin: 0 auto;
+  background: rgba(10, 13, 24, 0.92);
+  border: 1px solid rgba(244, 184, 0, 0.35);
+  border-radius: 8px;
+  padding: 2.2rem;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
+}
+.sim-step-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--danfo-gold);
+  margin-bottom: 0.4rem;
+}
+.sim-question-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--bone-white);
+  margin-bottom: 0.6rem;
+}
+.sim-question-desc {
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--ash-grey);
+  margin-bottom: 1.5rem;
+}
+.sim-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.sim-opt-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1rem 1.2rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  color: var(--bone-white);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.86rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.sim-opt-btn:hover {
+  border-color: var(--danfo-gold);
+  background: rgba(244, 184, 0, 0.08);
+  transform: translateX(4px);
+}
+.sim-opt-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 2px;
+  background: rgba(244, 184, 0, 0.15);
+  color: var(--danfo-gold);
+  white-space: nowrap;
+}
+.sim-result-card {
+  text-align: center;
+  padding: 1.2rem;
+}
+.sim-result-badge {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--danfo-gold);
+  margin-bottom: 0.5rem;
+}
+.sim-result-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.8rem;
+  color: var(--danfo-gold);
+  margin-bottom: 0.8rem;
+  letter-spacing: 0.05em;
+}
+.sim-result-oath {
+  font-size: 0.92rem;
+  line-height: 1.85;
+  color: var(--bone-white);
+  max-width: 580px;
+  margin: 0 auto 1.8rem;
+  font-style: italic;
+}
+.sim-restart-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  padding: 0.65rem 1.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: none;
+  color: var(--ash-grey);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.sim-restart-btn:hover {
+  border-color: var(--danfo-gold);
+  color: var(--bone-white);
+}
+
+/* ─── THE Ọ̀RUN COUNCIL FORUM ─── */
+.council-wrap {
+  max-width: 980px;
+  margin: 0 auto;
+}
+.council-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 2.2rem;
+  justify-content: center;
+}
+.council-tab {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.45rem 0.9rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--ash-grey);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.council-tab:hover {
+  border-color: var(--orisha-teal);
+  color: var(--bone-white);
+}
+.council-tab.active {
+  background: rgba(0, 201, 177, 0.18);
+  border-color: var(--orisha-teal);
+  color: var(--orisha-teal);
+  box-shadow: 0 0 12px rgba(0, 201, 177, 0.25);
+}
+.council-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 3rem;
+}
+.council-card {
+  background: rgba(10, 13, 24, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 1.3rem;
+  transition: all 0.25s ease;
+}
+.council-card:hover {
+  border-color: var(--orisha-teal);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+}
+.council-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--ash-grey);
+  margin-bottom: 0.65rem;
+}
+.council-card-author {
+  color: var(--danfo-gold);
+}
+.council-card-tag {
+  color: var(--orisha-teal);
+  background: rgba(0, 201, 177, 0.1);
+  padding: 0.15rem 0.45rem;
+  border-radius: 2px;
+}
+.council-card-text {
+  font-size: 0.84rem;
+  line-height: 1.65;
+  color: var(--bone-white);
+}
+.council-submit-box {
+  background: rgba(10, 13, 24, 0.92);
+  border: 1px solid rgba(0, 201, 177, 0.35);
+  border-radius: 6px;
+  padding: 2rem;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+}
+.council-submit-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  color: var(--orisha-teal);
+  margin-bottom: 0.3rem;
+}
+.council-submit-sub {
+  font-size: 0.82rem;
+  color: var(--ash-grey);
+  margin-bottom: 1.3rem;
+}
+.council-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+.council-form-row {
+  display: flex;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+}
+.council-input, .council-select, .council-textarea {
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--bone-white);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.82rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.council-input:focus, .council-select:focus, .council-textarea:focus {
+  border-color: var(--orisha-teal);
+}
+.council-input { flex: 1; min-width: 200px; }
+.council-select { width: 220px; }
+.council-textarea { resize: vertical; }
+.council-submit-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: var(--orisha-teal);
+  color: var(--black);
+  border: none;
+  padding: 0.85rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.2s;
+}
+.council-submit-btn:hover {
+  background: #17e8cf;
+  box-shadow: 0 0 15px rgba(0, 201, 177, 0.4);
+}
+
+/* ─── AMBIENT COMIC READING SOUNDSCAPE DOCK ─── */
+.ambient-sound-dock {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 9990;
+  background: rgba(6, 6, 13, 0.95);
+  border: 1px solid rgba(244, 184, 0, 0.35);
+  border-radius: 30px;
+  padding: 0.4rem 0.9rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85), 0 0 18px rgba(244, 184, 0, 0.15);
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+}
+.sound-dock-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.sound-dock-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: none;
+  border: none;
+  color: var(--danfo-gold);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  padding: 0.25rem 0.45rem;
+}
+.sound-dock-presets {
+  display: flex;
+  gap: 0.35rem;
+}
+.preset-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  padding: 0.25rem 0.55rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--ash-grey);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.preset-btn:hover {
+  border-color: var(--danfo-gold);
+  color: var(--bone-white);
+}
+.preset-btn.active {
+  background: rgba(244, 184, 0, 0.18);
+  border-color: var(--danfo-gold);
+  color: var(--danfo-gold);
+}
+.sound-dock-volume input[type="range"] {
+  width: 65px;
+  accent-color: var(--danfo-gold);
+  cursor: pointer;
+}
+@media(max-width: 640px) {
+  .ambient-sound-dock {
+    left: 10px;
+    right: 10px;
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+  }
+  .sound-dock-inner {
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+}

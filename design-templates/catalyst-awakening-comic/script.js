@@ -8011,3 +8011,508 @@ var TC_ENDINGS = {
     }
   };
 })();
+
+
+/* ─── 4 FLAGSHIP CATALYST OS SYSTEM CONTROLLERS ─── */
+(function() {
+  // ══════════════════════════════════════════════════
+  // 1. PROCEDURAL AMBIENT SOUNDSCAPE ENGINE
+  // ══════════════════════════════════════════════════
+  var ambCtx = null;
+  var ambMasterGain = null;
+  var ambActive = false;
+  var ambPreset = 'sango';
+  var ambOscs = [];
+  var ambTimer = null;
+
+  function initAmbientAudio() {
+    if (!ambCtx && (window.AudioContext || window.webkitAudioContext)) {
+      ambCtx = new (window.AudioContext || window.webkitAudioContext)();
+      ambMasterGain = ambCtx.createGain();
+      ambMasterGain.gain.setValueAtTime(0.4, ambCtx.currentTime);
+      ambMasterGain.connect(ambCtx.destination);
+    }
+    if (ambCtx && ambCtx.state === 'suspended') {
+      ambCtx.resume();
+    }
+  }
+
+  function stopAmbientNodes() {
+    ambOscs.forEach(function(node) {
+      try {
+        if (node.stop) node.stop();
+        if (node.disconnect) node.disconnect();
+      } catch(_) {}
+    });
+    ambOscs = [];
+    if (ambTimer) { clearInterval(ambTimer); ambTimer = null; }
+  }
+
+  function startAmbientNodes() {
+    stopAmbientNodes();
+    if (!ambCtx || !ambMasterGain) return;
+    var now = ambCtx.currentTime;
+
+    if (ambPreset === 'sango') {
+      // Ṣàngó Tempest: Rain murmur + sub-bass thunder rumble
+      var osc1 = ambCtx.createOscillator();
+      var gain1 = ambCtx.createGain();
+      osc1.type = 'sine';
+      osc1.frequency.setValueAtTime(55, now);
+      gain1.gain.setValueAtTime(0.2, now);
+      osc1.connect(gain1);
+      gain1.connect(ambMasterGain);
+      osc1.start(now);
+      ambOscs.push(osc1);
+
+      // Periodic distant thunder roll
+      ambTimer = setInterval(function() {
+        if (!ambActive || !ambCtx) return;
+        try {
+          var thOsc = ambCtx.createOscillator();
+          var thGain = ambCtx.createGain();
+          thOsc.type = 'triangle';
+          thOsc.frequency.setValueAtTime(45, ambCtx.currentTime);
+          thOsc.frequency.exponentialRampToValueAtTime(30, ambCtx.currentTime + 1.2);
+          thGain.gain.setValueAtTime(0.18, ambCtx.currentTime);
+          thGain.gain.exponentialRampToValueAtTime(0.001, ambCtx.currentTime + 1.2);
+          thOsc.connect(thGain);
+          thGain.connect(ambMasterGain);
+          thOsc.start(ambCtx.currentTime);
+          thOsc.stop(ambCtx.currentTime + 1.2);
+        } catch(_) {}
+      }, 4500);
+
+    } else if (ambPreset === 'ogun') {
+      // Ògún Forge: Industrial harmonic hum (110Hz + 220Hz)
+      var osc1 = ambCtx.createOscillator();
+      var gain1 = ambCtx.createGain();
+      osc1.type = 'triangle';
+      osc1.frequency.setValueAtTime(110, now);
+      gain1.gain.setValueAtTime(0.15, now);
+      osc1.connect(gain1);
+      gain1.connect(ambMasterGain);
+      osc1.start(now);
+      ambOscs.push(osc1);
+
+      var osc2 = ambCtx.createOscillator();
+      var gain2 = ambCtx.createGain();
+      osc2.type = 'sine';
+      osc2.frequency.setValueAtTime(220, now);
+      gain2.gain.setValueAtTime(0.08, now);
+      osc2.connect(gain2);
+      gain2.connect(ambMasterGain);
+      osc2.start(now);
+      ambOscs.push(osc2);
+
+    } else if (ambPreset === 'osun') {
+      // Ọ̀ṣun Tide: 432Hz Sacred Water current
+      var osc1 = ambCtx.createOscillator();
+      var gain1 = ambCtx.createGain();
+      osc1.type = 'sine';
+      osc1.frequency.setValueAtTime(432, now);
+      gain1.gain.setValueAtTime(0.12, now);
+
+      // Slow sine wave modulation
+      var lfo = ambCtx.createOscillator();
+      var lfoGain = ambCtx.createGain();
+      lfo.frequency.setValueAtTime(0.15, now);
+      lfoGain.gain.setValueAtTime(12, now);
+      lfo.connect(lfoGain);
+      lfoGain.connect(osc1.frequency);
+      lfo.start(now);
+      ambOscs.push(lfo);
+
+      osc1.connect(gain1);
+      gain1.connect(ambMasterGain);
+      osc1.start(now);
+      ambOscs.push(osc1);
+
+    } else if (ambPreset === 'noir') {
+      // Lagos Noir: Deep subterranean 65Hz analog bass drone
+      var osc1 = ambCtx.createOscillator();
+      var gain1 = ambCtx.createGain();
+      osc1.type = 'sawtooth';
+      osc1.frequency.setValueAtTime(65, now);
+      gain1.gain.setValueAtTime(0.1, now);
+      osc1.connect(gain1);
+      gain1.connect(ambMasterGain);
+      osc1.start(now);
+      ambOscs.push(osc1);
+    }
+  }
+
+  window.toggleAmbientSound = function() {
+    initAmbientAudio();
+    ambActive = !ambActive;
+    var btn = document.getElementById('soundDockToggleBtn');
+    var label = document.getElementById('soundDockLabel');
+    var icon = document.getElementById('soundDockIcon');
+
+    if (ambActive) {
+      startAmbientNodes();
+      if (label) label.textContent = 'SOUNDSCAPE: ON';
+      if (icon) icon.textContent = '⚡';
+      if (window.showToast) window.showToast('Ambient Soundscape Activated: ' + ambPreset.toUpperCase(), 'info', 2200);
+    } else {
+      stopAmbientNodes();
+      if (label) label.textContent = 'SOUNDSCAPE: OFF';
+      if (icon) icon.textContent = '🎧';
+      if (window.showToast) window.showToast('Ambient Soundscape Muted', 'info', 1800);
+    }
+  };
+
+  window.setAmbientPreset = function(preset, btn) {
+    ambPreset = preset;
+    document.querySelectorAll('.preset-btn').forEach(function(b){ b.classList.remove('active'); });
+    if (btn) btn.classList.add('active');
+    if (ambActive) {
+      startAmbientNodes();
+      if (window.showToast) window.showToast('Preset Switched: ' + preset.toUpperCase(), 'info', 1800);
+    }
+  };
+
+  window.setAmbientVolume = function(val) {
+    if (ambMasterGain && ambCtx) {
+      ambMasterGain.gain.setValueAtTime(parseFloat(val), ambCtx.currentTime);
+    }
+  };
+
+  // ══════════════════════════════════════════════════
+  // 2. TACTICAL SECTOR TELEMETRY HUD (LAGOS MAP)
+  // ══════════════════════════════════════════════════
+  var SECTOR_DATA = {
+    'mushin': {
+      title: 'MUSHIN UNDERGROUND',
+      yoruba: 'Mùṣin Ilẹ̀-Ìsàlẹ̀',
+      desc: 'The beating heart of Neo-Lagos resistance. Where Bayo channeled all five Orisha nodes simultaneously. Danfo transit corridors laced with high-voltage copper conductors.',
+      threat: 'CRITICAL',
+      ase: '1,420 AṢẸ',
+      faction: 'RESISTANCE HQ'
+    },
+    'balogun': {
+      title: 'BALOGUN NEXUS',
+      yoruba: 'Ọjà Bálógún',
+      desc: 'Ground Zero of the Ọ̀run-Bleed event. The 3,000-year-old market where spirit frequencies puncture fiber-optic street cables. The tear opened here.',
+      threat: 'UNSTABLE',
+      ase: '2,150 AṢẸ',
+      faction: 'CONTESTED ZONE'
+    },
+    'bridge': {
+      title: 'THIRD MAINLAND BRIDGE',
+      yoruba: 'Afárá Ọ̀kẹrẹ',
+      desc: '11.8 kilometers of concrete and spirit leyline. At 3:00 AM, the lagoon whispers names. Deep pylons anchored into ancient water shrines.',
+      threat: 'VOLATILE',
+      ase: '890 AṢẸ',
+      faction: 'NEUTRAL RIFT'
+    },
+    'eko': {
+      title: 'EKO ATLANTIC ARCOLOGY',
+      yoruba: 'Ilé-Eko Tuntun',
+      desc: '47-story glass citadel constructed over reclaimed ocean sands. Governed by Pale Council corporate algorithms and automated drone swarms.',
+      threat: 'FORTIFIED',
+      ase: '410 AṢẸ',
+      faction: 'PALE COUNCIL'
+    },
+    'iron': {
+      title: 'THE IRON DISTRICT',
+      yoruba: 'Àgbàlà Irin',
+      desc: 'Ancestral metal foundries of Ikenna’s lineage. The earth here remembers Ògún’s ancient anvil strikes from eight centuries ago.',
+      threat: 'HIGH',
+      ase: '1,120 AṢẸ',
+      faction: 'ÒGÚN FORGE'
+    },
+    'void': {
+      title: 'THE VOID QUARTER',
+      yoruba: 'Àwọn Òfo',
+      desc: 'Three city blocks quarantined under permanent shadow curfew. Temporal physics warp inside this perimeter.',
+      threat: 'CLASSIFIED',
+      ase: '0 AṢẸ (VOID)',
+      faction: 'NO MAN’S LAND'
+    },
+    'oracle': {
+      title: 'ORACLE AI SANCTUARY',
+      yoruba: 'Ilé Onísègùn',
+      desc: 'Subterranean mainframe operating for 144 years. A biological-digital interface connecting Yoruba Ifá diviners directly to neural supercomputers.',
+      threat: 'SECURE',
+      ase: '3,800 AṢẸ',
+      faction: 'ORACLE NETWORK'
+    }
+  };
+
+  function wireMapTelemetry() {
+    document.querySelectorAll('.map-zone').forEach(function(zone) {
+      var id = zone.id ? zone.id.replace('zone-', '') : '';
+      zone.addEventListener('mouseenter', function() {
+        updateMapReadout(id);
+      });
+      zone.addEventListener('click', function() {
+        updateMapReadout(id);
+        if (window.playHudSound) window.playHudSound('chirp');
+      });
+    });
+  }
+
+  function updateMapReadout(id) {
+    var data = SECTOR_DATA[id] || SECTOR_DATA['mushin'];
+    var title = document.getElementById('hudSectorTitle');
+    var yoruba = document.getElementById('hudSectorYoruba');
+    var desc = document.getElementById('hudSectorDesc');
+    var threat = document.getElementById('hudThreatVal');
+    var ase = document.getElementById('hudAseVal');
+    var faction = document.getElementById('hudFactionVal');
+
+    if (title) title.textContent = data.title;
+    if (yoruba) yoruba.textContent = data.yoruba;
+    if (desc) desc.textContent = data.desc;
+    if (threat) threat.textContent = data.threat;
+    if (ase) ase.textContent = data.ase;
+    if (faction) faction.textContent = data.faction;
+  }
+
+  // ══════════════════════════════════════════════════
+  // 3. FACTION ALLEGIANCE & ARC II DECISION SIMULATOR
+  // ══════════════════════════════════════════════════
+  var SIM_SCENARIOS = [
+    {
+      step: "SCENARIO 01 // GRID INCURSION",
+      title: "Pale Council Surveillance Drones Breach Mushin",
+      desc: "Eight autonomous hunter-drones descend on Sector 4, tracking Bayo's electrical signature. How do you respond?",
+      options: [
+        { text: "Overload the transformers with Ṣàngó lightning to fry the swarm instantly.", faction: "resistance", tag: "+MUSHIN RESISTANCE" },
+        { text: "Barricade the sector using Ògún magnetic plates to shelter the civilians.", faction: "pale-council", tag: "+PALE COUNCIL DEFENSE" },
+        { text: "Hack the drone uplink via Ẹṣù frequency and broadcast dummy telemetry.", faction: "oracle", tag: "+ORACLE NETWORK" }
+      ]
+    },
+    {
+      step: "SCENARIO 02 // RESOURCE INTERCEPT",
+      title: "Contraband Aṣẹ Power Cells Discovered at Balogun",
+      desc: "Smugglers attempt to auction five military-grade Aṣẹ fuel rods at the night market. What is your directive?",
+      options: [
+        { text: "Raid the shipment and distribute power cells freely to Mushin hospitals.", faction: "resistance", tag: "+MUSHIN RESISTANCE" },
+        { text: "Outbid everyone and transport the technology to Eko Atlantic towers.", faction: "syndicate", tag: "+EKO SYNDICATE" },
+        { text: "Confiscate and lock the cells in an unmarked black-box containment vault.", faction: "fifth", tag: "+THE FIFTH FACTION" }
+      ]
+    },
+    {
+      step: "SCENARIO 03 // THE Ọ̀RUN RIFT",
+      title: "Third Mainland Bridge Pylon Membrane Rupture",
+      desc: "Water spirits threaten to breach into the physical highway at 3:15 AM. How is the gateway contained?",
+      options: [
+        { text: "Lead a frontline strike on the bridge deck to push the entities back.", faction: "resistance", tag: "+MUSHIN RESISTANCE" },
+        { text: "Deploy automated quarantine shields and sacrifice the outer pier.", faction: "pale-council", tag: "+PALE COUNCIL" },
+        { text: "Channel Ọ̀ṣun’s memory harmonic to pacify the spirits into alignment.", faction: "oracle", tag: "+ORACLE SEERS" }
+      ]
+    }
+  ];
+
+  var FACTION_RESULTS = {
+    'resistance': {
+      name: "THE MUSHIN RESISTANCE",
+      badge: "✦ FRONT-LINE SOVEREIGNTY ✦",
+      oath: "“We do not kneel to glass towers or antique councils. The Aṣẹ belongs to the people who bleed for it.”"
+    },
+    'pale-council': {
+      name: "THE PALE COUNCIL",
+      badge: "☽ ARCHITECTS OF ORDER ☽",
+      oath: "“Chaos is not freedom. Without calculated discipline, the Ọ̀run will swallow all of West Africa.”"
+    },
+    'oracle': {
+      name: "THE ORACLE NETWORK",
+      badge: "👁 DIGITAL SEERS & IFÁ CODERS 👁",
+      oath: "“The code was written three millennia ago. We do not fight the current; we compile it.”"
+    },
+    'syndicate': {
+      name: "THE EKO SYNDICATE",
+      badge: "◈ HIGH CAPITAL & LEVERAGE ◈",
+      oath: "“Every god has an exchange rate. We own the grid, the transit lines, and the tomorrow.”"
+    },
+    'fifth': {
+      name: "THE FIFTH FACTION",
+      badge: "🜏 SHADOW SOVEREIGNS 🜏",
+      oath: "“No banner. No records. No mercy. We operate in the blind spot where gods cannot see.”"
+    }
+  };
+
+  var simStep = 0;
+  var simScores = { resistance: 0, 'pale-council': 0, oracle: 0, syndicate: 0, fifth: 0 };
+
+  function renderSimStep() {
+    var stage = document.getElementById('simStage');
+    var resBox = document.getElementById('simResult');
+    if (!stage || !resBox) return;
+
+    if (simStep < SIM_SCENARIOS.length) {
+      stage.style.display = 'block';
+      resBox.style.display = 'none';
+      var s = SIM_SCENARIOS[simStep];
+      stage.innerHTML = '<div class="sim-scenario-box">' +
+        '<div class="sim-step-tag">' + s.step + '</div>' +
+        '<h3 class="sim-question-title">' + s.title + '</h3>' +
+        '<p class="sim-question-desc">' + s.desc + '</p>' +
+        '<div class="sim-options-list">' +
+          s.options.map(function(opt, idx) {
+            return '<button type="button" class="sim-opt-btn" onclick="selectSimOption(\'' + opt.faction + '\')">' +
+              '<span class="sim-opt-tag">' + opt.tag + '</span>' +
+              '<span>' + opt.text + '</span>' +
+            '</button>';
+          }).join('') +
+        '</div>' +
+      '</div>';
+    } else {
+      stage.style.display = 'none';
+      resBox.style.display = 'block';
+
+      // Pick top faction
+      var topFaction = 'resistance';
+      var maxPts = -1;
+      for (var f in simScores) {
+        if (simScores[f] > maxPts) {
+          maxPts = simScores[f];
+          topFaction = f;
+        }
+      }
+      var res = FACTION_RESULTS[topFaction];
+
+      resBox.innerHTML = '<div class="sim-result-card">' +
+        '<div class="sim-result-badge">' + res.badge + '</div>' +
+        '<h3 class="sim-result-name">' + res.name + '</h3>' +
+        '<p class="sim-result-oath">' + res.oath + '</p>' +
+        '<div style="display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem;">' +
+          '<button type="button" class="profile-btn-primary" onclick="openPaymentModal()">Claim Arc II ' + res.name + ' Dossier →</button>' +
+          '<button type="button" class="sim-restart-btn" onclick="restartSim()">Restart Simulation ↺</button>' +
+        '</div>' +
+      '</div>';
+
+      if (window.showToast) window.showToast('Faction Allegiance Established: ' + res.name, 'success', 3000);
+    }
+  }
+
+  window.selectSimOption = function(faction) {
+    if (simScores[faction] !== undefined) simScores[faction]++;
+    simStep++;
+    renderSimStep();
+    if (window.playHudSound) window.playHudSound('variant');
+  };
+
+  window.restartSim = function() {
+    simStep = 0;
+    simScores = { resistance: 0, 'pale-council': 0, oracle: 0, syndicate: 0, fifth: 0 };
+    renderSimStep();
+  };
+
+  // ══════════════════════════════════════════════════
+  // 4. THE Ọ̀RUN COUNCIL FORUM & THEORY VAULT
+  // ══════════════════════════════════════════════════
+  var CANON_THEORIES = [
+    {
+      author: "Catalyst Studio // Creator Log",
+      cat: "creator",
+      tag: "STUDIO LOG",
+      text: "The Ẹṣù crossroads sigil on the Danfo engine block on Page 14 is not decorative. In Yoruba cosmology, Ẹṣù governs the boundary between destiny and choice."
+    },
+    {
+      author: "Mushin_Operative_99",
+      cat: "lore",
+      tag: "ORISHA LORE",
+      text: "Notice that Bayo’s electrical aura is brass amber, never blue. In authentic mythology, Ṣàngó's sacred lightning is fire-brass, reflecting his royal staff (Oṣé Ṣàngó)."
+    },
+    {
+      author: "Eko_Hacker_Dossier",
+      cat: "arc2",
+      tag: "ARC II THEORY",
+      text: "The Pale Council isn't trying to close the Ọ̀run-Bleed; they are trying to siphon it into quantum battery banks beneath Eko Atlantic’s offshore towers."
+    },
+    {
+      author: "Art Direction // Studio Log",
+      cat: "creator",
+      tag: "ART BIBLE",
+      text: "The color temperature drops from 6500K overcast daylight to 2200K high-pressure sodium gold whenever Bayo begins channeling. Every panel adheres to strict emotional lighting."
+    },
+    {
+      author: "Iron_Preacher",
+      cat: "lore",
+      tag: "ORISHA LORE",
+      text: "The metal in the ground at Mushin retains memory of Ògún’s ancient anvil from 800 years ago. That is why Ikenna can manipulate iron structures without direct contact."
+    },
+    {
+      author: "Shadow_Walker_NG",
+      cat: "arc2",
+      tag: "ARC II THEORY",
+      text: "The hooded operative on Variant Cover #08 is Bayo’s missing elder brother who disappeared during the 2026 Balogun incident."
+    }
+  ];
+
+  var activeTheoryFilter = 'all';
+
+  function renderTheories() {
+    var grid = document.getElementById('councilGrid');
+    if (!grid) return;
+
+    // Load any locally submitted theories
+    var stored = [];
+    try {
+      stored = JSON.parse(localStorage.getItem('catalyst_user_theories') || '[]');
+    } catch(_) {}
+
+    var allList = stored.concat(CANON_THEORIES);
+    var filtered = allList.filter(function(item) {
+      if (activeTheoryFilter === 'all') return true;
+      return item.cat === activeTheoryFilter;
+    });
+
+    grid.innerHTML = filtered.map(function(t) {
+      return '<div class="council-card">' +
+        '<div class="council-card-meta">' +
+          '<span class="council-card-author">' + t.author + '</span>' +
+          '<span class="council-card-tag">' + (t.tag || 'COMMUNITY') + '</span>' +
+        '</div>' +
+        '<p class="council-card-text">' + t.text + '</p>' +
+      '</div>';
+    }).join('');
+  }
+
+  window.filterTheories = function(cat, btn) {
+    activeTheoryFilter = cat;
+    document.querySelectorAll('.council-tab').forEach(function(b){ b.classList.remove('active'); });
+    if (btn) btn.classList.add('active');
+    renderTheories();
+    if (window.playHudSound) window.playHudSound('click');
+  };
+
+  window.submitTheory = function(e) {
+    e.preventDefault();
+    var form = e.target;
+    var author = form.querySelector('input[name="author"]').value.trim();
+    var cat = form.querySelector('select[name="category"]').value;
+    var text = form.querySelector('textarea[name="theory"]').value.trim();
+
+    if (!author || !text) return;
+
+    var newEntry = {
+      author: author + ' ✦',
+      cat: cat,
+      tag: 'COMMUNITY VERIFIED',
+      text: text
+    };
+
+    var stored = [];
+    try {
+      stored = JSON.parse(localStorage.getItem('catalyst_user_theories') || '[]');
+    } catch(_) {}
+    stored.unshift(newEntry);
+    localStorage.setItem('catalyst_user_theories', JSON.stringify(stored));
+
+    form.reset();
+    renderTheories();
+    if (window.showToast) window.showToast('Thesis transmitted to the Ọ̀run Council!', 'success', 2500);
+    if (window.playHudSound) window.playHudSound('variant');
+  };
+
+  // Wire up on load
+  document.addEventListener('DOMContentLoaded', function() {
+    wireMapTelemetry();
+    renderSimStep();
+    renderTheories();
+  });
+})();
