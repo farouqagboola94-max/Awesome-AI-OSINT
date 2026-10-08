@@ -638,13 +638,37 @@
   }
 
   async function signInWithGoogle() {
-    if (!_sb) {
-      showToast('Google sign-in activates when Supabase is configured. Use email for now.', 'info');
-      return;
+    try {
+      if (!_sb && window.supabase) {
+        _initSupabase();
+      }
+      if (!_sb) {
+        showToast('Google OAuth is connecting to Supabase... Please try again in a moment.', 'info');
+        return;
+      }
+      showToast('Initiating Google sign-in...', 'info', 2000);
+      var r = await _sb.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: window.location.origin + '/'
+        }
+      });
+      if (r && r.error) {
+        console.error('Google OAuth error:', r.error);
+        showToast(r.error.message || 'Google authentication encountered an issue.', 'error');
+      }
+    } catch(err) {
+      console.error('Google sign-in exception:', err);
+      showToast(err.message || 'Google sign-in is currently unavailable.', 'error');
     }
-    var r = await _sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.href } });
-    if (r.error) showToast(r.error.message, 'error');
   }
+  window.signInWithGoogle = signInWithGoogle;
+  window.openAuthModal = openAuthModal;
+  window.closeAuthModal = closeAuthModal;
+  window.switchAuthTab = switchAuthTab;
+  window.handleSignUp = handleSignUp;
+  window.handleSignIn = handleSignIn;
+  window.handleForgotPassword = handleForgotPassword;
 
   async function handleForgotPassword(e) {
     e.preventDefault();
