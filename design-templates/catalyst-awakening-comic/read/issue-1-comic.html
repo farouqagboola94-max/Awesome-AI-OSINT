@@ -27,6 +27,9 @@
         <button type="button" class="theme-btn" data-theme="sepia" onclick="setReaderTheme('sepia')">SEPIA</button>
       </div>
       <div class="view-toggles" role="group" aria-label="View options">
+        <button type="button" class="theme-btn" id="bm-toggle" onclick="togglePageBookmark()" title="Bookmark current page">🔖 BOOKMARK</button>
+        <button type="button" class="theme-btn" id="bm-list-toggle" onclick="toggleBookmarksDrawer()" title="View saved bookmarks">📚 SAVED (<span id="bm-count">0</span>)</button>
+        <button type="button" class="theme-btn" id="note-toggle" onclick="openNoteDialog()" title="Add note to page">📝 NOTE</button>
         <button type="button" class="theme-btn" id="fs-toggle" onclick="toggleComicFullscreen()" title="Toggle Fullscreen">⛶ FULLSCREEN</button>
       </div>
     </div>
@@ -38,6 +41,32 @@
     <nav class="comic-nav comic-nav-bottom" aria-label="More comic pages"><button id="prev-bottom" type="button">← Previous</button><span id="progress">01 / 88</span><button id="next-bottom" type="button">Next →</button></nav>
     <p class="comic-status" id="status" role="status">Loading the private reader…</p>
     <footer class="release-footer"><a href="./issue-1-book">Story book</a><a href="./issue-2">Next issue →</a></footer>
+      <!-- ── BOOKMARKS & FIELD NOTES DRAWER ── -->
+    <div id="bm-drawer" class="bm-drawer" role="dialog" aria-modal="true" aria-label="Saved Bookmarks and Field Notes" hidden>
+      <div class="bm-drawer-content">
+        <div class="bm-drawer-header">
+          <h3>ORACLE FIELD ARCHIVES &amp; BOOKMARKS</h3>
+          <button type="button" class="theme-btn" onclick="toggleBookmarksDrawer()" aria-label="Close drawer">✕ CLOSE</button>
+        </div>
+        <div id="bm-list" class="bm-list-grid"></div>
+        <div class="bm-drawer-footer">
+          <button type="button" class="theme-btn" onclick="clearAllBookmarks()">CLEAR ALL BOOKMARKS</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── NOTE MODAL DIALOG ── -->
+    <div id="note-modal" class="note-modal" role="dialog" aria-modal="true" aria-label="Add Field Note" hidden>
+      <div class="note-modal-content">
+        <h3 id="note-title">FIELD NOTE · PAGE</h3>
+        <textarea id="note-text" placeholder="Record your observations, secret Ifá cues, or notes on this page..." rows="5"></textarea>
+        <div class="note-modal-actions">
+          <button type="button" class="theme-btn" onclick="closeNoteDialog()">CANCEL</button>
+          <button type="button" class="theme-btn active" onclick="savePageNote()">SAVE NOTE</button>
+        </div>
+      </div>
+    </div>
+
   </main>
   <script>
   (() => {
@@ -63,6 +92,7 @@
       document.getElementById('scene-label').textContent = `SCENE ${String(page.scene).padStart(2, '0')} · ${page.title}`;
       document.getElementById('progress').textContent = `${String(current).padStart(2, '0')} / 88`;
       select.value = String(current);
+      updateBookmarkUI();
       cues.replaceChildren();
       for (const cue of page.cues) {
         if (!cue.text.trim()) continue;
@@ -83,6 +113,136 @@
     for (const id of ['prev','prev-bottom']) document.getElementById(id).addEventListener('click', () => show(current - 1));
     for (const id of ['next','next-bottom']) document.getElementById(id).addEventListener('click', () => show(current + 1));
     select.addEventListener('change', () => show(Number(select.value)));
+    
+    /* ── BOOKMARK & FIELD NOTE ENGINE ── */
+    const STORAGE_KEY_BM = 'catalyst_bookmarks_i1';
+    const STORAGE_KEY_NOTES = 'catalyst_notes_i1';
+
+    function getBookmarks() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY_BM)) || []; } catch(e) { return []; }
+    }
+    function saveBookmarks(arr) {
+      try { localStorage.setItem(STORAGE_KEY_BM, JSON.stringify(arr)); } catch(e) {}
+      updateBookmarkUI();
+    }
+    function getNotes() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY_NOTES)) || {}; } catch(e) { return {}; }
+    }
+    function saveNotes(obj) {
+      try { localStorage.setItem(STORAGE_KEY_NOTES, JSON.stringify(obj)); } catch(e) {}
+    }
+
+    function updateBookmarkUI() {
+      const bms = getBookmarks();
+      const countEl = document.getElementById('bm-count');
+      if (countEl) countEl.textContent = String(bms.length);
+
+      const isCurrentBm = bms.includes(current);
+      const bmToggle = document.getElementById('bm-toggle');
+      if (bmToggle) {
+        bmToggle.classList.toggle('active', isCurrentBm);
+        bmToggle.textContent = isCurrentBm ? '★ BOOKMARKED' : '🔖 BOOKMARK';
+      }
+    }
+
+    window.togglePageBookmark = function() {
+      let bms = getBookmarks();
+      if (bms.includes(current)) {
+        bms = bms.filter(p => p !== current);
+      } else {
+        bms.push(current);
+        bms.sort((a,b) => a - b);
+      }
+      saveBookmarks(bms);
+    };
+
+    window.toggleBookmarksDrawer = function() {
+      const drawer = document.getElementById('bm-drawer');
+      if (!drawer) return;
+      const isOpen = !drawer.hidden;
+      drawer.hidden = isOpen;
+      if (!isOpen) renderBookmarksList();
+    };
+
+    function renderBookmarksList() {
+      const listEl = document.getElementById('bm-list');
+      if (!listEl) return;
+      const bms = getBookmarks();
+      const notes = getNotes();
+      if (!bms.length) {
+        listEl.innerHTML = '<p style="color:var(--muted);text-align:center;grid-column:1/-1;padding:2rem;">No bookmarks saved yet. Click "🔖 BOOKMARK" on any page.</p>';
+        return;
+      }
+      listEl.innerHTML = bms.map(p => {
+        const pageData = pages[p - 1] || {};
+        const note = notes[p] || '';
+        return `<div class="bm-card">
+          <div class="bm-card-top">
+            <strong>PAGE ${String(p).padStart(2,'0')}</strong>
+            <span class="bm-scene-title">${pageData.title || ''}</span>
+          </div>
+          ${note ? `<div class="bm-card-note"><em>“${note}”</em></div>` : ''}
+          <div class="bm-card-actions">
+            <button type="button" class="theme-btn active" onclick="show(${p}); toggleBookmarksDrawer();">GOTO PAGE</button>
+            <button type="button" class="theme-btn" onclick="removeBookmark(${p})">REMOVE</button>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    window.removeBookmark = function(p) {
+      let bms = getBookmarks().filter(n => n !== p);
+      saveBookmarks(bms);
+      renderBookmarksList();
+    };
+
+    window.clearAllBookmarks = function() {
+      if (confirm('Clear all bookmarks and notes for Issue 01?')) {
+        saveBookmarks([]);
+        localStorage.removeItem(STORAGE_KEY_NOTES);
+        renderBookmarksList();
+      }
+    };
+
+    window.openNoteDialog = function() {
+      const modal = document.getElementById('note-modal');
+      const title = document.getElementById('note-title');
+      const textarea = document.getElementById('note-text');
+      if (!modal || !title || !textarea) return;
+      title.textContent = `FIELD NOTE · PAGE ${String(current).padStart(2,'0')}`;
+      const notes = getNotes();
+      textarea.value = notes[current] || '';
+      modal.hidden = false;
+      textarea.focus();
+    };
+
+    window.closeNoteDialog = function() {
+      const modal = document.getElementById('note-modal');
+      if (modal) modal.hidden = true;
+    };
+
+    window.savePageNote = function() {
+      const textarea = document.getElementById('note-text');
+      if (!textarea) return;
+      const val = textarea.value.trim();
+      const notes = getNotes();
+      if (val) {
+        notes[current] = val;
+        // Automatically bookmark page if note is added
+        let bms = getBookmarks();
+        if (!bms.includes(current)) {
+          bms.push(current);
+          bms.sort((a,b) => a - b);
+          saveBookmarks(bms);
+        }
+      } else {
+        delete notes[current];
+      }
+      saveNotes(notes);
+      closeNoteDialog();
+      updateBookmarkUI();
+    };
+
     window.setReaderTheme = function(mode) {
       document.body.classList.remove('theme-oled', 'theme-sepia');
       if (mode === 'oled') document.body.classList.add('theme-oled');
