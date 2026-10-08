@@ -7527,3 +7527,139 @@ var TC_ENDINGS = {
     renderSkills();
   }
 })();
+
+/* ── AFROFUTURIST HUD LIGHTBOX & ARTWORK INSPECTOR CONTROLLER ── */
+(function() {
+  var activeArtData = null;
+
+  var VARIANT_NAMES = [
+    "1. Canon Master",
+    "2. Lagos Noir Ink",
+    "3. Aṣẹ Surge Flare",
+    "4. Concept Pencil"
+  ];
+
+  window.openHudLightbox = function(data) {
+    activeArtData = data;
+    var backdrop = document.getElementById('hudLightboxBackdrop');
+    if (!backdrop) return;
+
+    // Populate data
+    var catBadge = document.getElementById('hudCategoryBadge');
+    var artCode = document.getElementById('hudArtCode');
+    var artTitle = document.getElementById('hudArtTitle');
+    var artDesc = document.getElementById('hudArtDesc');
+    var fallbackIcon = document.getElementById('hudFallbackIcon');
+    var fallbackLabel = document.getElementById('hudFallbackLabel');
+    var previewImg = document.getElementById('hudPreviewImg');
+    var fallbackBox = document.getElementById('hudFallbackBox');
+    var canvaBtn = document.getElementById('hudCanvaExternalBtn');
+
+    if (catBadge) catBadge.textContent = (data.category || 'CANON ARCHIVE').toUpperCase() + ' // TELEMETRY SPEC';
+    if (artCode) artCode.textContent = data.code || 'SPEC #01';
+    if (artTitle) artTitle.textContent = data.title || 'Untitled Artwork';
+    if (artDesc) artDesc.textContent = data.desc || 'High-fidelity Afrofuturist vector asset crafted for the Catalyst universe.';
+    if (fallbackIcon) fallbackIcon.textContent = data.icon || '✦';
+    if (fallbackLabel) fallbackLabel.textContent = (data.code || 'SPECIFICATION') + ' // 4 CANON VARIANTS';
+
+    if (data.imgSrc) {
+      if (previewImg) {
+        previewImg.src = data.imgSrc;
+        previewImg.alt = data.title || 'Artwork';
+        previewImg.style.display = 'block';
+      }
+      if (fallbackBox) fallbackBox.style.display = 'none';
+    } else {
+      if (previewImg) previewImg.style.display = 'none';
+      if (fallbackBox) fallbackBox.style.display = 'flex';
+    }
+
+    if (canvaBtn) {
+      canvaBtn.href = data.canvaUrl || '#';
+    }
+
+    // Reset variant pills
+    var pills = document.querySelectorAll('.hud-variant-pill');
+    pills.forEach(function(p, idx) {
+      if (idx === 0) p.classList.add('active');
+      else p.classList.remove('active');
+    });
+
+    backdrop.classList.add('is-open');
+    backdrop.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeHudLightbox = function() {
+    var backdrop = document.getElementById('hudLightboxBackdrop');
+    if (!backdrop) return;
+    backdrop.classList.remove('is-open');
+    backdrop.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  };
+
+  window.switchHudVariant = function(idx, btn) {
+    document.querySelectorAll('.hud-variant-pill').forEach(function(b){ b.classList.remove('active'); });
+    if (btn) btn.classList.add('active');
+
+    var fallbackLabel = document.getElementById('hudFallbackLabel');
+    if (fallbackLabel && activeArtData) {
+      fallbackLabel.textContent = (activeArtData.code || 'SPEC') + ' // ' + VARIANT_NAMES[idx].toUpperCase();
+    }
+    if (window.showToast) {
+      window.showToast('Variant switched: ' + VARIANT_NAMES[idx], 'info', 1800);
+    }
+  };
+
+  window.copyHudArtDetails = function() {
+    if (!activeArtData) return;
+    var info = activeArtData.code + ': ' + activeArtData.title + ' (' + (activeArtData.canvaUrl || '') + ')';
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(info).then(function() {
+        if (window.showToast) window.showToast('Copied artwork identifier to clipboard.', 'success');
+      });
+    }
+  };
+
+  // Close lightbox on backdrop click or Escape
+  document.addEventListener('DOMContentLoaded', function() {
+    var backdrop = document.getElementById('hudLightboxBackdrop');
+    if (backdrop) {
+      backdrop.addEventListener('click', function(e) {
+        if (e.target === backdrop) closeHudLightbox();
+      });
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeHudLightbox();
+    });
+
+    // Intercept .ag-card clicks across the 50 artworks gallery to open HUD Lightbox instead of jarring page redirect
+    document.querySelectorAll('#artwork-gallery .ag-card').forEach(function(card) {
+      card.addEventListener('click', function(e) {
+        e.preventDefault();
+        var numEl = card.querySelector('.ag-card-num');
+        var titleEl = card.querySelector('.ag-card-title');
+        var iconEl = card.querySelector('.ag-card-preview');
+        var catHeader = card.closest('.ag-category');
+        var catTitle = catHeader ? catHeader.querySelector('.ag-cat-title') : null;
+
+        var code = numEl ? numEl.textContent.trim() : 'SPEC #01';
+        var title = titleEl ? titleEl.textContent.trim() : 'Artwork';
+        var icon = iconEl ? iconEl.textContent.trim() : '✦';
+        var category = catTitle ? catTitle.textContent.trim() : 'Archive Concept';
+        var canvaUrl = card.getAttribute('href');
+
+        openHudLightbox({
+          code: code,
+          title: title,
+          icon: icon,
+          category: category,
+          canvaUrl: canvaUrl,
+          desc: 'Canonical ' + category + ' render for Catalyst: The Awakening. Contains 4 production variants (Master, Lagos Noir, Aṣẹ Flare, and Concept Pencil).'
+        });
+      });
+    });
+  });
+})();
+

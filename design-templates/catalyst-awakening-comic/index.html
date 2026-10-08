@@ -2903,6 +2903,48 @@
 
 </section>
 
+<!-- ============================================================ AFROFUTURIST HUD LIGHTBOX -->
+<div class="hud-modal-backdrop" id="hudLightboxBackdrop" aria-hidden="true" role="dialog" aria-label="Artwork Inspector">
+  <div class="hud-modal-container" id="hudLightboxContainer">
+    <button class="hud-close-btn" type="button" onclick="closeHudLightbox()" aria-label="Close Inspector">✕</button>
+    <div class="hud-corner-bracket hud-corner-tl"></div>
+    <div class="hud-corner-bracket hud-corner-tr"></div>
+    <div class="hud-corner-bracket hud-corner-bl"></div>
+    <div class="hud-corner-bracket hud-corner-br"></div>
+
+    <div class="hud-preview-pane">
+      <div class="hud-preview-fallback" id="hudFallbackBox">
+        <div class="hud-fallback-icon" id="hudFallbackIcon">✦</div>
+        <p style="font-family:'Space Grotesk',monospace;font-size:0.75rem;letter-spacing:0.15em;color:#F4B800;margin:0 0 0.5rem;" id="hudFallbackLabel">ARCHIVE RENDERING</p>
+        <p style="font-size:0.8rem;color:rgba(240,237,229,0.6);max-width:280px;line-height:1.5;" id="hudFallbackSub">Afrofuturist High-DPI Vector Specification</p>
+      </div>
+      <img src="" alt="" class="hud-preview-img" id="hudPreviewImg" style="display:none;" />
+    </div>
+
+    <div class="hud-info-pane">
+      <div>
+        <span class="hud-telemetry-badge" id="hudCategoryBadge">ORACLE TELEMETRY // CANON SPEC</span>
+        <div class="hud-art-code" id="hudArtCode">SPEC #01</div>
+        <h3 class="hud-art-title" id="hudArtTitle">Artwork Title</h3>
+        <p class="hud-art-desc" id="hudArtDesc">Atmospheric Afrofuturist illustration rendered with Aṣẹ elemental depth, Lagos Noir lighting contrast, and high-frequency vector detail.</p>
+
+        <div class="hud-variants-label">Active Variant (Click to Switch):</div>
+        <div class="hud-variants-pills" id="hudVariantsContainer">
+          <button type="button" class="hud-variant-pill active" onclick="switchHudVariant(0, this)">1. Canon Master</button>
+          <button type="button" class="hud-variant-pill" onclick="switchHudVariant(1, this)">2. Lagos Noir Ink</button>
+          <button type="button" class="hud-variant-pill" onclick="switchHudVariant(2, this)">3. Aṣẹ Surge Flare</button>
+          <button type="button" class="hud-variant-pill" onclick="switchHudVariant(3, this)">4. Concept Pencil</button>
+        </div>
+      </div>
+
+      <div class="hud-actions-row">
+        <a href="#" target="_blank" rel="noopener" class="hud-canva-btn" id="hudCanvaExternalBtn">Open in Canva Studio ↗</a>
+        <button type="button" class="hud-download-btn" onclick="copyHudArtDetails()">Copy Identifier</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ============================================================ DARK ASSEMBLY — VILLAINS -->
 <!-- ════ WANTED BOUNTY BOARD ════ -->
 

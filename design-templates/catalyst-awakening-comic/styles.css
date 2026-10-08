@@ -9966,3 +9966,223 @@ mark.fn-hl.fn-flash { animation: fn-flash 1.6s ease-in-out 1; }
   background: rgba(244, 184, 0, 0.08);
 }
 
+/* ── AFROFUTURIST HUD LIGHTBOX & ARTWORK INSPECTOR ─────────── */
+.hud-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(4, 4, 10, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 99999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hud-modal-backdrop.is-open {
+  display: flex;
+  opacity: 1;
+}
+.hud-modal-container {
+  width: 100%;
+  max-width: 1120px;
+  max-height: 90vh;
+  background: rgba(10, 13, 24, 0.96);
+  border: 1px solid rgba(244, 184, 0, 0.35);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(244, 184, 0, 0.15);
+  clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  overflow: hidden;
+  position: relative;
+}
+@media (max-width: 900px) {
+  .hud-modal-container {
+    grid-template-columns: 1fr;
+    max-height: 94vh;
+    overflow-y: auto;
+  }
+}
+.hud-preview-pane {
+  background: #05060c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem;
+  position: relative;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  min-height: 380px;
+}
+.hud-preview-img {
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+  transition: transform 0.3s ease;
+}
+.hud-preview-fallback {
+  width: 100%;
+  height: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, rgba(244, 184, 0, 0.12) 0%, rgba(6, 6, 13, 0.95) 80%);
+  border: 1px dashed rgba(244, 184, 0, 0.3);
+  border-radius: 4px;
+  padding: 2rem;
+  text-align: center;
+  box-sizing: border-box;
+}
+.hud-fallback-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+}
+.hud-corner-bracket {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: #F4B800;
+  pointer-events: none;
+}
+.hud-corner-tl { top: 12px; left: 12px; border-top: 2px solid #F4B800; border-left: 2px solid #F4B800; }
+.hud-corner-tr { top: 12px; right: 12px; border-top: 2px solid #F4B800; border-right: 2px solid #F4B800; }
+.hud-corner-bl { bottom: 12px; left: 12px; border-bottom: 2px solid #F4B800; border-left: 2px solid #F4B800; }
+.hud-corner-br { bottom: 12px; right: 12px; border-bottom: 2px solid #F4B800; border-right: 2px solid #F4B800; }
+
+.hud-info-pane {
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: rgba(12, 16, 28, 0.95);
+  box-sizing: border-box;
+}
+.hud-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  background: transparent;
+  border: none;
+  color: rgba(240, 237, 229, 0.5);
+  font-size: 1.6rem;
+  cursor: pointer;
+  z-index: 10;
+  transition: color 0.2s;
+}
+.hud-close-btn:hover { color: #F4B800; }
+
+.hud-telemetry-badge {
+  display: inline-block;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  color: #00C9B1;
+  background: rgba(0, 201, 177, 0.1);
+  border: 1px solid rgba(0, 201, 177, 0.3);
+  padding: 0.25rem 0.65rem;
+  border-radius: 2px;
+  margin-bottom: 0.8rem;
+}
+.hud-art-code {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.78rem;
+  color: #F4B800;
+  letter-spacing: 0.15em;
+  margin-bottom: 0.4rem;
+}
+.hud-art-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #F0EDE5;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+.hud-art-desc {
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: rgba(240, 237, 229, 0.7);
+  margin-bottom: 1.8rem;
+}
+.hud-variants-label {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: rgba(240, 237, 229, 0.5);
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+.hud-variants-pills {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+.hud-variant-pill {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(240, 237, 229, 0.8);
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.72rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.hud-variant-pill:hover, .hud-variant-pill.active {
+  background: rgba(244, 184, 0, 0.18);
+  border-color: #F4B800;
+  color: #F4B800;
+}
+.hud-actions-row {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.hud-canva-btn {
+  background: rgba(0, 201, 177, 0.15);
+  border: 1px solid #00C9B1;
+  color: #00C9B1;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.7rem 1.4rem;
+  border-radius: 3px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.hud-canva-btn:hover {
+  background: #00C9B1;
+  color: #06060d;
+}
+.hud-download-btn {
+  background: transparent;
+  border: 1px solid rgba(240, 237, 229, 0.2);
+  color: #F0EDE5;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.78rem;
+  padding: 0.7rem 1.1rem;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.hud-download-btn:hover {
+  border-color: #F4B800;
+  color: #F4B800;
+}
+
+
