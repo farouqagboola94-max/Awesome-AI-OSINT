@@ -7296,3 +7296,184 @@ var TC_ENDINGS = {
     }
   });
 })();
+
+
+/* ── CATALYST OS MASTER SKILLS ENGINE ──────────────────────── */
+(function() {
+  var CATALYST_SKILLS_DATA = [
+    {
+      name: "impeccable",
+      cat: "design",
+      source: "Antigravity",
+      srcCls: "rgba(192,132,252,0.15);color:#C084FC",
+      desc: "The last filter before your UI ships. Catches squished spacing, ugly gradients, misaligned elements, and broken visual hierarchy.",
+      caps: ["Design linting", "Spacing audit", "Hierarchy checks", "Pre-ship review"],
+      install: "npx impeccable init"
+    },
+    {
+      name: "huashu-design",
+      cat: "design",
+      source: "Antigravity",
+      srcCls: "rgba(76,168,160,0.15);color:#4CA8A0",
+      desc: "20 design philosophies across 5 schools. 7 output formats including prototype, slides, and mp4. 5-dimension expert review system.",
+      caps: ["20 philosophies", "7 output formats", "5D review", "MIT licensed"],
+      install: "npx skills add huashu-design"
+    },
+    {
+      name: "ui-ux-pro-max",
+      cat: "design",
+      source: "Antigravity",
+      srcCls: "rgba(123,111,232,0.15);color:#7B6FE8",
+      desc: "Searchable design intelligence with 57 UI styles, 95 color palettes, 56 font pairings, and 29 landing patterns.",
+      caps: ["57 UI styles", "95 palettes", "56 font pairings", "Landing patterns"],
+      install: "uipro init --ai claude"
+    },
+    {
+      name: "beautiful-prose",
+      cat: "content",
+      source: "VoltAgent",
+      srcCls: "rgba(52,211,153,0.15);color:#34D399",
+      desc: "Hard-edged writing style contract for timeless, forceful English prose without modern AI clichés or fluff.",
+      caps: ["Anti-cliché", "Voice calibration", "Narrative punch", "Style contract"],
+      install: "npx skills add beautiful_prose"
+    },
+    {
+      name: "mcp-builder",
+      cat: "automation",
+      source: "Anthropic",
+      srcCls: "rgba(255,107,53,0.15);color:#FF6B35",
+      desc: "Official guide and scaffold for creating high-performance Model Context Protocol (MCP) servers for LLM agent tools.",
+      caps: ["MCP protocol", "Tool schemas", "JSON-RPC", "Agent connectivity"],
+      install: "npx skills add mcp-builder"
+    },
+    {
+      name: "007-security-auditor",
+      cat: "security",
+      source: "Antigravity",
+      srcCls: "rgba(239,68,68,0.15);color:#EF4444",
+      desc: "Security audit, hardening, threat modeling (STRIDE/PASTA), Red/Blue Team simulations, and OWASP vulnerability scans.",
+      caps: ["OWASP top 10", "Threat modeling", "Red/Blue team", "Code hardening"],
+      install: "npx skills add 007-security"
+    },
+    {
+      name: "agent-orchestrator",
+      cat: "automation",
+      source: "Antigravity",
+      srcCls: "rgba(192,132,252,0.15);color:#C084FC",
+      desc: "Meta-skill coordinating multi-agent swarms. Automatic skill scanning, capability matching, and workload distribution.",
+      caps: ["Swarm management", "Workload routing", "Cost optimization", "Subagents"],
+      install: "npx skills add agent-orchestrator"
+    },
+    {
+      name: "blueprint-planner",
+      cat: "planning",
+      source: "Antigravity",
+      srcCls: "rgba(244,184,0,0.15);color:#F4B800",
+      desc: "Turns a one-line objective into a step-by-step construction blueprint and atomic checklist any coding agent can execute.",
+      caps: ["Atomic breakdown", "Dependency graph", "Verification tests", "Task checklist"],
+      install: "npx skills add blueprint"
+    },
+    {
+      name: "avoid-ai-writing",
+      cat: "content",
+      source: "Antigravity",
+      srcCls: "rgba(52,211,153,0.15);color:#34D399",
+      desc: "Audit and rewrite content to eliminate 21 categories of machine-generated writing tics with verified replacements.",
+      caps: ["Style auditing", "Pattern matching", "Tone calibration", "Authentic voice"],
+      install: "npx skills add avoid-ai-writing"
+    },
+    {
+      name: "3d-web-experience",
+      cat: "design",
+      source: "Antigravity",
+      srcCls: "rgba(123,111,232,0.15);color:#7B6FE8",
+      desc: "Expert patterns for Three.js, React Three Fiber, WebGL, shaders, and spatial interactive canvases.",
+      caps: ["Three.js", "WebGL shaders", "Camera rigs", "60fps render loops"],
+      install: "npx skills add 3d-web-experience"
+    },
+    {
+      name: "auth-patterns",
+      cat: "security",
+      source: "Antigravity",
+      srcCls: "rgba(239,68,68,0.15);color:#EF4444",
+      desc: "Build secure, scalable authentication and authorization systems with Supabase, JWT, and session encryption.",
+      caps: ["Zero trust", "RBAC policies", "Session security", "Token refresh"],
+      install: "npx skills add auth-patterns"
+    },
+    {
+      name: "closed-loop-delivery",
+      cat: "planning",
+      source: "Antigravity",
+      srcCls: "rgba(244,184,0,0.15);color:#F4B800",
+      desc: "Executes coding tasks against explicit acceptance criteria with zero user intervention and automated verification gates.",
+      caps: ["Autonomous loop", "TDD flow", "Static validation", "Auto-delivery"],
+      install: "npx skills add closed-loop-delivery"
+    }
+  ];
+
+  var currentCat = 'all';
+  var currentSearch = '';
+
+  function renderSkills() {
+    var grid = document.getElementById('skillsGrid');
+    if (!grid) return;
+
+    var filtered = CATALYST_SKILLS_DATA.filter(function(s) {
+      var matchCat = (currentCat === 'all' || s.cat === currentCat);
+      var q = currentSearch.toLowerCase();
+      var matchSearch = !q || s.name.toLowerCase().indexOf(q) !== -1 || s.desc.toLowerCase().indexOf(q) !== -1 || s.caps.some(function(c){return c.toLowerCase().indexOf(q) !== -1;});
+      return matchCat && matchSearch;
+    });
+
+    if (!filtered.length) {
+      grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:3rem;color:rgba(240,237,229,0.5);">No matching neural skills located in current query filter.</p>';
+      return;
+    }
+
+    grid.innerHTML = filtered.map(function(s) {
+      return '<div class="skill-card">' +
+        '<div>' +
+          '<div class="skill-card-header">' +
+            '<div class="skill-card-name">' + s.name + '</div>' +
+            '<span class="skill-card-source" style="background:' + s.srcCls + '">' + s.source + '</span>' +
+          '</div>' +
+          '<div class="skill-card-desc">' + s.desc + '</div>' +
+          '<div class="skill-card-caps">' +
+            s.caps.map(function(c){ return '<span class="skill-cap-tag">' + c + '</span>'; }).join('') +
+          '</div>' +
+        '</div>' +
+        '<div class="skill-card-footer">' +
+          '<span class="skill-card-category">' + s.cat + '</span>' +
+          '<button type="button" class="skill-card-btn" onclick="copySkillCommand('' + s.install + '')">COPY CLI</button>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  window.filterSkillsCategory = function(cat, btn) {
+    currentCat = cat;
+    document.querySelectorAll('.skills-cat-btn').forEach(function(b){ b.classList.remove('active'); });
+    if (btn) btn.classList.add('active');
+    renderSkills();
+  };
+
+  window.handleSkillsSearch = function(val) {
+    currentSearch = val;
+    renderSkills();
+  };
+
+  window.copySkillCommand = function(cmd) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(cmd).then(function() {
+        if (window.showToast) window.showToast('Copied: ' + cmd, 'success', 2500);
+      }).catch(function(){});
+    }
+  };
+
+  // Wire up on load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderSkills);
+  } else {
+    renderSkills();
+  }
+})();

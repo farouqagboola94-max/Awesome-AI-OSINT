@@ -378,6 +378,7 @@
     <li><a href="#the-choice">The Choice</a></li>
     <li><a href="#clearance">Clearance</a></li>
     <li><a href="#architects-vault">Vault</a></li>
+    <li><a href="#catalyst-os">Catalyst OS</a></li>
     <li><a href="#access" class="nav-cta">Subscribe</a></li>
   </ul>
   <div style="display:flex;align-items:center;gap:0.8rem;">
@@ -5865,6 +5866,43 @@
 <div class="energy-beam-divider" aria-hidden="true"></div>
 
 <!-- ============================================================ ACCESS / FREEMIUM -->
+
+<!-- ============================================================ CATALYST OS SKILLS REGISTRY -->
+<section id="catalyst-os">
+  <div class="skills-hub-wrap reveal">
+    <div class="skills-hub-header">
+      <div class="skills-badge">⚡ CATALYST OS · MASTER SKILLS MATRIX</div>
+      <h2 class="section-title">THE CATALYST OS<br><em>NEURAL SKILLS REGISTRY</em></h2>
+      <p class="skills-hub-desc">
+        Derived from the master intelligence library of <strong>2,393 autonomous agent skills</strong> across Anthropic, Antigravity, VoltAgent, and Claude systems. Explore the operational engines powering the Catalyst universe—from Impeccable UI linters and Huashu design to autonomous Aṣẹ diviners and automated cybersecurity scanners.
+      </p>
+    </div>
+
+    <!-- Category Filters -->
+    <div class="skills-cat-tabs" role="tablist">
+      <button type="button" class="skills-cat-btn active" onclick="filterSkillsCategory('all', this)">⚡ ALL (2,393)</button>
+      <button type="button" class="skills-cat-btn" onclick="filterSkillsCategory('design', this)">🎨 DESIGN &amp; UI (62)</button>
+      <button type="button" class="skills-cat-btn" onclick="filterSkillsCategory('content', this)">✍️ CONTENT &amp; STORY (54)</button>
+      <button type="button" class="skills-cat-btn" onclick="filterSkillsCategory('automation', this)">🤖 AGENT AUTOMATION (166)</button>
+      <button type="button" class="skills-cat-btn" onclick="filterSkillsCategory('security', this)">🔐 SECURITY &amp; AUDIT (73)</button>
+      <button type="button" class="skills-cat-btn" onclick="filterSkillsCategory('planning', this)">⚙️ STRATEGIC PLANNING (78)</button>
+    </div>
+
+    <!-- Search Input -->
+    <div class="skills-search-wrap">
+      <input type="text" id="skillsSearchInput" class="skills-search-input" placeholder="Search 2,393 skills by name, capability, or source (e.g. impeccable, huashu, 3d, figma)..." oninput="handleSkillsSearch(this.value)" aria-label="Search Catalyst OS skills">
+    </div>
+
+    <!-- Skills Grid -->
+    <div class="skills-grid" id="skillsGrid">
+      <!-- Populated via script.js -->
+    </div>
+
+    <div class="skills-footer-note">
+      <p>◈ Built to <strong>Catalyst OS Standard</strong>. Synchronized with the master Google Drive skill repository.</p>
+    </div>
+  </div>
+</section>
 
 <section id="access">
   <div class="access-header">
