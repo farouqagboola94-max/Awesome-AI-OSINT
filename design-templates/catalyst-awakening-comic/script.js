@@ -7644,11 +7644,12 @@ var TC_ENDINGS = {
         var catHeader = card.closest('.ag-category');
         var catTitle = catHeader ? catHeader.querySelector('.ag-cat-title') : null;
 
-        var code = numEl ? numEl.textContent.trim() : 'SPEC #01';
+        var code = card.getAttribute('data-code') || (numEl ? numEl.textContent.trim() : 'SPEC #01');
         var title = titleEl ? titleEl.textContent.trim() : 'Artwork';
         var icon = iconEl ? iconEl.textContent.trim() : '✦';
         var category = catTitle ? catTitle.textContent.trim() : 'Archive Concept';
         var canvaUrl = card.getAttribute('href');
+        var imgSrc = card.getAttribute('data-img') || '';
 
         openHudLightbox({
           code: code,
@@ -7656,6 +7657,7 @@ var TC_ENDINGS = {
           icon: icon,
           category: category,
           canvaUrl: canvaUrl,
+          imgSrc: imgSrc,
           desc: 'Canonical ' + category + ' render for Catalyst: The Awakening. Contains 4 production variants (Master, Lagos Noir, Aṣẹ Flare, and Concept Pencil).'
         });
       });

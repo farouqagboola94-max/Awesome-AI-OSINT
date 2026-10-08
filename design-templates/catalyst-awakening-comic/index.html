@@ -2601,15 +2601,20 @@
     .ag-cat-dot { width:8px;height:8px;border-radius:50%;flex-shrink:0 }
     .ag-cat-title { font-family:'Oswald',sans-serif; /* was 'Cinzel Decorative' — never self-hosted, so these headers silently rendered as Times. Oswald is the site's label face and is already loaded. */font-size:0.8rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase }
     .ag-cat-count { margin-left:auto;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.04);padding:0.2rem 0.55rem;border-radius:4px;border:1px solid rgba(255,255,255,0.08) }
-    .ag-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem }
-    .ag-card { display:block;background:#0e0e17;border:1px solid rgba(255,255,255,0.07);border-radius:8px;overflow:hidden;text-decoration:none;color:inherit;transition:border-color .2s,transform .2s }
-    .ag-card:hover { border-color:rgba(244,184,0,0.5);transform:translateY(-3px) }
-    .ag-card-preview { height:140px;display:flex;align-items:center;justify-content:center;font-size:2.2rem;position:relative }
-    .ag-card-body { padding:0.8rem }
-    .ag-card-num { font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:0.25rem }
-    .ag-card-title { font-size:0.82rem;font-weight:600;color:rgba(240,237,229,0.88);line-height:1.3;margin-bottom:0.55rem }
-    .ag-card-cta { font-size:0.7rem;color:#00C9B1;letter-spacing:0.05em }
-    @media(max-width:600px){ .ag-grid{grid-template-columns:repeat(2,1fr)} }
+    .ag-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1.2rem }
+    .ag-card { display:block;background:#0a0c16;border:1px solid rgba(244,184,0,0.18);border-radius:6px;overflow:hidden;text-decoration:none;color:inherit;transition:all 0.35s cubic-bezier(0.16,1,0.3,1);position:relative;cursor:pointer }
+    .ag-card:hover { border-color:#F4B800;transform:translateY(-5px);box-shadow:0 12px 30px rgba(0,0,0,0.8),0 0 20px rgba(244,184,0,0.2) }
+    .ag-card-preview { height:160px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:#05060b }
+    .ag-card-thumb { width:100%;height:100%;object-fit:cover;transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);display:block }
+    .ag-card:hover .ag-card-thumb { transform:scale(1.08) }
+    .ag-card-badge { position:absolute;top:8px;left:8px;background:rgba(6,6,13,0.85);backdrop-filter:blur(4px);border:1px solid rgba(244,184,0,0.4);color:#F4B800;font-family:'Space Grotesk',monospace;font-size:0.6rem;letter-spacing:0.12em;padding:0.2rem 0.5rem;border-radius:2px;z-index:2 }
+    .ag-card-scanline { position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(180deg,transparent 60%,rgba(244,184,0,0.1) 100%);pointer-events:none;z-index:1 }
+    .ag-card-body { padding:0.9rem;background:rgba(10,13,24,0.95);border-top:1px solid rgba(255,255,255,0.06) }
+    .ag-card-num { font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(244,184,0,0.8);font-family:'Space Grotesk',monospace;margin-bottom:0.25rem }
+    .ag-card-title { font-size:0.85rem;font-weight:600;color:rgba(240,237,229,0.92);line-height:1.3;margin-bottom:0.55rem;font-family:'Space Grotesk',sans-serif }
+    .ag-card-cta { font-size:0.7rem;color:#00C9B1;letter-spacing:0.08em;font-family:'Space Grotesk',monospace;display:inline-flex;align-items:center;gap:0.3rem }
+    .ag-card:hover .ag-card-cta { color:#F4B800 }
+    @media(max-width:600px){ .ag-grid{grid-template-columns:repeat(2,1fr);gap:0.8rem} }
   </style>
 
   <div class="catalyst-gate-wrap is-locked" id="artworkGateWrap">
@@ -2635,68 +2640,100 @@
       <span class="ag-cat-count">8 artworks</span>
     </div>
     <div class="ag-grid">
-      <a href="https://www.canva.com/d/NiMAtm4GfjiXYhX" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#1a0505,#3d0a0a,#0a0510)">⚡</div>
+      <a href="https://www.canva.com/d/NiMAtm4GfjiXYhX" target="_blank" rel="noopener" class="ag-card" data-img="./assets/bayo-portrait.webp" data-code="CHAR-01">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">CHAR-01</span>
+          <img src="./assets/bayo-portrait.webp" alt="Catalyst Hero Portrait" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
         <div class="ag-card-body">
-          <p class="ag-card-num">Char #01</p>
+          <p class="ag-card-num">CHAR #01 · HERO</p>
           <p class="ag-card-title">Catalyst — Hero Portrait</p>
-          <span class="ag-card-cta">View 4 variants →</span>
+          <span class="ag-card-cta">Inspect 4 variants →</span>
         </div>
       </a>
-      <a href="https://www.canva.com/d/gTPok6MUAHZN_Aq" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#050a1a,#0d1f3d,#030814)">🏗️</div>
+      <a href="https://www.canva.com/d/gTPok6MUAHZN_Aq" target="_blank" rel="noopener" class="ag-card" data-img="./assets/architect-portrait.webp" data-code="CHAR-02">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">CHAR-02</span>
+          <img src="./assets/architect-portrait.webp" alt="The Architect Villain Portrait" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
         <div class="ag-card-body">
-          <p class="ag-card-num">Char #02</p>
+          <p class="ag-card-num">CHAR #02 · PALE COUNCIL</p>
           <p class="ag-card-title">The Architect — Villain</p>
-          <span class="ag-card-cta">View 4 variants →</span>
+          <span class="ag-card-cta">Inspect 4 variants →</span>
         </div>
       </a>
-      <a href="https://www.canva.com/d/TE1-6SOzU0OASw3" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#001a14,#003d2a,#001410)">🔮</div>
+      <a href="https://www.canva.com/d/TE1-6SOzU0OASw3" target="_blank" rel="noopener" class="ag-card" data-img="./assets/amara-portrait.webp" data-code="CHAR-03">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">CHAR-03</span>
+          <img src="./assets/amara-portrait.webp" alt="Amara Oracle Tech Mystic" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
         <div class="ag-card-body">
-          <p class="ag-card-num">Char #03</p>
+          <p class="ag-card-num">CHAR #03 · MYSTIC</p>
           <p class="ag-card-title">Amara Oracle — Tech Mystic</p>
-          <span class="ag-card-cta">View 4 variants →</span>
+          <span class="ag-card-cta">Inspect 4 variants →</span>
         </div>
       </a>
-      <a href="https://www.canva.com/d/M5wMgjdz5RBZYPG" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#0f0a00,#2a1500,#1a0505)">🛡️</div>
+      <a href="https://www.canva.com/d/M5wMgjdz5RBZYPG" target="_blank" rel="noopener" class="ag-card" data-img="./assets/zara-portrait.webp" data-code="CHAR-04">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">CHAR-04</span>
+          <img src="./assets/zara-portrait.webp" alt="Zara Iron Sentinel" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
         <div class="ag-card-body">
-          <p class="ag-card-num">Char #04</p>
+          <p class="ag-card-num">CHAR #04 · SENTINEL</p>
           <p class="ag-card-title">Zara — Iron Sentinel</p>
-          <span class="ag-card-cta">View 4 variants →</span>
+          <span class="ag-card-cta">Inspect 4 variants →</span>
         </div>
       </a>
-      <a href="https://www.canva.com/d/xjvxB45pSnALNAX" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#1a0000,#3d0505,#200a00)">👊</div>
+      <a href="https://www.canva.com/d/xjvxB45pSnALNAX" target="_blank" rel="noopener" class="ag-card" data-img="./assets/ikenna-portrait.webp" data-code="CHAR-05">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">CHAR-05</span>
+          <img src="./assets/ikenna-portrait.webp" alt="Ikenna Iron Fist" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
         <div class="ag-card-body">
-          <p class="ag-card-num">Char #05</p>
+          <p class="ag-card-num">CHAR #05 · VANGUARD</p>
           <p class="ag-card-title">Ikenna — Iron Fist</p>
-          <span class="ag-card-cta">View 4 variants →</span>
+          <span class="ag-card-cta">Inspect 4 variants →</span>
         </div>
       </a>
-      <a href="https://www.canva.com/d/JwZDVtXUm5wmTgE" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#0a0800,#1a1400,#050800)">☁️</div>
+      <a href="https://www.canva.com/d/JwZDVtXUm5wmTgE" target="_blank" rel="noopener" class="ag-card" data-img="./assets/oracle-badagry-portrait.webp" data-code="CHAR-06">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">CHAR-06</span>
+          <img src="./assets/oracle-badagry-portrait.webp" alt="Obatala The Creator Concept" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
         <div class="ag-card-body">
-          <p class="ag-card-num">Char #06</p>
+          <p class="ag-card-num">CHAR #06 · ORISHA</p>
           <p class="ag-card-title">Obatala — The Creator</p>
-          <span class="ag-card-cta">View 4 variants →</span>
+          <span class="ag-card-cta">Inspect 4 variants →</span>
         </div>
       </a>
-      <a href="https://www.canva.com/d/davpFuPWPVsE4Jt" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#1a0a00,#3d1500,#0a0005)">⚡</div>
+      <a href="https://www.canva.com/d/davpFuPWPVsE4Jt" target="_blank" rel="noopener" class="ag-card" data-img="./assets/sango-portrait.webp" data-code="CHAR-07">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">CHAR-07</span>
+          <img src="./assets/sango-portrait.webp" alt="Sango Thunder King" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
         <div class="ag-card-body">
-          <p class="ag-card-num">Char #07</p>
+          <p class="ag-card-num">CHAR #07 · THUNDER</p>
           <p class="ag-card-title">Sango — Thunder King</p>
-          <span class="ag-card-cta">View 4 variants →</span>
+          <span class="ag-card-cta">Inspect 4 variants →</span>
         </div>
       </a>
-      <a href="https://www.canva.com/d/Jeem9z3bjexB_23" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#05050a,#10103d,#050510)">👥</div>
+      <a href="https://www.canva.com/d/Jeem9z3bjexB_23" target="_blank" rel="noopener" class="ag-card" data-img="./assets/team-aurora.webp" data-code="CHAR-08">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">CHAR-08</span>
+          <img src="./assets/team-aurora.webp" alt="Ensemble Cast" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
         <div class="ag-card-body">
-          <p class="ag-card-num">Char #08</p>
+          <p class="ag-card-num">CHAR #08 · ALLIANCE</p>
           <p class="ag-card-title">Ensemble Cast</p>
-          <span class="ag-card-cta">View 4 variants →</span>
+          <span class="ag-card-cta">Inspect 4 variants →</span>
         </div>
       </a>
     </div>
@@ -2710,53 +2747,101 @@
       <span class="ag-cat-count">12 artworks</span>
     </div>
     <div class="ag-grid">
-      <a href="https://www.canva.com/d/7Lj6sswTESE_Qcc" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#1a0505,#3d1010,#0a0010)">💥</div>
-        <div class="ag-card-body"><p class="ag-card-num">Scene #01</p><p class="ag-card-title">First Surge</p><span class="ag-card-cta">View 4 variants →</span></div>
+      <a href="https://www.canva.com/d/7Lj6sswTESE_Qcc" target="_blank" rel="noopener" class="ag-card" data-img="./assets/bayo-keyart-surge.webp" data-code="SCENE-01">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">SCENE-01</span>
+          <img src="./assets/bayo-keyart-surge.webp" alt="First Surge" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">SCENE #01 · SURGE</p><p class="ag-card-title">First Surge</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
       </a>
-      <a href="https://www.canva.com/d/mm-VLiiGvqkJ51M" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#001a14,#003020,#000a08)">🏚️</div>
-        <div class="ag-card-body"><p class="ag-card-num">Scene #02</p><p class="ag-card-title">Oracle's Den</p><span class="ag-card-cta">View 4 variants →</span></div>
+      <a href="https://www.canva.com/d/mm-VLiiGvqkJ51M" target="_blank" rel="noopener" class="ag-card" data-img="./assets/corridor.webp" data-code="SCENE-02">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">SCENE-02</span>
+          <img src="./assets/corridor.webp" alt="Oracle's Den" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">SCENE #02 · BUNKER</p><p class="ag-card-title">Oracle's Den</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
       </a>
-      <a href="https://www.canva.com/d/ajlX46i7ypOL-GL" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#050510,#0f0f2a,#030312)">🏛️</div>
-        <div class="ag-card-body"><p class="ag-card-num">Scene #03</p><p class="ag-card-title">Pale Council Chamber</p><span class="ag-card-cta">View 4 variants →</span></div>
+      <a href="https://www.canva.com/d/ajlX46i7ypOL-GL" target="_blank" rel="noopener" class="ag-card" data-img="./assets/industrial.webp" data-code="SCENE-03">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">SCENE-03</span>
+          <img src="./assets/industrial.webp" alt="Pale Council Chamber" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">SCENE #03 · COUNCIL</p><p class="ag-card-title">Pale Council Chamber</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
       </a>
-      <a href="https://www.canva.com/d/AL9grm7T8qtDtPe" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#0a1a00,#152a00,#080f00)">🌌</div>
-        <div class="ag-card-body"><p class="ag-card-num">Scene #04</p><p class="ag-card-title">Training in Orun</p><span class="ag-card-cta">View 4 variants →</span></div>
+      <a href="https://www.canva.com/d/AL9grm7T8qtDtPe" target="_blank" rel="noopener" class="ag-card" data-img="./assets/circle.webp" data-code="SCENE-04">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">SCENE-04</span>
+          <img src="./assets/circle.webp" alt="Training in Orun" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">SCENE #04 · ORUN</p><p class="ag-card-title">Training in Orun</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
       </a>
-      <a href="https://www.canva.com/d/LhnFx_-mL1DgAxJ" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#1a0505,#3d0000,#0a0510)">🌩️</div>
-        <div class="ag-card-body"><p class="ag-card-num">Scene #05</p><p class="ag-card-title">Sango's Descent</p><span class="ag-card-cta">View 4 variants →</span></div>
+      <a href="https://www.canva.com/d/LhnFx_-mL1DgAxJ" target="_blank" rel="noopener" class="ag-card" data-img="./assets/battle-raw.webp" data-code="SCENE-05">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">SCENE-05</span>
+          <img src="./assets/battle-raw.webp" alt="Sango's Descent" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">SCENE #05 · WRATH</p><p class="ag-card-title">Sango's Descent</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
       </a>
-      <a href="https://www.canva.com/d/4IlluYdcGBCKfl-" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#1a0800,#3d1500,#150a00)">⚔️</div>
-        <div class="ag-card-body"><p class="ag-card-num">Scene #06</p><p class="ag-card-title">Balogun Battle</p><span class="ag-card-cta">View 4 variants →</span></div>
+      <a href="https://www.canva.com/d/4IlluYdcGBCKfl-" target="_blank" rel="noopener" class="ag-card" data-img="./assets/intersection.webp" data-code="SCENE-06">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">SCENE-06</span>
+          <img src="./assets/intersection.webp" alt="Balogun Battle" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">SCENE #06 · COMBAT</p><p class="ag-card-title">Balogun Battle</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
       </a>
-      <a href="https://www.canva.com/d/vG4n7jW1mFsahKo" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#05050a,#141428,#050510)">🗡️</div>
-        <div class="ag-card-body"><p class="ag-card-num">Scene #07</p><p class="ag-card-title">Mentor's Betrayal</p><span class="ag-card-cta">View 4 variants →</span></div>
+      <a href="https://www.canva.com/d/vG4n7jW1mFsahKo" target="_blank" rel="noopener" class="ag-card" data-img="./assets/mirror-villain-portrait.webp" data-code="SCENE-07">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">SCENE-07</span>
+          <img src="./assets/mirror-villain-portrait.webp" alt="Mentor's Betrayal" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">SCENE #07 · SHADOW</p><p class="ag-card-title">Mentor's Betrayal</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
       </a>
-      <a href="https://www.canva.com/d/6zlxwi8gLSVqbDt" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#0a0800,#1a1400,#050800)">🌆</div>
-        <div class="ag-card-body"><p class="ag-card-num">Scene #08</p><p class="ag-card-title">Street Life Lagos</p><span class="ag-card-cta">View 4 variants →</span></div>
+      <a href="https://www.canva.com/d/6zlxwi8gLSVqbDt" target="_blank" rel="noopener" class="ag-card" data-img="./assets/bayo-keyart-street.webp" data-code="SCENE-08">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">SCENE-08</span>
+          <img src="./assets/bayo-keyart-street.webp" alt="Street Life Lagos" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">SCENE #08 · STREETS</p><p class="ag-card-title">Street Life Lagos</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
       </a>
-      <a href="https://www.canva.com/d/1X_Zs5ZX_IIKDyW" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#100a00,#251500,#100a00)">🏟️</div>
-        <div class="ag-card-body"><p class="ag-card-num">Scene #09</p><p class="ag-card-title">Iron Trials Arena</p><span class="ag-card-cta">View 4 variants →</span></div>
+      <a href="https://www.canva.com/d/1X_Zs5ZX_IIKDyW" target="_blank" rel="noopener" class="ag-card" data-img="./assets/forge.webp" data-code="SCENE-09">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">SCENE-09</span>
+          <img src="./assets/forge.webp" alt="Iron Trials Arena" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">SCENE #09 · TRIALS</p><p class="ag-card-title">Iron Trials Arena</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
       </a>
-      <a href="https://www.canva.com/d/hu1tGQXJPGr3z-A" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#050a14,#0a1528,#030810)">🌙</div>
-        <div class="ag-card-body"><p class="ag-card-num">Scene #10</p><p class="ag-card-title">Rooftop Moment</p><span class="ag-card-cta">View 4 variants →</span></div>
+      <a href="https://www.canva.com/d/hu1tGQXJPGr3z-A" target="_blank" rel="noopener" class="ag-card" data-img="./assets/noir-window.webp" data-code="SCENE-10">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">SCENE-10</span>
+          <img src="./assets/noir-window.webp" alt="Rooftop Moment" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">SCENE #10 · NOIR</p><p class="ag-card-title">Rooftop Moment</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
       </a>
-      <a href="https://www.canva.com/d/Q_-YPjEMW76YZCp" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#0a0500,#1a0f00,#050300)">🔥</div>
-        <div class="ag-card-body"><p class="ag-card-num">Scene #11</p><p class="ag-card-title">Awakening Ceremony</p><span class="ag-card-cta">View 4 variants →</span></div>
+      <a href="https://www.canva.com/d/Q_-YPjEMW76YZCp" target="_blank" rel="noopener" class="ag-card" data-img="./assets/art-the-ghost.webp" data-code="SCENE-11">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">SCENE-11</span>
+          <img src="./assets/art-the-ghost.webp" alt="Awakening Ceremony" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">SCENE #11 · RITUAL</p><p class="ag-card-title">Awakening Ceremony</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
       </a>
-      <a href="https://www.canva.com/d/jLmKdijrqsDzwQE" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#05000a,#0f0020,#050008)">💀</div>
-        <div class="ag-card-body"><p class="ag-card-num">Scene #12</p><p class="ag-card-title">Pale Council Ambush</p><span class="ag-card-cta">View 4 variants →</span></div>
+      <a href="https://www.canva.com/d/jLmKdijrqsDzwQE" target="_blank" rel="noopener" class="ag-card" data-img="./assets/hollow-king-portrait.webp" data-code="SCENE-12">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">SCENE-12</span>
+          <img src="./assets/hollow-king-portrait.webp" alt="Pale Council Ambush" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">SCENE #12 · AMBUSH</p><p class="ag-card-title">Pale Council Ambush</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
       </a>
     </div>
   </div>
@@ -2840,25 +2925,45 @@
       <span class="ag-cat-count">5 artworks</span>
     </div>
     <div class="ag-grid">
-      <a href="https://www.canva.com/d/OeAi_6LmdfA33TZ" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#050a14,#0a1a28,#050810)">🌃</div>
-        <div class="ag-card-body"><p class="ag-card-num">World #01</p><p class="ag-card-title">Neo-Lagos World Art</p><span class="ag-card-cta">View 4 variants →</span></div>
+      <a href="https://www.canva.com/d/OeAi_6LmdfA33TZ" target="_blank" rel="noopener" class="ag-card" data-img="./assets/art-lagos-2031.webp" data-code="WORLD-01">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">WORLD-01</span>
+          <img src="./assets/art-lagos-2031.webp" alt="Neo-Lagos World Art" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">WORLD #01 · 2031</p><p class="ag-card-title">Neo-Lagos World Art</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
       </a>
-      <a href="https://www.canva.com/d/e7UGfHz98NtJAdF" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#0a0800,#1a1200,#080600)">🏪</div>
-        <div class="ag-card-body"><p class="ag-card-num">World #02</p><p class="ag-card-title">Balogun Market</p><span class="ag-card-cta">View 4 variants →</span></div>
+      <a href="https://www.canva.com/d/e7UGfHz98NtJAdF" target="_blank" rel="noopener" class="ag-card" data-img="./assets/art-ase-economy.webp" data-code="WORLD-02">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">WORLD-02</span>
+          <img src="./assets/art-ase-economy.webp" alt="Balogun Market" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">WORLD #02 · MARKET</p><p class="ag-card-title">Balogun Market</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
       </a>
-      <a href="https://www.canva.com/d/Aex_27mY53X0fyK" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#050010,#0f0030,#030010)">✨</div>
-        <div class="ag-card-body"><p class="ag-card-num">World #03</p><p class="ag-card-title">Orun — Spirit Realm</p><span class="ag-card-cta">View 4 variants →</span></div>
+      <a href="https://www.canva.com/d/Aex_27mY53X0fyK" target="_blank" rel="noopener" class="ag-card" data-img="./assets/lagos-spirits.webp" data-code="WORLD-03">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">WORLD-03</span>
+          <img src="./assets/lagos-spirits.webp" alt="Orun Spirit Realm" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">WORLD #03 · SPIRIT</p><p class="ag-card-title">Ọ̀run — Spirit Realm</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
       </a>
-      <a href="https://www.canva.com/d/73wmCTSxeDACLVa" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#001428,#002040,#00101e)">🌉</div>
-        <div class="ag-card-body"><p class="ag-card-num">World #04</p><p class="ag-card-title">Third Mainland Bridge</p><span class="ag-card-cta">View 4 variants →</span></div>
+      <a href="https://www.canva.com/d/73wmCTSxeDACLVa" target="_blank" rel="noopener" class="ag-card" data-img="./assets/bayo-bridge.webp" data-code="WORLD-04">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">WORLD-04</span>
+          <img src="./assets/bayo-bridge.webp" alt="Third Mainland Bridge" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">WORLD #04 · BRIDGE</p><p class="ag-card-title">Third Mainland Bridge</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
       </a>
-      <a href="https://www.canva.com/d/9IOqmHe8VfWdGPW" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#001a14,#003020,#00100a)">🖥️</div>
-        <div class="ag-card-body"><p class="ag-card-num">World #05</p><p class="ag-card-title">Oracle Bunker Interior</p><span class="ag-card-cta">View 4 variants →</span></div>
+      <a href="https://www.canva.com/d/9IOqmHe8VfWdGPW" target="_blank" rel="noopener" class="ag-card" data-img="./assets/shipyard.webp" data-code="WORLD-05">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">WORLD-05</span>
+          <img src="./assets/shipyard.webp" alt="Oracle Bunker Interior" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">WORLD #05 · SHIPYARD</p><p class="ag-card-title">Oracle Bunker Interior</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
       </a>
     </div>
   </div>
@@ -2871,29 +2976,53 @@
       <span class="ag-cat-count">6 artworks</span>
     </div>
     <div class="ag-grid">
-      <a href="https://www.canva.com/d/ox8zIzxk_STNEH_" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#0a0800,#1a1400,#050800)">🌀</div>
-        <div class="ag-card-body"><p class="ag-card-num">Symbol #01</p><p class="ag-card-title">Aṣẹ Symbol — Logo</p><span class="ag-card-cta">View 4 variants →</span></div>
+      <a href="https://www.canva.com/d/ox8zIzxk_STNEH_" target="_blank" rel="noopener" class="ag-card" data-img="./assets/esu-icon-144.webp" data-code="SYM-01">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">SYM-01</span>
+          <img src="./assets/esu-icon-144.webp" alt="Aṣẹ Symbol Logo" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">SYM #01 · AṢẸ</p><p class="ag-card-title">Aṣẹ Symbol — Logo</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
       </a>
-      <a href="https://www.canva.com/d/YWPrRUvPapjOVhM" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#1a0505,#2a0808,#100505)">⚡</div>
-        <div class="ag-card-body"><p class="ag-card-num">Symbol #02</p><p class="ag-card-title">Series Logo</p><span class="ag-card-cta">View 4 variants →</span></div>
+      <a href="https://www.canva.com/d/YWPrRUvPapjOVhM" target="_blank" rel="noopener" class="ag-card" data-img="./assets/sango-icon-144.webp" data-code="SYM-02">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">SYM-02</span>
+          <img src="./assets/sango-icon-144.webp" alt="Series Logo Sango" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">SYM #02 · SERIES</p><p class="ag-card-title">Series Logo</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
       </a>
-      <a href="https://www.canva.com/d/DqxjnU4REoq8hjM" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#001a14,#002a20,#000f0a)">🔮</div>
-        <div class="ag-card-body"><p class="ag-card-num">Symbol #03</p><p class="ag-card-title">Oracle Network Emblem</p><span class="ag-card-cta">View 4 variants →</span></div>
+      <a href="https://www.canva.com/d/DqxjnU4REoq8hjM" target="_blank" rel="noopener" class="ag-card" data-img="./assets/ogun-icon-144.webp" data-code="SYM-03">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">SYM-03</span>
+          <img src="./assets/ogun-icon-144.webp" alt="Oracle Network Emblem" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">SYM #03 · NETWORK</p><p class="ag-card-title">Oracle Network Emblem</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
       </a>
-      <a href="https://www.canva.com/d/MzQUD3uOYBcNlEX" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#050510,#0f0f2a,#030312)">👁️</div>
-        <div class="ag-card-body"><p class="ag-card-num">Symbol #04</p><p class="ag-card-title">Pale Council Emblem</p><span class="ag-card-cta">View 4 variants →</span></div>
+      <a href="https://www.canva.com/d/MzQUD3uOYBcNlEX" target="_blank" rel="noopener" class="ag-card" data-img="./assets/art-the-ghost.webp" data-code="SYM-04">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">SYM-04</span>
+          <img src="./assets/art-the-ghost.webp" alt="Pale Council Emblem" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">SYM #04 · COUNCIL</p><p class="ag-card-title">Pale Council Emblem</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
       </a>
-      <a href="https://www.canva.com/d/xXy8cyAhw-4purG" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#1a0505,#300a0a,#100505)">⚡</div>
-        <div class="ag-card-body"><p class="ag-card-num">Symbol #05</p><p class="ag-card-title">Catalyst Hero Emblem</p><span class="ag-card-cta">View 4 variants →</span></div>
+      <a href="https://www.canva.com/d/xXy8cyAhw-4purG" target="_blank" rel="noopener" class="ag-card" data-img="./assets/flares.webp" data-code="SYM-05">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">SYM-05</span>
+          <img src="./assets/flares.webp" alt="Catalyst Hero Emblem" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">SYM #05 · HERO</p><p class="ag-card-title">Catalyst Hero Emblem</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
       </a>
-      <a href="https://www.canva.com/d/0rlirSHhln37f0S" target="_blank" rel="noopener" class="ag-card">
-        <div class="ag-card-preview" style="background:linear-gradient(135deg,#0a0500,#180f00,#050300)">🌐</div>
-        <div class="ag-card-body"><p class="ag-card-num">Symbol #06</p><p class="ag-card-title">Orun Seal</p><span class="ag-card-cta">View 4 variants →</span></div>
+      <a href="https://www.canva.com/d/0rlirSHhln37f0S" target="_blank" rel="noopener" class="ag-card" data-img="./assets/team-constellation.webp" data-code="SYM-06">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">SYM-06</span>
+          <img src="./assets/team-constellation.webp" alt="Orun Seal" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">SYM #06 · SEAL</p><p class="ag-card-title">Ọ̀run Seal</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
       </a>
     </div>
   </div>
