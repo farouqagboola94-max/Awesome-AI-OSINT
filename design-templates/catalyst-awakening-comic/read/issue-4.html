@@ -270,6 +270,7 @@
        and Gallery still live in the mobile nav, on the page, and one
        ⌘K away in the archive search. -->
   <ul class="nav-links">
+    <li><a href="/#world-2031">Lagos 2031</a></li>
     <li><a href="/#arcs">Arcs</a></li>
     <li><a href="/#characters">Heroes</a></li>
     <li><a href="/#villains">Villains</a></li>
@@ -282,6 +283,13 @@
     <li><a href="/#access" class="nav-cta">Subscribe</a></li>
   </ul>
   <div style="display:flex;align-items:center;gap:0.8rem;">
+    <button class="nav-audio-btn" id="navAudioBtn" onclick="toggleAmbientSound()" type="button" aria-label="Toggle ambient Lagos noir soundscape" title="Lagos Noir Soundscape">
+      <span class="audio-icon">🎧</span>
+      <span class="audio-bars" aria-hidden="true">
+        <span class="abar"></span><span class="abar"></span><span class="abar"></span>
+      </span>
+      <span class="audio-state">SOUND</span>
+    </button>
     <button class="nav-search-btn" id="navSearchBtn" type="button" aria-label="Search the archive — Control or Command K">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
       <kbd class="nav-search-kbd">⌘K</kbd>
