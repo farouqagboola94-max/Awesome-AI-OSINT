@@ -319,14 +319,35 @@
     </div>
     
     <div class="profile-hud-identity">
-      <div class="profile-avatar-box">
+      <div class="profile-avatar-box" id="profileAvatarBox">
         <span class="profile-avatar-initial" id="profileAvatarInitial">C</span>
+        <div class="profile-aura-glow" id="profileAuraGlow"></div>
       </div>
       <div class="profile-identity-info">
-        <h3 class="profile-user-name" id="profileUserName">Catalyst Reader</h3>
+        <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
+          <h3 class="profile-user-name" id="profileUserName">Catalyst Reader</h3>
+          <span class="profile-xp-pill" id="profileXpPill">LVL 3 · 1,850 AṢẸ</span>
+        </div>
         <p class="profile-user-email" id="profileUserEmail">reader@catalystverse.com</p>
-        <span class="profile-tier-badge" id="profileTierBadge">✦ REGISTERED READER · FULL UNIVERSE ACCESS</span>
+        <div style="display:flex;align-items:center;gap:0.4rem;margin-top:0.3rem;">
+          <span class="profile-tier-badge" id="profileTierBadge">✦ REGISTERED READER · FULL UNIVERSE ACCESS</span>
+        </div>
+        <div style="margin-top:0.5rem;">
+          <input type="text" id="profileCallSignInput" class="profile-callsign-input" placeholder="Callsign: e.g. Mushin_Oracle" onchange="saveProfileCallSign(this.value)">
+        </div>
       </div>
+    </div>
+
+    <!-- Reading Progress Bar -->
+    <div class="profile-progress-wrap">
+      <div class="profile-progress-header">
+        <span>ISSUE #01 READING PROGRESS</span>
+        <span id="profileProgressPct">88 / 88 PAGES (100%)</span>
+      </div>
+      <div class="profile-progress-bar">
+        <div class="profile-progress-fill" style="width:100%"></div>
+      </div>
+      <div class="profile-progress-sub">Arc I: Awakening Complete · Arc II Production Dossiers Unlocked</div>
     </div>
 
     <!-- Orisha Affinity Selector -->
@@ -359,6 +380,7 @@
 
     <div class="profile-hud-actions">
       <button type="button" class="profile-btn-primary" onclick="closeUserProfileModal(); document.getElementById('artwork-gallery').scrollIntoView({behavior:'smooth'});">Inspect 50 Artworks Unveiled →</button>
+      <button type="button" class="profile-btn-export" onclick="exportReaderIdCard()">🪪 Copy Digital Reader Pass</button>
       <button type="button" class="profile-btn-upgrade" onclick="closeUserProfileModal(); openPaymentModal();">Upgrade to Ìmọ̀lẹ̀ Circle VIP</button>
       <button type="button" class="profile-btn-signout" onclick="handleSignOut()">Sign Out</button>
     </div>
@@ -402,6 +424,23 @@
 </div>
     <button class="payment-cta-btn" id="paystackBtn" onclick="initiatePayment()">Join the access waitlist</button>
     <p class="payment-note">Paid access is not open. Registration saves your interest only; no charge or subscription is created.</p>
+  </div>
+
+  <!-- ── 50 ARTWORKS DYNAMIC FILTER & LIVE SEARCH TOOLBAR ── -->
+  <div class="ag-controls-bar reveal">
+    <div class="ag-filter-pills" role="tablist">
+      <button type="button" class="ag-filter-pill active" onclick="filterArtworkGroup('all', this)">⚡ ALL (50)</button>
+      <button type="button" class="ag-filter-pill" onclick="filterArtworkGroup('character', this)">👤 CHARACTERS (8)</button>
+      <button type="button" class="ag-filter-pill" onclick="filterArtworkGroup('scene', this)">🎬 SCENES (12)</button>
+      <button type="button" class="ag-filter-pill" onclick="filterArtworkGroup('world', this)">🌐 WORLD (5)</button>
+      <button type="button" class="ag-filter-pill" onclick="filterArtworkGroup('symbol', this)">🛡️ EMBLEMS (6)</button>
+      <button type="button" class="ag-filter-pill" onclick="filterArtworkGroup('cover', this)">📖 COVERS (13)</button>
+      <button type="button" class="ag-filter-pill" onclick="filterArtworkGroup('action', this)">⚔️ ACTION (6)</button>
+    </div>
+    <div class="ag-search-wrap">
+      <input type="text" id="agSearchInput" class="ag-search-input" placeholder="Search 50 artworks by code, title, or tag (e.g. Bayo, Ṣàngó, Bridge, CHAR-01)..." oninput="handleArtworkSearch(this.value)" aria-label="Search 50 artworks">
+      <span class="ag-counter" id="agCounter">50 / 50 UNVEILED</span>
+    </div>
   </div>
 </div>
 
@@ -3272,12 +3311,21 @@
     <div class="hud-corner-bracket hud-corner-br"></div>
 
     <div class="hud-preview-pane">
+      <div class="hud-zoom-controls">
+        <button type="button" class="hud-zoom-btn" onclick="zoomHudImg(-0.25)" title="Zoom Out">−</button>
+        <span class="hud-zoom-level" id="hudZoomLevel">100%</span>
+        <button type="button" class="hud-zoom-btn" onclick="zoomHudImg(0.25)" title="Zoom In">+</button>
+        <button type="button" class="hud-zoom-btn" onclick="resetHudZoom()" title="Reset Zoom">↺</button>
+        <button type="button" class="hud-zoom-btn" onclick="toggleHudAudio()" id="hudAudioToggle" title="Toggle Sound">🔊 SFX</button>
+      </div>
       <div class="hud-preview-fallback" id="hudFallbackBox">
         <div class="hud-fallback-icon" id="hudFallbackIcon">✦</div>
         <p style="font-family:'Space Grotesk',monospace;font-size:0.75rem;letter-spacing:0.15em;color:#F4B800;margin:0 0 0.5rem;" id="hudFallbackLabel">ARCHIVE RENDERING</p>
         <p style="font-size:0.8rem;color:rgba(240,237,229,0.6);max-width:280px;line-height:1.5;" id="hudFallbackSub">Afrofuturist High-DPI Vector Specification</p>
       </div>
-      <img src="" alt="" class="hud-preview-img" id="hudPreviewImg" style="display:none;" />
+      <div class="hud-img-viewport" id="hudImgViewport">
+        <img src="" alt="" class="hud-preview-img" id="hudPreviewImg" style="display:none;" />
+      </div>
     </div>
 
     <div class="hud-info-pane">

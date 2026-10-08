@@ -10413,3 +10413,230 @@ mark.fn-hl.fn-flash { animation: fn-flash 1.6s ease-in-out 1; }
   border-color: rgba(255, 255, 255, 0.3);
   color: var(--bone-white);
 }
+
+
+/* ─── 50 ARTWORKS DYNAMIC FILTER & LIVE SEARCH TOOLBAR ─── */
+.ag-controls-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2.8rem;
+  padding: 1.2rem;
+  background: rgba(10, 13, 24, 0.85);
+  border: 1px solid rgba(244, 184, 0, 0.25);
+  border-radius: 6px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+.ag-filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.ag-filter-pill {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.45rem 0.85rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--ash-grey);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.ag-filter-pill:hover {
+  border-color: var(--danfo-gold);
+  color: var(--bone-white);
+  transform: translateY(-1px);
+}
+.ag-filter-pill.active {
+  background: rgba(244, 184, 0, 0.18);
+  border-color: var(--danfo-gold);
+  color: var(--danfo-gold);
+  box-shadow: 0 0 12px rgba(244, 184, 0, 0.25);
+}
+.ag-search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.ag-search-input {
+  flex: 1;
+  min-width: 240px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(244, 184, 0, 0.3);
+  color: var(--bone-white);
+  padding: 0.65rem 1rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.82rem;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.ag-search-input:focus {
+  border-color: var(--danfo-gold);
+  box-shadow: 0 0 10px rgba(244, 184, 0, 0.2);
+}
+.ag-counter {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  color: var(--danfo-gold);
+  white-space: nowrap;
+  background: rgba(244, 184, 0, 0.08);
+  padding: 0.4rem 0.75rem;
+  border-radius: 3px;
+  border: 1px solid rgba(244, 184, 0, 0.2);
+}
+
+/* ─── HUD LIGHTBOX ZOOM & AUDIO CONTROLS ─── */
+.hud-zoom-controls {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(6, 6, 13, 0.9);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(244, 184, 0, 0.35);
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  z-index: 10;
+}
+.hud-zoom-btn {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--danfo-gold);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  width: 24px;
+  height: 24px;
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.hud-zoom-btn:hover {
+  background: rgba(244, 184, 0, 0.15);
+  border-color: var(--danfo-gold);
+}
+.hud-zoom-level {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--bone-white);
+  min-width: 36px;
+  text-align: center;
+}
+.hud-audio-toggle {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--orisha-teal);
+  border: 1px solid rgba(0, 201, 177, 0.35);
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
+  background: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.hud-audio-toggle:hover {
+  background: rgba(0, 201, 177, 0.15);
+}
+.hud-img-viewport {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ─── READER PROFILE ENHANCEMENTS ─── */
+.profile-aura-glow {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: all 0.4s ease;
+  box-shadow: 0 0 20px rgba(244, 184, 0, 0.3);
+}
+.profile-xp-pill {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  color: var(--orisha-teal);
+  background: rgba(0, 201, 177, 0.12);
+  border: 1px solid rgba(0, 201, 177, 0.3);
+  padding: 0.15rem 0.5rem;
+  border-radius: 3px;
+}
+.profile-callsign-input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(244, 184, 0, 0.25);
+  color: var(--danfo-gold);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 3px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.profile-callsign-input:focus {
+  border-color: var(--danfo-gold);
+}
+.profile-progress-wrap {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  padding: 0.8rem;
+  margin-bottom: 1.4rem;
+}
+.profile-progress-header {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--ash-grey);
+  margin-bottom: 0.4rem;
+}
+.profile-progress-bar {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.profile-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--danfo-gold), var(--orisha-teal));
+  box-shadow: 0 0 10px rgba(244, 184, 0, 0.5);
+  transition: width 0.5s ease;
+}
+.profile-progress-sub {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  color: var(--ash-grey);
+  margin-top: 0.4rem;
+}
+.profile-btn-export {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: rgba(0, 201, 177, 0.12);
+  border: 1px solid var(--orisha-teal);
+  color: var(--orisha-teal);
+  padding: 0.65rem;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+}
+.profile-btn-export:hover {
+  background: rgba(0, 201, 177, 0.25);
+  box-shadow: 0 0 12px rgba(0, 201, 177, 0.3);
+}

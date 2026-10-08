@@ -7822,3 +7822,192 @@ var TC_ENDINGS = {
   });
 })();
 
+
+
+/* ─── WORLD-CLASS AFROFUTURIST CONTROLLERS & AUDIO ENGINE ─── */
+(function() {
+  // 1. Tactical Web Audio API Synthesizer
+  var audioCtx = null;
+  var isAudioEnabled = true;
+
+  function getAudioContext() {
+    if (!audioCtx && (window.AudioContext || window.webkitAudioContext)) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    return audioCtx;
+  }
+
+  window.playHudSound = function(type) {
+    if (!isAudioEnabled) return;
+    try {
+      var ctx = getAudioContext();
+      if (!ctx) return;
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      var now = ctx.currentTime;
+
+      if (type === 'click') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(800, now);
+        osc.frequency.exponentialRampToValueAtTime(300, now + 0.05);
+        gain.gain.setValueAtTime(0.04, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+        osc.start(now);
+        osc.stop(now + 0.05);
+      } else if (type === 'chirp') {
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(1200, now);
+        osc.frequency.exponentialRampToValueAtTime(1700, now + 0.07);
+        gain.gain.setValueAtTime(0.03, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
+        osc.start(now);
+        osc.stop(now + 0.07);
+      } else if (type === 'variant') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(440, now);
+        osc.frequency.linearRampToValueAtTime(880, now + 0.12);
+        gain.gain.setValueAtTime(0.05, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+        osc.start(now);
+        osc.stop(now + 0.12);
+      }
+    } catch(_) {}
+  };
+
+  window.toggleHudAudio = function() {
+    isAudioEnabled = !isAudioEnabled;
+    var btn = document.getElementById('hudAudioToggle');
+    if (btn) {
+      btn.textContent = isAudioEnabled ? '🔊 SFX' : '🔇 MUTED';
+      btn.style.color = isAudioEnabled ? 'var(--orisha-teal)' : 'var(--ash-grey)';
+    }
+    if (window.showToast) {
+      window.showToast(isAudioEnabled ? 'Tactical Audio Active' : 'Audio Muted', 'info', 1800);
+    }
+  };
+
+  // 2. HUD Zoom & Pan Controls
+  window.currentHudZoom = 1.0;
+  window.zoomHudImg = function(delta) {
+    var img = document.getElementById('hudPreviewImg');
+    var lvl = document.getElementById('hudZoomLevel');
+    if (!img) return;
+    window.currentHudZoom = Math.min(2.5, Math.max(0.75, window.currentHudZoom + delta));
+    img.style.transform = 'scale(' + window.currentHudZoom + ')';
+    img.style.transition = 'transform 0.2s ease-out';
+    if (lvl) lvl.textContent = Math.round(window.currentHudZoom * 100) + '%';
+    window.playHudSound('chirp');
+  };
+
+  window.resetHudZoom = function() {
+    var img = document.getElementById('hudPreviewImg');
+    var lvl = document.getElementById('hudZoomLevel');
+    if (!img) return;
+    window.currentHudZoom = 1.0;
+    img.style.transform = 'scale(1)';
+    if (lvl) lvl.textContent = '100%';
+    window.playHudSound('click');
+  };
+
+  // 3. 50 Artworks Dynamic Category Filter & Search
+  var activeArtworkFilter = 'all';
+  var activeArtworkQuery = '';
+
+  window.filterArtworkGroup = function(cat, btn) {
+    activeArtworkFilter = cat;
+    document.querySelectorAll('.ag-filter-pill').forEach(function(b){ b.classList.remove('active'); });
+    if (btn) btn.classList.add('active');
+    applyArtworkFilters();
+    window.playHudSound('click');
+  };
+
+  window.handleArtworkSearch = function(query) {
+    activeArtworkQuery = (query || '').toLowerCase().trim();
+    applyArtworkFilters();
+  };
+
+  function applyArtworkFilters() {
+    var cards = document.querySelectorAll('#artwork-gallery .ag-card');
+    var categories = document.querySelectorAll('#artwork-gallery .ag-category');
+    var visibleCount = 0;
+
+    cards.forEach(function(card) {
+      var code = (card.getAttribute('data-code') || '').toLowerCase();
+      var title = (card.querySelector('.ag-card-title')?.textContent || '').toLowerCase();
+      var num = (card.querySelector('.ag-card-num')?.textContent || '').toLowerCase();
+
+      // Check Category
+      var matchesCategory = false;
+      if (activeArtworkFilter === 'all') matchesCategory = true;
+      else if (activeArtworkFilter === 'character' && code.indexOf('char-') === 0) matchesCategory = true;
+      else if (activeArtworkFilter === 'scene' && code.indexOf('scene-') === 0) matchesCategory = true;
+      else if (activeArtworkFilter === 'world' && code.indexOf('world-') === 0) matchesCategory = true;
+      else if (activeArtworkFilter === 'symbol' && code.indexOf('sym-') === 0) matchesCategory = true;
+      else if (activeArtworkFilter === 'cover' && code.indexOf('cover-') === 0) matchesCategory = true;
+      else if (activeArtworkFilter === 'action' && code.indexOf('action-') === 0) matchesCategory = true;
+
+      // Check Search Query
+      var matchesSearch = !activeArtworkQuery ||
+        code.indexOf(activeArtworkQuery) !== -1 ||
+        title.indexOf(activeArtworkQuery) !== -1 ||
+        num.indexOf(activeArtworkQuery) !== -1;
+
+      if (matchesCategory && matchesSearch) {
+        card.style.display = 'block';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    // Toggle category headers based on whether they contain visible cards
+    categories.forEach(function(cat) {
+      var hasVisible = false;
+      cat.querySelectorAll('.ag-card').forEach(function(c) {
+        if (c.style.display !== 'none') hasVisible = true;
+      });
+      cat.style.display = hasVisible ? 'block' : 'none';
+    });
+
+    // Update Counter
+    var counter = document.getElementById('agCounter');
+    if (counter) {
+      counter.textContent = visibleCount + ' / 50 UNVEILED';
+    }
+  }
+
+  // 4. Callsign & Pass Exporting
+  window.saveProfileCallSign = function(val) {
+    if (_currentUser) {
+      _currentUser.callsign = val.trim();
+      localStorage.setItem('catalyst_user_profile', JSON.stringify(_currentUser));
+      if (window.showToast) window.showToast('Callsign linked: ' + val, 'success', 2200);
+    }
+  };
+
+  window.exportReaderIdCard = function() {
+    if (!_currentUser) return;
+    var name = (_currentUser.user_metadata && _currentUser.user_metadata.full_name) || 'Catalyst Reader';
+    var affinity = _currentUser.affinity || 'Ṣàngó';
+    var callsign = _currentUser.callsign || 'Mushin_Operative';
+    var passText = '========================================\n' +
+      'CATALYST OS // READER TELEMETRY PASS\n' +
+      'OPERATIVE: ' + name + ' [' + callsign + ']\n' +
+      'AFFINITY: ' + affinity + '\n' +
+      'ACCESS: REGISTERED READER · 50 ARTWORKS UNLOCKED\n' +
+      'VERIFICATION HASH: 0x' + Date.now().toString(16).toUpperCase() + '\n' +
+      'URL: https://catalyst-awakening.netlify.app/\n' +
+      '========================================';
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(passText).then(function() {
+        if (window.showToast) window.showToast('Digital Reader Pass copied to clipboard!', 'success', 2800);
+      });
+    }
+  };
+})();
