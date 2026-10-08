@@ -10186,3 +10186,230 @@ mark.fn-hl.fn-flash { animation: fn-flash 1.6s ease-in-out 1; }
 }
 
 
+
+
+/* ─── CATALYST OS READER HUD PROFILE MODAL ─── */
+.user-profile-modal {
+  position: relative;
+  width: 90%;
+  max-width: 520px;
+  background: rgba(10, 10, 24, 0.95);
+  border: 1px solid rgba(244, 184, 0, 0.35);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(244, 184, 0, 0.15);
+  border-radius: 8px;
+  padding: 2.2rem;
+  backdrop-filter: blur(16px);
+  color: var(--bone-white);
+  z-index: 10000;
+}
+.profile-hud-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(244, 184, 0, 0.2);
+}
+.profile-hud-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  color: var(--danfo-gold);
+  text-transform: uppercase;
+}
+.profile-hud-status {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--orisha-teal);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.profile-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--orisha-teal);
+  box-shadow: 0 0 8px var(--orisha-teal);
+  display: inline-block;
+}
+.profile-hud-identity {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 1.6rem;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 1.1rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+.profile-avatar-box {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(244, 184, 0, 0.25), rgba(196, 30, 58, 0.25));
+  border: 2px solid var(--danfo-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 15px rgba(244, 184, 0, 0.2);
+}
+.profile-avatar-initial {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  color: var(--danfo-gold);
+  line-height: 1;
+}
+.profile-identity-info {
+  flex: 1;
+}
+.profile-user-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--bone-white);
+  margin-bottom: 0.2rem;
+}
+.profile-user-email {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--ash-grey);
+  margin-bottom: 0.45rem;
+}
+.profile-tier-badge {
+  display: inline-block;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: var(--danfo-gold);
+  background: rgba(244, 184, 0, 0.12);
+  padding: 0.2rem 0.6rem;
+  border-radius: 3px;
+  border: 1px solid rgba(244, 184, 0, 0.3);
+}
+.profile-section-label {
+  display: block;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  color: var(--ash-grey);
+  margin-bottom: 0.6rem;
+  text-transform: uppercase;
+}
+.profile-affinity-section {
+  margin-bottom: 1.5rem;
+}
+.profile-affinity-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.affinity-chip {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.75rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--ash-grey);
+  padding: 0.4rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.affinity-chip:hover {
+  border-color: var(--danfo-gold);
+  color: var(--bone-white);
+}
+.affinity-chip.active {
+  background: rgba(244, 184, 0, 0.15);
+  border-color: var(--danfo-gold);
+  color: var(--danfo-gold);
+  box-shadow: 0 0 10px rgba(244, 184, 0, 0.2);
+}
+.profile-archives-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.8rem;
+}
+.profile-archive-card {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  padding: 0.75rem;
+  text-align: center;
+}
+.profile-archive-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  color: var(--danfo-gold);
+  letter-spacing: 0.05em;
+  line-height: 1.1;
+}
+.profile-archive-lbl {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  color: var(--ash-grey);
+  margin-top: 0.2rem;
+  line-height: 1.2;
+}
+.profile-hud-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+.profile-btn-primary {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: var(--danfo-gold);
+  color: var(--black);
+  border: none;
+  padding: 0.8rem;
+  border-radius: 4px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+.profile-btn-primary:hover {
+  background: #ffc926;
+  box-shadow: 0 0 15px rgba(244, 184, 0, 0.4);
+}
+.profile-btn-upgrade {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: rgba(196, 30, 58, 0.2);
+  border: 1px solid var(--blood-red);
+  color: var(--bone-white);
+  padding: 0.7rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+.profile-btn-upgrade:hover {
+  background: rgba(196, 30, 58, 0.4);
+  border-color: #ff3355;
+}
+.profile-btn-signout {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--ash-grey);
+  padding: 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+.profile-btn-signout:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--bone-white);
+}

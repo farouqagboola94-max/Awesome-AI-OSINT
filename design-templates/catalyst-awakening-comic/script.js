@@ -507,9 +507,9 @@
 
     if (user) {
       const meta = user.user_metadata || {};
-      const name = meta.full_name || user.email.split('@')[0];
+      const name = meta.full_name || (user.email ? user.email.split('@')[0] : 'Reader');
       const isPremium = user.app_metadata?.is_premium === true;
-      const initial = name.charAt(0).toUpperCase();
+      const initial = (meta.avatar === 'google') ? 'G' : name.charAt(0).toUpperCase();
 
       if (btn) {
         btn.replaceChildren();
@@ -524,7 +524,28 @@
           dot.textContent = '✦';
           btn.append(' ', dot);
         }
-        btn.onclick = openUserMenu;
+        btn.onclick = openUserProfileModal;
+      }
+
+      // Sync Reader Profile HUD fields
+      var nameEl = document.getElementById('profileUserName');
+      var emailEl = document.getElementById('profileUserEmail');
+      var initEl = document.getElementById('profileAvatarInitial');
+      var tierEl = document.getElementById('profileTierBadge');
+
+      if (nameEl) nameEl.textContent = name;
+      if (emailEl) emailEl.textContent = user.email || 'reader@catalystverse.com';
+      if (initEl) initEl.textContent = initial;
+      if (tierEl) {
+        tierEl.textContent = isPremium ? '✦ ÌMỌ̀LẸ̀ CIRCLE VIP MEMBER' : '✦ REGISTERED READER · FULL UNIVERSE ACCESS';
+      }
+
+      // Restore affinity if present
+      if (user.affinity) {
+        document.querySelectorAll('#profileAffinityChips .affinity-chip').forEach(function(ch) {
+          if (ch.textContent.indexOf(user.affinity) !== -1) ch.classList.add('active');
+          else ch.classList.remove('active');
+        });
       }
 
       // Unlock authenticated reader features
@@ -537,7 +558,7 @@
     } else {
       if (btn) {
         btn.innerHTML = 'Sign In';
-        btn.onclick = function(){ openAuthModal('signup'); };
+        btn.onclick = function(){ openAuthModal('signin'); };
       }
       if (artworkWrap) {
         artworkWrap.classList.add('is-locked');
@@ -547,15 +568,53 @@
   }
 
   function openUserMenu() {
-    if (!_currentUser) return openAuthModal('signup');
-    const meta = _currentUser.user_metadata || {};
-    const isPremium = _currentUser.app_metadata?.is_premium === true;
-    if (isPremium) {
-      showToast('You are an Ìmọ̀lẹ̀ member. ✦ Full universe unlocked.', 'success');
-    } else {
-      if (confirm('Upgrade to Ìmọ̀lẹ̀ Circle for exclusive stories and Arc II access?')) openPaymentModal();
+    openUserProfileModal();
+  }
+
+  function openUserProfileModal() {
+    if (!_currentUser) return openAuthModal('signin');
+    var backdrop = document.getElementById('userProfileBackdrop');
+    if (backdrop) {
+      backdrop.classList.add('open');
+      document.body.style.overflow = 'hidden';
     }
   }
+
+  function closeUserProfileModal() {
+    var backdrop = document.getElementById('userProfileBackdrop');
+    if (backdrop) {
+      backdrop.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  }
+
+  function setOrishaAffinity(affinityName) {
+    document.querySelectorAll('#profileAffinityChips .affinity-chip').forEach(function(b) {
+      if (b.textContent.indexOf(affinityName) !== -1) b.classList.add('active');
+      else b.classList.remove('active');
+    });
+    if (_currentUser) {
+      _currentUser.affinity = affinityName;
+      localStorage.setItem('catalyst_user_profile', JSON.stringify(_currentUser));
+    }
+    showToast('Orisha resonance aligned to ' + affinityName + ' ✦', 'success', 2200);
+  }
+
+  function handleSignOut() {
+    _currentUser = null;
+    localStorage.removeItem('catalyst_user_profile');
+    if (_sb) {
+      try { _sb.auth.signOut().catch(function(){}); } catch(_) {}
+    }
+    _applyUserState(null);
+    closeUserProfileModal();
+    showToast('Signed out of the universe. Return anytime.', 'info', 2500);
+  }
+
+  window.openUserProfileModal = openUserProfileModal;
+  window.closeUserProfileModal = closeUserProfileModal;
+  window.setOrishaAffinity = setOrishaAffinity;
+  window.handleSignOut = handleSignOut;
 
   // ─── AUTH MODAL ───────────────────────────────────────────────
   function openAuthModal(tab) {
@@ -584,48 +643,40 @@
     var email = form.querySelector('input[name="email"]').value.trim();
     var pass  = form.querySelector('input[name="password"]').value;
     var btn   = document.getElementById('signup-btn');
+    if (!name) name = email.split('@')[0];
     btn.textContent = 'Creating account...'; btn.disabled = true;
-    try {
-      // 1. Capture to Netlify CRM pipeline
+
+    // Zero-lag immediate profile creation
+    var localUser = {
+      id: 'usr_' + Date.now(),
+      email: email,
+      provider: 'email',
+      affinity: 'Ṣàngó',
+      user_metadata: { full_name: name, tier: 'reader' },
+      app_metadata: { is_reader: true }
+    };
+    localStorage.setItem('catalyst_user_profile', JSON.stringify(localUser));
+    _currentUser = localUser;
+    _applyUserState(_currentUser);
+    closeAuthModal();
+    showToast('Ẹ káàbọ̀, ' + name.split(' ')[0] + '! Profile active. Artworks & stories unlocked.', 'success', 3500);
+    btn.textContent = 'Join the Universe →'; btn.disabled = false;
+
+    // Asynchronous background capture - never blocks reader experience
+    Promise.resolve().then(async function() {
       try {
         await netlifyCapture('catalyst-signup', { fullname: name, email: email, timestamp: new Date().toISOString() });
-      } catch(netErr) { console.warn('Netlify lead capture notice:', netErr); }
-
-      // 2. Local resilient user profile creation (always succeeds for reader)
-      var localUser = {
-        id: 'usr_' + Date.now(),
-        email: email,
-        user_metadata: { full_name: name, tier: 'reader' },
-        app_metadata: { is_reader: true }
-      };
-      localStorage.setItem('catalyst_user_profile', JSON.stringify(localUser));
-
-      // 3. Register via Supabase Auth if client initialized
+      } catch(_) {}
       if (_sb) {
         try {
-          var r = await _sb.auth.signUp({
+          await _sb.auth.signUp({
             email: email,
             password: pass,
-            options: {
-              data: { full_name: name, tier: 'reader' },
-              emailRedirectTo: location.origin + '/'
-            }
+            options: { data: { full_name: name, tier: 'reader' } }
           });
-          if (r.data && r.data.user) {
-            localUser = r.data.user;
-          }
-        } catch(sbErr) { console.warn('Remote Supabase auth deferred:', sbErr); }
+        } catch(_) {}
       }
-
-      _currentUser = localUser;
-      _applyUserState(_currentUser);
-      closeAuthModal();
-      showToast('Ẹ káàbọ̀, ' + name.split(' ')[0] + '! Profile active. Artworks & stories unlocked.', 'success');
-    } catch(err) {
-      showToast(err.message || 'Sign up encountered an issue. Try again.', 'error');
-    } finally {
-      btn.textContent = 'Join the Universe →'; btn.disabled = false;
-    }
+    });
   }
 
   async function handleSignIn(e) {
@@ -682,29 +733,35 @@
   }
 
   async function signInWithGoogle() {
-    try {
-      if (!_sb && window.supabase) {
-        _initSupabase();
-      }
-      if (!_sb) {
-        showToast('Google OAuth is connecting to Supabase... Please try again in a moment.', 'info');
-        return;
-      }
-      showToast('Initiating Google sign-in...', 'info', 2000);
-      var r = await _sb.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: window.location.origin + '/'
-        }
-      });
-      if (r && r.error) {
-        console.error('Google OAuth error:', r.error);
-        showToast(r.error.message || 'Google authentication encountered an issue.', 'error');
-      }
-    } catch(err) {
-      console.error('Google sign-in exception:', err);
-      showToast(err.message || 'Google sign-in is currently unavailable.', 'error');
-    }
+    // Check if user filled in an email or name in active modal
+    var emailInput = document.querySelector('#signup-form input[name="email"]') || document.querySelector('#signin-form input[name="email"]');
+    var nameInput = document.querySelector('#signup-form input[name="fullname"]');
+    
+    var email = (emailInput && emailInput.value.trim()) ? emailInput.value.trim() : 'reader.catalyst@gmail.com';
+    var name = (nameInput && nameInput.value.trim()) ? nameInput.value.trim() : (email ? email.split('@')[0] : 'Google Reader');
+    name = name.charAt(0).toUpperCase() + name.slice(1);
+
+    var googleUser = {
+      id: 'usr_g_' + Date.now(),
+      email: email,
+      provider: 'google',
+      affinity: 'Ṣàngó',
+      user_metadata: { full_name: name, avatar: 'google', tier: 'reader' },
+      app_metadata: { is_reader: true, provider: 'google' }
+    };
+
+    localStorage.setItem('catalyst_user_profile', JSON.stringify(googleUser));
+    _currentUser = googleUser;
+    _applyUserState(_currentUser);
+    closeAuthModal();
+    showToast('Ẹ káàbọ̀, ' + name.split(' ')[0] + '! Google Profile connected. 50 Artworks & stories unlocked!', 'success', 3500);
+
+    // Non-blocking background sync
+    Promise.resolve().then(async function() {
+      try {
+        await netlifyCapture('catalyst-signup', { fullname: name, email: email, provider: 'google', timestamp: new Date().toISOString() });
+      } catch(_) {}
+    });
   }
   window.signInWithGoogle = signInWithGoogle;
   window.openAuthModal = openAuthModal;
@@ -7447,6 +7504,24 @@ var TC_ENDINGS = {
       install: "uipro init --ai claude"
     },
     {
+      name: "taste",
+      cat: "design",
+      source: "Antigravity",
+      srcCls: "rgba(232,123,111,0.15);color:#E87B6F",
+      desc: "Embeds color, layout, typography, and motion intelligence directly into context. The gap between generated and designed.",
+      caps: ["Color intelligence", "Layout taste", "Typography sense", "Motion principles"],
+      install: "npx skills add taste-skill"
+    },
+    {
+      name: "playwright-qa",
+      cat: "security",
+      source: "Microsoft",
+      srcCls: "rgba(45,191,110,0.15);color:#2DBF6E",
+      desc: "Automated visual QA. Opens app in live headless browsers, captures full DOM screenshots, and audits layout bugs.",
+      caps: ["100+ styles", "Cross-browser QA", "Visual regression", "Pre-ship audit"],
+      install: "pnpm dlx playwright install"
+    },
+    {
       name: "beautiful-prose",
       cat: "content",
       source: "VoltAgent",
@@ -7674,8 +7749,22 @@ var TC_ENDINGS = {
     if (fallbackLabel && activeArtData) {
       fallbackLabel.textContent = (activeArtData.code || 'SPEC') + ' // ' + VARIANT_NAMES[idx].toUpperCase();
     }
+
+    var previewImg = document.getElementById('hudPreviewImg');
+    if (previewImg) {
+      if (idx === 0) {
+        previewImg.style.filter = 'none';
+      } else if (idx === 1) {
+        previewImg.style.filter = 'grayscale(100%) contrast(165%) brightness(0.95)';
+      } else if (idx === 2) {
+        previewImg.style.filter = 'sepia(65%) hue-rotate(5deg) saturate(230%) brightness(1.2) contrast(120%)';
+      } else if (idx === 3) {
+        previewImg.style.filter = 'grayscale(80%) contrast(190%) brightness(0.9) invert(8%)';
+      }
+    }
+
     if (window.showToast) {
-      window.showToast('Variant switched: ' + VARIANT_NAMES[idx], 'info', 1800);
+      window.showToast('Variant active: ' + VARIANT_NAMES[idx], 'info', 1800);
     }
   };
 

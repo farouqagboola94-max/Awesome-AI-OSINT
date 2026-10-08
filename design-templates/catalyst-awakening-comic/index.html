@@ -309,6 +309,62 @@
   </div>
 </div>
 
+<!-- ============================================================ CATALYST OS READER HUD PROFILE MODAL -->
+<div class="modal-backdrop" id="userProfileBackdrop" aria-hidden="true" role="dialog" aria-label="Catalyst OS Reader Profile">
+  <div class="user-profile-modal">
+    <button class="modal-close" onclick="closeUserProfileModal()" aria-label="Close">✕</button>
+    <div class="profile-hud-header">
+      <div class="profile-hud-tag">CATALYST OS // READER HUD v4.2</div>
+      <div class="profile-hud-status"><span class="profile-status-dot"></span> Ọ̀RUN SYNCED</div>
+    </div>
+    
+    <div class="profile-hud-identity">
+      <div class="profile-avatar-box">
+        <span class="profile-avatar-initial" id="profileAvatarInitial">C</span>
+      </div>
+      <div class="profile-identity-info">
+        <h3 class="profile-user-name" id="profileUserName">Catalyst Reader</h3>
+        <p class="profile-user-email" id="profileUserEmail">reader@catalystverse.com</p>
+        <span class="profile-tier-badge" id="profileTierBadge">✦ REGISTERED READER · FULL UNIVERSE ACCESS</span>
+      </div>
+    </div>
+
+    <!-- Orisha Affinity Selector -->
+    <div class="profile-affinity-section">
+      <label class="profile-section-label">CHOOSE ORISHA AFFINITY RESONANCE</label>
+      <div class="profile-affinity-chips" id="profileAffinityChips">
+        <button type="button" class="affinity-chip active" onclick="setOrishaAffinity('Ṣàngó')">⚡ Ṣàngó (Lightning)</button>
+        <button type="button" class="affinity-chip" onclick="setOrishaAffinity('Ògún')">⚔ Ògún (Iron &amp; Forge)</button>
+        <button type="button" class="affinity-chip" onclick="setOrishaAffinity('Ọ̀ṣun')">🌊 Ọ̀ṣun (Flow &amp; Memory)</button>
+        <button type="button" class="affinity-chip" onclick="setOrishaAffinity('Obatàlá')">⚖ Obatàlá (Creation)</button>
+        <button type="button" class="affinity-chip" onclick="setOrishaAffinity('Ẹṣù')">🌀 Ẹṣù (Crossroads)</button>
+      </div>
+    </div>
+
+    <!-- Unlocked Archives Tracker -->
+    <div class="profile-archives-grid">
+      <div class="profile-archive-card">
+        <div class="profile-archive-val" id="profileArtworksCount">50 / 50</div>
+        <div class="profile-archive-lbl">Canonical Artworks Unlocked</div>
+      </div>
+      <div class="profile-archive-card">
+        <div class="profile-archive-val">88 Pgs</div>
+        <div class="profile-archive-lbl">Issue #01 Graphic Novel</div>
+      </div>
+      <div class="profile-archive-card">
+        <div class="profile-archive-val">2,393</div>
+        <div class="profile-archive-lbl">Catalyst OS Skills Vault</div>
+      </div>
+    </div>
+
+    <div class="profile-hud-actions">
+      <button type="button" class="profile-btn-primary" onclick="closeUserProfileModal(); document.getElementById('artwork-gallery').scrollIntoView({behavior:'smooth'});">Inspect 50 Artworks Unveiled →</button>
+      <button type="button" class="profile-btn-upgrade" onclick="closeUserProfileModal(); openPaymentModal();">Upgrade to Ìmọ̀lẹ̀ Circle VIP</button>
+      <button type="button" class="profile-btn-signout" onclick="handleSignOut()">Sign Out</button>
+    </div>
+  </div>
+</div>
+
 <!-- ============================================================ PAYMENT MODAL -->
 <div class="modal-backdrop" id="paymentBackdrop">
   <div class="payment-modal">
@@ -3023,6 +3079,180 @@
           <div class="ag-card-scanline"></div>
         </div>
         <div class="ag-card-body"><p class="ag-card-num">SYM #06 · SEAL</p><p class="ag-card-title">Ọ̀run Seal</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── VARIANT COVERS & EDITIONS ── -->
+  <div class="ag-category reveal">
+    <div class="ag-cat-header">
+      <div class="ag-cat-dot" style="background:#F4B800"></div>
+      <span class="ag-cat-title" style="color:#F4B800">Variant Covers &amp; Editions</span>
+      <span class="ag-cat-count">13 artworks</span>
+    </div>
+    <div class="ag-grid">
+      <a href="https://www.canva.com/d/cover-01" target="_blank" rel="noopener" class="ag-card" data-img="./assets/cover-issue1.webp" data-code="COVER-01">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">COVER-01</span>
+          <img src="./assets/cover-issue1.webp" alt="Issue #01 Original Foil" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">COVER #01 · ISSUE 01</p><p class="ag-card-title">Issue #01 Original Foil</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
+      </a>
+      <a href="https://www.canva.com/d/cover-02" target="_blank" rel="noopener" class="ag-card" data-img="./assets/cover-issue2.webp" data-code="COVER-02">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">COVER-02</span>
+          <img src="./assets/cover-issue2.webp" alt="Issue #02 Balogun Siege" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">COVER #02 · ISSUE 02</p><p class="ag-card-title">Issue #02 Balogun Siege</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
+      </a>
+      <a href="https://www.canva.com/d/cover-03" target="_blank" rel="noopener" class="ag-card" data-img="./assets/cover-issue3.webp" data-code="COVER-03">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">COVER-03</span>
+          <img src="./assets/cover-issue3.webp" alt="Issue #03 Ọ̀ṣun Whispers" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">COVER #03 · ISSUE 03</p><p class="ag-card-title">Issue #03 Ọ̀ṣun Whispers</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
+      </a>
+      <a href="https://www.canva.com/d/cover-04" target="_blank" rel="noopener" class="ag-card" data-img="./assets/cover-issue4.webp" data-code="COVER-04">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">COVER-04</span>
+          <img src="./assets/cover-issue4.webp" alt="Issue #04 Final Reckoning" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">COVER #04 · ISSUE 04</p><p class="ag-card-title">Issue #04 Final Reckoning</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
+      </a>
+      <a href="https://www.canva.com/d/cover-05" target="_blank" rel="noopener" class="ag-card" data-img="./assets/cover-amara-awakening.webp" data-code="COVER-05">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">COVER-05</span>
+          <img src="./assets/cover-amara-awakening.webp" alt="Amara Awakening Virgin Art" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">COVER #05 · VIRGIN ART</p><p class="ag-card-title">Amara Awakening Virgin Art</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
+      </a>
+      <a href="https://www.canva.com/d/cover-06" target="_blank" rel="noopener" class="ag-card" data-img="./assets/cover-bayo-orisha1.webp" data-code="COVER-06">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">COVER-06</span>
+          <img src="./assets/cover-bayo-orisha1.webp" alt="Bayo Orisha Manifestation" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">COVER #06 · MANIFEST</p><p class="ag-card-title">Bayo Orisha Manifestation</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
+      </a>
+      <a href="https://www.canva.com/d/cover-07" target="_blank" rel="noopener" class="ag-card" data-img="./assets/cover-choose-your-side.webp" data-code="COVER-07">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">COVER-07</span>
+          <img src="./assets/cover-choose-your-side.webp" alt="Choose Your Side Faction" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">COVER #07 · FACTION</p><p class="ag-card-title">Choose Your Side Faction</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
+      </a>
+      <a href="https://www.canva.com/d/cover-08" target="_blank" rel="noopener" class="ag-card" data-img="./assets/cover-fifth-faction.webp" data-code="COVER-08">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">COVER-08</span>
+          <img src="./assets/cover-fifth-faction.webp" alt="The Fifth Faction Drop" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">COVER #08 · SHADOW</p><p class="ag-card-title">The Fifth Faction Drop</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
+      </a>
+      <a href="https://www.canva.com/d/cover-09" target="_blank" rel="noopener" class="ag-card" data-img="./assets/cover-finale50.webp" data-code="COVER-09">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">COVER-09</span>
+          <img src="./assets/cover-finale50.webp" alt="Finale 50 Collector Cut" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">COVER #09 · FINALE</p><p class="ag-card-title">Finale 50 Collector Cut</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
+      </a>
+      <a href="https://www.canva.com/d/cover-10" target="_blank" rel="noopener" class="ag-card" data-img="./assets/cover-lagos-eternal4.webp" data-code="COVER-10">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">COVER-10</span>
+          <img src="./assets/cover-lagos-eternal4.webp" alt="Lagos Eternal Neon Night" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">COVER #10 · ETERNAL</p><p class="ag-card-title">Lagos Eternal Neon Night</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
+      </a>
+      <a href="https://www.canva.com/d/cover-11" target="_blank" rel="noopener" class="ag-card" data-img="./assets/cover-memory-keeper-teaser.webp" data-code="COVER-11">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">COVER-11</span>
+          <img src="./assets/cover-memory-keeper-teaser.webp" alt="Memory Keeper Teaser Holo" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">COVER #11 · MEMORY</p><p class="ag-card-title">Memory Keeper Teaser Holo</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
+      </a>
+      <a href="https://www.canva.com/d/cover-12" target="_blank" rel="noopener" class="ag-card" data-img="./assets/cover-orisha-rising3.webp" data-code="COVER-12">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">COVER-12</span>
+          <img src="./assets/cover-orisha-rising3.webp" alt="Orisha Rising Dawn Foil" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">COVER #12 · RISING</p><p class="ag-card-title">Orisha Rising Dawn Foil</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
+      </a>
+      <a href="https://www.canva.com/d/cover-13" target="_blank" rel="noopener" class="ag-card" data-img="./assets/cover-awakening-never-a-choice.webp" data-code="COVER-13">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">COVER-13</span>
+          <img src="./assets/cover-awakening-never-a-choice.webp" alt="Awakening Was Never A Choice" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">COVER #13 · DESTINY</p><p class="ag-card-title">Awakening Was Never A Choice</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── COMBAT CHOREOGRAPHY & BATTLE ACTION ── -->
+  <div class="ag-category reveal">
+    <div class="ag-cat-header">
+      <div class="ag-cat-dot" style="background:#F4B800"></div>
+      <span class="ag-cat-title" style="color:#F4B800">Combat Choreography &amp; Battle Action</span>
+      <span class="ag-cat-count">6 artworks</span>
+    </div>
+    <div class="ag-grid">
+      <a href="https://www.canva.com/d/action-01" target="_blank" rel="noopener" class="ag-card" data-img="./assets/battle-raw.webp" data-code="ACTION-01">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">ACTION-01</span>
+          <img src="./assets/battle-raw.webp" alt="Raw Mushin Kinetic Clash" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">ACTION #01 · MUSHIN</p><p class="ag-card-title">Raw Mushin Kinetic Clash</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
+      </a>
+      <a href="https://www.canva.com/d/action-02" target="_blank" rel="noopener" class="ag-card" data-img="./assets/bayo-action-color.webp" data-code="ACTION-02">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">ACTION-02</span>
+          <img src="./assets/bayo-action-color.webp" alt="Bayo High-Voltage Strike" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">ACTION #02 · STRIKE</p><p class="ag-card-title">Bayo High-Voltage Strike</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
+      </a>
+      <a href="https://www.canva.com/d/action-03" target="_blank" rel="noopener" class="ag-card" data-img="./assets/bayo-action-bw.webp" data-code="ACTION-03">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">ACTION-03</span>
+          <img src="./assets/bayo-action-bw.webp" alt="Noir Inked Combat Choreography" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">ACTION #03 · INKED</p><p class="ag-card-title">Noir Inked Combat Choreography</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
+      </a>
+      <a href="https://www.canva.com/d/action-04" target="_blank" rel="noopener" class="ag-card" data-img="./assets/bayo-keyart-skyline.webp" data-code="ACTION-04">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">ACTION-04</span>
+          <img src="./assets/bayo-keyart-skyline.webp" alt="Skyline Overwatch Posture" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">ACTION #04 · SKYLINE</p><p class="ag-card-title">Skyline Overwatch Posture</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
+      </a>
+      <a href="https://www.canva.com/d/action-05" target="_blank" rel="noopener" class="ag-card" data-img="./assets/bayo-keyart-street.webp" data-code="ACTION-05">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">ACTION-05</span>
+          <img src="./assets/bayo-keyart-street.webp" alt="Eko Street Level Confrontation" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">ACTION #05 · EKO</p><p class="ag-card-title">Eko Street Level Confrontation</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
+      </a>
+      <a href="https://www.canva.com/d/action-06" target="_blank" rel="noopener" class="ag-card" data-img="./assets/bayo-keyart-surge.webp" data-code="ACTION-06">
+        <div class="ag-card-preview">
+          <span class="ag-card-badge">ACTION-06</span>
+          <img src="./assets/bayo-keyart-surge.webp" alt="Full Aṣẹ Core Surge" class="ag-card-thumb" loading="lazy">
+          <div class="ag-card-scanline"></div>
+        </div>
+        <div class="ag-card-body"><p class="ag-card-num">ACTION #06 · SURGE</p><p class="ag-card-title">Full Aṣẹ Core Surge</p><span class="ag-card-cta">Inspect 4 variants →</span></div>
       </a>
     </div>
   </div>
