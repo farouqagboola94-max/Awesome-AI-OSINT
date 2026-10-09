@@ -398,6 +398,13 @@
       <button type="button" class="profile-resume-btn" onclick="resumeLastReadingScene()">RESUME READING ➔</button>
     </div>
 
+    <!-- HIGH-DPI CANVAS DIGITAL PASS EXPORTER -->
+    <div style="margin-top:1rem;text-align:center;">
+      <button type="button" class="profile-export-canvas-btn" id="profileExportCanvasBtn" onclick="exportDigitalReaderPassCanvas()">
+        ✦ EXPORT HOLOGRAPHIC VIP CREDENTIAL (PNG)
+      </button>
+    </div>
+
     <div class="profile-hud-actions">
       <button type="button" class="profile-btn-primary" onclick="closeUserProfileModal(); document.getElementById('artwork-gallery').scrollIntoView({behavior:'smooth'});">Inspect 50 Artworks Unveiled →</button>
       <button type="button" class="profile-btn-export" onclick="exportReaderIdCard()">🪪 Copy Digital Reader Pass</button>
@@ -1428,6 +1435,7 @@
       <button type="button" class="map-filter-btn" onclick="filterMapFaction('kooza', this)">KOOZA GRID (2)</button>
       <button type="button" class="map-filter-btn" onclick="filterMapFaction('eko', this)">EKO VIGILANTES (2)</button>
       <button type="button" class="map-filter-btn" onclick="filterMapFaction('council', this)">COUNCIL ARCHIVES (2)</button>
+      <button type="button" class="map-filter-btn map-heatmap-toggle" id="mapHeatmapBtn" onclick="toggleMapHeatmap()" title="Toggle Aṣẹ Bleed Heatmap Display">🔥 AṢẸ BLEED HEATMAP</button>
     </div>
   </div>
 
@@ -1581,6 +1589,24 @@
           <text x="40" y="-6" text-anchor="middle" fill="rgba(240,237,229,0.4)" font-size="7" font-family="monospace">5 KM</text>
         </g>
 
+        <!-- AṢẸ BLEED HEATMAP LAYER -->
+        <g id="mapHeatmapGroup" style="opacity:0;transition:opacity 0.5s ease;">
+          <defs>
+            <radialGradient id="heat-balogun" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#FF3D00" stop-opacity="0.6"/>
+              <stop offset="60%" stop-color="#FF6B00" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#FFC107" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="heat-void" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#C41E3A" stop-opacity="0.7"/>
+              <stop offset="70%" stop-color="#b81414" stop-opacity="0.35"/>
+              <stop offset="100%" stop-color="#1a1a6e" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <circle cx="370" cy="315" r="95" fill="url(#heat-balogun)" class="heatmap-pulse-circle"/>
+          <circle cx="460" cy="270" r="110" fill="url(#heat-void)" class="heatmap-pulse-circle"/>
+          <circle cx="280" cy="245" r="75" fill="url(#heat-balogun)" class="heatmap-pulse-circle"/>
+        </g>
         <!-- RADAR SWEEP ANIMATION -->
         <circle cx="400" cy="300" r="260" fill="none" stroke="rgba(0,201,177,0.12)" stroke-width="1" stroke-dasharray="4,6"/>
         <circle cx="400" cy="300" r="180" fill="none" stroke="rgba(244,184,0,0.1)" stroke-width="1" stroke-dasharray="2,4"/>
@@ -3414,6 +3440,31 @@
         <h3 class="hud-art-title" id="hudArtTitle">Artwork Title</h3>
         <p class="hud-art-desc" id="hudArtDesc">Atmospheric Afrofuturist illustration rendered with Aṣẹ elemental depth, Lagos Noir lighting contrast, and high-frequency vector detail.</p>
 
+        <!-- INTERACTIVE CANON PALETTE EYEDROPPER -->
+        <div class="hud-palette-label">Canon Color Palette (Click to Copy Hex):</div>
+        <div class="hud-palette-bar" id="hudArtPaletteBar">
+          <button type="button" class="palette-swatch" style="background:#F4B800" onclick="copyHexCode('#F4B800', 'Danfo Gold')" title="Copy #F4B800">
+            <span class="swatch-code">#F4B800</span>
+            <span class="swatch-name">Danfo Gold</span>
+          </button>
+          <button type="button" class="palette-swatch" style="background:#00C9B1" onclick="copyHexCode('#00C9B1', 'Orisha Teal')" title="Copy #00C9B1">
+            <span class="swatch-code">#00C9B1</span>
+            <span class="swatch-name">Orisha Teal</span>
+          </button>
+          <button type="button" class="palette-swatch" style="background:#C41E3A" onclick="copyHexCode('#C41E3A', 'Blood Red')" title="Copy #C41E3A">
+            <span class="swatch-code">#C41E3A</span>
+            <span class="swatch-name">Blood Red</span>
+          </button>
+          <button type="button" class="palette-swatch" style="background:#1A0826" onclick="copyHexCode('#1A0826', 'Void Purple')" title="Copy #1A0826">
+            <span class="swatch-code">#1A0826</span>
+            <span class="swatch-name">Void Purple</span>
+          </button>
+          <button type="button" class="palette-swatch" style="background:#FF6B1A" onclick="copyHexCode('#FF6B1A', 'Neon Ember')" title="Copy #FF6B1A">
+            <span class="swatch-code">#FF6B1A</span>
+            <span class="swatch-name">Neon Ember</span>
+          </button>
+        </div>
+
         <div class="hud-variants-label">Active Variant (Click to Switch):</div>
         <div class="hud-variants-pills" id="hudVariantsContainer">
           <button type="button" class="hud-variant-pill active" onclick="switchHudVariant(0, this)">1. Canon Master</button>
@@ -4313,6 +4364,13 @@
     <p class="section-label reveal">The Stories</p>
     <h2 class="section-title reveal">READ THE<br><em>UNIVERSE</em></h2>
     <p class="reveal" style="max-width:520px;font-size:0.88rem;line-height:1.8;color:rgba(240,237,229,0.6);margin-top:1rem;">The first four issues are yours, fully and freely. No signup required for the storyline. Read. Get hooked. Then decide if you want to go deeper.</p>
+    <!-- READER ATMOSPHERE THEME SWITCHER -->
+    <div class="reader-theme-switcher reveal" id="readerThemeSwitcher">
+      <span class="theme-label">ATMOSPHERE:</span>
+      <button type="button" class="theme-btn active" onclick="setReaderTheme('dark', this)">🌑 NOIR</button>
+      <button type="button" class="theme-btn" onclick="setReaderTheme('sepia', this)">📜 SEPIA</button>
+      <button type="button" class="theme-btn" onclick="setReaderTheme('matrix', this)">🟢 MATRIX</button>
+    </div>
   </div>
 
   <div class="issue-tabs">
@@ -7031,6 +7089,10 @@
   </div>
 
   <div class="council-wrap reveal">
+    <!-- Search & Filter Controls -->
+    <div class="council-search-box">
+      <input type="text" id="councilSearchInput" class="council-search-input" placeholder="🔍 Search theories by keyword (Bayo, Pale Council, Orisha Vaccine, Void, Mother Storm)..." oninput="searchCouncilTheories(this.value)">
+    </div>
     <!-- Filter Tabs -->
     <div class="council-tabs" role="tablist">
       <button type="button" class="council-tab active" onclick="filterTheories('all', this)">⚡ ALL THEORIES (6)</button>
@@ -7418,6 +7480,14 @@
       <button type="button" class="preset-btn" onclick="setAmbientPreset('ogun', this)" title="Ògún Forge: Industrial Resonance">⚔ Ògún</button>
       <button type="button" class="preset-btn" onclick="setAmbientPreset('osun', this)" title="Ọ̀ṣun Tide: Water Flow &amp; Binaural">🌊 Ọ̀ṣun</button>
       <button type="button" class="preset-btn" onclick="setAmbientPreset('noir', this)" title="Lagos Noir: Subterranean Drone">🌃 Noir</button>
+      <button type="button" class="preset-btn" onclick="setAmbientPreset('obatala', this)" title="Obatàlá Zenith: Ethereal High Harmonics">⚖ Obatàlá</button>
+    </div>
+    <!-- LIVE AṢẸ FX SOUNDBOARD TRAY -->
+    <div class="sound-fx-tray" id="soundFxTray">
+      <button type="button" class="sound-fx-btn" onclick="playOneShotFx('thunder')" title="Trigger Thunderstrike">⚡ THUNDER</button>
+      <button type="button" class="sound-fx-btn" onclick="playOneShotFx('steel')" title="Trigger Iron Clang">⚔ STEEL</button>
+      <button type="button" class="sound-fx-btn" onclick="playOneShotFx('tide')" title="Trigger Mystic Tide">🌊 TIDE</button>
+      <button type="button" class="sound-fx-btn" onclick="playOneShotFx('radio')" title="Trigger Radio Recon">📻 RECON</button>
     </div>
     <!-- AUTO-ZONE NARRATIVE SYNC TOGGLE -->
     <button type="button" class="sound-autozone-btn active" id="soundAutoZoneBtn" onclick="toggleAutoZoneSound()" title="Automatically sync ambient music with page sections as you read">

@@ -8913,3 +8913,281 @@ var TC_ENDINGS = {
     enrichTheoryCards();
   }
 })();
+
+/* ══════════════════════════════════════════════════════════════════
+   CATALYST OS v3.0 INTERACTIVE LOGIC & ADVANCED CONTROLLERS
+   ══════════════════════════════════════════════════════════════════ */
+
+(function initCatalystOSv3() {
+  /* ── 1. PALETTE HEX EYEDROPPER COPY ── */
+  window.copyHexCode = function(hex, name) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(hex).then(() => {
+        showPaletteToast('COPIED ' + name + ' (' + hex + ')');
+      }).catch(() => {
+        showPaletteToast('COPIED: ' + hex);
+      });
+    } else {
+      showPaletteToast('HEX: ' + hex);
+    }
+    if (typeof window.playHudSound === 'function') window.playHudSound('select');
+  };
+
+  function showPaletteToast(msg) {
+    let toast = document.getElementById('paletteToast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'paletteToast';
+      toast.style.position = 'fixed';
+      toast.style.bottom = '2rem';
+      toast.style.left = '50%';
+      toast.style.transform = 'translateX(-50%)';
+      toast.style.background = 'rgba(6, 6, 13, 0.95)';
+      toast.style.border = '1px solid #F4B800';
+      toast.style.color = '#F4B800';
+      toast.style.padding = '0.6rem 1.2rem';
+      toast.style.fontFamily = "'Space Grotesk', monospace";
+      toast.style.fontSize = '0.8rem';
+      toast.style.letterSpacing = '0.1em';
+      toast.style.borderRadius = '4px';
+      toast.style.zIndex = '999999';
+      toast.style.boxShadow = '0 8px 25px rgba(0,0,0,0.8), 0 0 15px rgba(244,184,0,0.4)';
+      toast.style.transition = 'opacity 0.25s ease';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.style.opacity = '1';
+    clearTimeout(toast._timeout);
+    toast._timeout = setTimeout(() => { toast.style.opacity = '0'; }, 2000);
+  }
+
+  /* ── 2. LAGOS MAP HEATMAP TOGGLE ── */
+  let isHeatmapActive = false;
+  window.toggleMapHeatmap = function() {
+    isHeatmapActive = !isHeatmapActive;
+    const group = document.getElementById('mapHeatmapGroup');
+    const btn = document.getElementById('mapHeatmapBtn');
+    if (group) group.style.opacity = isHeatmapActive ? '1' : '0';
+    if (btn) {
+      btn.classList.toggle('active', isHeatmapActive);
+      btn.textContent = isHeatmapActive ? '⚡ TOPOLOGY VECTOR VIEW' : '🔥 AṢẸ BLEED HEATMAP';
+    }
+    if (typeof window.playHudSound === 'function') {
+      window.playHudSound(isHeatmapActive ? 'activate' : 'select');
+    }
+  };
+
+  /* ── 3. PROCEDURAL AṢẸ FX SOUNDBOARD ── */
+  window.playOneShotFx = function(type) {
+    try {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+      const ctx = new AudioContext();
+      const t = ctx.currentTime;
+
+      if (type === 'thunder') {
+        // Synthesize rolling thunder
+        const bufferSize = ctx.sampleRate * 1.5;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = Math.random() * 2 - 1;
+        }
+        const noise = ctx.createBufferSource();
+        noise.buffer = buffer;
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(220, t);
+        filter.frequency.exponentialRampToValueAtTime(45, t + 1.4);
+        const gain = ctx.createGain();
+        gain.gain.setValueAtTime(0.35, t);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 1.5);
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+        noise.start(t);
+      } else if (type === 'steel') {
+        // Synthesize metal hammer clang
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(1240, t);
+        osc.frequency.exponentialRampToValueAtTime(540, t + 0.6);
+        gain.gain.setValueAtTime(0.28, t);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.65);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(t);
+        osc.stop(t + 0.7);
+      } else if (type === 'tide') {
+        // Synthesize water flow surge
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(180, t);
+        osc.frequency.linearRampToValueAtTime(320, t + 0.8);
+        osc.frequency.linearRampToValueAtTime(160, t + 1.8);
+        gain.gain.setValueAtTime(0.01, t);
+        gain.gain.linearRampToValueAtTime(0.22, t + 0.8);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 1.9);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(t);
+        osc.stop(t + 2.0);
+      } else if (type === 'radio') {
+        // Synthesize military recon telemetry chirps
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(1800, t);
+        osc.frequency.setValueAtTime(2400, t + 0.1);
+        osc.frequency.setValueAtTime(1500, t + 0.2);
+        osc.frequency.setValueAtTime(2200, t + 0.3);
+        gain.gain.setValueAtTime(0.15, t);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.45);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(t);
+        osc.stop(t + 0.5);
+      }
+    } catch (e) {
+      console.warn('Procedural FX error:', e);
+    }
+  };
+
+  /* ── 4. Ọ̀RUN COUNCIL REAL-TIME SEARCH ── */
+  window.searchCouncilTheories = function(query) {
+    const q = (query || '').toLowerCase().trim();
+    const cards = document.querySelectorAll('.council-card');
+    cards.forEach(card => {
+      const text = card.textContent.toLowerCase();
+      if (!q || text.includes(q)) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  };
+
+  /* ── 5. COMIC READER THEME SWITCHER ── */
+  window.setReaderTheme = function(theme, btn) {
+    document.querySelectorAll('.reader-theme-switcher .theme-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    document.body.classList.remove('reader-theme-sepia', 'reader-theme-matrix');
+    if (theme === 'sepia') {
+      document.body.classList.add('reader-theme-sepia');
+    } else if (theme === 'matrix') {
+      document.body.classList.add('reader-theme-matrix');
+    }
+    localStorage.setItem('catalyst_reader_theme', theme);
+    if (typeof window.playHudSound === 'function') window.playHudSound('select');
+  };
+
+  // Restore saved reader theme
+  const savedTheme = localStorage.getItem('catalyst_reader_theme');
+  if (savedTheme) {
+    const btn = document.querySelector(`.reader-theme-switcher .theme-btn[onclick*="${savedTheme}"]`);
+    if (btn) window.setReaderTheme(savedTheme, btn);
+  }
+
+  /* ── 6. CANVAS DIGITAL VIP PASS EXPORTER ── */
+  window.exportDigitalReaderPassCanvas = function() {
+    const callsign = (document.getElementById('profileCallSignInput')?.value || 'CATALYST_OPERATIVE').toUpperCase();
+    const affinity = document.querySelector('.affinity-chip.active')?.textContent || '⚡ Ṣàngó';
+    const canvas = document.createElement('canvas');
+    canvas.width = 900;
+    canvas.height = 520;
+    const ctx = canvas.getContext('2d');
+
+    // Background gradient
+    const bg = ctx.createLinearGradient(0, 0, 900, 520);
+    bg.addColorStop(0, '#06060D');
+    bg.addColorStop(0.5, '#0A0A1F');
+    bg.addColorStop(1, '#020108');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, 900, 520);
+
+    // Cyberpunk grid lines
+    ctx.strokeStyle = 'rgba(244, 184, 0, 0.08)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < 900; x += 40) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 520); ctx.stroke();
+    }
+    for (let y = 0; y < 520; y += 40) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(900, y); ctx.stroke();
+    }
+
+    // Outer border
+    ctx.strokeStyle = '#F4B800';
+    ctx.lineWidth = 3;
+    ctx.strokeRect(20, 20, 860, 480);
+
+    // Inner teal border
+    ctx.strokeStyle = 'rgba(0, 201, 177, 0.4)';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(30, 30, 840, 460);
+
+    // Corner brackets
+    ctx.fillStyle = '#F4B800';
+    ctx.fillRect(15, 15, 25, 4);
+    ctx.fillRect(15, 15, 4, 25);
+    ctx.fillRect(860, 15, 25, 4);
+    ctx.fillRect(881, 15, 4, 25);
+    ctx.fillRect(15, 497, 25, 4);
+    ctx.fillRect(15, 476, 4, 25);
+    ctx.fillRect(860, 497, 25, 4);
+    ctx.fillRect(881, 476, 4, 25);
+
+    // Header Tag
+    ctx.font = "bold 15px 'Space Grotesk', monospace";
+    ctx.fillStyle = '#00C9B1';
+    ctx.fillText('CATALYST OS // VERIFIED OPERATIVE CREDENTIAL v3.0', 50, 65);
+
+    // Main Title
+    ctx.font = "bold 34px 'Space Grotesk', sans-serif";
+    ctx.fillStyle = '#F0EDE5';
+    ctx.fillText('CATALYST: AWAKENING', 50, 115);
+
+    // Callsign
+    ctx.font = "bold 44px 'Space Grotesk', sans-serif";
+    ctx.fillStyle = '#F4B800';
+    ctx.fillText(callsign, 50, 185);
+
+    // Affinity
+    ctx.font = "18px 'Space Grotesk', monospace";
+    ctx.fillStyle = '#00C9B1';
+    ctx.fillText('ORISHA AFFINITY: ' + affinity, 50, 230);
+
+    // Details Grid
+    ctx.font = "14px 'Space Grotesk', monospace";
+    ctx.fillStyle = 'rgba(240, 237, 229, 0.7)';
+    ctx.fillText('SECURITY CLEARANCE: TIER-01 GRAND SOVEREIGN', 50, 280);
+    ctx.fillText('COGNITIVE CANON ACCESS: 50/50 ARTWORKS UNLOCKED', 50, 310);
+    ctx.fillText('ORUN MEMBRANE SYNC: STABLE (99.8%)', 50, 340);
+    ctx.fillText('TIMESTAMP: ' + new Date().toISOString().slice(0, 19).replace('T', ' '), 50, 370);
+
+    // Holographic Seal simulation
+    ctx.save();
+    ctx.translate(720, 260);
+    ctx.strokeStyle = '#F4B800';
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(0, 0, 80, 0, Math.PI * 2); ctx.stroke();
+    ctx.strokeStyle = '#00C9B1';
+    ctx.beginPath(); ctx.arc(0, 0, 65, 0, Math.PI * 2); ctx.stroke();
+    ctx.font = "bold 13px 'Space Grotesk', monospace";
+    ctx.fillStyle = '#F4B800';
+    ctx.textAlign = 'center';
+    ctx.fillText('Ọ̀RUN COUNCIL', 0, -10);
+    ctx.fillText('CANON VERIFIED', 0, 15);
+    ctx.restore();
+
+    // Trigger download
+    const link = document.createElement('a');
+    link.download = 'Catalyst_VIP_Pass_' + callsign.replace(/[^A-Z0-9_]/gi, '_') + '.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+
+    if (typeof window.playHudSound === 'function') window.playHudSound('success');
+  };
+})();
