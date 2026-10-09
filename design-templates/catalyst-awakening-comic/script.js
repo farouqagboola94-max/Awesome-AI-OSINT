@@ -9693,3 +9693,457 @@ var TC_ENDINGS = {
     localStorage.setItem('catalyst_pwa_dismissed', 'true');
   };
 })();
+
+/* ══════════════════════════════════════════════════════════════════
+   CATALYST OS v6.0 FOUR ULTIMATE EXPANSIONS LOGIC & CONTROLLERS
+   ══════════════════════════════════════════════════════════════════ */
+
+(function initCatalystOSv6() {
+  /* ── 1. THE ORACLE OF BADAGRY LORE TERMINAL ── */
+  let activeEntity = 'oracle';
+  const ENTITY_PROFILES = {
+    oracle: {
+      tag: 'UPLINK: ORACLE_OF_BADAGRY // MEMBRANE RESONANCE 98.4%',
+      prefix: '[ORACLE]',
+      greeting: '"You walk on soil that remembers forty-one thousand days of fire. What truth do you seek from the waters, traveler?"',
+      loreAnswers: {
+        ase: '"Aṣẹ is not magic, nor is it mere electricity. It is the primordial frequency that existed before language divided thought from matter. When you speak in alignment with reality, the membrane yields."',
+        vaccine: '"The Pale Council does not hate gods; they fear unpredictability. The Vaccine is an electromagnetic dampener engineered from synthetic Ọ̀run marrow to calcify human mitochondrial receptivity to divinity."',
+        rupture: '"If the membrane ruptures wholly, Lagos will exist simultaneously in the 14th century, 2031, and the uncreated future. Time will become physical geography. You could walk from Mushin into eternity."',
+        bayo: '"Bayo mother was Morenike Adeyemi — an initiate of the secret guild of Ògún smiths in Badagry. She knew before he was born that his bloodline was configured as a dual-terminal capacitor for thunder and iron."',
+        default: '"The currents of the lagoon are stirred by your inquiry. Every choice in Lagos echoes across three realms. Prepare your heart for the convergence."'
+      }
+    },
+    bayo: {
+      tag: 'UPLINK: BAYO_ADEYEMI (ADY-19) // SECTOR 01 MUSHIN CORE',
+      prefix: '[BAYO]',
+      greeting: '"Look, I am just a guy from Paul Street who woke up with thunder in his bones. Ask whatever you want, but we do not have much time before the next patrol."',
+      loreAnswers: {
+        ase: '"When it hits me, it feels like every generator on the mainland kicking on at once inside my chest. It burns, but it also feels like home."',
+        vaccine: '"The Architect thinks she can cure us of who we are. Tell her to bring her syringes to Mushin and see if iron bends for plastic."',
+        rupture: '"I saw through the seam above Balogun. It is terrifying, but it is also alive. We are not running from it anymore."',
+        bayo: '"My mother taught me that a mechanic does not just fix engines — he listens to what broke. I am trying to listen to what broke in Lagos."',
+        default: '"Whatever the Council brings, the team is holding the line. Amara, Ikenna, Zara — we are not backing down."'
+      }
+    },
+    architect: {
+      tag: 'UPLINK: THE_ARCHITECT // PALE COUNCIL GRAND SOVEREIGN',
+      prefix: '[ARCHITECT]',
+      greeting: '"I have calculated thirty-two thousand iterations of this conversation. Your sentimentality remains remarkably consistent. State your premise."',
+      loreAnswers: {
+        ase: '"A biological hazard of cosmic scale. An uncontrolled release of Aṣẹ turns ordinary mortals into volatile weapons of mass devastation. Chaos requires containment."',
+        vaccine: '"The Vaccine is salvation disguised as an injection. We are liberating humanity from the arbitrary tyranny of ancient mythological parasites."',
+        rupture: '"A total rupture is the extinction of human autonomy. The Pale Council will seal the seam permanently, regardless of the cultural cost."',
+        bayo: '"Vessel ADY-19 is a statistical impossibility that defies our regression models. He will be neutralized, archived, and studied."',
+        default: '"Your questions do not alter the equation. Thirty-four days remain before the architecture of modern Lagos is finalized."'
+      }
+    }
+  };
+
+  window.selectChatEntity = function(key, btn) {
+    activeEntity = key;
+    document.querySelectorAll('.entity-selector-chips .entity-chip').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    const profile = ENTITY_PROFILES[key];
+    const tagEl = document.getElementById('terminalActiveEntity');
+    const history = document.getElementById('terminalChatHistory');
+
+    if (tagEl) tagEl.textContent = profile.tag;
+    if (history) {
+      history.innerHTML = '<div class="term-msg system"><span class="term-prefix">[SYSTEM]</span> Uplink established to ' + key.toUpperCase() + '.</div>' +
+        '<div class="term-msg entity"><span class="term-prefix">' + profile.prefix + '</span> ' + profile.greeting + '</div>';
+    }
+    if (typeof window.playHudSound === 'function') window.playHudSound('activate');
+  };
+
+  window.submitTerminalQuery = function() {
+    const input = document.getElementById('terminalUserInput');
+    const query = input?.value?.trim();
+    if (!query) return;
+
+    input.value = '';
+    const history = document.getElementById('terminalChatHistory');
+    if (!history) return;
+
+    // Add user message
+    const userDiv = document.createElement('div');
+    userDiv.className = 'term-msg user';
+    userDiv.innerHTML = '<span class="term-prefix">[YOU]</span> ' + query;
+    history.appendChild(userDiv);
+    history.scrollTop = history.scrollHeight;
+
+    // Determine entity response
+    const profile = ENTITY_PROFILES[activeEntity];
+    let reply = profile.loreAnswers.default;
+    const lower = query.toLowerCase();
+
+    if (lower.includes('ase') || lower.includes('aṣẹ') || lower.includes('origin') || lower.includes('frequency')) {
+      reply = profile.loreAnswers.ase;
+    } else if (lower.includes('vaccine') || lower.includes('pale council') || lower.includes('architect') || lower.includes('cure')) {
+      reply = profile.loreAnswers.vaccine;
+    } else if (lower.includes('rupture') || lower.includes('membrane') || lower.includes('orun') || lower.includes('ọ̀run')) {
+      reply = profile.loreAnswers.rupture;
+    } else if (lower.includes('mother') || lower.includes('bayo') || lower.includes('lineage') || lower.includes('mushin')) {
+      reply = profile.loreAnswers.bayo;
+    }
+
+    if (typeof window.playOneShotFx === 'function') window.playOneShotFx('radio');
+
+    setTimeout(() => {
+      const entityDiv = document.createElement('div');
+      entityDiv.className = 'term-msg entity';
+      entityDiv.innerHTML = '<span class="term-prefix">' + profile.prefix + '</span> ' + reply;
+      history.appendChild(entityDiv);
+      history.scrollTop = history.scrollHeight;
+      if (typeof window.playHudSound === 'function') window.playHudSound('select');
+    }, 450);
+  };
+
+  window.askQuickQuestion = function(q) {
+    const input = document.getElementById('terminalUserInput');
+    if (input) input.value = q;
+    window.submitTerminalQuery();
+  };
+
+  /* ── 2. SACRED RELICS 3D CANVAS RENDERER ── */
+  const RELICS_DATA = [
+    {
+      title: "The Iron Anvil of Ògún",
+      yoruba: "Àwọn Ohun Ìjà Ògún Alákàyé",
+      desc: "Forged from meteoric core iron in the primeval forest. Every strike across its surface emits a 432 Hz subsonic acoustic wave that stabilizes raw elemental iron across a 50-kilometre radius.",
+      freq: "432 Hz Harmonic",
+      alloy: "99.4% Meteoric Core Iron",
+      ase: "1,400 Sovereign Units",
+      loc: "Ilubirin Subterranean Vaults",
+      color: "#FF6B1A",
+      shape: "anvil"
+    },
+    {
+      title: "The Osé Thunder Axe of Ṣàngó",
+      yoruba: "Àáké Ààrá Ṣàngó Ọba Kòso",
+      desc: "A double-bladed ceremonial thunder-axe carved from lightning-struck iroko and edged in golden brass. Discharges three million volts of kinetic electrostatic surge on impact.",
+      freq: "528 Hz Resonant Shock",
+      alloy: "Thunder Iroko & Golden Brass",
+      ase: "2,100 Storm Units",
+      loc: "Balogun Core Cloud Nexus",
+      color: "#F4B800",
+      shape: "axe"
+    },
+    {
+      title: "The Brass Mirror of Ọ̀ṣun",
+      yoruba: "Awo Idẹ Ọ̀ṣun Òṣogbo",
+      desc: "Liquid golden mirror reflecting not photons, but human intentionality and ancestral lineage. Water pooled on its surface never evaporates even under extreme thermal duress.",
+      freq: "639 Hz Fluid Coherence",
+      alloy: "Sacred River Brass & Pearl",
+      ase: "1,850 Memory Units",
+      loc: "Badagry Lagoon Deep Trench",
+      color: "#00C9B1",
+      shape: "mirror"
+    },
+    {
+      title: "The Crossroads Staff of Ẹṣù",
+      yoruba: "Ọ̀pá Ẹlẹ́gbàá Oríta Mẹ́ta",
+      desc: "A spiraling dual-headed staff of black ebony and cowrie inlays that manipulates local probability vectors. Allows operatives to fold spatial distance across any junction.",
+      freq: "741 Hz Dimensional Slip",
+      alloy: "Void Ebony & Ancient Cowrie",
+      ase: "1,920 Crossroads Units",
+      loc: "Mushin Paul Street Concourse",
+      color: "#b81414",
+      shape: "staff"
+    },
+    {
+      title: "The Pale Vaccine Ampoule",
+      yoruba: "Àbẹ́rẹ́ Ìdènà Àṣẹ Ìgbàlódé",
+      desc: "A crystalline hyper-dense phial designed by the Architect containing synthetic antimatter-suspended antibodies intended to purge Orisha genetic susceptibility forever.",
+      freq: "963 Hz Synthetic Lock",
+      alloy: "Titanium-Polymer & Void Serum",
+      ase: "NEGATIVE 3,500 Units",
+      loc: "Tower 7 High Security Apex",
+      color: "#C41E3A",
+      shape: "ampoule"
+    }
+  ];
+
+  let currentRelicIdx = 0;
+  let relicAngleX = 0;
+  let relicAngleY = 0;
+  let isRotatingRelic = true;
+  let isDraggingRelic = false;
+  let lastMouseX = 0;
+  let lastMouseY = 0;
+
+  window.selectRelic = function(idx, btn) {
+    currentRelicIdx = idx;
+    document.querySelectorAll('.relic-selector-tabs .relic-tab').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    const d = RELICS_DATA[idx];
+    document.getElementById('relicSpecTag').textContent = 'PRIMORDIAL RELIC // ARCHIVE #0' + (idx + 1);
+    document.getElementById('relicSpecTitle').textContent = d.title;
+    document.getElementById('relicSpecYoruba').textContent = d.yoruba;
+    document.getElementById('relicSpecDesc').textContent = d.desc;
+    document.getElementById('relicStatFreq').textContent = d.freq;
+    document.getElementById('relicStatAlloy').textContent = d.alloy;
+    document.getElementById('relicStatAse').textContent = d.ase;
+    document.getElementById('relicStatLoc').textContent = d.loc;
+
+    if (typeof window.playHudSound === 'function') window.playHudSound('select');
+  };
+
+  window.toggleRelicRotation = function() {
+    isRotatingRelic = !isRotatingRelic;
+    const btn = document.getElementById('relicRotateBtn');
+    if (btn) btn.textContent = isRotatingRelic ? '⏸ PAUSE ROTATION' : '▶ RESUME ROTATION';
+    if (typeof window.playHudSound === 'function') window.playHudSound('select');
+  };
+
+  window.pulseRelicEnergy = function() {
+    relicAngleY += 1.5;
+    if (typeof window.playOneShotFx === 'function') window.playOneShotFx('steel');
+  };
+
+  // 3D Canvas Loop
+  const relicCanvas = document.getElementById('relicCanvas3D');
+  if (relicCanvas) {
+    const ctx = relicCanvas.getContext('2d');
+
+    relicCanvas.addEventListener('mousedown', (e) => {
+      isDraggingRelic = true;
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
+    });
+    window.addEventListener('mouseup', () => { isDraggingRelic = false; });
+    window.addEventListener('mousemove', (e) => {
+      if (!isDraggingRelic) return;
+      relicAngleY += (e.clientX - lastMouseX) * 0.012;
+      relicAngleX += (e.clientY - lastMouseY) * 0.012;
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
+    });
+
+    function render3DRelic() {
+      ctx.clearRect(0, 0, relicCanvas.width, relicCanvas.height);
+      const cx = relicCanvas.width / 2;
+      const cy = relicCanvas.height / 2;
+      const relic = RELICS_DATA[currentRelicIdx];
+
+      if (isRotatingRelic && !isDraggingRelic) {
+        relicAngleY += 0.015;
+      }
+
+      // Background energy aura
+      const radGrad = ctx.createRadialGradient(cx, cy, 20, cx, cy, 180);
+      radGrad.addColorStop(0, relic.color);
+      radGrad.addColorStop(1, 'transparent');
+      ctx.save();
+      ctx.globalAlpha = 0.18;
+      ctx.fillStyle = radGrad;
+      ctx.beginPath(); ctx.arc(cx, cy, 180, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+
+      // Render 3D geometric wireframe
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.strokeStyle = relic.color;
+      ctx.lineWidth = 2;
+      ctx.shadowColor = relic.color;
+      ctx.shadowBlur = 15;
+
+      const size = 95;
+      // Vertices of 3D octahedron/cuboid
+      const vertices = [
+        [-size, 0, 0], [size, 0, 0],
+        [0, -size * 1.3, 0], [0, size * 1.3, 0],
+        [0, 0, -size], [0, 0, size]
+      ];
+
+      // Rotate vertices
+      const cosY = Math.cos(relicAngleY), sinY = Math.sin(relicAngleY);
+      const cosX = Math.cos(relicAngleX), sinX = Math.sin(relicAngleX);
+
+      const projected = vertices.map(([vx, vy, vz]) => {
+        // Y-axis rotation
+        let x1 = vx * cosY + vz * sinY;
+        let z1 = -vx * sinY + vz * cosY;
+        // X-axis rotation
+        let y2 = vy * cosX - z1 * sinX;
+        let z2 = vy * sinX + z1 * cosX;
+        return [x1, y2, z2];
+      });
+
+      // Draw edges
+      const edges = [
+        [0, 2], [1, 2], [0, 3], [1, 3],
+        [0, 4], [1, 4], [0, 5], [1, 5],
+        [2, 4], [2, 5], [3, 4], [3, 5]
+      ];
+
+      edges.forEach(([i, j]) => {
+        ctx.beginPath();
+        ctx.moveTo(projected[i][0], projected[i][1]);
+        ctx.lineTo(projected[j][0], projected[j][1]);
+        ctx.stroke();
+      });
+
+      // Draw glowing vertices
+      projected.forEach(([px, py]) => {
+        ctx.fillStyle = '#fff';
+        ctx.beginPath();
+        ctx.arc(px, py, 3.5, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      ctx.restore();
+      requestAnimationFrame(render3DRelic);
+    }
+    requestAnimationFrame(render3DRelic);
+  }
+
+  /* ── 3. WEBTOON VS SPREAD LAYOUT SWITCHER ── */
+  window.setReaderLayout = function(layout, btn) {
+    document.querySelectorAll('.reader-layout-controls .theme-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    if (layout === 'webtoon') {
+      document.body.classList.add('reader-layout-webtoon');
+    } else {
+      document.body.classList.remove('reader-layout-webtoon');
+    }
+    localStorage.setItem('catalyst_reader_layout', layout);
+    if (typeof window.playHudSound === 'function') window.playHudSound('select');
+  };
+
+  const savedLayout = localStorage.getItem('catalyst_reader_layout');
+  if (savedLayout === 'webtoon') {
+    const btn = document.getElementById('layoutWebtoonBtn');
+    if (btn) window.setReaderLayout('webtoon', btn);
+  }
+
+  /* ── 4. FAN OPERATIVE RECRUITMENT POSTER STUDIO ── */
+  let posterFormat = 'story'; // story (9:16), square (1:1), banner (16:9)
+  let posterFaction = 'sango';
+
+  window.setPosterFormat = function(fmt, btn) {
+    posterFormat = fmt;
+    btn.parentElement.querySelectorAll('.studio-opt-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const canvas = document.getElementById('posterCanvas');
+    if (canvas) {
+      if (fmt === 'story') { canvas.width = 450; canvas.height = 800; }
+      else if (fmt === 'square') { canvas.width = 600; canvas.height = 600; }
+      else if (fmt === 'banner') { canvas.width = 800; canvas.height = 450; }
+    }
+    window.updatePosterPreview();
+    if (typeof window.playHudSound === 'function') window.playHudSound('select');
+  };
+
+  window.setPosterFaction = function(faction, btn) {
+    posterFaction = faction;
+    btn.parentElement.querySelectorAll('.studio-opt-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    window.updatePosterPreview();
+    if (typeof window.playHudSound === 'function') window.playHudSound('select');
+  };
+
+  window.updatePosterPreview = function() {
+    const canvas = document.getElementById('posterCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width;
+    const h = canvas.height;
+
+    const callsign = (document.getElementById('studioCallsignInput')?.value || 'MUSHIN_ORACLE').toUpperCase();
+    const sector = document.getElementById('studioSectorSelect')?.value || 'MUSHIN CORE · SECTOR 01';
+
+    const factionColors = {
+      sango: { primary: '#F4B800', name: 'ṢÀNGÓ VOLT COLLECTIVE', sigil: '⚡' },
+      ogun:  { primary: '#00C9B1', name: 'ÒGÚN STEEL UNION', sigil: '⚔' },
+      osun:  { primary: '#FF6B1A', name: 'Ọ̀ṢUN TIDE COALITION', sigil: '🌊' },
+      kooza: { primary: '#C41E3A', name: 'KOOZA SYNDICATE GRID', sigil: '👁' }
+    };
+    const fData = factionColors[posterFaction] || factionColors.sango;
+
+    // Background gradient
+    const bg = ctx.createLinearGradient(0, 0, w, h);
+    bg.addColorStop(0, '#06060E');
+    bg.addColorStop(0.6, '#0B0D1F');
+    bg.addColorStop(1, '#020108');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, w, h);
+
+    // Diagonal futuristic hazard lines
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
+    ctx.lineWidth = 1;
+    for (let i = -w; i < w * 2; i += 30) {
+      ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i + h, h); ctx.stroke();
+    }
+
+    // Outer border
+    ctx.strokeStyle = fData.primary;
+    ctx.lineWidth = 3;
+    ctx.strokeRect(15, 15, w - 30, h - 30);
+
+    // Inner subtle border
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(25, 25, w - 50, h - 50);
+
+    // Header tag
+    ctx.font = "bold 13px 'Space Grotesk', monospace";
+    ctx.fillStyle = fData.primary;
+    ctx.fillText('CATALYST OS // OPERATIVE RECRUITMENT DOSSIER', 40, 55);
+
+    // Universe Title
+    ctx.font = "bold 26px 'Space Grotesk', sans-serif";
+    ctx.fillStyle = '#F0EDE5';
+    ctx.fillText('CATALYST: AWAKENING', 40, 95);
+
+    // Giant Faction Sigil
+    ctx.font = (w * 0.28) + "px 'Space Grotesk', sans-serif";
+    ctx.fillStyle = fData.primary;
+    ctx.textAlign = 'center';
+    ctx.fillText(fData.sigil, w / 2, h * 0.45);
+
+    // Callsign
+    ctx.textAlign = 'left';
+    ctx.font = "bold 34px 'Space Grotesk', sans-serif";
+    ctx.fillStyle = '#F0EDE5';
+    ctx.fillText(callsign, 40, h * 0.62);
+
+    // Faction Name
+    ctx.font = "bold 16px 'Space Grotesk', monospace";
+    ctx.fillStyle = fData.primary;
+    ctx.fillText(fData.name, 40, h * 0.68);
+
+    // Sector Location
+    ctx.font = "14px 'Space Grotesk', monospace";
+    ctx.fillStyle = 'rgba(240, 237, 229, 0.7)';
+    ctx.fillText('STATION: ' + sector, 40, h * 0.74);
+    ctx.fillText('CLEARANCE: LEVEL-03 FIELD VANGUARD', 40, h * 0.79);
+    ctx.fillText('OFFICIAL PORTAL: catalyst-awakening.netlify.app', 40, h * 0.84);
+
+    // Footer Watermark Seal
+    ctx.fillStyle = 'rgba(244, 184, 0, 0.2)';
+    ctx.fillRect(40, h - 60, w - 80, 25);
+    ctx.font = "bold 11px 'Space Grotesk', monospace";
+    ctx.fillStyle = '#F4B800';
+    ctx.textAlign = 'center';
+    ctx.fillText('AUTHENTICATED RECRUITMENT SEAL // Ọ̀RUN VANGUARD 2031', w / 2, h - 44);
+  };
+
+  window.downloadCustomPoster = function() {
+    const canvas = document.getElementById('posterCanvas');
+    if (!canvas) return;
+    const callsign = (document.getElementById('studioCallsignInput')?.value || 'OPERATIVE').toUpperCase();
+    const link = document.createElement('a');
+    link.download = 'Catalyst_Poster_' + posterFaction + '_' + callsign + '.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+    if (typeof window.playHudSound === 'function') window.playHudSound('success');
+  };
+
+  // Render poster preview on boot
+  window.updatePosterPreview();
+})();

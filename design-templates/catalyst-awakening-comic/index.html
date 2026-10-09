@@ -2615,6 +2615,50 @@
   </div>
 </section>
 
+<!-- ============================================================ THE ORACLE OF BADAGRY — IN-UNIVERSE AI LORE TERMINAL -->
+<section id="oracle-chat-terminal" style="padding:5.5rem 1.5rem 6.5rem;background:rgba(4,6,14,0.95);border-top:1px solid rgba(0,201,177,0.25);">
+  <div class="oracle-chat-header" style="text-align:center;max-width:760px;margin:0 auto 3rem;">
+    <p class="section-label reveal" style="justify-content:center">Direct Intelligence Interrogation Protocol</p>
+    <h2 class="section-title reveal">THE <em>ORACLE TERMINAL</em></h2>
+    <p class="reveal" style="font-size:0.9rem;line-height:1.85;color:rgba(240,237,229,0.65);margin-top:1rem;">
+      Declassified communications uplink to Badagry. Select an entity and transmit inquiries regarding ancient Aṣẹ mechanics, Pale Council operations, or character dossiers.
+    </p>
+    <!-- Entity Selector -->
+    <div class="entity-selector-chips reveal" id="entitySelectorChips">
+      <button type="button" class="entity-chip active" onclick="selectChatEntity('oracle', this)">👁 The Oracle of Badagry</button>
+      <button type="button" class="entity-chip" onclick="selectChatEntity('bayo', this)">⚡ Bayo Adeyemi (Vessel)</button>
+      <button type="button" class="entity-chip" onclick="selectChatEntity('architect', this)">🏛 The Architect (Pale Council)</button>
+    </div>
+  </div>
+
+  <div class="terminal-container reveal" id="terminalContainer">
+    <div class="terminal-bar">
+      <div class="terminal-dots"><span></span><span></span><span></span></div>
+      <div class="terminal-tag" id="terminalActiveEntity">UPLINK: ORACLE_OF_BADAGRY // MEMBRANE RESONANCE 98.4%</div>
+      <div class="terminal-status"><span class="term-status-dot"></span> ENCRYPTED</div>
+    </div>
+    <div class="terminal-body" id="terminalChatHistory">
+      <div class="term-msg system">
+        <span class="term-prefix">[SYSTEM]</span> Uplink established through Badagry ley line conduit. Ask freely, operative. The past and future are concurrent in the Ọ̀run.
+      </div>
+      <div class="term-msg entity" id="initialEntityGreeting">
+        <span class="term-prefix">[ORACLE]</span> "You walk on soil that remembers forty-one thousand days of fire. What truth do you seek from the waters, traveler?"
+      </div>
+    </div>
+    <!-- Quick Question Chips -->
+    <div class="term-quick-chips" id="termQuickChips">
+      <button type="button" class="quick-chip" onclick="askQuickQuestion('What is the true origin of Aṣẹ?')">⚡ Origin of Aṣẹ</button>
+      <button type="button" class="quick-chip" onclick="askQuickQuestion('Why does the Pale Council build the Orisha Vaccine?')">💉 The Vaccine Purpose</button>
+      <button type="button" class="quick-chip" onclick="askQuickQuestion('What will happen if the Ọ̀run membrane ruptures completely?')">🌌 The Membrane Rupture</button>
+      <button type="button" class="quick-chip" onclick="askQuickQuestion('Tell me about Bayo Adeyemi mother and lineage.')">👑 Bayo Lineage</button>
+    </div>
+    <form class="terminal-input-bar" id="terminalForm" onsubmit="event.preventDefault(); submitTerminalQuery();">
+      <input type="text" id="terminalUserInput" class="term-input" placeholder="Type query for the selected intelligence..." autocomplete="off">
+      <button type="submit" class="term-send-btn" id="termSendBtn">TRANSMIT ↵</button>
+    </form>
+  </div>
+</section>
+
 <!-- ============================================================ COVER ART GALLERY -->
 <!-- ════ ASẹ FREQUENCY SCANNER ════ -->
 <section id="cover-gallery">
@@ -4378,6 +4422,62 @@
   </div>
 </section>
 
+<!-- ============================================================ THE SACRED RELICS VAULT — 3D HOLOGRAPHIC ARTIFACTS -->
+<section id="sacred-relics-vault" style="padding:6rem 1.5rem 6.5rem;background:rgba(5,7,15,0.96);border-top:1px solid rgba(244,184,0,0.25);">
+  <div class="relics-header" style="text-align:center;max-width:780px;margin:0 auto 3rem;">
+    <p class="section-label reveal" style="justify-content:center">Arcane Metallurgy &amp; Divine Reliquary</p>
+    <h2 class="section-title reveal">THE <em>SACRED RELICS</em></h2>
+    <p class="reveal" style="font-size:0.9rem;line-height:1.85;color:rgba(240,237,229,0.65);margin-top:1rem;">
+      Five primordial instruments forged before the Great Partition. Rotate and examine each artifact in 3D holographic projection to review tactical metallurgy and Aṣẹ harmonic frequencies.
+    </p>
+    <!-- Relic Selector Tabs -->
+    <div class="relic-selector-tabs reveal" id="relicSelectorTabs">
+      <button type="button" class="relic-tab active" onclick="selectRelic(0, this)">⚔ Anvil of Ògún</button>
+      <button type="button" class="relic-tab" onclick="selectRelic(1, this)">⚡ Osé of Ṣàngó</button>
+      <button type="button" class="relic-tab" onclick="selectRelic(2, this)">🌊 Mirror of Ọ̀ṣun</button>
+      <button type="button" class="relic-tab" onclick="selectRelic(3, this)">🌀 Staff of Ẹṣù</button>
+      <button type="button" class="relic-tab" onclick="selectRelic(4, this)">💉 Pale Vaccine Ampoule</button>
+    </div>
+  </div>
+
+  <div class="relic-viewer-grid reveal" id="relicViewerGrid">
+    <div class="relic-canvas-box">
+      <div class="relic-3d-hint">✦ DRAG TO ROTATE 360° // TOUCH OR CURSOR</div>
+      <canvas id="relicCanvas3D" width="500" height="420" class="relic-canvas-3d"></canvas>
+      <div class="relic-canvas-controls">
+        <button type="button" class="relic-btn" onclick="toggleRelicRotation()" id="relicRotateBtn">⏸ PAUSE ROTATION</button>
+        <button type="button" class="relic-btn" onclick="pulseRelicEnergy()">⚡ PULSE AṢẸ</button>
+      </div>
+    </div>
+    <div class="relic-telemetry-dossier" id="relicTelemetryDossier">
+      <span class="relic-spec-tag" id="relicSpecTag">PRIMORDIAL RELIC // ARCHIVE #01</span>
+      <h3 class="relic-spec-title" id="relicSpecTitle">The Iron Anvil of Ògún</h3>
+      <div class="relic-spec-yoruba" id="relicSpecYoruba">Àwọn Ohun Ìjà Ògún Alákàyé</div>
+      <p class="relic-spec-desc" id="relicSpecDesc">
+        Forged from meteoric core iron in the primeval forest. Every strike across its surface emits a 432 Hz subsonic acoustic wave that stabilizes raw elemental iron across a 50-kilometre radius.
+      </p>
+      <div class="relic-stats-matrix">
+        <div class="relic-stat-row">
+          <span class="stat-lbl">RESONANCE FREQUENCY:</span>
+          <strong class="stat-val" id="relicStatFreq">432 Hz Harmonic</strong>
+        </div>
+        <div class="relic-stat-row">
+          <span class="stat-lbl">ALLOY COMPOSITION:</span>
+          <strong class="stat-val" id="relicStatAlloy">99.4% Meteoric Core Iron</strong>
+        </div>
+        <div class="relic-stat-row">
+          <span class="stat-lbl">AṢẸ CONTAINMENT:</span>
+          <strong class="stat-val" id="relicStatAse">1,400 Sovereign Units</strong>
+        </div>
+        <div class="relic-stat-row">
+          <span class="stat-lbl">CURRENT LOCATION:</span>
+          <strong class="stat-val" id="relicStatLoc">Ilubirin Subterranean Vaults</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============================================================ FREE ISSUE READER -->
 <section id="read">
     <img class="section-photo-bg" src="./assets/corridor.webp" alt="Neon corridor depth" loading="lazy" aria-hidden="true">
@@ -4396,6 +4496,12 @@
         <span class="theme-label">FONT:</span>
         <button type="button" class="theme-btn" onclick="adjustReaderFontSize(-1)" title="Decrease font size">A−</button>
         <button type="button" class="theme-btn" onclick="adjustReaderFontSize(1)" title="Increase font size">A+</button>
+      </div>
+      <!-- WEBTOON VS SPREAD LAYOUT TOGGLE -->
+      <div class="reader-layout-controls">
+        <span class="theme-label">LAYOUT:</span>
+        <button type="button" class="theme-btn active" id="layoutStandardBtn" onclick="setReaderLayout('standard', this)">📑 SPREAD</button>
+        <button type="button" class="theme-btn" id="layoutWebtoonBtn" onclick="setReaderLayout('webtoon', this)">📱 WEBTOON</button>
       </div>
     </div>
   </div>
@@ -6891,6 +6997,69 @@
         <p class="quote-text">I read Issue #2 and immediately sent the link to all my daughters. Amara's talking drum is my heritage. This story made it feel like a superpower. Because it IS one.</p>
         <div class="quote-author">Mrs. Folake B.</div>
         <div class="quote-location">Mushin, Lagos</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ FAN OPERATIVE RECRUITMENT POSTER STUDIO -->
+<section id="poster-studio" style="padding:6rem 1.5rem 7rem;background:rgba(4,5,12,0.97);border-top:1px solid rgba(0,201,177,0.25);">
+  <div class="studio-header" style="text-align:center;max-width:780px;margin:0 auto 3rem;">
+    <p class="section-label reveal" style="justify-content:center">Community Viral Recruitment Studio</p>
+    <h2 class="section-title reveal">OPERATIVE <em>POSTER STUDIO</em></h2>
+    <p class="reveal" style="font-size:0.92rem;line-height:1.85;color:rgba(240,237,229,0.65);margin-top:1rem;">
+      Generate custom Afrofuturist recruitment posters and social media banners for your operative squad. Choose your format, Orisha faction crest, and download high-resolution PNGs ready for Instagram &amp; Twitter.
+    </p>
+  </div>
+
+  <div class="studio-grid reveal" id="studioGrid">
+    <div class="studio-controls-pane">
+      <div class="studio-control-group">
+        <label>1. SELECT POSTER FORMAT</label>
+        <div class="studio-btn-row">
+          <button type="button" class="studio-opt-btn active" onclick="setPosterFormat('story', this)">📱 Story (9:16)</button>
+          <button type="button" class="studio-opt-btn" onclick="setPosterFormat('square', this)">⬛ Square (1:1)</button>
+          <button type="button" class="studio-opt-btn" onclick="setPosterFormat('banner', this)">🖥 Banner (16:9)</button>
+        </div>
+      </div>
+
+      <div class="studio-control-group">
+        <label>2. OPERATIVE CALLSIGN</label>
+        <input type="text" id="studioCallsignInput" class="studio-text-input" value="MUSHIN_ORACLE" oninput="updatePosterPreview()">
+      </div>
+
+      <div class="studio-control-group">
+        <label>3. CHOOSE ORISHA FACTION CREST</label>
+        <div class="studio-btn-row">
+          <button type="button" class="studio-opt-btn active" onclick="setPosterFaction('sango', this)">⚡ Ṣàngó Volt</button>
+          <button type="button" class="studio-opt-btn" onclick="setPosterFaction('ogun', this)">⚔ Ògún Steel</button>
+          <button type="button" class="studio-opt-btn" onclick="setPosterFaction('osun', this)">🌊 Ọ̀ṣun Tide</button>
+          <button type="button" class="studio-opt-btn" onclick="setPosterFaction('kooza', this)">👁 Kooza Grid</button>
+        </div>
+      </div>
+
+      <div class="studio-control-group">
+        <label>4. LAGOS 2031 SECTOR ASSIGNMENT</label>
+        <select id="studioSectorSelect" class="studio-select" onchange="updatePosterPreview()">
+          <option value="MUSHIN CORE · SECTOR 01">Mushin Core · Sector 01</option>
+          <option value="BALOGUN NEXUS · SECTOR 02">Balogun Nexus · Sector 02</option>
+          <option value="THIRD MAINLAND · SECTOR 03">Third Mainland · Sector 03</option>
+          <option value="EKO ATLANTIC · SECTOR 04">Eko Atlantic · Sector 04</option>
+          <option value="OSHODI INTERCHANGE · SECTOR 05">Oshodi Interchange · Sector 05</option>
+          <option value="ILUBIRIN SUBMERGED · SECTOR 06">Ilubirin Submerged · Sector 06</option>
+        </select>
+      </div>
+
+      <div style="margin-top:2rem;">
+        <button type="button" class="studio-download-btn" onclick="downloadCustomPoster()">
+          ✦ EXPORT HIGH-RES RECRUITMENT POSTER (PNG)
+        </button>
+      </div>
+    </div>
+
+    <div class="studio-preview-pane">
+      <div class="poster-preview-wrapper" id="posterPreviewWrapper">
+        <canvas id="posterCanvas" width="450" height="800" class="poster-canvas"></canvas>
       </div>
     </div>
   </div>
