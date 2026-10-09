@@ -11762,3 +11762,145 @@ body.reader-theme-matrix #read .speech-bubble {
   box-shadow: 0 0 20px rgba(244, 184, 0, 0.5);
   transform: translateY(-2px);
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   CATALYST OS v4.0 ULTIMATE EDITION STYLES
+   ══════════════════════════════════════════════════════════════════ */
+
+/* 1. PERSISTENT LASER READING PROGRESS BAR */
+.laser-reading-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--danfo-gold), var(--orisha-teal));
+  box-shadow: 0 0 10px rgba(0, 201, 177, 0.85);
+  z-index: 999999;
+  width: 0%;
+  pointer-events: none;
+  transition: width 0.1s ease;
+}
+
+/* 2. FORENSIC OPTICAL VECTOR LOUPE */
+.hud-loupe-glass {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 2px solid var(--danfo-gold);
+  box-shadow: 0 0 25px rgba(244, 184, 0, 0.6), inset 0 0 15px rgba(0, 201, 177, 0.4);
+  pointer-events: none;
+  position: absolute;
+  background-repeat: no-repeat;
+  z-index: 200;
+  transform: translate(-50%, -50%);
+  display: none;
+  background-color: var(--black);
+}
+
+/* 3. CINEMA THEATRE MODE */
+body.hud-cinema-active #hudLightboxBackdrop {
+  background: rgba(0, 0, 0, 0.98) !important;
+}
+body.hud-cinema-active .hud-info-pane {
+  display: none !important;
+}
+body.hud-cinema-active .hud-modal-container {
+  max-width: 96vw !important;
+  height: 94vh !important;
+}
+
+/* 4. HOLOGRAPHIC LEY LINES ANIMATION */
+.map-ley-lines line {
+  animation: leyLineFlow 2.5s linear infinite;
+}
+@keyframes leyLineFlow {
+  0% { stroke-dashoffset: 24; opacity: 0.25; }
+  50% { opacity: 0.85; }
+  100% { stroke-dashoffset: 0; opacity: 0.25; }
+}
+
+/* 5. 3D SPATIAL AUDIO CONTROLS & VOLUME READOUT */
+.sound-spatial-btn {
+  background: rgba(0, 201, 177, 0.1);
+  border: 1px solid rgba(0, 201, 177, 0.35);
+  color: var(--orisha-teal);
+  padding: 0.3rem 0.6rem;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+}
+.sound-spatial-btn.active {
+  background: rgba(0, 201, 177, 0.25);
+  border-color: var(--orisha-teal);
+  box-shadow: 0 0 10px rgba(0, 201, 177, 0.35);
+}
+.sound-vol-label {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.65rem;
+  color: var(--danfo-gold);
+  min-width: 28px;
+  text-align: right;
+}
+
+/* 6. WAR ROOM CENSUS VOTE TRIGGER */
+.war-vote-trigger-btn {
+  background: rgba(244, 184, 0, 0.15);
+  border: 1px solid var(--danfo-gold);
+  color: var(--danfo-gold);
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  padding: 0.3rem 0.7rem;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.war-vote-trigger-btn:hover {
+  background: var(--danfo-gold);
+  color: var(--black);
+  box-shadow: 0 0 12px rgba(244, 184, 0, 0.4);
+}
+
+/* 7. COUNCIL SORT CONTROLS */
+.council-sort-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.council-sort-label {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: rgba(240, 237, 229, 0.5);
+}
+.council-sort-btn {
+  background: rgba(10, 10, 31, 0.8);
+  border: 1px solid rgba(0, 201, 177, 0.3);
+  color: rgba(240, 237, 229, 0.75);
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  padding: 0.28rem 0.6rem;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.council-sort-btn:hover, .council-sort-btn.active {
+  border-color: var(--orisha-teal);
+  background: rgba(0, 201, 177, 0.2);
+  color: var(--orisha-teal);
+  box-shadow: 0 0 10px rgba(0, 201, 177, 0.25);
+}
+
+/* 8. READER FONT CONTROLS */
+.reader-font-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: 0.6rem;
+  padding-left: 0.6rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}

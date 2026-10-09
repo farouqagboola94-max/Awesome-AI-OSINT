@@ -223,6 +223,8 @@
 <!-- ══ BATCH 2 STYLES: PWA / A11Y / ENGAGEMENT ══ -->
 </head>
 <body>
+  <!-- PERSISTENT LASER READING PROGRESS BAR -->
+  <div class="laser-reading-bar" id="laserReadingBar" aria-hidden="true"></div>
 
 <a class="skip-link" href="#hero">Skip to main content</a>
 
@@ -1612,6 +1614,14 @@
         <circle cx="400" cy="300" r="180" fill="none" stroke="rgba(244,184,0,0.1)" stroke-width="1" stroke-dasharray="2,4"/>
         <g class="map-radar-sweep-group">
           <line x1="400" y1="300" x2="660" y2="300" stroke="rgba(0,201,177,0.4)" stroke-width="1.8" class="map-radar-line"/>
+        </g>
+        <!-- HOLOGRAPHIC LEY LINE ENERGY NETWORK -->
+        <g id="mapLeyLinesGroup" stroke="rgba(244,184,0,0.25)" stroke-width="1.2" stroke-dasharray="6,6" class="map-ley-lines">
+          <line x1="280" y1="245" x2="370" y2="315" />
+          <line x1="370" y1="315" x2="460" y2="270" />
+          <line x1="460" y1="270" x2="520" y2="380" />
+          <line x1="370" y1="315" x2="290" y2="395" />
+          <line x1="460" y1="270" x2="410" y2="445" />
         </g>
         <!-- CLASSIFIED watermark -->
         <text x="400" y="480" text-anchor="middle" fill="rgba(196,30,58,0.06)"
@@ -3399,7 +3409,9 @@
         <span class="hud-zoom-level" id="hudZoomLevel">100%</span>
         <button type="button" class="hud-zoom-btn" onclick="zoomHudImg(0.25)" title="Zoom In">+</button>
         <button type="button" class="hud-zoom-btn" onclick="resetHudZoom()" title="Reset Zoom">↺</button>
-        <button type="button" class="hud-zoom-btn" onclick="toggleHudSplitMode()" id="hudSplitBtn" title="Compare Variants (Split Slider)">◫ SPLIT SLIDER</button>
+        <button type="button" class="hud-zoom-btn" onclick="toggleHudLoupe()" id="hudLoupeBtn" title="Forensic Vector Loupe Magnifier">🔍 LOUPE</button>
+        <button type="button" class="hud-zoom-btn" onclick="toggleHudSplitMode()" id="hudSplitBtn" title="Compare Variants (Split Slider)">◫ SPLIT</button>
+        <button type="button" class="hud-zoom-btn" onclick="toggleHudCinemaMode()" id="hudCinemaBtn" title="Cinema Theatre View">⛶ CINEMA</button>
         <button type="button" class="hud-zoom-btn" onclick="toggleHudAudio()" id="hudAudioToggle" title="Toggle Sound">🔊 SFX</button>
       </div>
       <div class="hud-preview-fallback" id="hudFallbackBox">
@@ -3409,6 +3421,8 @@
       </div>
       <div class="hud-img-viewport" id="hudImgViewport">
         <img src="" alt="" class="hud-preview-img" id="hudPreviewImg" style="display:none;" />
+        <!-- FORENSIC OPTICAL VECTOR LOUPE -->
+        <div class="hud-loupe-glass" id="hudLoupeGlass" style="display:none;"></div>
         <!-- INTERACTIVE BEFORE/AFTER SPLIT COMPARISON SLIDER -->
         <div class="hud-split-wrap" id="hudSplitWrap" style="display:none;">
           <div class="hud-split-layer hud-split-before" id="hudSplitBefore">
@@ -4364,12 +4378,17 @@
     <p class="section-label reveal">The Stories</p>
     <h2 class="section-title reveal">READ THE<br><em>UNIVERSE</em></h2>
     <p class="reveal" style="max-width:520px;font-size:0.88rem;line-height:1.8;color:rgba(240,237,229,0.6);margin-top:1rem;">The first four issues are yours, fully and freely. No signup required for the storyline. Read. Get hooked. Then decide if you want to go deeper.</p>
-    <!-- READER ATMOSPHERE THEME SWITCHER -->
+    <!-- READER ATMOSPHERE THEME & TYPOGRAPHY CONTROLS -->
     <div class="reader-theme-switcher reveal" id="readerThemeSwitcher">
       <span class="theme-label">ATMOSPHERE:</span>
       <button type="button" class="theme-btn active" onclick="setReaderTheme('dark', this)">🌑 NOIR</button>
       <button type="button" class="theme-btn" onclick="setReaderTheme('sepia', this)">📜 SEPIA</button>
       <button type="button" class="theme-btn" onclick="setReaderTheme('matrix', this)">🟢 MATRIX</button>
+      <div class="reader-font-controls">
+        <span class="theme-label">FONT:</span>
+        <button type="button" class="theme-btn" onclick="adjustReaderFontSize(-1)" title="Decrease font size">A−</button>
+        <button type="button" class="theme-btn" onclick="adjustReaderFontSize(1)" title="Increase font size">A+</button>
+      </div>
     </div>
   </div>
 
@@ -5998,7 +6017,10 @@
     <div class="war-room-telemetry" id="warRoomTelemetry">
       <div class="war-room-header">
         <span class="war-room-tag">ORACLE WAR ROOM // GLOBAL OPERATIVE CENSUS</span>
-        <span class="war-room-live"><span class="war-live-pulse"></span> TRANSMISSION VERIFIED</span>
+        <div style="display:flex;align-items:center;gap:0.75rem;">
+          <button type="button" class="war-vote-trigger-btn" onclick="castWarCensusVote()" title="Cast Operative Census Vote">⚔ VOTE FOR YOUR FACTION</button>
+          <span class="war-room-live"><span class="war-live-pulse"></span> TRANSMISSION VERIFIED</span>
+        </div>
       </div>
       <div class="war-room-bars">
         <div class="war-bar-row">
@@ -7093,12 +7115,19 @@
     <div class="council-search-box">
       <input type="text" id="councilSearchInput" class="council-search-input" placeholder="🔍 Search theories by keyword (Bayo, Pale Council, Orisha Vaccine, Void, Mother Storm)..." oninput="searchCouncilTheories(this.value)">
     </div>
-    <!-- Filter Tabs -->
-    <div class="council-tabs" role="tablist">
-      <button type="button" class="council-tab active" onclick="filterTheories('all', this)">⚡ ALL THEORIES (6)</button>
-      <button type="button" class="council-tab" onclick="filterTheories('creator', this)">📜 CREATOR LOGS (2)</button>
-      <button type="button" class="council-tab" onclick="filterTheories('lore', this)">👁 ORISHA LORE (2)</button>
-      <button type="button" class="council-tab" onclick="filterTheories('arc2', this)">🔮 ARC II THEORIES (2)</button>
+    <!-- Sort & Filter Tabs -->
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.8rem;margin-bottom:1.5rem;">
+      <div class="council-tabs" role="tablist" style="margin-bottom:0;">
+        <button type="button" class="council-tab active" onclick="filterTheories('all', this)">⚡ ALL THEORIES (6)</button>
+        <button type="button" class="council-tab" onclick="filterTheories('creator', this)">📜 CREATOR LOGS (2)</button>
+        <button type="button" class="council-tab" onclick="filterTheories('lore', this)">👁 ORISHA LORE (2)</button>
+        <button type="button" class="council-tab" onclick="filterTheories('arc2', this)">🔮 ARC II THEORIES (2)</button>
+      </div>
+      <div class="council-sort-group">
+        <span class="council-sort-label">SORT:</span>
+        <button type="button" class="council-sort-btn active" onclick="sortCouncilTheories('votes', this)">🔥 TOP VOTED</button>
+        <button type="button" class="council-sort-btn" onclick="sortCouncilTheories('recent', this)">⚡ LATEST</button>
+      </div>
     </div>
 
     <!-- Theories Grid -->
@@ -7493,7 +7522,12 @@
     <button type="button" class="sound-autozone-btn active" id="soundAutoZoneBtn" onclick="toggleAutoZoneSound()" title="Automatically sync ambient music with page sections as you read">
       AUTO-ZONE: ON
     </button>
+    <!-- 3D BINAURAL SPATIAL ACOUSTIC TOGGLE -->
+    <button type="button" class="sound-spatial-btn" id="soundSpatialBtn" onclick="toggle3DSpatialSound()" title="Toggle 3D Binaural Acoustic Simulation">
+      3D SPATIAL: ON
+    </button>
     <div class="sound-dock-volume">
+      <span class="sound-vol-label" id="soundVolLabel">40%</span>
       <input type="range" id="soundVolumeSlider" min="0" max="1" step="0.05" value="0.4" oninput="setAmbientVolume(this.value)" aria-label="Soundscape Volume">
     </div>
   </div>

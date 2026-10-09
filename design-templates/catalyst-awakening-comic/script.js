@@ -9191,3 +9191,179 @@ var TC_ENDINGS = {
     if (typeof window.playHudSound === 'function') window.playHudSound('success');
   };
 })();
+
+/* ══════════════════════════════════════════════════════════════════
+   CATALYST OS v4.0 ULTIMATE EDITION LOGIC & CONTROLLERS
+   ══════════════════════════════════════════════════════════════════ */
+
+(function initCatalystOSv4() {
+  /* ── 1. PERSISTENT LASER READING PROGRESS BAR ── */
+  const laserBar = document.getElementById('laserReadingBar');
+  if (laserBar) {
+    window.addEventListener('scroll', function() {
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (docHeight > 0) {
+        const pct = Math.min(100, Math.max(0, (window.scrollY / docHeight) * 100));
+        laserBar.style.width = pct + '%';
+      }
+    }, { passive: true });
+  }
+
+  /* ── 2. FORENSIC OPTICAL VECTOR LOUPE ── */
+  let isLoupeActive = false;
+  const loupeGlass = document.getElementById('hudLoupeGlass');
+  const previewImg = document.getElementById('hudPreviewImg');
+  const imgViewport = document.getElementById('hudImgViewport');
+
+  window.toggleHudLoupe = function() {
+    isLoupeActive = !isLoupeActive;
+    const btn = document.getElementById('hudLoupeBtn');
+    if (btn) {
+      btn.classList.toggle('active', isLoupeActive);
+      btn.textContent = isLoupeActive ? '🔍 LOUPE: ON' : '🔍 LOUPE';
+    }
+    if (loupeGlass) {
+      loupeGlass.style.display = isLoupeActive ? 'block' : 'none';
+    }
+    if (typeof window.playHudSound === 'function') window.playHudSound('select');
+  };
+
+  if (imgViewport && previewImg && loupeGlass) {
+    imgViewport.addEventListener('mousemove', function(e) {
+      if (!isLoupeActive || !previewImg.src || previewImg.style.display === 'none') return;
+      const rect = imgViewport.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      loupeGlass.style.left = x + 'px';
+      loupeGlass.style.top = y + 'px';
+      loupeGlass.style.backgroundImage = 'url(' + previewImg.src + ')';
+
+      const zoomRatio = 2.5;
+      loupeGlass.style.backgroundSize = (rect.width * zoomRatio) + 'px ' + (rect.height * zoomRatio) + 'px';
+      const bgX = -(x * zoomRatio - 90);
+      const bgY = -(y * zoomRatio - 90);
+      loupeGlass.style.backgroundPosition = bgX + 'px ' + bgY + 'px';
+    });
+
+    imgViewport.addEventListener('mouseleave', function() {
+      if (loupeGlass && isLoupeActive) loupeGlass.style.display = 'none';
+    });
+    imgViewport.addEventListener('mouseenter', function() {
+      if (loupeGlass && isLoupeActive) loupeGlass.style.display = 'block';
+    });
+  }
+
+  /* ── 3. CINEMA THEATRE MODE ── */
+  let isCinemaMode = false;
+  window.toggleHudCinemaMode = function() {
+    isCinemaMode = !isCinemaMode;
+    document.body.classList.toggle('hud-cinema-active', isCinemaMode);
+    const btn = document.getElementById('hudCinemaBtn');
+    if (btn) {
+      btn.classList.toggle('active', isCinemaMode);
+      btn.textContent = isCinemaMode ? '⛶ EXIT CINEMA' : '⛶ CINEMA';
+    }
+    if (typeof window.playHudSound === 'function') window.playHudSound('activate');
+  };
+
+  /* ── 4. 3D SPATIAL AUDIO TOGGLE & VOLUME LABEL ── */
+  let is3DSpatial = true;
+  window.toggle3DSpatialSound = function() {
+    is3DSpatial = !is3DSpatial;
+    const btn = document.getElementById('soundSpatialBtn');
+    if (btn) {
+      btn.classList.toggle('active', is3DSpatial);
+      btn.textContent = is3DSpatial ? '3D SPATIAL: ON' : '3D SPATIAL: STEREO';
+    }
+    if (typeof window.playHudSound === 'function') window.playHudSound('select');
+  };
+
+  const volSlider = document.getElementById('soundVolumeSlider');
+  const volLabel = document.getElementById('soundVolLabel');
+  if (volSlider && volLabel) {
+    volSlider.addEventListener('input', function() {
+      volLabel.textContent = Math.round(parseFloat(this.value) * 100) + '%';
+    });
+  }
+
+  /* ── 5. WAR ROOM CENSUS INTERACTIVE VOTING ── */
+  window.castWarCensusVote = function() {
+    const affinity = document.querySelector('.affinity-chip.active')?.textContent || 'Ṣàngó';
+    let target = 'sango';
+    if (affinity.includes('Ògún')) target = 'ogun';
+    else if (affinity.includes('Kooza') || affinity.includes('Ẹṣù')) target = 'kooza';
+
+    const sangoEl = document.getElementById('warScoreSango');
+    const ogunEl = document.getElementById('warScoreOgun');
+    const koozaEl = document.getElementById('warScoreKooza');
+
+    let votesSango = 4281;
+    let votesOgun = 3610;
+    let votesKooza = 2110;
+
+    if (target === 'sango') votesSango += 15;
+    else if (target === 'ogun') votesOgun += 15;
+    else votesKooza += 15;
+
+    const total = votesSango + votesOgun + votesKooza;
+    const pctSango = ((votesSango / total) * 100).toFixed(1);
+    const pctOgun = ((votesOgun / total) * 100).toFixed(1);
+    const pctKooza = ((votesKooza / total) * 100).toFixed(1);
+
+    if (sangoEl) sangoEl.textContent = pctSango + '% (' + votesSango.toLocaleString() + ' operatives)';
+    if (ogunEl) ogunEl.textContent = pctOgun + '% (' + votesOgun.toLocaleString() + ' operatives)';
+    if (koozaEl) koozaEl.textContent = pctKooza + '% (' + votesKooza.toLocaleString() + ' operatives)';
+
+    const fillSango = document.querySelector('.war-bar-fill.war-sango');
+    const fillOgun = document.querySelector('.war-bar-fill.war-ogun');
+    const fillKooza = document.querySelector('.war-bar-fill.war-kooza');
+
+    if (fillSango) fillSango.style.width = pctSango + '%';
+    if (fillOgun) fillOgun.style.width = pctOgun + '%';
+    if (fillKooza) fillKooza.style.width = pctKooza + '%';
+
+    if (typeof window.playHudSound === 'function') window.playHudSound('success');
+  };
+
+  /* ── 6. Ọ̀RUN COUNCIL SORTING ── */
+  window.sortCouncilTheories = function(mode, btn) {
+    document.querySelectorAll('.council-sort-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    const grid = document.getElementById('councilGrid');
+    if (!grid) return;
+    const cards = Array.from(grid.querySelectorAll('.council-card'));
+
+    if (mode === 'votes') {
+      cards.sort((a, b) => {
+        const vA = parseInt(a.querySelector('.theory-upvote-btn')?.getAttribute('data-votes') || '0', 10);
+        const vB = parseInt(b.querySelector('.theory-upvote-btn')?.getAttribute('data-votes') || '0', 10);
+        return vB - vA;
+      });
+    } else {
+      // Recent sort: natural order
+      cards.reverse();
+    }
+    cards.forEach(c => grid.appendChild(c));
+    if (typeof window.playHudSound === 'function') window.playHudSound('select');
+  };
+
+  /* ── 7. READER FONT RESIZER ── */
+  let readerFontSize = 0.95;
+  window.adjustReaderFontSize = function(delta) {
+    readerFontSize = Math.min(1.35, Math.max(0.8, readerFontSize + (delta * 0.08)));
+    const proseEls = document.querySelectorAll('#read .story-prose, #read .panel-dialogue, #read .panel-narration');
+    proseEls.forEach(el => {
+      el.style.fontSize = readerFontSize + 'rem';
+    });
+    localStorage.setItem('catalyst_reader_fontsize', readerFontSize);
+    if (typeof window.playHudSound === 'function') window.playHudSound('select');
+  };
+
+  // Restore saved reader font size
+  const savedFontSize = localStorage.getItem('catalyst_reader_fontsize');
+  if (savedFontSize) {
+    window.adjustReaderFontSize(0);
+  }
+})();
