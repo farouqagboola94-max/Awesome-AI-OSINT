@@ -9367,3 +9367,329 @@ var TC_ENDINGS = {
     window.adjustReaderFontSize(0);
   }
 })();
+
+/* ══════════════════════════════════════════════════════════════════
+   CATALYST OS v5.0 FOUR FLAGSHIP EXPANSION SYSTEMS LOGIC
+   ══════════════════════════════════════════════════════════════════ */
+
+(function initCatalystOSv5() {
+  /* ── 1. TRI-LINGUAL CULTURAL LANGUAGE SELECTOR ── */
+  const TRANSLATIONS = {
+    en: {
+      heroSub: "THE FIRST NIGERIAN AFROFUTURIST COMIC UNIVERSE",
+      motion1: "Mushin never actually sleeps. It rests with one eye open. Tonight the open eye has seen something it was not meant to see.",
+      motion2: "The tear in the sky above Balogun Nexus is thirty metres wide and getting larger. Through it: light the wrong colour.",
+      motion3: "Thunderstrike arrives first. Her talking drum fires thunderclaps that shatter concrete into neon dust.",
+      motion4: "Iron Wolf hits the overpass — iron skin clanging against asphalt. 'You are in my city. On my street.'",
+      motion5: "Tower 7 drone feed: The Architect observes the formation collapse in eleven seconds. 'I need a new architecture.'",
+      motion6: "Dawn breaks over Lagos. Bayo smiles through the bruised morning. 'Oya. Let us see wetin we made of.'"
+    },
+    pidgin: {
+      heroSub: "THE FIRST NAIJA AFROFUTURIST COMIC UNIVERSE WEY DEY SHAKE GROUND",
+      motion1: "Mushin no dey ever sleep. E dey rest with one eye open. Tonight, the open eye don see wetin pass am.",
+      motion2: "The tear wey dey sky for Balogun Nexus wide pass thirty metres. Wetin dey come out: light wey get different colour entirely.",
+      motion3: "Thunderstrike first land. Her talking drum dey shoot thunder wey dey break heavy concrete into pieces.",
+      motion4: "Iron Wolf land for the bridge — him iron body make loud noise against road. 'Na my city you dey. On top my street.'",
+      motion5: "Tower 7 drone feed: The Architect watch the whole squad fall inside eleven seconds. 'I need better plan.'",
+      motion6: "Morning don break for Lagos. Bayo smile through the bruise. 'Oya now. Make we see wetin we dey made of.'"
+    },
+    yoruba: {
+      heroSub: "ÀKỌ́KỌ́ AYÉ ÀWÒRÁN AFROFUTURIST TI NÀÌJÍRÍÀ TÍ Ó GBOORÒ",
+      motion1: "Mushin kì í sùn rárá. Ojú kan ló fi ń simi. Lálẹ́ yìí, ojú tí ó ṣí ti rí ohun tí kò yẹ kí ó rí.",
+      motion2: "Ojú ọ̀run tí ó ya lókè Balogun Nexus fẹ̀ tó ọgbọ̀n mítà. Ìmọ́lẹ̀ àjèjì tí kò wọ́pọ̀ ló ń jáde wá.",
+      motion3: "Thunderstrike kọ́kọ́ dé. Gángan rẹ̀ ń kọ ààrá tí ń fọ́ kọnkéré mọ́lẹ̀ pátápátá.",
+      motion4: "Iron Wolf bọ́ sí orí afárá — ara irin rẹ̀ dún kíkankíkan. 'Èkó tèmi ni ẹ wà. Lórí òpópónà mi.'",
+      motion5: "Fídíò Tower 7: The Architect rí bí gbogbo rẹ̀ ṣe fọ́ láàárín ìṣẹ́jú-àáyá mọ́kànlá. 'Mo nílò ètò tuntun.'",
+      motion6: "Ilẹ̀ mọ́ sí Èkó. Bayo rẹ́rìn-ín músẹ́ láìka egbò sí. 'Ó yá. Ẹ jẹ́ ká wo ohun tí a fi wá ṣe.'"
+    }
+  };
+
+  let currentLang = localStorage.getItem('catalyst_lang') || 'en';
+
+  window.setLanguage = function(lang, btn) {
+    currentLang = lang;
+    localStorage.setItem('catalyst_lang', lang);
+
+    document.querySelectorAll('.nav-lang-picker .lang-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    // Update Hero and Motion Comic texts
+    const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
+    const heroSubEl = document.querySelector('.hero-subtitle');
+    if (heroSubEl) heroSubEl.textContent = t.heroSub;
+
+    // Update active motion dialogue
+    const curIdx = currentMotionIndex;
+    const motionKey = 'motion' + (curIdx + 1);
+    const motionTextEl = document.getElementById('motionDialogueText');
+    if (motionTextEl && t[motionKey]) {
+      motionTextEl.textContent = t[motionKey];
+    }
+
+    if (typeof window.playHudSound === 'function') window.playHudSound('select');
+  };
+
+  // Restore saved language on boot
+  if (currentLang !== 'en') {
+    const savedBtn = document.querySelector(`.nav-lang-picker .lang-btn[onclick*="${currentLang}"]`);
+    if (savedBtn) window.setLanguage(currentLang, savedBtn);
+  }
+
+  /* ── 2. ANIMATED MOTION COMIC PLAYER ── */
+  const MOTION_PANELS = [
+    {
+      bg: './assets/mushin-night.webp',
+      fg: './assets/bayo-keyart-street.webp',
+      tag: 'CAPTION // MUSHIN CORE · 2:47 AM',
+      key: 'motion1',
+      shake: false
+    },
+    {
+      bg: './assets/corridor.webp',
+      fg: './assets/circle.webp',
+      tag: 'PANEL 02 // BALOGUN NEXUS · THE Ọ̀RUN-BLEED',
+      key: 'motion2',
+      shake: true
+    },
+    {
+      bg: './assets/shipyard.webp',
+      fg: './assets/team-aurora.webp',
+      tag: 'PANEL 03 // AMARA THUNDERSTRIKE DEPLOYMENT',
+      key: 'motion3',
+      shake: true
+    },
+    {
+      bg: './assets/mushin-night.webp',
+      fg: './assets/bayo-keyart-street.webp',
+      tag: 'PANEL 04 // IRON WOLF ON THIRD MAINLAND',
+      key: 'motion4',
+      shake: true
+    },
+    {
+      bg: './assets/corridor.webp',
+      fg: './assets/team-aurora.webp',
+      tag: 'PANEL 05 // PALE COUNCIL TOWER 7 SURVEILLANCE',
+      key: 'motion5',
+      shake: false
+    },
+    {
+      bg: './assets/shipyard.webp',
+      fg: './assets/circle.webp',
+      tag: 'PANEL 06 // DAWN OVER LAGOS · HOLDING THE LINE',
+      key: 'motion6',
+      shake: false
+    }
+  ];
+
+  let currentMotionIndex = 0;
+  let motionAutoplayInterval = null;
+
+  function renderMotionPanel(idx) {
+    currentMotionIndex = (idx + MOTION_PANELS.length) % MOTION_PANELS.length;
+    const panel = MOTION_PANELS[currentMotionIndex];
+    const frame = document.getElementById('motionPanelFrame');
+    const bg = document.getElementById('motionBgLayer');
+    const fg = document.getElementById('motionFgImg');
+    const counter = document.getElementById('motionPanelCounter');
+    const tag = document.getElementById('motionSpeakerTag');
+    const dialogue = document.getElementById('motionDialogueText');
+    const flash = document.getElementById('motionFxFlash');
+
+    if (counter) counter.textContent = 'PANEL 0' + (currentMotionIndex + 1) + ' / 06';
+    if (tag) tag.textContent = panel.tag;
+
+    // Set background & foreground
+    if (bg) bg.style.backgroundImage = 'url(' + panel.bg + ')';
+    if (fg) fg.src = panel.fg;
+
+    // Text translation
+    const t = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
+    if (dialogue) {
+      dialogue.textContent = t[panel.key] || t.motion1;
+    }
+
+    // Impact screen shake
+    if (panel.shake && frame) {
+      frame.classList.remove('screen-shake');
+      void frame.offsetWidth; // trigger reflow
+      frame.classList.add('screen-shake');
+      if (typeof window.playOneShotFx === 'function') {
+        window.playOneShotFx('steel');
+      }
+    } else {
+      if (typeof window.playHudSound === 'function') {
+        window.playHudSound('select');
+      }
+    }
+  }
+
+  window.nextMotionPanel = function() {
+    renderMotionPanel(currentMotionIndex + 1);
+  };
+
+  window.prevMotionPanel = function() {
+    renderMotionPanel(currentMotionIndex - 1);
+  };
+
+  window.toggleMotionAutoplay = function() {
+    const btn = document.getElementById('motionAutoplayBtn');
+    if (motionAutoplayInterval) {
+      clearInterval(motionAutoplayInterval);
+      motionAutoplayInterval = null;
+      if (btn) {
+        btn.classList.remove('active');
+        btn.textContent = '▶ AUTO: OFF';
+      }
+    } else {
+      motionAutoplayInterval = setInterval(() => {
+        window.nextMotionPanel();
+      }, 4000);
+      if (btn) {
+        btn.classList.add('active');
+        btn.textContent = '▶ AUTO: ON (4s)';
+      }
+    }
+  };
+
+  window.toggleMotionFullscreen = function() {
+    const section = document.getElementById('motion-comic-player');
+    if (!section) return;
+    if (!document.fullscreenElement) {
+      section.requestFullscreen().catch(err => console.warn(err));
+    } else {
+      document.exitFullscreen().catch(err => console.warn(err));
+    }
+  };
+
+  // Start autoplay initially
+  window.toggleMotionAutoplay();
+
+  // Mouse parallax on motion stage
+  const motionStage = document.getElementById('motionStageViewport');
+  if (motionStage) {
+    motionStage.addEventListener('mousemove', function(e) {
+      const rect = motionStage.getBoundingClientRect();
+      const xRatio = (e.clientX - rect.left) / rect.width - 0.5;
+      const yRatio = (e.clientY - rect.top) / rect.height - 0.5;
+      const bg = document.getElementById('motionBgLayer');
+      const fg = document.getElementById('motionFgImg');
+      if (bg) bg.style.transform = 'scale(1.08) translate(' + (xRatio * 15) + 'px, ' + (yRatio * 15) + 'px)';
+      if (fg) fg.style.transform = 'translate(' + (-xRatio * 35) + 'px, ' + (-yRatio * 25) + 'px)';
+    });
+  }
+
+  /* ── 3. PRE-ORDER STORE & CHECKOUT ENGINE ── */
+  let activeCurrency = 'NGN';
+  const CURR_SYMBOLS = { NGN: '₦', USD: '$', GBP: '£' };
+
+  window.setStoreCurrency = function(curr, btn) {
+    activeCurrency = curr;
+    document.querySelectorAll('.store-currency-switcher .curr-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    const symbol = CURR_SYMBOLS[curr] || '₦';
+    document.querySelectorAll('.store-price').forEach(el => {
+      let priceVal = el.getAttribute('data-price-' + curr.toLowerCase());
+      if (priceVal) {
+        if (curr === 'NGN') priceVal = parseInt(priceVal, 10).toLocaleString();
+        el.textContent = symbol + priceVal;
+      }
+    });
+
+    if (typeof window.playHudSound === 'function') window.playHudSound('select');
+  };
+
+  let activeCheckoutItem = { id: '', title: '', priceStr: '' };
+
+  window.openCheckoutModal = function(id, title, ngn, usd, gbp) {
+    const modal = document.getElementById('checkoutModalBackdrop');
+    const titleEl = document.getElementById('checkoutItemTitle');
+    const priceEl = document.getElementById('checkoutPriceDisplay');
+    const addressGroup = document.getElementById('checkoutAddressGroup');
+
+    let priceVal = ngn;
+    let symbol = '₦';
+    if (activeCurrency === 'USD') { priceVal = usd; symbol = '$'; }
+    else if (activeCurrency === 'GBP') { priceVal = gbp; symbol = '£'; }
+
+    const priceFormatted = symbol + (activeCurrency === 'NGN' ? priceVal.toLocaleString() : priceVal);
+    activeCheckoutItem = { id, title, priceStr: priceFormatted };
+
+    if (titleEl) titleEl.textContent = title;
+    if (priceEl) priceEl.textContent = priceFormatted;
+    if (addressGroup) {
+      addressGroup.style.display = (id === 'digital_pass') ? 'none' : 'block';
+    }
+    if (modal) {
+      modal.classList.add('active');
+      modal.setAttribute('aria-hidden', 'false');
+    }
+    if (typeof window.playHudSound === 'function') window.playHudSound('activate');
+  };
+
+  window.closeCheckoutModal = function() {
+    const modal = document.getElementById('checkoutModalBackdrop');
+    if (modal) {
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+  };
+
+  window.processStoreCheckout = function(e) {
+    const name = document.getElementById('checkoutName')?.value || 'Operative';
+    const email = document.getElementById('checkoutEmail')?.value || 'reader@catalystverse.com';
+    const method = document.querySelector('input[name="payMethod"]:checked')?.value || 'paystack';
+    const submitBtn = document.getElementById('checkoutSubmitBtn');
+
+    if (submitBtn) {
+      submitBtn.textContent = 'CONNECTING TO ENCRYPTED GATEWAY...';
+      submitBtn.disabled = true;
+    }
+
+    setTimeout(() => {
+      window.closeCheckoutModal();
+      if (submitBtn) {
+        submitBtn.textContent = 'PROCEED TO SECURE PAYMENT →';
+        submitBtn.disabled = false;
+      }
+
+      // Generate instantaneous VIP Receipt Pass
+      const orderRef = 'CAT-2031-' + Math.floor(100000 + Math.random() * 900000);
+      alert('⚡ DISPATCH AUTHORIZED!\n\nOrder Reference: ' + orderRef + '\nItem: ' + activeCheckoutItem.title + '\nTotal: ' + activeCheckoutItem.priceStr + '\nRecipient: ' + name + ' (' + email + ')\n\nYour archival confirmation and tracking pass have been encrypted and transmitted. Welcome to the Ọ̀run Vanguard!');
+      if (typeof window.playHudSound === 'function') window.playHudSound('success');
+    }, 1200);
+  };
+
+  /* ── 4. PWA NATIVE APP INSTALL ENGINE ── */
+  let deferredPrompt = null;
+  const pwaBanner = document.getElementById('pwaInstallBanner');
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (pwaBanner && !localStorage.getItem('catalyst_pwa_dismissed')) {
+      pwaBanner.style.display = 'block';
+    }
+  });
+
+  window.installCatalystPwa = function() {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User installed Catalyst PWA');
+        }
+        deferredPrompt = null;
+        if (pwaBanner) pwaBanner.style.display = 'none';
+      });
+    } else {
+      alert('To install Catalyst Awakening, tap "Add to Home Screen" or your browser menu (Install App).');
+    }
+    if (typeof window.playHudSound === 'function') window.playHudSound('success');
+  };
+
+  window.dismissPwaBanner = function() {
+    if (pwaBanner) pwaBanner.style.display = 'none';
+    localStorage.setItem('catalyst_pwa_dismissed', 'true');
+  };
+})();

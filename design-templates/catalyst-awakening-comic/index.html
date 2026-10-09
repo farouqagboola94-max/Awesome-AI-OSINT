@@ -499,6 +499,8 @@
     <li><a href="#realms">Realms</a></li>
     <li><a href="#glossary">Glossary</a></li>
     <li><a href="#read">Read Free</a></li>
+    <li><a href="#motion-comic-player" class="nav-motion-link">Motion Comic</a></li>
+    <li><a href="#preorder-store" class="nav-store-link">Store</a></li>
     <li><a href="#the-choice">The Choice</a></li>
     <li><a href="#clearance">Clearance</a></li>
     <li><a href="#architects-vault">Vault</a></li>
@@ -506,6 +508,12 @@
     <li><a href="#access" class="nav-cta">Subscribe</a></li>
   </ul>
   <div style="display:flex;align-items:center;gap:0.8rem;">
+    <!-- TRI-LINGUAL CULTURAL LANGUAGE SELECTOR -->
+    <div class="nav-lang-picker" id="navLangPicker">
+      <button type="button" class="lang-btn active" onclick="setLanguage('en', this)" title="Standard English">EN</button>
+      <button type="button" class="lang-btn" onclick="setLanguage('pidgin', this)" title="Nigerian Pidgin English">PIDGIN</button>
+      <button type="button" class="lang-btn" onclick="setLanguage('yoruba', this)" title="Èdè Yorùbá">YORÙBÁ</button>
+    </div>
     <button class="nav-audio-btn" id="navAudioBtn" onclick="toggleAmbientSound()" type="button" aria-label="Toggle ambient Lagos noir soundscape" title="Lagos Noir Soundscape">
       <span class="audio-icon">🎧</span>
       <span class="audio-bars" aria-hidden="true">
@@ -4428,6 +4436,37 @@
     </div>
   </div>
 
+  <!-- ============================================================ ANIMATED MOTION COMIC PLAYER -->
+  <div class="motion-comic-section reveal" id="motion-comic-player">
+    <div class="motion-header">
+      <div class="motion-tag">CATALYST OS // PARALLAX MOTION COMIC ENGINE v1.0</div>
+      <div class="motion-controls-row">
+        <button type="button" class="motion-ctrl-btn" onclick="prevMotionPanel()">◀ PREV PANEL</button>
+        <span class="motion-panel-counter" id="motionPanelCounter">PANEL 01 / 06</span>
+        <button type="button" class="motion-ctrl-btn" onclick="nextMotionPanel()">NEXT PANEL ▶</button>
+        <button type="button" class="motion-ctrl-btn active" id="motionAutoplayBtn" onclick="toggleMotionAutoplay()">▶ AUTO: ON (4s)</button>
+        <button type="button" class="motion-ctrl-btn" onclick="toggleMotionFullscreen()">⛶ FULLSCREEN</button>
+      </div>
+    </div>
+    <div class="motion-stage-viewport" id="motionStageViewport">
+      <div class="motion-panel-frame" id="motionPanelFrame">
+        <!-- Background Art Layer -->
+        <div class="motion-layer motion-bg-layer" id="motionBgLayer" style="background-image:url('./assets/mushin-night.webp');"></div>
+        <!-- Character Foreground Parallax Layer -->
+        <div class="motion-layer motion-fg-layer" id="motionFgLayer">
+          <img src="./assets/bayo-keyart-street.webp" alt="Bayo in motion" id="motionFgImg" class="motion-fg-character">
+        </div>
+        <!-- Kinetic SFX Flash Overlay -->
+        <div class="motion-fx-flash" id="motionFxFlash"></div>
+        <!-- Dynamic Typewriter Dialogue Bubble -->
+        <div class="motion-caption-box" id="motionCaptionBox">
+          <div class="motion-speaker-tag" id="motionSpeakerTag">CAPTION // MUSHIN CORE · 2:47 AM</div>
+          <div class="motion-dialogue-text" id="motionDialogueText">Mushin never actually sleeps. It rests with one eye open. Tonight the open eye has seen something it was not meant to see.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ISSUE 1 -->
   <div class="issue-reader-panel active" id="panel-i1">
     <div class="reader-grid">
@@ -5784,8 +5823,93 @@
 
 <div class="scroll-hook reveal">Four issues, free, read. What you just finished is <em>less than a tenth</em> of the story.<span class="sh-arrow">↓</span></div>
 
-<!-- ============================================================ ARC II PREMIUM TEASER -->
-<!-- ════ CHRONICLE TIMELINE ════ -->
+<!-- ============================================================ CATALYST OS OFFICIAL PRE-ORDER STORE & COLLECTOR'S BOX -->
+<section id="preorder-store" style="padding:6rem 1.5rem 7rem;background:rgba(6,8,18,0.96);border-top:1px solid rgba(244,184,0,0.25);">
+  <div class="store-header" style="text-align:center;max-width:780px;margin:0 auto 3.5rem;">
+    <p class="section-label reveal" style="justify-content:center">Official Graphic Novel &amp; Collector Merch</p>
+    <h2 class="section-title reveal">PRE-ORDER <em>THE UNIVERSE</em></h2>
+    <p class="reveal" style="font-size:0.92rem;line-height:1.85;color:rgba(240,237,229,0.65);margin-top:1rem;">
+      Own the physical archival edition of Africa's groundbreaking Afrofuturist comic. Heavy coated art paper, foil stamping, metallic prints, and direct worldwide shipping.
+    </p>
+    <!-- Store Currency Switcher -->
+    <div class="store-currency-switcher reveal" id="storeCurrencySwitcher">
+      <span class="curr-label">CURRENCY:</span>
+      <button type="button" class="curr-btn active" onclick="setStoreCurrency('NGN', this)">₦ NGN (Nigeria)</button>
+      <button type="button" class="curr-btn" onclick="setStoreCurrency('USD', this)">$ USD (Global)</button>
+      <button type="button" class="curr-btn" onclick="setStoreCurrency('GBP', this)">£ GBP (UK)</button>
+    </div>
+  </div>
+
+  <div class="store-grid reveal" id="storeGrid">
+    <!-- PRODUCT 1: ISSUE #01 DELUXE FOIL HARDCOVER -->
+    <div class="store-card reveal">
+      <div class="store-card-badge">STANDARD PRINT EDITION</div>
+      <div class="store-card-thumb">
+        <img src="./assets/cover-issue1.webp" alt="Issue #01 Deluxe Graphic Novel" loading="lazy">
+      </div>
+      <div class="store-card-body">
+        <h3 class="store-item-title">Issue #01: Awaken, O City (Deluxe Foil Hardcover)</h3>
+        <p class="store-item-desc">88 full-color canonical pages printed on 157gsm heavy coated archival stock with spot-UV Danfo Gold foil embossing and artist commentary foreword.</p>
+        <ul class="store-item-features">
+          <li>✓ 88 Story &amp; Epilogue Pages</li>
+          <li>✓ Danfo Gold Embossed Foil Cover</li>
+          <li>✓ Exclusive Lagos 2031 Fold-Out Map</li>
+          <li>✓ Digital PDF &amp; CBZ Included</li>
+        </ul>
+        <div class="store-card-footer">
+          <div class="store-price" data-price-ngn="15000" data-price-usd="12" data-price-gbp="10">₦15,000</div>
+          <button type="button" class="store-buy-btn" onclick="openCheckoutModal('issue1_foil', 'Issue #01 Deluxe Foil Hardcover', 15000, 12, 10)">PRE-ORDER NOW →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUCT 2: THE Ọ̀RUN COLLECTOR'S BOX SET (FEATURED) -->
+    <div class="store-card featured reveal">
+      <div class="store-card-badge" style="background:var(--danfo-gold);color:var(--black);font-weight:700;">★ LIMITED TO 500 BOXES</div>
+      <div class="store-card-thumb">
+        <img src="./assets/circle.webp" alt="The Ọ̀run Collector's Box Set" loading="lazy">
+      </div>
+      <div class="store-card-body">
+        <h3 class="store-item-title">The Ọ̀run Collector's Box Set (Limited Edition)</h3>
+        <p class="store-item-desc">The ultimate commemorative archive. Includes Issue #01 Foil Hardcover, Arc II Iron Trials prelude dossier, metallic character prints, and die-cast enamel crest.</p>
+        <ul class="store-item-features">
+          <li>✓ Issue #01 Foil Hardcover + Slipcase</li>
+          <li>✓ 50 Metallic Canon Art Prints (Archival 350gsm)</li>
+          <li>✓ Die-Cast Ògún &amp; Ṣàngó Enamel Crest Pin</li>
+          <li>✓ Cryptographic NFC Metal VIP Pass</li>
+          <li>✓ FLAC Master Soundscape Soundtrack</li>
+        </ul>
+        <div class="store-card-footer">
+          <div class="store-price" data-price-ngn="45000" data-price-usd="35" data-price-gbp="28">₦45,000</div>
+          <button type="button" class="store-buy-btn featured" onclick="openCheckoutModal('orun_box_set', 'The Ọ̀run Collector\\'s Box Set', 45000, 35, 28)">CLAIM BOX SET →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUCT 3: DIGITAL ULTIMATE ARCHIVE PASS -->
+    <div class="store-card reveal">
+      <div class="store-card-badge">INSTANT DIGITAL ACCESS</div>
+      <div class="store-card-thumb">
+        <img src="./assets/team-aurora.webp" alt="Digital Archival Pass" loading="lazy">
+      </div>
+      <div class="store-card-body">
+        <h3 class="store-item-title">Digital Ultimate Archival Pass</h3>
+        <p class="store-item-desc">Instant DRM-free download of Issue #01 in ultra-high resolution 4K, all 50 full-resolution wallpapers, high-fidelity soundscape OST, and private lore dossier access.</p>
+        <ul class="store-item-features">
+          <li>✓ DRM-Free 4K PDF &amp; CBZ Files</li>
+          <li>✓ 50 High-DPI Desktop &amp; Mobile Wallpapers</li>
+          <li>✓ Full Studio Master OST FLAC / MP3</li>
+          <li>✓ Lifetime Arc II Digital Clearance</li>
+        </ul>
+        <div class="store-card-footer">
+          <div class="store-price" data-price-ngn="5000" data-price-usd="4" data-price-gbp="3.5">₦5,000</div>
+          <button type="button" class="store-buy-btn" onclick="openCheckoutModal('digital_pass', 'Digital Ultimate Archival Pass', 5000, 4, 3.5)">GET DIGITAL PASS →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============================================================ THE CHOICE -->
 
 <section id="the-choice">
@@ -7533,5 +7657,63 @@
   </div>
 </div>
 
+
+<!-- ============================================================ PWA NATIVE APP INSTALL HUD BANNER -->
+<div class="pwa-install-banner" id="pwaInstallBanner" style="display:none;" aria-label="Install Catalyst Native Web App">
+  <div class="pwa-banner-inner">
+    <div class="pwa-banner-icon">⚡</div>
+    <div class="pwa-banner-text">
+      <strong>CATALYST OS // INSTALL NATIVE APP</strong>
+      <span>Save to your home screen for zero-data offline reading of all 88 pages &amp; soundscapes.</span>
+    </div>
+    <div class="pwa-banner-actions">
+      <button type="button" class="pwa-install-btn" onclick="installCatalystPwa()">INSTALL NOW</button>
+      <button type="button" class="pwa-dismiss-btn" onclick="dismissPwaBanner()">✕</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ PAYSTACK / STRIPE PRE-ORDER CHECKOUT MODAL -->
+<div class="modal-backdrop" id="checkoutModalBackdrop" aria-hidden="true" role="dialog" aria-label="Pre-Order Checkout">
+  <div class="checkout-modal">
+    <button class="modal-close" onclick="closeCheckoutModal()" aria-label="Close Checkout">✕</button>
+    <div class="checkout-header">
+      <div class="checkout-tag">ORACLE COMMERCE // SECURE DISPATCH PROTOCOL</div>
+      <h3 class="checkout-title" id="checkoutItemTitle">Item Title</h3>
+      <div class="checkout-price-row">
+        <span>TOTAL DUE:</span>
+        <strong id="checkoutPriceDisplay">₦15,000</strong>
+      </div>
+    </div>
+
+    <form id="checkoutForm" onsubmit="event.preventDefault(); processStoreCheckout(event);" class="checkout-form">
+      <div class="form-group">
+        <label>FULL NAME</label>
+        <input type="text" id="checkoutName" required placeholder="Bayo Adeyemi" class="checkout-input">
+      </div>
+      <div class="form-group">
+        <label>EMAIL ADDRESS (RECEIPT &amp; TRACKING)</label>
+        <input type="email" id="checkoutEmail" required placeholder="operative@catalystverse.com" class="checkout-input">
+      </div>
+      <div class="form-group" id="checkoutAddressGroup">
+        <label>DELIVERY ADDRESS (LAGOS OR INTERNATIONAL)</label>
+        <input type="text" id="checkoutAddress" placeholder="14 Paul Street, Mushin, Lagos / Worldwide" class="checkout-input">
+      </div>
+      <div class="form-group">
+        <label>SELECT PAYMENT CHANNEL</label>
+        <div class="payment-method-chips">
+          <label class="pay-chip active">
+            <input type="radio" name="payMethod" value="paystack" checked> 💳 Paystack / Card / Transfer / USSD
+          </label>
+          <label class="pay-chip">
+            <input type="radio" name="payMethod" value="stripe"> 🌐 International Stripe Card
+          </label>
+        </div>
+      </div>
+      <button type="submit" class="checkout-submit-btn" id="checkoutSubmitBtn">PROCEED TO SECURE PAYMENT →</button>
+    </form>
+    <div class="checkout-security-notice">🔒 256-Bit SSL Encrypted · Paystack &amp; Stripe Verified · Direct Dispatch</div>
+  </div>
+</div>
 </body>
 </html>
