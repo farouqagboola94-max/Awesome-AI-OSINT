@@ -11790,3 +11790,756 @@ var TC_ENDINGS = {
     }
   }
 })();
+
+
+/* ══════════════════════════════════════════════════════════════════
+   FEATURE 2: VIRTUAL ORISHA DIVINATION & IFÁ CASTING CHAMBER
+   ══════════════════════════════════════════════════════════════════ */
+(function() {
+  var ODU_COLLECTION = [
+    {
+      id: '01',
+      name: 'ÈJÌ OGBÈ (OGBÈ MÉJÌ)',
+      binary: '0000 · 0000',
+      marks: [[0,0,0,0], [0,0,0,0]],
+      orisha: 'OBATÀLÁ & ORÚNMÌLÀ // THE PURE LIGHT',
+      proverb: 'The head that will wear a crown must first learn to bow in humility before the earth.',
+      boon: '+25% Kinetic Clarity in open combat. Maximum harmony with atmospheric Aṣẹ currents.'
+    },
+    {
+      id: '02',
+      name: 'Ọ̀YẸ̀KÚ MÉJÌ',
+      binary: '1111 · 1111',
+      marks: [[1,1,1,1], [1,1,1,1]],
+      orisha: 'YEMỌJA // SACRED NIGHT & ANCESTRAL VEIL',
+      proverb: 'Darkness does not swallow the sun; it only prepares the world for the dawn.',
+      boon: '+30% Stealth Shrouding and resistance against Pale Council thermal sensors.'
+    },
+    {
+      id: '03',
+      name: 'ÌWÒRÌ MÉJÌ',
+      binary: '1001 · 1001',
+      marks: [[1,0,0,1], [1,0,0,1]],
+      orisha: 'Ọ̀ṢUN // DEEP WATER CLARITY',
+      proverb: 'He who looks deeply into the water sees both his own face and the pebbles at the bottom.',
+      boon: '+20% Tactical Intellect. Unveils hidden structural weaknesses in void rifts.'
+    },
+    {
+      id: '04',
+      name: 'ÒDÍ MÉJÌ',
+      binary: '0110 · 0110',
+      marks: [[0,1,1,0], [0,1,1,0]],
+      orisha: 'ÒGÚN // IMPENETRABLE WALL',
+      proverb: 'A fortress built on justice does not collapse when the storm strikes.',
+      boon: '+35% Kinetic Shield Fortitude. Decreases knockback damage by half.'
+    },
+    {
+      id: '05',
+      name: 'ÌROSÙN MÉJÌ',
+      binary: '0011 · 0011',
+      marks: [[0,0,1,1], [0,0,1,1]],
+      orisha: 'ṢÀNGÓ // RED FIRE & SACRED EMBERS',
+      proverb: 'A single spark born of truth burns down a forest of deceit.',
+      boon: '+25% Arc Discharge Intensity. Overheats enemy cybernetic gear.'
+    },
+    {
+      id: '06',
+      name: 'Ọ̀WỌ́NRÍN MÉJÌ',
+      binary: '1100 · 1100',
+      marks: [[1,1,0,0], [1,1,0,0]],
+      orisha: 'ỌYA // THE WHIRLWIND OF DESTINY',
+      proverb: 'The wind has no path; it creates its own highway across the trees.',
+      boon: '+30% Agility & Dodge Velocity in chaotic multi-target engagements.'
+    },
+    {
+      id: '07',
+      name: 'Ọ̀BÀRÀ MÉJÌ',
+      binary: '0111 · 0111',
+      marks: [[0,1,1,1], [0,1,1,1]],
+      orisha: 'Ẹ̀ṢÙ // WORDS OF SOVEREIGN COMMAND',
+      proverb: 'The mouth speaks the decree, and the crossroads arranges the meeting.',
+      boon: '+20% Critical Persuasion and tactical battlefield bluffing.'
+    },
+    {
+      id: '08',
+      name: 'Ọ̀KÀNRÀN MÉJÌ',
+      binary: '1110 · 1110',
+      marks: [[1,1,1,0], [1,1,1,0]],
+      orisha: 'ṢÀNGÓ // THUNDER CRACK OF TRUTH',
+      proverb: 'When lightning speaks in the sky, even the deaf turn their gaze upward.',
+      boon: '+40% Sudden Impact Shockwave against barricaded structures.'
+    },
+    {
+      id: '09',
+      name: 'ÒGÚNDÁ MÉJÌ',
+      binary: '0001 · 0001',
+      marks: [[0,0,0,1], [0,0,0,1]],
+      orisha: 'ÒGÚN // THE PATHMAKER'S BLADE',
+      proverb: 'Where there is no road, the machete of Ògún carves a kingdom.',
+      boon: '+30% Armor Piercing damage against Pale Council iron constructs.'
+    },
+    {
+      id: '10',
+      name: 'Ọ̀SÁ MÉJÌ',
+      binary: '1000 · 1000',
+      marks: [[1,0,0,0], [1,0,0,0]],
+      orisha: 'ỌYA // FLIGHT ACROSS STORMS',
+      proverb: 'The bird that flies above the thunder is not troubled by the rain.',
+      boon: '+25% Aerial Trajectory Control and vertical evasion.'
+    },
+    {
+      id: '11',
+      name: 'ÌKÁ MÉJÌ',
+      binary: '1011 · 1011',
+      marks: [[1,0,1,1], [1,0,1,1]],
+      orisha: 'Ọ̀ṢỌ́Ọ̀SÌ // PATIENT HUNTER & SERPENT RESTRAINT',
+      proverb: 'The hunter who knows patience walks out of the jungle carrying the leopard.',
+      boon: '+35% Precision Accuracy and projectile telemetry tracking.'
+    },
+    {
+      id: '12',
+      name: 'ÒTÚRÚPỌ̀N MÉJÌ',
+      binary: '1101 · 1101',
+      marks: [[1,1,0,1], [1,1,0,1]],
+      orisha: 'BÀBÁLÚ AYÉ // HEALER & IMMUTABLE ENDURANCE',
+      proverb: 'Earth endures every heavy tread; in the end, it outlives every traveler.',
+      boon: '+20% Cellular Regeneration rate and immunity to corrosive void rifts.'
+    },
+    {
+      id: '13',
+      name: 'ÒTÚRÁ MÉJÌ',
+      binary: '0100 · 0100',
+      marks: [[0,1,0,0], [0,1,0,0]],
+      orisha: 'ORÚNMÌLÀ // THE PEACEFUL HARMONY',
+      proverb: 'Wisdom is the cool water poured onto the heated anvil of conflict.',
+      boon: '+25% Resistance against psychic disorientation and mental illusion.'
+    },
+    {
+      id: '14',
+      name: 'ÌRẸ̀TẸ̀ MÉJÌ',
+      binary: '0010 · 0010',
+      marks: [[0,0,1,0], [0,0,1,0]],
+      orisha: 'ÒGÚN // STAMPING OUT ADVERSITY',
+      proverb: 'The foot that stomps the soil in righteousness cannot be tripped by thorns.',
+      boon: '+30% Ground Shockwave disruption knocking charging adversaries flat.'
+    },
+    {
+      id: '15',
+      name: 'Ọ̀ṢẸ́ MÉJÌ',
+      binary: '0101 · 0101',
+      marks: [[0,1,0,1], [0,1,0,1]],
+      orisha: 'Ọ̀ṢUN // GOLDEN RIVER OF FORTUNE',
+      proverb: 'Beauty and sweetness are weapons stronger than an army of iron.',
+      boon: '+20% Aura Radiance. Elevates the spirits and focus of surrounding allies.'
+    },
+    {
+      id: '16',
+      name: 'ÒFÚN MÉJÌ (ÒRÀNGÚN MÉJÌ)',
+      binary: '1010 · 1010',
+      marks: [[1,0,1,0], [1,0,1,0]],
+      orisha: 'OBATÀLÁ // THE SOVEREIGN CREATOR',
+      proverb: 'White cloth receives no stain without grieving; walk through the world with pure intent.',
+      boon: '+50% Divine Resonance Multiplier during high-output Aṣẹ channel bursts.'
+    }
+  ];
+
+  var activeOduIdx = 0;
+
+  function initDivination() {
+    renderOduRoster();
+    drawOponTray(ODU_COLLECTION[activeOduIdx]);
+    updateReadingCard(ODU_COLLECTION[activeOduIdx]);
+  }
+
+  function renderOduRoster() {
+    var container = document.getElementById('divineRosterChips');
+    if (!container) return;
+    container.innerHTML = ODU_COLLECTION.map(function(o, idx) {
+      return '<button type="button" class="divine-chip-btn' + (idx === activeOduIdx ? ' active' : '') + '" onclick="selectOdu(' + idx + ')">' +
+        o.id + '. ' + o.name.split('(')[0].trim() +
+        '</button>';
+    }).join('');
+  }
+
+  function drawOponTray(odu) {
+    var canvas = document.getElementById('oponCanvas');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var w = canvas.width;
+    var h = canvas.height;
+    var cx = w / 2;
+    var cy = h / 2;
+    var r = (w / 2) - 15;
+
+    ctx.clearRect(0, 0, w, h);
+
+    // Carved Wood Outer Border (Opon Ifá Tray)
+    var woodGrad = ctx.createRadialGradient(cx, cy, r * 0.7, cx, cy, r);
+    woodGrad.addColorStop(0, '#2d180a');
+    woodGrad.addColorStop(0.85, '#1e0e05');
+    woodGrad.addColorStop(1, '#0a0502');
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.fillStyle = woodGrad;
+    ctx.fill();
+    ctx.lineWidth = 12;
+    ctx.strokeStyle = '#4a2810';
+    ctx.stroke();
+
+    // Geometric border carving patterns
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#F4B800';
+    ctx.stroke();
+    ctx.restore();
+
+    // Inner tray floor with sacred yellow/golden Iyèrosùn dust
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(cx, cy, r - 25, 0, Math.PI * 2);
+    var dustGrad = ctx.createRadialGradient(cx, cy, 20, cx, cy, r - 25);
+    dustGrad.addColorStop(0, '#5a4214');
+    dustGrad.addColorStop(0.7, '#3d2d0c');
+    dustGrad.addColorStop(1, '#201605');
+    ctx.fillStyle = dustGrad;
+    ctx.fill();
+    ctx.restore();
+
+    // Sacred Center Divider
+    ctx.strokeStyle = 'rgba(244, 184, 0, 0.35)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - (r - 40));
+    ctx.lineTo(cx, cy + (r - 40));
+    ctx.stroke();
+
+    // Draw 8 Odu Marks (4 marks in Right Column, 4 in Left Column)
+    // Marks: 0 = Single vertical line '|' (Open cowrie)
+    //        1 = Double vertical line '||' (Closed cowrie)
+    var colLeftX = cx - 55;
+    var colRightX = cx + 55;
+    var startY = cy - 80;
+    var rowGap = 48;
+
+    for (var row = 0; row < 4; row++) {
+      var y = startY + (row * rowGap);
+      // Right column first (traditional Ifá order)
+      var markRight = odu.marks[1][row];
+      drawMark(ctx, colRightX, y, markRight);
+
+      // Left column
+      var markLeft = odu.marks[0][row];
+      drawMark(ctx, colLeftX, y, markLeft);
+    }
+  }
+
+  function drawMark(ctx, x, y, markType) {
+    ctx.save();
+    ctx.shadowColor = '#F4B800';
+    ctx.shadowBlur = 12;
+    ctx.strokeStyle = '#F4B800';
+    ctx.lineWidth = 3.5;
+    ctx.lineCap = 'round';
+
+    if (markType === 0) {
+      // Single line
+      ctx.beginPath();
+      ctx.moveTo(x, y - 12);
+      ctx.lineTo(x, y + 12);
+      ctx.stroke();
+    } else {
+      // Double line
+      ctx.beginPath();
+      ctx.moveTo(x - 8, y - 12);
+      ctx.lineTo(x - 8, y + 12);
+      ctx.moveTo(x + 8, y - 12);
+      ctx.lineTo(x + 8, y + 12);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function updateReadingCard(odu) {
+    var numEl = document.getElementById('divineOduNum');
+    var binEl = document.getElementById('divineBinaryTag');
+    var titleEl = document.getElementById('divineOduTitle');
+    var orishaEl = document.getElementById('divineOrishaVal');
+    var provEl = document.getElementById('divineProverbVal');
+    var boonEl = document.getElementById('divineBoonVal');
+    var dlBtn = document.getElementById('divineDlBtn');
+
+    if (numEl) numEl.textContent = 'ODU № ' + odu.id + ' / 16';
+    if (binEl) binEl.textContent = 'BINARY: ' + odu.binary;
+    if (titleEl) titleEl.textContent = odu.name;
+    if (orishaEl) orishaEl.textContent = odu.orisha;
+    if (provEl) provEl.textContent = '"' + odu.proverb + '"';
+    if (boonEl) boonEl.textContent = odu.boon;
+    if (dlBtn) dlBtn.style.display = 'inline-block';
+  }
+
+  window.castOpeleChain = function() {
+    var btn = document.getElementById('divineCastBtn');
+    var status = document.getElementById('divineTrayStatus');
+    if (btn) btn.disabled = true;
+    if (status) status.textContent = 'CASTING Ọ̀PẸ̀LẸ̀ CHAIN ACROSS LAGOS LEY LINES...';
+
+    var spins = 0;
+    var interval = setInterval(function() {
+      var randIdx = Math.floor(Math.random() * ODU_COLLECTION.length);
+      drawOponTray(ODU_COLLECTION[randIdx]);
+      spins++;
+      if (spins > 10) {
+        clearInterval(interval);
+        activeOduIdx = Math.floor(Math.random() * ODU_COLLECTION.length);
+        var finalOdu = ODU_COLLECTION[activeOduIdx];
+        drawOponTray(finalOdu);
+        updateReadingCard(finalOdu);
+        renderOduRoster();
+        if (btn) btn.disabled = false;
+        if (status) status.textContent = 'ODU MANIFEST: ' + finalOdu.name.split('(')[0].trim();
+      }
+    }, 70);
+  };
+
+  window.selectOdu = function(idx) {
+    if (idx >= 0 && idx < ODU_COLLECTION.length) {
+      activeOduIdx = idx;
+      var odu = ODU_COLLECTION[idx];
+      drawOponTray(odu);
+      updateReadingCard(odu);
+      renderOduRoster();
+    }
+  };
+
+  window.downloadTalismanSeal = function() {
+    var canvas = document.getElementById('oponCanvas');
+    if (!canvas) return;
+    var link = document.createElement('a');
+    link.download = 'catalyst-odu-talisman-' + ODU_COLLECTION[activeOduIdx].id + '.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initDivination);
+  } else {
+    initDivination();
+  }
+})();
+
+/* ══════════════════════════════════════════════════════════════════
+   FEATURE 1: Ọ̀RUN DRUM MACHINE & AFRO-CYBER BEATMAKER
+   ══════════════════════════════════════════════════════════════════ */
+(function() {
+  var DRUM_TRACKS = [
+    { id: 'gangan', name: 'GÁNGAN (TALK)', color: '#F4B800' },
+    { id: 'bata_hi', name: 'BATÁ HIGH', color: '#00C9B1' },
+    { id: 'bata_lo', name: 'BATÁ LOW', color: '#00C9B1' },
+    { id: 'sango', name: 'ṢÀNGÓ CLAP', color: '#FF6B1A' },
+    { id: 'shekere', name: 'SHEKERE', color: '#F0EDE5' },
+    { id: 'sub808', name: 'ÒGÚN 808', color: '#C41E3A' }
+  ];
+
+  var BEAT_PRESETS = {
+    fuji: {
+      bpm: 118,
+      grid: [
+        [1,0,0,1, 0,1,0,0, 1,0,1,0, 0,1,0,0], // Gangan
+        [1,0,1,0, 1,0,1,0, 1,0,1,0, 1,0,1,0], // Bata Hi
+        [1,0,0,0, 0,0,1,0, 0,0,1,0, 0,0,0,0], // Bata Lo
+        [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0], // Sango Clap
+        [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1], // Shekere
+        [1,0,0,0, 0,0,0,0, 1,0,0,0, 0,0,1,0]  // Ogun 808
+      ]
+    },
+    afrobeat: {
+      bpm: 104,
+      grid: [
+        [0,0,1,0, 0,0,1,0, 0,1,0,0, 1,0,0,0], // Gangan
+        [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0], // Bata Hi
+        [1,0,0,1, 0,0,1,0, 1,0,0,1, 0,0,1,0], // Bata Lo
+        [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0], // Sango Clap
+        [1,0,1,0, 1,0,1,0, 1,0,1,0, 1,0,1,0], // Shekere
+        [1,0,0,0, 0,0,1,0, 0,0,1,0, 0,0,0,0]  // Ogun 808
+      ]
+    },
+    ogun: {
+      bpm: 132,
+      grid: [
+        [1,0,0,1, 0,0,1,0, 1,0,0,1, 0,1,0,0], // Gangan
+        [1,0,1,0, 0,1,0,1, 1,0,1,0, 0,1,0,1], // Bata Hi
+        [1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0], // Bata Lo
+        [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0], // Sango Clap
+        [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1], // Shekere
+        [1,0,0,0, 0,1,0,0, 1,0,0,0, 0,1,0,0]  // Ogun 808
+      ]
+    },
+    ase: {
+      bpm: 90,
+      grid: [
+        [1,0,0,0, 0,0,0,0, 1,0,0,0, 0,0,0,0], // Gangan
+        [0,0,1,0, 0,0,1,0, 0,0,1,0, 0,0,1,0], // Bata Hi
+        [1,0,0,0, 0,0,0,0, 0,0,1,0, 0,0,0,0], // Bata Lo
+        [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0], // Sango Clap
+        [1,0,1,0, 1,0,1,0, 1,0,1,0, 1,0,1,0], // Shekere
+        [1,0,0,0, 0,0,0,0, 1,0,0,0, 0,0,0,0]  // Ogun 808
+      ]
+    }
+  };
+
+  var beatBpm = 108;
+  var isPlaying = false;
+  var currentStep = 0;
+  var beatGrid = [];
+  var stepTimer = null;
+  var audioCtx = null;
+
+  function initBeatMatrix() {
+    // initialize default grid from Fuji Cyber preset
+    beatGrid = JSON.parse(JSON.stringify(BEAT_PRESETS.fuji.grid));
+    beatBpm = BEAT_PRESETS.fuji.bpm;
+
+    renderStepIndicators();
+    renderTracks();
+  }
+
+  function renderStepIndicators() {
+    var bar = document.getElementById('beatStepIndicators');
+    if (!bar) return;
+    var html = '<div style="font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--ash-grey);">TRACK / STEPS</div>';
+    for (var s = 0; s < 16; s++) {
+      html += '<div class="beat-step-led' + (s === currentStep ? ' active-head' : '') + '" id="stepLed_' + s + '"></div>';
+    }
+    bar.innerHTML = html;
+  }
+
+  function renderTracks() {
+    var container = document.getElementById('beatTracksContainer');
+    if (!container) return;
+
+    container.innerHTML = DRUM_TRACKS.map(function(t, tIdx) {
+      var padsHtml = '';
+      for (var s = 0; s < 16; s++) {
+        var on = beatGrid[tIdx][s] === 1;
+        var isAccent = (s % 4 === 0);
+        padsHtml += '<button type="button" class="beat-pad' + (on ? ' on' : '') + (isAccent ? ' accent' : '') + '" ' +
+          'data-track="' + tIdx + '" data-step="' + s + '" ' +
+          'onclick="toggleBeatPad(' + tIdx + ', ' + s + ', this)"></button>';
+      }
+
+      return '<div class="beat-track-row">' +
+        '<div class="beat-track-info">' +
+          '<button type="button" class="beat-track-play" onclick="previewDrumVoice('' + t.id + '')" title="Trigger Sound">▶</button>' +
+          '<span class="beat-track-name" style="color:' + t.color + '">' + t.name + '</span>' +
+        '</div>' +
+        padsHtml +
+      '</div>';
+    }).join('');
+  }
+
+  function getAudioCtx() {
+    if (!audioCtx) {
+      var AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (AudioContext) audioCtx = new AudioContext();
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    return audioCtx;
+  }
+
+  function triggerDrumVoice(id) {
+    var ctx = getAudioCtx();
+    if (!ctx) return;
+    var now = ctx.currentTime;
+
+    if (id === 'gangan') {
+      // Talking drum pitch drop
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(340, now);
+      osc.frequency.exponentialRampToValueAtTime(190, now + 0.15);
+      gain.gain.setValueAtTime(0.4, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.23);
+    } else if (id === 'bata_hi') {
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(440, now);
+      gain.gain.setValueAtTime(0.35, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.11);
+    } else if (id === 'bata_lo') {
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(140, now);
+      osc.frequency.exponentialRampToValueAtTime(80, now + 0.2);
+      gain.gain.setValueAtTime(0.5, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.26);
+    } else if (id === 'sango') {
+      // Noise burst clap
+      var bSize = ctx.sampleRate * 0.12;
+      var buffer = ctx.createBuffer(1, bSize, ctx.sampleRate);
+      var data = buffer.getChannelData(0);
+      for (var i = 0; i < bSize; i++) data[i] = (Math.random() * 2) - 1;
+      var noise = ctx.createBufferSource();
+      noise.buffer = buffer;
+      var filter = ctx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.value = 1100;
+      var gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.45, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
+      noise.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+      noise.start(now);
+    } else if (id === 'shekere') {
+      var bSize = ctx.sampleRate * 0.06;
+      var buffer = ctx.createBuffer(1, bSize, ctx.sampleRate);
+      var data = buffer.getChannelData(0);
+      for (var i = 0; i < bSize; i++) data[i] = (Math.random() * 2) - 1;
+      var noise = ctx.createBufferSource();
+      noise.buffer = buffer;
+      var filter = ctx.createBiquadFilter();
+      filter.type = 'highpass';
+      filter.frequency.value = 5000;
+      var gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.25, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+      noise.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+      noise.start(now);
+    } else if (id === 'sub808') {
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(90, now);
+      osc.frequency.exponentialRampToValueAtTime(42, now + 0.18);
+      gain.gain.setValueAtTime(0.65, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.46);
+    }
+  }
+
+  window.previewDrumVoice = function(id) {
+    triggerDrumVoice(id);
+  };
+
+  window.toggleBeatPad = function(track, step, btn) {
+    beatGrid[track][step] = beatGrid[track][step] === 1 ? 0 : 1;
+    btn.classList.toggle('on', beatGrid[track][step] === 1);
+  };
+
+  function playStep() {
+    // update playhead LEDs
+    for (var s = 0; s < 16; s++) {
+      var led = document.getElementById('stepLed_' + s);
+      if (led) led.classList.toggle('active-head', s === currentStep);
+    }
+
+    // trigger voices on current step
+    for (var t = 0; t < DRUM_TRACKS.length; t++) {
+      if (beatGrid[t][currentStep] === 1) {
+        triggerDrumVoice(DRUM_TRACKS[t].id);
+      }
+    }
+
+    currentStep = (currentStep + 1) % 16;
+  }
+
+  window.toggleBeatSequencer = function() {
+    var btn = document.getElementById('beatPlayBtn');
+    if (isPlaying) {
+      isPlaying = false;
+      if (stepTimer) clearInterval(stepTimer);
+      if (btn) {
+        btn.textContent = '▶ PLAY BEAT';
+        btn.classList.remove('playing');
+      }
+    } else {
+      isPlaying = true;
+      getAudioCtx();
+      var interval = (60 / beatBpm / 4) * 1000;
+      stepTimer = setInterval(playStep, interval);
+      if (btn) {
+        btn.textContent = '⏹ STOP BEAT';
+        btn.classList.add('playing');
+      }
+    }
+  };
+
+  window.setBeatBpm = function(val) {
+    beatBpm = parseInt(val, 10);
+    var lbl = document.getElementById('beatBpmVal');
+    if (lbl) lbl.textContent = beatBpm + ' BPM';
+
+    if (isPlaying) {
+      clearInterval(stepTimer);
+      var interval = (60 / beatBpm / 4) * 1000;
+      stepTimer = setInterval(playStep, interval);
+    }
+  };
+
+  window.loadBeatPreset = function(name, btn) {
+    if (BEAT_PRESETS[name]) {
+      beatGrid = JSON.parse(JSON.stringify(BEAT_PRESETS[name].grid));
+      beatBpm = BEAT_PRESETS[name].bpm;
+      var slider = document.getElementById('beatBpmSlider');
+      if (slider) slider.value = beatBpm;
+      window.setBeatBpm(beatBpm);
+      renderTracks();
+
+      var btns = document.querySelectorAll('.beat-preset-group .beat-preset-btn');
+      btns.forEach(function(b) { b.classList.remove('active'); });
+      if (btn) btn.classList.add('active');
+    }
+  };
+
+  window.clearBeatPattern = function() {
+    for (var t = 0; t < DRUM_TRACKS.length; t++) {
+      for (var s = 0; s < 16; s++) {
+        beatGrid[t][s] = 0;
+      }
+    }
+    renderTracks();
+  };
+
+  window.randomizeBeatPattern = function() {
+    for (var t = 0; t < DRUM_TRACKS.length; t++) {
+      for (var s = 0; s < 16; s++) {
+        beatGrid[t][s] = Math.random() > 0.72 ? 1 : 0;
+      }
+    }
+    renderTracks();
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBeatMatrix);
+  } else {
+    initBeatMatrix();
+  }
+})();
+
+/* ══════════════════════════════════════════════════════════════════
+   FEATURE 6: OMNI-ARCHIVE COMMAND PALETTE & DEEP LORE SEARCH
+   ══════════════════════════════════════════════════════════════════ */
+(function() {
+  var OMNI_CATALOG = [
+    { title: 'Bayo Adeyemi — Catalyst', cat: 'characters', desc: '19-year-old conductor vessel channeling raw cosmic Aṣẹ on Third Mainland Bridge.', target: '#characters' },
+    { title: 'Amara Okafor — Thunderstrike', cat: 'characters', desc: 'High-voltage lightning conduit channeling Ṣàngó through acoustic talking drums.', target: '#characters' },
+    { title: 'Ikenna Chukwuemeka — Iron Wolf', cat: 'characters', desc: 'Near-invulnerable guardian infused with Ògún sacred metallurgy and iron shielding.', target: '#characters' },
+    { title: 'Zara Osei — The Mirror', cat: 'characters', desc: 'Spectral infiltrator wielding reflection manipulation and stealth reconnaissance.', target: '#characters' },
+    { title: 'The Oracle of Badagry', cat: 'characters', desc: 'Ancient 144-year-old subterranean diviner monitoring cosmic Ọ̀run telemetry.', target: '#oracle-chat-terminal' },
+    { title: 'The Architect', cat: 'characters', desc: 'System sovereign and Pale Council oligarch weaponizing synthetic Aṣẹ extraction.', target: '#villains' },
+    { title: 'Hollow King', cat: 'characters', desc: 'Void Harvester extracting human lifeforce across industrial docks.', target: '#villains' },
+    { title: 'Mother Storm', cat: 'characters', desc: 'Corrupted tempest entity tearing open unsealed Ọ̀run rifts in the lagoon.', target: '#villains' },
+    { title: 'Iron Preacher', cat: 'characters', desc: 'Heretic smith commanding automated iron constructs on the Ògún Wrath doctrine.', target: '#villains' },
+    { title: 'The Pale Council', cat: 'characters', desc: 'Shadow syndicate operating high above Eko Atlantic dredging towers.', target: '#villains' },
+
+    { title: '1420 CE: The First Covenant', cat: 'lore', desc: 'Descent of the Orishas in Old Oyo Kingdom and the ancient sovereign defense pact.', target: '#lore-timeline' },
+    { title: '1897 CE: The Iron Incursion', cat: 'lore', desc: 'Seven sacred anvils of Ògún buried beneath the seabed to prevent colonial looting.', target: '#lore-timeline' },
+    { title: '1973 CE: Badagry Eclipse', cat: 'lore', desc: 'Awakening of the subterranean listening array beneath coastal slave port tunnels.', target: '#lore-timeline' },
+    { title: '2018 CE: Eko Atlantic Rise', cat: 'lore', desc: 'Synthetic energy extraction towers constructed atop dredged coastal sandbars.', target: '#lore-timeline' },
+    { title: '2031 CE: Third Mainland Breach', cat: 'lore', desc: 'The catastrophic tear in the Ọ̀run membrane triggering the awakening of Bayo.', target: '#lore-timeline' },
+    { title: 'Èjì Ogbè & The 16 Odu Ifá', cat: 'lore', desc: 'Sacred binary computation system mapping cosmic alignment and ancestral proverbs.', target: '#divination-chamber' },
+    { title: 'Aṣẹ Energy Mechanics', cat: 'lore', desc: 'Primordial cosmic directive force governing creation, vibration, and combat lethality.', target: '#glossary' },
+    { title: 'The Sacred Relics Vault', cat: 'lore', desc: '3D rotatable wireframe polyhedra and technical metallurgy telemetry.', target: '#relvault' },
+
+    { title: 'Issue #01: The Awakening', cat: 'scenes', desc: 'Free full 22-page graphic novel issue with audiobook voice narration and webtoon mode.', target: '#read' },
+    { title: 'Issue #02: Echoes in the Iron', cat: 'scenes', desc: 'Amara and Ikenna confront void constructs at the Apapa shipping container yards.', target: '#read' },
+    { title: 'Issue #03: The Bloodline Gate', cat: 'scenes', desc: 'Subterranean transit tunnels of Balogun breached by Pale Council enforcers.', target: '#read' },
+    { title: 'Issue #04: Dawn Over Lagos', cat: 'scenes', desc: 'Climax of Arc I on the high suspension cables of Third Mainland Bridge.', target: '#read' },
+    { title: '19-Scene Filmstrip Quick-Jump', cat: 'scenes', desc: 'Direct chapter navigation drawer spanning every dramatic beat of Issue #01.', target: '#readFilmstripDrawer' },
+
+    { title: 'CHAR-01: Bayo Adeyemi Portrait', cat: 'artworks', desc: 'Canonical key art: Bayo radiating electric blue Aṣẹ in Lagos rain.', target: '#artwork-gallery' },
+    { title: 'CHAR-02: Amara Okafor Portrait', cat: 'artworks', desc: 'Canonical key art: Ṣàngó volt arcs across talking drum leather.', target: '#artwork-gallery' },
+    { title: 'CHAR-03: Ikenna Chukwuemeka Portrait', cat: 'artworks', desc: 'Canonical key art: Ògún iron guard raised against city headlights.', target: '#artwork-gallery' },
+    { title: 'SCENE-01: Third Mainland Siege', cat: 'artworks', desc: 'Cinematic double-page spread of the lagoon fracture.', target: '#artwork-gallery' },
+    { title: 'COV-01: Issue #01 Official Cover', cat: 'artworks', desc: 'Higgsfield 4K rendered collector edition cover.', target: '#artwork-gallery' },
+
+    { title: 'The Orisha Combat Power Grid', cat: 'tools', desc: 'Interactive HTML5 Canvas hexagonal spider radar measuring 6 tactical vectors.', target: '#combat-power-grid' },
+    { title: 'Ọ̀run Drum Machine & Sequencer', cat: 'tools', desc: '16-step Afrofuturist beatmaker with Web Audio procedural synthesis.', target: '#beat-machine' },
+    { title: 'Orisha Divination & Ifá Chamber', cat: 'tools', desc: 'Interactive Ọ̀pẹ̀lẹ̀ chain casting and sacred binary talisman minting.', target: '#divination-chamber' },
+    { title: 'Comic Panel Remix Studio', cat: 'tools', desc: 'Visual meme and panel creator with speech balloons and PNG export.', target: '#panel-remix' },
+    { title: 'Dramatic Audio Narration Engine', cat: 'tools', desc: 'Web Speech API audiobook drama player with procedural sub-bass soundbed.', target: '#dramatic-audio-engine' },
+    { title: 'Community Fan Art Showcase', cat: 'tools', desc: 'Curated Afrofuturist gallery and client-side creator ID minting portal.', target: '#fan-art-showcase' },
+    { title: 'Universal Accessibility Suite', cat: 'tools', desc: 'Dyslexia font, photophobia guard, laser reading ruler, voice navigation.', target: '#accessibility-suite' }
+  ];
+
+  var activeCategory = 'all';
+  var searchQuery = '';
+
+  function renderOmniResults() {
+    var grid = document.getElementById('omniResultsGrid');
+    var badge = document.getElementById('omniCountBadge');
+    if (!grid) return;
+
+    var filtered = OMNI_CATALOG.filter(function(item) {
+      var matchesCat = (activeCategory === 'all' || item.cat === activeCategory);
+      var q = searchQuery.toLowerCase().trim();
+      var matchesQ = !q || item.title.toLowerCase().indexOf(q) !== -1 || item.desc.toLowerCase().indexOf(q) !== -1;
+      return matchesCat && matchesQ;
+    });
+
+    if (badge) badge.textContent = filtered.length + ' ENTRIES';
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--ash-grey);font-family:'Space Mono',monospace;">NO MATCHING LORE FOUND IN THE ARCHIVE. TRY ANOTHER QUERY.</div>';
+      return;
+    }
+
+    grid.innerHTML = filtered.map(function(item) {
+      return '<div class="omni-result-card" onclick="jumpToOmniTarget('' + item.target + '')">' +
+        '<span class="omni-card-cat">' + item.cat.toUpperCase() + '</span>' +
+        '<h4 class="omni-card-title">' + item.title + '</h4>' +
+        '<p class="omni-card-desc">' + item.desc + '</p>' +
+        '<span class="omni-card-action">JUMP TO DESTINATION →</span>' +
+      '</div>';
+    }).join('');
+  }
+
+  window.handleOmniSearch = function(val) {
+    searchQuery = val;
+    renderOmniResults();
+  };
+
+  window.filterOmniCategory = function(cat, btn) {
+    activeCategory = cat;
+    var btns = document.querySelectorAll('.omni-filter-tabs .omni-tab-btn');
+    btns.forEach(function(b) { b.classList.remove('active'); });
+    if (btn) btn.classList.add('active');
+    renderOmniResults();
+  };
+
+  window.jumpToOmniTarget = function(target) {
+    var el = document.querySelector(target);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderOmniResults);
+  } else {
+    renderOmniResults();
+  }
+})();

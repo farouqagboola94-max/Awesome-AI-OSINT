@@ -15096,3 +15096,666 @@ body.reduced-motion * {
   scroll-behavior: auto !important;
   transform: none !important;
 }
+
+
+/* ══════════════════════════════════════════════════════════════════
+   FEATURE 2: VIRTUAL ORISHA DIVINATION & IFÁ CASTING CHAMBER
+   ══════════════════════════════════════════════════════════════════ */
+#divination-chamber {
+  padding: 6rem 1.5rem 7rem;
+  background: radial-gradient(circle at 50% 25%, rgba(10, 10, 31, 0.95), rgba(4, 4, 10, 0.99));
+  border-top: 1px solid rgba(244, 184, 0, 0.35);
+  position: relative;
+}
+
+.divine-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.divine-stage {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 2.5rem;
+  margin-top: 3rem;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .divine-stage {
+    grid-template-columns: 1fr;
+  }
+}
+
+.divine-tray-pane {
+  background: rgba(6, 6, 13, 0.95);
+  border: 1px solid rgba(244, 184, 0, 0.35);
+  border-radius: 8px;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+}
+
+.divine-tray-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(240, 237, 229, 0.1);
+  padding-bottom: 0.65rem;
+}
+
+.divine-tray-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: var(--danfo-gold);
+  font-weight: 700;
+}
+
+.divine-tray-status {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--ash-grey);
+}
+
+.divine-canvas-wrap {
+  width: 100%;
+  max-width: 440px;
+  aspect-ratio: 1 / 1;
+  position: relative;
+}
+
+.opon-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 50%;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.9), 0 0 30px rgba(244, 184, 0, 0.15);
+}
+
+.divine-tray-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+.divine-cast-btn {
+  background: var(--danfo-gold);
+  border: none;
+  color: var(--black);
+  padding: 0.9rem 1.4rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 20px rgba(244, 184, 0, 0.3);
+}
+
+.divine-cast-btn:hover {
+  background: var(--neon-orange);
+  color: var(--bone-white);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(255, 107, 26, 0.4);
+}
+
+.divine-download-btn {
+  background: rgba(0, 201, 177, 0.15);
+  border: 1px solid var(--orisha-teal);
+  color: var(--orisha-teal);
+  padding: 0.75rem 1.25rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.divine-download-btn:hover {
+  background: var(--orisha-teal);
+  color: var(--black);
+}
+
+.divine-dossier-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.divine-card {
+  background: rgba(10, 10, 31, 0.92);
+  border: 1px solid rgba(244, 184, 0, 0.4);
+  border-radius: 8px;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+}
+
+.divine-card-header {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+}
+
+.divine-odu-num {
+  color: var(--danfo-gold);
+  font-weight: 700;
+}
+
+.divine-binary-tag {
+  color: var(--orisha-teal);
+}
+
+.divine-odu-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.2rem;
+  letter-spacing: 0.08em;
+  font-weight: 400;
+  color: var(--bone-white);
+  line-height: 1.1;
+}
+
+.divine-aligned-orisha {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  border-left: 3px solid var(--orisha-teal);
+  padding-left: 0.85rem;
+}
+
+.divine-orisha-lbl {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--ash-grey);
+}
+
+.divine-orisha-val {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.95rem;
+  color: var(--orisha-teal);
+}
+
+.divine-proverb-box {
+  background: rgba(6, 6, 13, 0.6);
+  border: 1px solid rgba(240, 237, 229, 0.1);
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.divine-proverb-lbl {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--danfo-gold);
+  font-weight: 700;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.divine-proverb-val {
+  font-family: 'Crimson Pro', serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--bone-white);
+}
+
+.divine-boon-box {
+  border-top: 1px solid rgba(240, 237, 229, 0.1);
+  padding-top: 0.85rem;
+}
+
+.divine-boon-lbl {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--orisha-teal);
+  font-weight: 700;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.divine-boon-val {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--ash-grey);
+}
+
+.divine-roster-box {
+  background: rgba(6, 6, 13, 0.9);
+  border: 1px solid rgba(240, 237, 229, 0.15);
+  border-radius: 8px;
+  padding: 1.25rem;
+}
+
+.divine-roster-lbl {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--ash-grey);
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+}
+
+.divine-roster-chips {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.divine-chip-btn {
+  background: rgba(240, 237, 229, 0.05);
+  border: 1px solid rgba(240, 237, 229, 0.15);
+  color: var(--bone-white);
+  padding: 0.35rem 0.65rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.divine-chip-btn:hover {
+  border-color: var(--danfo-gold);
+  color: var(--danfo-gold);
+}
+
+.divine-chip-btn.active {
+  background: rgba(244, 184, 0, 0.2);
+  border-color: var(--danfo-gold);
+  color: var(--danfo-gold);
+  font-weight: 700;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   FEATURE 1: Ọ̀RUN DRUM MACHINE & AFRO-CYBER BEATMAKER
+   ══════════════════════════════════════════════════════════════════ */
+#beat-machine {
+  padding: 6rem 1.5rem 7rem;
+  background: rgba(4, 5, 12, 0.99);
+  border-top: 1px solid rgba(0, 201, 177, 0.25);
+  position: relative;
+}
+
+.beat-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.beat-console {
+  background: rgba(10, 10, 31, 0.95);
+  border: 1px solid rgba(0, 201, 177, 0.35);
+  border-radius: 8px;
+  padding: 1.75rem;
+  margin-top: 2.5rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 201, 177, 0.15);
+}
+
+.beat-console-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  border-bottom: 1px solid rgba(240, 237, 229, 0.12);
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.beat-playback-group {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.beat-main-btn {
+  background: var(--orisha-teal);
+  color: var(--black);
+  border: none;
+  padding: 0.65rem 1.25rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 15px rgba(0, 201, 177, 0.3);
+}
+
+.beat-main-btn:hover {
+  background: var(--danfo-gold);
+  transform: translateY(-1px);
+}
+
+.beat-main-btn.playing {
+  background: var(--blood-red);
+  color: var(--bone-white);
+}
+
+.beat-action-btn {
+  background: rgba(240, 237, 229, 0.05);
+  border: 1px solid rgba(240, 237, 229, 0.2);
+  color: var(--bone-white);
+  padding: 0.6rem 0.9rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.beat-action-btn:hover {
+  border-color: var(--danfo-gold);
+  color: var(--danfo-gold);
+}
+
+.beat-tempo-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.beat-ctrl-lbl {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--ash-grey);
+}
+
+.beat-ctrl-lbl strong {
+  color: var(--danfo-gold);
+}
+
+.beat-slider {
+  width: 130px;
+  accent-color: var(--orisha-teal);
+  cursor: pointer;
+}
+
+.beat-preset-group {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.beat-preset-btn {
+  background: rgba(240, 237, 229, 0.04);
+  border: 1px solid rgba(240, 237, 229, 0.15);
+  color: var(--bone-white);
+  padding: 0.35rem 0.65rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.beat-preset-btn:hover {
+  border-color: var(--danfo-gold);
+  color: var(--danfo-gold);
+}
+
+.beat-preset-btn.active {
+  background: rgba(244, 184, 0, 0.2);
+  border-color: var(--danfo-gold);
+  color: var(--danfo-gold);
+  font-weight: 700;
+}
+
+.beat-matrix-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.beat-step-indicator-bar {
+  display: grid;
+  grid-template-columns: 140px repeat(16, minmax(32px, 1fr));
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.beat-step-led {
+  height: 6px;
+  border-radius: 2px;
+  background: rgba(240, 237, 229, 0.1);
+  transition: all 0.1s ease;
+}
+
+.beat-step-led.active-head {
+  background: var(--orisha-teal);
+  box-shadow: 0 0 10px var(--orisha-teal);
+}
+
+.beat-tracks-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.beat-track-row {
+  display: grid;
+  grid-template-columns: 140px repeat(16, minmax(32px, 1fr));
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.beat-track-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.beat-track-name {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--bone-white);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.beat-track-play {
+  background: rgba(240, 237, 229, 0.08);
+  border: 1px solid rgba(240, 237, 229, 0.2);
+  color: var(--ash-grey);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 0.65rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.beat-track-play:hover {
+  color: var(--orisha-teal);
+  border-color: var(--orisha-teal);
+}
+
+.beat-pad {
+  aspect-ratio: 1 / 1;
+  background: rgba(240, 237, 229, 0.04);
+  border: 1px solid rgba(240, 237, 229, 0.12);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.beat-pad:hover {
+  border-color: rgba(0, 201, 177, 0.5);
+}
+
+.beat-pad.on {
+  background: var(--orisha-teal);
+  border-color: var(--orisha-teal);
+  box-shadow: 0 0 10px rgba(0, 201, 177, 0.6);
+}
+
+.beat-pad.accent.on {
+  background: var(--danfo-gold);
+  border-color: var(--danfo-gold);
+  box-shadow: 0 0 10px rgba(244, 184, 0, 0.6);
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   FEATURE 6: OMNI-ARCHIVE COMMAND PALETTE & DEEP LORE SEARCH
+   ══════════════════════════════════════════════════════════════════ */
+#omni-search {
+  padding: 6rem 1.5rem 7rem;
+  background: rgba(6, 6, 13, 0.98);
+  border-top: 1px solid rgba(0, 201, 177, 0.25);
+  position: relative;
+}
+
+.omni-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.omni-search-box {
+  margin: 2.5rem 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.omni-input-row {
+  display: flex;
+  align-items: center;
+  background: rgba(10, 10, 31, 0.95);
+  border: 1.5px solid var(--orisha-teal);
+  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+  gap: 0.75rem;
+  box-shadow: 0 4px 25px rgba(0, 201, 177, 0.2);
+}
+
+.omni-prompt-icon {
+  font-size: 1.2rem;
+}
+
+.omni-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--bone-white);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.05rem;
+}
+
+.omni-count-badge {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--danfo-gold);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.omni-filter-tabs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.omni-tab-btn {
+  background: rgba(240, 237, 229, 0.05);
+  border: 1px solid rgba(240, 237, 229, 0.15);
+  color: var(--bone-white);
+  padding: 0.45rem 0.85rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.omni-tab-btn:hover {
+  border-color: var(--orisha-teal);
+  color: var(--orisha-teal);
+}
+
+.omni-tab-btn.active {
+  background: rgba(0, 201, 177, 0.2);
+  border-color: var(--orisha-teal);
+  color: var(--orisha-teal);
+}
+
+.omni-results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.omni-result-card {
+  background: rgba(10, 10, 31, 0.85);
+  border: 1px solid rgba(240, 237, 229, 0.12);
+  border-radius: 6px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.omni-result-card:hover {
+  border-color: var(--orisha-teal);
+  transform: translateY(-3px);
+  background: rgba(10, 10, 31, 0.98);
+  box-shadow: 0 8px 25px rgba(0, 201, 177, 0.15);
+}
+
+.omni-card-cat {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  color: var(--danfo-gold);
+  font-weight: 700;
+}
+
+.omni-card-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--bone-white);
+  line-height: 1.25;
+}
+
+.omni-card-desc {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--ash-grey);
+  flex: 1;
+}
+
+.omni-card-action {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--orisha-teal);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.25rem;
+}

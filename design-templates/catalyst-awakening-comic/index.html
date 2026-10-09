@@ -2704,6 +2704,69 @@
   </div>
 </section>
 
+
+<!-- ============================================================ VIRTUAL ORISHA DIVINATION & IFÁ CASTING CHAMBER -->
+<section id="divination-chamber">
+  <div class="divine-wrap">
+    <p class="section-label reveal" style="justify-content:center">Oracle Ancestral Protocol // Sacred Binary Mathematics</p>
+    <h2 class="section-title reveal" style="text-align:center">ORISHA DIVINATION &amp;<br><em>IFÁ CASTING CHAMBER</em></h2>
+    <p class="reveal" style="max-width:640px;margin:1rem auto 0;font-size:0.9rem;line-height:1.8;color:rgba(240,237,229,0.55);text-align:center;">
+      The 16 Principal Odu Ifá form the ancient computational lattice of Yoruba cosmology—an 8-bit spiritual binary system recorded millennia before modern computing. Cast the virtual Ọ̀pẹ̀lẹ̀ divination chain onto the carved Opon Ifá tray to receive cosmic alignment, your aligned Orisha patron, and an authentic ancestral proverb.
+    </p>
+
+    <!-- Main Casting Stage Grid -->
+    <div class="divine-stage reveal">
+      <!-- Left: Opon Ifá Divination Canvas -->
+      <div class="divine-tray-pane">
+        <div class="divine-tray-header">
+          <span class="divine-tray-tag">OPON IFÁ TRAY // IYÈROSÙN SACRED DUST</span>
+          <span class="divine-tray-status" id="divineTrayStatus">READY FOR CASTING</span>
+        </div>
+        <div class="divine-canvas-wrap">
+          <canvas id="oponCanvas" width="460" height="460" class="opon-canvas"></canvas>
+        </div>
+        <div class="divine-tray-actions">
+          <button type="button" class="divine-cast-btn" id="divineCastBtn" onclick="castOpeleChain()">
+            ⚡ CAST Ọ̀PẸ̀LẸ̀ DIVINATION CHAIN
+          </button>
+          <button type="button" class="divine-download-btn" id="divineDlBtn" onclick="downloadTalismanSeal()" style="display:none;">
+            ✦ EXPORT TALISMAN SEAL (PNG)
+          </button>
+        </div>
+      </div>
+
+      <!-- Right: Cast Odu Telemetry & Reading Dossier -->
+      <div class="divine-dossier-pane">
+        <div class="divine-card" id="divineReadingCard">
+          <div class="divine-card-header">
+            <span class="divine-odu-num" id="divineOduNum">ODU № 01 / 16</span>
+            <span class="divine-binary-tag" id="divineBinaryTag">BINARY: 0000 · 0000</span>
+          </div>
+          <h3 class="divine-odu-title" id="divineOduTitle">ÈJÌ OGBÈ (OGBÈ MÉJÌ)</h3>
+          <div class="divine-aligned-orisha">
+            <span class="divine-orisha-lbl">ALIGNED ORISHA PATRON:</span>
+            <strong id="divineOrishaVal" class="divine-orisha-val">OBATÀLÁ &amp; ORÚNMÌLÀ // THE PURE LIGHT</strong>
+          </div>
+          <div class="divine-proverb-box">
+            <span class="divine-proverb-lbl">Ọ̀RỌ̀ ÀGBÀ // ANCESTRAL PROVERB:</span>
+            <p id="divineProverbVal" class="divine-proverb-val">"The head that will wear a crown must first learn to bow in humility before the earth."</p>
+          </div>
+          <div class="divine-boon-box">
+            <span class="divine-boon-lbl">TACTICAL COMBAT BUFF:</span>
+            <p id="divineBoonVal" class="divine-boon-val">+25% Kinetic Clarity in open combat. Maximum harmony with atmospheric Aṣẹ currents.</p>
+          </div>
+        </div>
+
+        <!-- 16 Odu Quick Roster Drawer -->
+        <div class="divine-roster-box">
+          <div class="divine-roster-lbl">16 PRINCIPAL ODU ROSTER (CLICK TO INSPECT):</div>
+          <div class="divine-roster-chips" id="divineRosterChips"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============================================================ COVER ART GALLERY -->
 <!-- ════ ASẹ FREQUENCY SCANNER ════ -->
 <section id="cover-gallery">
@@ -7528,6 +7591,59 @@
   </div>
 </section>
 
+
+<!-- ============================================================ Ọ̀RUN DRUM MACHINE & AFRO-CYBER BEATMAKER -->
+<section id="beat-machine">
+  <div class="beat-wrap">
+    <p class="section-label reveal" style="justify-content:center">Acoustic Warfare Foundry // 16-Step Step Sequencer</p>
+    <h2 class="section-title reveal" style="text-align:center">THE Ọ̀RUN DRUM MACHINE &amp;<br><em>AFRO-CYBER BEATMAKER</em></h2>
+    <p class="reveal" style="max-width:640px;margin:1rem auto 0;font-size:0.9rem;line-height:1.8;color:rgba(240,237,229,0.55);text-align:center;">
+      In Lagos 2031, rhythm is kinetic energy. Program authentic Yoruba percussion voices and cybernetic low-end transients directly in your browser. Real-time procedural synthesis powered by the Web Audio API—no samples needed.
+    </p>
+
+    <!-- Drum Machine Master Console -->
+    <div class="beat-console reveal">
+      <div class="beat-console-bar">
+        <div class="beat-playback-group">
+          <button type="button" class="beat-main-btn" id="beatPlayBtn" onclick="toggleBeatSequencer()">
+            ▶ PLAY BEAT
+          </button>
+          <button type="button" class="beat-action-btn" onclick="clearBeatPattern()">
+            ✕ CLEAR
+          </button>
+          <button type="button" class="beat-action-btn" onclick="randomizeBeatPattern()">
+            🎲 RANDOMIZE
+          </button>
+        </div>
+
+        <div class="beat-tempo-group">
+          <span class="beat-ctrl-lbl">TEMPO: <strong id="beatBpmVal">108 BPM</strong></span>
+          <input type="range" id="beatBpmSlider" min="80" max="144" value="108" class="beat-slider" oninput="setBeatBpm(this.value)">
+        </div>
+
+        <!-- Rhythmic Presets -->
+        <div class="beat-preset-group">
+          <span class="beat-ctrl-lbl">PRESETS:</span>
+          <button type="button" class="beat-preset-btn active" onclick="loadBeatPreset('fuji', this)">⚡ Fuji Cyber</button>
+          <button type="button" class="beat-preset-btn" onclick="loadBeatPreset('afrobeat', this)">🎷 Afrobeat 2031</button>
+          <button type="button" class="beat-preset-btn" onclick="loadBeatPreset('ogun', this)">⚔ Ògún March</button>
+          <button type="button" class="beat-preset-btn" onclick="loadBeatPreset('ase', this)">🔥 Aṣẹ Pulse</button>
+        </div>
+      </div>
+
+      <!-- Step Sequencer Grid Matrix -->
+      <div class="beat-matrix-wrap">
+        <div class="beat-step-indicator-bar" id="beatStepIndicators">
+          <!-- 16 Step LED Indicators rendered via JS -->
+        </div>
+        <div class="beat-tracks-container" id="beatTracksContainer">
+          <!-- 6 Percussion Tracks rendered via JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Fan Art Lightbox Modal -->
 <div class="fas-modal" id="fanArtModal" style="display:none;" onclick="closeFanArtModal(event)">
   <div class="fas-modal-dialog" onclick="event.stopPropagation()">
@@ -8371,6 +8487,44 @@
     </div>
   </div>
 </div>
+
+
+<!-- ============================================================ OMNI-ARCHIVE COMMAND PALETTE & DEEP LORE SEARCH -->
+<section id="omni-search">
+  <div class="omni-wrap reveal">
+    <div class="omni-header">
+      <p class="section-label" style="justify-content:center">Universal Knowledge Retrieval // ⌘K Deep Lore Index</p>
+      <h2 class="section-title" style="text-align:center">OMNI-ARCHIVE<br><em>DEEP LORE SEARCH</em></h2>
+      <p style="max-width:620px;margin:1rem auto 0;font-size:0.9rem;line-height:1.8;color:rgba(240,237,229,0.55);text-align:center;">
+        Instant multi-layer indexing across all 88 graphic novel pages, 50 canonical artworks, 600 years of chronology, hero dossiers, combat telemetry, relics, and cultural annotations.
+      </p>
+    </div>
+
+    <!-- Search Input Bar & Category Tabs -->
+    <div class="omni-search-box">
+      <div class="omni-input-row">
+        <span class="omni-prompt-icon">🔍</span>
+        <input type="text" id="omniSearchInput" class="omni-input" placeholder="Search anything in the Catalyst universe (e.g. Bayo, Ògún, Third Mainland, 1420 CE, Drum, Relic)..." oninput="handleOmniSearch(this.value)">
+        <span class="omni-count-badge" id="omniCountBadge">84 ENTRIES</span>
+      </div>
+
+      <div class="omni-filter-tabs" role="tablist">
+        <button type="button" class="omni-tab-btn active" onclick="filterOmniCategory('all', this)">⚡ ALL (84)</button>
+        <button type="button" class="omni-tab-btn" onclick="filterOmniCategory('characters', this)">👤 CHARACTERS (10)</button>
+        <button type="button" class="omni-tab-btn" onclick="filterOmniCategory('lore', this)">📜 LORE &amp; CHRONOLOGY (18)</button>
+        <button type="button" class="omni-tab-btn" onclick="filterOmniCategory('scenes', this)">🎬 SCENES &amp; ISSUES (19)</button>
+        <button type="button" class="omni-tab-btn" onclick="filterOmniCategory('artworks', this)">🎨 50 ARTWORKS (22)</button>
+        <button type="button" class="omni-tab-btn" onclick="filterOmniCategory('tools', this)">⚙️ APPS &amp; TOOLS (15)</button>
+      </div>
+    </div>
+
+    <!-- Live Search Results Grid -->
+    <div class="omni-results-grid" id="omniResultsGrid">
+      <!-- Populated dynamically via script.js -->
+    </div>
+  </div>
+</section>
+
 
 <!-- ============================================================ UNIVERSAL ACCESSIBILITY SECTION -->
 <section id="accessibility-suite">
