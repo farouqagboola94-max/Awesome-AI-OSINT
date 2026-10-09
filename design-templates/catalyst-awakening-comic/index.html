@@ -3774,6 +3774,96 @@
   </div>
 </section>
 
+
+<!-- ============================================================ THE ORISHA COMBAT POWER GRID -->
+<section id="combat-power-grid">
+  <div class="cpg-wrap">
+    <p class="section-label reveal" style="justify-content:center">Tactical Hexagonal Telemetry // Oracle Defense Systems</p>
+    <h2 class="section-title reveal" style="text-align:center">ORISHA COMBAT<br><em>POWER GRID</em></h2>
+    <p class="reveal" style="max-width:640px;margin:1rem auto 0;font-size:0.9rem;line-height:1.8;color:rgba(240,237,229,0.55);text-align:center;">
+      Tactical hex-axis comparative radar measuring the six pillars of combat lethality: Physical Strength, Aṣẹ Surge Output, Tactical Intellect, Ancestral Resonance, Combat Velocity, and Kinetic Defense. Calibrated directly against Orisha divine warfare records.
+    </p>
+
+    <!-- Matchup Quick Presets -->
+    <div class="cpg-presets reveal">
+      <span class="cpg-preset-lbl">CLASSIFIED SHOWDOWNS:</span>
+      <button type="button" class="cpg-preset-btn active" onclick="loadPowerGridPreset('bayo', 'architect', this)">⚡ Bayo vs The Architect</button>
+      <button type="button" class="cpg-preset-btn" onclick="loadPowerGridPreset('amara', 'mother-storm', this)">⛈ Amara vs Mother Storm</button>
+      <button type="button" class="cpg-preset-btn" onclick="loadPowerGridPreset('ikenna', 'iron-preacher', this)">🛡 Ikenna vs Iron Preacher</button>
+      <button type="button" class="cpg-preset-btn" onclick="loadPowerGridPreset('zara', 'mirror-v', this)">👁 Zara vs Dark Mirror</button>
+      <button type="button" class="cpg-preset-btn" onclick="loadPowerGridPreset('oracle', 'hollow-king', this)">📜 Oracle vs Hollow King</button>
+    </div>
+
+    <!-- Matchup Selectors & Mode -->
+    <div class="cpg-selection-bar reveal">
+      <div class="cpg-selector-card side-a">
+        <label for="cpgSelectA" class="cpg-sel-label">PRIMARY COMBATANT (ORISHA TEAL)</label>
+        <select id="cpgSelectA" class="cpg-select" onchange="updatePowerGridCombatants()"></select>
+      </div>
+
+      <div class="cpg-mode-toggle">
+        <button type="button" class="cpg-mode-btn active" id="cpgModeVersus" onclick="setPowerGridMode('versus')">⚔ HEAD-TO-HEAD</button>
+        <button type="button" class="cpg-mode-btn" id="cpgModeSolo" onclick="setPowerGridMode('solo')">👤 SOLO PROFILE</button>
+      </div>
+
+      <div class="cpg-selector-card side-b" id="cpgSelectorCardB">
+        <label for="cpgSelectB" class="cpg-sel-label">OPPONENT / RIVAL (DANFO GOLD)</label>
+        <select id="cpgSelectB" class="cpg-select" onchange="updatePowerGridCombatants()"></select>
+      </div>
+    </div>
+
+    <!-- Main Radar & Telemetry Display Grid -->
+    <div class="cpg-stage reveal">
+      <div class="cpg-canvas-panel">
+        <div class="cpg-canvas-hud-header">
+          <span class="cpg-hud-title">SPIDER RADAR MATRIX // 6 TACTICAL VECTORS</span>
+          <span class="cpg-hud-status" id="cpgRadarStatus">HEX-GRID ONLINE · 60 FPS ACCELERATED</span>
+        </div>
+        <div class="cpg-canvas-wrapper">
+          <canvas id="cpgRadarCanvas" width="520" height="520" class="cpg-radar-canvas"></canvas>
+        </div>
+        <div class="cpg-canvas-actions">
+          <button type="button" class="cpg-action-btn" onclick="exportTacticalGridPNG()">✦ EXPORT TACTICAL RADAR (PNG)</button>
+          <button type="button" class="cpg-action-btn" onclick="randomizeCombatGridMatchup()">🎲 RANDOM MATCHUP</button>
+        </div>
+      </div>
+
+      <div class="cpg-telemetry-panel">
+        <div class="cpg-fighters-summary">
+          <div class="cpg-fighter-mini card-a" id="cpgCardA">
+            <img id="cpgImgA" src="./assets/bayo-portrait.webp" alt="Bayo" class="cpg-mini-avatar">
+            <div class="cpg-mini-info">
+              <h4 id="cpgNameA">BAYO — CATALYST</h4>
+              <div class="cpg-power-index">TACTICAL INDEX: <span id="cpgTotalA" class="cpg-val-highlight a">495</span>/600</div>
+              <span class="cpg-threat-tag" id="cpgThreatA">CLASS: DIVINE CONDUIT</span>
+            </div>
+          </div>
+
+          <div class="cpg-versus-badge" id="cpgVersusBadge">VS</div>
+
+          <div class="cpg-fighter-mini card-b" id="cpgCardB">
+            <img id="cpgImgB" src="./assets/architect-portrait.webp" alt="The Architect" class="cpg-mini-avatar">
+            <div class="cpg-mini-info">
+              <h4 id="cpgNameB">THE ARCHITECT</h4>
+              <div class="cpg-power-index">TACTICAL INDEX: <span id="cpgTotalB" class="cpg-val-highlight b">512</span>/600</div>
+              <span class="cpg-threat-tag" id="cpgThreatB">CLASS: SYSTEM SOVEREIGN</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6 Attribute Comparative Telemetry Bars -->
+        <div class="cpg-attributes-list" id="cpgAttributesList"></div>
+
+        <!-- AI Oracle Tactical Verdict -->
+        <div class="cpg-tactical-verdict" id="cpgTacticalVerdict">
+          <div class="cpg-verdict-title">ORACLE TACTICAL PREDICTION ENGINE</div>
+          <p class="cpg-verdict-p" id="cpgVerdictText">Computing multidimensional combat probability...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <div class="energy-beam-divider" aria-hidden="true"></div>
 
 <section id="hero-quiz">
@@ -4542,7 +4632,73 @@
     </div>
   </div>
 
-  <!-- ============================================================ ANIMATED MOTION COMIC PLAYER -->
+  
+  <!-- ============================================================ DRAMATIC AUDIO NARRATION & VOICE ENGINE -->
+  <div class="dramatic-audio-section reveal" id="dramatic-audio-engine">
+    <div class="dramatic-audio-header">
+      <div class="dramatic-audio-tag">CATALYST AUDIOBOOK // DRAMATIC VOICE ENGINE v2.0</div>
+      <div class="dramatic-status-indicator">
+        <span class="dramatic-live-dot" id="dramaticPulseDot"></span>
+        <span class="dramatic-status-text" id="dramaticStatusText">STANDBY · READY TO STREAM Ọ̀RUN AUDIO DRAMA</span>
+      </div>
+    </div>
+
+    <div class="dramatic-audio-player-hud">
+      <!-- Main Controller Bar -->
+      <div class="dramatic-controls-row">
+        <div class="dramatic-playback-btns">
+          <button type="button" class="dramatic-ctrl-btn" id="dramaticPrevBtn" onclick="dramaticPrevSentence()" title="Previous sentence">⏮ PREV</button>
+          <button type="button" class="dramatic-ctrl-btn dramatic-play-btn" id="dramaticPlayBtn" onclick="toggleDramaticAudio()">▶ PLAY ISSUE #01 DRAMA</button>
+          <button type="button" class="dramatic-ctrl-btn" id="dramaticNextBtn" onclick="dramaticNextSentence()" title="Next sentence">NEXT ⏭</button>
+          <button type="button" class="dramatic-ctrl-btn dramatic-stop-btn" onclick="stopDramaticAudio()" title="Stop narration">⏹ STOP</button>
+        </div>
+
+        <div class="dramatic-toggles-row">
+          <div class="dramatic-speed-picker">
+            <span class="dramatic-ctrl-lbl">SPEED:</span>
+            <button type="button" class="dramatic-chip-btn" onclick="setDramaticSpeed(0.75, this)">0.75x</button>
+            <button type="button" class="dramatic-chip-btn active" onclick="setDramaticSpeed(1.0, this)">1.0x</button>
+            <button type="button" class="dramatic-chip-btn" onclick="setDramaticSpeed(1.25, this)">1.25x</button>
+            <button type="button" class="dramatic-chip-btn" onclick="setDramaticSpeed(1.5, this)">1.5x</button>
+          </div>
+
+          <div class="dramatic-voice-picker">
+            <span class="dramatic-ctrl-lbl">VOICE:</span>
+            <select id="dramaticVoiceSelect" class="dramatic-select" onchange="changeDramaticVoice(this.value)">
+              <option value="narrator">Cinematic Chronicler (Ọ̀run Descent)</option>
+              <option value="oracle">Oracle of Badagry (Resonant Mystic)</option>
+              <option value="bayo">Bayo Adeyemi (Electric High-Tension)</option>
+              <option value="dispatch">Field Radio Dispatch (Tactical Comm)</option>
+            </select>
+          </div>
+
+          <div class="dramatic-soundbed-toggle">
+            <button type="button" class="dramatic-chip-btn active" id="dramaticSoundbedBtn" onclick="toggleDramaticSoundbed()">
+              🔊 AMBIENT AṢẸ SOUND BED: ON
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Teleprompter / Sentence Display Screen -->
+      <div class="dramatic-screen-hud">
+        <div class="dramatic-scene-badge" id="dramaticSceneBadge">SCENE 01 / 19 // BEFORE EVERYTHING</div>
+        <div class="dramatic-speaker-pill" id="dramaticSpeakerPill">SPEAKER: CHRONICLER OF Ọ̀RUN</div>
+        <div class="dramatic-teleprompter" id="dramaticTeleprompter">
+          <p class="dramatic-lead-context" id="dramaticLeadContext">Lagos, 2031. Night hangs low over the lagoon. The asphalt still breathes out the afternoon heat.</p>
+          <p class="dramatic-active-sentence" id="dramaticActiveSentence">"Before the light cracked the sky above Third Mainland Bridge, Lagos was simply hungry."</p>
+        </div>
+        <div class="dramatic-progress-bar-wrap">
+          <div class="dramatic-progress-bar" id="dramaticProgressBar"></div>
+        </div>
+      </div>
+
+      <!-- Scene Quick Select Strip -->
+      <div class="dramatic-scene-strip" id="dramaticSceneStrip"></div>
+    </div>
+  </div>
+
+<!-- ============================================================ ANIMATED MOTION COMIC PLAYER -->
   <div class="motion-comic-section reveal" id="motion-comic-player">
     <div class="motion-header">
       <div class="motion-tag">CATALYST OS // PARALLAX MOTION COMIC ENGINE v1.0</div>
@@ -7064,6 +7220,125 @@
     </div>
   </div>
 </section>
+
+
+<!-- ============================================================ COMMUNITY FAN ART & CREATOR SHOWCASE -->
+<section id="fan-art-showcase">
+  <div class="fas-wrap">
+    <p class="section-label reveal" style="justify-content:center">Ọ̀run Council Creator Collective // Community Archive</p>
+    <h2 class="section-title reveal" style="text-align:center">CREATOR SHOWCASE &amp;<br><em>FAN ART VAULT</em></h2>
+    <p class="reveal" style="max-width:640px;margin:1rem auto 0;font-size:0.9rem;line-height:1.8;color:rgba(240,237,229,0.55);text-align:center;">
+      Afrofuturist visions from our global operative community. Submit your original paintings, digital illustrations, cosplay artifacts, and comic variant covers to receive an official Ọ̀run Council Creator Submission ID and permanent archival induction.
+    </p>
+
+    <!-- Action Bar & Filter Tabs -->
+    <div class="fas-action-bar reveal">
+      <div class="fas-category-tabs">
+        <button type="button" class="fas-cat-btn active" onclick="filterFanArt('all', this)">ALL CREATIONS (<span id="fasCountAll">6</span>)</button>
+        <button type="button" class="fas-cat-btn" onclick="filterFanArt('illustration', this)">🎨 ILLUSTRATIONS</button>
+        <button type="button" class="fas-cat-btn" onclick="filterFanArt('variant', this)">📖 COMIC VARIANTS</button>
+        <button type="button" class="fas-cat-btn" onclick="filterFanArt('cosplay', this)">⚔ CRAFTS &amp; GEAR</button>
+        <button type="button" class="fas-cat-btn" onclick="filterFanArt('community', this)">✦ SUBMISSIONS</button>
+      </div>
+
+      <button type="button" class="fas-toggle-submit-btn" onclick="toggleFanArtDrawer()">
+        <span class="fas-btn-icon">⚡</span> TRANSMIT NEW CREATION
+      </button>
+    </div>
+
+    <!-- Creator Submission Drawer (Collapsible) -->
+    <div class="fas-submission-drawer" id="fanArtDrawer" style="display:none;">
+      <div class="fas-drawer-header">
+        <div class="fas-drawer-tag">CATALYST OS // CREATOR SUBMISSION PORTAL v1.0</div>
+        <button type="button" class="fas-drawer-close" onclick="toggleFanArtDrawer()">✕ CLOSE</button>
+      </div>
+
+      <form id="fanArtForm" class="fas-form" onsubmit="submitFanArtwork(event)">
+        <div class="fas-form-grid">
+          <div class="fas-input-col">
+            <div class="fas-field-group">
+              <label for="fanArtCreator">CREATOR NAME / CALLSIGN *</label>
+              <input type="text" id="fanArtCreator" class="fas-input" placeholder="e.g. Adebayo Vector, Neo-Lagos Studios" required>
+            </div>
+
+            <div class="fas-field-group">
+              <label for="fanArtTitle">ARTWORK / PIECE TITLE *</label>
+              <input type="text" id="fanArtTitle" class="fas-input" placeholder="e.g. The Awakening of Ṣàngó's Daughter" required>
+            </div>
+
+            <div class="fas-field-group">
+              <label for="fanArtCategory">CREATIVE MEDIUM &amp; CATEGORY *</label>
+              <select id="fanArtCategory" class="fas-select">
+                <option value="illustration">Digital / Traditional Illustration</option>
+                <option value="variant">Comic Variant Cover Art</option>
+                <option value="cosplay">Costume, Prop &amp; 3D Craft</option>
+                <option value="community">Concept Lore &amp; Graphic Layout</option>
+              </select>
+            </div>
+
+            <div class="fas-field-group">
+              <label for="fanArtHandle">SOCIAL HANDLE / PORTFOLIO LINK</label>
+              <input type="text" id="fanArtHandle" class="fas-input" placeholder="@artstation_tag or instagram.com/creativestudio">
+            </div>
+
+            <div class="fas-field-group">
+              <label for="fanArtLore">ARTIST STATEMENT / LORE NOTES</label>
+              <textarea id="fanArtLore" class="fas-textarea" rows="3" placeholder="What moment of the comic inspired this piece? Any cultural symbolism included?"></textarea>
+            </div>
+          </div>
+
+          <div class="fas-upload-col">
+            <label>IMAGE UPLOAD (INSTANT HOLOGRAPHIC PREVIEW)</label>
+            <div class="fas-upload-dropzone" id="fasDropzone" onclick="document.getElementById('fanArtFileInput').click()">
+              <input type="file" id="fanArtFileInput" accept="image/*" style="display:none;" onchange="handleFanArtFile(event)">
+              <div class="fas-drop-prompt" id="fasDropPrompt">
+                <span class="fas-drop-icon">📤</span>
+                <p>Click or drag image file here</p>
+                <span class="fas-drop-sub">PNG, WEBP, or JPG up to 10MB</span>
+              </div>
+              <img id="fasImagePreview" class="fas-preview-img" style="display:none;" alt="Preview">
+            </div>
+
+            <button type="submit" class="fas-submit-btn" id="fasSubmitBtn">
+              ✦ TRANSMIT TO Ọ̀RUN VAULT &amp; MINT CREATOR ID
+            </button>
+            <div id="fasSubmitSuccess" class="fas-success-banner" style="display:none;"></div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Fan Art Holographic Gallery Grid -->
+    <div class="fas-gallery-grid reveal" id="fanArtGalleryGrid"></div>
+  </div>
+</section>
+
+<!-- Fan Art Lightbox Modal -->
+<div class="fas-modal" id="fanArtModal" style="display:none;" onclick="closeFanArtModal(event)">
+  <div class="fas-modal-dialog" onclick="event.stopPropagation()">
+    <button type="button" class="fas-modal-close" onclick="closeFanArtModal()">✕</button>
+    <div class="fas-modal-content">
+      <div class="fas-modal-media">
+        <img id="fasModalImg" src="./assets/bayo-portrait.webp" alt="Fan Art" class="fas-modal-img">
+      </div>
+      <div class="fas-modal-info">
+        <div class="fas-modal-meta">
+          <span class="fas-modal-cat" id="fasModalCat">ILLUSTRATION</span>
+          <span class="fas-modal-id" id="fasModalId">ID: OC-CREATOR-2031-0001</span>
+        </div>
+        <h3 class="fas-modal-title" id="fasModalTitle">Artwork Title</h3>
+        <p class="fas-modal-creator">Created by <strong id="fasModalCreator">Creator</strong> <span id="fasModalHandle"></span></p>
+        <p class="fas-modal-desc" id="fasModalDesc">Artist description.</p>
+        <div class="fas-modal-actions">
+          <button type="button" class="fas-modal-like-btn" id="fasModalLikeBtn" onclick="likeModalFanArt()">
+            ❤️ <span id="fasModalLikeCount">142</span> RESPECTS
+          </button>
+          <a id="fasModalDownload" href="./assets/bayo-portrait.webp" download="catalyst-fanart.webp" class="fas-modal-dl-btn">⬇ DOWNLOAD WALLPAPER</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ══════════════════════════════════════ FIELD DISPATCH -->
 

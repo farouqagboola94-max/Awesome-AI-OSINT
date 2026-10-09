@@ -10147,3 +10147,1005 @@ var TC_ENDINGS = {
   // Render poster preview on boot
   window.updatePosterPreview();
 })();
+
+
+/* ══════════════════════════════════════════════════════════════════
+   FEATURE 1: DRAMATIC AUDIO NARRATION & VOICE ENGINE
+   ══════════════════════════════════════════════════════════════════ */
+(function() {
+  var DRAMATIC_SCENES = [
+    {
+      id: 1,
+      title: 'SCENE 01 / 19 // BEFORE EVERYTHING',
+      context: 'Lagos, 2031. Night hangs low over the lagoon. The asphalt still breathes out the afternoon heat.',
+      speaker: 'CHRONICLER OF Ọ̀RUN',
+      text: 'Before the light cracked the sky above Third Mainland Bridge, Lagos was simply hungry. Nineteen-year-old Bayo Adeyemi walked the quiet stretch between Oworonshoki and Lagos Island, counting coins he did not have.',
+      soundCue: 'drone'
+    },
+    {
+      id: 2,
+      title: 'SCENE 02 / 19 // THE Ọ̀RUN-BLEED',
+      context: 'The sky tears open in silence. Not thunder yet — pure chromatic pressure.',
+      speaker: 'CHRONICLER OF Ọ̀RUN',
+      text: 'Then the purple fissure ripped through the cloud deck. The Ọ̀run-Bleed did not fall like rain; it poured upward from the lagoon bed, defying gravity and logic.',
+      soundCue: 'rift'
+    },
+    {
+      id: 3,
+      title: 'SCENE 03 / 19 // THUNDERSTRIKE ENTERS',
+      context: 'Amara Okafor drops onto the suspension cable. Voltage arcs along the steel.',
+      speaker: 'AMARA — THUNDERSTRIKE',
+      text: '"Hold your ground, little brother! The storm does not ask for permission before it strikes!"',
+      soundCue: 'thunder'
+    },
+    {
+      id: 4,
+      title: 'SCENE 04 / 19 // IRON WOLF DEFIANCE',
+      context: 'Ikenna stands immovable before the advancing Void Constructs.',
+      speaker: 'IKENNA — IRON WOLF',
+      text: '"Ògún gave us iron so our backs would never bow. Let the Pale Council send whatever monsters they bought."',
+      soundCue: 'iron'
+    },
+    {
+      id: 5,
+      title: 'SCENE 05 / 19 // THE SOVEREIGN FALL',
+      context: 'The sky darkens to the color of bruised obsidian.',
+      speaker: 'CHRONICLER OF Ọ̀RUN',
+      text: 'The Architect observed from the high glass towers of Eko Atlantic. Every pulse of Aṣẹ across the bridge was being measured, categorized, and auctioned.',
+      soundCue: 'drone'
+    },
+    {
+      id: 6,
+      title: 'SCENE 06 / 19 // BAYO AWAKENING',
+      context: 'The divine conduit ignites. The mark of Ẹṣù blazes on Bayo's forearms.',
+      speaker: 'BAYO — CATALYST',
+      text: '"I felt the entire city breathe through my lungs. Not a burden — an ancient, unstoppable rhythm."',
+      soundCue: 'catalyst'
+    }
+  ];
+
+  var activeSceneIdx = 0;
+  var isPlaying = false;
+  var dramaticSpeed = 1.0;
+  var soundbedActive = true;
+  var audioCtx = null;
+  var droneOsc = null;
+  var droneGain = null;
+  var speechUtterance = null;
+  var timerId = null;
+
+  function initDramaticUI() {
+    var strip = document.getElementById('dramaticSceneStrip');
+    if (!strip) return;
+
+    strip.innerHTML = DRAMATIC_SCENES.map(function(s, idx) {
+      return '<button type="button" class="dramatic-scene-chip' + (idx === 0 ? ' active' : '') + '" onclick="jumpDramaticScene(' + idx + ')">' +
+        s.title.split('//')[1].trim() +
+        '</button>';
+    }).join('');
+
+    renderActiveSentence();
+  }
+
+  function renderActiveSentence() {
+    var scene = DRAMATIC_SCENES[activeSceneIdx];
+    var badge = document.getElementById('dramaticSceneBadge');
+    var speaker = document.getElementById('dramaticSpeakerPill');
+    var context = document.getElementById('dramaticLeadContext');
+    var sentence = document.getElementById('dramaticActiveSentence');
+    var bar = document.getElementById('dramaticProgressBar');
+
+    if (badge) badge.textContent = scene.title;
+    if (speaker) speaker.textContent = 'SPEAKER: ' + scene.speaker;
+    if (context) context.textContent = scene.context;
+    if (sentence) sentence.textContent = '"' + scene.text + '"';
+    if (bar) bar.style.width = (((activeSceneIdx + 1) / DRAMATIC_SCENES.length) * 100) + '%';
+
+    var chips = document.querySelectorAll('.dramatic-scene-chip');
+    chips.forEach(function(c, i) {
+      c.classList.toggle('active', i === activeSceneIdx);
+    });
+  }
+
+  function startWebAudioSoundbed() {
+    if (!soundbedActive) return;
+    try {
+      var AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+      if (!audioCtx) {
+        audioCtx = new AudioContext();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      if (!droneOsc) {
+        droneOsc = audioCtx.createOscillator();
+        droneGain = audioCtx.createGain();
+        droneOsc.type = 'sawtooth';
+        droneOsc.frequency.setValueAtTime(65.41, audioCtx.currentTime); // C2 low hum
+
+        // low pass filter to make it a deep cinematic sub-drone
+        var filter = audioCtx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(140, audioCtx.currentTime);
+
+        droneGain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+
+        droneOsc.connect(filter);
+        filter.connect(droneGain);
+        droneGain.connect(audioCtx.destination);
+        droneOsc.start();
+      }
+    } catch(e) {
+      console.warn('Procedural soundbed error', e);
+    }
+  }
+
+  function stopWebAudioSoundbed() {
+    if (droneGain && audioCtx) {
+      try {
+        droneGain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.2);
+        setTimeout(function() {
+          if (droneOsc) {
+            droneOsc.stop();
+            droneOsc.disconnect();
+            droneOsc = null;
+          }
+        }, 300);
+      } catch(e) {}
+    }
+  }
+
+  function speakCurrentSentence() {
+    var scene = DRAMATIC_SCENES[activeSceneIdx];
+    var statusText = document.getElementById('dramaticStatusText');
+    var pulseDot = document.getElementById('dramaticPulseDot');
+    var playBtn = document.getElementById('dramaticPlayBtn');
+
+    if (pulseDot) pulseDot.classList.add('playing');
+    if (statusText) statusText.textContent = 'STREAMING AUDIO DRAMA // ' + scene.speaker;
+    if (playBtn) {
+      playBtn.textContent = '⏸ PAUSE NARRATION';
+      playBtn.classList.add('active');
+    }
+
+    if (soundbedActive) startWebAudioSoundbed();
+
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      var utt = new SpeechSynthesisUtterance(scene.text);
+      speechUtterance = utt;
+      utt.rate = dramaticSpeed;
+
+      // Pitch styling according to voice profile
+      var voiceProfile = (document.getElementById('dramaticVoiceSelect') || {}).value || 'narrator';
+      if (voiceProfile === 'oracle') utt.pitch = 0.75;
+      else if (voiceProfile === 'bayo') utt.pitch = 1.25;
+      else if (voiceProfile === 'dispatch') utt.pitch = 0.65;
+      else utt.pitch = 1.0;
+
+      utt.onend = function() {
+        if (!isPlaying) return;
+        if (activeSceneIdx < DRAMATIC_SCENES.length - 1) {
+          timerId = setTimeout(function() {
+            if (isPlaying) {
+              activeSceneIdx++;
+              renderActiveSentence();
+              speakCurrentSentence();
+            }
+          }, 1200);
+        } else {
+          stopDramaticAudio();
+        }
+      };
+
+      utt.onerror = function() {
+        fallbackAutoAdvance();
+      };
+
+      window.speechSynthesis.speak(utt);
+    } else {
+      fallbackAutoAdvance();
+    }
+  }
+
+  function fallbackAutoAdvance() {
+    var duration = Math.max(3000, DRAMATIC_SCENES[activeSceneIdx].text.length * 55 / dramaticSpeed);
+    timerId = setTimeout(function() {
+      if (!isPlaying) return;
+      if (activeSceneIdx < DRAMATIC_SCENES.length - 1) {
+        activeSceneIdx++;
+        renderActiveSentence();
+        speakCurrentSentence();
+      } else {
+        stopDramaticAudio();
+      }
+    }, duration);
+  }
+
+  window.toggleDramaticAudio = function() {
+    if (isPlaying) {
+      // Pause
+      isPlaying = false;
+      if ('speechSynthesis' in window) window.speechSynthesis.pause();
+      if (timerId) clearTimeout(timerId);
+      stopWebAudioSoundbed();
+      var playBtn = document.getElementById('dramaticPlayBtn');
+      var statusText = document.getElementById('dramaticStatusText');
+      var pulseDot = document.getElementById('dramaticPulseDot');
+      if (playBtn) {
+        playBtn.textContent = '▶ RESUME DRAMA';
+        playBtn.classList.remove('active');
+      }
+      if (statusText) statusText.textContent = 'PAUSED · CLICK RESUME TO CONTINUE';
+      if (pulseDot) pulseDot.classList.remove('playing');
+    } else {
+      // Play
+      isPlaying = true;
+      if ('speechSynthesis' in window && window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+        var playBtn = document.getElementById('dramaticPlayBtn');
+        var pulseDot = document.getElementById('dramaticPulseDot');
+        if (playBtn) {
+          playBtn.textContent = '⏸ PAUSE NARRATION';
+          playBtn.classList.add('active');
+        }
+        if (pulseDot) pulseDot.classList.add('playing');
+        if (soundbedActive) startWebAudioSoundbed();
+      } else {
+        speakCurrentSentence();
+      }
+    }
+  };
+
+  window.stopDramaticAudio = function() {
+    isPlaying = false;
+    if (timerId) clearTimeout(timerId);
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    stopWebAudioSoundbed();
+
+    var playBtn = document.getElementById('dramaticPlayBtn');
+    var statusText = document.getElementById('dramaticStatusText');
+    var pulseDot = document.getElementById('dramaticPulseDot');
+    if (playBtn) {
+      playBtn.textContent = '▶ PLAY ISSUE #01 DRAMA';
+      playBtn.classList.remove('active');
+    }
+    if (statusText) statusText.textContent = 'STANDBY · READY TO STREAM Ọ̀RUN AUDIO DRAMA';
+    if (pulseDot) pulseDot.classList.remove('playing');
+  };
+
+  window.dramaticNextSentence = function() {
+    if (activeSceneIdx < DRAMATIC_SCENES.length - 1) {
+      activeSceneIdx++;
+      renderActiveSentence();
+      if (isPlaying) speakCurrentSentence();
+    }
+  };
+
+  window.dramaticPrevSentence = function() {
+    if (activeSceneIdx > 0) {
+      activeSceneIdx--;
+      renderActiveSentence();
+      if (isPlaying) speakCurrentSentence();
+    }
+  };
+
+  window.jumpDramaticScene = function(idx) {
+    if (idx >= 0 && idx < DRAMATIC_SCENES.length) {
+      activeSceneIdx = idx;
+      renderActiveSentence();
+      if (isPlaying) speakCurrentSentence();
+    }
+  };
+
+  window.setDramaticSpeed = function(spd, btn) {
+    dramaticSpeed = spd;
+    var btns = document.querySelectorAll('.dramatic-speed-picker .dramatic-chip-btn');
+    btns.forEach(function(b) { b.classList.remove('active'); });
+    if (btn) btn.classList.add('active');
+    if (isPlaying) speakCurrentSentence();
+  };
+
+  window.changeDramaticVoice = function(val) {
+    if (isPlaying) speakCurrentSentence();
+  };
+
+  window.toggleDramaticSoundbed = function() {
+    soundbedActive = !soundbedActive;
+    var btn = document.getElementById('dramaticSoundbedBtn');
+    if (btn) {
+      btn.textContent = soundbedActive ? '🔊 AMBIENT AṢẸ SOUND BED: ON' : '🔇 AMBIENT SOUND BED: MUTED';
+      btn.classList.toggle('active', soundbedActive);
+    }
+    if (soundbedActive && isPlaying) startWebAudioSoundbed();
+    else stopWebAudioSoundbed();
+  };
+
+  // Run on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initDramaticUI);
+  } else {
+    initDramaticUI();
+  }
+})();
+
+/* ══════════════════════════════════════════════════════════════════
+   FEATURE 3: THE ORISHA COMBAT POWER GRID (RADAR SPIDER CHART)
+   ══════════════════════════════════════════════════════════════════ */
+(function() {
+  var POWER_GRID_METRICS = [
+    { key: 'str', label: 'STRENGTH', full: 'Physical Kinetic Force' },
+    { key: 'ase', label: 'AṢẸ SURGE', full: 'Cosmic Aṣẹ Channeling' },
+    { key: 'int', label: 'INTELLECT', full: 'Tactical Prediction & Intel' },
+    { key: 'res', label: 'RESONANCE', full: 'Ancestral Orisha Memory' },
+    { key: 'spd', label: 'VELOCITY', full: 'Combat Speed & Agility' },
+    { key: 'def', label: 'DEFENSE', full: 'Kinetic Shield & Fortitude' }
+  ];
+
+  var FIGHTER_POWER_DATA = {
+    'bayo': {
+      id: 'bayo',
+      name: 'BAYO — CATALYST',
+      threatClass: 'CLASS: DIVINE CONDUIT',
+      img: './assets/bayo-portrait.webp',
+      stats: { str: 84, ase: 100, int: 88, res: 75, spd: 68, def: 80 }
+    },
+    'amara': {
+      id: 'amara',
+      name: 'AMARA — THUNDERSTRIKE',
+      threatClass: 'CLASS: ṢÀNGÓ TEMPEST',
+      img: './assets/amara-portrait.webp',
+      stats: { str: 91, ase: 88, int: 82, res: 90, spd: 96, def: 72 }
+    },
+    'ikenna': {
+      id: 'ikenna',
+      name: 'IKENNA — IRON WOLF',
+      threatClass: 'CLASS: ÒGÚN FORTRESS',
+      img: './assets/ikenna-portrait.webp',
+      stats: { str: 94, ase: 62, int: 80, res: 84, spd: 65, def: 98 }
+    },
+    'zara': {
+      id: 'zara',
+      name: 'ZARA — THE MIRROR',
+      threatClass: 'CLASS: SPECTRAL SHADOW',
+      img: './assets/zara-portrait.webp',
+      stats: { str: 72, ase: 82, int: 95, res: 78, spd: 94, def: 85 }
+    },
+    'oracle': {
+      id: 'oracle',
+      name: 'THE ORACLE',
+      threatClass: 'CLASS: ANCESTRAL SEER',
+      img: './assets/oracle-badagry-portrait.webp',
+      stats: { str: 35, ase: 95, int: 100, res: 100, spd: 30, def: 80 }
+    },
+    'architect': {
+      id: 'architect',
+      name: 'THE ARCHITECT',
+      threatClass: 'CLASS: SYSTEM SOVEREIGN',
+      img: './assets/architect-portrait.webp',
+      stats: { str: 85, ase: 92, int: 98, res: 65, spd: 82, def: 90 }
+    },
+    'mirror-v': {
+      id: 'mirror-v',
+      name: 'THE MIRROR (DARK ASSEMBLY)',
+      threatClass: 'CLASS: CYBERNETIC MIMIC',
+      img: './assets/mirror-villain-portrait.webp',
+      stats: { str: 80, ase: 88, int: 92, res: 50, spd: 90, def: 86 }
+    },
+    'hollow-king': {
+      id: 'hollow-king',
+      name: 'HOLLOW KING',
+      threatClass: 'CLASS: VOID HARVESTER',
+      img: './assets/hollow-king-portrait.webp',
+      stats: { str: 88, ase: 94, int: 84, res: 70, spd: 74, def: 84 }
+    },
+    'mother-storm': {
+      id: 'mother-storm',
+      name: 'MOTHER STORM',
+      threatClass: 'CLASS: CORRUPTED TEMPEST',
+      img: './assets/shipyard.webp',
+      stats: { str: 82, ase: 90, int: 78, res: 82, spd: 86, def: 74 }
+    },
+    'iron-preacher': {
+      id: 'iron-preacher',
+      name: 'IRON PREACHER',
+      threatClass: 'CLASS: HERETIC SMITHER',
+      img: './assets/iron-preacher-portrait.webp',
+      stats: { str: 90, ase: 75, int: 70, res: 76, spd: 58, def: 92 }
+    }
+  };
+
+  var cpgMode = 'versus';
+  var fighterAKey = 'bayo';
+  var fighterBKey = 'architect';
+
+  function initCombatGrid() {
+    var selA = document.getElementById('cpgSelectA');
+    var selB = document.getElementById('cpgSelectB');
+    if (!selA || !selB) return;
+
+    var keys = Object.keys(FIGHTER_POWER_DATA);
+    var optionsHtml = keys.map(function(k) {
+      return '<option value="' + k + '">' + FIGHTER_POWER_DATA[k].name + '</option>';
+    }).join('');
+
+    selA.innerHTML = optionsHtml;
+    selB.innerHTML = optionsHtml;
+
+    selA.value = fighterAKey;
+    selB.value = fighterBKey;
+
+    updateCombatTelemetry();
+    drawRadarChart();
+  }
+
+  function sumStats(stats) {
+    return stats.str + stats.ase + stats.int + stats.res + stats.spd + stats.def;
+  }
+
+  function updateCombatTelemetry() {
+    var fA = FIGHTER_POWER_DATA[fighterAKey];
+    var fB = FIGHTER_POWER_DATA[fighterBKey];
+
+    // Card A
+    var imgA = document.getElementById('cpgImgA');
+    var nameA = document.getElementById('cpgNameA');
+    var totalA = document.getElementById('cpgTotalA');
+    var threatA = document.getElementById('cpgThreatA');
+    if (imgA) imgA.src = fA.img;
+    if (nameA) nameA.textContent = fA.name;
+    if (totalA) totalA.textContent = sumStats(fA.stats);
+    if (threatA) threatA.textContent = fA.threatClass;
+
+    // Card B & Versus Badge
+    var cardB = document.getElementById('cpgCardB');
+    var vsBadge = document.getElementById('cpgVersusBadge');
+    var selCardB = document.getElementById('cpgSelectorCardB');
+
+    if (cpgMode === 'solo') {
+      if (cardB) cardB.style.display = 'none';
+      if (vsBadge) vsBadge.style.display = 'none';
+      if (selCardB) selCardB.style.opacity = '0.35';
+    } else {
+      if (cardB) cardB.style.display = 'flex';
+      if (vsBadge) vsBadge.style.display = 'block';
+      if (selCardB) selCardB.style.opacity = '1';
+
+      var imgB = document.getElementById('cpgImgB');
+      var nameB = document.getElementById('cpgNameB');
+      var totalB = document.getElementById('cpgTotalB');
+      var threatB = document.getElementById('cpgThreatB');
+      if (imgB) imgB.src = fB.img;
+      if (nameB) nameB.textContent = fB.name;
+      if (totalB) totalB.textContent = sumStats(fB.stats);
+      if (threatB) threatB.textContent = fB.threatClass;
+    }
+
+    // Attributes Telemetry List
+    var list = document.getElementById('cpgAttributesList');
+    if (list) {
+      list.innerHTML = POWER_GRID_METRICS.map(function(m) {
+        var vA = fA.stats[m.key];
+        var vB = fB.stats[m.key];
+        var delta = vA - vB;
+        var deltaText = '';
+        if (cpgMode === 'versus') {
+          if (delta > 0) deltaText = '<span class="cpg-score-delta" style="color:var(--orisha-teal)">+' + delta + ' ADV</span>';
+          else if (delta < 0) deltaText = '<span class="cpg-score-delta" style="color:var(--danfo-gold)">+' + Math.abs(delta) + ' ADV</span>';
+          else deltaText = '<span class="cpg-score-delta">PARITY</span>';
+        }
+
+        return '<div class="cpg-attr-row">' +
+          '<div class="cpg-attr-header">' +
+            '<span class="cpg-attr-name">' + m.label + ' <small style="color:var(--ash-grey);font-weight:400;">// ' + m.full + '</small></span>' +
+            '<div class="cpg-attr-scores">' +
+              '<span class="cpg-score-a">' + vA + '</span>' +
+              (cpgMode === 'versus' ? '<span class="cpg-score-b">' + vB + '</span>' + deltaText : '') +
+            '</div>' +
+          '</div>' +
+          '<div class="cpg-bars-container">' +
+            '<div class="cpg-bar-track"><div class="cpg-bar-fill-a" style="width:' + vA + '%"></div></div>' +
+            (cpgMode === 'versus' ? '<div class="cpg-bar-track"><div class="cpg-bar-fill-b" style="width:' + vB + '%"></div></div>' : '') +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    // AI Tactical Verdict
+    var verdict = document.getElementById('cpgVerdictText');
+    if (verdict) {
+      if (cpgMode === 'solo') {
+        verdict.innerHTML = '<strong>' + fA.name + '</strong> operates at tactical index <strong>' + sumStats(fA.stats) + '/600</strong>. Primary battlefield dominance resides in <strong>' + getTopStatLabel(fA.stats) + '</strong> with defensive fortitude rated at ' + fA.stats.def + '%.';
+      } else {
+        var sumA = sumStats(fA.stats);
+        var sumB = sumStats(fB.stats);
+        var winner = sumA >= sumB ? fA : fB;
+        var diff = Math.abs(sumA - sumB);
+        var edge = getTopEdge(fA, fB);
+        verdict.innerHTML = 'Oracle simulation favors <strong>' + winner.name + '</strong> with an estimated <strong>' + (50 + Math.min(45, Math.round(diff / 3))) + '% win probability</strong>. Decisive tactical pivot: ' + edge + '.';
+      }
+    }
+  }
+
+  function getTopStatLabel(stats) {
+    var maxKey = 'str', maxVal = -1;
+    POWER_GRID_METRICS.forEach(function(m) {
+      if (stats[m.key] > maxVal) {
+        maxVal = stats[m.key];
+        maxKey = m.label;
+      }
+    });
+    return maxKey + ' (' + maxVal + '/100)';
+  }
+
+  function getTopEdge(fA, fB) {
+    var maxDiff = -1, reason = '';
+    POWER_GRID_METRICS.forEach(function(m) {
+      var d = Math.abs(fA.stats[m.key] - fB.stats[m.key]);
+      if (d > maxDiff) {
+        maxDiff = d;
+        var advChar = fA.stats[m.key] > fB.stats[m.key] ? fA.name : fB.name;
+        reason = advChar + ' maintains a +' + d + ' margin in ' + m.label;
+      }
+    });
+    return reason;
+  }
+
+  function drawRadarChart() {
+    var canvas = document.getElementById('cpgRadarCanvas');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var w = canvas.width;
+    var h = canvas.height;
+    var cx = w / 2;
+    var cy = h / 2;
+    var radius = (Math.min(w, h) / 2) - 60;
+    var totalAxes = POWER_GRID_METRICS.length;
+    var angleStep = (Math.PI * 2) / totalAxes;
+
+    ctx.clearRect(0, 0, w, h);
+
+    // Dark cybernetic canvas background
+    ctx.fillStyle = '#06060d';
+    ctx.fillRect(0, 0, w, h);
+
+    // Concentric Hexagons
+    var levels = [0.2, 0.4, 0.6, 0.8, 1.0];
+    levels.forEach(function(lvl, i) {
+      ctx.beginPath();
+      for (var a = 0; a < totalAxes; a++) {
+        var angle = a * angleStep - Math.PI / 2;
+        var x = cx + Math.cos(angle) * (radius * lvl);
+        var y = cy + Math.sin(angle) * (radius * lvl);
+        if (a === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      ctx.strokeStyle = i === levels.length - 1 ? 'rgba(0, 201, 177, 0.45)' : 'rgba(240, 237, 229, 0.08)';
+      ctx.lineWidth = i === levels.length - 1 ? 1.5 : 1;
+      ctx.stroke();
+
+      // Percentage watermark
+      ctx.fillStyle = 'rgba(240, 237, 229, 0.25)';
+      ctx.font = '10px "Space Mono", monospace';
+      ctx.fillText(Math.round(lvl * 100) + '%', cx + 4, cy - (radius * lvl) - 4);
+    });
+
+    // Axis Rays & Labels
+    for (var a = 0; a < totalAxes; a++) {
+      var angle = a * angleStep - Math.PI / 2;
+      var rx = cx + Math.cos(angle) * radius;
+      var ry = cy + Math.sin(angle) * radius;
+
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(rx, ry);
+      ctx.strokeStyle = 'rgba(0, 201, 177, 0.25)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // Axis label
+      var lx = cx + Math.cos(angle) * (radius + 28);
+      var ly = cy + Math.sin(angle) * (radius + 28);
+      ctx.fillStyle = '#F0EDE5';
+      ctx.font = '700 11px "Space Mono", monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(POWER_GRID_METRICS[a].label, lx, ly);
+    }
+
+    // Helper to draw fighter polygon
+    function drawFighterPolygon(stats, strokeColor, fillColor, shadowColor) {
+      ctx.save();
+      ctx.shadowColor = shadowColor;
+      ctx.shadowBlur = 15;
+      ctx.beginPath();
+
+      for (var a = 0; a < totalAxes; a++) {
+        var angle = a * angleStep - Math.PI / 2;
+        var val = stats[POWER_GRID_METRICS[a].key] / 100;
+        var px = cx + Math.cos(angle) * (radius * val);
+        var py = cy + Math.sin(angle) * (radius * val);
+        if (a === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+      ctx.fillStyle = fillColor;
+      ctx.fill();
+      ctx.strokeStyle = strokeColor;
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+
+      // Data points
+      for (var a = 0; a < totalAxes; a++) {
+        var angle = a * angleStep - Math.PI / 2;
+        var val = stats[POWER_GRID_METRICS[a].key] / 100;
+        var px = cx + Math.cos(angle) * (radius * val);
+        var py = cy + Math.sin(angle) * (radius * val);
+        ctx.beginPath();
+        ctx.arc(px, py, 4, 0, Math.PI * 2);
+        ctx.fillStyle = strokeColor;
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    // Draw Fighter A (Orisha Teal)
+    var fA = FIGHTER_POWER_DATA[fighterAKey];
+    drawFighterPolygon(fA.stats, '#00C9B1', 'rgba(0, 201, 177, 0.28)', 'rgba(0, 201, 177, 0.6)');
+
+    // Draw Fighter B (Danfo Gold) if versus mode
+    if (cpgMode === 'versus') {
+      var fB = FIGHTER_POWER_DATA[fighterBKey];
+      drawFighterPolygon(fB.stats, '#F4B800', 'rgba(244, 184, 0, 0.28)', 'rgba(244, 184, 0, 0.6)');
+    }
+  }
+
+  window.setPowerGridMode = function(mode) {
+    cpgMode = mode;
+    var btnVersus = document.getElementById('cpgModeVersus');
+    var btnSolo = document.getElementById('cpgModeSolo');
+    if (btnVersus) btnVersus.classList.toggle('active', mode === 'versus');
+    if (btnSolo) btnSolo.classList.toggle('active', mode === 'solo');
+    updateCombatTelemetry();
+    drawRadarChart();
+  };
+
+  window.updatePowerGridCombatants = function() {
+    var selA = document.getElementById('cpgSelectA');
+    var selB = document.getElementById('cpgSelectB');
+    if (selA) fighterAKey = selA.value;
+    if (selB) fighterBKey = selB.value;
+    updateCombatTelemetry();
+    drawRadarChart();
+  };
+
+  window.loadPowerGridPreset = function(kA, kB, btn) {
+    fighterAKey = kA;
+    fighterBKey = kB;
+    cpgMode = 'versus';
+
+    var btnVersus = document.getElementById('cpgModeVersus');
+    var btnSolo = document.getElementById('cpgModeSolo');
+    if (btnVersus) btnVersus.classList.add('active');
+    if (btnSolo) btnSolo.classList.remove('active');
+
+    var selA = document.getElementById('cpgSelectA');
+    var selB = document.getElementById('cpgSelectB');
+    if (selA) selA.value = kA;
+    if (selB) selB.value = kB;
+
+    var pBtns = document.querySelectorAll('.cpg-presets .cpg-preset-btn');
+    pBtns.forEach(function(b) { b.classList.remove('active'); });
+    if (btn) btn.classList.add('active');
+
+    updateCombatTelemetry();
+    drawRadarChart();
+  };
+
+  window.randomizeCombatGridMatchup = function() {
+    var keys = Object.keys(FIGHTER_POWER_DATA);
+    var rA = keys[Math.floor(Math.random() * keys.length)];
+    var rB = keys[Math.floor(Math.random() * keys.length)];
+    while (rB === rA) {
+      rB = keys[Math.floor(Math.random() * keys.length)];
+    }
+    window.loadPowerGridPreset(rA, rB, null);
+  };
+
+  window.exportTacticalGridPNG = function() {
+    var canvas = document.getElementById('cpgRadarCanvas');
+    if (!canvas) return;
+    var link = document.createElement('a');
+    link.download = 'catalyst-tactical-radar-' + fighterAKey + '-vs-' + fighterBKey + '.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  };
+
+  // Run on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCombatGrid);
+  } else {
+    initCombatGrid();
+  }
+})();
+
+/* ══════════════════════════════════════════════════════════════════
+   FEATURE 4: COMMUNITY FAN ART & CREATOR SHOWCASE
+   ══════════════════════════════════════════════════════════════════ */
+(function() {
+  var INITIAL_FAN_ART = [
+    {
+      id: 'OC-CREATOR-2031-0101',
+      title: 'ẸṢÙ RISES AT BALOGUN NEXUS',
+      creator: 'Taiwo Adeyemi Studios',
+      handle: '@taiwo_neo',
+      category: 'illustration',
+      img: './assets/bayo-portrait.webp',
+      likes: 184,
+      desc: 'Digital oil illustration depicting Bayo channeling primordial Aṣẹ currents over the bustling stalls of Balogun Market.'
+    },
+    {
+      id: 'OC-CREATOR-2031-0102',
+      title: 'THUNDERSTRIKE: APAPA STORMCALL',
+      creator: 'Nkechi Obi',
+      handle: '@nkechi_art',
+      category: 'variant',
+      img: './assets/amara-portrait.webp',
+      likes: 215,
+      desc: 'Alternative collector variant cover for Issue #02. Amara striking lightning onto the rusted shipping cranes.'
+    },
+    {
+      id: 'OC-CREATOR-2031-0103',
+      title: 'IKENNA: ÒGÚN FORGE ARMOR BUILD',
+      creator: 'Kene & The Forge Lab',
+      handle: '@forgelab_cosplay',
+      category: 'cosplay',
+      img: './assets/ikenna-portrait.webp',
+      likes: 342,
+      desc: 'Full-scale physical tactical vest with Ògún iron relief carvings and responsive EL wire circuitry.'
+    },
+    {
+      id: 'OC-CREATOR-2031-0104',
+      title: 'ORISHA RISING: COSMIC TRIPTYCH',
+      creator: 'Dare Alabi',
+      handle: '@dare_afrofuturism',
+      category: 'variant',
+      img: './assets/cover-orisha-rising3.webp',
+      likes: 267,
+      desc: 'Commemorative triple cover variant capturing the awakening of divine lineages across modern Lagos.'
+    },
+    {
+      id: 'OC-CREATOR-2031-0105',
+      title: 'LAGOS 2031: THE NEON CORRIDOR',
+      creator: 'Folake Vance',
+      handle: '@vance_visuals',
+      category: 'community',
+      img: './assets/art-lagos-2031.webp',
+      likes: 198,
+      desc: 'Architectural concept art rendering the subterranean transit arteries beneath the Third Mainland Bridge.'
+    },
+    {
+      id: 'OC-CREATOR-2031-0106',
+      title: 'THE SACRED FORGE MATRIX',
+      creator: 'Ifeoma Clark',
+      handle: '@ife_concepts',
+      category: 'illustration',
+      img: './assets/forge.webp',
+      likes: 153,
+      desc: 'High-concept render of the Ògún metal forge where divine relic metallurgy meets modern cybernetics.'
+    }
+  ];
+
+  var STORAGE_KEY = 'catalyst_fan_art_showcase';
+  var fanArtCollection = [];
+  var currentFilter = 'all';
+  var selectedModalItem = null;
+
+  function loadFanArt() {
+    try {
+      var saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        fanArtCollection = JSON.parse(saved);
+      } else {
+        fanArtCollection = INITIAL_FAN_ART.slice();
+      }
+    } catch(e) {
+      fanArtCollection = INITIAL_FAN_ART.slice();
+    }
+  }
+
+  function saveFanArt() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(fanArtCollection));
+    } catch(e) {}
+  }
+
+  function renderGallery() {
+    var grid = document.getElementById('fanArtGalleryGrid');
+    var countAll = document.getElementById('fasCountAll');
+    if (!grid) return;
+
+    if (countAll) countAll.textContent = fanArtCollection.length;
+
+    var filtered = fanArtCollection.filter(function(item) {
+      if (currentFilter === 'all') return true;
+      return item.category === currentFilter;
+    });
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--ash-grey);font-family:'Space Mono',monospace;">NO CREATIONS RECORDED IN THIS CATEGORY YET. BE THE FIRST OPERATIVE TO SUBMIT!</div>';
+      return;
+    }
+
+    grid.innerHTML = filtered.map(function(item, idx) {
+      return '<div class="fas-art-card reveal">' +
+        '<div class="fas-art-media" onclick="openFanArtModal('' + item.id + '')">' +
+          '<img src="' + item.img + '" alt="' + item.title + '" class="fas-art-img" loading="lazy">' +
+          '<div class="fas-art-badge">' + item.category.toUpperCase() + '</div>' +
+          '<div class="fas-hologram-border"></div>' +
+        '</div>' +
+        '<div class="fas-art-info">' +
+          '<h4 class="fas-art-title">' + item.title + '</h4>' +
+          '<div class="fas-art-creator">BY ' + item.creator + (item.handle ? ' (' + item.handle + ')' : '') + '</div>' +
+          '<p class="fas-art-desc">' + item.desc + '</p>' +
+          '<div class="fas-art-footer">' +
+            '<span class="fas-art-id-tag">' + item.id + '</span>' +
+            '<button type="button" class="fas-like-btn" onclick="likeFanArt('' + item.id + '', this)">' +
+              '❤️ <span class="fas-like-count">' + item.likes + '</span>' +
+            '</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  window.filterFanArt = function(cat, btn) {
+    currentFilter = cat;
+    var btns = document.querySelectorAll('.fas-category-tabs .fas-cat-btn');
+    btns.forEach(function(b) { b.classList.remove('active'); });
+    if (btn) btn.classList.add('active');
+    renderGallery();
+  };
+
+  window.toggleFanArtDrawer = function() {
+    var drawer = document.getElementById('fanArtDrawer');
+    if (!drawer) return;
+    var isOpen = drawer.style.display !== 'none';
+    drawer.style.display = isOpen ? 'none' : 'block';
+    if (!isOpen) {
+      drawer.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  window.handleFanArtFile = function(event) {
+    var file = event.target.files[0];
+    if (!file) return;
+
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var prev = document.getElementById('fasImagePreview');
+      var prompt = document.getElementById('fasDropPrompt');
+      if (prev) {
+        prev.src = e.target.result;
+        prev.style.display = 'block';
+      }
+      if (prompt) prompt.style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  };
+
+  window.submitFanArtwork = function(event) {
+    event.preventDefault();
+
+    var creator = document.getElementById('fanArtCreator').value.trim();
+    var title = document.getElementById('fanArtTitle').value.trim();
+    var category = document.getElementById('fanArtCategory').value;
+    var handle = document.getElementById('fanArtHandle').value.trim();
+    var lore = document.getElementById('fanArtLore').value.trim();
+    var prev = document.getElementById('fasImagePreview');
+    var imgSrc = (prev && prev.src && prev.style.display !== 'none') ? prev.src : './assets/bayo-portrait.webp';
+
+    var submissionId = 'OC-CREATOR-2031-' + Math.floor(1000 + Math.random() * 9000);
+
+    var newPiece = {
+      id: submissionId,
+      title: title.toUpperCase(),
+      creator: creator,
+      handle: handle,
+      category: category,
+      img: imgSrc,
+      likes: 1,
+      desc: lore || 'Operative submission to the Ọ̀run Council Creator Archives.'
+    };
+
+    fanArtCollection.unshift(newPiece);
+    saveFanArt();
+    renderGallery();
+
+    var banner = document.getElementById('fasSubmitSuccess');
+    if (banner) {
+      banner.innerHTML = '<strong>TRANSMISSION SUCCESSFUL!</strong><br>Your submission has been archived with Ọ̀run Council ID: <strong>' + submissionId + '</strong>.';
+      banner.style.display = 'block';
+    }
+
+    setTimeout(function() {
+      window.toggleFanArtDrawer();
+      if (banner) banner.style.display = 'none';
+      document.getElementById('fanArtForm').reset();
+      if (prev) prev.style.display = 'none';
+      var prompt = document.getElementById('fasDropPrompt');
+      if (prompt) prompt.style.display = 'block';
+    }, 2800);
+  };
+
+  window.likeFanArt = function(id, btn) {
+    var item = fanArtCollection.find(function(a) { return a.id === id; });
+    if (item) {
+      item.likes++;
+      saveFanArt();
+      var countEl = btn ? btn.querySelector('.fas-like-count') : null;
+      if (countEl) countEl.textContent = item.likes;
+    }
+  };
+
+  window.openFanArtModal = function(id) {
+    var item = fanArtCollection.find(function(a) { return a.id === id; });
+    if (!item) return;
+    selectedModalItem = item;
+
+    var modal = document.getElementById('fanArtModal');
+    var mImg = document.getElementById('fasModalImg');
+    var mCat = document.getElementById('fasModalCat');
+    var mId = document.getElementById('fasModalId');
+    var mTitle = document.getElementById('fasModalTitle');
+    var mCreator = document.getElementById('fasModalCreator');
+    var mHandle = document.getElementById('fasModalHandle');
+    var mDesc = document.getElementById('fasModalDesc');
+    var mLikeCount = document.getElementById('fasModalLikeCount');
+    var mDl = document.getElementById('fasModalDownload');
+
+    if (mImg) mImg.src = item.img;
+    if (mCat) mCat.textContent = item.category.toUpperCase();
+    if (mId) mId.textContent = 'ID: ' + item.id;
+    if (mTitle) mTitle.textContent = item.title;
+    if (mCreator) mCreator.textContent = item.creator;
+    if (mHandle) mHandle.textContent = item.handle ? '(' + item.handle + ')' : '';
+    if (mDesc) mDesc.textContent = item.desc;
+    if (mLikeCount) mLikeCount.textContent = item.likes;
+    if (mDl) {
+      mDl.href = item.img;
+      mDl.download = 'catalyst-' + item.id + '.webp';
+    }
+
+    if (modal) modal.style.display = 'flex';
+  };
+
+  window.closeFanArtModal = function(e) {
+    if (e && e.target && e.target.classList.contains('fas-modal-dialog')) return;
+    var modal = document.getElementById('fanArtModal');
+    if (modal) modal.style.display = 'none';
+  };
+
+  window.likeModalFanArt = function() {
+    if (selectedModalItem) {
+      selectedModalItem.likes++;
+      saveFanArt();
+      var mLikeCount = document.getElementById('fasModalLikeCount');
+      if (mLikeCount) mLikeCount.textContent = selectedModalItem.likes;
+      renderGallery();
+    }
+  };
+
+  // Run on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      loadFanArt();
+      renderGallery();
+    });
+  } else {
+    loadFanArt();
+    renderGallery();
+  }
+})();
