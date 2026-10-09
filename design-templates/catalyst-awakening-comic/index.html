@@ -538,6 +538,10 @@
 <!-- ── Back to Top ── -->
 <button id="back-to-top" aria-label="Back to top" title="Back to top">&#8679;</button>
 
+<!-- ── Universal Accessibility Trigger & Reading Ruler ── -->
+<div id="readingRuler" class="reading-ruler" style="display:none;" aria-hidden="true"></div>
+<button id="a11y-trigger-btn" class="a11y-float-btn" aria-label="Open Universal Accessibility &amp; Ergonomics Suite" title="Universal Accessibility (A)" onclick="toggleA11yDrawer()">♿</button>
+
 <!-- ── Toast Container ── -->
 <div id="toast-container" aria-live="polite" aria-atomic="false"></div>
 
@@ -1742,6 +1746,47 @@
       <div class="location-yoruba">Ojú-Ọ̀nà Ẹ̀ṣù</div>
       <p class="location-desc">Hidden beneath a danfo bus terminal in Oshodi, this is where Ẹṣù — Orisha of crossroads and choices — holds court. Nothing passes through Lagos without his tax. Every hero has to pay.</p>
       <span class="location-tag">Sacred Ground</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================ 600-YEAR ANCESTRAL CHRONOLOGY & TIMELINE -->
+<section id="lore-timeline">
+  <div class="timeline-wrap">
+    <p class="section-label reveal" style="justify-content:center">Ancestral Continuum // 1420 CE — 2031 CE</p>
+    <h2 class="section-title reveal" style="text-align:center">THE 600-YEAR<br><em>ANCESTRAL CHRONOLOGY</em></h2>
+    <p class="reveal" style="max-width:620px;margin:1rem auto 0;font-size:0.9rem;line-height:1.8;color:rgba(240,237,229,0.55);text-align:center;">
+      The Ọ̀run-Bleed did not begin on the Third Mainland Bridge in 2031. It is the culmination of six centuries of subterranean resistance, hidden metallurgy, colonial suppression, and celestial alignments.
+    </p>
+
+    <!-- Interactive Epoch Navigation Bar -->
+    <div class="timeline-nav reveal">
+      <button type="button" class="timeline-nav-btn active" onclick="jumpTimelineEpoch(0, this)">
+        <span class="epoch-year">1420 CE</span>
+        <span class="epoch-label">First Covenant</span>
+      </button>
+      <button type="button" class="timeline-nav-btn" onclick="jumpTimelineEpoch(1, this)">
+        <span class="epoch-year">1897 CE</span>
+        <span class="epoch-label">The Iron Incursion</span>
+      </button>
+      <button type="button" class="timeline-nav-btn" onclick="jumpTimelineEpoch(2, this)">
+        <span class="epoch-year">1973 CE</span>
+        <span class="epoch-label">Badagry Eclipse</span>
+      </button>
+      <button type="button" class="timeline-nav-btn" onclick="jumpTimelineEpoch(3, this)">
+        <span class="epoch-year">2018 CE</span>
+        <span class="epoch-label">Eko Atlantic Rise</span>
+      </button>
+      <button type="button" class="timeline-nav-btn" onclick="jumpTimelineEpoch(4, this)">
+        <span class="epoch-year">2031 CE</span>
+        <span class="epoch-label">Third Mainland Breach</span>
+      </button>
+    </div>
+
+    <!-- Active Epoch Detail Showcase Stage -->
+    <div class="timeline-stage reveal" id="timelineStage">
+      <!-- Dynamically populated by script.js -->
     </div>
   </div>
 </section>
@@ -4698,6 +4743,48 @@
     </div>
   </div>
 
+
+  <!-- ============================================================ GENIUS-STYLE CULTURAL ANNOTATIONS -->
+  <div class="annotations-section reveal" id="comic-annotations">
+    <div class="annotations-header">
+      <div class="annotations-tag">AFROFUTURIST SCHOLIA // GENIUS-STYLE CULTURAL MARGINALIA</div>
+      <div class="annotations-perspective-toggle">
+        <span class="annot-filter-lbl">VIEWPOINT:</span>
+        <button type="button" class="annot-p-btn active" onclick="setAnnotationPerspective('cultural', this)">🏛️ CULTURAL HISTORIAN</button>
+        <button type="button" class="annot-p-btn" onclick="setAnnotationPerspective('writer', this)">✍️ WRITER SCRIPT NOTES</button>
+        <button type="button" class="annot-p-btn" onclick="setAnnotationPerspective('art', this)">🎨 ART DIRECTION</button>
+      </div>
+    </div>
+
+    <div class="annotations-layout">
+      <!-- Scene Script Column with Clickable Highlight Markers -->
+      <div class="annotations-text-pane">
+        <div class="annot-scene-header">
+          <span class="annot-scene-title">ISSUE #01 // SCENE 01: BEFORE EVERYTHING</span>
+          <span class="annot-hint">CLICK ANY UNDERLINED AṢẸ MARKER TO UNVEIL DEEP LORE</span>
+        </div>
+        <div class="annot-text-body">
+          <p>
+            Before the light cracked the sky above <span class="annot-highlight active" onclick="selectAnnotation('bridge', this)">Third Mainland Bridge</span>, Lagos was simply hungry. Nineteen-year-old Bayo Adeyemi walked the quiet stretch between Oworonshoki and Lagos Island, counting coins he did not have.
+          </p>
+          <p>
+            At the <span class="annot-highlight" onclick="selectAnnotation('crossroads', this)">Oshodi Crossroads</span>, the yellow danfo buses slept bumper-to-bumper like dormant iron locusts. A solitary street busker tuned a <span class="annot-highlight" onclick="selectAnnotation('gangan', this)">Gángan talking drum</span>, tightening the leather tension cords until the skin hummed with ancestral frequency.
+          </p>
+          <p>
+            Nobody noticed the faint violet vapor rising through the asphalt. It smelled of ozone and <span class="annot-highlight" onclick="selectAnnotation('adire', this)">sacred indigo dye</span>. The ancient contract between the gods and the city was about to expire.
+          </p>
+        </div>
+      </div>
+
+      <!-- Lore Annotation Dossier Card Column -->
+      <div class="annotations-card-pane">
+        <div class="annot-card" id="annotDossierCard">
+          <!-- Dynamically populated by script.js -->
+        </div>
+      </div>
+    </div>
+  </div>
+
 <!-- ============================================================ ANIMATED MOTION COMIC PLAYER -->
   <div class="motion-comic-section reveal" id="motion-comic-player">
     <div class="motion-header">
@@ -6988,6 +7075,54 @@
   </div>
 </section>
 
+
+<!-- ============================================================ OPERATIVE DAILY FIELD QUESTS & DUTY LOG -->
+<section id="daily-quests">
+  <div class="quests-wrap">
+    <p class="section-label reveal" style="justify-content:center">Oracle Tactical Protocol // Operative Duty Log</p>
+    <h2 class="section-title reveal" style="text-align:center">DAILY FIELD QUESTS &amp;<br><em>OPERATIVE DIRECTIVES</em></h2>
+    <p class="reveal" style="max-width:620px;margin:1rem auto 0;font-size:0.9rem;line-height:1.8;color:rgba(240,237,229,0.55);text-align:center;">
+      Every sunrise over Lagos brings new anomalies along the Ọ̀run Grid. Complete daily tactical directives to earn Aṣẹ XP, maintain your consecutive operative login streak, and unlock classified archives.
+    </p>
+
+    <!-- Operative Status & Streak HUD -->
+    <div class="quests-hud-banner reveal">
+      <div class="quests-hud-item">
+        <span class="qhud-lbl">OPERATIVE CALLSIGN</span>
+        <strong class="qhud-val" id="questsCallsign">CATALYST_AGENT</strong>
+      </div>
+      <div class="quests-hud-item">
+        <span class="qhud-lbl">CURRENT OPERATIVE RANK</span>
+        <strong class="qhud-val" id="questsRank">VANGUARD SENTRY (LVL 3)</strong>
+      </div>
+      <div class="quests-hud-item">
+        <span class="qhud-lbl">ACTIVE STREAK</span>
+        <strong class="qhud-val" id="questsStreak">🔥 4 CONSECUTIVE DAYS</strong>
+      </div>
+      <div class="quests-hud-item">
+        <span class="qhud-lbl">TACTICAL XP POOL</span>
+        <strong class="qhud-val" id="questsXpTotal">1,450 XP</strong>
+      </div>
+    </div>
+
+    <!-- 3 Daily Directives Grid -->
+    <div class="quests-grid reveal" id="questsGrid">
+      <!-- Populated dynamically by script.js -->
+    </div>
+
+    <!-- Reward Claim Banner -->
+    <div class="quests-claim-box reveal" id="questsClaimBox">
+      <div class="qclaim-info">
+        <h4>DAILY RECON CONCLAVE // REWARD STATUS</h4>
+        <p id="questsRewardText">Complete all 3 active directives to claim 250 bonus XP and decrypt the daily deleted scene script!</p>
+      </div>
+      <button type="button" class="qclaim-btn" id="questsClaimBtn" onclick="claimDailyQuestReward()">
+        ✦ CLAIM DAILY PROTOCOL REWARD
+      </button>
+    </div>
+  </div>
+</section>
+
 <section id="access">
   <div class="access-header">
     <p class="section-label reveal" style="justify-content:center">The Access Model</p>
@@ -7310,6 +7445,86 @@
 
     <!-- Fan Art Holographic Gallery Grid -->
     <div class="fas-gallery-grid reveal" id="fanArtGalleryGrid"></div>
+  </div>
+</section>
+
+
+<!-- ============================================================ COMIC PANEL REMIX STUDIO & MEME GENERATOR -->
+<section id="panel-remix">
+  <div class="remix-wrap">
+    <p class="section-label reveal" style="justify-content:center">Creative Foundry // Visual Meme &amp; Panel Remixer</p>
+    <h2 class="section-title reveal" style="text-align:center">COMIC PANEL<br><em>REMIX STUDIO</em></h2>
+    <p class="reveal" style="max-width:640px;margin:1rem auto 0;font-size:0.9rem;line-height:1.8;color:rgba(240,237,229,0.55);text-align:center;">
+      Create custom Afrofuturist comic panels, meme graphics, and dramatic dialogue strips. Select canonical backgrounds, place hero portraits, customize speech balloons in English, Pidgin, or Yorùbá, and export high-res PNGs ready for social sharing.
+    </p>
+
+    <div class="remix-studio-grid reveal">
+      <!-- Controls Column -->
+      <div class="remix-controls-pane">
+        <div class="remix-grp">
+          <label class="remix-lbl">1. CHOOSE BACKGROUND SCENE</label>
+          <div class="remix-btn-row">
+            <button type="button" class="remix-opt-btn active" onclick="setRemixBg('bridge', this)">🌉 Third Mainland</button>
+            <button type="button" class="remix-opt-btn" onclick="setRemixBg('corridor', this)">⚡ Corridor</button>
+            <button type="button" class="remix-opt-btn" onclick="setRemixBg('forge', this)">🔥 Sacred Forge</button>
+            <button type="button" class="remix-opt-btn" onclick="setRemixBg('industrial', this)">🏭 Industrial</button>
+          </div>
+        </div>
+
+        <div class="remix-grp">
+          <label class="remix-lbl">2. CHOOSE HERO / VILLAIN SPRITE</label>
+          <div class="remix-btn-row">
+            <button type="button" class="remix-opt-btn active" onclick="setRemixChar('bayo', this)">⚡ Bayo</button>
+            <button type="button" class="remix-opt-btn" onclick="setRemixChar('amara', this)">⛈ Amara</button>
+            <button type="button" class="remix-opt-btn" onclick="setRemixChar('ikenna', this)">🛡 Ikenna</button>
+            <button type="button" class="remix-opt-btn" onclick="setRemixChar('architect', this)">👁 Architect</button>
+          </div>
+        </div>
+
+        <div class="remix-grp">
+          <label class="remix-lbl">3. SPEECH BALLOON STYLE</label>
+          <div class="remix-btn-row">
+            <button type="button" class="remix-opt-btn active" onclick="setRemixBalloon('speech', this)">💬 Speech</button>
+            <button type="button" class="remix-opt-btn" onclick="setRemixBalloon('thought', this)">💭 Thought</button>
+            <button type="button" class="remix-opt-btn" onclick="setRemixBalloon('shout', this)">💥 Shouting</button>
+            <button type="button" class="remix-opt-btn" onclick="setRemixBalloon('radio', this)">📻 Radio Comm</button>
+          </div>
+        </div>
+
+        <div class="remix-grp">
+          <label class="remix-lbl">4. DIALOGUE TEXT &amp; CULTURAL PRESETS</label>
+          <div class="remix-preset-chips">
+            <button type="button" class="remix-chip" onclick="applyRemixPreset('Lagos never sleeps, and neither do the gods!')">"Lagos never sleeps..."</button>
+            <button type="button" class="remix-chip" onclick="applyRemixPreset('Mo ti dé! The light of Ọ̀run is upon us!')">"Mo ti dé!..."</button>
+            <button type="button" class="remix-chip" onclick="applyRemixPreset('No shaking. Ògún is on our side today.')">"No shaking..."</button>
+          </div>
+          <textarea id="remixDialogueInput" class="remix-textarea" rows="3" oninput="drawRemixCanvas()">Lagos never sleeps, and neither do the gods!</textarea>
+        </div>
+
+        <div class="remix-grp">
+          <label class="remix-lbl">5. ACTION SFX DECAL</label>
+          <div class="remix-btn-row">
+            <button type="button" class="remix-opt-btn active" onclick="setRemixSfx('NONE', this)">NONE</button>
+            <button type="button" class="remix-opt-btn" onclick="setRemixSfx('KRA-KOOM!', this)">⚡ KRA-KOOM!</button>
+            <button type="button" class="remix-opt-btn" onclick="setRemixSfx('GBA-GAAM!', this)">⚔ GBA-GAAM!</button>
+            <button type="button" class="remix-opt-btn" onclick="setRemixSfx('AṢẸ!', this)">🔥 AṢẸ!</button>
+          </div>
+        </div>
+
+        <div style="margin-top:1.5rem;">
+          <button type="button" class="remix-export-btn" onclick="downloadRemixPanel()">
+            ✦ EXPORT HIGH-RES COMIC PANEL (PNG)
+          </button>
+        </div>
+      </div>
+
+      <!-- Preview Column -->
+      <div class="remix-preview-pane">
+        <div class="remix-canvas-wrap">
+          <canvas id="remixCanvas" width="600" height="600" class="remix-canvas"></canvas>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -8101,6 +8316,79 @@
   </div>
 </div>
 
+
+
+<!-- ============================================================ AṢẸ UNIVERSAL ACCESSIBILITY DRAWER & CONTROLS -->
+<div class="a11y-drawer-backdrop" id="a11yBackdrop" style="display:none;" onclick="toggleA11yDrawer()"></div>
+<div class="a11y-drawer" id="a11yDrawer" style="display:none;" role="dialog" aria-label="Universal Accessibility Suite">
+  <div class="a11y-drawer-hdr">
+    <div class="a11y-hdr-title">♿ UNIVERSAL ACCESSIBILITY &amp; ERGONOMICS SUITE</div>
+    <button type="button" class="a11y-close-btn" onclick="toggleA11yDrawer()">✕</button>
+  </div>
+  <div class="a11y-body">
+    <div class="a11y-opt-row">
+      <div class="a11y-opt-info">
+        <strong>Dyslexia-Optimized Typography</strong>
+        <span>Enhances character spacing, height, and letterform weighting for effortless reading.</span>
+      </div>
+      <button type="button" class="a11y-toggle-btn" id="a11yDyslexiaBtn" onclick="toggleA11yDyslexia()">OFF</button>
+    </div>
+
+    <div class="a11y-opt-row">
+      <div class="a11y-opt-info">
+        <strong>Photophobia &amp; Epilepsy Flash Guard</strong>
+        <span>Suppresses high-frequency neon strobes, lightning animations, and rapid particle pulses.</span>
+      </div>
+      <button type="button" class="a11y-toggle-btn" id="a11yFlashBtn" onclick="toggleA11yFlashGuard()">OFF</button>
+    </div>
+
+    <div class="a11y-opt-row">
+      <div class="a11y-opt-info">
+        <strong>Reduced Motion Engine</strong>
+        <span>Disables parallax camera transforms, smooth scroll drifts, and 3D gyroscope sweeps.</span>
+      </div>
+      <button type="button" class="a11y-toggle-btn" id="a11yMotionBtn" onclick="toggleA11yReducedMotion()">OFF</button>
+    </div>
+
+    <div class="a11y-opt-row">
+      <div class="a11y-opt-info">
+        <strong>Laser Line-Focus Reading Ruler</strong>
+        <span>Translucent high-contrast tracking guide that follows mouse cursor or touch finger.</span>
+      </div>
+      <button type="button" class="a11y-toggle-btn" id="a11yRulerBtn" onclick="toggleA11yRuler()">OFF</button>
+    </div>
+
+    <div class="a11y-opt-row">
+      <div class="a11y-opt-info">
+        <strong>Voice-Command Hands-Free Navigator</strong>
+        <span>Control pages hands-free via microphone: "next", "previous", "open map", "play audio".</span>
+      </div>
+      <button type="button" class="a11y-toggle-btn" id="a11yVoiceBtn" onclick="toggleA11yVoiceCommands()">OFF</button>
+    </div>
+
+    <div class="a11y-voice-status" id="a11yVoiceStatus" style="display:none;">
+      🎙️ Listening for commands: <em>"next"</em>, <em>"previous"</em>, <em>"open map"</em>, <em>"play audio"</em>...
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ UNIVERSAL ACCESSIBILITY SECTION -->
+<section id="accessibility-suite">
+  <div class="a11y-section-wrap reveal">
+    <div class="a11y-section-header">
+      <p class="section-label" style="justify-content:center">Aṣẹ Universal Access // WCAG 2.1 AAA Standard</p>
+      <h2 class="section-title" style="text-align:center">ACCESSIBLE FOR<br><em>EVERY OPERATIVE</em></h2>
+      <p style="max-width:580px;margin:1rem auto 0;font-size:0.9rem;line-height:1.8;color:rgba(240,237,229,0.55);text-align:center;">
+        Catalyst Awakening is engineered for universal inclusion. Photophobia shields, dyslexia-friendly typography, sensory audio tuners, and hands-free speech navigation ensure our world welcomes every mind.
+      </p>
+    </div>
+    <div style="text-align:center;margin-top:2rem;">
+      <button type="button" class="a11y-open-drawer-btn" onclick="toggleA11yDrawer()">
+        ♿ LAUNCH UNIVERSAL ACCESSIBILITY CONTROLS
+      </button>
+    </div>
+  </div>
+</section>
 
 <!-- ============================================================ PWA NATIVE APP INSTALL HUD BANNER -->
 <div class="pwa-install-banner" id="pwaInstallBanner" style="display:none;" aria-label="Install Catalyst Native Web App">

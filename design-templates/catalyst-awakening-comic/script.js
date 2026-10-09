@@ -11149,3 +11149,644 @@ var TC_ENDINGS = {
     renderGallery();
   }
 })();
+
+
+/* ══════════════════════════════════════════════════════════════════
+   FEATURE 2: 600-YEAR ANCESTRAL CHRONOLOGY & TIMELINE
+   ══════════════════════════════════════════════════════════════════ */
+(function() {
+  var TIMELINE_EPOCHS = [
+    {
+      year: '1420 CE',
+      title: 'THE FIRST COVENANT // OLD OYO KINGDOM',
+      desc: 'The divine descent. Under the reign of the Aláàfin of Oyo, thunder, iron, and storm spirits enter into an unwritten compact with Yoruba sovereigns: divine energy (Aṣẹ) would defend the mortal realm against subterranean void tears.',
+      era: 'ANCIENT SOVEREIGNTY',
+      relic: 'Oṣé Ṣàngó Ceremonial Axe',
+      threat: 'Primordial Void Leviathans',
+      img: './assets/circle.webp'
+    },
+    {
+      year: '1897 CE',
+      title: 'THE IRON INCURSION // COLONIAL EXTRACTION',
+      desc: 'British punitive forces attempt to loot the sacred metallurgy of the Niger Delta. The Guild of Ògún smiths buries seven ceremonial anvils beneath the seabed, preserving the sovereign metallurgical codes from imperial hands.',
+      era: 'COLONIAL SIEGE',
+      relic: 'Seven Anvils of Ògún',
+      threat: 'Royal Niger Company Enforcers',
+      img: './assets/forge.webp'
+    },
+    {
+      year: '1973 CE',
+      title: 'THE GREAT ECLIPSE // BADAGRY LISTENING POST',
+      desc: 'During total solar darkness over the Bight of Benin, the Oracle of Badagry awakens. Deep subterranean listening arrays are constructed beneath the slave port tunnels to monitor celestial pulse rhythms.',
+      era: 'COLD WAR AWAKENING',
+      relic: 'Badagry Brass Divination Sphere',
+      threat: 'Subterranean Frequency Drift',
+      img: './assets/oracle-badagry-portrait.webp'
+    },
+    {
+      year: '2018 CE',
+      title: 'THE RISE OF EKO ATLANTIC // SYNTHETIC CONDUITS',
+      desc: 'Dredging for the new financial hub breaches the ancient coastal wards. The Pale Council builds ultra-modern glass towers designed as synthetic energy capacitors to siphon Orisha currents under the guise of civic development.',
+      era: 'CYBER-OLIGARCHY',
+      relic: 'Council Neural Extraction Array',
+      threat: 'The Pale Council Oligarchs',
+      img: './assets/art-lagos-2031.webp'
+    },
+    {
+      year: '2031 CE',
+      title: 'THIRD MAINLAND BREACH // THE AWAKENING',
+      desc: 'The Ọ̀run barrier shatters over the Lagos lagoon. Nineteen-year-old Bayo Adeyemi absorbs the raw cosmic cascade on the bridge, becoming the living catalyst for the reborn Orishas.',
+      era: 'AṢẸ IGNITION (PRESENT DAY)',
+      relic: 'Ẹṣù Crossroads Conduction Coil',
+      threat: 'The Architect & Dark Assembly',
+      img: './assets/bayo-bridge.webp'
+    }
+  ];
+
+  var activeEpochIdx = 0;
+
+  function renderTimeline() {
+    var stage = document.getElementById('timelineStage');
+    if (!stage) return;
+    var ep = TIMELINE_EPOCHS[activeEpochIdx];
+
+    stage.innerHTML = '<div class="timeline-epoch-info">' +
+      '<span class="timeline-epoch-badge">' + ep.year + ' // ' + ep.era + '</span>' +
+      '<h3 class="timeline-epoch-title">' + ep.title + '</h3>' +
+      '<p class="timeline-epoch-desc">' + ep.desc + '</p>' +
+      '<div class="timeline-epoch-metrics">' +
+        '<div class="timeline-metric-item">' +
+          '<span class="timeline-metric-lbl">ACTIVE RELIC</span>' +
+          '<span class="timeline-metric-val">' + ep.relic + '</span>' +
+        '</div>' +
+        '<div class="timeline-metric-item">' +
+          '<span class="timeline-metric-lbl">HISTORICAL ADVERSARY</span>' +
+          '<span class="timeline-metric-val">' + ep.threat + '</span>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="timeline-epoch-media">' +
+      '<img src="' + ep.img + '" alt="' + ep.title + '" class="timeline-epoch-img" loading="lazy">' +
+    '</div>';
+  }
+
+  window.jumpTimelineEpoch = function(idx, btn) {
+    if (idx >= 0 && idx < TIMELINE_EPOCHS.length) {
+      activeEpochIdx = idx;
+      var btns = document.querySelectorAll('.timeline-nav .timeline-nav-btn');
+      btns.forEach(function(b) { b.classList.remove('active'); });
+      if (btn) btn.classList.add('active');
+      renderTimeline();
+    }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderTimeline);
+  } else {
+    renderTimeline();
+  }
+})();
+
+/* ══════════════════════════════════════════════════════════════════
+   FEATURE 4: GENIUS-STYLE CULTURAL ANNOTATIONS
+   ══════════════════════════════════════════════════════════════════ */
+(function() {
+  var ANNOTATIONS_DATA = {
+    'bridge': {
+      title: 'THIRD MAINLAND BRIDGE // THE 11.8KM ARTERY',
+      cultural: 'In Yoruba cosmology, large bodies of water (the Lagos Lagoon) are the direct threshold of Olókun and Ọ̀ṣun. The 11.8 km bridge built in 1990 is re-imagined as an iron suture holding the physical and spirit planes together.',
+      writer: 'We chose the Third Mainland Bridge as Ground Zero because every Lagosian knows the dread and majesty of being stranded on that bridge at night. It is the perfect threshold between earth and Ọ̀run.',
+      art: 'The color grading transitions from muted asphalt grey to radioactive ultraviolet along the suspension cables, symbolizing the sudden bleed of Orisha energy into commuter space.',
+      reactions: { shock: 1420, lightning: 980, fire: 850 }
+    },
+    'crossroads': {
+      title: 'OSHODI CROSSROADS // ẸṢÙ'S SACRED JUNCTION',
+      cultural: 'Ẹ̀ṣù is the master of crossroads (Oríta méjì / Oríta mẹ́ta), choices, and transitions. The chaotic multi-level Oshodi bus interchange is the modern mechanical manifestation of Ẹṣù's realm.',
+      writer: 'Bayo doesn't choose his path; he is ambushed by choices. We wanted Oshodi to feel alive—not as background noise, but as a watchful entity demanding toll.',
+      art: 'Look closely at the overhead walkway shadows: their silhouettes match Ẹṣù’s two-faced ceremonial staff, marking the exact spot where Bayo stops.',
+      reactions: { shock: 950, lightning: 1120, fire: 620 }
+    },
+    'gangan': {
+      title: 'GÁNGAN TALKING DRUM // ACOUSTIC TELEMETRY',
+      cultural: 'The Gángan is a pitch-variable pressure drum capable of mimicking the tonal patterns of Èdè Yorùbá. In warfare, drum beats carried tactical instructions miles ahead of runners.',
+      writer: 'Amara’s combat ability uses the talking drum as an acoustic railgun. Each cadence represents an authentic Yoruba war proverb that channels Ṣàngó’s lightning.',
+      art: 'The sound waves are rendered as geometric Adire ripples expanding through the rain, turning sound into tangible kinetic shockwaves.',
+      reactions: { shock: 1340, lightning: 1290, fire: 940 }
+    },
+    'adire': {
+      title: 'SACRED ADIRE INDIGO // RESIST DYE LORE',
+      cultural: 'Adire is traditional Yoruba indigo-dyed cloth using cassava paste resist techniques. Specific motifs (like Olókùn and Ìbàdàn dún) are visual incantations containing ancestral genealogies.',
+      writer: 'In our 2031 lore, the indigo dye isn't just textile decoration; it is a bio-conductive seal used by Yoruba freedom fighters to conceal divine power from Pale Council scanners.',
+      art: 'The geometric patterns etched onto Bayo's trenchcoat glow with subtle cyan luminescence only when his Aṣẹ output exceeds 80%.',
+      reactions: { shock: 880, lightning: 750, fire: 1100 }
+    }
+  };
+
+  var activeAnnotKey = 'bridge';
+  var activePerspective = 'cultural';
+
+  function renderAnnotationCard() {
+    var card = document.getElementById('annotDossierCard');
+    if (!card) return;
+    var data = ANNOTATIONS_DATA[activeAnnotKey];
+    var pLabel = activePerspective === 'cultural' ? 'HISTORICAL & CULTURAL ROOTS' : (activePerspective === 'writer' ? 'WRITER COMMENTARY & MOTIVATION' : 'VISUAL ART DIRECTION NOTES');
+
+    card.innerHTML = '<span class="annot-card-badge">' + pLabel + '</span>' +
+      '<h4 class="annot-card-title">' + data.title + '</h4>' +
+      '<p class="annot-card-content">' + data[activePerspective] + '</p>' +
+      '<div class="annot-reactions-row">' +
+        '<button type="button" class="annot-react-btn" onclick="reactToAnnotation('shock')">⚡ ' + data.reactions.shock + ' VOLT</button>' +
+        '<button type="button" class="annot-react-btn" onclick="reactToAnnotation('lightning')">👁️ ' + data.reactions.lightning + ' WITNESSED</button>' +
+        '<button type="button" class="annot-react-btn" onclick="reactToAnnotation('fire')">🔥 ' + data.reactions.fire + ' AṢẸ</button>' +
+      '</div>';
+  }
+
+  window.selectAnnotation = function(key, el) {
+    if (ANNOTATIONS_DATA[key]) {
+      activeAnnotKey = key;
+      var highlights = document.querySelectorAll('.annot-highlight');
+      highlights.forEach(function(h) { h.classList.remove('active'); });
+      if (el) el.classList.add('active');
+      renderAnnotationCard();
+    }
+  };
+
+  window.setAnnotationPerspective = function(p, btn) {
+    activePerspective = p;
+    var btns = document.querySelectorAll('.annotations-perspective-toggle .annot-p-btn');
+    btns.forEach(function(b) { b.classList.remove('active'); });
+    if (btn) btn.classList.add('active');
+    renderAnnotationCard();
+  };
+
+  window.reactToAnnotation = function(type) {
+    var data = ANNOTATIONS_DATA[activeAnnotKey];
+    if (data && data.reactions[type] !== undefined) {
+      data.reactions[type]++;
+      renderAnnotationCard();
+    }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderAnnotationCard);
+  } else {
+    renderAnnotationCard();
+  }
+})();
+
+/* ══════════════════════════════════════════════════════════════════
+   FEATURE 3: OPERATIVE DAILY FIELD QUESTS & DUTY LOG
+   ══════════════════════════════════════════════════════════════════ */
+(function() {
+  var DAILY_QUESTS = [
+    {
+      id: 'quest_1',
+      type: 'RECONNAISSANCE PROTOCOL',
+      title: 'Decipher Oracle Radio Frequency',
+      desc: 'Listen to Issue #01 Audiobook Narration or explore the Oracle of Badagry lore vault to log anomalous Ọ̀run telemetry.',
+      reward: '+100 AṢẸ XP',
+      completed: true
+    },
+    {
+      id: 'quest_2',
+      type: 'COMBAT SIMULATION',
+      title: 'Field-Test Ògún Defensive Fortitude',
+      desc: 'Run a simulation in the Orisha Combat Power Grid pitting Ikenna against the Iron Preacher.',
+      reward: '+150 AṢẸ XP',
+      completed: false
+    },
+    {
+      id: 'quest_3',
+      type: 'CULTURAL ENCRYPTION',
+      title: 'Verify Yoruba Ancestral Orthography',
+      desc: 'Switch to Èdè Yorùbá localization and verify the sacred accents across the Lagos 2031 tactical dossier.',
+      reward: '+200 AṢẸ XP',
+      completed: false
+    }
+  ];
+
+  var STORAGE_QUESTS_KEY = 'catalyst_daily_quests_state';
+
+  function loadQuests() {
+    try {
+      var saved = localStorage.getItem(STORAGE_QUESTS_KEY);
+      if (saved) {
+        var state = JSON.parse(saved);
+        DAILY_QUESTS.forEach(function(q, i) {
+          if (state[q.id] !== undefined) q.completed = state[q.id];
+        });
+      }
+    } catch(e) {}
+  }
+
+  function saveQuests() {
+    try {
+      var state = {};
+      DAILY_QUESTS.forEach(function(q) { state[q.id] = q.completed; });
+      localStorage.setItem(STORAGE_QUESTS_KEY, JSON.stringify(state));
+    } catch(e) {}
+  }
+
+  function renderQuests() {
+    var grid = document.getElementById('questsGrid');
+    if (!grid) return;
+
+    grid.innerHTML = DAILY_QUESTS.map(function(q) {
+      return '<div class="quest-card' + (q.completed ? ' completed' : '') + '">' +
+        '<span class="quest-type-tag">' + q.type + '</span>' +
+        '<h4 class="quest-title">' + q.title + '</h4>' +
+        '<p class="quest-desc">' + q.desc + '</p>' +
+        '<span class="quest-reward-tag">' + q.reward + '</span>' +
+        '<button type="button" class="quest-action-btn" onclick="toggleQuestComplete('' + q.id + '')">' +
+          (q.completed ? '✓ DIRECTIVE CLEARED' : '▶ ENGAGE DIRECTIVE') +
+        '</button>' +
+      '</div>';
+    }).join('');
+
+    var allDone = DAILY_QUESTS.every(function(q) { return q.completed; });
+    var claimBtn = document.getElementById('questsClaimBtn');
+    if (claimBtn) {
+      claimBtn.textContent = allDone ? '✦ CLAIM 250 BONUS XP & LORE SCRIPT' : 'DIRECTIVES IN PROGRESS (' + DAILY_QUESTS.filter(function(q){return q.completed;}).length + '/3)';
+      claimBtn.style.opacity = allDone ? '1' : '0.6';
+    }
+  }
+
+  window.toggleQuestComplete = function(id) {
+    var quest = DAILY_QUESTS.find(function(q) { return q.id === id; });
+    if (quest) {
+      quest.completed = !quest.completed;
+      saveQuests();
+      renderQuests();
+    }
+  };
+
+  window.claimDailyQuestReward = function() {
+    var allDone = DAILY_QUESTS.every(function(q) { return q.completed; });
+    if (allDone) {
+      alert('AṢẸ VERIFIED! +250 XP Credited to your Operative HUD Profile. Unreleased deleted scene from Issue #02 unlocked!');
+    } else {
+      alert('Operational directives incomplete. Clear all 3 directives before claiming the daily conclave reward.');
+    }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      loadQuests();
+      renderQuests();
+    });
+  } else {
+    loadQuests();
+    renderQuests();
+  }
+})();
+
+/* ══════════════════════════════════════════════════════════════════
+   FEATURE 5: COMIC PANEL REMIX STUDIO & MEME GENERATOR
+   ══════════════════════════════════════════════════════════════════ */
+(function() {
+  var remixBgKey = 'bridge';
+  var remixCharKey = 'bayo';
+  var remixBalloonKey = 'speech';
+  var remixSfxKey = 'NONE';
+
+  var REMIX_ASSETS = {
+    bg: {
+      bridge: './assets/bayo-bridge.webp',
+      corridor: './assets/corridor.webp',
+      forge: './assets/forge.webp',
+      industrial: './assets/industrial.webp'
+    },
+    char: {
+      bayo: './assets/bayo-portrait.webp',
+      amara: './assets/amara-portrait.webp',
+      ikenna: './assets/ikenna-portrait.webp',
+      architect: './assets/architect-portrait.webp'
+    }
+  };
+
+  var loadedImages = {};
+
+  function preloadImages(callback) {
+    var toLoad = [];
+    Object.keys(REMIX_ASSETS.bg).forEach(function(k) { toLoad.push(REMIX_ASSETS.bg[k]); });
+    Object.keys(REMIX_ASSETS.char).forEach(function(k) { toLoad.push(REMIX_ASSETS.char[k]); });
+
+    var loaded = 0;
+    toLoad.forEach(function(src) {
+      var img = new Image();
+      img.onload = function() {
+        loadedImages[src] = img;
+        loaded++;
+        if (loaded === toLoad.length && callback) callback();
+      };
+      img.onerror = function() {
+        loaded++;
+        if (loaded === toLoad.length && callback) callback();
+      };
+      img.src = src;
+    });
+  }
+
+  window.drawRemixCanvas = function() {
+    var canvas = document.getElementById('remixCanvas');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var w = canvas.width;
+    var h = canvas.height;
+
+    ctx.clearRect(0, 0, w, h);
+
+    // 1. Draw Background
+    var bgSrc = REMIX_ASSETS.bg[remixBgKey];
+    var bgImg = loadedImages[bgSrc];
+    if (bgImg) {
+      ctx.drawImage(bgImg, 0, 0, w, h);
+    } else {
+      ctx.fillStyle = '#06060d';
+      ctx.fillRect(0, 0, w, h);
+    }
+
+    // Vignette overlay
+    var grad = ctx.createLinearGradient(0, 0, 0, h);
+    grad.addColorStop(0, 'rgba(6, 6, 13, 0.3)');
+    grad.addColorStop(0.7, 'transparent');
+    grad.addColorStop(1, 'rgba(6, 6, 13, 0.85)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, w, h);
+
+    // 2. Draw Character Sprite
+    var charSrc = REMIX_ASSETS.char[remixCharKey];
+    var charImg = loadedImages[charSrc];
+    if (charImg) {
+      ctx.save();
+      // Draw circular avatar or portrait cutout on bottom right
+      ctx.beginPath();
+      ctx.arc(w - 140, h - 140, 100, 0, Math.PI * 2);
+      ctx.closePath();
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = '#00C9B1';
+      ctx.stroke();
+      ctx.clip();
+      ctx.drawImage(charImg, w - 240, h - 240, 200, 200);
+      ctx.restore();
+    }
+
+    // 3. Draw Comic Speech Balloon
+    var textInput = document.getElementById('remixDialogueInput');
+    var text = textInput ? textInput.value : 'Lagos never sleeps!';
+
+    ctx.save();
+    var bx = 40, by = 60, bw = 380, bh = 130, r = 12;
+    ctx.beginPath();
+    ctx.moveTo(bx + r, by);
+    ctx.lineTo(bx + bw - r, by);
+    ctx.quadraticCurveTo(bx + bw, by, bx + bw, by + r);
+    ctx.lineTo(bx + bw, by + bh - r);
+    ctx.quadraticCurveTo(bx + bw, by + bh, bx + bw - r, by + bh);
+    ctx.lineTo(bx + 120, by + bh);
+    ctx.lineTo(bx + 90, by + bh + 30);
+    ctx.lineTo(bx + 100, by + bh);
+    ctx.lineTo(bx + r, by + bh);
+    ctx.quadraticCurveTo(bx, by + bh, bx, by + bh - r);
+    ctx.lineTo(bx, by + r);
+    ctx.quadraticCurveTo(bx, by, bx + r, by);
+    ctx.closePath();
+
+    ctx.fillStyle = remixBalloonKey === 'radio' ? 'rgba(10, 10, 31, 0.95)' : 'rgba(240, 237, 229, 0.96)';
+    ctx.fill();
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = remixBalloonKey === 'shout' ? '#FF6B1A' : (remixBalloonKey === 'radio' ? '#00C9B1' : '#F4B800');
+    ctx.stroke();
+
+    // Text in balloon
+    ctx.fillStyle = remixBalloonKey === 'radio' ? '#00C9B1' : '#06060d';
+    ctx.font = '700 16px "Space Grotesk", sans-serif';
+    wrapText(ctx, '"' + text + '"', bx + 20, by + 40, bw - 40, 24);
+    ctx.restore();
+
+    // 4. Action SFX Decal
+    if (remixSfxKey !== 'NONE') {
+      ctx.save();
+      ctx.translate(140, h - 160);
+      ctx.rotate(-0.15);
+      ctx.font = '700 36px "Space Mono", monospace';
+      ctx.fillStyle = '#F4B800';
+      ctx.shadowColor = '#FF6B1A';
+      ctx.shadowBlur = 15;
+      ctx.fillText(remixSfxKey, 0, 0);
+      ctx.strokeStyle = '#06060d';
+      ctx.lineWidth = 2;
+      ctx.strokeText(remixSfxKey, 0, 0);
+      ctx.restore();
+    }
+
+    // 5. Catalyst Watermark / Frame
+    ctx.strokeStyle = 'rgba(0, 201, 177, 0.6)';
+    ctx.lineWidth = 6;
+    ctx.strokeRect(3, 3, w - 6, h - 6);
+
+    ctx.fillStyle = 'rgba(240, 237, 229, 0.7)';
+    ctx.font = '700 11px "Space Mono", monospace';
+    ctx.fillText('CATALYST AWAKENING // LAGOS 2031', 20, h - 20);
+  };
+
+  function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+    var words = text.split(' ');
+    var line = '';
+    for (var n = 0; n < words.length; n++) {
+      var testLine = line + words[n] + ' ';
+      var metrics = ctx.measureText(testLine);
+      var testWidth = metrics.width;
+      if (testWidth > maxWidth && n > 0) {
+        ctx.fillText(line, x, y);
+        line = words[n] + ' ';
+        y += lineHeight;
+      } else {
+        line = testLine;
+      }
+    }
+    ctx.fillText(line, x, y);
+  }
+
+  window.setRemixBg = function(key, btn) {
+    remixBgKey = key;
+    var btns = document.querySelectorAll('.remix-grp:nth-child(1) .remix-opt-btn');
+    btns.forEach(function(b) { b.classList.remove('active'); });
+    if (btn) btn.classList.add('active');
+    drawRemixCanvas();
+  };
+
+  window.setRemixChar = function(key, btn) {
+    remixCharKey = key;
+    var btns = document.querySelectorAll('.remix-grp:nth-child(2) .remix-opt-btn');
+    btns.forEach(function(b) { b.classList.remove('active'); });
+    if (btn) btn.classList.add('active');
+    drawRemixCanvas();
+  };
+
+  window.setRemixBalloon = function(key, btn) {
+    remixBalloonKey = key;
+    var btns = document.querySelectorAll('.remix-grp:nth-child(3) .remix-opt-btn');
+    btns.forEach(function(b) { b.classList.remove('active'); });
+    if (btn) btn.classList.add('active');
+    drawRemixCanvas();
+  };
+
+  window.setRemixSfx = function(sfx, btn) {
+    remixSfxKey = sfx;
+    var btns = document.querySelectorAll('.remix-grp:nth-child(5) .remix-opt-btn');
+    btns.forEach(function(b) { b.classList.remove('active'); });
+    if (btn) btn.classList.add('active');
+    drawRemixCanvas();
+  };
+
+  window.applyRemixPreset = function(text) {
+    var input = document.getElementById('remixDialogueInput');
+    if (input) {
+      input.value = text;
+      drawRemixCanvas();
+    }
+  };
+
+  window.downloadRemixPanel = function() {
+    var canvas = document.getElementById('remixCanvas');
+    if (!canvas) return;
+    var link = document.createElement('a');
+    link.download = 'catalyst-comic-panel-remix.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      preloadImages(drawRemixCanvas);
+    });
+  } else {
+    preloadImages(drawRemixCanvas);
+  }
+})();
+
+/* ══════════════════════════════════════════════════════════════════
+   FEATURE 6: UNIVERSAL ACCESSIBILITY & ERGONOMICS SUITE
+   ══════════════════════════════════════════════════════════════════ */
+(function() {
+  var dyslexiaActive = false;
+  var flashGuardActive = false;
+  var reducedMotionActive = false;
+  var rulerActive = false;
+  var voiceActive = false;
+  var speechRecognizer = null;
+
+  window.toggleA11yDrawer = function() {
+    var drawer = document.getElementById('a11yDrawer');
+    var backdrop = document.getElementById('a11yBackdrop');
+    if (!drawer || !backdrop) return;
+    var isOpen = drawer.style.display !== 'none';
+    drawer.style.display = isOpen ? 'none' : 'flex';
+    backdrop.style.display = isOpen ? 'none' : 'block';
+  };
+
+  window.toggleA11yDyslexia = function() {
+    dyslexiaActive = !dyslexiaActive;
+    document.body.classList.toggle('dyslexia-mode', dyslexiaActive);
+    var btn = document.getElementById('a11yDyslexiaBtn');
+    if (btn) {
+      btn.textContent = dyslexiaActive ? 'ON' : 'OFF';
+      btn.classList.toggle('active', dyslexiaActive);
+    }
+  };
+
+  window.toggleA11yFlashGuard = function() {
+    flashGuardActive = !flashGuardActive;
+    document.body.classList.toggle('photophobia-guard', flashGuardActive);
+    var btn = document.getElementById('a11yFlashBtn');
+    if (btn) {
+      btn.textContent = flashGuardActive ? 'ON' : 'OFF';
+      btn.classList.toggle('active', flashGuardActive);
+    }
+  };
+
+  window.toggleA11yReducedMotion = function() {
+    reducedMotionActive = !reducedMotionActive;
+    document.body.classList.toggle('reduced-motion', reducedMotionActive);
+    var btn = document.getElementById('a11yMotionBtn');
+    if (btn) {
+      btn.textContent = reducedMotionActive ? 'ON' : 'OFF';
+      btn.classList.toggle('active', reducedMotionActive);
+    }
+  };
+
+  window.toggleA11yRuler = function() {
+    rulerActive = !rulerActive;
+    var ruler = document.getElementById('readingRuler');
+    var btn = document.getElementById('a11yRulerBtn');
+    if (ruler) ruler.style.display = rulerActive ? 'block' : 'none';
+    if (btn) {
+      btn.textContent = rulerActive ? 'ON' : 'OFF';
+      btn.classList.toggle('active', rulerActive);
+    }
+  };
+
+  window.addEventListener('mousemove', function(e) {
+    if (rulerActive) {
+      var ruler = document.getElementById('readingRuler');
+      if (ruler) ruler.style.top = (e.clientY - 19) + 'px';
+    }
+  });
+
+  window.toggleA11yVoiceCommands = function() {
+    voiceActive = !voiceActive;
+    var btn = document.getElementById('a11yVoiceBtn');
+    var status = document.getElementById('a11yVoiceStatus');
+    if (btn) {
+      btn.textContent = voiceActive ? 'ON' : 'OFF';
+      btn.classList.toggle('active', voiceActive);
+    }
+    if (status) status.style.display = voiceActive ? 'block' : 'none';
+
+    var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      if (voiceActive) alert('Speech Recognition is not supported by your current browser.');
+      return;
+    }
+
+    if (voiceActive) {
+      if (!speechRecognizer) {
+        speechRecognizer = new SpeechRecognition();
+        speechRecognizer.continuous = true;
+        speechRecognizer.interimResults = false;
+        speechRecognizer.onresult = function(e) {
+          var last = e.results.length - 1;
+          var cmd = e.results[last][0].transcript.trim().toLowerCase();
+          handleVoiceCommand(cmd);
+        };
+      }
+      try { speechRecognizer.start(); } catch(err) {}
+    } else {
+      if (speechRecognizer) {
+        try { speechRecognizer.stop(); } catch(err) {}
+      }
+    }
+  };
+
+  function handleVoiceCommand(cmd) {
+    var status = document.getElementById('a11yVoiceStatus');
+    if (status) status.textContent = 'Command heard: "' + cmd + '"';
+
+    if (cmd.indexOf('next') !== -1) {
+      if (window.dramaticNextSentence) window.dramaticNextSentence();
+      else if (window.nextMotionPanel) window.nextMotionPanel();
+    } else if (cmd.indexOf('previous') !== -1) {
+      if (window.dramaticPrevSentence) window.dramaticPrevSentence();
+      else if (window.prevMotionPanel) window.prevMotionPanel();
+    } else if (cmd.indexOf('map') !== -1) {
+      var mapEl = document.getElementById('world-2031');
+      if (mapEl) mapEl.scrollIntoView({ behavior: 'smooth' });
+    } else if (cmd.indexOf('audio') !== -1 || cmd.indexOf('sound') !== -1) {
+      if (window.toggleAmbientSound) window.toggleAmbientSound();
+    } else if (cmd.indexOf('read') !== -1) {
+      var readEl = document.getElementById('read');
+      if (readEl) readEl.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+})();
