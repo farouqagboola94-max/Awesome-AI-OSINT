@@ -1751,6 +1751,182 @@
 </section>
 
 
+<!-- ============================================================ LAGOS CYBER-STREET SOUNDWALK & AUDIO TOUR -->
+<section id="soundwalk-tour" style="padding:6rem 1.5rem 6.5rem;background:rgba(4,5,10,0.92);border-top:1px solid rgba(244,184,0,0.22);border-bottom:1px solid rgba(0,201,177,0.22);position:relative;overflow:hidden;">
+  <div class="soundwalk-container" style="max-width:1200px;margin:0 auto;position:relative;z-index:2;">
+    <!-- Section Header -->
+    <div style="text-align:center;margin-bottom:3rem;">
+      <p class="section-label reveal" style="justify-content:center;">Binaural Field Telemetry // 2031 Audio Recon</p>
+      <h2 class="section-title reveal" style="text-align:center;">LAGOS CYBER-STREET<br><em>SOUNDWALK &amp; AUDIO TOUR</em></h2>
+      <p class="reveal" style="max-width:680px;margin:1rem auto 0;font-size:0.92rem;line-height:1.8;color:rgba(240,237,229,0.7);text-align:center;">
+        Immerse your consciousness in the living acoustic biome of 2031 Lagos. Balance procedural Danfo diesel rumble, Third Mainland thunder, Computer Village high-frequency cyber-glitch, and ethereal Ọ̀run talking drum whispers through spatial Web Audio synthesis.
+      </p>
+    </div>
+
+    <!-- Main Soundwalk Control Bay -->
+    <div class="sw-bay-grid">
+      <!-- Left: Visualizer & Spatial Radar -->
+      <div class="sw-vis-card">
+        <div class="sw-vis-header">
+          <div class="sw-vis-status"><span class="sw-status-pulse"></span> BINAURAL SPATIAL RADAR</div>
+          <div class="sw-vis-coords" id="swActiveNodeName">NODE 01: OSHODI INTERMODAL</div>
+        </div>
+        <div class="sw-canvas-wrap">
+          <canvas id="swRadarCanvas" width="480" height="320" aria-label="Acoustic Spatial Radar Canvas"></canvas>
+          <div class="sw-radar-overlay">
+            <span class="sw-radar-tag">PAN: STEREO 360°</span>
+            <span class="sw-radar-tag" id="swLiveBpmTag">SYNTH: DUAL OSC</span>
+          </div>
+        </div>
+        <!-- Tour Hotspot Nodes -->
+        <div class="sw-node-pills" role="tablist">
+          <button type="button" class="sw-node-btn active" onclick="selectSoundwalkNode(0, this)">
+            <span class="swn-id">01</span>
+            <span class="swn-info"><strong>Oshodi Intermodal</strong><em>Pneumatics &amp; Commuter Static</em></span>
+          </button>
+          <button type="button" class="sw-node-btn" onclick="selectSoundwalkNode(1, this)">
+            <span class="swn-id">02</span>
+            <span class="swn-info"><strong>Mushin Forge</strong><em>Iron Hammers &amp; Nanotech Arc</em></span>
+          </button>
+          <button type="button" class="sw-node-btn" onclick="selectSoundwalkNode(2, this)">
+            <span class="swn-id">03</span>
+            <span class="swn-info"><strong>Victoria Citadel Gate</strong><em>Surveillance Drones &amp; Forcefields</em></span>
+          </button>
+          <button type="button" class="sw-node-btn" onclick="selectSoundwalkNode(3, this)">
+            <span class="swn-id">04</span>
+            <span class="swn-info"><strong>Badagry Coastal Ruins</strong><em>Lagoon Surge &amp; Cowrie Chimes</em></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Right: 4-Channel Spatial Audio Mixer Console -->
+      <div class="sw-mixer-card">
+        <div class="sw-mixer-header">
+          <div class="sw-title">4-CHANNEL ACOUSTIC MIXER</div>
+          <div class="sw-actions">
+            <button type="button" class="sw-action-btn" id="swMasterPlayBtn" onclick="toggleSoundwalkAudio()">
+              <span id="swPlayIcon">▶</span> <span id="swPlayLabel">START SOUNDWALK</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="sw-channels-grid">
+          <!-- Channel 1: Danfo Pulse -->
+          <div class="sw-channel-strip">
+            <div class="sw-ch-head">
+              <span class="sw-ch-tag">CH 1</span>
+              <strong>Danfo Diesel Pulse</strong>
+            </div>
+            <div class="sw-ch-controls">
+              <div class="sw-slider-group">
+                <label for="swVol1">GAIN</label>
+                <input type="range" id="swVol1" min="0" max="100" value="70" oninput="updateSoundwalkChannel(0, 'vol', this.value)">
+                <span class="sw-val" id="swValVol1">70%</span>
+              </div>
+              <div class="sw-slider-group">
+                <label for="swPan1">PAN</label>
+                <input type="range" id="swPan1" min="-100" max="100" value="-30" oninput="updateSoundwalkChannel(0, 'pan', this.value)">
+                <span class="sw-val" id="swValPan1">L30</span>
+              </div>
+            </div>
+            <div class="sw-ch-foot">
+              <button type="button" class="sw-mute-btn" id="swMute1" onclick="toggleSoundwalkMute(0)">MUTE</button>
+              <span class="sw-type">SUB OSC 60Hz</span>
+            </div>
+          </div>
+
+          <!-- Channel 2: Third Mainland Thunder -->
+          <div class="sw-channel-strip">
+            <div class="sw-ch-head">
+              <span class="sw-ch-tag">CH 2</span>
+              <strong>Lagoon Storm &amp; Thunder</strong>
+            </div>
+            <div class="sw-ch-controls">
+              <div class="sw-slider-group">
+                <label for="swVol2">GAIN</label>
+                <input type="range" id="swVol2" min="0" max="100" value="55" oninput="updateSoundwalkChannel(1, 'vol', this.value)">
+                <span class="sw-val" id="swValVol2">55%</span>
+              </div>
+              <div class="sw-slider-group">
+                <label for="swPan2">PAN</label>
+                <input type="range" id="swPan2" min="-100" max="100" value="40" oninput="updateSoundwalkChannel(1, 'pan', this.value)">
+                <span class="sw-val" id="swValPan2">R40</span>
+              </div>
+            </div>
+            <div class="sw-ch-foot">
+              <button type="button" class="sw-mute-btn" id="swMute2" onclick="toggleSoundwalkMute(1)">MUTE</button>
+              <span class="sw-type">PINK NOISE BPF</span>
+            </div>
+          </div>
+
+          <!-- Channel 3: Computer Village Cyber-Glitch -->
+          <div class="sw-channel-strip">
+            <div class="sw-ch-head">
+              <span class="sw-ch-tag">CH 3</span>
+              <strong>Computer Village Glitch</strong>
+            </div>
+            <div class="sw-ch-controls">
+              <div class="sw-slider-group">
+                <label for="swVol3">GAIN</label>
+                <input type="range" id="swVol3" min="0" max="100" value="45" oninput="updateSoundwalkChannel(2, 'vol', this.value)">
+                <span class="sw-val" id="swValVol3">45%</span>
+              </div>
+              <div class="sw-slider-group">
+                <label for="swPan3">PAN</label>
+                <input type="range" id="swPan3" min="-100" max="100" value="10" oninput="updateSoundwalkChannel(2, 'pan', this.value)">
+                <span class="sw-val" id="swValPan3">R10</span>
+              </div>
+            </div>
+            <div class="sw-ch-foot">
+              <button type="button" class="sw-mute-btn" id="swMute3" onclick="toggleSoundwalkMute(2)">MUTE</button>
+              <span class="sw-type">FM SYNTH 8kHz</span>
+            </div>
+          </div>
+
+          <!-- Channel 4: Ancestral Gángan Whisper -->
+          <div class="sw-channel-strip">
+            <div class="sw-ch-head">
+              <span class="sw-ch-tag">CH 4</span>
+              <strong>Ọ̀run Talking Drum Drone</strong>
+            </div>
+            <div class="sw-ch-controls">
+              <div class="sw-slider-group">
+                <label for="swVol4">GAIN</label>
+                <input type="range" id="swVol4" min="0" max="100" value="65" oninput="updateSoundwalkChannel(3, 'vol', this.value)">
+                <span class="sw-val" id="swValVol4">65%</span>
+              </div>
+              <div class="sw-slider-group">
+                <label for="swPan4">PAN</label>
+                <input type="range" id="swPan4" min="-100" max="100" value="-50" oninput="updateSoundwalkChannel(3, 'pan', this.value)">
+                <span class="sw-val" id="swValPan4">L50</span>
+              </div>
+            </div>
+            <div class="sw-ch-foot">
+              <button type="button" class="sw-mute-btn" id="swMute4" onclick="toggleSoundwalkMute(3)">MUTE</button>
+              <span class="sw-type">PITCH GLIDE SINE</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Presets & Field Memo Recorder -->
+        <div class="sw-presets-bar">
+          <div class="sw-preset-group">
+            <span class="sw-preset-lbl">ATMOSPHERIC PRESETS:</span>
+            <button type="button" class="sw-pst-btn" onclick="applySoundwalkPreset('rush')">⚡ Morning Rush (07:00)</button>
+            <button type="button" class="sw-pst-btn" onclick="applySoundwalkPreset('monsoon')">🌧️ Monsoon Blackout (21:00)</button>
+            <button type="button" class="sw-pst-btn" onclick="applySoundwalkPreset('insurgency')">🛡️ Midnight Insurgency (02:00)</button>
+          </div>
+          <button type="button" class="sw-record-btn" onclick="recordSoundwalkFieldSample()">
+            ✦ LOG FIELD MEMO
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
 <!-- ============================================================ 600-YEAR ANCESTRAL CHRONOLOGY & TIMELINE -->
 <section id="lore-timeline">
   <div class="timeline-wrap">
@@ -4676,6 +4852,125 @@
   </div>
 </section>
 
+
+<!-- ============================================================ 3D AR SACRED RELIC HOLOGRAPHIC INSPECTOR -->
+<section id="ar-relic-viewer" style="padding:6.5rem 1.5rem 7rem;background:rgba(2,3,8,0.94);border-top:1px solid rgba(0,201,177,0.25);border-bottom:1px solid rgba(244,184,0,0.25);position:relative;overflow:hidden;">
+  <div class="ar-relic-container" style="max-width:1200px;margin:0 auto;position:relative;z-index:2;">
+    <!-- Section Header -->
+    <div style="text-align:center;margin-bottom:3rem;">
+      <p class="section-label reveal" style="justify-content:center;">3D Holographic Matrix // Void Belt Declassified</p>
+      <h2 class="section-title reveal" style="text-align:center;">3D AR SACRED RELIC<br><em>HOLOGRAPHIC INSPECTOR</em></h2>
+      <p class="reveal" style="max-width:680px;margin:1rem auto 0;font-size:0.92rem;line-height:1.8;color:rgba(240,237,229,0.7);text-align:center;">
+        Manipulate and inspect the 4 sovereign sacred artifacts recovered from the 1440 Void Belt contact. Rotate in 360° orbital space, dissect internal Aṣẹ conduits, trigger thermal ionization scans, and render high-resolution declassified blueprints.
+      </p>
+    </div>
+
+    <!-- Inspector Main Workstation -->
+    <div class="ar-inspector-grid">
+      <!-- 3D Viewport View -->
+      <div class="ar-viewport-card">
+        <div class="ar-hud-top">
+          <div class="ar-hud-tag"><span class="ar-status-dot"></span> ORBITAL 3D PROJECTION</div>
+          <div class="ar-hud-telemetry" id="arHudTelemetry">ROT: [0°, 0°] · ZOOM: 1.0X</div>
+          <button type="button" class="ar-hud-btn" id="arAutoSpinBtn" onclick="toggleRelicAutoSpin()">AUTO-SPIN: ON</button>
+        </div>
+
+        <div class="ar-canvas-stage" id="arCanvasStage">
+          <canvas id="relicCanvas3d" width="600" height="420" aria-label="3D Holographic Sacred Relic Viewport"></canvas>
+          <!-- HUD Crosshair Overlays -->
+          <div class="ar-hud-reticle" aria-hidden="true"></div>
+          <div class="ar-hud-corner tl" aria-hidden="true"></div>
+          <div class="ar-hud-corner tr" aria-hidden="true"></div>
+          <div class="ar-hud-corner bl" aria-hidden="true"></div>
+          <div class="ar-hud-corner br" aria-hidden="true"></div>
+          <div class="ar-hud-scanline" aria-hidden="true"></div>
+          <div class="ar-hud-badge" id="arRelicHoloBadge">AṢẸ CHARGE: 98.4%</div>
+        </div>
+
+        <!-- Diagnostic Mode Toggles -->
+        <div class="ar-mode-controls">
+          <button type="button" class="ar-mode-btn active" onclick="setRelicRenderMode('wireframe', this)">
+            <span class="ar-mb-icon">◈</span> WIREFRAME VECTOR
+          </button>
+          <button type="button" class="ar-mode-btn" onclick="setRelicRenderMode('thermal', this)">
+            <span class="ar-mb-icon">🔥</span> THERMAL IONIZATION
+          </button>
+          <button type="button" class="ar-mode-btn" onclick="setRelicRenderMode('blueprint', this)">
+            <span class="ar-mb-icon">📐</span> BLUEPRINT SCHEMATIC
+          </button>
+        </div>
+      </div>
+
+      <!-- Relic Dossier & Diagnostic Controls -->
+      <div class="ar-dossier-card">
+        <!-- Relic Selector Tabs -->
+        <div class="ar-relic-tabs" role="tablist">
+          <button type="button" class="ar-tab-btn active" onclick="selectArRelic('ogun', this)">
+            <span class="ar-tb-name">Àdá Ògún</span>
+            <span class="ar-tb-orisha">Ògún</span>
+          </button>
+          <button type="button" class="ar-tab-btn" onclick="selectArRelic('oya', this)">
+            <span class="ar-tb-name">Òrùka Ìjì</span>
+            <span class="ar-tb-orisha">Ọya</span>
+          </button>
+          <button type="button" class="ar-tab-btn" onclick="selectArRelic('sango', this)">
+            <span class="ar-tb-name">Osé Ṣàngó</span>
+            <span class="ar-tb-orisha">Ṣàngó</span>
+          </button>
+          <button type="button" class="ar-tab-btn" onclick="selectArRelic('osun', this)">
+            <span class="ar-tb-name">Awo Ojú Ti Ọ̀ṣun</span>
+            <span class="ar-tb-orisha">Ọ̀ṣun</span>
+          </button>
+        </div>
+
+        <!-- Telemetry Data Sheet -->
+        <div class="ar-spec-sheet">
+          <div class="ar-spec-header">
+            <span class="ar-spec-sub" id="arRelicArchetype">PRIMARY ORISHA METALLURGY</span>
+            <h3 class="ar-spec-title" id="arRelicTitle">Àdá Ògún (Iron Nanoweave Blade)</h3>
+          </div>
+          <p class="ar-spec-desc" id="arRelicDesc">
+            Forged in the subterranean iron foundries of ancient Ilubirin during the First Celestial Contact of 1440. Oscillates at a resonant 432 Hz frequency capable of slicing through corporate plasma shielding.
+          </p>
+
+          <div class="ar-metrics-grid">
+            <div class="ar-metric-box">
+              <span class="ar-mb-lbl">AṢẸ LEVEL</span>
+              <strong class="ar-mb-val" id="arRelicAseVal">1,400 Units</strong>
+              <div class="ar-meter"><div class="ar-meter-fill" id="arRelicAseBar" style="width:92%"></div></div>
+            </div>
+            <div class="ar-metric-box">
+              <span class="ar-mb-lbl">RESONANCE FREQ</span>
+              <strong class="ar-mb-val" id="arRelicFreqVal">432 Hz Harmonic</strong>
+              <div class="ar-meter"><div class="ar-meter-fill teal" id="arRelicFreqBar" style="width:78%"></div></div>
+            </div>
+            <div class="ar-metric-box">
+              <span class="ar-mb-lbl">ALLOY HARDNESS</span>
+              <strong class="ar-mb-val" id="arRelicAlloyVal">99.4% Meteoric Core</strong>
+              <div class="ar-meter"><div class="ar-meter-fill" id="arRelicAlloyBar" style="width:99%"></div></div>
+            </div>
+            <div class="ar-metric-box">
+              <span class="ar-mb-lbl">THREAT RATING</span>
+              <strong class="ar-mb-val" id="arRelicThreatVal" style="color:#FF3B30">CLASS 5 OMEGA</strong>
+              <div class="ar-meter"><div class="ar-meter-fill red" id="arRelicThreatBar" style="width:95%"></div></div>
+            </div>
+          </div>
+
+          <div class="ar-actions-row">
+            <button type="button" class="ar-action-btn primary" onclick="exportRelicHoloPng()">
+              📷 EXPORT 3D SCHEMATIC (PNG)
+            </button>
+            <button type="button" class="ar-action-btn secondary" onclick="simulateRelicDischarge()">
+              ⚡ DISCHARGE AṢẸ PULSE
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 <!-- ============================================================ FREE ISSUE READER -->
 <section id="read">
     <img class="section-photo-bg" src="./assets/corridor.webp" alt="Neon corridor depth" loading="lazy" aria-hidden="true">
@@ -7185,6 +7480,115 @@
     </div>
   </div>
 </section>
+
+
+<!-- ============================================================ TACTICAL ENCRYPTED OPERATIVE WAR ROOM -->
+<section id="war-room-chat" style="padding:6.5rem 1.5rem 7rem;background:rgba(5,6,12,0.96);border-top:1px solid rgba(244,184,0,0.22);border-bottom:1px solid rgba(0,201,177,0.22);position:relative;overflow:hidden;">
+  <div class="war-room-container" style="max-width:1200px;margin:0 auto;position:relative;z-index:2;">
+    <!-- Section Header -->
+    <div style="text-align:center;margin-bottom:3rem;">
+      <p class="section-label reveal" style="justify-content:center;">Tactical Insurgency Network // Encrypted Frequency</p>
+      <h2 class="section-title reveal" style="text-align:center;">TACTICAL ENCRYPTED<br><em>OPERATIVE WAR ROOM</em></h2>
+      <p class="reveal" style="max-width:680px;margin:1rem auto 0;font-size:0.92rem;line-height:1.8;color:rgba(240,237,229,0.7);text-align:center;">
+        Direct encrypted transmission node connecting field operatives across Greater Lagos. Intercept incoming resistance signals, tune frequencies, decrypt intercepted Odu matrix ciphers, and issue tactical recon pings to safeguard the city.
+      </p>
+    </div>
+
+    <!-- War Room Main Frame -->
+    <div class="wr-main-frame">
+      <!-- Left Column: Frequency Tuner & Threat Grid -->
+      <div class="wr-sidebar">
+        <!-- Frequency Selector -->
+        <div class="wr-channel-box">
+          <div class="wr-box-title">
+            <span>FREQUENCY TUNER</span>
+            <span class="wr-live-dot"></span>
+          </div>
+          <div class="wr-channel-list" role="tablist">
+            <button type="button" class="wr-ch-btn active" onclick="switchWarRoomChannel('resistance', this)">
+              <span class="wr-ch-freq">104.4 MHz</span>
+              <span class="wr-ch-name">Lagos Underground (Ade)</span>
+              <span class="wr-ch-status">SECURE</span>
+            </button>
+            <button type="button" class="wr-ch-btn" onclick="switchWarRoomChannel('forge', this)">
+              <span class="wr-ch-freq">92.1 MHz</span>
+              <span class="wr-ch-name">Iron Forge Vanguard (Tunde)</span>
+              <span class="wr-ch-status">ENCRYPTED</span>
+            </button>
+            <button type="button" class="wr-ch-btn" onclick="switchWarRoomChannel('oracle', this)">
+              <span class="wr-ch-freq">88.8 MHz</span>
+              <span class="wr-ch-name">Cyber-Oracle Feed (Kemi)</span>
+              <span class="wr-ch-status">Ọ̀RUN SYNC</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Lagos District Threat Status -->
+        <div class="wr-threat-box">
+          <div class="wr-box-title">LAGOS DEFCON STATUS</div>
+          <div class="wr-district-list">
+            <div class="wr-dist-row">
+              <span class="wr-dist-name">Mushin Sub-Grid</span>
+              <span class="wr-dist-pill red">ALERT: DEFCON 2</span>
+            </div>
+            <div class="wr-dist-row">
+              <span class="wr-dist-name">Eko Atlantic Glass Citadel</span>
+              <span class="wr-dist-pill gold">SURVEILLANCE HIGH</span>
+            </div>
+            <div class="wr-dist-row">
+              <span class="wr-dist-name">Third Mainland Bridge</span>
+              <span class="wr-dist-pill red">QUARANTINE 68%</span>
+            </div>
+            <div class="wr-dist-row">
+              <span class="wr-dist-name">Badagry Coastal Nexus</span>
+              <span class="wr-dist-pill teal">SECURE HOLD</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cipher Decoder Mini-Game Box -->
+        <div class="wr-cipher-box">
+          <div class="wr-box-title">ODU CIPHER DECODER</div>
+          <div class="wr-cipher-display" id="wrCipherRaw">[ODU-1010]: XN-ZUR-ORUN-77</div>
+          <div class="wr-cipher-slider-wrap">
+            <label for="wrCipherShift">AṢẸ FREQ KEY SHIFT:</label>
+            <input type="range" id="wrCipherShift" min="1" max="15" value="3" oninput="solveWarRoomCipher(this.value)">
+            <span id="wrCipherKeyVal">KEY: 03</span>
+          </div>
+          <div class="wr-cipher-result" id="wrCipherResult">STATUS: ENCRYPTED</div>
+        </div>
+      </div>
+
+      <!-- Right Column: Live Intercept Terminal -->
+      <div class="wr-terminal-panel">
+        <div class="wr-term-header">
+          <div class="wr-term-title">
+            <span class="wr-term-icon">📟</span> SECURE TRANSMISSION INTERCEPT // RECON CH-104.4
+          </div>
+          <div class="wr-term-meta">
+            <span class="wr-sig-badge">RSSI: -42 dBm</span>
+            <span class="wr-sig-badge teal">SHA-256 VERIFIED</span>
+          </div>
+        </div>
+
+        <!-- Message Feed Stream -->
+        <div class="wr-feed-stream" id="wrFeedStream" aria-live="polite">
+          <!-- Transmissions dynamically rendered -->
+        </div>
+
+        <!-- Dispatch Input Bar -->
+        <form class="wr-input-bar" onsubmit="event.preventDefault(); submitWarRoomDispatch(event)">
+          <div class="wr-input-prefix">&gt;</div>
+          <input type="text" id="wrDispatchInput" class="wr-dispatch-input" placeholder="Type tactical command or dispatch (e.g. status, deploy, ogun, bridge, orun)..." aria-label="Tactical Dispatch Command">
+          <button type="submit" class="wr-send-btn">
+            TRANSMIT <span>✦</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
 
 <section id="access">
   <div class="access-header">

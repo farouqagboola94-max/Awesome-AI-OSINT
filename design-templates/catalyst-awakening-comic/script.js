@@ -12543,3 +12543,942 @@ var TC_ENDINGS = {
     renderOmniResults();
   }
 })();
+
+/* ==========================================================================
+   FEATURE 3: LAGOS CYBER-STREET SOUNDWALK & AUDIO TOUR ENGINE (#soundwalk-tour)
+   ========================================================================== */
+(function initSoundwalkEngine() {
+  var audioCtx = null;
+  var isPlaying = false;
+  var masterGain = null;
+  var animFrameId = null;
+  var activeNodeIndex = 0;
+
+  var nodes = [
+    { name: "NODE 01: OSHODI INTERMODAL", desc: "Pneumatics & Commuter Static", pan: -0.3, vol: [0.8, 0.4, 0.5, 0.4] },
+    { name: "NODE 02: MUSHIN FORGE", desc: "Iron Hammers & Nanotech Arc", pan: -0.6, vol: [0.6, 0.3, 0.7, 0.8] },
+    { name: "NODE 03: VICTORIA CITADEL GATE", desc: "Surveillance Drones & Forcefields", pan: 0.5, vol: [0.4, 0.5, 0.9, 0.3] },
+    { name: "NODE 04: BADAGRY COASTAL RUINS", desc: "Lagoon Surge & Cowrie Chimes", pan: 0.2, vol: [0.3, 0.9, 0.3, 0.7] }
+  ];
+
+  var channels = [
+    { name: "Danfo Pulse", node: null, gain: null, panner: null, vol: 0.7, pan: -0.3, muted: false },
+    { name: "Lagoon Storm", node: null, gain: null, panner: null, vol: 0.55, pan: 0.4, muted: false },
+    { name: "Computer Village", node: null, gain: null, panner: null, vol: 0.45, pan: 0.1, muted: false },
+    { name: "Ọ̀run Drone", node: null, gain: null, panner: null, vol: 0.65, pan: -0.5, muted: false }
+  ];
+
+  function getAudioContext() {
+    if (!audioCtx) {
+      var AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (AudioContextClass) {
+        audioCtx = new AudioContextClass();
+        masterGain = audioCtx.createGain();
+        masterGain.gain.setValueAtTime(0.8, audioCtx.currentTime);
+        masterGain.connect(audioCtx.destination);
+      }
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    return audioCtx;
+  }
+
+  function setupChannelNodes() {
+    var ctx = getAudioContext();
+    if (!ctx) return;
+
+    // Channel 0: Danfo diesel sub pulse
+    var osc1 = ctx.createOscillator();
+    osc1.type = 'sawtooth';
+    osc1.frequency.setValueAtTime(58, ctx.currentTime);
+    var filter1 = ctx.createBiquadFilter();
+    filter1.type = 'lowpass';
+    filter1.frequency.setValueAtTime(140, ctx.currentTime);
+    var gain1 = ctx.createGain();
+    var pan1 = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+    osc1.connect(filter1);
+    filter1.connect(gain1);
+    if (pan1) {
+      gain1.connect(pan1);
+      pan1.connect(masterGain);
+      pan1.pan.setValueAtTime(channels[0].pan, ctx.currentTime);
+    } else {
+      gain1.connect(masterGain);
+    }
+    gain1.gain.setValueAtTime(channels[0].muted ? 0 : channels[0].vol * 0.4, ctx.currentTime);
+    osc1.start();
+    channels[0].node = osc1;
+    channels[0].gain = gain1;
+    channels[0].panner = pan1;
+
+    // Channel 1: Lagoon storm rain & thunder (white/pink noise buffer)
+    var bufferSize = ctx.sampleRate * 2;
+    var noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    var output = noiseBuffer.getChannelData(0);
+    var b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+    for (var i = 0; i < bufferSize; i++) {
+      var white = Math.random() * 2 - 1;
+      b0 = 0.99886 * b0 + white * 0.0555179;
+      b1 = 0.99332 * b1 + white * 0.0750759;
+      b2 = 0.96900 * b2 + white * 0.1538520;
+      b3 = 0.86650 * b3 + white * 0.3104856;
+      b4 = 0.55000 * b4 + white * 0.5329522;
+      b5 = -0.7616 * b5 - white * 0.0168980;
+      output[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.11;
+      b6 = white * 0.115926;
+    }
+    var noiseSource = ctx.createBufferSource();
+    noiseSource.buffer = noiseBuffer;
+    noiseSource.loop = true;
+    var filter2 = ctx.createBiquadFilter();
+    filter2.type = 'bandpass';
+    filter2.frequency.setValueAtTime(750, ctx.currentTime);
+    filter2.Q.setValueAtTime(1.2, ctx.currentTime);
+    var gain2 = ctx.createGain();
+    var pan2 = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+    noiseSource.connect(filter2);
+    filter2.connect(gain2);
+    if (pan2) {
+      gain2.connect(pan2);
+      pan2.connect(masterGain);
+      pan2.pan.setValueAtTime(channels[1].pan, ctx.currentTime);
+    } else {
+      gain2.connect(masterGain);
+    }
+    gain2.gain.setValueAtTime(channels[1].muted ? 0 : channels[1].vol * 0.35, ctx.currentTime);
+    noiseSource.start();
+    channels[1].node = noiseSource;
+    channels[1].gain = gain2;
+    channels[1].panner = pan2;
+
+    // Channel 2: Computer Village cyber-glitch (FM chirp)
+    var carrier = ctx.createOscillator();
+    var mod = ctx.createOscillator();
+    var modGain = ctx.createGain();
+    carrier.type = 'triangle';
+    carrier.frequency.setValueAtTime(650, ctx.currentTime);
+    mod.type = 'square';
+    mod.frequency.setValueAtTime(12, ctx.currentTime);
+    modGain.gain.setValueAtTime(300, ctx.currentTime);
+    mod.connect(modGain);
+    modGain.connect(carrier.frequency);
+    var filter3 = ctx.createBiquadFilter();
+    filter3.type = 'highpass';
+    filter3.frequency.setValueAtTime(500, ctx.currentTime);
+    var gain3 = ctx.createGain();
+    var pan3 = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+    carrier.connect(filter3);
+    filter3.connect(gain3);
+    if (pan3) {
+      gain3.connect(pan3);
+      pan3.connect(masterGain);
+      pan3.pan.setValueAtTime(channels[2].pan, ctx.currentTime);
+    } else {
+      gain3.connect(masterGain);
+    }
+    gain3.gain.setValueAtTime(channels[2].muted ? 0 : channels[2].vol * 0.15, ctx.currentTime);
+    carrier.start();
+    mod.start();
+    channels[2].node = carrier;
+    channels[2].gain = gain3;
+    channels[2].panner = pan3;
+
+    // Channel 3: Ọ̀run talking drum sine drone with subtle vibrato
+    var osc4 = ctx.createOscillator();
+    osc4.type = 'sine';
+    osc4.frequency.setValueAtTime(196, ctx.currentTime);
+    var lfo = ctx.createOscillator();
+    var lfoGain = ctx.createGain();
+    lfo.frequency.setValueAtTime(1.5, ctx.currentTime);
+    lfoGain.gain.setValueAtTime(18, ctx.currentTime);
+    lfo.connect(lfoGain);
+    lfoGain.connect(osc4.frequency);
+    var gain4 = ctx.createGain();
+    var pan4 = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+    osc4.connect(gain4);
+    if (pan4) {
+      gain4.connect(pan4);
+      pan4.connect(masterGain);
+      pan4.pan.setValueAtTime(channels[3].pan, ctx.currentTime);
+    } else {
+      gain4.connect(masterGain);
+    }
+    gain4.gain.setValueAtTime(channels[3].muted ? 0 : channels[3].vol * 0.35, ctx.currentTime);
+    osc4.start();
+    lfo.start();
+    channels[3].node = osc4;
+    channels[3].gain = gain4;
+    channels[3].panner = pan4;
+  }
+
+  function stopChannelNodes() {
+    for (var i = 0; i < channels.length; i++) {
+      if (channels[i].node) {
+        try { channels[i].node.stop(); } catch(e) {}
+        channels[i].node = null;
+        channels[i].gain = null;
+        channels[i].panner = null;
+      }
+    }
+  }
+
+  window.toggleSoundwalkAudio = function() {
+    var btn = document.getElementById('swMasterPlayBtn');
+    var icon = document.getElementById('swPlayIcon');
+    var label = document.getElementById('swPlayLabel');
+
+    if (!isPlaying) {
+      var ctx = getAudioContext();
+      if (!ctx) return;
+      setupChannelNodes();
+      isPlaying = true;
+      if (btn) btn.style.background = 'var(--gold, #F4B800)';
+      if (btn) btn.style.color = '#06060D';
+      if (icon) icon.textContent = '⏸';
+      if (label) label.textContent = 'PAUSE SOUNDWALK';
+      startRadarLoop();
+      if (typeof showToast === 'function') {
+        showToast('🎧 Lagos 2031 Spatial Soundwalk Active: ' + nodes[activeNodeIndex].name);
+      }
+    } else {
+      stopChannelNodes();
+      isPlaying = false;
+      if (btn) btn.style.background = '';
+      if (btn) btn.style.color = '';
+      if (icon) icon.textContent = '▶';
+      if (label) label.textContent = 'START SOUNDWALK';
+    }
+  };
+
+  window.updateSoundwalkChannel = function(chIdx, param, val) {
+    if (!channels[chIdx]) return;
+    var num = parseFloat(val);
+    if (param === 'vol') {
+      channels[chIdx].vol = num / 100;
+      var lbl = document.getElementById('swValVol' + (chIdx + 1));
+      if (lbl) lbl.textContent = Math.round(num) + '%';
+      if (channels[chIdx].gain && audioCtx && !channels[chIdx].muted) {
+        channels[chIdx].gain.gain.setValueAtTime(channels[chIdx].vol * 0.35, audioCtx.currentTime);
+      }
+    } else if (param === 'pan') {
+      channels[chIdx].pan = num / 100;
+      var panLbl = document.getElementById('swValPan' + (chIdx + 1));
+      if (panLbl) {
+        var side = num < 0 ? 'L' + Math.abs(Math.round(num)) : (num > 0 ? 'R' + Math.round(num) : 'C');
+        panLbl.textContent = side;
+      }
+      if (channels[chIdx].panner && audioCtx) {
+        channels[chIdx].panner.pan.setValueAtTime(channels[chIdx].pan, audioCtx.currentTime);
+      }
+    }
+  };
+
+  window.toggleSoundwalkMute = function(chIdx) {
+    if (!channels[chIdx]) return;
+    channels[chIdx].muted = !channels[chIdx].muted;
+    var btn = document.getElementById('swMute' + (chIdx + 1));
+    if (btn) {
+      if (channels[chIdx].muted) {
+        btn.classList.add('muted');
+        btn.textContent = 'MUTED';
+      } else {
+        btn.classList.remove('muted');
+        btn.textContent = 'MUTE';
+      }
+    }
+    if (channels[chIdx].gain && audioCtx) {
+      var targetGain = channels[chIdx].muted ? 0 : channels[chIdx].vol * 0.35;
+      channels[chIdx].gain.gain.setValueAtTime(targetGain, audioCtx.currentTime);
+    }
+  };
+
+  window.selectSoundwalkNode = function(nodeIdx, btnEl) {
+    activeNodeIndex = nodeIdx;
+    var nameEl = document.getElementById('swActiveNodeName');
+    if (nameEl) nameEl.textContent = nodes[nodeIdx].name;
+
+    var allBtns = document.querySelectorAll('.sw-node-btn');
+    allBtns.forEach(function(b) { b.classList.remove('active'); });
+    if (btnEl) btnEl.classList.add('active');
+
+    // Smoothly interpolate channel volumes for selected node
+    var node = nodes[nodeIdx];
+    for (var i = 0; i < channels.length; i++) {
+      var targetVol = Math.round(node.vol[i] * 100);
+      var slider = document.getElementById('swVol' + (i + 1));
+      if (slider) {
+        slider.value = targetVol;
+        window.updateSoundwalkChannel(i, 'vol', targetVol);
+      }
+    }
+  };
+
+  window.applySoundwalkPreset = function(type) {
+    if (type === 'rush') {
+      window.updateSoundwalkChannel(0, 'vol', 85);
+      window.updateSoundwalkChannel(1, 'vol', 35);
+      window.updateSoundwalkChannel(2, 'vol', 65);
+      window.updateSoundwalkChannel(3, 'vol', 50);
+    } else if (type === 'monsoon') {
+      window.updateSoundwalkChannel(0, 'vol', 30);
+      window.updateSoundwalkChannel(1, 'vol', 95);
+      window.updateSoundwalkChannel(2, 'vol', 25);
+      window.updateSoundwalkChannel(3, 'vol', 75);
+    } else if (type === 'insurgency') {
+      window.updateSoundwalkChannel(0, 'vol', 50);
+      window.updateSoundwalkChannel(1, 'vol', 40);
+      window.updateSoundwalkChannel(2, 'vol', 85);
+      window.updateSoundwalkChannel(3, 'vol', 80);
+    }
+    // Update range input DOM elements
+    for (var i = 0; i < channels.length; i++) {
+      var slider = document.getElementById('swVol' + (i + 1));
+      if (slider) slider.value = Math.round(channels[i].vol * 100);
+    }
+    if (typeof showToast === 'function') {
+      showToast('⚡ Atmospheric Soundwalk Preset Engaged: ' + type.toUpperCase());
+    }
+  };
+
+  window.recordSoundwalkFieldSample = function() {
+    var memoText = '✦ Field Memo #' + Math.floor(1000 + Math.random() * 9000) + ' saved at ' + nodes[activeNodeIndex].name;
+    if (typeof showToast === 'function') {
+      showToast(memoText);
+    }
+  };
+
+  // Canvas Radar Loop
+  function startRadarLoop() {
+    var canvas = document.getElementById('swRadarCanvas');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var angle = 0;
+
+    function renderRadar() {
+      ctx.fillStyle = 'rgba(3, 5, 10, 0.18)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      var cx = canvas.width / 2;
+      var cy = canvas.height / 2;
+      var maxR = Math.min(cx, cy) - 20;
+
+      // Concentric circles
+      ctx.strokeStyle = 'rgba(0, 201, 177, 0.2)';
+      ctx.lineWidth = 1;
+      for (var r = 30; r <= maxR; r += 35) {
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      // Crosshairs
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - maxR); ctx.lineTo(cx, cy + maxR);
+      ctx.moveTo(cx - maxR, cy); ctx.lineTo(cx + maxR, cy);
+      ctx.stroke();
+
+      // Rotating radar beam
+      angle += isPlaying ? 0.03 : 0.005;
+      var bx = cx + Math.cos(angle) * maxR;
+      var by = cy + Math.sin(angle) * maxR;
+      var grad = ctx.createRadialGradient(cx, cy, 5, bx, by, maxR);
+      grad.addColorStop(0, 'rgba(0, 201, 177, 0.4)');
+      grad.addColorStop(1, 'transparent');
+      ctx.strokeStyle = 'rgba(0, 201, 177, 0.8)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(bx, by);
+      ctx.stroke();
+
+      // Draw node beacons
+      var nodeCoords = [
+        { x: cx - 60, y: cy - 40, col: '#F4B800' },
+        { x: cx - 40, y: cy + 50, col: '#FF3B30' },
+        { x: cx + 70, y: cy - 30, col: '#00C9B1' },
+        { x: cx + 50, y: cy + 60, col: '#F4B800' }
+      ];
+
+      for (var n = 0; n < nodeCoords.length; n++) {
+        var pt = nodeCoords[n];
+        var isAct = (n === activeNodeIndex);
+        ctx.fillStyle = pt.col;
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, isAct ? 6 : 3.5, 0, Math.PI * 2);
+        ctx.fill();
+        if (isAct) {
+          ctx.strokeStyle = pt.col;
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y, 10 + Math.sin(angle * 3) * 3, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+      }
+
+      animFrameId = requestAnimationFrame(renderRadar);
+    }
+
+    if (!animFrameId) {
+      renderRadar();
+    }
+  }
+
+  // Initialize static radar preview on load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startRadarLoop);
+  } else {
+    setTimeout(startRadarLoop, 300);
+  }
+})();
+
+/* ==========================================================================
+   FEATURE 4: 3D AR SACRED RELIC HOLOGRAPHIC INSPECTOR ENGINE (#ar-relic-viewer)
+   ========================================================================== */
+(function initRelicHologramEngine() {
+  var canvas = null;
+  var ctx = null;
+  var rotX = 0.3;
+  var rotY = 0.5;
+  var isDragging = false;
+  var lastMouseX = 0;
+  var lastMouseY = 0;
+  var autoSpin = true;
+  var renderMode = 'wireframe'; // 'wireframe', 'thermal', 'blueprint'
+  var activeRelicKey = 'ogun';
+  var animId = null;
+
+  var relicsData = {
+    ogun: {
+      title: "Àdá Ògún (Iron Nanoweave Blade)",
+      orisha: "Ògún",
+      archetype: "PRIMARY ORISHA METALLURGY",
+      desc: "Forged in the subterranean iron foundries of ancient Ilubirin during the First Celestial Contact of 1440. Oscillates at a resonant 432 Hz frequency capable of slicing through corporate plasma shielding.",
+      ase: "1,400 Units", freq: "432 Hz Harmonic", alloy: "99.4% Meteoric Core", threat: "CLASS 5 OMEGA",
+      asePct: 92, freqPct: 78, alloyPct: 99, threatPct: 95,
+      color: "#F4B800",
+      geom: generateBladeGeom()
+    },
+    oya: {
+      title: "Òrùka Ìjì (Atmospheric Storm Torus)",
+      orisha: "Ọya",
+      archetype: "WEATHER MANIPULATION RELIC",
+      desc: "Aerodynamic concentric rings forged from celestial brass and lightning-attracting meteoric fragments. Generates localized cyclonic forcefields and manipulates barometric pressure.",
+      ase: "1,250 Units", freq: "528 Hz Harmonic", alloy: "94.2% Electrum Brass", threat: "CLASS 4 DELTA",
+      asePct: 84, freqPct: 88, alloyPct: 91, threatPct: 82,
+      color: "#00C9B1",
+      geom: generateTorusGeom()
+    },
+    sango: {
+      title: "Osé Ṣàngó (Dual-Headed Thunder Axe)",
+      orisha: "Ṣàngó",
+      archetype: "PLASMA CONDUCTION MATRIX",
+      desc: "Twin obsidian blades bonded with superconductor circuits. Channels up to 50,000 amperes of bio-plasma lightning directly from the upper ionosphere.",
+      ase: "1,850 Units", freq: "639 Hz Harmonic", alloy: "98.7% Volcanic Obsidian", threat: "CLASS 5 CRITICAL",
+      asePct: 98, freqPct: 94, alloyPct: 95, threatPct: 99,
+      color: "#FF3B30",
+      geom: generateAxeGeom()
+    },
+    osun: {
+      title: "Awo Ojú Ti Ọ̀ṣun (Golden Mirror of Truth)",
+      orisha: "Ọ̀ṣun",
+      archetype: "PHOTONIC PRECOGNITION RELIC",
+      desc: "Monolithic golden alloy disc polished to atomic flatness. Emits coherent photon pulses that reveal cloaked Void entities and reflect particle munitions.",
+      ase: "1,150 Units", freq: "741 Hz Harmonic", alloy: "99.9% Refined Gold Alloy", threat: "CLASS 3 SIGMA",
+      asePct: 76, freqPct: 82, alloyPct: 100, threatPct: 65,
+      color: "#F4B800",
+      geom: generateMirrorGeom()
+    }
+  };
+
+  // 3D Geometry Generators (vertices & edges)
+  function generateBladeGeom() {
+    var v = [
+      // Blade spine & edge
+      [0, -110, 0], [15, -70, 0], [20, 20, 0], [15, 60, 0], [0, 80, 0], [-10, 30, 0], [-10, -50, 0],
+      // Blade 3D bevel (z-offset)
+      [0, -110, 10], [10, -70, 8], [12, 20, 8], [10, 60, 6], [0, 80, 4],
+      // Hilt & pommel
+      [0, 80, 0], [0, 120, 0], [-15, 125, 0], [15, 125, 0], [0, 135, 0]
+    ];
+    var e = [
+      [0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,0],
+      [7,8],[8,9],[9,10],[10,11],
+      [0,7],[1,8],[2,9],[3,10],[4,11],
+      [12,13],[14,15],[13,16]
+    ];
+    return { vertices: v, edges: e };
+  }
+
+  function generateTorusGeom() {
+    var v = [];
+    var e = [];
+    var segs = 16;
+    var rOuter = 85;
+    var rInner = 50;
+    for (var i = 0; i < segs; i++) {
+      var th = (i / segs) * Math.PI * 2;
+      v.push([Math.cos(th) * rOuter, Math.sin(th) * rOuter, 0]);
+      v.push([Math.cos(th) * rInner, Math.sin(th) * rInner, 15]);
+      v.push([Math.cos(th) * rInner, Math.sin(th) * rInner, -15]);
+    }
+    for (var j = 0; j < segs; j++) {
+      var nxt = (j + 1) % segs;
+      e.push([j * 3, nxt * 3]);
+      e.push([j * 3 + 1, nxt * 3 + 1]);
+      e.push([j * 3 + 2, nxt * 3 + 2]);
+      e.push([j * 3, j * 3 + 1]);
+      e.push([j * 3 + 1, j * 3 + 2]);
+    }
+    return { vertices: v, edges: e };
+  }
+
+  function generateAxeGeom() {
+    var v = [
+      // Shaft
+      [0, -100, 0], [0, 100, 0], [-6, -100, 0], [6, -100, 0], [-6, 100, 0], [6, 100, 0],
+      // Left Blade
+      [-10, -50, 0], [-65, -80, 0], [-75, -50, 0], [-60, -20, 0], [-10, -40, 0],
+      // Right Blade
+      [10, -50, 0], [65, -80, 0], [75, -50, 0], [60, -20, 0], [10, -40, 0],
+      // Thunderbolt prism core
+      [0, -45, 25], [0, -45, -25]
+    ];
+    var e = [
+      [0,1],[2,4],[3,5],
+      [6,7],[7,8],[8,9],[9,10],[10,6],
+      [11,12],[12,13],[13,14],[14,15],[15,11],
+      [6,16],[7,16],[8,16],[9,16],[10,16],
+      [11,17],[12,17],[13,17],[14,17],[15,17]
+    ];
+    return { vertices: v, edges: e };
+  }
+
+  function generateMirrorGeom() {
+    var v = [];
+    var e = [];
+    var sides = 8;
+    var r1 = 85;
+    var r2 = 60;
+    for (var i = 0; i < sides; i++) {
+      var a = (i / sides) * Math.PI * 2;
+      v.push([Math.cos(a) * r1, Math.sin(a) * r1, 0]);
+      v.push([Math.cos(a) * r2, Math.sin(a) * r2, 12]);
+      v.push([Math.cos(a) * r2, Math.sin(a) * r2, -12]);
+    }
+    v.push([0, 0, 25]); // front jewel
+    v.push([0, 0, -25]); // rear jewel
+    var frontJewel = v.length - 2;
+    var rearJewel = v.length - 1;
+
+    for (var s = 0; s < sides; s++) {
+      var nextS = (s + 1) % sides;
+      e.push([s * 3, nextS * 3]);
+      e.push([s * 3 + 1, nextS * 3 + 1]);
+      e.push([s * 3 + 2, nextS * 3 + 2]);
+      e.push([s * 3, s * 3 + 1]);
+      e.push([s * 3 + 1, frontJewel]);
+      e.push([s * 3 + 2, rearJewel]);
+    }
+    return { vertices: v, edges: e };
+  }
+
+  function project3D(x, y, z, cx, cy) {
+    // 3D Euler rotation around X and Y
+    var cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+    var cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+
+    // Rotate Y
+    var x1 = x * cosY + z * sinY;
+    var z1 = -x * sinY + z * cosY;
+
+    // Rotate X
+    var y2 = y * cosX - z1 * sinX;
+    var z2 = y * sinX + z1 * cosX;
+
+    // Perspective projection
+    var fov = 340;
+    var scale = fov / (fov + z2 + 180);
+    return {
+      px: cx + x1 * scale,
+      py: cy + y2 * scale,
+      depth: z2
+    };
+  }
+
+  function renderRelic() {
+    canvas = document.getElementById('relicCanvas3d');
+    if (!canvas) return;
+    ctx = canvas.getContext('2d');
+
+    if (autoSpin && !isDragging) {
+      rotY += 0.012;
+      rotX = 0.25 + Math.sin(rotY * 0.7) * 0.15;
+    }
+
+    var telem = document.getElementById('arHudTelemetry');
+    if (telem) {
+      var degX = Math.round((rotX * 180 / Math.PI) % 360);
+      var degY = Math.round((rotY * 180 / Math.PI) % 360);
+      telem.textContent = 'ROT: [' + degX + '°, ' + degY + '°] · ZOOM: 1.0X';
+    }
+
+    var w = canvas.width;
+    var h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+
+    var cx = w / 2;
+    var cy = h / 2;
+    var relic = relicsData[activeRelicKey];
+    if (!relic || !relic.geom) return;
+
+    var geom = relic.geom;
+    var projected = [];
+
+    // Project vertices
+    for (var i = 0; i < geom.vertices.length; i++) {
+      var pt = geom.vertices[i];
+      projected.push(project3D(pt[0], pt[1], pt[2], cx, cy));
+    }
+
+    // Set styling based on renderMode
+    if (renderMode === 'blueprint') {
+      ctx.fillStyle = 'rgba(6, 24, 48, 0.25)';
+      ctx.fillRect(0, 0, w, h);
+      ctx.strokeStyle = '#5AC8FA';
+      ctx.lineWidth = 1.2;
+      ctx.setLineDash([4, 4]);
+    } else if (renderMode === 'thermal') {
+      ctx.strokeStyle = '#FF3B30';
+      ctx.lineWidth = 2.2;
+      ctx.setLineDash([]);
+    } else {
+      // Wireframe vector default
+      ctx.strokeStyle = relic.color;
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([]);
+    }
+
+    // Draw Edges
+    for (var eIdx = 0; eIdx < geom.edges.length; eIdx++) {
+      var e = geom.edges[eIdx];
+      var p1 = projected[e[0]];
+      var p2 = projected[e[1]];
+      if (!p1 || !p2) continue;
+
+      ctx.beginPath();
+      ctx.moveTo(p1.px, p1.py);
+      ctx.lineTo(p2.px, p2.py);
+      ctx.stroke();
+    }
+    ctx.setLineDash([]);
+
+    // Draw Vertices
+    for (var vIdx = 0; vIdx < projected.length; vIdx++) {
+      var vp = projected[vIdx];
+      var nodeR = renderMode === 'thermal' ? 3.5 : 2;
+      ctx.fillStyle = renderMode === 'thermal' ? '#F4B800' : (renderMode === 'blueprint' ? '#5AC8FA' : '#00C9B1');
+      ctx.beginPath();
+      ctx.arc(vp.px, vp.py, nodeR, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    animId = requestAnimationFrame(renderRelic);
+  }
+
+  // Pointer / Drag Listeners
+  function attachDragHandlers() {
+    var stage = document.getElementById('arCanvasStage');
+    if (!stage) return;
+
+    stage.addEventListener('mousedown', function(e) {
+      isDragging = true;
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
+    });
+    window.addEventListener('mousemove', function(e) {
+      if (!isDragging) return;
+      var dx = e.clientX - lastMouseX;
+      var dy = e.clientY - lastMouseY;
+      rotY += dx * 0.01;
+      rotX += dy * 0.01;
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
+    });
+    window.addEventListener('mouseup', function() {
+      isDragging = false;
+    });
+
+    // Touch support
+    stage.addEventListener('touchstart', function(e) {
+      if (e.touches.length === 1) {
+        isDragging = true;
+        lastMouseX = e.touches[0].clientX;
+        lastMouseY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+    window.addEventListener('touchmove', function(e) {
+      if (!isDragging || e.touches.length !== 1) return;
+      var dx = e.touches[0].clientX - lastMouseX;
+      var dy = e.touches[0].clientY - lastMouseY;
+      rotY += dx * 0.01;
+      rotX += dy * 0.01;
+      lastMouseX = e.touches[0].clientX;
+      lastMouseY = e.touches[0].clientY;
+    }, { passive: true });
+    window.addEventListener('touchend', function() {
+      isDragging = false;
+    });
+  }
+
+  window.selectArRelic = function(key, btnEl) {
+    if (!relicsData[key]) return;
+    activeRelicKey = key;
+    var data = relicsData[key];
+
+    var allTabs = document.querySelectorAll('.ar-tab-btn');
+    allTabs.forEach(function(t) { t.classList.remove('active'); });
+    if (btnEl) btnEl.classList.add('active');
+
+    // Update spec sheet
+    var titleEl = document.getElementById('arRelicTitle');
+    var archEl = document.getElementById('arRelicArchetype');
+    var descEl = document.getElementById('arRelicDesc');
+    var aseVal = document.getElementById('arRelicAseVal');
+    var freqVal = document.getElementById('arRelicFreqVal');
+    var alloyVal = document.getElementById('arRelicAlloyVal');
+    var threatVal = document.getElementById('arRelicThreatVal');
+    var badge = document.getElementById('arRelicHoloBadge');
+
+    if (titleEl) titleEl.textContent = data.title;
+    if (archEl) archEl.textContent = data.archetype;
+    if (descEl) descEl.textContent = data.desc;
+    if (aseVal) aseVal.textContent = data.ase;
+    if (freqVal) freqVal.textContent = data.freq;
+    if (alloyVal) alloyVal.textContent = data.alloy;
+    if (threatVal) threatVal.textContent = data.threat;
+    if (badge) badge.textContent = 'AṢẸ CHARGE: ' + data.asePct + '%';
+
+    var aseBar = document.getElementById('arRelicAseBar');
+    var freqBar = document.getElementById('arRelicFreqBar');
+    var alloyBar = document.getElementById('arRelicAlloyBar');
+    var threatBar = document.getElementById('arRelicThreatBar');
+    if (aseBar) aseBar.style.width = data.asePct + '%';
+    if (freqBar) freqBar.style.width = data.freqPct + '%';
+    if (alloyBar) alloyBar.style.width = data.alloyPct + '%';
+    if (threatBar) threatBar.style.width = data.threatPct + '%';
+  };
+
+  window.setRelicRenderMode = function(mode, btnEl) {
+    renderMode = mode;
+    var allModeBtns = document.querySelectorAll('.ar-mode-btn');
+    allModeBtns.forEach(function(b) { b.classList.remove('active'); });
+    if (btnEl) btnEl.classList.add('active');
+  };
+
+  window.toggleRelicAutoSpin = function() {
+    autoSpin = !autoSpin;
+    var btn = document.getElementById('arAutoSpinBtn');
+    if (btn) btn.textContent = 'AUTO-SPIN: ' + (autoSpin ? 'ON' : 'OFF');
+  };
+
+  window.simulateRelicDischarge = function() {
+    var stage = document.getElementById('arCanvasStage');
+    if (stage) {
+      stage.style.boxShadow = '0 0 45px rgba(244, 184, 0, 0.8), inset 0 0 35px rgba(0, 201, 177, 0.7)';
+      setTimeout(function() { stage.style.boxShadow = ''; }, 600);
+    }
+    if (typeof showToast === 'function') {
+      showToast('⚡ Aṣẹ Discharge Simulated! Resonance peak at ' + relicsData[activeRelicKey].freq);
+    }
+  };
+
+  window.exportRelicHoloPng = function() {
+    if (!canvas) return;
+    try {
+      var link = document.createElement('a');
+      link.download = 'catalyst-relic-' + activeRelicKey + '-3d-schematic.png';
+      link.href = canvas.toDataURL('image/png');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      if (typeof showToast === 'function') {
+        showToast('📷 3D Schematic Exported: ' + relicsData[activeRelicKey].title);
+      }
+    } catch(err) {
+      console.warn('Holo export error:', err);
+    }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      attachDragHandlers();
+      renderRelic();
+    });
+  } else {
+    setTimeout(function() {
+      attachDragHandlers();
+      renderRelic();
+    }, 300);
+  }
+})();
+
+/* ==========================================================================
+   FEATURE 5: TACTICAL ENCRYPTED OPERATIVE WAR ROOM ENGINE (#war-room-chat)
+   ========================================================================== */
+(function initWarRoomEngine() {
+  var activeChannel = 'resistance';
+  var feedContainer = null;
+
+  var channelFeeds = {
+    resistance: [
+      { sender: "ADE (MUSHIN CELL)", role: "ade", time: "03:42:19", text: "Oracle reports Pale Council drone sweep over Mushin sector 7. Maintain thermal camouflage until the Ọ̀run frequency clears." },
+      { sender: "BAYO ADEYEMI", role: "ade", time: "03:43:05", text: "Aṣẹ resonance spike registered on the Third Mainland Bridge span. The iron in the concrete is reacting to Ògún's pulse." },
+      { sender: "ORACLE OF BADAGRY", role: "oracle", time: "03:44:11", text: "Èjì Ogbè manifests on the eastern perimeter. An uncalculated path opens through the water supply tunnels." }
+    ],
+    forge: [
+      { sender: "TUNDE (IRON ENCLAVE)", role: "tunde", time: "02:18:40", text: "Subterranean nanoweave foundry at 84% capacity. Blade alloy cooling ahead of schedule." },
+      { sender: "FORGE OVERSEER", role: "tunde", time: "02:22:15", text: "Plasma shielding tests on meteoric iron successful. Ògún's blessing holds under 50,000 amperes." },
+      { sender: "ADE (MUSHIN CELL)", role: "ade", time: "02:25:33", text: "Supply convoy ready to move along Apapa freight tracks. Awaiting the night storm cover." }
+    ],
+    oracle: [
+      { sender: "KEMI ADEBAYO", role: "oracle", time: "01:10:02", text: "Connecting neural link to the Ọ̀pẹ̀lẹ̀ binary grid. 16 Principal Odu matrices decrypted across Greater Lagos." },
+      { sender: "ORACLE OF BADAGRY", role: "oracle", time: "01:12:44", text: "The Architect believes destiny is a single rigid equation. Teach him that Lagos is an infinite ocean." },
+      { sender: "KEMI ADEBAYO", role: "oracle", time: "01:15:19", text: "Encrypted dispatch channel synchronized. All resistance cells connected to the sacred node." }
+    ]
+  };
+
+  function renderFeed(chanKey) {
+    feedContainer = document.getElementById('wrFeedStream');
+    if (!feedContainer) return;
+    feedContainer.innerHTML = '';
+
+    var msgs = channelFeeds[chanKey] || [];
+    for (var i = 0; i < msgs.length; i++) {
+      var m = msgs[i];
+      var card = document.createElement('div');
+      card.className = 'wr-msg-card ' + m.role;
+      card.innerHTML = 
+        '<div class="wr-msg-head">' +
+          '<span class="wr-msg-sender">' + escapeHtml(m.sender) + '</span>' +
+          '<span class="wr-msg-time">' + escapeHtml(m.time) + '</span>' +
+        '</div>' +
+        '<div class="wr-msg-body">' + escapeHtml(m.text) + '</div>';
+      feedContainer.appendChild(card);
+    }
+    feedContainer.scrollTop = feedContainer.scrollHeight;
+  }
+
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  window.switchWarRoomChannel = function(chanKey, btnEl) {
+    if (!channelFeeds[chanKey]) return;
+    activeChannel = chanKey;
+
+    var allBtns = document.querySelectorAll('.wr-ch-btn');
+    allBtns.forEach(function(b) { b.classList.remove('active'); });
+    if (btnEl) btnEl.classList.add('active');
+
+    renderFeed(chanKey);
+  };
+
+  window.submitWarRoomDispatch = function(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    var input = document.getElementById('wrDispatchInput');
+    if (!input || !input.value.trim()) return;
+
+    var text = input.value.trim();
+    input.value = '';
+
+    var now = new Date();
+    var timeStr = now.toTimeString().split(' ')[0];
+
+    // Append user dispatch
+    var userMsg = {
+      sender: "OPERATIVE DISPATCH (YOU)",
+      role: "user-dispatch",
+      time: timeStr,
+      text: text
+    };
+    channelFeeds[activeChannel].push(userMsg);
+    renderFeed(activeChannel);
+
+    // Automated reactive response from cell
+    setTimeout(function() {
+      var reply = generateTacticalReply(text.toLowerCase());
+      channelFeeds[activeChannel].push(reply);
+      renderFeed(activeChannel);
+    }, 450);
+  };
+
+  function generateTacticalReply(q) {
+    var now = new Date();
+    var timeStr = now.toTimeString().split(' ')[0];
+
+    if (q.indexOf('status') !== -1 || q.indexOf('sitrep') !== -1) {
+      return {
+        sender: "ADE (MUSHIN CELL)", role: "ade", time: timeStr,
+        text: "SITREP CONFIRMED: Defense grid operational at 94%. Mushin enclaves secured. Watch the lagoon waterline for Pale Council patrols."
+      };
+    } else if (q.indexOf('ogun') !== -1 || q.indexOf('forge') !== -1 || q.indexOf('iron') !== -1) {
+      return {
+        sender: "TUNDE (IRON ENCLAVE)", role: "tunde", time: timeStr,
+        text: "Ògún's iron remains unbreakable. Nanoweave blade resonance calibrated at 432 Hz. We stand ready on your order."
+      };
+    } else if (q.indexOf('bridge') !== -1 || q.indexOf('third mainland') !== -1) {
+      return {
+        sender: "BAYO ADEYEMI", role: "ade", time: timeStr,
+        text: "Third Mainland Bridge perimeter is guarded. The Ọ̀run-Bleed nexus is quiet for now, but the energy currents are rising."
+      };
+    } else if (q.indexOf('oracle') !== -1 || q.indexOf('kemi') !== -1 || q.indexOf('orun') !== -1) {
+      return {
+        sender: "ORACLE OF BADAGRY", role: "oracle", time: timeStr,
+        text: "The divine matrix shifts. Remember: 'A kì í rí àjọṣepọ̀ nínú ọ̀tá' — There is no true unity with the oppressor. Stand resolute."
+      };
+    } else {
+      return {
+        sender: "KEMI ADEBAYO", role: "oracle", time: timeStr,
+        text: "Transmission acknowledged and cryptographically hashed. Field operatives notified across the Lagos sector."
+      };
+    }
+  }
+
+  // Odu Cipher Decoder Mini-Game
+  window.solveWarRoomCipher = function(val) {
+    var shift = parseInt(val, 10);
+    var keyLbl = document.getElementById('wrCipherKeyVal');
+    var resEl = document.getElementById('wrCipherResult');
+    if (keyLbl) keyLbl.textContent = 'KEY: ' + (shift < 10 ? '0' + shift : shift);
+
+    // Target solution is shift === 7
+    if (shift === 7) {
+      if (resEl) {
+        resEl.className = 'wr-cipher-result solved';
+        resEl.textContent = '✦ DECRYPTED: VOID SUPPLY CORRIDOR EXPOSED AT MUSHIN SECTOR 4!';
+      }
+      if (typeof showToast === 'function') {
+        showToast('🔓 Odu Cipher Decrypted! Tactical Recon Intel Unlocked.');
+      }
+    } else {
+      if (resEl) {
+        resEl.className = 'wr-cipher-result';
+        resEl.textContent = 'STATUS: FREQUENCY MISALIGNED (OFFSET ' + (shift - 7) + ')';
+      }
+    }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      renderFeed('resistance');
+    });
+  } else {
+    setTimeout(function() {
+      renderFeed('resistance');
+    }, 300);
+  }
+})();
