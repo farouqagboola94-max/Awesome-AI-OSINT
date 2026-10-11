@@ -4,7 +4,7 @@
 // activate handler below evicts the previous generation. IMG_CACHE is versioned
 // separately and deliberately left behind: image bytes are immutable per URL, so
 // there's no reason to make returning visitors re-download them on a code change.
-const CACHE = 'catalyst-v19';
+const CACHE = 'catalyst-v20';
 const IMG_CACHE = 'catalyst-img-v5';
 const IMG_CACHE_MAX = 60;
 const PRECACHE = [
@@ -157,5 +157,13 @@ self.addEventListener('fetch', e => {
       return cached || net;
     })());
     return;
+  }
+});
+
+self.addEventListener('message', e => {
+  if (e.data && e.data.action === 'PRECACHE_ALL') {
+    caches.open(CACHE).then(cache => {
+      cache.addAll(PRECACHE);
+    });
   }
 });

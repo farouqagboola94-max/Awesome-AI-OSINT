@@ -5144,33 +5144,116 @@
   </div>
 
 <!-- ============================================================ ANIMATED MOTION COMIC PLAYER -->
-  <div class="motion-comic-section reveal" id="motion-comic-player">
-    <div class="motion-header">
-      <div class="motion-tag">CATALYST OS // PARALLAX MOTION COMIC ENGINE v1.0</div>
+  
+<!-- ============================================================ MOTION COMIC SCENE DIRECTOR & CINEMATIC CUTSCENES -->
+  <section id="motion-director" class="motion-comic-section reveal" style="position:relative;">
+    <div id="motion-comic-player" style="position:absolute;top:-80px;"></div>
+    <div class="motion-director-header">
+      <div class="motion-tag">CATALYST OS // CINEMATIC SCENE DIRECTOR &amp; CUTSCENE ENGINE v2.0</div>
       <div class="motion-controls-row">
-        <button type="button" class="motion-ctrl-btn" onclick="prevMotionPanel()">◀ PREV PANEL</button>
-        <span class="motion-panel-counter" id="motionPanelCounter">PANEL 01 / 06</span>
-        <button type="button" class="motion-ctrl-btn" onclick="nextMotionPanel()">NEXT PANEL ▶</button>
-        <button type="button" class="motion-ctrl-btn active" id="motionAutoplayBtn" onclick="toggleMotionAutoplay()">▶ AUTO: ON (4s)</button>
-        <button type="button" class="motion-ctrl-btn" onclick="toggleMotionFullscreen()">⛶ FULLSCREEN</button>
+        <button type="button" class="motion-ctrl-btn" onclick="prevDirectorScene()">◀ PREV CUTSCENE</button>
+        <span class="motion-panel-counter" id="motionSceneCounter">CUTSCENE 01 / 06</span>
+        <button type="button" class="motion-ctrl-btn" onclick="nextDirectorScene()">NEXT CUTSCENE ▶</button>
+        <button type="button" class="motion-ctrl-btn active" id="motionAutoplayBtn" onclick="toggleDirectorAutoplay()">▶ AUTO: ON (5s)</button>
+        <button type="button" class="motion-ctrl-btn" onclick="toggleCinemaAspect()">🎬 21:9 CINEMA</button>
+        <button type="button" class="motion-ctrl-btn" onclick="toggleDirectorFullscreen()">⛶ FULLSCREEN</button>
       </div>
     </div>
+
+    <!-- Main Viewport Stage -->
     <div class="motion-stage-viewport" id="motionStageViewport">
       <div class="motion-panel-frame" id="motionPanelFrame">
         <!-- Background Art Layer -->
-        <div class="motion-layer motion-bg-layer" id="motionBgLayer" style="background-image:url('./assets/mushin-night.webp');"></div>
+        <div class="motion-layer motion-bg-layer" id="motionBgLayer" style="background-image:url('./assets/intersection.webp');"></div>
         <!-- Character Foreground Parallax Layer -->
         <div class="motion-layer motion-fg-layer" id="motionFgLayer">
           <img src="./assets/bayo-keyart-street.webp" alt="Bayo in motion" id="motionFgImg" class="motion-fg-character">
         </div>
-        <!-- Kinetic SFX Flash Overlay -->
+        <!-- Kinetic FX Overlays -->
         <div class="motion-fx-flash" id="motionFxFlash"></div>
-        <!-- Dynamic Typewriter Dialogue Bubble -->
+        <div class="motion-fx-speedlines" id="motionFxSpeedlines" aria-hidden="true"></div>
+        <div class="motion-fx-grain" id="motionFxGrain" aria-hidden="true"></div>
+        <!-- Letterbox Bars -->
+        <div class="cinema-bar top" id="cinemaBarTop" aria-hidden="true"></div>
+        <div class="cinema-bar bottom" id="cinemaBarBottom" aria-hidden="true"></div>
+        <!-- Dynamic Subtitle Dialogue Box -->
         <div class="motion-caption-box" id="motionCaptionBox">
-          <div class="motion-speaker-tag" id="motionSpeakerTag">CAPTION // MUSHIN CORE · 2:47 AM</div>
-          <div class="motion-dialogue-text" id="motionDialogueText">Mushin never actually sleeps. It rests with one eye open. Tonight the open eye has seen something it was not meant to see.</div>
+          <div class="motion-speaker-tag" id="motionSpeakerTag">SCENE 01 // MUSHIN ROOFTOPS · 02:47 AM</div>
+          <div class="motion-dialogue-text" id="motionDialogueText">Mushin never actually sleeps. It rests with one eye open. Tonight the open eye has seen the Ọ̀run-Bleed awakening.</div>
+          <div class="motion-audio-cue" id="motionAudioCue">🎵 AUDIO STING: 432Hz RESONANCE DRONE</div>
         </div>
       </div>
+    </div>
+
+    <!-- Director Studio Control Deck -->
+    <div class="director-deck">
+      <!-- Cutscene Timeline Scrubber -->
+      <div class="director-timeline-bar">
+        <span class="dt-label">KEYFRAME TIMELINE:</span>
+        <div class="dt-pills" role="tablist">
+          <button type="button" class="dt-pill active" onclick="selectDirectorCutscene(0, this)">01. Mushin Vigil</button>
+          <button type="button" class="dt-pill" onclick="selectDirectorCutscene(1, this)">02. Bridge Conduit</button>
+          <button type="button" class="dt-pill" onclick="selectDirectorCutscene(2, this)">03. Iron Foundry</button>
+          <button type="button" class="dt-pill" onclick="selectDirectorCutscene(3, this)">04. Glass Infiltration</button>
+          <button type="button" class="dt-pill" onclick="selectDirectorCutscene(4, this)">05. Ẹṣù Crossroads</button>
+          <button type="button" class="dt-pill" onclick="selectDirectorCutscene(5, this)">06. Final Reckoning</button>
+        </div>
+      </div>
+
+      <!-- Director Camera & VFX Toolset -->
+      <div class="director-tools-grid">
+        <!-- Camera Motion -->
+        <div class="dtool-box">
+          <div class="dtool-title">CAMERA MOVEMENT</div>
+          <div class="dtool-btn-group">
+            <button type="button" class="dtool-btn" onclick="triggerCameraMotion('pan')">↔ PAN SLIDE</button>
+            <button type="button" class="dtool-btn" onclick="triggerCameraMotion('zoom')">🔍 PUNCH-IN</button>
+            <button type="button" class="dtool-btn" onclick="triggerCameraMotion('shake')">⚡ IMPACT SHAKE</button>
+            <button type="button" class="dtool-btn" onclick="triggerCameraMotion('reset')">↺ RESET</button>
+          </div>
+        </div>
+
+        <!-- VFX Overlays -->
+        <div class="dtool-box">
+          <div class="dtool-title">VFX FX OVERLAYS</div>
+          <div class="dtool-btn-group">
+            <button type="button" class="dtool-btn" id="dfxFlashBtn" onclick="toggleDirectorFx('flash')">⚡ ṢÀNGÓ STROBE</button>
+            <button type="button" class="dtool-btn" id="dfxLinesBtn" onclick="toggleDirectorFx('speedlines')">💨 SPEED LINES</button>
+            <button type="button" class="dtool-btn" id="dfxGrainBtn" onclick="toggleDirectorFx('grain')">🎞️ NOIR GRAIN</button>
+          </div>
+        </div>
+
+        <!-- Procedural Audio Stings -->
+        <div class="dtool-box">
+          <div class="dtool-title">PROCEDURAL AUDIO STINGS</div>
+          <div class="dtool-btn-group">
+            <button type="button" class="dtool-btn" onclick="playDirectorSfx('chord')">🎻 TENSION CHORD</button>
+            <button type="button" class="dtool-btn" onclick="playDirectorSfx('thunder')">🌩️ ṢÀNGÓ CRACK</button>
+            <button type="button" class="dtool-btn" onclick="playDirectorSfx('blade')">⚔️ ÒGÚN BLADE</button>
+            <button type="button" class="dtool-btn" onclick="playDirectorSfx('sub')">🔊 808 SUB DROP</button>
+          </div>
+        </div>
+
+        <!-- Subtitle Language & Export -->
+        <div class="dtool-box">
+          <div class="dtool-title">DIRECTOR SCRIPT &amp; EXPORT</div>
+          <div class="dtool-btn-group">
+            <button type="button" class="dtool-btn active" id="dlangEnBtn" onclick="setDirectorLanguage('en')">EN</button>
+            <button type="button" class="dtool-btn" id="dlangPidginBtn" onclick="setDirectorLanguage('pidgin')">PIDGIN</button>
+            <button type="button" class="dtool-btn" id="dlangYorubaBtn" onclick="setDirectorLanguage('yoruba')">YORÙBÁ</button>
+            <button type="button" class="dtool-btn export-btn" onclick="exportDirectorFrame()">📷 EXPORT FRAME</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Director Commentary Memo -->
+      <div class="director-memo-bar">
+        <span class="dmemo-tag">DIRECTOR'S NOTES:</span>
+        <span class="dmemo-text" id="directorMemoText">Establish the nocturnal weight of Mushin with wide framing. Contrast sodium streetlights against the blue neon pulse of Bayo's dormant Aṣẹ.</span>
+      </div>
+    </div>
+  </section>
+
     </div>
   </div>
 
@@ -8925,6 +9008,100 @@
     <!-- Live Search Results Grid -->
     <div class="omni-results-grid" id="omniResultsGrid">
       <!-- Populated dynamically via script.js -->
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ============================================================ PWA OFFLINE-FIRST CACHING & RECON SAVE STATES -->
+<section id="pwa-offline" style="padding:6rem 1.5rem 6.5rem;background:rgba(4,6,12,0.96);border-top:1px solid rgba(0,201,177,0.22);border-bottom:1px solid rgba(244,184,0,0.22);position:relative;overflow:hidden;">
+  <div class="pwa-container" style="max-width:1200px;margin:0 auto;position:relative;z-index:2;">
+    <!-- Section Header -->
+    <div style="text-align:center;margin-bottom:3rem;">
+      <p class="section-label reveal" style="justify-content:center;">Offline PWA Architecture // Zero-Network Telemetry</p>
+      <h2 class="section-title reveal" style="text-align:center;">PWA OFFLINE STORAGE &amp;<br><em>LOCAL RECON SAVE STATES</em></h2>
+      <p class="reveal" style="max-width:680px;margin:1rem auto 0;font-size:0.92rem;line-height:1.8;color:rgba(240,237,229,0.7);text-align:center;">
+        Read anywhere without an internet connection. The Catalyst OS Service Worker precaches all 4 comic issues, Web Audio synthesizers, and canonical artworks directly to your device storage.
+      </p>
+    </div>
+
+    <!-- Main PWA Workstation Grid -->
+    <div class="pwa-grid">
+      <!-- Left: Network & Cache Monitor -->
+      <div class="pwa-card">
+        <div class="pwa-card-header">
+          <div class="pwa-title">
+            <span class="pwa-pulse-dot" id="pwaNetworkDot"></span>
+            <span id="pwaNetworkLabel">NETWORK STATUS: ONLINE</span>
+          </div>
+          <span class="pwa-badge" id="pwaSwStatusBadge">SERVICE WORKER: ACTIVE</span>
+        </div>
+
+        <div class="pwa-storage-meter-box">
+          <div class="pwa-meter-info">
+            <span class="pwa-meter-lbl">OFFLINE CACHED ASSETS:</span>
+            <strong class="pwa-meter-val" id="pwaCachedVal">48.2 MB / 66 ASSETS CACHED</strong>
+          </div>
+          <div class="pwa-meter-bar">
+            <div class="pwa-meter-fill" id="pwaMeterFill" style="width:78%;"></div>
+          </div>
+          <div class="pwa-meter-sub">Includes 4 full comic issues, offline procedural soundscapes, and typography.</div>
+        </div>
+
+        <div class="pwa-actions-list">
+          <button type="button" class="pwa-btn primary" id="pwaPrecacheBtn" onclick="triggerPwaPrecache()">
+            ⚡ 1-CLICK PRE-CACHE UNIVERSE FOR OFFLINE
+          </button>
+          <button type="button" class="pwa-btn secondary" onclick="purgePwaCache()">
+            🧹 CLEAR OFFLINE CACHE STORAGE
+          </button>
+        </div>
+      </div>
+
+      <!-- Right: Local Storage Recon Save States -->
+      <div class="pwa-card">
+        <div class="pwa-card-header">
+          <div class="pwa-title">LOCAL RECON SAVE STATE</div>
+          <span class="pwa-badge gold" id="pwaLastSyncBadge">LAST SYNC: JUST NOW</span>
+        </div>
+
+        <!-- Telemetry Data Preview -->
+        <div class="pwa-state-dossier">
+          <div class="pwa-state-row">
+            <span class="psr-lbl">ACTIVE ISSUE &amp; PAGE:</span>
+            <strong class="psr-val" id="psrIssueVal">Issue #1 · Page 14</strong>
+          </div>
+          <div class="pwa-state-row">
+            <span class="psr-lbl">AṢẸ OPERATIVE LEVEL:</span>
+            <strong class="psr-val" id="psrLevelVal">Level 3 (1,850 Aṣẹ Points)</strong>
+          </div>
+          <div class="pwa-state-row">
+            <span class="psr-lbl">ACTIVE FACTION ALIGNMENT:</span>
+            <strong class="psr-val" id="psrFactionVal">Mushin Resistance Enclave</strong>
+          </div>
+          <div class="pwa-state-row">
+            <span class="psr-lbl">DAILY DIRECTIVES COMPLETED:</span>
+            <strong class="psr-val" id="psrDirectivesVal">2 of 3 Logged</strong>
+          </div>
+        </div>
+
+        <!-- Backup & Restore Buttons -->
+        <div class="pwa-actions-list">
+          <div style="display:flex;gap:0.6rem;width:100%;">
+            <button type="button" class="pwa-btn" style="flex:1;" onclick="saveReconStateLocal()">
+              💾 SAVE STATE
+            </button>
+            <button type="button" class="pwa-btn" style="flex:1;" onclick="exportReconStateJson()">
+              📥 EXPORT JSON
+            </button>
+          </div>
+          <label class="pwa-file-upload-btn">
+            📤 IMPORT SAVE STATE BACKUP
+            <input type="file" id="pwaStateFileInput" accept=".json" onchange="importReconStateJson(event)" style="display:none;">
+          </label>
+        </div>
+      </div>
     </div>
   </div>
 </section>
