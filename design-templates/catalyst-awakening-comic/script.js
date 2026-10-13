@@ -12452,8 +12452,9 @@ var TC_ENDINGS = {
     { title: 'The Architect', cat: 'characters', desc: 'System sovereign and Pale Council oligarch weaponizing synthetic Aṣẹ extraction.', target: '#villains' },
     { title: 'Hollow King', cat: 'characters', desc: 'Void Harvester extracting human lifeforce across industrial docks.', target: '#villains' },
     { title: 'Mother Storm', cat: 'characters', desc: 'Corrupted tempest entity tearing open unsealed Ọ̀run rifts in the lagoon.', target: '#villains' },
-    { title: 'Iron Preacher', cat: 'characters', desc: 'Heretic smith commanding automated iron constructs on the Ògún Wrath doctrine.', target: '#villains' },
     { title: 'The Pale Council', cat: 'characters', desc: 'Shadow syndicate operating high above Eko Atlantic dredging towers.', target: '#villains' },
+    { title: 'Apex Conflict — Boss Simulator', cat: 'interactive', desc: 'Real-time tactical 3D combat simulator against The Architect, Iron Preacher, and Lagoon Leviathan.', target: '#boss-encounter' },
+    { title: 'Insurgent Faction Cyber-ID Mint', cat: 'interactive', desc: 'High-DPI holographic badge minting studio with Orisha telemetry and PNG badge export.', target: '#cyber-id-mint' },
 
     { title: '1420 CE: The First Covenant', cat: 'lore', desc: 'Descent of the Orishas in Old Oyo Kingdom and the ancient sovereign defense pact.', target: '#lore-timeline' },
     { title: '1897 CE: The Iron Incursion', cat: 'lore', desc: 'Seven sacred anvils of Ògún buried beneath the seabed to prevent colonial looting.', target: '#lore-timeline' },
@@ -13927,4 +13928,732 @@ var TC_ENDINGS = {
     };
     reader.readAsText(file);
   };
+
+  // ══════════════════════════════════════════════════════════════════
+  // APEX CONFLICT // BOSS ENCOUNTER SIMULATOR (#boss-encounter)
+  // ══════════════════════════════════════════════════════════════════
+  var bossState = {
+    hero: 'bayo',
+    target: 'architect',
+    heroHp: 1200,
+    heroMaxHp: 1200,
+    heroAse: 100,
+    heroMaxAse: 100,
+    targetHp: 2500,
+    targetMaxHp: 2500,
+    threat: 0,
+    phase: 1,
+    turn: 'hero',
+    surgeCooldown: 0,
+    shieldActive: false,
+    particles: [],
+    shakeTime: 0,
+    animFrame: null
+  };
+
+  var BOSS_HEROES = {
+    bayo: { name: 'BAYO ADEYEMI', cls: 'CLASS: ṢÀNGÓ VOLT CONDUCTOR', avatar: '⚡', maxHp: 1200, strikeName: 'ṢÀNGÓ VOLT ARC' },
+    amara: { name: 'AMARA DIALLO', cls: 'CLASS: ỌYA TEMPEST STRIKER', avatar: '🌪', maxHp: 1050, strikeName: 'TEMPEST GALE BURST' },
+    ikenna: { name: 'IKENNA OKORO', cls: 'CLASS: ÒGÚN TITANIUM VANGUARD', avatar: '🛡', maxHp: 1500, strikeName: 'ÒGÚN CRUSHING HAMMER' },
+    zara: { name: 'ZARA BELLO', cls: 'CLASS: CYBER-ORACLE SEER', avatar: '🔮', maxHp: 980, strikeName: 'QUANTUM PHASE STRIKE' }
+  };
+
+  var BOSS_TARGETS = {
+    architect: { name: 'THE ARCHITECT', cls: 'CLASS: PALE COUNCIL SOVEREIGN', avatar: '👁️', maxHp: 2500, atkPower: 160 },
+    'iron-preacher': { name: 'IRON PREACHER', cls: 'CLASS: APEX FORGE ENFORCER', avatar: '⚔', maxHp: 1900, atkPower: 210 },
+    leviathan: { name: 'LAGOON LEVIATHAN', cls: 'CLASS: SUB-AQUATIC BEHEMOTH', avatar: '🌊', maxHp: 3200, atkPower: 140 }
+  };
+
+  function playSynthAudio(type) {
+    try {
+      var AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      var ctx = new AudioCtx();
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      var now = ctx.currentTime;
+
+      if (type === 'strike') {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(220, now);
+        osc.frequency.exponentialRampToValueAtTime(880, now + 0.15);
+        gain.gain.setValueAtTime(0.3, now);
+        gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+        osc.start(now);
+        osc.stop(now + 0.25);
+      } else if (type === 'deflect') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(140, now);
+        osc.frequency.exponentialRampToValueAtTime(50, now + 0.3);
+        gain.gain.setValueAtTime(0.4, now);
+        gain.gain.linearRampToValueAtTime(0.01, now + 0.35);
+        osc.start(now);
+        osc.stop(now + 0.35);
+      } else if (type === 'flurry') {
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(440, now);
+        osc.frequency.exponentialRampToValueAtTime(1200, now + 0.2);
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.linearRampToValueAtTime(0.01, now + 0.22);
+        osc.start(now);
+        osc.stop(now + 0.22);
+      } else if (type === 'surge') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(320, now);
+        osc.frequency.linearRampToValueAtTime(640, now + 0.4);
+        gain.gain.setValueAtTime(0.3, now);
+        gain.gain.linearRampToValueAtTime(0.01, now + 0.45);
+        osc.start(now);
+        osc.stop(now + 0.45);
+      } else if (type === 'boss_hit') {
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(120, now);
+        osc.frequency.exponentialRampToValueAtTime(40, now + 0.3);
+        gain.gain.setValueAtTime(0.35, now);
+        gain.gain.linearRampToValueAtTime(0.01, now + 0.35);
+        osc.start(now);
+        osc.stop(now + 0.35);
+      } else if (type === 'chime') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, now);
+        osc.frequency.setValueAtTime(880, now + 0.1);
+        osc.frequency.setValueAtTime(1174.66, now + 0.2);
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.linearRampToValueAtTime(0.01, now + 0.4);
+        osc.start(now);
+        osc.stop(now + 0.4);
+      }
+    } catch(e) {}
+  }
+
+  window.bossSelectHero = function(val) {
+    if (!BOSS_HEROES[val]) return;
+    bossState.hero = val;
+    var h = BOSS_HEROES[val];
+    bossState.heroMaxHp = h.maxHp;
+    bossState.heroHp = h.maxHp;
+    bossState.heroAse = 100;
+    var nameEl = document.getElementById('bossHeroName');
+    var clsEl = document.getElementById('bossHeroClass');
+    var avEl = document.getElementById('bossHeroAvatar');
+    if (nameEl) nameEl.textContent = h.name;
+    if (clsEl) clsEl.textContent = h.cls;
+    if (avEl) avEl.textContent = h.avatar;
+    bossLog('Switched operative champion to ' + h.name + '.', 'system');
+    updateBossUI();
+  };
+
+  window.bossSelectTarget = function(val) {
+    if (!BOSS_TARGETS[val]) return;
+    bossState.target = val;
+    var t = BOSS_TARGETS[val];
+    bossState.targetMaxHp = t.maxHp;
+    bossState.targetHp = t.maxHp;
+    bossState.threat = 0;
+    bossState.phase = 1;
+    var nameEl = document.getElementById('bossTargetName');
+    var clsEl = document.getElementById('bossTargetClass');
+    var avEl = document.getElementById('bossTargetAvatar');
+    if (nameEl) nameEl.textContent = t.name;
+    if (clsEl) clsEl.textContent = t.cls;
+    if (avEl) avEl.textContent = t.avatar;
+    bossLog('Adversary targeted: ' + t.name + ' (' + t.cls + ').', 'system');
+    updateBossUI();
+  };
+
+  window.bossResetBattle = function() {
+    var h = BOSS_HEROES[bossState.hero];
+    var t = BOSS_TARGETS[bossState.target];
+    bossState.heroHp = h.maxHp;
+    bossState.heroAse = 100;
+    bossState.targetHp = t.maxHp;
+    bossState.threat = 0;
+    bossState.phase = 1;
+    bossState.turn = 'hero';
+    bossState.surgeCooldown = 0;
+    bossState.shieldActive = false;
+    bossLog('Encounter rebooted. Neural link refreshed.', 'system');
+    updateBossUI();
+  };
+
+  function bossLog(msg, type) {
+    var logStream = document.getElementById('bossCombatLog');
+    if (!logStream) return;
+    var row = document.createElement('div');
+    row.className = 'boss-log-row ' + (type || 'system');
+    var timeStr = new Date().toTimeString().split(' ')[0];
+    row.textContent = '[' + timeStr + '] ' + msg;
+    logStream.appendChild(row);
+    logStream.scrollTop = logStream.scrollHeight;
+  }
+
+  window.bossClearLog = function() {
+    var logStream = document.getElementById('bossCombatLog');
+    if (logStream) logStream.innerHTML = '';
+    bossLog('Log cleared.', 'system');
+  };
+
+  function updateBossUI() {
+    var heroHpTxt = document.getElementById('bossHeroHpTxt');
+    var heroHpBar = document.getElementById('bossHeroHpBar');
+    var heroAseTxt = document.getElementById('bossHeroAseTxt');
+    var heroAseBar = document.getElementById('bossHeroAseBar');
+    var targetHpTxt = document.getElementById('bossTargetHpTxt');
+    var targetHpBar = document.getElementById('bossTargetHpBar');
+    var threatTxt = document.getElementById('bossTargetThreatTxt');
+    var threatBar = document.getElementById('bossTargetThreatBar');
+    var phaseTag = document.getElementById('bossPhaseTag');
+    var turnState = document.getElementById('bossTurnState');
+
+    var hPct = Math.max(0, Math.min(100, (bossState.heroHp / bossState.heroMaxHp) * 100));
+    var aPct = Math.max(0, Math.min(100, (bossState.heroAse / bossState.heroMaxAse) * 100));
+    var tPct = Math.max(0, Math.min(100, (bossState.targetHp / bossState.targetMaxHp) * 100));
+
+    if (heroHpTxt) heroHpTxt.textContent = Math.round(bossState.heroHp) + ' / ' + bossState.heroMaxHp;
+    if (heroHpBar) heroHpBar.style.width = hPct + '%';
+    if (heroAseTxt) heroAseTxt.textContent = Math.round(bossState.heroAse) + ' / ' + bossState.heroMaxAse;
+    if (heroAseBar) heroAseBar.style.width = aPct + '%';
+
+    if (targetHpTxt) targetHpTxt.textContent = Math.round(bossState.targetHp) + ' / ' + bossState.targetMaxHp;
+    if (targetHpBar) targetHpBar.style.width = tPct + '%';
+    if (threatTxt) threatTxt.textContent = Math.round(bossState.threat) + '% (' + (bossState.threat > 70 ? 'CRITICAL ENRAGED' : bossState.threat > 35 ? 'OVERDRIVE' : 'SUB-CRITICAL') + ')';
+    if (threatBar) threatBar.style.width = Math.min(100, bossState.threat) + '%';
+
+    if (phaseTag) {
+      if (tPct <= 30) {
+        bossState.phase = 3;
+        phaseTag.textContent = 'PHASE 3: ENRAGED';
+        phaseTag.style.background = 'rgba(255, 0, 0, 0.35)';
+      } else if (tPct <= 60) {
+        bossState.phase = 2;
+        phaseTag.textContent = 'PHASE 2: OVERDRIVE';
+        phaseTag.style.background = 'rgba(255, 107, 26, 0.3)';
+      } else {
+        bossState.phase = 1;
+        phaseTag.textContent = 'PHASE 1: STABLE';
+        phaseTag.style.background = 'rgba(196, 30, 58, 0.25)';
+      }
+    }
+
+    if (turnState) {
+      if (bossState.heroHp <= 0) {
+        turnState.textContent = 'DEFEAT — RETREAT & REBOOT';
+        turnState.style.color = '#FF6B6B';
+      } else if (bossState.targetHp <= 0) {
+        turnState.textContent = 'VICTORY — THREAT NEUTRALIZED!';
+        turnState.style.color = '#F4B800';
+      } else if (bossState.turn === 'hero') {
+        turnState.textContent = 'YOUR MOVE — SELECT ACTION';
+        turnState.style.color = '#00C9B1';
+      } else {
+        turnState.textContent = 'ADVERSARY COMPUTING COUNTER-STRIKE...';
+        turnState.style.color = '#FF6B6B';
+      }
+    }
+
+    var btnSurge = document.getElementById('btnActOrun');
+    if (btnSurge) {
+      btnSurge.disabled = (bossState.surgeCooldown > 0 || bossState.heroHp <= 0 || bossState.targetHp <= 0);
+    }
+  }
+
+  window.bossExecuteMove = function(moveKey) {
+    if (bossState.turn !== 'hero' || bossState.heroHp <= 0 || bossState.targetHp <= 0) return;
+
+    if (moveKey === 'strike') {
+      if (bossState.heroAse < 20) {
+        bossLog('Insufficient Aṣẹ for Ṣàngó Volt Arc (Requires 20 Aṣẹ).', 'system');
+        return;
+      }
+      bossState.heroAse -= 20;
+      var dmg = Math.floor(220 + Math.random() * 80);
+      var crit = Math.random() < 0.25;
+      if (crit) dmg = Math.floor(dmg * 1.5);
+      bossState.targetHp = Math.max(0, bossState.targetHp - dmg);
+      bossState.threat = Math.min(100, bossState.threat + 15);
+      spawnParticles('gold', 25);
+      bossState.shakeTime = 12;
+      playSynthAudio('strike');
+      bossLog('Executed Ṣàngó Volt Arc! Dealt ' + dmg + ' electric damage' + (crit ? ' [CRITICAL SURGE!]' : '') + '.', crit ? 'crit' : 'hero');
+    } else if (moveKey === 'deflect') {
+      if (bossState.heroAse < 15) {
+        bossLog('Insufficient Aṣẹ for Ògún Kinetic Shield (Requires 15 Aṣẹ).', 'system');
+        return;
+      }
+      bossState.heroAse -= 15;
+      bossState.shieldActive = true;
+      var counterDmg = 130;
+      bossState.targetHp = Math.max(0, bossState.targetHp - counterDmg);
+      spawnParticles('teal', 20);
+      playSynthAudio('deflect');
+      bossLog('Raised Ògún Kinetic Shield (75% mitigation active). Reflected ' + counterDmg + ' kinetic feedback.', 'hero');
+    } else if (moveKey === 'flurry') {
+      if (bossState.heroAse < 25) {
+        bossLog('Insufficient Aṣẹ for Ọya Tempest Flurry (Requires 25 Aṣẹ).', 'system');
+        return;
+      }
+      bossState.heroAse -= 25;
+      var hits = 3;
+      var totalDmg = 0;
+      for (var i = 0; i < hits; i++) {
+        var hDmg = Math.floor(75 + Math.random() * 35);
+        totalDmg += hDmg;
+      }
+      bossState.targetHp = Math.max(0, bossState.targetHp - totalDmg);
+      spawnParticles('purple', 30);
+      playSynthAudio('flurry');
+      bossLog('Unleashed Ọya Tempest Flurry! 3-hit cyclonic sequence for ' + totalDmg + ' damage.', 'hero');
+    } else if (moveKey === 'surge') {
+      if (bossState.surgeCooldown > 0) {
+        bossLog('Ọ̀run Divine Surge is on cooldown (' + bossState.surgeCooldown + ' turns remaining).', 'system');
+        return;
+      }
+      bossState.heroHp = Math.min(bossState.heroMaxHp, bossState.heroHp + 350);
+      bossState.heroAse = Math.min(bossState.heroMaxAse, bossState.heroAse + 40);
+      bossState.surgeCooldown = 3;
+      spawnParticles('cyan', 25);
+      playSynthAudio('surge');
+      bossLog('Channeled Ọ̀run Divine Surge! Restored +350 HP and +40 Aṣẹ energy.', 'hero');
+    }
+
+    if (bossState.surgeCooldown > 0 && moveKey !== 'surge') {
+      bossState.surgeCooldown--;
+    }
+
+    updateBossUI();
+
+    if (bossState.targetHp <= 0) {
+      bossLog('VICTORY! Target neutralised. 500 Aṣẹ XP gained and classified cipher decrypted!', 'crit');
+      playSynthAudio('chime');
+      if (typeof showToast === 'function') {
+        showToast('🏆 APEX VICTORY! Boss Neutralized. +500 Aṣẹ XP Awarded!');
+      }
+      return;
+    }
+
+    // Boss Turn
+    bossState.turn = 'boss';
+    updateBossUI();
+
+    setTimeout(function() {
+      if (bossState.targetHp <= 0) return;
+      var target = BOSS_TARGETS[bossState.target];
+      var baseAtk = target.atkPower || 150;
+      if (bossState.phase === 2) baseAtk = Math.floor(baseAtk * 1.25);
+      if (bossState.phase === 3) baseAtk = Math.floor(baseAtk * 1.55);
+
+      var bossDmg = Math.floor(baseAtk * (0.85 + Math.random() * 0.3));
+      if (bossState.shieldActive) {
+        bossDmg = Math.floor(bossDmg * 0.25);
+        bossLog('Ògún Kinetic Shield deflected brunt of attack! Mitigated to ' + bossDmg + ' damage.', 'hero');
+        bossState.shieldActive = false;
+      } else {
+        bossLog(target.name + ' executed system strike for ' + bossDmg + ' damage!', 'boss');
+      }
+
+      bossState.heroHp = Math.max(0, bossState.heroHp - bossDmg);
+      bossState.heroAse = Math.min(bossState.heroMaxAse, bossState.heroAse + 12);
+      bossState.shakeTime = 10;
+      spawnParticles('red', 20);
+      playSynthAudio('boss_hit');
+
+      if (bossState.heroHp <= 0) {
+        bossLog('CRITICAL FAILURE: Vital Matrix depleted. Operative forced to disengage.', 'boss');
+        if (typeof showToast === 'function') {
+          showToast('⚠️ Operative Fallen in Combat! Reboot to retry.');
+        }
+      }
+
+      bossState.turn = 'hero';
+      updateBossUI();
+    }, 900);
+  };
+
+  function spawnParticles(color, count) {
+    for (var i = 0; i < count; i++) {
+      bossState.particles.push({
+        x: 400 + (Math.random() - 0.5) * 200,
+        y: 200 + (Math.random() - 0.5) * 100,
+        vx: (Math.random() - 0.5) * 8,
+        vy: (Math.random() - 0.5) * 8 - 2,
+        life: 1.0,
+        color: color
+      });
+    }
+  }
+
+  function initBossCanvas() {
+    var canvas = document.getElementById('bossBattleCanvas');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var t = 0;
+
+    function render() {
+      t += 0.03;
+      var w = canvas.width;
+      var h = canvas.height;
+
+      ctx.save();
+      if (bossState.shakeTime > 0) {
+        var sx = (Math.random() - 0.5) * bossState.shakeTime;
+        var sy = (Math.random() - 0.5) * bossState.shakeTime;
+        ctx.translate(sx, sy);
+        bossState.shakeTime--;
+      }
+
+      ctx.fillStyle = '#05070e';
+      ctx.fillRect(0, 0, w, h);
+
+      // Draw 3D Perspective Ground Grid
+      ctx.strokeStyle = 'rgba(0, 201, 177, 0.2)';
+      ctx.lineWidth = 1;
+      var horizon = h * 0.45;
+      for (var y = horizon; y < h; y += (y - horizon) * 0.35 + 8) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
+      }
+      for (var x = -w * 0.5; x <= w * 1.5; x += 60) {
+        ctx.beginPath();
+        ctx.moveTo(x, h);
+        ctx.lineTo(w * 0.5 + (x - w * 0.5) * 0.2, horizon);
+        ctx.stroke();
+      }
+
+      // Draw Hero entity
+      var heroX = 220;
+      var heroY = horizon + 90 + Math.sin(t * 2) * 5;
+      ctx.save();
+      ctx.fillStyle = 'rgba(0, 201, 177, 0.15)';
+      ctx.beginPath();
+      ctx.ellipse(heroX, heroY + 50, 45, 15, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Hero Aura
+      var hGrad = ctx.createRadialGradient(heroX, heroY, 5, heroX, heroY, 60);
+      hGrad.addColorStop(0, 'rgba(0, 201, 177, 0.8)');
+      hGrad.addColorStop(0.5, 'rgba(244, 184, 0, 0.3)');
+      hGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = hGrad;
+      ctx.beginPath();
+      ctx.arc(heroX, heroY, 60, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Hero Icon
+      ctx.font = '36px "Space Grotesk", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      var hIcon = (BOSS_HEROES[bossState.hero] && BOSS_HEROES[bossState.hero].avatar) || '⚡';
+      ctx.fillText(hIcon, heroX, heroY);
+      ctx.restore();
+
+      // Draw Boss entity
+      var bossX = 580;
+      var bossY = horizon + 85 + Math.cos(t * 1.8) * 6;
+      ctx.save();
+      ctx.fillStyle = 'rgba(196, 30, 58, 0.18)';
+      ctx.beginPath();
+      ctx.ellipse(bossX, bossY + 65, 60, 20, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Boss Aura
+      var bGrad = ctx.createRadialGradient(bossX, bossY, 10, bossX, bossY, 80);
+      bGrad.addColorStop(0, 'rgba(196, 30, 58, 0.85)');
+      bGrad.addColorStop(0.6, 'rgba(147, 51, 234, 0.35)');
+      bGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = bGrad;
+      ctx.beginPath();
+      ctx.arc(bossX, bossY, 80, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.font = '48px "Space Grotesk", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      var bIcon = (BOSS_TARGETS[bossState.target] && BOSS_TARGETS[bossState.target].avatar) || '👁️';
+      ctx.fillText(bIcon, bossX, bossY);
+      ctx.restore();
+
+      // Particles
+      for (var p = bossState.particles.length - 1; p >= 0; p--) {
+        var pt = bossState.particles[p];
+        pt.x += pt.vx;
+        pt.y += pt.vy;
+        pt.life -= 0.035;
+        if (pt.life <= 0) {
+          bossState.particles.splice(p, 1);
+          continue;
+        }
+        ctx.fillStyle = pt.color === 'gold' ? 'rgba(244, 184, 0, ' + pt.life + ')'
+                      : pt.color === 'teal' ? 'rgba(0, 201, 177, ' + pt.life + ')'
+                      : pt.color === 'purple' ? 'rgba(192, 132, 252, ' + pt.life + ')'
+                      : pt.color === 'cyan' ? 'rgba(76, 168, 160, ' + pt.life + ')'
+                      : 'rgba(255, 69, 0, ' + pt.life + ')';
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, 3 * pt.life + 1, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.restore();
+      requestAnimationFrame(render);
+    }
+    render();
+  }
+
+  // ══════════════════════════════════════════════════════════════════
+  // FACTION ALIGNMENT & CYBER-ID CARD MINTING STUDIO (#cyber-id-mint)
+  // ══════════════════════════════════════════════════════════════════
+  var cyberIdState = {
+    faction: 'sango',
+    callsign: 'CATALYST_VANGUARD_01',
+    archetype: 'Metal Dragon INFJ',
+    clearance: 'Tier 5: Arch-Catalyst',
+    relic: 'Oṣé Ṣàngó // Lightning Scepter',
+    scanlines: true,
+    particles: true,
+    t: 0
+  };
+
+  var ID_FACTIONS = {
+    sango: { name: 'Ṣàngó Volt Collective', motto: 'Mushin Resistance // Kinetic Overclock', color: '#F4B800', secColor: '#FF6B1A', icon: '⚡' },
+    ogun: { name: 'Ògún Steel Union', motto: 'Foundry Enclave // Titanium Armor', color: '#00C9B1', secColor: '#4CA8A0', icon: '⚔' },
+    kooza: { name: 'Kooza Syndicate', motto: 'Pale Council Infiltrator // Ghost Grid', color: '#C41E3A', secColor: '#9333EA', icon: '👁️' },
+    oracle: { name: 'Ọ̀run Cyber-Oracle', motto: 'Balogun Seers // Quantum Matrix', color: '#7B6FE8', secColor: '#00C9B1', icon: '🔮' },
+    catalyst: { name: 'Catalyst OS Core Sovereign', motto: 'Arch-Catalyst // Value Alchemy', color: '#F0EDE5', secColor: '#F4B800', icon: '🛡️' }
+  };
+
+  window.selectIdFaction = function(facKey, btn) {
+    if (!ID_FACTIONS[facKey]) return;
+    cyberIdState.faction = facKey;
+    var allBtns = document.querySelectorAll('.cyber-faction-btn');
+    allBtns.forEach(function(b) { b.classList.remove('active'); });
+    if (btn) btn.classList.add('active');
+    updateCyberIdCard();
+  };
+
+  window.updateCyberIdCard = function() {
+    var csInput = document.getElementById('cyberCallsignInput');
+    var archSelect = document.getElementById('cyberArchetypeSelect');
+    var clSelect = document.getElementById('cyberClearanceSelect');
+    var relSelect = document.getElementById('cyberRelicSelect');
+
+    if (csInput) cyberIdState.callsign = csInput.value.trim().toUpperCase() || 'CATALYST_AGENT';
+    if (archSelect) cyberIdState.archetype = archSelect.value;
+    if (clSelect) cyberIdState.clearance = clSelect.value;
+    if (relSelect) cyberIdState.relic = relSelect.value;
+
+    var hashEl = document.getElementById('cyberHashDisplay');
+    if (hashEl) {
+      var seed = (cyberIdState.callsign + cyberIdState.faction + cyberIdState.clearance).length;
+      var hex = (0x7F4A + seed * 137).toString(16).toUpperCase();
+      hashEl.textContent = 'COS-0x' + hex + '-ORUN-' + (1000 + seed * 43);
+    }
+  };
+
+  window.toggleIdScanlines = function(checked) {
+    cyberIdState.scanlines = checked;
+  };
+
+  window.toggleIdParticles = function(checked) {
+    cyberIdState.particles = checked;
+  };
+
+  window.playCyberBiometricChime = function() {
+    playSynthAudio('chime');
+    if (typeof showToast === 'function') {
+      showToast('🔊 Biometric Audio Handshake Verified on Ọ̀run Grid');
+    }
+  };
+
+  window.copyCyberCredentialHash = function() {
+    var hashEl = document.getElementById('cyberHashDisplay');
+    var val = hashEl ? hashEl.textContent : 'COS-0x7F4A-98C2-ORUN-9821';
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(val);
+    }
+    if (typeof showToast === 'function') {
+      showToast('📋 Credential Hash Copied: ' + val);
+    }
+  };
+
+  window.downloadCyberIdBadge = function() {
+    var canvas = document.getElementById('cyberIdCanvas');
+    if (!canvas) return;
+    var link = document.createElement('a');
+    link.download = 'catalyst-cyber-id-' + cyberIdState.callsign.toLowerCase().replace(/[^a-z0-9]/g, '-') + '.png';
+    link.href = canvas.toDataURL('image/png');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    if (typeof showToast === 'function') {
+      showToast('📥 High-DPI Cyber-ID Badge Exported (PNG)');
+    }
+  };
+
+  function initCyberIdCanvas() {
+    var canvas = document.getElementById('cyberIdCanvas');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+
+    function draw() {
+      cyberIdState.t += 0.02;
+      var w = canvas.width;
+      var h = canvas.height;
+      var fac = ID_FACTIONS[cyberIdState.faction] || ID_FACTIONS.sango;
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Card Body & Outer Border
+      ctx.fillStyle = '#060812';
+      ctx.fillRect(0, 0, w, h);
+
+      // Subtle Cybernetic Background Gradient
+      var bgGrad = ctx.createLinearGradient(0, 0, w, h);
+      bgGrad.addColorStop(0, 'rgba(10, 14, 28, 0.95)');
+      bgGrad.addColorStop(0.5, 'rgba(6, 8, 16, 0.98)');
+      bgGrad.addColorStop(1, 'rgba(12, 16, 32, 0.95)');
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, w, h);
+
+      // Top Header Ribbon with Faction Accent
+      var ribGrad = ctx.createLinearGradient(0, 0, w, 0);
+      ribGrad.addColorStop(0, fac.color);
+      ribGrad.addColorStop(1, fac.secColor);
+      ctx.fillStyle = ribGrad;
+      ctx.fillRect(0, 0, w, 8);
+
+      // Border frame
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(1, 1, w - 2, h - 2);
+
+      // Faction Aura Glow in background
+      var fGrad = ctx.createRadialGradient(w * 0.85, h * 0.35, 20, w * 0.85, h * 0.35, 280);
+      fGrad.addColorStop(0, fac.color + '22');
+      fGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = fGrad;
+      ctx.fillRect(0, 0, w, h);
+
+      // Left Column: Operative Silhouette & Photo Badge Box
+      var photoX = 40;
+      var photoY = 50;
+      var photoW = 180;
+      var photoH = 220;
+
+      ctx.fillStyle = 'rgba(18, 24, 44, 0.8)';
+      ctx.fillRect(photoX, photoY, photoW, photoH);
+      ctx.strokeStyle = fac.color;
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(photoX, photoY, photoW, photoH);
+
+      // Operative Avatar Icon / Emblem in Badge
+      ctx.font = '64px "Space Grotesk", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(fac.icon, photoX + photoW / 2, photoY + photoH / 2 - 15);
+
+      // Biometric Verified tag below photo
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
+      ctx.fillRect(photoX, photoY + photoH - 35, photoW, 35);
+      ctx.fillStyle = fac.color;
+      ctx.font = '11px "Space Mono", monospace';
+      ctx.fillText('BIOMETRIC AUTH', photoX + photoW / 2, photoY + photoH - 18);
+
+      // Right Side: Operative Credentials Text
+      var textX = 260;
+      ctx.textAlign = 'left';
+
+      // Header System Tag
+      ctx.fillStyle = 'rgba(240, 237, 229, 0.5)';
+      ctx.font = '11px "Space Mono", monospace';
+      ctx.fillText('CATALYST OS 2.0 // Ọ̀RUN NEURAL NETWORK IDENTIFICATION', textX, 55);
+
+      // Operative Callsign
+      ctx.fillStyle = '#F0EDE5';
+      ctx.font = '36px "Bebas Neue", sans-serif';
+      ctx.fillText(cyberIdState.callsign, textX, 95);
+
+      // Faction Name & Subtitle
+      ctx.fillStyle = fac.color;
+      ctx.font = '16px "Space Grotesk", sans-serif';
+      ctx.fillText(fac.name.toUpperCase(), textX, 125);
+      ctx.fillStyle = 'rgba(240, 237, 229, 0.55)';
+      ctx.font = '11px "Space Mono", monospace';
+      ctx.fillText(fac.motto, textX, 145);
+
+      // Credentials Details Grid (Archetype, Clearance, Relic)
+      var detY = 185;
+      ctx.fillStyle = 'rgba(240, 237, 229, 0.45)';
+      ctx.font = '10px "Space Mono", monospace';
+      ctx.fillText('COGNITIVE ARCHETYPE:', textX, detY);
+      ctx.fillStyle = '#F0EDE5';
+      ctx.font = '13px "Space Grotesk", sans-serif';
+      ctx.fillText(cyberIdState.archetype, textX, detY + 18);
+
+      ctx.fillStyle = 'rgba(240, 237, 229, 0.45)';
+      ctx.font = '10px "Space Mono", monospace';
+      ctx.fillText('CLEARANCE LEVEL:', textX + 260, detY);
+      ctx.fillStyle = fac.color;
+      ctx.font = '13px "Space Grotesk", sans-serif';
+      ctx.fillText(cyberIdState.clearance, textX + 260, detY + 18);
+
+      ctx.fillStyle = 'rgba(240, 237, 229, 0.45)';
+      ctx.font = '10px "Space Mono", monospace';
+      ctx.fillText('SACRED RELIC ALIGNMENT:', textX, detY + 50);
+      ctx.fillStyle = '#00C9B1';
+      ctx.font = '13px "Space Grotesk", sans-serif';
+      ctx.fillText(cyberIdState.relic, textX, detY + 68);
+
+      // Bottom Barcode & Verification Seals
+      var btmY = h - 60;
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+      ctx.beginPath();
+      ctx.moveTo(40, btmY - 15);
+      ctx.lineTo(w - 40, btmY - 15);
+      ctx.stroke();
+
+      // Simulated Barcode
+      ctx.fillStyle = 'rgba(240, 237, 229, 0.7)';
+      for (var b = 0; b < 45; b++) {
+        var barW = (b % 3 === 0) ? 3 : (b % 2 === 0) ? 2 : 1;
+        ctx.fillRect(40 + b * 6, btmY, barW, 25);
+      }
+
+      ctx.fillStyle = 'rgba(240, 237, 229, 0.5)';
+      ctx.font = '10px "Space Mono", monospace';
+      ctx.fillText('VALIDITY: UNEXPIRING // AṢẸ FREQUENCY: 98,400W // LAGOS SECTOR 01', 340, btmY + 16);
+
+      // Scanline Effect
+      if (cyberIdState.scanlines) {
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.02)';
+        for (var sl = 0; sl < h; sl += 4) {
+          ctx.fillRect(0, sl, w, 1.5);
+        }
+        var sweepY = ((cyberIdState.t * 80) % h);
+        var sweepGrad = ctx.createLinearGradient(0, sweepY - 20, 0, sweepY + 20);
+        sweepGrad.addColorStop(0, 'rgba(0, 201, 177, 0)');
+        sweepGrad.addColorStop(0.5, 'rgba(0, 201, 177, 0.08)');
+        sweepGrad.addColorStop(1, 'rgba(0, 201, 177, 0)');
+        ctx.fillStyle = sweepGrad;
+        ctx.fillRect(0, sweepY - 20, w, 40);
+      }
+
+      requestAnimationFrame(draw);
+    }
+    draw();
+  }
+
+  // Initialize both engines on DOMContentLoaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      initBossCanvas();
+      initCyberIdCanvas();
+    });
+  } else {
+    initBossCanvas();
+    initCyberIdCanvas();
+  }
 })();
+

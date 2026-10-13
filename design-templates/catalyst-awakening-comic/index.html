@@ -4148,6 +4148,153 @@
   </div>
 </section>
 
+<!-- ============================================================ INTERACTIVE 3D COMBAT SIMULATOR & BOSS ENCOUNTERS -->
+<section id="boss-encounter" class="boss-encounter-section">
+  <div class="boss-encounter-wrap">
+    <p class="section-label reveal" style="justify-content:center">Oracle Tactical Protocol // Apex Boss Encounter Engine</p>
+    <h2 class="section-title reveal" style="text-align:center">APEX CONFLICT<br><em>BOSS SIMULATOR</em></h2>
+    <p class="reveal" style="max-width:680px;margin:1rem auto 0;font-size:0.9rem;line-height:1.8;color:rgba(240,237,229,0.65);text-align:center;">
+      Engage the monolithic tyrants of the Pale Council and rogue cyber-supernatural entities threatening Neo-Lagos. Calibrate your champion, harness Orisha Aṣẹ energy, and execute real-time tactical combat strikes in the 3D neural simulation arena.
+    </p>
+
+    <!-- Combatant & Boss Loadout Selectors -->
+    <div class="boss-setup-bar reveal">
+      <div class="boss-sel-group">
+        <label for="bossHeroSelect" class="boss-sel-lbl">SELECT CHAMPION (AṢẸ ALIGNMENT)</label>
+        <select id="bossHeroSelect" class="boss-select" onchange="bossSelectHero(this.value)">
+          <option value="bayo">Bayo Adeyemi // Ṣàngó Conductor (Volt Striker)</option>
+          <option value="amara">Amara Diallo // Ọya Tempest (Storm Assassin)</option>
+          <option value="ikenna">Ikenna Okoro // Ògún Vanguard (Titanium Tank)</option>
+          <option value="zara">Zara Bello // Cyber-Oracle (Quantum Tactician)</option>
+        </select>
+      </div>
+
+      <div class="boss-sel-group">
+        <label for="bossTargetSelect" class="boss-sel-lbl">APEX ADVERSARY (CLASS: SYSTEM THREAT)</label>
+        <select id="bossTargetSelect" class="boss-select" onchange="bossSelectTarget(this.value)">
+          <option value="architect">The Architect // Sovereign AI Overlord (HP: 2,500)</option>
+          <option value="iron-preacher">Iron Preacher // Apex Enforcer (HP: 1,900)</option>
+          <option value="leviathan">Lagoon Leviathan // Sub-Aquatic Behemoth (HP: 3,200)</option>
+        </select>
+      </div>
+
+      <button type="button" class="boss-reset-btn" onclick="bossResetBattle()" title="Restart Encounter">
+        ↺ REBOOT SIMULATION
+      </button>
+    </div>
+
+    <!-- Battle Stage with Canvas & HUD -->
+    <div class="boss-battle-stage reveal">
+      <!-- Top Telemetry HUD -->
+      <div class="boss-hud-grid">
+        <!-- Hero HUD Panel -->
+        <div class="boss-hero-card" id="bossHeroCard">
+          <div class="boss-combatant-head">
+            <span class="boss-combatant-avatar" id="bossHeroAvatar">⚡</span>
+            <div>
+              <h3 class="boss-combatant-name" id="bossHeroName">BAYO ADEYEMI</h3>
+              <span class="boss-combatant-sub" id="bossHeroClass">CLASS: ṢÀNGÓ VOLT CONDUCTOR</span>
+            </div>
+          </div>
+          <div class="boss-bar-wrap">
+            <div class="boss-bar-meta"><span>VITAL MATRIX (HP)</span><span id="bossHeroHpTxt">1,200 / 1,200</span></div>
+            <div class="boss-bar-track"><div class="boss-bar-fill hero-hp" id="bossHeroHpBar" style="width:100%"></div></div>
+          </div>
+          <div class="boss-bar-wrap">
+            <div class="boss-bar-meta"><span>AṢẸ SURGE GAUGE</span><span id="bossHeroAseTxt">100 / 100</span></div>
+            <div class="boss-bar-track"><div class="boss-bar-fill hero-ase" id="bossHeroAseBar" style="width:100%"></div></div>
+          </div>
+        </div>
+
+        <!-- Center Matchup Tag -->
+        <div class="boss-vs-badge">
+          <span class="boss-vs-txt">VS</span>
+          <span class="boss-phase-tag" id="bossPhaseTag">PHASE 1: STABLE</span>
+        </div>
+
+        <!-- Boss HUD Panel -->
+        <div class="boss-target-card" id="bossTargetCard">
+          <div class="boss-combatant-head" style="flex-direction:row-reverse;text-align:right;">
+            <span class="boss-combatant-avatar" id="bossTargetAvatar">👁️</span>
+            <div>
+              <h3 class="boss-combatant-name" id="bossTargetName">THE ARCHITECT</h3>
+              <span class="boss-combatant-sub" id="bossTargetClass">CLASS: PALE COUNCIL SOVEREIGN</span>
+            </div>
+          </div>
+          <div class="boss-bar-wrap">
+            <div class="boss-bar-meta"><span>SYSTEM INTEGRITY</span><span id="bossTargetHpTxt">2,500 / 2,500</span></div>
+            <div class="boss-bar-track"><div class="boss-bar-fill target-hp" id="bossTargetHpBar" style="width:100%"></div></div>
+          </div>
+          <div class="boss-bar-wrap">
+            <div class="boss-bar-meta"><span>THREAT OVERDRIVE</span><span id="bossTargetThreatTxt">0% (SUB-CRITICAL)</span></div>
+            <div class="boss-bar-track"><div class="boss-bar-fill target-threat" id="bossTargetThreatBar" style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3D Perspective Canvas Arena -->
+      <div class="boss-canvas-container" id="bossCanvasContainer">
+        <canvas id="bossBattleCanvas" width="800" height="400" aria-label="Interactive 3D combat simulation arena showing animated combatants and visual particle strikes"></canvas>
+        <div class="boss-canvas-overlay-vfx" id="bossCanvasVfx" aria-hidden="true"></div>
+      </div>
+
+      <!-- Tactical Command Deck (Actions) -->
+      <div class="boss-command-deck">
+        <div class="boss-deck-header">
+          <span class="boss-deck-title">TACTICAL COMMAND DECK // SELECT DIRECTIVE</span>
+          <span class="boss-turn-state" id="bossTurnState">YOUR MOVE — SELECT ACTION</span>
+        </div>
+
+        <div class="boss-actions-grid">
+          <button type="button" class="boss-action-btn act-sango" id="btnActSango" onclick="bossExecuteMove('strike')">
+            <span class="boss-act-icon">⚡</span>
+            <div class="boss-act-info">
+              <strong>ṢÀNGÓ VOLT ARC</strong>
+              <small>Deals 220–290 Electric Burst · 20 Aṣẹ</small>
+            </div>
+          </button>
+
+          <button type="button" class="boss-action-btn act-ogun" id="btnActOgun" onclick="bossExecuteMove('deflect')">
+            <span class="boss-act-icon">🛡</span>
+            <div class="boss-act-info">
+              <strong>ÒGÚN KINETIC SHIELD</strong>
+              <small>Blocks 75% Damage + 130 Counter-Cleave · 15 Aṣẹ</small>
+            </div>
+          </button>
+
+          <button type="button" class="boss-action-btn act-oya" id="btnActOya" onclick="bossExecuteMove('flurry')">
+            <span class="boss-act-icon">🌪</span>
+            <div class="boss-act-info">
+              <strong>ỌYA TEMPEST FLURRY</strong>
+              <small>3-Hit Critical Combo + 30% Evasion Buff · 25 Aṣẹ</small>
+            </div>
+          </button>
+
+          <button type="button" class="boss-action-btn act-orun" id="btnActOrun" onclick="bossExecuteMove('surge')">
+            <span class="boss-act-icon">✨</span>
+            <div class="boss-act-info">
+              <strong>Ọ̀RUN DIVINE SURGE</strong>
+              <small>Restores 350 HP + 40 Aṣẹ · 3-Turn Cooldown</small>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Real-Time Combat Telemetry Log -->
+      <div class="boss-log-box">
+        <div class="boss-log-header">
+          <span>ORACLE COMBAT TELEMETRY // REAL-TIME DISPATCH</span>
+          <button type="button" class="boss-log-clear" onclick="bossClearLog()">CLEAR LOG</button>
+        </div>
+        <div class="boss-log-stream" id="bossCombatLog" role="log" aria-live="polite">
+          <div class="boss-log-row system">[ORACLE] Neural link established. Combat arena initialized at 60 FPS.</div>
+          <div class="boss-log-row system">[ORACLE] Target locked: The Architect. Aṣẹ resonance standing by.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <div class="energy-beam-divider" aria-hidden="true"></div>
 
 <section id="hero-quiz">
@@ -4462,19 +4609,19 @@
 <section id="arcs">
     <img class="section-photo-bg" src="./assets/shipyard.webp" alt="Dark port with containers" loading="lazy" aria-hidden="true">
   <div class="arcs-header">
-    <p class="section-label reveal">The Saga</p>
-    <h2 class="section-title reveal">ELEVEN ARCS.<br>ONE <em>LEGEND</em></h2>
-    <p class="reveal" style="max-width:580px;font-size:0.9rem;line-height:1.8;color:rgba(240,237,229,0.65);margin-top:1rem;">An ordinary Lagos boy will become the most powerful being in two realms — not by luck, but through loss, trial, death, and resurrection. Eleven arcs. Nine hundred pages. The story of Adebayo Adeyemi is not about destiny. It is about earning it.</p>
+    <p class="section-label reveal">Canonical Narrative Architecture // COMIC-001</p>
+    <h2 class="section-title reveal">THE 12-ISSUE SAGA.<br>ONE <em>CATALYST</em></h2>
+    <p class="reveal" style="max-width:580px;font-size:0.9rem;line-height:1.8;color:rgba(240,237,229,0.65);margin-top:1rem;">The canonical 12-issue graphic novel epic created by Oluwatobiloba — The Catalyst. Rooted in real production data: Issue #01 features an 88-page unified storyboard, Issue #02 Arranged Review v1 in active development, and full scripts documented in Series Bible COMIC-003.</p>
   </div>
   <div class="arcs-scroll">
 
     <!-- ARC I -->
     <div class="arc-card free-arc reveal">
       <div class="arc-num">I</div>
-      <span class="arc-badge badge-free">Free — Issues 01–04 of Arc I</span>
+      <span class="arc-badge badge-free">Canonical Arc I — Issues 01–04</span>
       <div class="arc-title">The Catalyst</div>
       <div class="arc-subtitle">"Awaken, O City"</div>
-      <div class="arc-issues">9 Issues · 100 Pages · Arc I Complete</div>
+      <div class="arc-issues">Issues 01–04 · 88-Page Storyboard Live · In Production</div>
       <p class="arc-synopsis">Bayo is 19, homeless, and running from area boys in Mushin when a tear in reality — an Ọ̀run-bleed — opens above the Balogun Nexus. Every established hero fails. Bayo absorbs an Orisha strike bare-handed and returns it tenfold. He has no idea what he is. The Oracle does. The Aṣẹ System awakens for the first time in recorded history.</p>
       <div class="arc-power">
         <div class="arc-power-label">Power Unlock</div>
@@ -6491,7 +6638,7 @@
             <div class="speech-bubble">This is what they want.</div>
           </div>
           <div class="ase-activation-box">
-            <div class="ase-popup-title">[ ASẸ SYSTEM — ẸṢÙ: VISION COMPLETE ]</div>
+            <div class="ase-popup-title">[ AṢẸ SYSTEM — ẸṢÙ: VISION COMPLETE ]</div>
             <div class="ase-popup-line gold">This is the future along the highest-probability path if the Vaccine is deployed. Time to deployment: 34 days.</div>
             <div class="ase-popup-line">The Orishas' connection to Àiyé does not sever cleanly. It tears. The tearing takes generations to stop being felt.</div>
             <div class="ase-popup-line" style="color:var(--blood-red);">Every child born in Lagos after Vaccine administration will grow up in a city that has forgotten what it was connected to. They will not know they are missing it. That is the specific cruelty of the plan.</div>
@@ -6616,10 +6763,10 @@
 <!-- ============================================================ CATALYST OS OFFICIAL PRE-ORDER STORE & COLLECTOR'S BOX -->
 <section id="preorder-store" style="padding:6rem 1.5rem 7rem;background:rgba(6,8,18,0.96);border-top:1px solid rgba(244,184,0,0.25);">
   <div class="store-header" style="text-align:center;max-width:780px;margin:0 auto 3.5rem;">
-    <p class="section-label reveal" style="justify-content:center">Official Graphic Novel &amp; Collector Merch</p>
-    <h2 class="section-title reveal">PRE-ORDER <em>THE UNIVERSE</em></h2>
+    <p class="section-label reveal" style="justify-content:center">Official Kickstarter &amp; Crowdfunding Infrastructure // COMIC-005</p>
+    <h2 class="section-title reveal">COLLECTOR PLEDGE <em>TIERS</em></h2>
     <p class="reveal" style="font-size:0.92rem;line-height:1.85;color:rgba(240,237,229,0.65);margin-top:1rem;">
-      Own the physical archival edition of Africa's groundbreaking Afrofuturist comic. Heavy coated art paper, foil stamping, metallic prints, and direct worldwide shipping.
+      Canonical collector editions and physical backer rewards registered under the Catalyst OS monetization model (COMIC-005). Reserve your pledge tier and join the early backer registry ahead of the official Kickstarter launch.
     </p>
     <!-- Store Currency Switcher -->
     <div class="store-currency-switcher reveal" id="storeCurrencySwitcher">
@@ -6648,7 +6795,7 @@
         </ul>
         <div class="store-card-footer">
           <div class="store-price" data-price-ngn="15000" data-price-usd="12" data-price-gbp="10">₦15,000</div>
-          <button type="button" class="store-buy-btn" onclick="openCheckoutModal('issue1_foil', 'Issue #01 Deluxe Foil Hardcover', 15000, 12, 10)">PRE-ORDER NOW →</button>
+          <button type="button" class="store-buy-btn" onclick="openCheckoutModal('issue1_foil', 'Issue #01 Deluxe Foil Hardcover', 15000, 12, 10)">RESERVE PLEDGE TIER →</button>
         </div>
       </div>
     </div>
@@ -6671,7 +6818,7 @@
         </ul>
         <div class="store-card-footer">
           <div class="store-price" data-price-ngn="45000" data-price-usd="35" data-price-gbp="28">₦45,000</div>
-          <button type="button" class="store-buy-btn featured" onclick="openCheckoutModal('orun_box_set', 'The Ọ̀run Collector\\'s Box Set', 45000, 35, 28)">CLAIM BOX SET →</button>
+          <button type="button" class="store-buy-btn featured" onclick="openCheckoutModal('orun_box_set', 'The Ọ̀run Collector\\'s Box Set', 45000, 35, 28)">RESERVE BOX SET →</button>
         </div>
       </div>
     </div>
@@ -6693,7 +6840,7 @@
         </ul>
         <div class="store-card-footer">
           <div class="store-price" data-price-ngn="5000" data-price-usd="4" data-price-gbp="3.5">₦5,000</div>
-          <button type="button" class="store-buy-btn" onclick="openCheckoutModal('digital_pass', 'Digital Ultimate Archival Pass', 5000, 4, 3.5)">GET DIGITAL PASS →</button>
+          <button type="button" class="store-buy-btn" onclick="openCheckoutModal('digital_pass', 'Digital Ultimate Archival Pass', 5000, 4, 3.5)">RESERVE DIGITAL PASS →</button>
         </div>
       </div>
     </div>
@@ -6957,6 +7104,159 @@
     </div>
     <div class="sim-result" id="simResult" style="display:none;">
       <!-- Injected by script.js -->
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ FACTION ALIGNMENT & CYBER-ID CARD MINTING STUDIO -->
+<section id="cyber-id-mint" class="cyber-id-mint-section">
+  <div class="cyber-id-wrap">
+    <p class="section-label reveal" style="justify-content:center">Catalyst OS Operative Credential Studio // Clearance Protocol</p>
+    <h2 class="section-title reveal" style="text-align:center">INSURGENT FACTION<br><em>CYBER-ID MINT</em></h2>
+    <p class="reveal" style="max-width:700px;margin:1rem auto 0;font-size:0.9rem;line-height:1.8;color:rgba(240,237,229,0.65);text-align:center;">
+      Synthesize your verified biometric operative identity across the Ọ̀run Neural Grid. Choose your faction allegiance, calibrate your cognitive archetype according to Catalyst OS standards, and mint an authenticated high-DPI holographic badge with embedded security watermark.
+    </p>
+
+    <!-- Minting Studio Grid: Controls on Left, Live Card Canvas on Right -->
+    <div class="cyber-id-studio-grid reveal">
+      <!-- Left Column: Operative Configuration Deck -->
+      <div class="cyber-id-controls-card">
+        <div class="cyber-id-controls-head">
+          <span class="cyber-id-step-tag">STEP 01</span>
+          <h3>OPERATIVE CALIBRATION</h3>
+        </div>
+
+        <!-- Faction Selector Grid -->
+        <div class="cyber-form-group">
+          <label class="cyber-label">FACTION ALLEGIANCE</label>
+          <div class="cyber-faction-options" id="cyberFactionOptions">
+            <button type="button" class="cyber-faction-btn active" data-faction="sango" onclick="selectIdFaction('sango', this)">
+              <span class="cf-icon">⚡</span>
+              <div>
+                <strong>Ṣàngó Volt Collective</strong>
+                <small>Mushin Resistance · Kinetic Overclock</small>
+              </div>
+            </button>
+            <button type="button" class="cyber-faction-btn" data-faction="ogun" onclick="selectIdFaction('ogun', this)">
+              <span class="cf-icon">⚔</span>
+              <div>
+                <strong>Ògún Steel Union</strong>
+                <small>Foundry Enclave · Titanium Armor</small>
+              </div>
+            </button>
+            <button type="button" class="cyber-faction-btn" data-faction="kooza" onclick="selectIdFaction('kooza', this)">
+              <span class="cf-icon">👁️</span>
+              <div>
+                <strong>Kooza Syndicate</strong>
+                <small>Pale Council Infiltrator · Ghost Grid</small>
+              </div>
+            </button>
+            <button type="button" class="cyber-faction-btn" data-faction="oracle" onclick="selectIdFaction('oracle', this)">
+              <span class="cf-icon">🔮</span>
+              <div>
+                <strong>Ọ̀run Cyber-Oracle</strong>
+                <small>Balogun Seers · Quantum Matrix</small>
+              </div>
+            </button>
+            <button type="button" class="cyber-faction-btn" data-faction="catalyst" onclick="selectIdFaction('catalyst', this)">
+              <span class="cf-icon">🛡️</span>
+              <div>
+                <strong>Catalyst OS Core Sovereign</strong>
+                <small>Arch-Catalyst · Metal Dragon INFJ</small>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Operative Callsign -->
+        <div class="cyber-form-group">
+          <label for="cyberCallsignInput" class="cyber-label">OPERATIVE CALLSIGN</label>
+          <input type="text" id="cyberCallsignInput" class="cyber-input" value="CATALYST_VANGUARD_01" maxlength="24" oninput="updateCyberIdCard()" placeholder="e.g. SÒLÒ_SPECTRE_07">
+        </div>
+
+        <!-- Cognitive Archetype & Clearance Level -->
+        <div class="cyber-form-row">
+          <div class="cyber-form-group half">
+            <label for="cyberArchetypeSelect" class="cyber-label">COGNITIVE ARCHETYPE</label>
+            <select id="cyberArchetypeSelect" class="cyber-select" onchange="updateCyberIdCard()">
+              <option value="Metal Dragon INFJ">Metal Dragon | INFJ</option>
+              <option value="Thomas Shelby">Thomas Shelby (Phalanx)</option>
+              <option value="Raymond Reddington">Raymond Reddington (Arbitrage)</option>
+              <option value="Michael Scofield">Michael Scofield (Forensics)</option>
+              <option value="Upstream Sovereign">Upstream Sovereign</option>
+            </select>
+          </div>
+
+          <div class="cyber-form-group half">
+            <label for="cyberClearanceSelect" class="cyber-label">CLEARANCE TIER</label>
+            <select id="cyberClearanceSelect" class="cyber-select" onchange="updateCyberIdCard()">
+              <option value="Tier 1: Sentry">Tier 1: Sentry</option>
+              <option value="Tier 2: Vanguard">Tier 2: Vanguard</option>
+              <option value="Tier 3: Enforcer">Tier 3: Enforcer</option>
+              <option value="Tier 4: Cipher Master">Tier 4: Cipher Master</option>
+              <option value="Tier 5: Arch-Catalyst" selected>Tier 5: Arch-Catalyst</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Relic Alignment -->
+        <div class="cyber-form-group">
+          <label for="cyberRelicSelect" class="cyber-label">SACRED RELIC RESONANCE</label>
+          <select id="cyberRelicSelect" class="cyber-select" onchange="updateCyberIdCard()">
+            <option value="Oṣé Ṣàngó // Lightning Scepter">Oṣé Ṣàngó // Lightning Scepter</option>
+            <option value="Ògún Iron Blade // Titanium Cleaver">Ògún Iron Blade // Titanium Cleaver</option>
+            <option value="Opon Ifá Quantum Matrix // Divination Tray">Opon Ifá Quantum Matrix // Divination Tray</option>
+            <option value="Abebe Ọya // Cyclonic Wind Fan">Abebe Ọya // Cyclonic Wind Fan</option>
+          </select>
+        </div>
+
+        <!-- Holo Effect Controls -->
+        <div class="cyber-toggles-row">
+          <label class="cyber-toggle-lbl">
+            <input type="checkbox" id="cyberScanlineToggle" checked onchange="toggleIdScanlines(this.checked)">
+            <span>Holographic Scanline Sheen</span>
+          </label>
+          <label class="cyber-toggle-lbl">
+            <input type="checkbox" id="cyberParticlesToggle" checked onchange="toggleIdParticles(this.checked)">
+            <span>Aṣẹ Particle Glow</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Right Column: Live High-DPI Holographic Card Canvas & Mint Deck -->
+      <div class="cyber-id-preview-panel">
+        <div class="cyber-id-preview-head">
+          <span class="cyber-id-step-tag">STEP 02</span>
+          <h3>BIOMETRIC BADGE PREVIEW</h3>
+          <span class="cyber-verified-stamp">● Ọ̀RUN AUTHENTICATED</span>
+        </div>
+
+        <!-- The Canvas Stage -->
+        <div class="cyber-card-frame" id="cyberCardFrame">
+          <canvas id="cyberIdCanvas" width="800" height="480" aria-label="Operative Cyber-ID holographic badge showing callsign, faction crest, clearance code, and Aṣẹ telemetry"></canvas>
+          <div class="cyber-hologram-shimmer" id="cyberHoloShimmer" aria-hidden="true"></div>
+        </div>
+
+        <!-- Mint Actions Deck -->
+        <div class="cyber-id-actions">
+          <button type="button" class="cyber-mint-btn primary" onclick="downloadCyberIdBadge()">
+            <span class="cyber-btn-icon">⬇</span> MINT &amp; DOWNLOAD HIGH-DPI BADGE (PNG)
+          </button>
+          <button type="button" class="cyber-mint-btn secondary" onclick="copyCyberCredentialHash()">
+            <span class="cyber-btn-icon">📋</span> COPY CREDENTIAL HASH
+          </button>
+          <button type="button" class="cyber-mint-btn tertiary" onclick="playCyberBiometricChime()" title="Play Biometric Auth Chime">
+            <span class="cyber-btn-icon">🔊</span> AUDIO VERIFY
+          </button>
+        </div>
+
+        <!-- Security Verification Readout -->
+        <div class="cyber-hash-readout">
+          <span class="chr-lbl">SEC-HASH:</span>
+          <span class="chr-val" id="cyberHashDisplay">COS-0x7F4A-98C2-ORUN-9821</span>
+          <span class="chr-status">VALIDATED ON CATALYST OS 2.0</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
