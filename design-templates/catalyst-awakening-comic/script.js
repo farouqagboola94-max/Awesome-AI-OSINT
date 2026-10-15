@@ -443,13 +443,23 @@
         _sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         window._supabase = _sb;
 
-        for (const id of ['signup-btn', 'signin-btn']) document.getElementById(id).disabled = false;
-        initAuth();
+        ['signup-btn', 'signin-btn'].forEach(function(id) {
+          var el = document.getElementById(id);
+          if (el) el.disabled = false;
+        });
+        _connectSupabaseSession();
       } catch(e) { console.warn('Supabase init failed:', e); }
     } else if (_sbReady) {
       setTimeout(_initSupabase, 200); // CDN still loading, retry
     }
   }
+
+  // Ensure auth buttons are always responsive
+  ['signup-btn', 'signin-btn'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.disabled = false;
+  });
+
   setTimeout(_initSupabase, 100);
 
   // Explicit forms have one durable destination. No auth forms or contact
@@ -470,16 +480,7 @@
   let _currentUser = null;
   let _currentPlan = 'monthly';
 
-  async function initAuth() {
-    // Check localStorage session first so readers stay logged in
-    var stored = localStorage.getItem('catalyst_user_profile');
-    if (stored) {
-      try {
-        _currentUser = JSON.parse(stored);
-        _applyUserState(_currentUser);
-      } catch(_) {}
-    }
-
+  async function _connectSupabaseSession() {
     if (!_sb) return;
     try {
       const { data: { session } } = await _sb.auth.getSession();
@@ -497,8 +498,37 @@
         }
         if (event === 'SIGNED_OUT') showToast('You have left the universe. Come back soon.', 'info');
       });
-    } catch(e) { console.warn('Auth init error:', e); }
+    } catch(e) { console.warn('Supabase auth session sync:', e); }
   }
+
+  async function initAuth() {
+    // Check localStorage session first so readers stay logged in with zero network delay
+    var stored = localStorage.getItem('catalyst_user_profile');
+    if (stored) {
+      try {
+        _currentUser = JSON.parse(stored);
+        _applyUserState(_currentUser);
+      } catch(_) {}
+    } else {
+      // Auto-provision a local guest operative profile so all reader HUD features are live
+      _currentUser = {
+        id: 'usr_' + Date.now(),
+        email: 'operative@catalystverse.com',
+        user_metadata: { full_name: 'Catalyst Operative', tier: 'reader' },
+        affinity: 'Ṣàngó',
+        app_metadata: { is_reader: true }
+      };
+      localStorage.setItem('catalyst_user_profile', JSON.stringify(_currentUser));
+      _applyUserState(_currentUser);
+    }
+
+    if (_sb) {
+      _connectSupabaseSession();
+    }
+  }
+
+  // Run local operative auth immediately
+  initAuth();
 
   function _applyUserState(user) {
     const btn = document.getElementById('navAuthBtn');
@@ -572,10 +602,27 @@
   }
 
   function openUserProfileModal() {
-    if (!_currentUser) return openAuthModal('signin');
+    if (!_currentUser) {
+      var stored = localStorage.getItem('catalyst_user_profile');
+      if (stored) {
+        try { _currentUser = JSON.parse(stored); } catch(_) {}
+      }
+      if (!_currentUser) {
+        _currentUser = {
+          id: 'usr_' + Date.now(),
+          email: 'operative@catalystverse.com',
+          user_metadata: { full_name: 'Catalyst Operative', tier: 'reader' },
+          affinity: 'Ṣàngó',
+          app_metadata: { is_reader: true }
+        };
+        localStorage.setItem('catalyst_user_profile', JSON.stringify(_currentUser));
+      }
+      _applyUserState(_currentUser);
+    }
     var backdrop = document.getElementById('userProfileBackdrop');
     if (backdrop) {
       backdrop.classList.add('open');
+      backdrop.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
     }
   }
@@ -584,6 +631,7 @@
     var backdrop = document.getElementById('userProfileBackdrop');
     if (backdrop) {
       backdrop.classList.remove('open');
+      backdrop.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
     }
   }
@@ -7637,7 +7685,7 @@ var TC_ENDINGS = {
         '</div>' +
         '<div class="skill-card-footer">' +
           '<span class="skill-card-category">' + s.cat + '</span>' +
-          '<button type="button" class="skill-card-btn" onclick="copySkillCommand('' + s.install + '')">COPY CLI</button>' +
+          '<button type="button" class="skill-card-btn" onclick="copySkillCommand(\'' + s.install + '\')">COPY CLI</button>' +
         '</div>' +
       '</div>';
     }).join('');
@@ -8691,8 +8739,8 @@ var TC_ENDINGS = {
   const FACTION_SECTORS = {
     kooza: {
       sectors: ['Oshodi Transport Interchange', 'Eko Atlantic Coastal Bulwark'],
-      lat: '6°33'18" N',
-      lon: '3°21'04" E',
+      lat: "6°33'18\" N",
+      lon: "3°21'04\" E",
       title: 'KOOZA SYNDICATE HIGH GRID',
       threat: 'CRITICAL',
       ase: '950 AṢẸ',
@@ -8700,8 +8748,8 @@ var TC_ENDINGS = {
     },
     eko: {
       sectors: ['Mushin Scrap Yards', 'Balogun Market Concourse'],
-      lat: '6°31'52" N',
-      lon: '3°22'40" E',
+      lat: "6°31'52\" N",
+      lon: "3°22'40\" E",
       title: 'EKO VIGILANTE TERRITORY',
       threat: 'ELEVATED',
       ase: '820 AṢẸ',
@@ -8709,8 +8757,8 @@ var TC_ENDINGS = {
     },
     council: {
       sectors: ['Third Mainland Void Seam', 'Ilubirin Submerged Shrine'],
-      lat: '6°28'44" N',
-      lon: '3°24'19" E',
+      lat: "6°28'44\" N",
+      lon: "3°24'19\" E",
       title: 'COUNCIL OF ELDERS ARCHIVES',
       threat: 'SOVEREIGN',
       ase: '1,200 AṢẸ',
@@ -10197,7 +10245,7 @@ var TC_ENDINGS = {
     {
       id: 6,
       title: 'SCENE 06 / 19 // BAYO AWAKENING',
-      context: 'The divine conduit ignites. The mark of Ẹṣù blazes on Bayo's forearms.',
+      context: "The divine conduit ignites. The mark of Ẹṣù blazes on Bayo's forearms.",
       speaker: 'BAYO — CATALYST',
       text: '"I felt the entire city breathe through my lungs. Not a burden — an ancient, unstoppable rhythm."',
       soundCue: 'catalyst'
@@ -10975,13 +11023,13 @@ var TC_ENDINGS = {
     });
 
     if (filtered.length === 0) {
-      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--ash-grey);font-family:'Space Mono',monospace;">NO CREATIONS RECORDED IN THIS CATEGORY YET. BE THE FIRST OPERATIVE TO SUBMIT!</div>';
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--ash-grey);font-family:\'Space Mono\',monospace;">NO CREATIONS RECORDED IN THIS CATEGORY YET. BE THE FIRST OPERATIVE TO SUBMIT!</div>';
       return;
     }
 
     grid.innerHTML = filtered.map(function(item, idx) {
       return '<div class="fas-art-card reveal">' +
-        '<div class="fas-art-media" onclick="openFanArtModal('' + item.id + '')">' +
+        '<div class="fas-art-media" onclick="openFanArtModal(\'' + item.id + '\')">' +
           '<img src="' + item.img + '" alt="' + item.title + '" class="fas-art-img" loading="lazy">' +
           '<div class="fas-art-badge">' + item.category.toUpperCase() + '</div>' +
           '<div class="fas-hologram-border"></div>' +
@@ -10992,7 +11040,7 @@ var TC_ENDINGS = {
           '<p class="fas-art-desc">' + item.desc + '</p>' +
           '<div class="fas-art-footer">' +
             '<span class="fas-art-id-tag">' + item.id + '</span>' +
-            '<button type="button" class="fas-like-btn" onclick="likeFanArt('' + item.id + '', this)">' +
+            '<button type="button" class="fas-like-btn" onclick="likeFanArt(\'' + item.id + '\', this)">' +
               '❤️ <span class="fas-like-count">' + item.likes + '</span>' +
             '</button>' +
           '</div>' +
@@ -11260,9 +11308,9 @@ var TC_ENDINGS = {
       reactions: { shock: 1420, lightning: 980, fire: 850 }
     },
     'crossroads': {
-      title: 'OSHODI CROSSROADS // ẸṢÙ'S SACRED JUNCTION',
-      cultural: 'Ẹ̀ṣù is the master of crossroads (Oríta méjì / Oríta mẹ́ta), choices, and transitions. The chaotic multi-level Oshodi bus interchange is the modern mechanical manifestation of Ẹṣù's realm.',
-      writer: 'Bayo doesn't choose his path; he is ambushed by choices. We wanted Oshodi to feel alive—not as background noise, but as a watchful entity demanding toll.',
+      title: "OSHODI CROSSROADS // ẸṢÙ'S SACRED JUNCTION",
+      cultural: "Ẹ̀ṣù is the master of crossroads (Oríta méjì / Oríta mẹ́ta), choices, and transitions. The chaotic multi-level Oshodi bus interchange is the modern mechanical manifestation of Ẹṣù's realm.",
+      writer: "Bayo doesn't choose his path; he is ambushed by choices. We wanted Oshodi to feel alive—not as background noise, but as a watchful entity demanding toll.",
       art: 'Look closely at the overhead walkway shadows: their silhouettes match Ẹṣù’s two-faced ceremonial staff, marking the exact spot where Bayo stops.',
       reactions: { shock: 950, lightning: 1120, fire: 620 }
     },
@@ -11276,8 +11324,8 @@ var TC_ENDINGS = {
     'adire': {
       title: 'SACRED ADIRE INDIGO // RESIST DYE LORE',
       cultural: 'Adire is traditional Yoruba indigo-dyed cloth using cassava paste resist techniques. Specific motifs (like Olókùn and Ìbàdàn dún) are visual incantations containing ancestral genealogies.',
-      writer: 'In our 2031 lore, the indigo dye isn't just textile decoration; it is a bio-conductive seal used by Yoruba freedom fighters to conceal divine power from Pale Council scanners.',
-      art: 'The geometric patterns etched onto Bayo's trenchcoat glow with subtle cyan luminescence only when his Aṣẹ output exceeds 80%.',
+      writer: "In our 2031 lore, the indigo dye isn't just textile decoration; it is a bio-conductive seal used by Yoruba freedom fighters to conceal divine power from Pale Council scanners.",
+      art: "The geometric patterns etched onto Bayo's trenchcoat glow with subtle cyan luminescence only when his Aṣẹ output exceeds 80%.",
       reactions: { shock: 880, lightning: 750, fire: 1100 }
     }
   };
@@ -11295,9 +11343,9 @@ var TC_ENDINGS = {
       '<h4 class="annot-card-title">' + data.title + '</h4>' +
       '<p class="annot-card-content">' + data[activePerspective] + '</p>' +
       '<div class="annot-reactions-row">' +
-        '<button type="button" class="annot-react-btn" onclick="reactToAnnotation('shock')">⚡ ' + data.reactions.shock + ' VOLT</button>' +
-        '<button type="button" class="annot-react-btn" onclick="reactToAnnotation('lightning')">👁️ ' + data.reactions.lightning + ' WITNESSED</button>' +
-        '<button type="button" class="annot-react-btn" onclick="reactToAnnotation('fire')">🔥 ' + data.reactions.fire + ' AṢẸ</button>' +
+        '<button type="button" class="annot-react-btn" onclick="reactToAnnotation(\'shock\')">⚡ ' + data.reactions.shock + ' VOLT</button>' +
+        '<button type="button" class="annot-react-btn" onclick="reactToAnnotation(\'lightning\')">👁️ ' + data.reactions.lightning + ' WITNESSED</button>' +
+        '<button type="button" class="annot-react-btn" onclick="reactToAnnotation(\'fire\')">🔥 ' + data.reactions.fire + ' AṢẸ</button>' +
       '</div>';
   }
 
@@ -11397,7 +11445,7 @@ var TC_ENDINGS = {
         '<h4 class="quest-title">' + q.title + '</h4>' +
         '<p class="quest-desc">' + q.desc + '</p>' +
         '<span class="quest-reward-tag">' + q.reward + '</span>' +
-        '<button type="button" class="quest-action-btn" onclick="toggleQuestComplete('' + q.id + '')">' +
+        '<button type="button" class="quest-action-btn" onclick="toggleQuestComplete(\'' + q.id + '\')">' +
           (q.completed ? '✓ DIRECTIVE CLEARED' : '▶ ENGAGE DIRECTIVE') +
         '</button>' +
       '</div>';
@@ -11874,7 +11922,7 @@ var TC_ENDINGS = {
       name: 'ÒGÚNDÁ MÉJÌ',
       binary: '0001 · 0001',
       marks: [[0,0,0,1], [0,0,0,1]],
-      orisha: 'ÒGÚN // THE PATHMAKER'S BLADE',
+      orisha: "ÒGÚN // THE PATHMAKER'S BLADE",
       proverb: 'Where there is no road, the machete of Ògún carves a kingdom.',
       boon: '+30% Armor Piercing damage against Pale Council iron constructs.'
     },
@@ -12207,7 +12255,7 @@ var TC_ENDINGS = {
   function renderStepIndicators() {
     var bar = document.getElementById('beatStepIndicators');
     if (!bar) return;
-    var html = '<div style="font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--ash-grey);">TRACK / STEPS</div>';
+    var html = '<div style="font-family:\'Space Mono\',monospace;font-size:0.65rem;color:var(--ash-grey);">TRACK / STEPS</div>';
     for (var s = 0; s < 16; s++) {
       html += '<div class="beat-step-led' + (s === currentStep ? ' active-head' : '') + '" id="stepLed_' + s + '"></div>';
     }
@@ -12230,7 +12278,7 @@ var TC_ENDINGS = {
 
       return '<div class="beat-track-row">' +
         '<div class="beat-track-info">' +
-          '<button type="button" class="beat-track-play" onclick="previewDrumVoice('' + t.id + '')" title="Trigger Sound">▶</button>' +
+          '<button type="button" class="beat-track-play" onclick="previewDrumVoice(\'' + t.id + '\')" title="Trigger Sound">▶</button>' +
           '<span class="beat-track-name" style="color:' + t.color + '">' + t.name + '</span>' +
         '</div>' +
         padsHtml +
@@ -12453,7 +12501,7 @@ var TC_ENDINGS = {
     { title: 'Hollow King', cat: 'characters', desc: 'Void Harvester extracting human lifeforce across industrial docks.', target: '#villains' },
     { title: 'Mother Storm', cat: 'characters', desc: 'Corrupted tempest entity tearing open unsealed Ọ̀run rifts in the lagoon.', target: '#villains' },
     { title: 'The Pale Council', cat: 'characters', desc: 'Shadow syndicate operating high above Eko Atlantic dredging towers.', target: '#villains' },
-    { title: 'Apex Conflict — Boss Simulator', cat: 'interactive', desc: 'Real-time tactical 3D combat simulator against The Architect, Iron Preacher, and Lagoon Leviathan.', target: '#boss-encounter' },
+    { title: 'Apex Conflict — Boss Simulator', cat: 'interactive', desc: 'Real-time tactical 3D combat simulator against The Architect, Iron Preacher, and Mother Storm.', target: '#boss-encounter' },
     { title: 'Insurgent Faction Cyber-ID Mint', cat: 'interactive', desc: 'High-DPI holographic badge minting studio with Orisha telemetry and PNG badge export.', target: '#cyber-id-mint' },
 
     { title: '1420 CE: The First Covenant', cat: 'lore', desc: 'Descent of the Orishas in Old Oyo Kingdom and the ancient sovereign defense pact.', target: '#lore-timeline' },
@@ -12504,12 +12552,12 @@ var TC_ENDINGS = {
     if (badge) badge.textContent = filtered.length + ' ENTRIES';
 
     if (filtered.length === 0) {
-      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--ash-grey);font-family:'Space Mono',monospace;">NO MATCHING LORE FOUND IN THE ARCHIVE. TRY ANOTHER QUERY.</div>';
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--ash-grey);font-family:\'Space Mono\',monospace;">NO MATCHING LORE FOUND IN THE ARCHIVE. TRY ANOTHER QUERY.</div>';
       return;
     }
 
     grid.innerHTML = filtered.map(function(item) {
-      return '<div class="omni-result-card" onclick="jumpToOmniTarget('' + item.target + '')">' +
+      return '<div class="omni-result-card" onclick="jumpToOmniTarget(\'' + item.target + '\')">' +
         '<span class="omni-card-cat">' + item.cat.toUpperCase() + '</span>' +
         '<h4 class="omni-card-title">' + item.title + '</h4>' +
         '<p class="omni-card-desc">' + item.desc + '</p>' +
@@ -13953,15 +14001,15 @@ var TC_ENDINGS = {
 
   var BOSS_HEROES = {
     bayo: { name: 'BAYO ADEYEMI', cls: 'CLASS: ṢÀNGÓ VOLT CONDUCTOR', avatar: '⚡', maxHp: 1200, strikeName: 'ṢÀNGÓ VOLT ARC' },
-    amara: { name: 'AMARA DIALLO', cls: 'CLASS: ỌYA TEMPEST STRIKER', avatar: '🌪', maxHp: 1050, strikeName: 'TEMPEST GALE BURST' },
-    ikenna: { name: 'IKENNA OKORO', cls: 'CLASS: ÒGÚN TITANIUM VANGUARD', avatar: '🛡', maxHp: 1500, strikeName: 'ÒGÚN CRUSHING HAMMER' },
-    zara: { name: 'ZARA BELLO', cls: 'CLASS: CYBER-ORACLE SEER', avatar: '🔮', maxHp: 980, strikeName: 'QUANTUM PHASE STRIKE' }
+    amara: { name: 'AMARA OKAFOR', cls: 'CLASS: THUNDERSTRIKE // ṢÀNGÓ DRUM CONDUIT', avatar: '🥁', maxHp: 1050, strikeName: 'THUNDERSTRIKE' },
+    ikenna: { name: 'IKENNA CHUKWUEMEKA', cls: 'CLASS: IRON WOLF // ÒGÚN GUARDIAN', avatar: '🛡', maxHp: 1500, strikeName: 'IRON WOLF CLEAVE' },
+    zara: { name: 'ZARA OSEI', cls: 'CLASS: THE MIRROR // INFILTRATOR', avatar: '🪞', maxHp: 980, strikeName: 'MIRROR STRIKE' }
   };
 
   var BOSS_TARGETS = {
     architect: { name: 'THE ARCHITECT', cls: 'CLASS: PALE COUNCIL SOVEREIGN', avatar: '👁️', maxHp: 2500, atkPower: 160 },
     'iron-preacher': { name: 'IRON PREACHER', cls: 'CLASS: APEX FORGE ENFORCER', avatar: '⚔', maxHp: 1900, atkPower: 210 },
-    leviathan: { name: 'LAGOON LEVIATHAN', cls: 'CLASS: SUB-AQUATIC BEHEMOTH', avatar: '🌊', maxHp: 3200, atkPower: 140 }
+    leviathan: { name: 'MOTHER STORM', cls: 'CLASS: CORRUPTED TEMPEST ENTITY', avatar: '🌀', maxHp: 3200, atkPower: 140 }
   };
 
   function playSynthAudio(type) {

@@ -266,6 +266,34 @@
 <div class="cursor-ring" id="cursorRing"></div>
 <canvas id="bg3d"></canvas>
 
+<script>
+  window.openAuthModal = window.openAuthModal || function(tab) {
+    var b = document.getElementById('authBackdrop');
+    if (b) { b.classList.add('open'); b.setAttribute('aria-hidden', 'false'); }
+    var t = tab || 'signup';
+    var tabBtn = document.getElementById('tab-' + t);
+    var panel = document.getElementById('auth-' + t);
+    if (tabBtn) { document.querySelectorAll('.auth-tab').forEach(function(x){x.classList.remove('active');}); tabBtn.classList.add('active'); }
+    if (panel) { document.querySelectorAll('.auth-panel').forEach(function(x){x.classList.remove('active');}); panel.classList.add('active'); }
+    document.body.style.overflow = 'hidden';
+  };
+  window.closeAuthModal = window.closeAuthModal || function() {
+    var b = document.getElementById('authBackdrop');
+    if (b) { b.classList.remove('open'); b.setAttribute('aria-hidden', 'true'); }
+    document.body.style.overflow = '';
+  };
+  window.openUserProfileModal = window.openUserProfileModal || function() {
+    var b = document.getElementById('userProfileBackdrop');
+    if (b) { b.classList.add('open'); b.setAttribute('aria-hidden', 'false'); }
+    document.body.style.overflow = 'hidden';
+  };
+  window.closeUserProfileModal = window.closeUserProfileModal || function() {
+    var b = document.getElementById('userProfileBackdrop');
+    if (b) { b.classList.remove('open'); b.setAttribute('aria-hidden', 'true'); }
+    document.body.style.overflow = '';
+  };
+</script>
+
 <!-- ============================================================ AUTH MODAL -->
 <div class="modal-backdrop" id="authBackdrop">
   <div class="auth-modal">
@@ -525,6 +553,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
       <kbd class="nav-search-kbd">⌘K</kbd>
     </button>
+    <button class="nav-profile-btn" id="navProfileBtn" onclick="openUserProfileModal()" type="button" aria-label="Open Reader Profile" title="Operative Reader Profile" style="background:rgba(244,184,0,0.12);border:1px solid rgba(244,184,0,0.35);color:var(--pure-white);padding:0.45rem 0.85rem;border-radius:4px;font-family:'Space Mono',monospace;font-size:0.75rem;cursor:pointer;display:inline-flex;align-items:center;gap:4px;transition:all 0.2s ease;">👤 PROFILE</button>
     <button class="nav-auth-btn" id="navAuthBtn" onclick="openAuthModal()">Sign In</button>
     <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -673,8 +702,10 @@
   <a href="#the-choice" onclick="toggleMobileNav()">The Choice</a>
   <a href="#lore" onclick="toggleMobileNav()">Lore</a>
   <a href="#illustrated" onclick="toggleMobileNav()">Gallery</a>
-  <a href="#clearance" onclick="toggleMobileNav()">Clearance</a>
+  <a href="#preorder-store" onclick="toggleMobileNav()">Official Store 🛒</a>
   <a href="#architects-vault" onclick="toggleMobileNav()">Vault 🔓</a>
+  <button type="button" class="mobile-nav-btn" onclick="toggleMobileNav(); openUserProfileModal();" style="display:block;width:100%;text-align:left;background:none;border:none;color:var(--danfo-gold);font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;padding:0.75rem 0;cursor:pointer;">👤 Operative Profile</button>
+  <button type="button" class="mobile-nav-btn" onclick="toggleMobileNav(); openAuthModal();" style="display:block;width:100%;text-align:left;background:none;border:none;color:var(--cyan);font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;padding:0.75rem 0;cursor:pointer;">🔑 Sign In / Join</button>
   <a href="#access" class="nav-cta-mobile" onclick="toggleMobileNav()">Subscribe ✦</a>
 </nav>
 
@@ -4163,9 +4194,9 @@
         <label for="bossHeroSelect" class="boss-sel-lbl">SELECT CHAMPION (AṢẸ ALIGNMENT)</label>
         <select id="bossHeroSelect" class="boss-select" onchange="bossSelectHero(this.value)">
           <option value="bayo">Bayo Adeyemi // Ṣàngó Conductor (Volt Striker)</option>
-          <option value="amara">Amara Diallo // Ọya Tempest (Storm Assassin)</option>
-          <option value="ikenna">Ikenna Okoro // Ògún Vanguard (Titanium Tank)</option>
-          <option value="zara">Zara Bello // Cyber-Oracle (Quantum Tactician)</option>
+          <option value="amara">Amara Okafor // Thunderstrike (Ṣàngó Drum Conduit)</option>
+          <option value="ikenna">Ikenna Chukwuemeka // Iron Wolf (Ògún Guardian)</option>
+          <option value="zara">Zara Osei // The Mirror (Infiltrator)</option>
         </select>
       </div>
 
@@ -4174,7 +4205,7 @@
         <select id="bossTargetSelect" class="boss-select" onchange="bossSelectTarget(this.value)">
           <option value="architect">The Architect // Sovereign AI Overlord (HP: 2,500)</option>
           <option value="iron-preacher">Iron Preacher // Apex Enforcer (HP: 1,900)</option>
-          <option value="leviathan">Lagoon Leviathan // Sub-Aquatic Behemoth (HP: 3,200)</option>
+          <option value="leviathan">Mother Storm // Corrupted Tempest (HP: 3,200)</option>
         </select>
       </div>
 
@@ -6775,6 +6806,18 @@
       <button type="button" class="curr-btn" onclick="setStoreCurrency('USD', this)">$ USD (Global)</button>
       <button type="button" class="curr-btn" onclick="setStoreCurrency('GBP', this)">£ GBP (UK)</button>
     </div>
+  </div>
+
+  <!-- Official Master Website & Commerce Hub Link -->
+  <div class="store-official-hub-banner reveal" style="background:linear-gradient(135deg,rgba(244,184,0,0.12),rgba(6,8,18,0.95));border:1px solid rgba(244,184,0,0.35);border-radius:12px;padding:1.75rem 2rem;margin:0 auto 3rem;max-width:1100px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.5rem;box-shadow:0 12px 30px rgba(0,0,0,0.5);">
+    <div style="max-width:620px;">
+      <span style="font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:0.15em;color:var(--danfo-gold);text-transform:uppercase;display:inline-block;margin-bottom:0.4rem;">✦ OFFICIAL CATALYST COMMERCE &amp; MERCHANDISE PORTAL</span>
+      <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.85rem;letter-spacing:0.04em;color:var(--pure-white);margin:0 0 0.5rem;line-height:1.1;">LOOKING TO BUY OUR COMICS, MERCHES &amp; LICENSED GEAR?</h3>
+      <p style="font-size:0.88rem;color:rgba(240,237,229,0.75);margin:0;line-height:1.65;">Visit the official master portal for global merchandise shipments, the Catalyst Cave archive, doctrine publications, creator masterclasses, and executive licensing.</p>
+    </div>
+    <a href="https://catalyst-world.netlify.app/" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:0.75rem;background:var(--danfo-gold);color:var(--black);font-family:'Space Mono',monospace;font-size:0.82rem;font-weight:700;letter-spacing:0.08em;padding:1rem 1.8rem;border-radius:6px;text-decoration:none;transition:all 0.25s ease;text-transform:uppercase;white-space:nowrap;box-shadow:0 4px 15px rgba(244,184,0,0.3);" onmouseover="this.style.background='#ffffff';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='var(--danfo-gold)';this.style.transform='none'">
+      VISIT OFFICIAL STORE ➔
+    </a>
   </div>
 
   <div class="store-grid reveal" id="storeGrid">
