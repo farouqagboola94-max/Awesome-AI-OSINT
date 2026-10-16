@@ -73,6 +73,7 @@ module.exports = async function cssSubset(ctx, base) {
       setTimeout(done, 4000);
     }));
     await page.waitForTimeout(900);
+    await page.evaluate(() => document.fonts.ready);
 
     const result = await page.evaluate(async ([props, pseudoProps, other]) => {
       // Body only: <head> holds the stylesheet <link> this test swaps, and a
@@ -106,6 +107,7 @@ module.exports = async function cssSubset(ctx, base) {
         link.href = other;
       });
       await new Promise(done => requestAnimationFrame(() => requestAnimationFrame(done)));
+      await document.fonts.ready;
       const after = read();
 
       return {
