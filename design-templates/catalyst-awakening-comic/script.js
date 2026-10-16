@@ -23,25 +23,7 @@
     : 0;
   window.CATALYST_PAGE = { issuePage: CATALYST_ISSUE_PAGE, issue: CATALYST_ISSUE_NUM };
 
-  // ─── OWNER PREVIEW BYPASS ───────────────────────────────────
-  // Add ?preview=catalyst to URL to unlock all premium gates (site owner only)
-  (function() {
-    var params = new URLSearchParams(window.location.search);
-    if (params.get('preview') === 'catalyst') {
-      document.documentElement.classList.add('preview-unlocked');
-      // Remove all lock overlays once DOM is ready
-      window.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.gallery-lock-overlay, .premium-lock-overlay, .arc2-teaser-lock').forEach(function(el) {
-          el.style.display = 'none';
-        });
-        // Also show blurred panels at full opacity
-        document.querySelectorAll('.gallery-grid').forEach(function(el) {
-          el.style.filter = 'none';
-          el.style.opacity = '1';
-        });
-      });
-    }
-  })();
+  // Access never follows a query parameter or an editable local profile.
 
   // ─── CUSTOM CURSOR ───────────────────────────────────────────
   const cursor = document.getElementById('cursor');
@@ -420,50 +402,19 @@
       setTimeout(() => t.remove(), 350); }, duration);
   }
 
-  // Layer 2: Netlify Forms (auto-captured by Netlify on every form submit)
-  // Layer 3: localStorage vault (browser-side backup, always works)
-  // Layer 4: Pending queue (re-syncs to Supabase when credentials added)
-  //
-  // ⚡ SETUP: Replace the three placeholders below with real credentials.
-  // 1. Supabase → https://supabase.com → Project Settings → API
-  // 2. Paystack → https://dashboard.paystack.com/#/settings/developer
-  //
-  const SUPABASE_URL     = 'https://oxnpmgbwwsjfseirfxej.supabase.co';
-  const SUPABASE_ANON_KEY = 'sb_publishable_Ac7QJhrz4teLLONsAoU1_Q_MT6o9Yk4';
+  // Non-auth lead forms use Netlify Forms. Reader account state uses the
+  // verified Supabase client and owner policies in reader-account.js.
   // Checkout remains closed until server-side payment verification is deployed.
   // ═══════════════════════════════════════════════════════════════
 
-  // ─── SUPABASE INIT (retries until async CDN script loads) ────
+  // Audience identity is owned by Supabase, never by a browser profile.
   let _sb = null;
-  var _sbReady = SUPABASE_URL !== 'YOUR_SUPABASE_URL';
-  function _initSupabase() {
-    if (_sb) return;
-    if (_sbReady && window.supabase) {
-      try {
-        _sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        window._supabase = _sb;
+  let _currentUser = null;
+  let _currentPlan = 'monthly';
+  const account = window.CatalystAccount;
+  var readerStorage = window.CatalystStorage || window.localStorage;
+  if (account) account.ready.then(function() { _sb = account.client; });
 
-        ['signup-btn', 'signin-btn'].forEach(function(id) {
-          var el = document.getElementById(id);
-          if (el) el.disabled = false;
-        });
-        _connectSupabaseSession();
-      } catch(e) { console.warn('Supabase init failed:', e); }
-    } else if (_sbReady) {
-      setTimeout(_initSupabase, 200); // CDN still loading, retry
-    }
-  }
-
-  // Ensure auth buttons are always responsive
-  ['signup-btn', 'signin-btn'].forEach(function(id) {
-    var el = document.getElementById(id);
-    if (el) el.disabled = false;
-  });
-
-  setTimeout(_initSupabase, 100);
-
-  // Explicit forms have one durable destination. No auth forms or contact
-  // details are copied into an unprotected browser vault.
   async function netlifyCapture(formName, data) {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 20000);
@@ -476,362 +427,164 @@
     } finally { clearTimeout(timeout); }
   }
 
-  // ─── AUTH STATE ───────────────────────────────────────────────
-  let _currentUser = null;
-  let _currentPlan = 'monthly';
-
-  async function _connectSupabaseSession() {
-    if (!_sb) return;
-    try {
-      const { data: { session } } = await _sb.auth.getSession();
-      if (session) { _currentUser = session.user; _applyUserState(_currentUser); }
-      _sb.auth.onAuthStateChange((event, session) => {
-        _currentUser = session ? session.user : null;
-        if (!_currentUser) {
-          localStorage.removeItem('catalyst_user_profile');
-        }
-        _applyUserState(_currentUser);
-        if (event === 'SIGNED_IN') {
-          const name = (_currentUser.user_metadata && _currentUser.user_metadata.full_name)
-            ? _currentUser.user_metadata.full_name.split(' ')[0] : 'Catalyst';
-          showToast('Ẹ káàbọ̀, ' + name + '! Welcome to the universe.', 'success');
-        }
-        if (event === 'SIGNED_OUT') showToast('You have left the universe. Come back soon.', 'info');
-      });
-    } catch(e) { console.warn('Supabase auth session sync:', e); }
+  function syncProfileStatus() {
+    const el = document.getElementById('profileSyncStatus');
+    if (!el) return;
+    const labels = {
+      guest: 'Sign in to save across devices', unavailable: 'Sign-in unavailable. Please reload.',
+      loading: 'Loading your saved profile…', pending: 'Saving your changes…',
+      saved: 'Saved to your account', offline: 'Connection unavailable. Device changes will sync when you’re online.',
+      error: 'Your profile wasn’t saved. Please try again.'
+    };
+    el.textContent = labels[account ? account.status : 'unavailable'];
   }
 
-  async function initAuth() {
-    // Check localStorage session first so readers stay logged in with zero network delay
-    var stored = localStorage.getItem('catalyst_user_profile');
-    if (stored) {
-      try {
-        _currentUser = JSON.parse(stored);
-        _applyUserState(_currentUser);
-      } catch(_) {}
-    } else {
-      // Auto-provision a local guest operative profile so all reader HUD features are live
-      _currentUser = {
-        id: 'usr_' + Date.now(),
-        email: 'operative@catalystverse.com',
-        user_metadata: { full_name: 'Catalyst Operative', tier: 'reader' },
-        affinity: 'Ṣàngó',
-        app_metadata: { is_reader: true }
-      };
-      localStorage.setItem('catalyst_user_profile', JSON.stringify(_currentUser));
-      _applyUserState(_currentUser);
-    }
-
-    if (_sb) {
-      _connectSupabaseSession();
-    }
-  }
-
-  // Run local operative auth immediately
-  initAuth();
-
-  function _applyUserState(user) {
+  function _applyUserState(verified) {
+    const p = account && account.profile;
+    _currentUser = verified ? Object.assign({}, verified, {
+      callsign: p ? p.callsign : '', affinity: p ? p.affinity : 'Ṣàngó'
+    }) : null;
     const btn = document.getElementById('navAuthBtn');
     const artworkWrap = document.getElementById('artworkGateWrap');
     const artworkOverlay = document.getElementById('artworkGateOverlay');
-
-    if (user) {
-      const meta = user.user_metadata || {};
-      const name = meta.full_name || (user.email ? user.email.split('@')[0] : 'Reader');
-      const isPremium = user.app_metadata?.is_premium === true;
-      const initial = (meta.avatar === 'google') ? 'G' : name.charAt(0).toUpperCase();
-
-      if (btn) {
-        btn.replaceChildren();
-        const badge = document.createElement('span');
-        badge.className = 'nav-user-initial';
-        badge.textContent = initial;
-        btn.append(badge, document.createTextNode(' ' + name.split(' ')[0]));
-        if (isPremium) {
-          const dot = document.createElement('span');
-          dot.className = 'nav-premium-dot';
-          dot.title = 'Premium';
-          dot.textContent = '✦';
-          btn.append(' ', dot);
-        }
-        btn.onclick = openUserProfileModal;
-      }
-
-      // Sync Reader Profile HUD fields
-      var nameEl = document.getElementById('profileUserName');
-      var emailEl = document.getElementById('profileUserEmail');
-      var initEl = document.getElementById('profileAvatarInitial');
-      var tierEl = document.getElementById('profileTierBadge');
-
-      if (nameEl) nameEl.textContent = name;
-      if (emailEl) emailEl.textContent = user.email || 'reader@catalystverse.com';
-      if (initEl) initEl.textContent = initial;
-      if (tierEl) {
-        tierEl.textContent = isPremium ? '✦ ÌMỌ̀LẸ̀ CIRCLE VIP MEMBER' : '✦ REGISTERED READER · FULL UNIVERSE ACCESS';
-      }
-
-      // Restore affinity if present
-      if (user.affinity) {
-        document.querySelectorAll('#profileAffinityChips .affinity-chip').forEach(function(ch) {
-          if (ch.textContent.indexOf(user.affinity) !== -1) ch.classList.add('active');
-          else ch.classList.remove('active');
-        });
-      }
-
-      // Unlock authenticated reader features
-      if (artworkWrap) {
-        artworkWrap.classList.remove('is-locked');
-        if (artworkOverlay) artworkOverlay.style.display = 'none';
-      }
-
-      if (isPremium) unlockPremiumUI();
-    } else {
-      if (btn) {
-        btn.innerHTML = 'Sign In';
-        btn.onclick = function(){ openAuthModal('signin'); };
-      }
-      if (artworkWrap) {
-        artworkWrap.classList.add('is-locked');
-        if (artworkOverlay) artworkOverlay.style.display = 'flex';
-      }
+    const name = p ? p.display_name : (verified && verified.user_metadata?.full_name) || 'Catalyst Reader';
+    if (btn) {
+      btn.textContent = verified ? name.split(' ')[0] : 'Sign In';
+      btn.onclick = verified ? openUserProfileModal : function() { openAuthModal('signin'); };
     }
-  }
-
-  function openUserMenu() {
-    openUserProfileModal();
-  }
-
-  function openUserProfileModal() {
-    if (!_currentUser) {
-      var stored = localStorage.getItem('catalyst_user_profile');
-      if (stored) {
-        try { _currentUser = JSON.parse(stored); } catch(_) {}
-      }
-      if (!_currentUser) {
-        _currentUser = {
-          id: 'usr_' + Date.now(),
-          email: 'operative@catalystverse.com',
-          user_metadata: { full_name: 'Catalyst Operative', tier: 'reader' },
-          affinity: 'Ṣàngó',
-          app_metadata: { is_reader: true }
-        };
-        localStorage.setItem('catalyst_user_profile', JSON.stringify(_currentUser));
-      }
-      _applyUserState(_currentUser);
-    }
-    var backdrop = document.getElementById('userProfileBackdrop');
-    if (backdrop) {
-      backdrop.classList.add('open');
-      backdrop.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-    }
-  }
-
-  function closeUserProfileModal() {
-    var backdrop = document.getElementById('userProfileBackdrop');
-    if (backdrop) {
-      backdrop.classList.remove('open');
-      backdrop.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-    }
-  }
-
-  function setOrishaAffinity(affinityName) {
-    document.querySelectorAll('#profileAffinityChips .affinity-chip').forEach(function(b) {
-      if (b.textContent.indexOf(affinityName) !== -1) b.classList.add('active');
-      else b.classList.remove('active');
+    if (artworkWrap) artworkWrap.classList.toggle('is-locked', !verified);
+    if (artworkOverlay) artworkOverlay.style.display = verified ? 'none' : 'flex';
+    const text = function(id, value) { const el = document.getElementById(id); if (el) el.textContent = value; };
+    text('profileUserName', verified ? name : 'Catalyst Reader');
+    text('profileUserEmail', verified ? verified.email || '' : '');
+    text('profileAvatarInitial', name.charAt(0).toUpperCase());
+    text('profileTierBadge', verified?.app_metadata?.is_premium === true ? 'ÌMỌ̀LẸ̀ CIRCLE MEMBER' : 'READER ACCOUNT');
+    text('profileXpPill', 'CATALYSTVERSE PASSPORT');
+    const callsign = document.getElementById('profileCallSignInput');
+    if (callsign) callsign.value = p ? p.callsign : '';
+    document.querySelectorAll('#profileAffinityChips .affinity-chip').forEach(function(ch) {
+      ch.classList.toggle('active', !!p && ch.textContent.includes(p.affinity));
     });
-    if (_currentUser) {
-      _currentUser.affinity = affinityName;
-      localStorage.setItem('catalyst_user_profile', JSON.stringify(_currentUser));
-    }
-    showToast('Orisha resonance aligned to ' + affinityName + ' ✦', 'success', 2200);
+    let notes = [];
+    try { notes = JSON.parse(readerStorage.getItem('catalyst_field_notes_v1') || '[]'); } catch (_) {}
+    text('profileArtworksCount', Array.isArray(notes) ? String(notes.length) : '0');
+    let read = 0;
+    for (let i = 1; i <= 4; i++) if (readerStorage.getItem('catalyst_read_' + i)) read++;
+    text('profileIssuesRead', String(read));
+    const page = Number(readerStorage.getItem('catalyst_page_i1')) || 0;
+    const total = Number(readerStorage.getItem('catalyst_pages_i1')) || 0;
+    text('profileProgressPct', total ? 'CHAPTER ' + page + ' OF ' + total : 'START READING TO SAVE YOUR PLACE');
+    const fill = document.querySelector('.profile-progress-fill');
+    if (fill) fill.style.width = (total ? Math.min(100, page / total * 100) : 0) + '%';
+    text('profileBadgesRow', read ? read + ' issue' + (read === 1 ? '' : 's') + ' completed on this account.' : 'Your journey starts with your first chapter.');
+    syncProfileStatus();
   }
-
-  function handleSignOut() {
-    _currentUser = null;
-    localStorage.removeItem('catalyst_user_profile');
-    if (_sb) {
-      try { _sb.auth.signOut().catch(function(){}); } catch(_) {}
-    }
-    _applyUserState(null);
-    closeUserProfileModal();
-    showToast('Signed out of the universe. Return anytime.', 'info', 2500);
+  function initAuth() {
+    _applyUserState(account ? account.user : null);
   }
+  if (account) {
+    window.addEventListener('catalyst:account', function() { initAuth(); if (!account.user) closeUserProfileModal(); });
+    window.addEventListener('catalyst:sync', syncProfileStatus);
+    window.addEventListener('catalyst:reader-state', initAuth);
+    account.ready.then(initAuth);
+  }
+  initAuth();
 
-  window.openUserProfileModal = openUserProfileModal;
-  window.closeUserProfileModal = closeUserProfileModal;
-  window.setOrishaAffinity = setOrishaAffinity;
-  window.handleSignOut = handleSignOut;
-
-  // ─── AUTH MODAL ───────────────────────────────────────────────
+  function openUserMenu() { openUserProfileModal(); }
+  function openUserProfileModal() {
+    if (!account || !account.user) { openAuthModal('signin'); return; }
+    initAuth();
+    const backdrop = document.getElementById('userProfileBackdrop');
+    if (backdrop) { backdrop.classList.add('open'); backdrop.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; }
+  }
+  function closeUserProfileModal() {
+    const backdrop = document.getElementById('userProfileBackdrop');
+    if (backdrop) { backdrop.classList.remove('open'); backdrop.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; }
+  }
+  async function setOrishaAffinity(affinity) {
+    try { await account.saveProfile({ affinity }); showToast('Affinity saved: ' + affinity, 'success'); }
+    catch (err) { showToast(err.message, 'error'); initAuth(); }
+  }
+  async function handleSignOut() {
+    try { await account.signOut(); closeUserProfileModal(); showToast('You’re signed out.', 'info'); }
+    catch (err) { showToast(err.message, 'error'); }
+  }
   function openAuthModal(tab) {
-    document.getElementById('authBackdrop').classList.add('open');
-    const t = tab || 'signup';
-    const tabEl = document.getElementById('tab-' + t);
-    if (tabEl) switchAuthTab(t, tabEl);
+    try { sessionStorage.setItem('catalystverse:auth-return', location.pathname + location.search + location.hash); } catch (_) {}
+    const backdrop = document.getElementById('authBackdrop');
+    if (!backdrop) return;
+    backdrop.classList.add('open'); backdrop.setAttribute('aria-hidden', 'false');
+    const el = document.getElementById('tab-' + (tab || 'signin'));
+    if (el) switchAuthTab(tab || 'signin', el);
     document.body.style.overflow = 'hidden';
   }
   function closeAuthModal() {
-    document.getElementById('authBackdrop').classList.remove('open');
+    const backdrop = document.getElementById('authBackdrop');
+    if (backdrop) { backdrop.classList.remove('open'); backdrop.setAttribute('aria-hidden', 'true'); }
     document.body.style.overflow = '';
   }
   function switchAuthTab(tab, el) {
-    document.querySelectorAll('.auth-tab').forEach(function(t){ t.classList.remove('active'); });
-    document.querySelectorAll('.auth-panel').forEach(function(p){ p.classList.remove('active'); });
+    document.querySelectorAll('.auth-tab').forEach(function(t) { t.classList.remove('active'); });
+    document.querySelectorAll('.auth-panel').forEach(function(p) { p.classList.remove('active'); });
     el.classList.add('active');
-    var panel = document.getElementById('auth-' + tab);
+    const panel = document.getElementById('auth-' + tab);
     if (panel) panel.classList.add('active');
   }
-
   async function handleSignUp(e) {
     e.preventDefault();
-    var form = e.target;
-    var name  = form.querySelector('input[name="fullname"]').value.trim();
-    var email = form.querySelector('input[name="email"]').value.trim();
-    var pass  = form.querySelector('input[name="password"]').value;
-    var btn   = document.getElementById('signup-btn');
-    if (!name) name = email.split('@')[0];
-    btn.textContent = 'Creating account...'; btn.disabled = true;
-
-    // Zero-lag immediate profile creation
-    var localUser = {
-      id: 'usr_' + Date.now(),
-      email: email,
-      provider: 'email',
-      affinity: 'Ṣàngó',
-      user_metadata: { full_name: name, tier: 'reader' },
-      app_metadata: { is_reader: true }
-    };
-    localStorage.setItem('catalyst_user_profile', JSON.stringify(localUser));
-    _currentUser = localUser;
-    _applyUserState(_currentUser);
-    closeAuthModal();
-    showToast('Ẹ káàbọ̀, ' + name.split(' ')[0] + '! Profile active. Artworks & stories unlocked.', 'success', 3500);
-    btn.textContent = 'Join the Universe →'; btn.disabled = false;
-
-    // Asynchronous background capture - never blocks reader experience
-    Promise.resolve().then(async function() {
-      try {
-        await netlifyCapture('catalyst-signup', { fullname: name, email: email, timestamp: new Date().toISOString() });
-      } catch(_) {}
-      if (_sb) {
-        try {
-          await _sb.auth.signUp({
-            email: email,
-            password: pass,
-            options: { data: { full_name: name, tier: 'reader' } }
-          });
-        } catch(_) {}
-      }
-    });
+    const form = e.target, btn = document.getElementById('signup-btn');
+    const name = form.elements.fullname.value.trim();
+    btn.disabled = true; btn.textContent = 'Creating your account…';
+    try {
+      if (!account) throw new Error('Sign-in is unavailable. Please reload.');
+      const result = await account.signUp(name, form.elements.email.value.trim(), form.elements.password.value);
+      form.reset();
+      if (result.confirmed) { closeAuthModal(); showToast('Your reader account is ready.', 'success'); }
+      else showToast('Check your email to confirm your account, then sign in.', 'info', 8000);
+    } catch (err) { showToast(err.message, 'error'); }
+    finally { form.elements.password.value = ''; btn.disabled = false; btn.textContent = 'Join the Universe →'; }
   }
-
   async function handleSignIn(e) {
     e.preventDefault();
-    var form  = e.target;
-    var email = form.querySelector('input[name="email"]').value.trim();
-    var pass  = form.querySelector('input[name="password"]').value;
-    var btn   = document.getElementById('signin-btn');
-    btn.textContent = 'Entering...'; btn.disabled = true;
+    const form = e.target, btn = document.getElementById('signin-btn');
+    btn.disabled = true; btn.textContent = 'Signing in…';
     try {
-      var signedIn = false;
-      if (_sb) {
-        try {
-          var r = await _sb.auth.signInWithPassword({ email: email, password: pass });
-          if (!r.error && r.data && r.data.user) {
-            _currentUser = r.data.user;
-            signedIn = true;
-          }
-        } catch(_) {}
-      }
-
-      if (!signedIn) {
-        // Fallback to local profile session
-        var stored = localStorage.getItem('catalyst_user_profile');
-        if (stored) {
-          try {
-            var parsed = JSON.parse(stored);
-            if (parsed.email.toLowerCase() === email.toLowerCase()) {
-              _currentUser = parsed;
-              signedIn = true;
-            }
-          } catch(_) {}
-        }
-      }
-
-      if (!signedIn) {
-        // Auto-provision reader session so followers are never blocked
-        _currentUser = {
-          id: 'usr_' + Date.now(),
-          email: email,
-          user_metadata: { full_name: email.split('@')[0], tier: 'reader' }
-        };
-        localStorage.setItem('catalyst_user_profile', JSON.stringify(_currentUser));
-      }
-
-      _applyUserState(_currentUser);
-      closeAuthModal();
-      showToast('Access granted. Exclusive stories & artworks unlocked.', 'success');
-    } catch(err) {
-      showToast(err.message || 'Sign in failed. Check your credentials.', 'error');
-    } finally {
-      btn.textContent = 'Enter the Universe →'; btn.disabled = false;
-    }
+      if (!account) throw new Error('Sign-in is unavailable. Please reload.');
+      await account.signIn(form.elements.email.value.trim(), form.elements.password.value);
+      closeAuthModal(); showToast('Welcome back. Your saved reading is ready.', 'success');
+    } catch (err) { showToast(err.message, 'error'); }
+    finally { form.elements.password.value = ''; btn.disabled = false; btn.textContent = 'Enter the Universe →'; }
   }
-
   async function signInWithGoogle() {
-    // Check if user filled in an email or name in active modal
-    var emailInput = document.querySelector('#signup-form input[name="email"]') || document.querySelector('#signin-form input[name="email"]');
-    var nameInput = document.querySelector('#signup-form input[name="fullname"]');
-    
-    var email = (emailInput && emailInput.value.trim()) ? emailInput.value.trim() : 'reader.catalyst@gmail.com';
-    var name = (nameInput && nameInput.value.trim()) ? nameInput.value.trim() : (email ? email.split('@')[0] : 'Google Reader');
-    name = name.charAt(0).toUpperCase() + name.slice(1);
-
-    var googleUser = {
-      id: 'usr_g_' + Date.now(),
-      email: email,
-      provider: 'google',
-      affinity: 'Ṣàngó',
-      user_metadata: { full_name: name, avatar: 'google', tier: 'reader' },
-      app_metadata: { is_reader: true, provider: 'google' }
-    };
-
-    localStorage.setItem('catalyst_user_profile', JSON.stringify(googleUser));
-    _currentUser = googleUser;
-    _applyUserState(_currentUser);
-    closeAuthModal();
-    showToast('Ẹ káàbọ̀, ' + name.split(' ')[0] + '! Google Profile connected. 50 Artworks & stories unlocked!', 'success', 3500);
-
-    // Non-blocking background sync
-    Promise.resolve().then(async function() {
-      try {
-        await netlifyCapture('catalyst-signup', { fullname: name, email: email, provider: 'google', timestamp: new Date().toISOString() });
-      } catch(_) {}
-    });
+    try { if (!account) throw new Error('Sign-in is unavailable. Please reload.'); await account.google(); }
+    catch (err) { showToast(err.message, 'error'); }
   }
-  window.signInWithGoogle = signInWithGoogle;
-  window.openAuthModal = openAuthModal;
-  window.closeAuthModal = closeAuthModal;
-  window.switchAuthTab = switchAuthTab;
-  window.handleSignUp = handleSignUp;
-  window.handleSignIn = handleSignIn;
-  window.handleForgotPassword = handleForgotPassword;
-
   async function handleForgotPassword(e) {
     e.preventDefault();
-    if (!_sb) return;
-    var emailEl = document.querySelector('#auth-signin input[name="email"]');
-    var email = emailEl ? emailEl.value.trim() : '';
-    if (!email) { showToast('Enter your email in the field above first.', 'error'); return; }
-    var r = await _sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + '/reset-password.html' });
-    if (r.error) showToast(r.error.message, 'error');
-    else showToast('Reset link sent to ' + email + '! Check your inbox.', 'success');
+    const email = document.querySelector('#auth-signin input[name="email"]')?.value.trim();
+    if (!email) { showToast('Enter your email first.', 'error'); return; }
+    try { await account.resetEmail(email); showToast('If this email has an account, you’ll receive a reset link.', 'info', 7000); }
+    catch (err) { showToast(err.message, 'error'); }
   }
-
-  // Close auth modal on backdrop click / Escape
-  document.getElementById('authBackdrop').addEventListener('click', function(e){
+  window.importReaderHistory = async function() {
+    try {
+      await account.importDeviceHistory();
+      showToast(account.status === 'saved' ? 'This device’s reading history was saved to your account.' : 'Added on this device. Cloud sync will retry when you’re online.', account.status === 'saved' ? 'success' : 'info');
+    }
+    catch (err) { showToast(err.message, 'error'); }
+  };
+  window.exportReaderData = async function() {
+    try {
+      const data = await account.exportData();
+      const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
+      const link = document.createElement('a'); link.href = url; link.download = 'catalystverse-reader-data.json'; link.click();
+      setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
+    } catch (err) { showToast(err.message, 'error'); }
+  };
+  Object.assign(window, { signInWithGoogle, openAuthModal, closeAuthModal, switchAuthTab,
+    handleSignUp, handleSignIn, handleForgotPassword, openUserProfileModal,
+    closeUserProfileModal, setOrishaAffinity, handleSignOut });
+  document.getElementById('authBackdrop')?.addEventListener('click', function(e) {
     if (e.target === e.currentTarget) closeAuthModal();
   });
 
@@ -896,27 +649,27 @@
 
   // Issue 1 panels — 3 actual manga artworks
   var ISSUE1_PANELS = [
-    { src: './assets/bayo-panel-portrait.webp', caption: 'Issue #01 · Panel 1 — Bayo Adeyemi. 19. Lagos. Powered by ASẸ.' },
-    { src: './assets/bayo-action-color.webp', caption: 'Issue #01 · Panel 7 — First Strike. Lagos Street. ZAP! CRACKLE! SHOOOM!' },
-    { src: './assets/bayo-action-bw.webp', caption: 'Issue #02 · Panel 12 — Oshodi Confrontation. ASẸ!! Full Release. ZZZZAP!' },
+    { src: '/assets/bayo-panel-portrait.webp', caption: 'Issue #01 · Panel 1 — Bayo Adeyemi. 19. Lagos. Powered by ASẸ.' },
+    { src: '/assets/bayo-action-color.webp', caption: 'Issue #01 · Panel 7 — First Strike. Lagos Street. ZAP! CRACKLE! SHOOOM!' },
+    { src: '/assets/bayo-action-bw.webp', caption: 'Issue #02 · Panel 12 — Oshodi Confrontation. ASẸ!! Full Release. ZZZZAP!' },
   ];
 
   var ISSUE2_PANELS = [
-    { src: './assets/cover-issue2.webp', caption: 'Issue #02 · Cover — Ṣàngó\'s Daughter. Amara carries the oldest telephone in Lagos.' },
-    { src: './assets/bayo-action-color.webp', caption: 'Issue #02 · Panel 3 — The Collector Arrives. Geneva → Lagos. The harvest begins.' },
-    { src: './assets/bayo-action-bw.webp', caption: 'Issue #02 · Panel 6 — Bayo walks toward The Collector. 847 futures. One path. Nobody dies.' },
+    { src: '/assets/cover-issue2.webp', caption: 'Issue #02 · Cover — Ṣàngó\'s Daughter. Amara carries the oldest telephone in Lagos.' },
+    { src: '/assets/bayo-action-color.webp', caption: 'Issue #02 · Panel 3 — The Collector Arrives. Geneva → Lagos. The harvest begins.' },
+    { src: '/assets/bayo-action-bw.webp', caption: 'Issue #02 · Panel 6 — Bayo walks toward The Collector. 847 futures. One path. Nobody dies.' },
   ];
 
   var ISSUE3_PANELS = [
-    { src: './assets/cover-issue3.webp', caption: 'Issue #03 · Cover — Iron in the Blood. Ikenna and the iron that thinks.' },
-    { src: './assets/ikenna-portrait.webp', caption: 'Issue #03 · Panel 4 — Iron Wolf\'s awakening. 416 metal objects orient at once.' },
-    { src: './assets/bayo-action-color.webp', caption: 'Issue #03 · Panel 7 — The Pale Council\'s strike team. Six operatives. They didn\'t expect the iron.' },
+    { src: '/assets/cover-issue3.webp', caption: 'Issue #03 · Cover — Iron in the Blood. Ikenna and the iron that thinks.' },
+    { src: '/assets/ikenna-portrait.webp', caption: 'Issue #03 · Panel 4 — Iron Wolf\'s awakening. 416 metal objects orient at once.' },
+    { src: '/assets/bayo-action-color.webp', caption: 'Issue #03 · Panel 7 — The Pale Council\'s strike team. Six operatives. They didn\'t expect the iron.' },
   ];
 
   var ISSUE4_PANELS = [
-    { src: './assets/cover-issue4.webp', caption: 'Issue #04 · Cover — The Price of ASẸ. The Oracle\'s truth. The Architect\'s arrival.' },
-    { src: './assets/architect-portrait.webp', caption: 'Issue #04 · Panel 2 — The Orisha Vaccine. Six weeks from completion. Eko Atlantic.' },
-    { src: './assets/bayo-panel-portrait.webp', caption: 'Issue #04 · Panel 3 — The Choice. Control it or let it grow wild. Bayo decides.' },
+    { src: '/assets/cover-issue4.webp', caption: 'Issue #04 · Cover — The Price of ASẸ. The Oracle\'s truth. The Architect\'s arrival.' },
+    { src: '/assets/architect-portrait.webp', caption: 'Issue #04 · Panel 2 — The Orisha Vaccine. Six weeks from completion. Eko Atlantic.' },
+    { src: '/assets/bayo-panel-portrait.webp', caption: 'Issue #04 · Panel 3 — The Choice. Control it or let it grow wild. Bayo decides.' },
   ];
 
   // ─── WAITLIST EMAIL CAPTURE ────────────────────────────────────
@@ -1394,22 +1147,22 @@ var quizCurrent = 0;
 var QUIZ_HEROES = {
   T: {
     name: 'THUNDERSTRIKE',
-    img: './assets/amara-portrait.webp',
+    img: '/assets/amara-portrait.webp',
     tag: 'You move like lightning and think even faster. When others hesitate, you have already acted. The city\'s pace matches yours — fast, electric, and alive. Amara would recognize you.'
   },
   O: {
     name: 'THE ORACLE',
-    img: './assets/oracle-badagry-portrait.webp',
+    img: '/assets/oracle-badagry-portrait.webp',
     tag: 'You see things others miss. You plan seven moves ahead and never tell anyone what you know until the exact right moment. The city holds no secrets from you. Zara sees herself in you.'
   },
   W: {
     name: 'IRON WOLF',
-    img: './assets/ikenna-portrait.webp',
+    img: '/assets/ikenna-portrait.webp',
     tag: 'You are made of this city\'s iron — forged in its fires, shaped by its losses. You do not ask for respect. You have already earned it. Ikenna would call you kin.'
   },
   C: {
     name: 'CATALYST',
-    img: './assets/bayo-portrait.webp',
+    img: '/assets/bayo-portrait.webp',
     tag: 'You are the variable no one accounted for. You don\'t just change the game — you change everyone around you, without even trying. The city chose you. Lagos dey awaken.'
   }
 };
@@ -1882,11 +1635,13 @@ var DISPATCHES = [
 var dispCurrent = 0;
 
 function dispatchGo(idx) {
-  dispCurrent = idx;
   var d = DISPATCHES[idx];
-  document.getElementById('disp-loc').textContent = d.loc;
-  document.getElementById('disp-num').textContent = d.num;
-  document.getElementById('disp-body').innerHTML = d.body;
+  var loc = document.getElementById('disp-loc'), num = document.getElementById('disp-num'), body = document.getElementById('disp-body');
+  if (!d || !loc || !num || !body) return;
+  dispCurrent = idx;
+  loc.textContent = d.loc;
+  num.textContent = d.num;
+  body.innerHTML = d.body;
   document.querySelectorAll('.dispatch-dot').forEach(function(dot, i) {
     dot.classList.toggle('on', i === idx);
   });
@@ -1896,7 +1651,7 @@ function dispatchNext() { dispatchGo((dispCurrent + 1) % DISPATCHES.length); }
 function dispatchPrev() { dispatchGo((dispCurrent - 1 + DISPATCHES.length) % DISPATCHES.length); }
 
 // Auto-cycle dispatches every 12s
-setInterval(function() { dispatchNext(); }, 12000);
+if (document.getElementById('disp-body')) setInterval(function() { dispatchNext(); }, 12000);
 
 // ── DOSSIER MODAL ─────────────────────────────────────────
 var DOSSIERS = {
@@ -2286,12 +2041,12 @@ function pvCopyLink() {
 
   // ─── LOCATION MODAL ───────────────────────────────────────────
   var LOC_DATA = {
-    'mushin': { num:'01', name:'Mushin', yoruba:'Mushin — "Spirit of the Warrior"', photo:'./assets/industrial.webp', desc:'Where Bayo grew up. A neighbourhood of thirty-two naira, borrowed beds, and the specific kind of survival intelligence that only grinding poverty produces. The Orishas have always known about Mushin — they chose it deliberately. Power hidden in plain sight.', events:['Bayo first experiences ASẸ surge — Issue #01','Area boys confront Bayo behind the old Odeon shell','NEPA wire sparks: the Awakening begins'], chars:['Bayo Adeyemi','Area Boys','Mushin Elders'] },
-    'balogun': { num:'02', name:'Balogun Nexus', yoruba:'Ọjà Bálógún — "Market of the General"', photo:'./assets/intersection.webp', desc:'The ancient market hums on two frequencies — the physical bustle of traders and hawkers, and the Aṣẹ frequency that has run through its foundations since the 16th century. The first team battle takes place here. The Collector begins his harvest operations within 200m of this location.', events:['First full team assembly — Issue #01','The Collector\'s initial harvest attempt','847 futures visible to Bayo: one path survives','Amara\'s drum resonance drops to critical 40%'], chars:['Bayo','Amara','Ikenna','Zara','The Collector'] },
-    'eko-atlantic': { num:'03', name:'Eko Atlantic', yoruba:'Ẹko Atlantic — "The Extraction Engine"', photo:'./assets/flares.webp', desc:'Built on reclaimed land from Lagos Lagoon — drilled straight through Ọṣun\'s domain. The towers are not offices. They are spiritual extraction machines. Each foundation column drives into the seabed at a frequency calculated to siphon Aṣẹ. The Pale Council\'s Lagos HQ is Tower 7, sub-basement Level B3. The Orisha Vaccine is being assembled there now.', events:['Pale Council Lagos HQ — Tower 7','Orisha Vaccine assembly — B3 sub-basement','The Architect arrives — Issue #03','30 Ọ̀run breaches directly caused by drilling'], chars:['The Architect','Pale Council Operatives','The Collector'] },
-    'oshodi': { num:'04', name:'Oshodi Market', yoruba:'Ọ̀ṣòdì — "Where the spirits haggle"', photo:'./assets/circle.webp', desc:'The largest informal economy in West Africa. Oshodi processes more Aṣẹ transactions than any other location in Lagos — not because it is sacred, but because it is alive. Ẹṣù has more agents per square metre here than anywhere on the continent. Every misunderstanding, every impossible deal that somehow closes, every near-accident avoided at the last second — that is Ẹṣù, taxing the crossroads.', events:['Bayo spots Pale Council surveillance — Issue #01','Oshodi confrontation — Bayo releases full ASẸ','ZZZZAP! — BW panel full power discharge'], chars:['Bayo','Ẹṣù agents','Pale Council Surveillance'] },
-    'paul-street': { num:'05', name:'Paul Street Workshop', yoruba:'Àgò Paul — "The forge that listens"', photo:'./assets/forge.webp', desc:'Ikenna\'s workplace for three years. A mechanic\'s workshop that smells of iron dust, engine oil, and something electrical with no physical source. The morning of Issue 3, Pale Council operatives attempt a raid through the rear. 416 separate metal objects in the workshop turn toward the threat at the same moment. Ògún has been awake here for years.', events:['Pale Council strike team raids — Issue #03','416 metal objects orient simultaneously','Iron Wolf emerges — first full Ògún manifestation','Workshop becomes team base of operations'], chars:['Ikenna Chukwuemeka','Ògún','Pale Council Strike Team'] },
-    'oracle-compound': { num:'06', name:'Oracle\'s Compound', yoruba:'Ilé Àgbà Adesanya — "The Elder\'s House"', photo:'./assets/corridor.webp', desc:'Chief Adesanya Adewale has lived here for 62 of his 144 years. The compound in Idumota smells of ìtò, palm oil, and old paper in three different languages. The walls remember every conversation that happened in this space. Zara presents her 9-night intelligence report here. Bayo receives the truth about what he is. The Oracle has been waiting for this day since 1987.', events:['Oracle reveals Bayo\'s true nature — Issue #04','Zara\'s intelligence briefing — 37 Pale Council positions','The Choice: control or grow wild','Oracle has been alive 144 years — Orishas took his eyes'], chars:['The Oracle','Bayo','Amara','Ikenna','Zara'] }
+    'mushin': { num:'01', name:'Mushin', yoruba:'Mushin — "Spirit of the Warrior"', photo:'/assets/industrial.webp', desc:'Where Bayo grew up. A neighbourhood of thirty-two naira, borrowed beds, and the specific kind of survival intelligence that only grinding poverty produces. The Orishas have always known about Mushin — they chose it deliberately. Power hidden in plain sight.', events:['Bayo first experiences ASẸ surge — Issue #01','Area boys confront Bayo behind the old Odeon shell','NEPA wire sparks: the Awakening begins'], chars:['Bayo Adeyemi','Area Boys','Mushin Elders'] },
+    'balogun': { num:'02', name:'Balogun Nexus', yoruba:'Ọjà Bálógún — "Market of the General"', photo:'/assets/intersection.webp', desc:'The ancient market hums on two frequencies — the physical bustle of traders and hawkers, and the Aṣẹ frequency that has run through its foundations since the 16th century. The first team battle takes place here. The Collector begins his harvest operations within 200m of this location.', events:['First full team assembly — Issue #01','The Collector\'s initial harvest attempt','847 futures visible to Bayo: one path survives','Amara\'s drum resonance drops to critical 40%'], chars:['Bayo','Amara','Ikenna','Zara','The Collector'] },
+    'eko-atlantic': { num:'03', name:'Eko Atlantic', yoruba:'Ẹko Atlantic — "The Extraction Engine"', photo:'/assets/flares.webp', desc:'Built on reclaimed land from Lagos Lagoon — drilled straight through Ọṣun\'s domain. The towers are not offices. They are spiritual extraction machines. Each foundation column drives into the seabed at a frequency calculated to siphon Aṣẹ. The Pale Council\'s Lagos HQ is Tower 7, sub-basement Level B3. The Orisha Vaccine is being assembled there now.', events:['Pale Council Lagos HQ — Tower 7','Orisha Vaccine assembly — B3 sub-basement','The Architect arrives — Issue #03','30 Ọ̀run breaches directly caused by drilling'], chars:['The Architect','Pale Council Operatives','The Collector'] },
+    'oshodi': { num:'04', name:'Oshodi Market', yoruba:'Ọ̀ṣòdì — "Where the spirits haggle"', photo:'/assets/circle.webp', desc:'The largest informal economy in West Africa. Oshodi processes more Aṣẹ transactions than any other location in Lagos — not because it is sacred, but because it is alive. Ẹṣù has more agents per square metre here than anywhere on the continent. Every misunderstanding, every impossible deal that somehow closes, every near-accident avoided at the last second — that is Ẹṣù, taxing the crossroads.', events:['Bayo spots Pale Council surveillance — Issue #01','Oshodi confrontation — Bayo releases full ASẸ','ZZZZAP! — BW panel full power discharge'], chars:['Bayo','Ẹṣù agents','Pale Council Surveillance'] },
+    'paul-street': { num:'05', name:'Paul Street Workshop', yoruba:'Àgò Paul — "The forge that listens"', photo:'/assets/forge.webp', desc:'Ikenna\'s workplace for three years. A mechanic\'s workshop that smells of iron dust, engine oil, and something electrical with no physical source. The morning of Issue 3, Pale Council operatives attempt a raid through the rear. 416 separate metal objects in the workshop turn toward the threat at the same moment. Ògún has been awake here for years.', events:['Pale Council strike team raids — Issue #03','416 metal objects orient simultaneously','Iron Wolf emerges — first full Ògún manifestation','Workshop becomes team base of operations'], chars:['Ikenna Chukwuemeka','Ògún','Pale Council Strike Team'] },
+    'oracle-compound': { num:'06', name:'Oracle\'s Compound', yoruba:'Ilé Àgbà Adesanya — "The Elder\'s House"', photo:'/assets/corridor.webp', desc:'Chief Adesanya Adewale has lived here for 62 of his 144 years. The compound in Idumota smells of ìtò, palm oil, and old paper in three different languages. The walls remember every conversation that happened in this space. Zara presents her 9-night intelligence report here. Bayo receives the truth about what he is. The Oracle has been waiting for this day since 1987.', events:['Oracle reveals Bayo\'s true nature — Issue #04','Zara\'s intelligence briefing — 37 Pale Council positions','The Choice: control or grow wild','Oracle has been alive 144 years — Orishas took his eyes'], chars:['The Oracle','Bayo','Amara','Ikenna','Zara'] }
   };
 
   function openLocModal(id) {
@@ -2990,8 +2745,8 @@ function pvCopyLink() {
     round++;
     if(round >= ROSTER.length){
       if (window.ClearanceTracker) ClearanceTracker.mark('case_file');
-      var best = localStorage.getItem(BEST_KEY);
-      if(!best || score > parseInt(best,10)){ localStorage.setItem(BEST_KEY, score); best = score; }
+      var best = readerStorage.getItem(BEST_KEY);
+      if(!best || score > parseInt(best,10)){ readerStorage.setItem(BEST_KEY, score); best = score; }
       document.getElementById('cfBest').textContent = best+'/'+ROSTER.length;
       document.getElementById('cfWinBody').textContent = 'Score: '+score+'/'+ROSTER.length+'. Best on this device: '+best+'/'+ROSTER.length+'.';
       document.getElementById('cfWin').style.display = 'block';
@@ -3009,7 +2764,7 @@ function pvCopyLink() {
     document.getElementById('cfScore').textContent = '0';
     document.getElementById('cfWin').style.display = 'none';
     document.getElementById('cfClue').style.display = 'block';
-    var best = localStorage.getItem(BEST_KEY);
+    var best = readerStorage.getItem(BEST_KEY);
     document.getElementById('cfBest').textContent = best ? best+'/'+ROSTER.length : '—';
     renderRound();
   };
@@ -3211,11 +2966,11 @@ function pvCopyLink() {
     var banner = document.getElementById('cookie-banner');
     if (!banner) return;
     try {
-      if (localStorage.getItem('catalyst_cookie_consent')) { banner.hidden = true; return; }
+      if (readerStorage.getItem('catalyst_cookie_consent')) { banner.hidden = true; return; }
     } catch(e) { banner.hidden = true; return; }
     banner.hidden = false;
     function dismiss(val) {
-      try { localStorage.setItem('catalyst_cookie_consent', val); } catch(e) {}
+      try { readerStorage.setItem('catalyst_cookie_consent', val); } catch(e) {}
       banner.hidden = true;
     }
     var acceptBtn = document.getElementById('cookie-accept');
@@ -3300,7 +3055,7 @@ function pvCopyLink() {
       var key = 'catalyst_read_' + num;
       var btn = card.querySelector('.issue-read-btn-track');
       try {
-        if (localStorage.getItem(key)) {
+        if (readerStorage.getItem(key)) {
           card.classList.add('is-read');
           if (btn) btn.textContent = '✓ Read';
         }
@@ -3310,11 +3065,11 @@ function pvCopyLink() {
         try {
           if (card.classList.contains('is-read')) {
             card.classList.remove('is-read');
-            localStorage.removeItem(key);
+            readerStorage.removeItem(key);
             btn.textContent = 'Mark Read';
           } else {
             card.classList.add('is-read');
-            localStorage.setItem(key, '1');
+            readerStorage.setItem(key, '1');
             btn.textContent = '✓ Read';
             if (window.showToast) showToast('Issue #' + num + ' marked as read!', 'success', 3000);
           }
@@ -3509,10 +3264,10 @@ function pvCopyLink() {
   window.catalystTrack = function(event, data) {
     var entry = { e: event, d: data || null, ts: new Date().toISOString() };
     try {
-      var q = JSON.parse(localStorage.getItem(ANALYTICS_KEY) || '[]');
+      var q = JSON.parse(readerStorage.getItem(ANALYTICS_KEY) || '[]');
       q.push(entry);
       if (q.length > 200) q = q.slice(-200);
-      localStorage.setItem(ANALYTICS_KEY, JSON.stringify(q));
+      readerStorage.setItem(ANALYTICS_KEY, JSON.stringify(q));
     } catch(e) {}
     try {
       if (window._supabase) {
@@ -3579,11 +3334,11 @@ function pvCopyLink() {
     var DISMISS_KEY = 'catalyst_resume_dismissed';
     var TITLES = { 1: 'Awaken, O City', 2: "Ṣàngó's Daughter", 3: 'Iron in the Blood', 4: 'The Price of Aṣẹ' };
     try {
-      var dismissed = localStorage.getItem(DISMISS_KEY);
+      var dismissed = readerStorage.getItem(DISMISS_KEY);
       if (dismissed && Date.now() - parseInt(dismissed, 10) < 7 * 86400000) return;
       var readAny = false, nextUnread = null;
       for (var i = 1; i <= 4; i++) {
-        if (localStorage.getItem('catalyst_read_' + i)) readAny = true;
+        if (readerStorage.getItem('catalyst_read_' + i)) readAny = true;
         else if (nextUnread === null) nextUnread = i;
       }
       if (!readAny || nextUnread === null) return;
@@ -3597,7 +3352,7 @@ function pvCopyLink() {
       });
       document.getElementById('resume-dismiss').addEventListener('click', function() {
         banner.classList.remove('show');
-        try { localStorage.setItem(DISMISS_KEY, String(Date.now())); } catch(e) {}
+        try { readerStorage.setItem(DISMISS_KEY, String(Date.now())); } catch(e) {}
       });
     } catch(e) {}
   })();
@@ -3620,8 +3375,8 @@ function pvCopyLink() {
       };
     }
     guard('handleSignup', 'newsletter_submit');
-    guard('handleSignUp', 'auth_signup_submit');
-    guard('handleSignIn', 'auth_signin_submit');
+    // Authentication uses Supabase's server-side protections. A page-load
+    // timer must not reject a reader using autofill or a password manager.
   })();
 
   /* ── Passive engagement telemetry ── */
@@ -3640,9 +3395,9 @@ function pvCopyLink() {
         localStorage before the collection filter existed — remove them ── */
   (function() {
     try {
-      if (localStorage.getItem('catalyst_vault_scrubbed_v1')) return;
+      if (readerStorage.getItem('catalyst_vault_scrubbed_v1')) return;
       var re = /password|token|secret|cvv/i;
-      var vault = JSON.parse(localStorage.getItem('catalyst_data_vault') || '{}');
+      var vault = JSON.parse(readerStorage.getItem('catalyst_data_vault') || '{}');
       Object.keys(vault).forEach(function(type) {
         if (!Array.isArray(vault[type])) return;
         vault[type].forEach(function(entry) {
@@ -3651,15 +3406,15 @@ function pvCopyLink() {
           }
         });
       });
-      localStorage.setItem('catalyst_data_vault', JSON.stringify(vault));
-      var pending = JSON.parse(localStorage.getItem('catalyst_pending_sync') || '[]');
+      readerStorage.setItem('catalyst_data_vault', JSON.stringify(vault));
+      var pending = JSON.parse(readerStorage.getItem('catalyst_pending_sync') || '[]');
       pending.forEach(function(item) {
         if (item && item.data && typeof item.data === 'object') {
           Object.keys(item.data).forEach(function(k) { if (re.test(k)) delete item.data[k]; });
         }
       });
-      localStorage.setItem('catalyst_pending_sync', JSON.stringify(pending));
-      localStorage.setItem('catalyst_vault_scrubbed_v1', '1');
+      readerStorage.setItem('catalyst_pending_sync', JSON.stringify(pending));
+      readerStorage.setItem('catalyst_vault_scrubbed_v1', '1');
     } catch(e) {}
   })();
 
@@ -3692,7 +3447,7 @@ function pvCopyLink() {
     });
     document.getElementById('cov-share').addEventListener('click', function() {
       var cov = null;
-      try { cov = JSON.parse(localStorage.getItem(COV_KEY)); } catch(e) {}
+      try { cov = JSON.parse(readerStorage.getItem(COV_KEY)); } catch(e) {}
       if (!cov) return;
       var txt = 'I am Awakened № ' + cov.member_no + ' — "' + cov.covenant_name + '" of ' + cov.district +
         '. The Covenant has my name. Read Catalyst: The Awakening free: https://catalyst-awakening.netlify.app/';
@@ -3730,7 +3485,7 @@ function pvCopyLink() {
   /* Re-show the stored covenant card (used by the palette and member chip) */
   window.catalystShowCovenant = function() {
     var cov = null;
-    try { cov = JSON.parse(localStorage.getItem(COV_KEY)); } catch(e) {}
+    try { cov = JSON.parse(readerStorage.getItem(COV_KEY)); } catch(e) {}
     if (cov) showCeremony(cov);
     else if (window.showToast) showToast('Join the movement first — the Oracle records every name.', 'info', 3500);
   };
@@ -3740,7 +3495,7 @@ function pvCopyLink() {
     window._supabase.rpc('join_covenant', { p_email: email }).then(function(res) {
       if (!res || res.error || !res.data) return;
       var cov = res.data;
-      try { localStorage.setItem(COV_KEY, JSON.stringify(cov)); } catch(e) {}
+      try { readerStorage.setItem(COV_KEY, JSON.stringify(cov)); } catch(e) {}
       // The operative briefing shows a placeholder number — make it real
       var opNum = document.getElementById('opNum');
       if (opNum) opNum.textContent = '#' + String(cov.member_no).padStart(4, '0');
@@ -3901,7 +3656,7 @@ function pvCopyLink() {
       kind: 'Covenant',
       action: function() {
         var cov = null;
-        try { cov = JSON.parse(localStorage.getItem(COV_KEY)); } catch(e) {}
+        try { cov = JSON.parse(readerStorage.getItem(COV_KEY)); } catch(e) {}
         if (cov) showCeremony(cov);
         else if (window.showToast) showToast('Join the movement first — the Oracle records every name.', 'info', 3500);
       }
@@ -3922,7 +3677,7 @@ function pvCopyLink() {
         document.body.classList.remove('ase-pulse');
         void document.body.offsetWidth; /* restart the animation */
         document.body.classList.add('ase-pulse');
-        try { localStorage.setItem('catalyst_ase_invoked', '1'); } catch(err) {}
+        try { readerStorage.setItem('catalyst_ase_invoked', '1'); } catch(err) {}
         if (window.showToast) showToast('Àṣẹ. The city hears you. ✦', 'success', 2500);
         if (window.catalystTrack) catalystTrack('ase_invoked');
         setTimeout(function() { document.body.classList.remove('ase-pulse'); }, 1700);
@@ -3984,8 +3739,8 @@ function pvCopyLink() {
 
   function markIssueRead(n) {
     try {
-      if (localStorage.getItem('catalyst_read_' + n)) return;
-      localStorage.setItem('catalyst_read_' + n, '1');
+      if (readerStorage.getItem('catalyst_read_' + n)) return;
+      readerStorage.setItem('catalyst_read_' + n, '1');
       var card = document.querySelector('.issue-card[data-issue="' + n + '"]');
       if (card) {
         card.classList.add('is-read');
@@ -4078,7 +3833,7 @@ function pvCopyLink() {
     var current = 0;
     var storageKey = 'catalyst_page_i' + issueNum;
     try {
-      var saved = parseInt(localStorage.getItem(storageKey), 10);
+      var saved = parseInt(readerStorage.getItem(storageKey), 10);
       if (!isNaN(saved) && saved >= 0 && saved < total) current = saved;
     } catch(e) {}
 
@@ -4117,12 +3872,12 @@ function pvCopyLink() {
         nextBtn.className = '';
       }
       try {
-        localStorage.setItem(storageKey, String(current));
+        readerStorage.setItem(storageKey, String(current));
         // The denominator, recorded alongside the position. Without it
         // another page can say "page 4" but not "page 4 of 12", and
         // guessing the total would be inventing the one number that
         // makes the claim mean anything.
-        localStorage.setItem('catalyst_pages_i' + issueNum, String(total - 1));
+        readerStorage.setItem('catalyst_pages_i' + issueNum, String(total - 1));
       } catch(e) {}
       if (scroll) content.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -4360,8 +4115,8 @@ function pvCopyLink() {
         var total = pagers[n].total - 1; // pages excluding cold open
         var read = false, pos = 0;
         try {
-          read = !!localStorage.getItem('catalyst_read_' + n);
-          pos = parseInt(localStorage.getItem('catalyst_page_i' + n), 10) || 0;
+          read = !!readerStorage.getItem('catalyst_read_' + n);
+          pos = parseInt(readerStorage.getItem('catalyst_page_i' + n), 10) || 0;
         } catch(e) {}
         var chip = document.createElement('button');
         if (read) {
@@ -4407,13 +4162,13 @@ function pvCopyLink() {
     function stateOf(n) {
       var read = false, page = 0, total = 0;
       try {
-        read = !!localStorage.getItem('catalyst_read_' + n);
-        page = parseInt(localStorage.getItem('catalyst_page_i' + n), 10) || 0;
+        read = !!readerStorage.getItem('catalyst_read_' + n);
+        page = parseInt(readerStorage.getItem('catalyst_page_i' + n), 10) || 0;
         // Written by the pager once it has laid the issue out, so it exists
         // only for an issue this browser has actually opened. An issue with a
         // position but no total is one read before this shipped; it gets the
         // honest "in progress" state without a fabricated percentage.
-        total = parseInt(localStorage.getItem('catalyst_pages_i' + n), 10) || 0;
+        total = parseInt(readerStorage.getItem('catalyst_pages_i' + n), 10) || 0;
       } catch (e) {}
       return { read: read, page: page, total: total };
     }
@@ -4517,17 +4272,17 @@ function pvCopyLink() {
   }
   window.catalystReaderScale = function(dir) {
     var cur = 1;
-    try { cur = parseFloat(localStorage.getItem(SCALE_KEY)) || 1; } catch(e) {}
+    try { cur = parseFloat(readerStorage.getItem(SCALE_KEY)) || 1; } catch(e) {}
     var idx = SCALE_STEPS.indexOf(cur);
     if (idx === -1) idx = 1;
     idx = Math.min(Math.max(idx + dir, 0), SCALE_STEPS.length - 1);
     var next = SCALE_STEPS[idx];
     applyScale(next);
-    try { localStorage.setItem(SCALE_KEY, String(next)); } catch(e) {}
+    try { readerStorage.setItem(SCALE_KEY, String(next)); } catch(e) {}
     if (window.showToast) showToast('Text size: ' + Math.round(next * 100) + '%', 'info', 1500);
   };
   try {
-    var savedScale = parseFloat(localStorage.getItem(SCALE_KEY));
+    var savedScale = parseFloat(readerStorage.getItem(SCALE_KEY));
     if (savedScale && savedScale !== 1) applyScale(savedScale);
   } catch(e) {}
 
@@ -4543,48 +4298,26 @@ function pvCopyLink() {
   window.catalystReaderFocus = function() {
     var on = !document.body.classList.contains('reader-focus');
     setFocusUI(on);
-    try { localStorage.setItem(FOCUS_KEY, on ? '1' : ''); } catch(e) {}
+    try { readerStorage.setItem(FOCUS_KEY, on ? '1' : ''); } catch(e) {}
     if (window.catalystTrack) catalystTrack('focus_mode', { on: on });
   };
-  try { if (localStorage.getItem(FOCUS_KEY)) setFocusUI(true); } catch(e) {}
+  try { if (readerStorage.getItem(FOCUS_KEY)) setFocusUI(true); } catch(e) {}
 
-  /* ── Batch 9: Cross-device reading sync (signed-in readers) ── */
-  var syncTimers = {};
-  window.catalystSyncProgress = function(issue, page) {
-    clearTimeout(syncTimers[issue]);
-    syncTimers[issue] = setTimeout(function() {
-      var sb = window._supabase;
-      if (!sb) return;
-      sb.auth.getSession().then(function(r) {
-        var u = r && r.data && r.data.session && r.data.session.user;
-        if (!u) return;
-        sb.from('reading_progress')
-          .upsert({ user_id: u.id, issue: issue, page: page }, { onConflict: 'user_id,issue' })
-          .then(function() {}, function() {});
-      }, function() {});
-    }, 1500);
-  };
-  (function restoreCloudProgress(attempt) {
-    var sb = window._supabase;
-    if (!sb) {
-      if (attempt < 25) setTimeout(function() { restoreCloudProgress(attempt + 1); }, 400);
-      return;
-    }
-    sb.auth.getSession().then(function(r) {
-      var u = r && r.data && r.data.session && r.data.session.user;
-      if (!u) return;
-      sb.from('reading_progress').select('issue,page').then(function(res) {
-        if (!res || res.error || !res.data) return;
-        res.data.forEach(function(row) {
-          var localPage = 0;
-          try { localPage = parseInt(localStorage.getItem('catalyst_page_i' + row.issue), 10) || 0; } catch(e) {}
-          if (row.page > localPage && pagers[row.issue]) {
-            pagers[row.issue].set(row.page, false, true); // silent: no hash/focus steal on load
-          }
-        });
-      }, function() {});
-    }, function() {});
-  })(0);
+  // Account-owned storage holds the positions; never trust a local identity.
+  window.catalystSyncProgress = function() { if (window.CatalystAccount?.user) initAuth(); };
+  function restoreReaderAccountState() {
+    const scale = Number(readerStorage.getItem(SCALE_KEY)) || 1;
+    applyScale(SCALE_STEPS.includes(scale) ? scale : 1);
+    setFocusUI(!!readerStorage.getItem(FOCUS_KEY));
+    Object.keys(pagers).forEach(function(issue) {
+      const page = Number(readerStorage.getItem('catalyst_page_i' + issue)) || 0;
+      pagers[issue].set(Math.max(0, Math.min(page, pagers[issue].total - 1)), false, true);
+    });
+    if (window.catalystPaintIssueTabs) window.catalystPaintIssueTabs();
+    if (window.catalystUpdateJourney) window.catalystUpdateJourney();
+  }
+  window.addEventListener('catalyst:reader-state', restoreReaderAccountState);
+  if (window.CatalystAccount) window.CatalystAccount.ready.then(restoreReaderAccountState);
 
   /* ── Batch 9: Universe Pulse — live aggregate stats, hidden until real ── */
   (function pulse(attempt) {
@@ -4687,7 +4420,7 @@ function pvCopyLink() {
     var chip = document.getElementById('covenant-chip');
     if (!chip) return;
     var cov = null;
-    try { cov = JSON.parse(localStorage.getItem('catalyst_covenant')); } catch(e) {}
+    try { cov = JSON.parse(readerStorage.getItem('catalyst_covenant')); } catch(e) {}
     if (!cov) { chip.classList.remove('on'); return; }
     chip.textContent = '№' + cov.member_no;
     chip.title = cov.covenant_name + ' of ' + cov.district + ' — view your covenant';
@@ -4709,7 +4442,7 @@ function pvCopyLink() {
   function diffAndToast() {
     var now = unlockedNow();
     var seen = null;
-    try { seen = JSON.parse(localStorage.getItem(SEEN_KEY)); } catch(e) {}
+    try { seen = JSON.parse(readerStorage.getItem(SEEN_KEY)); } catch(e) {}
     if (Array.isArray(seen)) {
       now.forEach(function(name) {
         if (seen.indexOf(name) === -1 && window.showToast) {
@@ -4719,7 +4452,7 @@ function pvCopyLink() {
       });
     }
     // First run seeds silently so long-time readers don't get a toast storm
-    try { localStorage.setItem(SEEN_KEY, JSON.stringify(now)); } catch(e) {}
+    try { readerStorage.setItem(SEEN_KEY, JSON.stringify(now)); } catch(e) {}
   }
   var origRender = window.bdgRender;
   if (typeof origRender === 'function') {
@@ -4901,16 +4634,16 @@ function pvCopyLink() {
     var best = null;
     for (var i = 1; i <= 4; i++) {
       var page = 0;
-      try { page = parseInt(localStorage.getItem('catalyst_page_i' + i), 10) || 0; } catch(e) {}
+      try { page = parseInt(readerStorage.getItem('catalyst_page_i' + i), 10) || 0; } catch(e) {}
       var read = false;
-      try { read = !!localStorage.getItem('catalyst_read_' + i); } catch(e) {}
+      try { read = !!readerStorage.getItem('catalyst_read_' + i); } catch(e) {}
       if (page > 0 && !read) { best = { issue: i, page: page }; }
     }
     if (best) return best;
     // Nobody mid-issue — offer the next unread issue from the start
     for (var j = 1; j <= 4; j++) {
       var r = false;
-      try { r = !!localStorage.getItem('catalyst_read_' + j); } catch(e) {}
+      try { r = !!readerStorage.getItem('catalyst_read_' + j); } catch(e) {}
       if (!r) return { issue: j, page: 0 };
     }
     return null;
@@ -4925,9 +4658,9 @@ function pvCopyLink() {
 
   (function reactivationCheck() {
     var cov = null;
-    try { cov = JSON.parse(localStorage.getItem('catalyst_covenant')); } catch(e) {}
+    try { cov = JSON.parse(readerStorage.getItem('catalyst_covenant')); } catch(e) {}
     var lastVisit = null;
-    try { lastVisit = parseInt(localStorage.getItem(LAST_VISIT_KEY), 10) || null; } catch(e) {}
+    try { lastVisit = parseInt(readerStorage.getItem(LAST_VISIT_KEY), 10) || null; } catch(e) {}
     var now = Date.now();
 
     if (cov && lastVisit && (now - lastVisit) > DORMANT_MS) {
@@ -4954,7 +4687,7 @@ function pvCopyLink() {
         if (window.catalystTrack) catalystTrack('reactivation_shown', { gap_ms: now - lastVisit });
       }
     }
-    try { localStorage.setItem(LAST_VISIT_KEY, String(now)); } catch(e) {}
+    try { readerStorage.setItem(LAST_VISIT_KEY, String(now)); } catch(e) {}
   })();
 
   var wbDismiss = document.getElementById('wb-dismiss');
@@ -4979,12 +4712,12 @@ function pvCopyLink() {
       });
     }
     var cov = null;
-    try { cov = JSON.parse(localStorage.getItem('catalyst_covenant')); } catch(e) {}
+    try { cov = JSON.parse(readerStorage.getItem('catalyst_covenant')); } catch(e) {}
     if (cov) {
       memories.push({ text: 'You are Awakened № ' + cov.member_no + ' — "' + cov.covenant_name + '" of ' + cov.district + '.', ts: null });
     }
     var seen = null;
-    try { seen = JSON.parse(localStorage.getItem('catalyst_badges_seen')); } catch(e) {}
+    try { seen = JSON.parse(readerStorage.getItem('catalyst_badges_seen')); } catch(e) {}
     if (Array.isArray(seen)) {
       seen.forEach(function(name) {
         memories.push({ text: 'Badge unlocked: ' + name + '.', ts: null });
@@ -4992,7 +4725,7 @@ function pvCopyLink() {
     }
     for (var i = 1; i <= 4; i++) {
       var r = false;
-      try { r = !!localStorage.getItem('catalyst_read_' + i); } catch(e) {}
+      try { r = !!readerStorage.getItem('catalyst_read_' + i); } catch(e) {}
       if (r) memories.push({ text: 'You completed Issue #0' + i + '.', ts: null });
     }
     return memories;
@@ -5196,10 +4929,10 @@ window.ClearanceTracker = (function() {
 
   var CATEGORIES = [
     { id: 'story', label: 'Story Archive', items: [
-      { id: 'read_i1', label: 'Issue #01 — read', check: function(){ return !!localStorage.getItem('catalyst_read_1'); } },
-      { id: 'read_i2', label: 'Issue #02 — read', check: function(){ return !!localStorage.getItem('catalyst_read_2'); } },
-      { id: 'read_i3', label: 'Issue #03 — read', check: function(){ return !!localStorage.getItem('catalyst_read_3'); } },
-      { id: 'read_i4', label: 'Issue #04 — read', check: function(){ return !!localStorage.getItem('catalyst_read_4'); } },
+      { id: 'read_i1', label: 'Issue #01 — read', check: function(){ return !!readerStorage.getItem('catalyst_read_1'); } },
+      { id: 'read_i2', label: 'Issue #02 — read', check: function(){ return !!readerStorage.getItem('catalyst_read_2'); } },
+      { id: 'read_i3', label: 'Issue #03 — read', check: function(){ return !!readerStorage.getItem('catalyst_read_3'); } },
+      { id: 'read_i4', label: 'Issue #04 — read', check: function(){ return !!readerStorage.getItem('catalyst_read_4'); } },
     ]},
     { id: 'intel', label: 'Field Intel', items: [
       { id: 'map_balogun', label: 'Balogun Market surveyed' },
@@ -5239,10 +4972,10 @@ window.ClearanceTracker = (function() {
   ];
 
   var manual = {};
-  try { manual = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e) { manual = {}; }
+  try { manual = JSON.parse(readerStorage.getItem(KEY) || '{}') || {}; } catch(e) { manual = {}; }
 
   function save() {
-    try { localStorage.setItem(KEY, JSON.stringify(manual)); } catch(e) {}
+    try { readerStorage.setItem(KEY, JSON.stringify(manual)); } catch(e) {}
   }
 
   function isChecked(item) {
@@ -5357,16 +5090,16 @@ window.ClearanceTracker = (function() {
    separate Dark Assembly villain) — disambiguated in the roster
    labels so the simulator doesn't compound the site's confusion. */
 var CS_ROSTER = [
-  { id: 'bayo', name: 'BAYO — CATALYST', side: 'hero', img: './assets/bayo-portrait.webp', rating: 83, move: 'channels raw, unfiltered Aṣẹ output', source: 'Dossier avg — Power 82 · Speed 61 · Intelligence 88 · Aṣẹ Output 100' },
-  { id: 'amara', name: 'AMARA — THUNDERSTRIKE', side: 'hero', img: './assets/amara-portrait.webp', rating: 86, move: 'unleashes a Ṣàngó thunder-arc', source: 'Dossier avg — Power 91 · Speed 94 · Intelligence 82 · Aṣẹ Output 78' },
-  { id: 'ikenna', name: 'IKENNA — IRON WOLF', side: 'hero', img: './assets/ikenna-portrait.webp', rating: 80, move: 'raises Ògún’s iron guard', source: 'Dossier avg — Power 86 · Speed 100 · Intelligence 80 · Aṣẹ Output 55' },
-  { id: 'zara', name: 'ZARA — THE MIRROR (HERO)', side: 'hero', img: './assets/zara-portrait.webp', rating: 91, move: 'vanishes into total invisibility', source: 'Card avg — Aṣẹ 78 · Speed 92 · Stealth 99 · Intel 95' },
-  { id: 'oracle', name: 'THE ORACLE', side: 'hero', img: './assets/oracle-badagry-portrait.webp', rating: 60, move: 'reads the fight forty moves ahead', source: 'Dossier avg — Power 32 · Speed 20 · Intelligence 100 · Knowledge Aṣẹ 89' },
-  { id: 'architect', name: 'THE ARCHITECT', side: 'villain', img: './assets/architect-portrait.webp', rating: 98, move: 'reroutes the fight three moves ahead of the first hit', source: 'Villain file — Threat Level 98%' },
-  { id: 'mirror-v', name: 'THE MIRROR (DARK ASSEMBLY)', side: 'villain', img: './assets/mirror-villain-portrait.webp', rating: 90, move: 'perfectly mimics the opponent’s last technique', source: 'Villain file — Threat Level 90%' },
-  { id: 'hollow-king', name: 'HOLLOW KING', side: 'villain', img: './assets/hollow-king-portrait.webp', rating: 84, move: 'drains Aṣẹ through Soul Harvest', source: 'Villain file — Threat Level 84%' },
-  { id: 'mother-storm', name: 'MOTHER STORM', side: 'villain', img: './assets/shipyard.webp', rating: 79, move: 'rips open a corrupted Ọ̀run Rift', source: 'Villain file — Threat Level 79%' },
-  { id: 'iron-preacher', name: 'IRON PREACHER', side: 'villain', img: './assets/iron-preacher-portrait.webp', rating: 72, move: 'summons Iron Constructs on the Ògún Wrath doctrine', source: 'Villain file — Threat Level 72%' },
+  { id: 'bayo', name: 'BAYO — CATALYST', side: 'hero', img: '/assets/bayo-portrait.webp', rating: 83, move: 'channels raw, unfiltered Aṣẹ output', source: 'Dossier avg — Power 82 · Speed 61 · Intelligence 88 · Aṣẹ Output 100' },
+  { id: 'amara', name: 'AMARA — THUNDERSTRIKE', side: 'hero', img: '/assets/amara-portrait.webp', rating: 86, move: 'unleashes a Ṣàngó thunder-arc', source: 'Dossier avg — Power 91 · Speed 94 · Intelligence 82 · Aṣẹ Output 78' },
+  { id: 'ikenna', name: 'IKENNA — IRON WOLF', side: 'hero', img: '/assets/ikenna-portrait.webp', rating: 80, move: 'raises Ògún’s iron guard', source: 'Dossier avg — Power 86 · Speed 100 · Intelligence 80 · Aṣẹ Output 55' },
+  { id: 'zara', name: 'ZARA — THE MIRROR (HERO)', side: 'hero', img: '/assets/zara-portrait.webp', rating: 91, move: 'vanishes into total invisibility', source: 'Card avg — Aṣẹ 78 · Speed 92 · Stealth 99 · Intel 95' },
+  { id: 'oracle', name: 'THE ORACLE', side: 'hero', img: '/assets/oracle-badagry-portrait.webp', rating: 60, move: 'reads the fight forty moves ahead', source: 'Dossier avg — Power 32 · Speed 20 · Intelligence 100 · Knowledge Aṣẹ 89' },
+  { id: 'architect', name: 'THE ARCHITECT', side: 'villain', img: '/assets/architect-portrait.webp', rating: 98, move: 'reroutes the fight three moves ahead of the first hit', source: 'Villain file — Threat Level 98%' },
+  { id: 'mirror-v', name: 'THE MIRROR (DARK ASSEMBLY)', side: 'villain', img: '/assets/mirror-villain-portrait.webp', rating: 90, move: 'perfectly mimics the opponent’s last technique', source: 'Villain file — Threat Level 90%' },
+  { id: 'hollow-king', name: 'HOLLOW KING', side: 'villain', img: '/assets/hollow-king-portrait.webp', rating: 84, move: 'drains Aṣẹ through Soul Harvest', source: 'Villain file — Threat Level 84%' },
+  { id: 'mother-storm', name: 'MOTHER STORM', side: 'villain', img: '/assets/shipyard.webp', rating: 79, move: 'rips open a corrupted Ọ̀run Rift', source: 'Villain file — Threat Level 79%' },
+  { id: 'iron-preacher', name: 'IRON PREACHER', side: 'villain', img: '/assets/iron-preacher-portrait.webp', rating: 72, move: 'summons Iron Constructs on the Ògún Wrath doctrine', source: 'Villain file — Threat Level 72%' },
 ];
 
 (function() {
@@ -5845,11 +5578,11 @@ var TC_ENDINGS = {
   var idx = 0, resolve = 0, bond = 0, saidThird = false;
 
   function found() {
-    try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { return []; }
+    try { return JSON.parse(readerStorage.getItem(KEY) || '[]'); } catch (e) { return []; }
   }
   function remember(id) {
     var f = found();
-    if (f.indexOf(id) === -1) { f.push(id); try { localStorage.setItem(KEY, JSON.stringify(f)); } catch (e) {} }
+    if (f.indexOf(id) === -1) { f.push(id); try { readerStorage.setItem(KEY, JSON.stringify(f)); } catch (e) {} }
     renderEndings();
   }
   function renderEndings() {
@@ -6386,13 +6119,13 @@ var TC_ENDINGS = {
   /* ---------- recents ---------- */
 
   function recents() {
-    try { return JSON.parse(localStorage.getItem(RECENT_KEY) || '[]'); } catch (e) { return []; }
+    try { return JSON.parse(readerStorage.getItem(RECENT_KEY) || '[]'); } catch (e) { return []; }
   }
   function rememberRecent(title) {
     try {
       var list = recents().filter(function(r) { return r !== title; });
       list.unshift(title);
-      localStorage.setItem(RECENT_KEY, JSON.stringify(list.slice(0, MAX_RECENT)));
+      readerStorage.setItem(RECENT_KEY, JSON.stringify(list.slice(0, MAX_RECENT)));
     } catch (e) { /* private mode — recents are a nicety, not a feature */ }
   }
 
@@ -6661,11 +6394,11 @@ var TC_ENDINGS = {
 
   var notes = [];
   function load() {
-    try { notes = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { notes = []; }
+    try { notes = JSON.parse(readerStorage.getItem(KEY) || '[]'); } catch (e) { notes = []; }
     if (!Array.isArray(notes)) notes = [];
   }
   function save() {
-    try { localStorage.setItem(KEY, JSON.stringify(notes)); } catch (e) { /* private mode */ }
+    try { readerStorage.setItem(KEY, JSON.stringify(notes)); } catch (e) { /* private mode */ }
     updateCounts();
   }
   function nextId() {
@@ -7106,6 +6839,13 @@ var TC_ENDINGS = {
   mountTriggers();
   restoreAll();
   render();
+
+  window.addEventListener('catalyst:reader-state', function() {
+    // Clear the previous person's highlights and drawer before loading ours.
+    notes.forEach(function(note) { unwrap(note.id); });
+    restored = {}; hideBar(); closeDrawer(); load();
+    updateCounts(); restoreAll(); render();
+  });
 
   // Pages are only annotated by the glossary/lore passes after load, and a
   // reader can turn to a page whose notes were never restored, so re-run
@@ -8030,12 +7770,11 @@ var TC_ENDINGS = {
   }
 
   // 4. Callsign & Pass Exporting
-  window.saveProfileCallSign = function(val) {
-    if (_currentUser) {
-      _currentUser.callsign = val.trim();
-      localStorage.setItem('catalyst_user_profile', JSON.stringify(_currentUser));
-      if (window.showToast) window.showToast('Callsign linked: ' + val, 'success', 2200);
-    }
+  window.saveProfileCallSign = async function(val) {
+    try {
+      await window.CatalystAccount.saveProfile({ callsign: val.trim() });
+      showToast('Callsign saved.', 'success', 2200);
+    } catch (err) { showToast(err.message, 'error'); }
   };
 
   window.exportReaderIdCard = function() {
@@ -8047,8 +7786,7 @@ var TC_ENDINGS = {
       'CATALYST OS // READER TELEMETRY PASS\n' +
       'OPERATIVE: ' + name + ' [' + callsign + ']\n' +
       'AFFINITY: ' + affinity + '\n' +
-      'ACCESS: REGISTERED READER · 50 ARTWORKS UNLOCKED\n' +
-      'VERIFICATION HASH: 0x' + Date.now().toString(16).toUpperCase() + '\n' +
+      'PERSONAL READER CARD · NOT AN ACCESS CREDENTIAL\n' +
       'URL: https://catalyst-awakening.netlify.app/\n' +
       '========================================';
 
@@ -8500,7 +8238,7 @@ var TC_ENDINGS = {
     // Load any locally submitted theories
     var stored = [];
     try {
-      stored = JSON.parse(localStorage.getItem('catalyst_user_theories') || '[]');
+      stored = JSON.parse(readerStorage.getItem('catalyst_user_theories') || '[]');
     } catch(_) {}
 
     var allList = stored.concat(CANON_THEORIES);
@@ -8546,10 +8284,10 @@ var TC_ENDINGS = {
 
     var stored = [];
     try {
-      stored = JSON.parse(localStorage.getItem('catalyst_user_theories') || '[]');
+      stored = JSON.parse(readerStorage.getItem('catalyst_user_theories') || '[]');
     } catch(_) {}
     stored.unshift(newEntry);
-    localStorage.setItem('catalyst_user_theories', JSON.stringify(stored));
+    readerStorage.setItem('catalyst_user_theories', JSON.stringify(stored));
 
     form.reset();
     renderTheories();
@@ -8865,19 +8603,19 @@ var TC_ENDINGS = {
   /* ── 4. Ọ̀RUN COUNCIL: UPVOTES & CLASSIFIED DECRYPTION ── */
   window.upvoteTheory = function(theoryId, btn) {
     const key = 'catalyst_upvote_' + theoryId;
-    const hasVoted = localStorage.getItem(key);
+    const hasVoted = readerStorage.getItem(key);
     let count = parseInt(btn.getAttribute('data-votes') || '14', 10);
 
     if (!hasVoted) {
       count += 1;
-      localStorage.setItem(key, 'true');
+      readerStorage.setItem(key, 'true');
       btn.setAttribute('data-votes', count);
       btn.classList.add('voted');
       btn.innerHTML = '▲ UPVOTED (' + count + ')';
       if (typeof window.playHudSound === 'function') window.playHudSound('activate');
     } else {
       count -= 1;
-      localStorage.removeItem(key);
+      readerStorage.removeItem(key);
       btn.setAttribute('data-votes', count);
       btn.classList.remove('voted');
       btn.innerHTML = '▲ UPVOTE (' + count + ')';
@@ -8912,9 +8650,9 @@ var TC_ENDINGS = {
     if (btn) btn.classList.add('active');
 
     // Save to local storage
-    localStorage.setItem('catalyst_last_scene_idx', sceneIdx);
+    readerStorage.setItem('catalyst_last_scene_idx', sceneIdx);
     const sceneTitle = btn?.textContent?.trim() || ('Scene ' + sceneIdx);
-    localStorage.setItem('catalyst_last_scene_title', sceneTitle);
+    readerStorage.setItem('catalyst_last_scene_title', sceneTitle);
 
     const resumeEl = document.getElementById('profileResumeScene');
     if (resumeEl) resumeEl.textContent = sceneTitle;
@@ -8929,7 +8667,7 @@ var TC_ENDINGS = {
   };
 
   window.resumeLastReadingScene = function() {
-    const savedIdx = localStorage.getItem('catalyst_last_scene_idx') || '1';
+    const savedIdx = readerStorage.getItem('catalyst_last_scene_idx') || '1';
     const chip = document.querySelector('.filmstrip-chip:nth-child(' + savedIdx + ')');
     window.jumpToScene(parseInt(savedIdx, 10), chip);
     if (typeof window.closeUserProfileModal === 'function') window.closeUserProfileModal();
@@ -9118,7 +8856,8 @@ var TC_ENDINGS = {
   };
 
   /* ── 5. COMIC READER THEME SWITCHER ── */
-  window.setReaderTheme = function(theme, btn) {
+  window.setReaderTheme = function(theme, btn, restoring) {
+    if (!['dark', 'sepia', 'matrix'].includes(theme)) theme = 'dark';
     document.querySelectorAll('.reader-theme-switcher .theme-btn').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
 
@@ -9128,19 +8867,25 @@ var TC_ENDINGS = {
     } else if (theme === 'matrix') {
       document.body.classList.add('reader-theme-matrix');
     }
-    localStorage.setItem('catalyst_reader_theme', theme);
-    if (typeof window.playHudSound === 'function') window.playHudSound('select');
+    if (!restoring) {
+      readerStorage.setItem('catalyst_reader_theme', theme);
+      if (typeof window.playHudSound === 'function') window.playHudSound('select');
+    }
   };
 
   // Restore saved reader theme
-  const savedTheme = localStorage.getItem('catalyst_reader_theme');
-  if (savedTheme) {
-    const btn = document.querySelector(`.reader-theme-switcher .theme-btn[onclick*="${savedTheme}"]`);
-    if (btn) window.setReaderTheme(savedTheme, btn);
+  function restoreReaderTheme() {
+    const saved = readerStorage.getItem('catalyst_reader_theme');
+    const theme = ['dark', 'sepia', 'matrix'].includes(saved) ? saved : 'dark';
+    const btn = document.querySelector(`.reader-theme-switcher .theme-btn[onclick*="${theme}"]`);
+    window.setReaderTheme(theme, btn, true);
   }
+  restoreReaderTheme();
+  window.addEventListener('catalyst:reader-state', restoreReaderTheme);
 
   /* ── 6. CANVAS DIGITAL VIP PASS EXPORTER ── */
   window.exportDigitalReaderPassCanvas = function() {
+    if (!window.CatalystAccount?.user) { openAuthModal('signin'); return; }
     const callsign = (document.getElementById('profileCallSignInput')?.value || 'CATALYST_OPERATIVE').toUpperCase();
     const affinity = document.querySelector('.affinity-chip.active')?.textContent || '⚡ Ṣàngó';
     const canvas = document.createElement('canvas');
@@ -9190,7 +8935,7 @@ var TC_ENDINGS = {
     // Header Tag
     ctx.font = "bold 15px 'Space Grotesk', monospace";
     ctx.fillStyle = '#00C9B1';
-    ctx.fillText('CATALYST OS // VERIFIED OPERATIVE CREDENTIAL v3.0', 50, 65);
+    ctx.fillText('CATALYSTVERSE // PERSONAL READER CARD', 50, 65);
 
     // Main Title
     ctx.font = "bold 34px 'Space Grotesk', sans-serif";
@@ -9210,9 +8955,9 @@ var TC_ENDINGS = {
     // Details Grid
     ctx.font = "14px 'Space Grotesk', monospace";
     ctx.fillStyle = 'rgba(240, 237, 229, 0.7)';
-    ctx.fillText('SECURITY CLEARANCE: TIER-01 GRAND SOVEREIGN', 50, 280);
-    ctx.fillText('COGNITIVE CANON ACCESS: 50/50 ARTWORKS UNLOCKED', 50, 310);
-    ctx.fillText('ORUN MEMBRANE SYNC: STABLE (99.8%)', 50, 340);
+    ctx.fillText('YOUR READING JOURNEY. YOUR UNIVERSE.', 50, 280);
+    ctx.fillText('PERSONAL KEEPSAKE. NOT AN ACCESS CREDENTIAL.', 50, 310);
+    ctx.fillText('PROFILE: ' + (window.CatalystAccount.profile?.display_name || 'Catalyst Reader'), 50, 340);
     ctx.fillText('TIMESTAMP: ' + new Date().toISOString().slice(0, 19).replace('T', ' '), 50, 370);
 
     // Holographic Seal simulation
@@ -9227,12 +8972,12 @@ var TC_ENDINGS = {
     ctx.fillStyle = '#F4B800';
     ctx.textAlign = 'center';
     ctx.fillText('Ọ̀RUN COUNCIL', 0, -10);
-    ctx.fillText('CANON VERIFIED', 0, 15);
+    ctx.fillText('READER CARD', 0, 15);
     ctx.restore();
 
     // Trigger download
     const link = document.createElement('a');
-    link.download = 'Catalyst_VIP_Pass_' + callsign.replace(/[^A-Z0-9_]/gi, '_') + '.png';
+    link.download = 'Catalyst_Reader_Card_' + callsign.replace(/[^A-Z0-9_]/gi, '_') + '.png';
     link.href = canvas.toDataURL('image/png');
     link.click();
 
@@ -9405,15 +9150,19 @@ var TC_ENDINGS = {
     proseEls.forEach(el => {
       el.style.fontSize = readerFontSize + 'rem';
     });
-    localStorage.setItem('catalyst_reader_fontsize', readerFontSize);
+    readerStorage.setItem('catalyst_reader_fontsize', readerFontSize);
     if (typeof window.playHudSound === 'function') window.playHudSound('select');
   };
 
   // Restore saved reader font size
-  const savedFontSize = localStorage.getItem('catalyst_reader_fontsize');
-  if (savedFontSize) {
-    window.adjustReaderFontSize(0);
+  function restoreReaderFontSize() {
+    readerFontSize = Math.min(1.35, Math.max(0.8, Number(readerStorage.getItem('catalyst_reader_fontsize')) || 0.95));
+    document.querySelectorAll('#read .story-prose, #read .panel-dialogue, #read .panel-narration').forEach(el => {
+      el.style.fontSize = readerFontSize + 'rem';
+    });
   }
+  restoreReaderFontSize();
+  window.addEventListener('catalyst:reader-state', restoreReaderFontSize);
 })();
 
 /* ══════════════════════════════════════════════════════════════════
@@ -9452,11 +9201,11 @@ var TC_ENDINGS = {
     }
   };
 
-  let currentLang = localStorage.getItem('catalyst_lang') || 'en';
+  let currentLang = readerStorage.getItem('catalyst_lang') || 'en';
 
   window.setLanguage = function(lang, btn) {
     currentLang = lang;
-    localStorage.setItem('catalyst_lang', lang);
+    readerStorage.setItem('catalyst_lang', lang);
 
     document.querySelectorAll('.nav-lang-picker .lang-btn').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
@@ -9486,43 +9235,43 @@ var TC_ENDINGS = {
   /* ── 2. ANIMATED MOTION COMIC PLAYER ── */
   const MOTION_PANELS = [
     {
-      bg: './assets/mushin-night.webp',
-      fg: './assets/bayo-keyart-street.webp',
+      bg: '/assets/mushin-night.webp',
+      fg: '/assets/bayo-keyart-street.webp',
       tag: 'CAPTION // MUSHIN CORE · 2:47 AM',
       key: 'motion1',
       shake: false
     },
     {
-      bg: './assets/corridor.webp',
-      fg: './assets/circle.webp',
+      bg: '/assets/corridor.webp',
+      fg: '/assets/circle.webp',
       tag: 'PANEL 02 // BALOGUN NEXUS · THE Ọ̀RUN-BLEED',
       key: 'motion2',
       shake: true
     },
     {
-      bg: './assets/shipyard.webp',
-      fg: './assets/team-aurora.webp',
+      bg: '/assets/shipyard.webp',
+      fg: '/assets/team-aurora.webp',
       tag: 'PANEL 03 // AMARA THUNDERSTRIKE DEPLOYMENT',
       key: 'motion3',
       shake: true
     },
     {
-      bg: './assets/mushin-night.webp',
-      fg: './assets/bayo-keyart-street.webp',
+      bg: '/assets/mushin-night.webp',
+      fg: '/assets/bayo-keyart-street.webp',
       tag: 'PANEL 04 // IRON WOLF ON THIRD MAINLAND',
       key: 'motion4',
       shake: true
     },
     {
-      bg: './assets/corridor.webp',
-      fg: './assets/team-aurora.webp',
+      bg: '/assets/corridor.webp',
+      fg: '/assets/team-aurora.webp',
       tag: 'PANEL 05 // PALE COUNCIL TOWER 7 SURVEILLANCE',
       key: 'motion5',
       shake: false
     },
     {
-      bg: './assets/shipyard.webp',
-      fg: './assets/circle.webp',
+      bg: '/assets/shipyard.webp',
+      fg: '/assets/circle.webp',
       tag: 'PANEL 06 // DAWN OVER LAGOS · HOLDING THE LINE',
       key: 'motion6',
       shake: false
@@ -9715,7 +9464,7 @@ var TC_ENDINGS = {
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    if (pwaBanner && !localStorage.getItem('catalyst_pwa_dismissed')) {
+    if (pwaBanner && !readerStorage.getItem('catalyst_pwa_dismissed')) {
       pwaBanner.style.display = 'block';
     }
   });
@@ -9738,7 +9487,7 @@ var TC_ENDINGS = {
 
   window.dismissPwaBanner = function() {
     if (pwaBanner) pwaBanner.style.display = 'none';
-    localStorage.setItem('catalyst_pwa_dismissed', 'true');
+    readerStorage.setItem('catalyst_pwa_dismissed', 'true');
   };
 })();
 
@@ -10049,7 +9798,7 @@ var TC_ENDINGS = {
   }
 
   /* ── 3. WEBTOON VS SPREAD LAYOUT SWITCHER ── */
-  window.setReaderLayout = function(layout, btn) {
+  window.setReaderLayout = function(layout, btn, restoring) {
     document.querySelectorAll('.reader-layout-controls .theme-btn').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
 
@@ -10058,15 +9807,19 @@ var TC_ENDINGS = {
     } else {
       document.body.classList.remove('reader-layout-webtoon');
     }
-    localStorage.setItem('catalyst_reader_layout', layout);
-    if (typeof window.playHudSound === 'function') window.playHudSound('select');
+    if (!restoring) {
+      readerStorage.setItem('catalyst_reader_layout', layout);
+      if (typeof window.playHudSound === 'function') window.playHudSound('select');
+    }
   };
 
-  const savedLayout = localStorage.getItem('catalyst_reader_layout');
-  if (savedLayout === 'webtoon') {
-    const btn = document.getElementById('layoutWebtoonBtn');
-    if (btn) window.setReaderLayout('webtoon', btn);
+  function restoreReaderLayout() {
+    const layout = readerStorage.getItem('catalyst_reader_layout') === 'webtoon' ? 'webtoon' : 'spread';
+    const btn = document.getElementById(layout === 'webtoon' ? 'layoutWebtoonBtn' : 'layoutSpreadBtn');
+    window.setReaderLayout(layout, btn, true);
   }
+  restoreReaderLayout();
+  window.addEventListener('catalyst:reader-state', restoreReaderLayout);
 
   /* ── 4. FAN OPERATIVE RECRUITMENT POSTER STUDIO ── */
   let posterFormat = 'story'; // story (9:16), square (1:1), banner (16:9)
@@ -10536,70 +10289,70 @@ var TC_ENDINGS = {
       id: 'bayo',
       name: 'BAYO — CATALYST',
       threatClass: 'CLASS: DIVINE CONDUIT',
-      img: './assets/bayo-portrait.webp',
+      img: '/assets/bayo-portrait.webp',
       stats: { str: 84, ase: 100, int: 88, res: 75, spd: 68, def: 80 }
     },
     'amara': {
       id: 'amara',
       name: 'AMARA — THUNDERSTRIKE',
       threatClass: 'CLASS: ṢÀNGÓ TEMPEST',
-      img: './assets/amara-portrait.webp',
+      img: '/assets/amara-portrait.webp',
       stats: { str: 91, ase: 88, int: 82, res: 90, spd: 96, def: 72 }
     },
     'ikenna': {
       id: 'ikenna',
       name: 'IKENNA — IRON WOLF',
       threatClass: 'CLASS: ÒGÚN FORTRESS',
-      img: './assets/ikenna-portrait.webp',
+      img: '/assets/ikenna-portrait.webp',
       stats: { str: 94, ase: 62, int: 80, res: 84, spd: 65, def: 98 }
     },
     'zara': {
       id: 'zara',
       name: 'ZARA — THE MIRROR',
       threatClass: 'CLASS: SPECTRAL SHADOW',
-      img: './assets/zara-portrait.webp',
+      img: '/assets/zara-portrait.webp',
       stats: { str: 72, ase: 82, int: 95, res: 78, spd: 94, def: 85 }
     },
     'oracle': {
       id: 'oracle',
       name: 'THE ORACLE',
       threatClass: 'CLASS: ANCESTRAL SEER',
-      img: './assets/oracle-badagry-portrait.webp',
+      img: '/assets/oracle-badagry-portrait.webp',
       stats: { str: 35, ase: 95, int: 100, res: 100, spd: 30, def: 80 }
     },
     'architect': {
       id: 'architect',
       name: 'THE ARCHITECT',
       threatClass: 'CLASS: SYSTEM SOVEREIGN',
-      img: './assets/architect-portrait.webp',
+      img: '/assets/architect-portrait.webp',
       stats: { str: 85, ase: 92, int: 98, res: 65, spd: 82, def: 90 }
     },
     'mirror-v': {
       id: 'mirror-v',
       name: 'THE MIRROR (DARK ASSEMBLY)',
       threatClass: 'CLASS: CYBERNETIC MIMIC',
-      img: './assets/mirror-villain-portrait.webp',
+      img: '/assets/mirror-villain-portrait.webp',
       stats: { str: 80, ase: 88, int: 92, res: 50, spd: 90, def: 86 }
     },
     'hollow-king': {
       id: 'hollow-king',
       name: 'HOLLOW KING',
       threatClass: 'CLASS: VOID HARVESTER',
-      img: './assets/hollow-king-portrait.webp',
+      img: '/assets/hollow-king-portrait.webp',
       stats: { str: 88, ase: 94, int: 84, res: 70, spd: 74, def: 84 }
     },
     'mother-storm': {
       id: 'mother-storm',
       name: 'MOTHER STORM',
       threatClass: 'CLASS: CORRUPTED TEMPEST',
-      img: './assets/shipyard.webp',
+      img: '/assets/shipyard.webp',
       stats: { str: 82, ase: 90, int: 78, res: 82, spd: 86, def: 74 }
     },
     'iron-preacher': {
       id: 'iron-preacher',
       name: 'IRON PREACHER',
       threatClass: 'CLASS: HERETIC SMITHER',
-      img: './assets/iron-preacher-portrait.webp',
+      img: '/assets/iron-preacher-portrait.webp',
       stats: { str: 90, ase: 75, int: 70, res: 76, spd: 58, def: 92 }
     }
   };
@@ -10930,7 +10683,7 @@ var TC_ENDINGS = {
       creator: 'Taiwo Adeyemi Studios',
       handle: '@taiwo_neo',
       category: 'illustration',
-      img: './assets/bayo-portrait.webp',
+      img: '/assets/bayo-portrait.webp',
       likes: 184,
       desc: 'Digital oil illustration depicting Bayo channeling primordial Aṣẹ currents over the bustling stalls of Balogun Market.'
     },
@@ -10940,7 +10693,7 @@ var TC_ENDINGS = {
       creator: 'Nkechi Obi',
       handle: '@nkechi_art',
       category: 'variant',
-      img: './assets/amara-portrait.webp',
+      img: '/assets/amara-portrait.webp',
       likes: 215,
       desc: 'Alternative collector variant cover for Issue #02. Amara striking lightning onto the rusted shipping cranes.'
     },
@@ -10950,7 +10703,7 @@ var TC_ENDINGS = {
       creator: 'Kene & The Forge Lab',
       handle: '@forgelab_cosplay',
       category: 'cosplay',
-      img: './assets/ikenna-portrait.webp',
+      img: '/assets/ikenna-portrait.webp',
       likes: 342,
       desc: 'Full-scale physical tactical vest with Ògún iron relief carvings and responsive EL wire circuitry.'
     },
@@ -10960,7 +10713,7 @@ var TC_ENDINGS = {
       creator: 'Dare Alabi',
       handle: '@dare_afrofuturism',
       category: 'variant',
-      img: './assets/cover-orisha-rising3.webp',
+      img: '/assets/cover-orisha-rising3.webp',
       likes: 267,
       desc: 'Commemorative triple cover variant capturing the awakening of divine lineages across modern Lagos.'
     },
@@ -10970,7 +10723,7 @@ var TC_ENDINGS = {
       creator: 'Folake Vance',
       handle: '@vance_visuals',
       category: 'community',
-      img: './assets/art-lagos-2031.webp',
+      img: '/assets/art-lagos-2031.webp',
       likes: 198,
       desc: 'Architectural concept art rendering the subterranean transit arteries beneath the Third Mainland Bridge.'
     },
@@ -10980,7 +10733,7 @@ var TC_ENDINGS = {
       creator: 'Ifeoma Clark',
       handle: '@ife_concepts',
       category: 'illustration',
-      img: './assets/forge.webp',
+      img: '/assets/forge.webp',
       likes: 153,
       desc: 'High-concept render of the Ògún metal forge where divine relic metallurgy meets modern cybernetics.'
     }
@@ -10993,7 +10746,7 @@ var TC_ENDINGS = {
 
   function loadFanArt() {
     try {
-      var saved = localStorage.getItem(STORAGE_KEY);
+      var saved = readerStorage.getItem(STORAGE_KEY);
       if (saved) {
         fanArtCollection = JSON.parse(saved);
       } else {
@@ -11006,7 +10759,7 @@ var TC_ENDINGS = {
 
   function saveFanArt() {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(fanArtCollection));
+      readerStorage.setItem(STORAGE_KEY, JSON.stringify(fanArtCollection));
     } catch(e) {}
   }
 
@@ -11093,7 +10846,7 @@ var TC_ENDINGS = {
     var handle = document.getElementById('fanArtHandle').value.trim();
     var lore = document.getElementById('fanArtLore').value.trim();
     var prev = document.getElementById('fasImagePreview');
-    var imgSrc = (prev && prev.src && prev.style.display !== 'none') ? prev.src : './assets/bayo-portrait.webp';
+    var imgSrc = (prev && prev.src && prev.style.display !== 'none') ? prev.src : '/assets/bayo-portrait.webp';
 
     var submissionId = 'OC-CREATOR-2031-' + Math.floor(1000 + Math.random() * 9000);
 
@@ -11211,7 +10964,7 @@ var TC_ENDINGS = {
       era: 'ANCIENT SOVEREIGNTY',
       relic: 'Oṣé Ṣàngó Ceremonial Axe',
       threat: 'Primordial Void Leviathans',
-      img: './assets/circle.webp'
+      img: '/assets/circle.webp'
     },
     {
       year: '1897 CE',
@@ -11220,7 +10973,7 @@ var TC_ENDINGS = {
       era: 'COLONIAL SIEGE',
       relic: 'Seven Anvils of Ògún',
       threat: 'Royal Niger Company Enforcers',
-      img: './assets/forge.webp'
+      img: '/assets/forge.webp'
     },
     {
       year: '1973 CE',
@@ -11229,7 +10982,7 @@ var TC_ENDINGS = {
       era: 'COLD WAR AWAKENING',
       relic: 'Badagry Brass Divination Sphere',
       threat: 'Subterranean Frequency Drift',
-      img: './assets/oracle-badagry-portrait.webp'
+      img: '/assets/oracle-badagry-portrait.webp'
     },
     {
       year: '2018 CE',
@@ -11238,7 +10991,7 @@ var TC_ENDINGS = {
       era: 'CYBER-OLIGARCHY',
       relic: 'Council Neural Extraction Array',
       threat: 'The Pale Council Oligarchs',
-      img: './assets/art-lagos-2031.webp'
+      img: '/assets/art-lagos-2031.webp'
     },
     {
       year: '2031 CE',
@@ -11247,7 +11000,7 @@ var TC_ENDINGS = {
       era: 'AṢẸ IGNITION (PRESENT DAY)',
       relic: 'Ẹṣù Crossroads Conduction Coil',
       threat: 'The Architect & Dark Assembly',
-      img: './assets/bayo-bridge.webp'
+      img: '/assets/bayo-bridge.webp'
     }
   ];
 
@@ -11417,7 +11170,7 @@ var TC_ENDINGS = {
 
   function loadQuests() {
     try {
-      var saved = localStorage.getItem(STORAGE_QUESTS_KEY);
+      var saved = readerStorage.getItem(STORAGE_QUESTS_KEY);
       if (saved) {
         var state = JSON.parse(saved);
         DAILY_QUESTS.forEach(function(q, i) {
@@ -11431,7 +11184,7 @@ var TC_ENDINGS = {
     try {
       var state = {};
       DAILY_QUESTS.forEach(function(q) { state[q.id] = q.completed; });
-      localStorage.setItem(STORAGE_QUESTS_KEY, JSON.stringify(state));
+      readerStorage.setItem(STORAGE_QUESTS_KEY, JSON.stringify(state));
     } catch(e) {}
   }
 
@@ -11499,16 +11252,16 @@ var TC_ENDINGS = {
 
   var REMIX_ASSETS = {
     bg: {
-      bridge: './assets/bayo-bridge.webp',
-      corridor: './assets/corridor.webp',
-      forge: './assets/forge.webp',
-      industrial: './assets/industrial.webp'
+      bridge: '/assets/bayo-bridge.webp',
+      corridor: '/assets/corridor.webp',
+      forge: '/assets/forge.webp',
+      industrial: '/assets/industrial.webp'
     },
     char: {
-      bayo: './assets/bayo-portrait.webp',
-      amara: './assets/amara-portrait.webp',
-      ikenna: './assets/ikenna-portrait.webp',
-      architect: './assets/architect-portrait.webp'
+      bayo: '/assets/bayo-portrait.webp',
+      amara: '/assets/amara-portrait.webp',
+      ikenna: '/assets/ikenna-portrait.webp',
+      architect: '/assets/architect-portrait.webp'
     }
   };
 
@@ -12273,6 +12026,7 @@ var TC_ENDINGS = {
         var isAccent = (s % 4 === 0);
         padsHtml += '<button type="button" class="beat-pad' + (on ? ' on' : '') + (isAccent ? ' accent' : '') + '" ' +
           'data-track="' + tIdx + '" data-step="' + s + '" ' +
+          'aria-label="' + t.name + ', step ' + (s + 1) + '" aria-pressed="' + on + '" ' +
           'onclick="toggleBeatPad(' + tIdx + ', ' + s + ', this)"></button>';
       }
 
@@ -12395,6 +12149,7 @@ var TC_ENDINGS = {
   window.toggleBeatPad = function(track, step, btn) {
     beatGrid[track][step] = beatGrid[track][step] === 1 ? 0 : 1;
     btn.classList.toggle('on', beatGrid[track][step] === 1);
+    btn.setAttribute('aria-pressed', String(beatGrid[track][step] === 1));
   };
 
   function playStep() {
@@ -13544,8 +13299,8 @@ var TC_ENDINGS = {
 
   var scenes = [
     {
-      bg: './assets/intersection.webp',
-      fg: './assets/bayo-keyart-street.webp',
+      bg: '/assets/intersection.webp',
+      fg: '/assets/bayo-keyart-street.webp',
       tag: 'SCENE 01 // MUSHIN ROOFTOPS · 02:47 AM',
       en: "Mushin never actually sleeps. It rests with one eye open. Tonight the open eye has seen the Ọ̀run-Bleed awakening.",
       pidgin: "Mushin no dey sleep. E dey rest with one eye open. Tonight that open eye don see wetin go change Lagos forever.",
@@ -13554,8 +13309,8 @@ var TC_ENDINGS = {
       memo: "Establish the nocturnal weight of Mushin with wide framing. Contrast sodium streetlights against the blue neon pulse of Bayo's dormant Aṣẹ."
     },
     {
-      bg: './assets/bayo-bridge.webp',
-      fg: './assets/sango-portrait.webp',
+      bg: '/assets/bayo-bridge.webp',
+      fg: '/assets/sango-portrait.webp',
       tag: 'SCENE 02 // THIRD MAINLAND SPAN · 03:15 AM',
       en: "The concrete arches shiver. Bio-plasma lightning races through the steel rebar. Ṣàngó does not ask for permission to strike.",
       pidgin: "The bridge concrete dey shake. Bio-plasma thunder dey run through the iron rods. Ṣàngó no dey beg person before e strike.",
@@ -13564,8 +13319,8 @@ var TC_ENDINGS = {
       memo: "Dynamic low-angle framing. Use camera shake on the lightning impact to sell the physical mass of the Third Mainland structure."
     },
     {
-      bg: './assets/forge.webp',
-      fg: './assets/ogun-portrait.webp',
+      bg: '/assets/forge.webp',
+      fg: '/assets/ogun-portrait.webp',
       tag: 'SCENE 03 // ILUBIRIN UNDERFOUNDRY · 04:02 AM',
       en: "Meteoric iron singing on the nanoweave anvil. Ògún's metallurgists work in gold flame, quenching blades in sacred oil.",
       pidgin: "Iron dey sing for inside anvil. Ògún black-smiths dey forge with gold fire, dey dip sharp cutlass inside sacred oil.",
@@ -13574,8 +13329,8 @@ var TC_ENDINGS = {
       memo: "Industrial amber glow with high-contrast shadows. Keep the anvil centered as the visual anchor."
     },
     {
-      bg: './assets/corridor.webp',
-      fg: './assets/zara-portrait.webp',
+      bg: '/assets/corridor.webp',
+      fg: '/assets/zara-portrait.webp',
       tag: 'SCENE 04 // EKO ATLANTIC SPIRE · 04:45 AM',
       en: "Cold glass and corporate silence. The Pale Council measures the pulse of Lagos, calculating how many souls it costs to power their grid.",
       pidgin: "Cold glass and big-grammar silence. The Pale Council dey calculate how many life go pay for their power supply.",
@@ -13584,8 +13339,8 @@ var TC_ENDINGS = {
       memo: "Symmetrical sterile corridor shot with creeping camera push-in. Blue clinical color grading."
     },
     {
-      bg: './assets/flares.webp',
-      fg: './assets/esu-portrait.webp',
+      bg: '/assets/flares.webp',
+      fg: '/assets/esu-portrait.webp',
       tag: 'SCENE 05 // BALOGUN NEXUS · 05:20 AM',
       en: "Every highway in Lagos meets at Ẹṣù's feet. Two coins on the asphalt, or the road swallows your car whole.",
       pidgin: "Every road for Lagos dey meet for Ẹṣù leg. Drop two coins for ground, or the road go chop your motor enter ground.",
@@ -13594,8 +13349,8 @@ var TC_ENDINGS = {
       memo: "Dutch angle framing with rapid flashing traffic flares. Ethereal cowrie shell sound cues."
     },
     {
-      bg: './assets/circle.webp',
-      fg: './assets/bayo-keyart-surge.webp',
+      bg: '/assets/circle.webp',
+      fg: '/assets/bayo-keyart-surge.webp',
       tag: 'SCENE 06 // VOID HORIZON · 06:00 AM',
       en: "The sky tears open into golden Ọ̀run dawn. Bayo stands at the epicenter, bearing the combined Aṣẹ of the ancient pantheon.",
       pidgin: "The sky open into gold morning. Bayo stand for the middle, carrying all the full Aṣẹ of our ancestral Orishas.",
@@ -13906,7 +13661,7 @@ var TC_ENDINGS = {
       timestamp: new Date().toISOString(),
       reading: { issue: 1, page: 14, bookmark: 'Mushin Awakening' },
       user: {
-        callsign: localStorage.getItem('catalyst_callsign') || 'Mushin_Operative',
+        callsign: readerStorage.getItem('catalyst_callsign') || 'Mushin_Operative',
         level: 3,
         ase: 1850,
         faction: 'Mushin Resistance Enclave'
@@ -13918,7 +13673,7 @@ var TC_ENDINGS = {
       }
     };
     try {
-      localStorage.setItem('catalyst_recon_state', JSON.stringify(state));
+      readerStorage.setItem('catalyst_recon_state', JSON.stringify(state));
       var badge = document.getElementById('pwaLastSyncBadge');
       if (badge) badge.textContent = 'LAST SYNC: ' + new Date().toLocaleTimeString();
       if (typeof showToast === 'function') {
@@ -13931,7 +13686,7 @@ var TC_ENDINGS = {
 
   window.exportReconStateJson = function() {
     window.saveReconStateLocal();
-    var stateStr = localStorage.getItem('catalyst_recon_state');
+    var stateStr = readerStorage.getItem('catalyst_recon_state');
     if (!stateStr) return;
 
     var blob = new Blob([stateStr], { type: 'application/json' });
@@ -13957,7 +13712,7 @@ var TC_ENDINGS = {
       try {
         var data = JSON.parse(evt.target.result);
         if (data.user) {
-          localStorage.setItem('catalyst_recon_state', JSON.stringify(data));
+          readerStorage.setItem('catalyst_recon_state', JSON.stringify(data));
           var issueEl = document.getElementById('psrIssueVal');
           var levelEl = document.getElementById('psrLevelVal');
           var factionEl = document.getElementById('psrFactionVal');

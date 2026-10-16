@@ -4,7 +4,7 @@
 // activate handler below evicts the previous generation. IMG_CACHE is versioned
 // separately and deliberately left behind: image bytes are immutable per URL, so
 // there's no reason to make returning visitors re-download them on a code change.
-const CACHE = 'catalyst-v21';
+const CACHE = 'catalyst-v22';
 const IMG_CACHE = 'catalyst-img-v5';
 const IMG_CACHE_MAX = 60;
 const PRECACHE = [
@@ -13,6 +13,7 @@ const PRECACHE = [
   // cannot match there. See tools/split_css.py.
   '/issue.css',
   '/script.js',
+  '/reader-account.js',
   '/favicon.svg',
   // The two faces above the fold; the rest arrive on demand per unicode-range
   '/assets/fonts/bebas-neue-400-normal-latin.woff2',
@@ -74,7 +75,10 @@ self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
 
   // Let Netlify's owner SSO and no-store headers control every proof response.
-  const path = new URL(e.request.url).pathname;
+  const url = new URL(e.request.url);
+  const path = url.pathname;
+  // Never cache auth callbacks, recovery pages, codes or cross-origin tokens.
+  if (url.origin !== self.location.origin || path.startsWith('/auth/') || url.searchParams.has('code') || url.searchParams.has('token_hash')) return;
   if (path.startsWith('/private/') || /^\/read\/issue-1-(comic|book)(?:\.html)?$/.test(path)) return;
 
   const dest = e.request.destination;
