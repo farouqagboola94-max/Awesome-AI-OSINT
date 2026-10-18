@@ -620,6 +620,51 @@
       _applyUserState(_currentUser);
     }
     var backdrop = document.getElementById('userProfileBackdrop');
+    if (!backdrop) {
+      backdrop = document.createElement('div');
+      backdrop.className = 'modal-backdrop';
+      backdrop.id = 'userProfileBackdrop';
+      backdrop.setAttribute('aria-hidden', 'true');
+      backdrop.setAttribute('role', 'dialog');
+      backdrop.setAttribute('aria-label', 'Catalyst OS Reader Profile');
+      backdrop.innerHTML =
+        '<div class="auth-modal" style="max-width:520px;width:92%;text-align:left;padding:1.75rem;">' +
+          '<button class="modal-close" onclick="closeUserProfileModal()" aria-label="Close">✕</button>' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;font-family:\'Space Mono\',monospace;font-size:0.7rem;color:#F4B800;letter-spacing:0.12em;margin-bottom:1rem;border-bottom:1px solid rgba(244,184,0,0.2);padding-bottom:0.6rem;">' +
+            '<span>CATALYST OS // READER HUD v4.2</span>' +
+            '<span style="color:#00C9B1;">● Ọ̀RUN SYNCED</span>' +
+          '</div>' +
+          '<div style="display:flex;gap:1rem;align-items:center;margin-bottom:1.25rem;">' +
+            '<div style="width:52px;height:52px;border-radius:50%;background:rgba(244,184,0,0.15);border:1.5px solid #F4B800;display:flex;align-items:center;justify-content:center;font-family:\'Bebas Neue\',sans-serif;font-size:1.6rem;color:#F4B800;flex-shrink:0;" id="profileAvatarInitial">C</div>' +
+            '<div>' +
+              '<h3 id="profileUserName" style="font-family:\'Bebas Neue\',sans-serif;font-size:1.5rem;letter-spacing:0.06em;color:#F0EDE5;margin:0;">Catalyst Operative</h3>' +
+              '<p id="profileUserEmail" style="font-size:0.8rem;color:rgba(240,237,229,0.65);margin:0.15rem 0;">operative@catalystverse.com</p>' +
+              '<span id="profileTierBadge" style="font-family:\'Space Mono\',monospace;font-size:0.65rem;color:#F4B800;letter-spacing:0.08em;">✦ REGISTERED READER · FULL UNIVERSE ACCESS</span>' +
+            '</div>' +
+          '</div>' +
+          '<div style="margin-bottom:1.25rem;">' +
+            '<div style="font-family:\'Space Mono\',monospace;font-size:0.68rem;letter-spacing:0.12em;color:rgba(240,237,229,0.6);margin-bottom:0.5rem;">ORISHA AFFINITY RESONANCE</div>' +
+            '<div id="profileAffinityChips" style="display:flex;flex-wrap:wrap;gap:0.4rem;">' +
+              '<button type="button" class="affinity-chip active" style="background:rgba(244,184,0,0.12);border:1px solid rgba(244,184,0,0.35);color:#F0EDE5;padding:0.35rem 0.65rem;border-radius:4px;font-size:0.75rem;cursor:pointer;" onclick="setOrishaAffinity(\'Ṣàngó\')">⚡ Ṣàngó</button>' +
+              '<button type="button" class="affinity-chip" style="background:rgba(244,184,0,0.12);border:1px solid rgba(244,184,0,0.35);color:#F0EDE5;padding:0.35rem 0.65rem;border-radius:4px;font-size:0.75rem;cursor:pointer;" onclick="setOrishaAffinity(\'Ògún\')">⚔ Ògún</button>' +
+              '<button type="button" class="affinity-chip" style="background:rgba(244,184,0,0.12);border:1px solid rgba(244,184,0,0.35);color:#F0EDE5;padding:0.35rem 0.65rem;border-radius:4px;font-size:0.75rem;cursor:pointer;" onclick="setOrishaAffinity(\'Ọ̀ṣun\')">🌊 Ọ̀ṣun</button>' +
+              '<button type="button" class="affinity-chip" style="background:rgba(244,184,0,0.12);border:1px solid rgba(244,184,0,0.35);color:#F0EDE5;padding:0.35rem 0.65rem;border-radius:4px;font-size:0.75rem;cursor:pointer;" onclick="setOrishaAffinity(\'Obatàlá\')">⚖ Obatàlá</button>' +
+              '<button type="button" class="affinity-chip" style="background:rgba(244,184,0,0.12);border:1px solid rgba(244,184,0,0.35);color:#F0EDE5;padding:0.35rem 0.65rem;border-radius:4px;font-size:0.75rem;cursor:pointer;" onclick="setOrishaAffinity(\'Ẹṣù\')">🌀 Ẹṣù</button>' +
+            '</div>' +
+          '</div>' +
+          '<div style="display:flex;flex-direction:column;gap:0.55rem;">' +
+            '<a href="/store.html" style="display:block;text-align:center;background:#F4B800;color:#06060d;font-family:\'Space Mono\',monospace;font-size:0.76rem;font-weight:700;padding:0.7rem 1rem;border-radius:4px;text-decoration:none;letter-spacing:0.08em;">OPEN CATALYST FORGE STORE ➔</a>' +
+            '<a href="https://catalyst-world.netlify.app/" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;background:rgba(0,201,177,0.12);border:1px solid rgba(0,201,177,0.4);color:#00C9B1;font-family:\'Space Mono\',monospace;font-size:0.75rem;font-weight:700;padding:0.65rem 1rem;border-radius:4px;text-decoration:none;letter-spacing:0.08em;">OFFICIAL MASTER PORTAL ➔</a>' +
+            '<button type="button" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);color:#F0EDE5;padding:0.6rem 1rem;border-radius:4px;font-size:0.75rem;cursor:pointer;" onclick="closeUserProfileModal(); openAuthModal(\'signup\');">🔑 Switch / Link Operative Account</button>' +
+            '<button type="button" style="background:rgba(196,30,58,0.15);border:1px solid rgba(196,30,58,0.4);color:#ff6b81;padding:0.6rem 1rem;border-radius:4px;font-size:0.75rem;cursor:pointer;" onclick="handleSignOut()">Sign Out</button>' +
+          '</div>' +
+        '</div>';
+      backdrop.addEventListener('click', function(e) {
+        if (e.target === backdrop) closeUserProfileModal();
+      });
+      document.body.appendChild(backdrop);
+      _applyUserState(_currentUser);
+    }
     if (backdrop) {
       backdrop.classList.add('open');
       backdrop.setAttribute('aria-hidden', 'false');

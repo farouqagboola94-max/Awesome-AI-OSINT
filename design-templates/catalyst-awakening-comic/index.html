@@ -439,6 +439,7 @@
       <button type="button" class="profile-btn-primary" onclick="closeUserProfileModal(); document.getElementById('artwork-gallery').scrollIntoView({behavior:'smooth'});">Inspect 50 Artworks Unveiled →</button>
       <button type="button" class="profile-btn-export" onclick="exportReaderIdCard()">🪪 Copy Digital Reader Pass</button>
       <button type="button" class="profile-btn-upgrade" onclick="closeUserProfileModal(); openPaymentModal();">Upgrade to Ìmọ̀lẹ̀ Circle VIP</button>
+      <button type="button" class="profile-btn-export" onclick="closeUserProfileModal(); openAuthModal('signup');">🔑 Switch / Link Operative Account</button>
       <button type="button" class="profile-btn-signout" onclick="handleSignOut()">Sign Out</button>
     </div>
   </div>
@@ -6810,14 +6811,19 @@
 
   <!-- Official Master Website & Commerce Hub Link -->
   <div class="store-official-hub-banner reveal" style="background:linear-gradient(135deg,rgba(244,184,0,0.12),rgba(6,8,18,0.95));border:1px solid rgba(244,184,0,0.35);border-radius:12px;padding:1.75rem 2rem;margin:0 auto 3rem;max-width:1100px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.5rem;box-shadow:0 12px 30px rgba(0,0,0,0.5);">
-    <div style="max-width:620px;">
+    <div style="max-width:580px;">
       <span style="font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:0.15em;color:var(--danfo-gold);text-transform:uppercase;display:inline-block;margin-bottom:0.4rem;">✦ OFFICIAL CATALYST COMMERCE &amp; MERCHANDISE PORTAL</span>
       <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.85rem;letter-spacing:0.04em;color:var(--pure-white);margin:0 0 0.5rem;line-height:1.1;">LOOKING TO BUY OUR COMICS, MERCHES &amp; LICENSED GEAR?</h3>
-      <p style="font-size:0.88rem;color:rgba(240,237,229,0.75);margin:0;line-height:1.65;">Visit the official master portal for global merchandise shipments, the Catalyst Cave archive, doctrine publications, creator masterclasses, and executive licensing.</p>
+      <p style="font-size:0.88rem;color:rgba(240,237,229,0.75);margin:0;line-height:1.65;">Explore the interactive 12-item 3D Relic &amp; Graphic Novel Store or visit the official Catalyst World master portal for global merchandise shipments, the Catalyst Cave archive, and executive licensing.</p>
     </div>
-    <a href="https://catalyst-world.netlify.app/" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:0.75rem;background:var(--danfo-gold);color:var(--black);font-family:'Space Mono',monospace;font-size:0.82rem;font-weight:700;letter-spacing:0.08em;padding:1rem 1.8rem;border-radius:6px;text-decoration:none;transition:all 0.25s ease;text-transform:uppercase;white-space:nowrap;box-shadow:0 4px 15px rgba(244,184,0,0.3);" onmouseover="this.style.background='#ffffff';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='var(--danfo-gold)';this.style.transform='none'">
-      VISIT OFFICIAL STORE ➔
-    </a>
+    <div style="display:flex;flex-wrap:wrap;gap:0.85rem;align-items:center;">
+      <a href="./store.html" style="display:inline-flex;align-items:center;gap:0.6rem;background:rgba(0,201,177,0.14);border:1.5px solid var(--orisha-teal);color:var(--orisha-teal);font-family:'Space Mono',monospace;font-size:0.8rem;font-weight:700;letter-spacing:0.08em;padding:0.95rem 1.4rem;border-radius:6px;text-decoration:none;transition:all 0.25s ease;text-transform:uppercase;white-space:nowrap;">
+        OPEN 3D RELIC STORE (12 ITEMS) ➔
+      </a>
+      <a href="https://catalyst-world.netlify.app/" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:0.75rem;background:var(--danfo-gold);color:var(--black);font-family:'Space Mono',monospace;font-size:0.82rem;font-weight:700;letter-spacing:0.08em;padding:1rem 1.8rem;border-radius:6px;text-decoration:none;transition:all 0.25s ease;text-transform:uppercase;white-space:nowrap;box-shadow:0 4px 15px rgba(244,184,0,0.3);" onmouseover="this.style.background='#ffffff';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='var(--danfo-gold)';this.style.transform='none'">
+        VISIT OFFICIAL MASTER PORTAL ➔
+      </a>
+    </div>
   </div>
 
   <div class="store-grid reveal" id="storeGrid">
@@ -8960,12 +8966,14 @@
         <li><a href="/read/issue-3">Issue #3 — Iron in the Blood</a></li>
         <li><a href="/read/issue-4">Issue #4 — The Price of Aṣẹ</a></li>
         <li><a href="/script-studio/">Script Studio</a></li>
+        <li><a href="./store.html">3D Relic Store</a></li>
         <li><a href="#newsletter">Coming Next</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h3>Connect</h3>
       <ul>
+        <li><a href="https://catalyst-world.netlify.app/" target="_blank" rel="noopener">Official Master Portal ↗</a></li>
         <li><a href="#newsletter">Newsletter</a></li>
         <li><a href="https://instagram.com/catalystcomicshq" target="_blank" rel="noopener">Instagram</a></li>
         <li><a href="https://tiktok.com/@catalystcomicshq" target="_blank" rel="noopener">TikTok</a></li>
