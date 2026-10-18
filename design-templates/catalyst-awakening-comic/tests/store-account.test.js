@@ -1,9 +1,15 @@
 'use strict';
-const { newPage, watchErrors, watchBadRequests, Results } = require('./lib/harness');
+const { newPage, watchErrors, watchBadRequests, Results, SITE } = require('./lib/harness');
+const path = require('node:path');
 
 module.exports = async function storeAccounts(ctx, base) {
   const r = new Results(), page = await newPage(ctx), errors = watchErrors(page), bad = watchBadRequests(page, base);
   page.setDefaultTimeout(8000);
+  // The separate release archive is verified before deployment. CI uses a
+  // catalog cover fixture for the store's five-page preview thumbnails.
+  await page.route('**/private/issue01/lettered/pages/*.webp', route => route.fulfill({
+    path: path.join(SITE, 'assets/cover-issue1.webp'), contentType: 'image/webp'
+  }));
   await page.addInitScript(() => {
     localStorage.setItem('catalyst_vault_unlocked', 'true');
     localStorage.setItem('catalyst_user_profile', JSON.stringify({ id: 'forged', app_metadata: { is_premium: true } }));
