@@ -48,6 +48,8 @@ module.exports = async function authFlows(ctx, base) {
   r.ok('confirmation is requested without pretending the reader is signed in', await page.evaluate(() => !CatalystAccount.user && document.getElementById('toast-container').textContent.includes('Check your email')));
   await page.goto(base + '/auth/reset-password.html', { waitUntil: 'networkidle' });
   r.ok('an unverified recovery link cannot change a password', await page.locator('#savePassword').isDisabled());
+  await page.goto(base + '/reset-password.html', { waitUntil: 'networkidle' });
+  r.ok('the legacy reset route uses the same verified session', await page.locator('#savePassword').isDisabled());
   await page.goto(base + '/auth/callback.html?code=unverified', { waitUntil: 'networkidle' });
   r.ok('a failed callback stays on the recovery screen', (await page.locator('#authStatus').textContent()).includes('could not be verified'));
   r.ok('auth codes are removed from the address bar', !page.url().includes('?'));

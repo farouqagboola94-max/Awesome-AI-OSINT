@@ -6,8 +6,9 @@
 > bleeds into Neo-Lagos and the Pale Council moves against the city.
 
 Site: https://catalyst-awakening.netlify.app/
+Official Master Portal: https://catalyst-world.netlify.app/
 
-## Reading the story
+## Reading the story & exploring the universe
 
 - Issues 1–4 are free. Each has its own page, and all four are also
   readable as tabs within the home page:
@@ -15,6 +16,8 @@ Site: https://catalyst-awakening.netlify.app/
   - Issue #02 — Ṣàngó's Daughter: /read/issue-2
   - Issue #03 — Iron in the Blood: /read/issue-3
   - Issue #04 — The Price of Aṣẹ (Arc I finale): /read/issue-4
+- Interactive 3D Relic & Graphic Novel Store: /store
+- Interactive Script Studio & Production Dossier: /script-studio/
 - Individual story pages are addressable two ways: /read/issue-{issue}#p{page}
   on an issue's own page, and /#read-i{issue}-p{page} on the home page.
   Either form redirects to the other if given to the wrong page.
@@ -25,8 +28,8 @@ Site: https://catalyst-awakening.netlify.app/
 - Bayo Adeyemi — The Catalyst; multi-Orisha vessel, classification ÌMỌ̀LẸ̀-ÀÁRỌ̀
 - Amara Okafor — Thunderstrike; Ṣàngó conduit through the talking drum
 - Ikenna Chukwuemeka — The Iron Wolf; Ògún vessel, iron-skinned Mushin mechanic
-- Zara — The Mirror; shadow operative
-- The Oracle (Chief Adesanya) — 144-year-old seer and handler
+- Zara Osei — The Mirror; shadow operative
+- The Oracle (Chief Adesanya Adewale) — 144-year-old seer and handler
 - The Architect & the Pale Council — Geneva-based harvesters of Orisha power
 
 ## Community
@@ -38,5 +41,5 @@ names only).
 
 ## Attribution
 
-Original fiction by the CatalystVerse team, Lagos. Do not reproduce full issue
+Original fiction by Oluwatobiloba (@catalystggg) & the CatalystVerse team, Lagos. Do not reproduce full issue
 text; quoting short excerpts with a link to the reader page is welcome.

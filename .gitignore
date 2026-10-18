@@ -1,3 +1,5 @@
 node_modules/
+.netlify/
+**/.netlify/
 __pycache__/
 design-templates/catalyst-awakening-comic/private/

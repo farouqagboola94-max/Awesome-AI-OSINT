@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Comic Store — Catalyst: The Awakening | Official Graphic Novels & Merch</title>
+  <meta name="description" content="Shop official graphic novels, digital editions, deluxe foil hardcovers, collector box sets, and cyber-afrofuturist apparel from Catalyst: The Awakening.">
+  <meta name="keywords" content="Catalyst The Awakening store, buy African comics, Lagos noir graphic novel, Yoruba mythology comic, Bayo Adeyemi, comic merch, African superhero merchandise, Shopify comic store">
+  <meta name="author" content="Catalyst Comics Studio">
+  <meta name="theme-color" content="#F4B800">
+  <meta name="color-scheme" content="dark">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Comic Store — Catalyst: The Awakening | Official Graphic Novels & Merch">
+  <meta property="og:description" content="Own the 88-page graphic novel, exclusive physical editions, collector bundles, and cyber-afrofuturist apparel. Built in Lagos. Shipped worldwide.">
+  <meta property="og:image" content="./assets/cover-issue1.webp">
+  <meta property="og:url" content="https://catalyst-awakening.netlify.app/store.html">
+
+  <!-- Fonts & Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="store.css">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+</head>
+<body>
+  <!-- Cyber-Aṣẹ Background Particles Canvas -->
+  <canvas id="storeCanvas"></canvas>
+
+  <!-- ═══════════════════════════════════════
+       1. TOP ANNOUNCEMENT BAR & VAULT VELOCITY
+       ═══════════════════════════════════════ -->
+  <aside class="store-ticker" aria-label="Store Announcement">
+    <div class="store-ticker-left">
+      <span class="store-ticker-badge">COMMERCE INTEL</span>
+      <span id="storeSyncStatus" role="status" aria-live="polite">Store preview. Checkout is coming soon.</span>
+    </div>
+    <div class="store-ticker-right">
+      <a href="./index.html" class="store-ticker-link">← Return to Main Universe</a>
+      <a href="https://catalyst-world.netlify.app/" target="_blank" rel="noopener noreferrer" class="store-ticker-link" style="color:var(--accent-gold);font-weight:700;">✦ Official Master Portal ↗</a>
+      <a href="#faq" class="store-ticker-link">Shipping &amp; FAQ</a>
+    </div>
+  </aside>
+
+  <!-- Vault Velocity Scarcity Ribbon -->
+  <div class="vault-velocity-ribbon" role="region" aria-label="Vault Status">
+    <span>⚡ <strong>COLLECTOR CATALOG:</strong> EXPLORE UPCOMING EDITIONS</span>
+    <span>◈</span>
+    <span>📦 <strong>CHECKOUT:</strong> COMING SOON</span>
+    <span>◈</span>
+    <span>🔖 <strong>READER PASSPORT:</strong> SAVE YOUR FAVORITES</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       2. NAVIGATION BAR
+       ═══════════════════════════════════════ -->
+  <header class="store-nav">
+    <div class="store-nav-container">
+      <a href="./store.html" class="store-brand" aria-label="Catalyst Forge Comic Store">
+        <span class="store-brand-logo">CATALYST<span>:</span>FORGE</span>
+        <span class="store-brand-tag">OFFICIAL STORE</span>
+      </a>
+
+      <nav aria-label="Store Navigation">
+        <ul class="store-nav-links">
+          <li><a href="#catalog" class="store-nav-link active">Catalog</a></li>
+          <li><a href="#featured" class="store-nav-link">Featured Issue #01</a></li>
+          <li><a href="#bundles" class="store-nav-link">Collector Bundles</a></li>
+          <li><a href="#vault" class="store-nav-link" style="color:var(--accent-gold);">⚡ VIP Vault</a></li>
+          <li><a href="#reviews" class="store-nav-link">Reviews</a></li>
+          <li><a href="#faq" class="store-nav-link">FAQ</a></li>
+          <li><a href="./index.html" class="store-nav-link" style="color:var(--accent-gold);">Universe Hub ↗</a></li>
+          <li><a href="https://catalyst-world.netlify.app/" target="_blank" rel="noopener noreferrer" class="store-nav-link" style="color:var(--accent-cyan);">Catalyst World ↗</a></li>
+        </ul>
+      </nav>
+
+      <div class="store-nav-actions">
+        <a id="storeAccountLink" class="btn-shopify-hud" href="/?account=profile&amp;return=/store.html">Reader Passport</a>
+        <!-- Ambience Synthesizer & Soundscape Selector -->
+        <button type="button" class="btn-audio-toggle" id="storeAudioBtn" onclick="toggleStoreAmbientSound()" title="Lagos Noir Synth Ambience">
+          <span class="audio-bars-mini" id="navAudioBars"><span class="audio-bar"></span><span class="audio-bar"></span><span class="audio-bar"></span></span>
+          <span id="navAudioText">Ambience</span>
+        </button>
+        <button type="button" class="btn-shopify-hud" onclick="openSoundscapeModal()" title="Soundscape Track Selector" style="padding:0.4rem 0.65rem;" aria-label="Soundscape Selector">
+          <span>🎵</span>
+        </button>
+
+        <!-- Live Lagos Dispatch & Order Tracker -->
+        <button type="button" class="btn-shopify-hud" onclick="openOrderTrackerModal()" title="View your orders" style="border-color:var(--accent-cyan);color:var(--accent-cyan);background:rgba(0,240,255,0.08);">
+          <span>📍</span> <span>My Orders</span>
+        </button>
+
+        <!-- Command Hub (Ctrl+K) -->
+        <button type="button" class="btn-shopify-hud" onclick="toggleCommandPalette()" title="Command Hub (Ctrl+K)">
+          <span>⌘K</span>
+        </button>
+
+        <!-- Currency Selector -->
+        <select id="currencySelector" class="currency-selector" aria-label="Currency Selector">
+          <option value="NGN">NGN (₦)</option>
+          <option value="USD">USD ($)</option>
+          <option value="GBP">GBP (£)</option>
+          <option value="EUR">EUR (€)</option>
+        </select>
+
+        <!-- Shopify HUD Trigger -->
+        <button type="button" hidden class="btn-shopify-hud" onclick="openShopifyConfigModal()" title="Catalyst Forge Shopify Settings" style="display:none;">
+          <span>🟢</span> <span>Catalyst Forge Live</span>
+        </button>
+
+        <!-- Cart Button -->
+        <button type="button" class="btn-cart-toggle" onclick="openCartDrawer()" aria-label="View Shopping Cart">
+          <span>🛒</span>
+          <span>Cart</span>
+          <span class="cart-count-badge" id="navCartBadge">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════
+       3. HERO SECTION
+       ═══════════════════════════════════════ -->
+  <section class="store-hero" id="featured">
+    <div class="store-hero-card">
+      <div class="hero-content">
+        <span class="hero-tag">⚡ OFFICIAL CREATOR STORE // ISSUE #01 LIVE</span>
+        <h1 class="hero-title">
+          THE ARCHITECTURE OF <span class="highlight">LAGOS NOIR</span>. OWN THE SAGA.
+        </h1>
+        <p class="hero-desc">
+          From the nocturnal alleys of Mushin to the shimmering cybernetic towers of Eko Atlantic.
+          Experience <strong>88 lettered master pages</strong> of Yoruba mythology, raw Aṣẹ, and cybernetic revolution.
+          Available now in DRM-Free Digital Master Edition and Deluxe Foil-Stamped Hardcover.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#catalog" class="btn-primary-hero">
+            Explore All Editions &amp; Merch ↓
+          </a>
+          <button type="button" class="btn-secondary-hero" onclick="openPreviewModal(0)">
+            👁 Peek Inside (5-Page Preview)
+          </button>
+        </div>
+
+        <div class="hero-stats-row">
+          <div class="stat-item">
+            <span class="stat-value">88</span>
+            <span class="stat-label">Lettered Pages</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">19</span>
+            <span class="stat-label">Full Scenes</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">100%</span>
+            <span class="stat-label">Creator-Owned</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">24H</span>
+            <span class="stat-label">Lagos Dispatch</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-3d-deck" id="hero3dDeck">
+          <!-- Top Holographic HUD Controls -->
+          <div class="holo-deck-header">
+            <span class="holo-deck-status"><span class="holo-dot"></span> 3D RELIC ENGINE // ACTIVE</span>
+            <div class="holo-deck-actions">
+              <button type="button" class="holo-tool-btn" id="holoWireframeBtn" onclick="toggle3dWireframe()" title="Toggle Hologram Scan">◈ Wireframe</button>
+              <button type="button" class="holo-tool-btn" id="holoPulseBtn" onclick="trigger3dAsePulse()" title="Discharge Orisha Aṣẹ">⚡ Aṣẹ Flare</button>
+              <button type="button" class="holo-tool-btn" onclick="reset3dView()" title="Reset Perspective">↺ Center</button>
+            </div>
+          </div>
+
+          <!-- 3D Canvas Viewport -->
+          <div class="holo-canvas-wrap" id="holoCanvasWrap" title="Click and drag to rotate in 360°">
+            <canvas id="relic3dCanvas" role="img" aria-label="Interactive 3D Hardcover Comic Relic. Drag to rotate in 360 degrees."></canvas>
+
+            <!-- Spatial Fallback (Active if WebGL is initializing or disabled) -->
+            <div class="hero-book-wrap" id="heroBookFallback" onclick="openPreviewModal(0)" style="cursor:pointer;" title="Click to Peek Inside">
+              <span class="hero-book-badge" id="fallbackBadge">MASTER ISSUE #01</span>
+              <img src="./assets/cover-issue1.webp" alt="Catalyst The Awakening Issue 1 Hardcover Edition" id="fallbackCoverImg" class="hero-book-img" onerror="this.src='./assets/cover-issue1.webp'">
+              <span class="hero-book-badge-bottom">✦ DRAG TO ROTATE 360° // CLICK TO PEEK</span>
+            </div>
+
+            <!-- Floating 3D Interaction Hint -->
+            <div class="holo-drag-hint" id="holoDragHint">
+              <span>↻ DRAG TO ROTATE 360°</span>
+              <span>◈ SCROLL TO ZOOM</span>
+            </div>
+          </div>
+
+          <!-- Relic Selector Tabs below 3D canvas -->
+          <div class="holo-relic-switcher">
+            <button type="button" class="holo-relic-pill active" onclick="switch3dRelic('issue1', this)">Issue #01 (Gold Foil)</button>
+            <button type="button" class="holo-relic-pill" onclick="switch3dRelic('issue2', this)">Issue #02 (Ṣàngó)</button>
+            <button type="button" class="holo-relic-pill" onclick="switch3dRelic('issue3', this)">Issue #03 (Ògún)</button>
+            <button type="button" class="holo-relic-pill" onclick="switch3dRelic('issue4', this)">Issue #04 (Finale)</button>
+            <button type="button" class="holo-relic-pill" onclick="switch3dRelic('talisman', this)">Bronze Aṣẹ</button>
+          </div>
+
+          <!-- Quick Action Bar -->
+          <div class="holo-bottom-bar">
+            <button type="button" class="btn-primary-hero" style="font-size:0.82rem;padding:0.5rem 1rem;" onclick="openPreviewModal(0)">
+              👁 Peek Inside (Pages 1–5)
+            </button>
+            <button type="button" class="btn-secondary-hero" id="holoAddToCartBtn" style="font-size:0.82rem;padding:0.5rem 1rem;" onclick="addActive3dRelicToCart()">
+              + Add 3D Relic to Cache
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       4. CATEGORY FILTERS, ORISHA AFFINITY & SEARCH
+       ═══════════════════════════════════════ -->
+  <section class="store-controls-section" id="catalog">
+    <div class="filter-tabs" role="tablist">
+      <button type="button" class="filter-tab active" data-category="all">All Products (12)</button>
+      <button type="button" class="filter-tab" data-category="comic">📖 Graphic Novels (5)</button>
+      <button type="button" class="filter-tab" data-category="bundle">✦ Collector Bundles (3)</button>
+      <button type="button" class="filter-tab" data-category="merch">⚡ Apparel &amp; Merch (2)</button>
+      <button type="button" class="filter-tab" data-category="art">🎨 Fine Art &amp; Variants (2)</button>
+    </div>
+
+    <div class="search-box-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="storeSearchInput" class="search-input" placeholder="Search issues, hoodies, omnibuses..." aria-label="Search catalog">
+    </div>
+  </section>
+
+  <!-- Orisha Pantheon Affinity Filter Bar -->
+  <section class="orisha-affinity-bar" aria-label="Filter by Orisha Pantheon">
+    <span class="orisha-bar-label">FILTER BY ORISHA AFFINITY:</span>
+    <div class="orisha-pills-wrap">
+      <button type="button" class="orisha-filter-pill active" data-affinity="all" onclick="filterByOrisha('all', this)">✦ All Pantheons</button>
+      <button type="button" class="orisha-filter-pill" data-affinity="sango" onclick="filterByOrisha('sango', this)">⚡ Ṣàngó (Thunder &amp; Fire)</button>
+      <button type="button" class="orisha-filter-pill" data-affinity="ogun" onclick="filterByOrisha('ogun', this)">⚔ Ògún (Iron &amp; Forge)</button>
+      <button type="button" class="orisha-filter-pill" data-affinity="esu" onclick="filterByOrisha('esu', this)">🌀 Èṣù (Crossroads &amp; Chaos)</button>
+      <button type="button" class="orisha-filter-pill" data-affinity="obatala" onclick="filterByOrisha('obatala', this)">👑 Obatàlá (Sovereign Gold)</button>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       5. PRODUCT CATALOG GRID (12 FLAGSHIP RELICS)
+       ═══════════════════════════════════════ -->
+  <main class="products-grid-section">
+    <div class="products-grid" id="productsGrid">
+      <!-- Dynamic Products injected by store.js -->
+    </div>
+  </main>
+
+  <!-- ═══════════════════════════════════════
+       5B. CUSTOM 3-COVER HOLOFOIL VAULT CRATE BUILDER
+       ═══════════════════════════════════════ -->
+  <section class="store-hero" id="bundles" style="margin-top: 3rem;">
+    <div class="crate-builder-card">
+      <div class="crate-builder-header">
+        <div>
+          <span class="hero-tag">✦ INTERACTIVE COLLECTOR FORGE // SAVE 25%</span>
+          <h2 style="font-family: var(--font-display); font-size: 2.6rem; letter-spacing: 0.03em; margin-top: 0.3rem;">
+            BUILD YOUR CUSTOM <span class="highlight">3-COVER HOLOFOIL CRATE</span>
+          </h2>
+          <p style="color: var(--text-secondary); font-size: 0.92rem; max-width: 680px; margin-top: 0.4rem;">
+            Select any <strong>3 official alternate covers</strong> from the Catalyst Arc I gallery below to forge your personalized 350 GSM Prismatic Holofoil Collector Pack (<strong>₦42,000 / $34.99</strong>).
+          </p>
+        </div>
+        <div class="crate-status-box">
+          <span class="crate-slot-badge" id="crateSlotCount">0 / 3 SELECTED</span>
+          <button type="button" class="btn-primary-hero" id="crateAddBtn" onclick="addCustomCrateToCart()" disabled style="opacity:0.55; padding:0.75rem 1.4rem; font-size:0.9rem;">
+            ⚡ Forge Custom 3-Cover Crate →
+          </button>
+        </div>
+      </div>
+
+      <!-- 3 Active Crate Slots -->
+      <div class="crate-selected-slots" id="crateSelectedSlots">
+        <!-- Populated by updateCrateBuilderUI() -->
+      </div>
+
+      <!-- 9 Selectable Holofoil Variant Covers -->
+      <div class="crate-covers-grid">
+        <div class="crate-cover-option" onclick="toggleCrateCover('./assets/cover-amara-awakening.webp', 'Amara: The Awakening', this)">
+          <img src="./assets/cover-amara-awakening.webp" alt="Amara Awakening Variant" loading="lazy">
+          <span>Amara: The Awakening</span>
+        </div>
+        <div class="crate-cover-option" onclick="toggleCrateCover('./assets/cover-awakening-never-a-choice.webp', 'Never A Choice', this)">
+          <img src="./assets/cover-awakening-never-a-choice.webp" alt="Never A Choice Variant" loading="lazy">
+          <span>Never A Choice</span>
+        </div>
+        <div class="crate-cover-option" onclick="toggleCrateCover('./assets/cover-bayo-orisha1.webp', 'Bayo: Orisha Ascendant', this)">
+          <img src="./assets/cover-bayo-orisha1.webp" alt="Bayo Orisha Variant" loading="lazy">
+          <span>Bayo: Orisha Ascendant</span>
+        </div>
+        <div class="crate-cover-option" onclick="toggleCrateCover('./assets/cover-choose-your-side.webp', 'Choose Your Side', this)">
+          <img src="./assets/cover-choose-your-side.webp" alt="Choose Your Side Variant" loading="lazy">
+          <span>Choose Your Side</span>
+        </div>
+        <div class="crate-cover-option" onclick="toggleCrateCover('./assets/cover-fifth-faction.webp', 'The Fifth Faction', this)">
+          <img src="./assets/cover-fifth-faction.webp" alt="Fifth Faction Variant" loading="lazy">
+          <span>The Fifth Faction</span>
+        </div>
+        <div class="crate-cover-option" onclick="toggleCrateCover('./assets/cover-finale50.webp', 'Meridian Finale #50', this)">
+          <img src="./assets/cover-finale50.webp" alt="Finale 50 Variant" loading="lazy">
+          <span>Meridian Finale #50</span>
+        </div>
+        <div class="crate-cover-option" onclick="toggleCrateCover('./assets/cover-lagos-eternal4.webp', 'Lagos Eternal 2031', this)">
+          <img src="./assets/cover-lagos-eternal4.webp" alt="Lagos Eternal Variant" loading="lazy">
+          <span>Lagos Eternal 2031</span>
+        </div>
+        <div class="crate-cover-option" onclick="toggleCrateCover('./assets/cover-memory-keeper-teaser.webp', 'The Memory Keeper', this)">
+          <img src="./assets/cover-memory-keeper-teaser.webp" alt="Memory Keeper Variant" loading="lazy">
+          <span>The Memory Keeper</span>
+        </div>
+        <div class="crate-cover-option" onclick="toggleCrateCover('./assets/cover-orisha-rising3.webp', 'Orisha Rising III', this)">
+          <img src="./assets/cover-orisha-rising3.webp" alt="Orisha Rising Variant" loading="lazy">
+          <span>Orisha Rising III</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       5C. CLASSIFIED DOSSIER VAULT & SHOPIFY MERCHANT HUB
+       ═══════════════════════════════════════ -->
+  <section class="store-hero" style="margin-top: 2.5rem;">
+    <div class="dossier-merchant-grid">
+      <!-- Free Classified Dossier Download & Web Reader Banner -->
+      <div class="vault-dossier-banner">
+        <span class="hero-tag">📂 DECLASSIFIED STUDIO INTEL // FREE DOWNLOAD</span>
+        <h3 style="font-family: var(--font-display); font-size: 2rem; margin: 0.4rem 0; color: #fff;">
+          CATALYST UNIVERSE LORE DOSSIER &amp; WEB READER HUD
+        </h3>
+        <p style="color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; margin-bottom: 1.2rem;">
+          Inspect the official declassified <strong>Catalyst Universe Dossier PDF</strong> directly from our Google Drive &amp; Studio Vault, or launch the full-screen interactive Issue #01 Web Reader HUD.
+        </p>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.8rem;">
+          <a href="./assets/Catalyst-Universe-Dossier.pdf" download class="btn-primary-hero" style="font-size: 0.85rem; padding: 0.65rem 1.2rem;">
+            📥 Download Official Universe Dossier (PDF)
+          </a>
+          <a href="./read/issue-1-comic.html" class="btn-secondary-hero" style="font-size: 0.85rem; padding: 0.65rem 1.2rem; text-decoration: none;">
+            📖 Launch Full Issue #01 Web Reader ↗
+          </a>
+        </div>
+      </div>
+
+      <!-- Catalyst Forge Merchant Export & Sync Hub -->
+      <div class="vault-dossier-banner" hidden style="display:none;">
+        <span class="hero-tag" style="color: #25D366; border-color: #25D366; background: rgba(37,211,102,0.1);">🟢 CATALYST FORGE // MERCHANT ADMIN</span>
+        <h3 style="font-family: var(--font-display); font-size: 2rem; margin: 0.4rem 0; color: #fff;">
+          12-PRODUCT SHOPIFY MASTER FEED
+        </h3>
+        <p style="color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; margin-bottom: 1.2rem;">
+          Connected to <code>catalyst-forge.myshopify.com</code>. Download the complete 12-product Shopify CSV or configure your Storefront API token anytime.
+        </p>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.8rem;">
+          <a href="./shopify_products_catalyst_awakening.csv" download class="btn-secondary-hero" style="font-size: 0.85rem; padding: 0.65rem 1.2rem; text-decoration: none; border-color: #25D366; color: #25D366;">
+            📦 Download 12-Product Shopify CSV
+          </a>
+          <button type="button" class="btn-secondary-hero" onclick="openShopifyConfigModal()" style="font-size: 0.85rem; padding: 0.65rem 1.2rem;">
+            ⚙ Configure Shopify Bridge
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       5D. AṢẸ VIP COLLECTOR VAULT (SECRET RELICS)
+       ═══════════════════════════════════════ -->
+  <section class="store-hero" id="vault" style="margin-top: 3rem;">
+    <div class="vip-vault-container">
+      <div class="vip-vault-header">
+        <div>
+          <span class="hero-tag" style="border-color:var(--accent-gold);color:var(--accent-gold);background:rgba(244,184,0,0.12);">
+            🔒 RESTRICTED SECTOR // SOVEREIGN ARCHIVE
+          </span>
+          <h2 style="font-family: var(--font-display); font-size: 2.8rem; letter-spacing: 0.03em; margin-top: 0.4rem; color: #fff;">
+            AṢẸ VIP <span class="highlight">COLLECTOR VAULT</span>
+          </h2>
+          <p style="color: var(--text-secondary); font-size: 0.92rem; max-width: 680px; margin-top: 0.4rem;">
+            Exclusive confidential relics reserved for verified backers, Executive tier patrons, and Sovereign Passkey holders. Authenticate your Aṣẹ Keycard to reveal unreleased manuscripts and 1-of-1 archival treasures.
+          </p>
+        </div>
+
+        <div id="vaultStatusPill" class="vault-status-pill">
+          <span class="vault-lock-icon">🔒</span> <span id="vaultStatusText">SECTOR LOCKED</span>
+        </div>
+      </div>
+
+      <!-- Locked State: Holographic Keycard & Passkey Gate -->
+      <div id="vaultLockedView" class="vault-gate-card">
+        <div class="vault-gate-grid">
+          <div class="vault-keycard-wrap">
+            <div class="vault-keycard" id="vaultKeycardInteractive" title="Aṣẹ Guild Sovereign Access Card">
+              <div class="keycard-chip"></div>
+              <div class="keycard-logo">AṢẸ GUILD</div>
+              <div class="keycard-tier">READER MEMBERSHIP</div>
+              <div class="keycard-holder" id="keycardHolderDisplay">SIGN IN TO CHECK</div>
+              <div class="keycard-serial" id="keycardSerialDisplay">CATALYSTVERSE</div>
+            </div>
+            <p style="font-size:0.75rem;font-family:var(--font-mono);color:var(--text-muted);text-align:center;margin-top:0.6rem;">
+              Hover or touch card for holographic security shimmer
+            </p>
+          </div>
+
+          <div class="vault-auth-form">
+            <h4 style="font-family:var(--font-display);font-size:1.5rem;color:var(--accent-gold);margin-bottom:0.5rem;">
+              YOUR READER MEMBERSHIP
+            </h4>
+            <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.6;margin-bottom:1.2rem;">
+              Sign in to your Reader Passport to check your membership. Access follows your verified account.
+            </p>
+            <form onsubmit="handleVaultPasskeySubmit(event)" style="display:flex;flex-direction:column;gap:0.8rem;">
+              <button type="submit" class="btn-primary-hero" style="justify-content:center;padding:0.8rem;font-size:0.95rem;">
+                <span>⚡</span> <span>Check My Membership</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Unlocked State: 3 Confidential Secret Relics Grid -->
+      <div id="vaultUnlockedView" class="vault-secret-grid" style="display:none;">
+        <!-- Injected dynamically by store.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       6. REVIEWS & TESTIMONIALS (SOVEREIGN REVIEW LEDGER)
+       ═══════════════════════════════════════ -->
+  <section class="store-hero" id="reviews" style="margin-top: 3rem;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1.5rem;margin-bottom:2rem;">
+      <div>
+        <span class="hero-tag">COMMUNITY &amp; CRITICAL ACCLAIM</span>
+        <h2 style="font-family: var(--font-display); font-size: 2.8rem; letter-spacing: 0.03em; margin-top:0.3rem;">
+          THE SOVEREIGN <span class="highlight">REVIEW LEDGER</span>
+        </h2>
+        <p style="color:var(--text-secondary);font-size:0.92rem;max-width:640px;margin-top:0.4rem;">
+          Verified impressions from Lagos graphic novel collectors, international comic critics, and Kickstarter patrons.
+        </p>
+      </div>
+
+      <div style="display:flex;gap:0.8rem;align-items:center;flex-wrap:wrap;">
+        <div class="review-score-badge">
+          <span class="score-stars">★★★★★</span>
+          <span class="score-num">4.98 / 5.0</span>
+          <span class="score-sub">(152 Verified Backers)</span>
+        </div>
+        <button type="button" class="btn-primary-hero" onclick="openReviewModal()" style="font-size:0.85rem;padding:0.7rem 1.2rem;">
+          <span>✍️</span> <span>Write Verified Review</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Orisha Affinity Review Filter Pills -->
+    <div class="review-filter-bar">
+      <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);">FILTER BY AFFINITY:</span>
+      <div class="review-filter-pills">
+        <button type="button" class="review-filter-pill active" onclick="filterReviewsByAffinity('all', this)">All Pantheon (152)</button>
+        <button type="button" class="review-filter-pill" onclick="filterReviewsByAffinity('sango', this)">⚡ Ṣàngó Fire (64)</button>
+        <button type="button" class="review-filter-pill" onclick="filterReviewsByAffinity('ogun', this)">⚙️ Ògún Iron (42)</button>
+        <button type="button" class="review-filter-pill" onclick="filterReviewsByAffinity('esu', this)">🔮 Èṣù Crossroads (28)</button>
+        <button type="button" class="review-filter-pill" onclick="filterReviewsByAffinity('obatala', this)">🕊️ Obatàlá Canvas (18)</button>
+      </div>
+    </div>
+
+    <!-- Review Cards Container (Rendered dynamically by store.js) -->
+    <div class="reviews-masonry" id="reviewsContainer">
+      <!-- Populated by store.js -->
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       7. STORE FAQ ACCORDION
+       ═══════════════════════════════════════ -->
+  <section class="store-hero" id="faq" style="margin-top: 3rem;">
+    <div style="text-align: center; margin-bottom: 2.5rem;">
+      <span class="hero-tag">LOGISTICS &amp; PROTOCOLS</span>
+      <h2 style="font-family: var(--font-display); font-size: 2.8rem; letter-spacing: 0.03em;">FREQUENTLY ASKED QUESTIONS</h2>
+    </div>
+
+    <div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem;">
+      <details style="background: var(--bg-card); border: 1px solid rgba(255,255,255,0.08); padding: 1.2rem; border-radius: 10px; cursor: pointer;">
+        <summary style="font-weight: 700; font-size: 1rem; color: var(--text-primary); outline: none;">
+          ⚡ How do I receive my digital comic after checkout?
+        </summary>
+        <p style="color: var(--text-secondary); font-size: 0.88rem; margin-top: 0.8rem; line-height: 1.6;">
+          The illustrated web reader is available to browse. Digital purchases and automated delivery are coming soon; a saved cart does not confirm a purchase.
+        </p>
+      </details>
+
+      <details style="background: var(--bg-card); border: 1px solid rgba(255,255,255,0.08); padding: 1.2rem; border-radius: 10px; cursor: pointer;">
+        <summary style="font-weight: 700; font-size: 1rem; color: var(--text-primary); outline: none;">
+          📦 What are the delivery timelines for physical books &amp; merch?
+        </summary>
+        <p style="color: var(--text-secondary); font-size: 0.88rem; margin-top: 0.8rem; line-height: 1.6;">
+          Physical editions are shown as a catalog preview. Contact catalystcomicstudio@gmail.com to confirm availability, shipping cost and delivery timing before ordering.
+        </p>
+      </details>
+
+      <details style="background: var(--bg-card); border: 1px solid rgba(255,255,255,0.08); padding: 1.2rem; border-radius: 10px; cursor: pointer;">
+        <summary style="font-weight: 700; font-size: 1rem; color: var(--text-primary); outline: none;">
+          💳 What payment methods are accepted on the Shopify store?
+        </summary>
+        <p style="color: var(--text-secondary); font-size: 0.88rem; margin-top: 0.8rem; line-height: 1.6;">
+          Online checkout is coming soon. This preview does not accept payment or ask for card details. Confirm available payment methods with the studio before placing an order.
+        </p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       8. SLIDE-OUT CART DRAWER
+       ═══════════════════════════════════════ -->
+  <div class="cart-backdrop" id="cartBackdrop" onclick="if(event.target===this)closeCartDrawer()">
+    <aside class="cart-drawer" aria-label="Shopping Cart Drawer">
+      <div class="cart-header">
+        <h3 class="cart-header-title">
+          <span>🛒</span> <span>YOUR CACHE</span>
+        </h3>
+        <button type="button" class="cart-close-btn" onclick="closeCartDrawer()" aria-label="Close Cart">✕</button>
+      </div>
+
+      <!-- Free Perk Progression -->
+      <div class="cart-perk-meter">
+        <div class="perk-text" id="perkProgressText">
+          <span>Add <strong>₦5,000</strong> more to unlock Free Classified Lore Audio Dossier</span>
+          <span>0%</span>
+        </div>
+        <div class="perk-progress-bar">
+          <div class="perk-progress-fill" id="perkProgressFill"></div>
+        </div>
+      </div>
+
+      <!-- Items List -->
+      <div class="cart-items-container" id="cartItemsContainer">
+        <!-- Rendered by store.js -->
+      </div>
+
+      <!-- Footer / Checkout -->
+      <div class="cart-footer">
+        <div class="coupon-row">
+          <input type="text" id="couponInput" class="coupon-input" placeholder="Promo Code (e.g. CATALYSTOS10)">
+          <button type="button" class="coupon-apply-btn" onclick="applyCouponCode()">Apply</button>
+        </div>
+
+        <div class="cart-subtotal-row">
+          <span>Subtotal:</span>
+          <span class="cart-subtotal-val" id="cartSubtotalVal">₦0</span>
+        </div>
+        <p class="cart-shipping-note">Store preview. Checkout is coming soon; your saved cart is not an order.</p>
+
+        <button type="button" class="btn-checkout-shopify" onclick="proceedToCheckout()">
+          <span>🔖</span> <span>View Saved Cart Summary</span>
+        </button>
+
+        <button type="button" class="btn-whatsapp-order" onclick="checkoutViaWhatsApp()">
+          <span>💬</span> <span>Contact the Studio</span>
+        </button>
+
+        <div style="display:flex;gap:0.5rem;margin-top:0.4rem;">
+          <button type="button" class="btn-secondary-hero" onclick="generateCartInvoice()" style="flex:1;font-size:0.75rem;padding:0.45rem;justify-content:center;">
+            <span>🖨️</span> <span>Print Invoice Slip</span>
+          </button>
+          <button type="button" class="btn-secondary-hero" onclick="openOrderTrackerModal()" style="flex:1;font-size:0.75rem;padding:0.45rem;justify-content:center;">
+            <span>📍</span> <span>Track Dispatch</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       9. 5-PAGE TEASER PREVIEW MODAL
+       ═══════════════════════════════════════ -->
+  <div class="preview-modal-backdrop" id="previewModalBackdrop" onclick="if(event.target===this)closePreviewModal()">
+    <div class="preview-modal" role="dialog" aria-modal="true" aria-label="Issue #01 5-Page Preview">
+      <div class="preview-modal-header">
+        <div class="preview-title-box">
+          <h3 class="preview-title" id="previewPageTitle">Scene 1: Before Everything</h3>
+          <span class="preview-page-pill" id="previewPagePill">PAGE 1 OF 88 (TEASER)</span>
+        </div>
+        <button type="button" class="cart-close-btn" onclick="closePreviewModal()" aria-label="Close Preview">✕</button>
+      </div>
+
+      <div class="preview-body">
+        <button type="button" class="preview-nav-btn preview-nav-prev" onclick="prevPreviewPage()" aria-label="Previous Page">❮</button>
+
+        <div class="preview-img-container">
+          <img src="./private/issue01/lettered/pages/p01.webp" alt="Catalyst Issue 1 Sample Page" id="previewPageImg" class="preview-page-img" onerror="this.src='./assets/cover-issue1.webp'">
+        </div>
+
+        <button type="button" class="preview-nav-btn preview-nav-next" onclick="nextPreviewPage()" aria-label="Next Page">❯</button>
+      </div>
+
+      <div class="preview-modal-footer">
+        <p style="font-size: 0.82rem; font-style: italic; color: var(--text-secondary); max-width: 480px;" id="previewPageCaption">
+          "Mushin never actually sleeps. It rests with one eye open."
+        </p>
+
+        <div class="preview-thumbnails">
+          <img src="./private/issue01/lettered/pages/p01.webp" alt="Thumb 1" class="preview-thumb active" onclick="openPreviewModal(0)" onerror="this.src='./assets/cover-issue1.webp'">
+          <img src="./private/issue01/lettered/pages/p02.webp" alt="Thumb 2" class="preview-thumb" onclick="openPreviewModal(1)" onerror="this.src='./assets/bayo-bridge.webp'">
+          <img src="./private/issue01/lettered/pages/p03.webp" alt="Thumb 3" class="preview-thumb" onclick="openPreviewModal(2)" onerror="this.src='./assets/team-highway.webp'">
+          <img src="./private/issue01/lettered/pages/p04.webp" alt="Thumb 4" class="preview-thumb" onclick="openPreviewModal(3)" onerror="this.src='./assets/ogun-portrait.webp'">
+          <img src="./private/issue01/lettered/pages/p05.webp" alt="Thumb 5" class="preview-thumb" onclick="openPreviewModal(4)" onerror="this.src='./assets/sango-portrait.webp'">
+        </div>
+
+        <button type="button" class="btn-primary-hero" style="font-size: 0.85rem; padding: 0.5rem 1rem;" onclick="closePreviewModal(); addToCart('catalyst-issue-01-digital');">
+          Unlock All 88 Pages →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       10. SHOPIFY INTEGRATION CONFIG HUD
+       ═══════════════════════════════════════ -->
+  <div class="preview-modal-backdrop" id="shopifyConfigBackdrop" onclick="if(event.target===this)closeShopifyConfigModal()">
+    <div class="shopify-config-modal" role="dialog" aria-modal="true" aria-label="Shopify Store Settings">
+      <div class="shopify-modal-header">
+        <h3 class="shopify-title">
+          <span>🟢</span> <span>CATALYST FORGE // SHOPIFY BRIDGE</span>
+        </h3>
+        <button type="button" class="cart-close-btn" onclick="closeShopifyConfigModal()" aria-label="Close Settings">✕</button>
+      </div>
+
+      <p style="color: var(--text-secondary); font-size: 0.82rem; margin-bottom: 1.2rem;">
+        Your storefront is connected to <strong>CATALYST FORGE</strong> (<code>catalyst-forge.myshopify.com</code>). All orders sync directly with your Shopify account.
+      </p>
+
+      <form onsubmit="saveShopifyConfig(event)">
+        <div class="config-form-group">
+          <label class="config-label" for="shopifyDomainInput">Shopify Store Domain:</label>
+          <input type="text" id="shopifyDomainInput" class="config-input" value="catalyst-forge.myshopify.com" placeholder="e.g. catalyst-forge.myshopify.com" required>
+          <p class="config-helper-text">Connected to your Catalyst Forge Shopify account.</p>
+        </div>
+
+        <div class="config-form-group">
+          <label class="config-label" for="shopifyTokenInput">Storefront API Access Token (Optional):</label>
+          <input type="text" id="shopifyTokenInput" class="config-input" placeholder="e.g. shpat_xxxxxxxxxxxxxxxxxxxx">
+          <p class="config-helper-text">Found in Shopify Admin &gt; Settings &gt; Apps and sales channels &gt; Develop apps.</p>
+        </div>
+
+        <button type="submit" class="btn-save-config">Save &amp; Update Catalyst Forge Bridge</button>
+      </form>
+
+      <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.75rem; color: var(--text-muted);">
+        <span>Need assistance? Review the master guide: </span>
+        <a href="./SHOPIFY_STORE_SETUP_GUIDE.md" target="_blank" style="color: var(--accent-cyan);">SHOPIFY_STORE_SETUP_GUIDE.md</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       10B. CATALYST FORGE UNIFIED CHECKOUT HUB
+       ═══════════════════════════════════════ -->
+  <div class="preview-modal-backdrop" id="forgeCheckoutBackdrop" onclick="if(event.target===this)closeCatalystForgeCheckoutModal()">
+    <div class="shopify-config-modal" style="max-width:580px;border-color:var(--accent-gold);box-shadow:0 25px 60px rgba(0,0,0,0.9),0 0 35px rgba(244,184,0,0.3);" role="dialog" aria-modal="true" aria-label="Catalyst Forge Checkout">
+      <div class="shopify-modal-header">
+        <div>
+          <span style="font-family:var(--font-mono);font-size:0.7rem;color:#25D366;background:rgba(37,211,102,0.12);border:1px solid #25D366;padding:0.15rem 0.5rem;border-radius:4px;">🟢 SHOPIFY CONNECTED: <span id="forgeActiveDomain">catalyst-forge.myshopify.com</span></span>
+          <h3 class="shopify-title" style="color:var(--accent-gold);margin-top:0.4rem;">
+            <span>⚡</span> <span>CATALYST FORGE CHECKOUT HUB</span>
+          </h3>
+        </div>
+        <button type="button" class="cart-close-btn" onclick="closeCatalystForgeCheckoutModal()" aria-label="Close Checkout">✕</button>
+      </div>
+
+      <div style="background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:1rem;margin-bottom:1.2rem;">
+        <div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted);margin-bottom:0.5rem;">ORDER SUMMARY</div>
+        <div id="forgeCheckoutSummary" style="max-height:140px;overflow-y:auto;margin-bottom:0.6rem;"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding-top:0.5rem;border-top:1px solid rgba(244,184,0,0.25);">
+          <span style="font-family:var(--font-mono);font-size:0.85rem;color:#fff;">PREVIEW TOTAL:</span>
+          <span id="forgeCheckoutTotal" style="font-family:var(--font-display);font-size:1.8rem;color:var(--accent-gold);">₦0</span>
+        </div>
+      </div>
+
+      <p role="status">Checkout is coming soon. Your cart is saved, and no payment or order has been confirmed.</p>
+      <form hidden style="display:none;" onsubmit="completeExpressForgeOrder(event)">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:0.8rem;">
+          <div>
+            <label class="config-label">Full Name</label>
+            <input type="text" class="config-input" id="forgeOrderFullName" placeholder="Bayo Adeyemi" value="Adebayo Adeyemi" required>
+          </div>
+          <div>
+            <label class="config-label">Email (For Instant PDF &amp; Receipt)</label>
+            <input type="email" class="config-input" id="forgeOrderEmail" placeholder="reader@catalystverse.com" value="reader@catalystverse.com" required>
+          </div>
+        </div>
+        <div style="margin-bottom:1.2rem;">
+          <label class="config-label">Shipping Address (Lagos or Worldwide)</label>
+          <input type="text" class="config-input" id="forgeOrderAddress" placeholder="14 Paul Street, Mushin, Lagos / International" value="14 Paul Street, Mushin, Lagos">
+        </div>
+
+        <button type="button" class="btn-checkout-shopify" onclick="redirectToShopifyStorefront()" style="margin-bottom:0.65rem;">
+          <span>🛍️</span> <span>Complete Checkout on Catalyst Forge (Shopify) →</span>
+        </button>
+
+        <button type="submit" class="btn-save-config" style="margin-top:0;background:rgba(244,184,0,0.18);border:1px solid var(--accent-gold);color:var(--accent-gold);">
+          <span>⚡</span> <span>Express Instant Order &amp; Issue Signed Certificate</span>
+        </button>
+
+        <button type="button" class="btn-whatsapp-order" onclick="checkoutViaWhatsApp()">
+          <span>💬</span> <span>Complete via WhatsApp Lagos Direct Dispatch</span>
+        </button>
+
+        <button type="button" class="btn-secondary-hero" onclick="generateCartInvoice()" style="width:100%;font-size:0.78rem;padding:0.55rem;justify-content:center;margin-top:0.5rem;">
+          <span>🖨️</span> <span>Generate &amp; Print Official Sovereign Invoice</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       11. CATALYST OS COMMERCE AI CONCIERGE
+       ═══════════════════════════════════════ -->
+  <div class="catalyst-ai-fab" id="catalystAiFab" role="button" aria-label="Open Catalyst OS Store Assistant">
+    <div class="ai-pulse-dot"></div>
+    <span class="ai-fab-text">CATALYST OS // CONCIERGE</span>
+  </div>
+
+  <div class="ai-chat-window" id="aiChatWindow">
+    <div class="ai-chat-header">
+      <div class="ai-header-info">
+        <div class="ai-avatar">⚡</div>
+        <div class="ai-name-box">
+          <span class="ai-name">AṢẸ MERCHANT AI</span>
+          <span class="ai-sub">Catalyst OS Commerce Engine</span>
+        </div>
+      </div>
+      <button type="button" class="cart-close-btn" onclick="closeAiChat()" aria-label="Close Assistant">✕</button>
+    </div>
+
+    <div class="ai-chat-messages" id="aiChatMessages">
+      <div class="chat-bubble bot">
+        ⚡ <strong>Greetings. I am the Catalyst OS Commerce Concierge.</strong><br>
+        Ask me anything about the 88-page graphic novel, collector editions, Orisha powers, or Lagos/worldwide delivery.
+      </div>
+    </div>
+
+    <div class="ai-quick-prompts">
+      <button type="button" class="ai-prompt-chip" onclick="sendAiPrompt('Which edition should I start with?')">Which issue to start?</button>
+      <button type="button" class="ai-prompt-chip" onclick="sendAiPrompt('What is included in the Supreme Box Set?')">Supreme Box Set details</button>
+      <button type="button" class="ai-prompt-chip" onclick="sendAiPrompt('Give me a 10% discount code!')">10% Promo Code</button>
+      <button type="button" class="ai-prompt-chip" onclick="sendAiPrompt('Do you ship in Lagos and globally?')">Shipping times</button>
+    </div>
+
+    <div class="ai-chat-input-bar">
+      <input type="text" id="aiChatInput" class="ai-chat-input" placeholder="Ask about issues, shipping, lore..." onkeydown="if(event.key==='Enter')handleAiSend()">
+      <button type="button" class="ai-send-btn" onclick="handleAiSend()" aria-label="Send">➤</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       COMMAND PALETTE MODAL (⌘K / CTRL+K)
+       ═══════════════════════════════════════ -->
+  <div class="cmd-palette-backdrop" id="commandPaletteBackdrop" onclick="if(event.target===this)closeCommandPalette()">
+    <div class="cmd-palette-modal" role="dialog" aria-modal="true" aria-label="Command Hub">
+      <div class="cmd-input-wrap">
+        <span style="color:var(--accent-gold);font-family:var(--font-mono);">⚡ ⌘K</span>
+        <input type="text" id="cmdInput" class="cmd-input" placeholder="Type a command, relic name, or 'coupon'..." oninput="handleCmdInput(event)">
+        <button type="button" class="cart-close-btn" onclick="closeCommandPalette()" style="width:28px;height:28px;font-size:0.85rem;">✕</button>
+      </div>
+      <div class="cmd-results-list" id="cmdResultsList">
+        <!-- Rendered by store.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       RELIC LORE & DEEP INSPECTOR MODAL
+       ═══════════════════════════════════════ -->
+  <div class="relic-modal-backdrop" id="relicModalBackdrop" onclick="if(event.target===this)closeRelicModal()">
+    <div class="relic-modal" role="dialog" aria-modal="true" aria-label="Relic Inspector">
+      <div class="relic-header">
+        <div>
+          <span class="relic-tag" id="relicTag">CATALYST RELIC</span>
+          <h2 class="relic-title" id="relicTitle">Relic Title</h2>
+        </div>
+        <button type="button" class="cart-close-btn" onclick="closeRelicModal()" aria-label="Close Relic Inspector">✕</button>
+      </div>
+
+      <div class="relic-grid">
+        <div>
+          <!-- Relic View Switcher: 2D Cover vs 3D Hologram -->
+          <div class="relic-view-modes">
+            <button type="button" class="relic-mode-btn active" id="relicMode2dBtn" onclick="switchRelicModalView('2d')">
+              <span>🖼️</span> <span>2D Cover</span>
+            </button>
+            <button type="button" class="relic-mode-btn" id="relicMode3dBtn" onclick="switchRelicModalView('3d')">
+              <span>⚡</span> <span>3D Hologram</span>
+            </button>
+          </div>
+
+          <!-- 2D Cover View -->
+          <div id="relic2dView">
+            <img src="./assets/cover-issue1.webp" alt="Relic Artwork" class="relic-img" id="relicImg">
+          </div>
+
+          <!-- 3D WebGL Hologram View -->
+          <div id="relic3dView" class="relic-3d-view-wrap" style="display:none;position:relative;height:340px;background:radial-gradient(circle at 50% 50%, rgba(20, 30, 52, 0.9), rgba(7, 10, 18, 0.95));border:1px solid rgba(244,184,0,0.3);border-radius:10px;overflow:hidden;">
+            <canvas id="relicModalCanvas" style="width:100%;height:100%;display:block;cursor:grab;"></canvas>
+            <div class="holo-drag-hint" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);">
+              <span>⚡ DRAG TO ROTATE</span>
+              <span>• SCROLL TO ZOOM</span>
+            </div>
+            <div style="position:absolute;top:8px;right:8px;display:flex;gap:0.35rem;z-index:4;">
+              <button type="button" class="holo-tool-btn" onclick="toggleRelicModalWireframe()" id="relicModalWireframeBtn" title="Toggle Wireframe">Wireframe</button>
+              <button type="button" class="holo-tool-btn" onclick="resetRelicModal3dView()" title="Center Mesh">↺ Reset</button>
+            </div>
+          </div>
+
+          <div style="margin-top:1rem;display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-family:var(--font-mono);font-size:0.85rem;color:var(--text-muted);">CANONICAL PRICE</span>
+            <span style="font-family:var(--font-display);font-size:1.8rem;color:var(--accent-gold);" id="relicPriceDisplay">₦0</span>
+          </div>
+          <button type="button" class="btn-primary-hero" id="relicAddToCartBtn" style="width:100%;margin-top:0.75rem;justify-content:center;">
+            <span>⚡</span> <span>Add Relic to Cache</span>
+          </button>
+        </div>
+
+        <div>
+          <div class="relic-lore-box">
+            <h4 class="relic-lore-title" id="relicLoreTitle">CANONICAL ARCHIVE ENTRY</h4>
+            <p class="relic-lore-body" id="relicLoreBody">Lore description will be loaded here.</p>
+          </div>
+
+          <h4 style="font-family:var(--font-mono);font-size:0.75rem;color:var(--accent-gold);margin-bottom:0.6rem;text-transform:uppercase;">SPECIFICATION LEDGER</h4>
+          <div class="relic-specs-list">
+            <div class="relic-spec-row">
+              <span class="relic-spec-key">MATERIALS &amp; FINISH</span>
+              <span class="relic-spec-val" id="relicSpecMaterials">Archival Satin Stock</span>
+            </div>
+            <div class="relic-spec-row">
+              <span class="relic-spec-key">PROVENANCE / ORIGIN</span>
+              <span class="relic-spec-val" id="relicSpecOrigin">Mushin, Lagos</span>
+            </div>
+            <div class="relic-spec-row">
+              <span class="relic-spec-key">EXECUTIVE OVERSIGHT</span>
+              <span class="relic-spec-val">Oluwatobiloba (@catalystggg)</span>
+            </div>
+            <div class="relic-spec-row">
+              <span class="relic-spec-key">VERIFICATION PROTOCOL</span>
+              <span class="relic-spec-val" style="color:var(--accent-cyan);">Shopify Level 1 Encrypted</span>
+            </div>
+          </div>
+
+          <button type="button" class="btn-secondary-hero" onclick="openCertificateModal()" style="width:100%;font-size:0.85rem;justify-content:center;margin-top:0.5rem;">
+            <span>🔒</span> <span>Preview Certificate of Authenticity</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       CERTIFICATE OF AUTHENTICITY MODAL
+       ═══════════════════════════════════════ -->
+  <div class="relic-modal-backdrop" id="certificateModalBackdrop" onclick="if(event.target===this)closeCertificateModal()">
+    <div class="shopify-config-modal" style="max-width:640px;background:none;border:none;padding:0;box-shadow:none;">
+      <div class="cert-card">
+        <button type="button" class="cart-close-btn" onclick="closeCertificateModal()" style="position:absolute;top:1rem;right:1rem;">✕</button>
+        <div class="cert-seal">AṢẸ</div>
+        <h3 class="cert-title">PERSONAL COLLECTOR CARD</h3>
+        <p class="cert-sub">CATALYST: THE AWAKENING // ARCHIVAL SAGA LEDGER</p>
+
+        <p style="font-size:0.92rem;line-height:1.6;color:var(--text-secondary);max-width:480px;margin:0 auto 1.5rem;">
+          A personal keepsake from <strong>Catalyst Comics Studio</strong>.
+          This card is not proof of purchase, membership or delivery.
+        </p>
+
+        <div style="display:flex;justify-content:space-around;border-top:1px dashed rgba(244,184,0,0.3);border-bottom:1px dashed rgba(244,184,0,0.3);padding:0.75rem 0;margin-bottom:1.2rem;font-family:var(--font-mono);font-size:0.75rem;">
+          <div><span style="color:var(--text-muted)">SERIAL:</span> <strong style="color:var(--accent-gold);" id="certSerial">CAT-889124</strong></div>
+          <div><span style="color:var(--text-muted)">ISSUED:</span> <strong style="color:#fff;" id="certDate">October 11, 2026</strong></div>
+          <div><span style="color:var(--text-muted)">LEDGER:</span> <strong style="color:var(--accent-cyan);">LAGOS SOVEREIGN</strong></div>
+        </div>
+
+        <!-- Registered Collector Customization & 1-Click PNG Download -->
+        <div style="background:rgba(0,0,0,0.35);border:1px solid rgba(244,184,0,0.2);border-radius:10px;padding:0.9rem;margin-bottom:1.5rem;text-align:left;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">
+            <label class="config-label" style="margin-bottom:0;color:var(--accent-gold);font-size:0.72rem;" for="certCollectorInput">
+              REGISTERED COLLECTOR / OWNER:
+            </label>
+            <span style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-muted);">SOVEREIGN REGISTRY</span>
+          </div>
+          <div style="display:flex;gap:0.6rem;">
+            <input type="text" id="certCollectorInput" class="config-input" value="Adebayo Adeyemi" placeholder="Enter Collector Name" oninput="updateCertCollectorName(this.value)" style="flex:1;font-size:0.85rem;padding:0.5rem 0.75rem;">
+            <button type="button" class="btn-primary-hero" onclick="downloadCertificatePng()" style="font-size:0.78rem;padding:0.5rem 0.9rem;white-space:nowrap;justify-content:center;">
+              <span>💾</span> <span>Download PNG</span>
+            </button>
+          </div>
+          <div style="font-size:0.75rem;margin-top:0.45rem;color:var(--text-secondary);font-family:var(--font-mono);">
+            REGISTERED TO: <strong id="certCollectorDisplay" style="color:#fff;">Adebayo Adeyemi</strong>
+          </div>
+        </div>
+
+        <div style="font-family:var(--font-display);font-size:1.4rem;color:var(--accent-gold);letter-spacing:0.05em;">
+          OLUWATOBILOBA — THE CATALYST
+        </div>
+        <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-muted);">
+          Executive Authority · Catalyst OS &amp; Catalyst Comics Studio
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       11C. LAGOS SOVEREIGN LOGISTICS & DISPATCH TRACKER HUD
+       ═══════════════════════════════════════ -->
+  <div class="relic-modal-backdrop" id="orderTrackerModalBackdrop" onclick="if(event.target===this)closeOrderTrackerModal()">
+    <div class="shopify-config-modal" style="max-width:720px;width:100%;" role="dialog" aria-modal="true" aria-label="Lagos Order Tracking HUD">
+      <div class="shopify-modal-header">
+        <div>
+          <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent-cyan);background:rgba(0,240,255,0.1);border:1px solid var(--accent-cyan);padding:0.15rem 0.5rem;border-radius:4px;">
+            📍 TELEMETRY ACTIVE // LAGOS TRANSIT GRID
+          </span>
+          <h3 class="shopify-title" style="color:#fff;margin-top:0.4rem;">
+            <span>📍</span> <span>SOVEREIGN DISPATCH &amp; ORDER TRACKER</span>
+          </h3>
+        </div>
+        <button type="button" class="cart-close-btn" onclick="closeOrderTrackerModal()" aria-label="Close Tracker">✕</button>
+      </div>
+
+      <!-- Order ID Search Bar -->
+      <div style="display:flex;gap:0.5rem;margin-bottom:1.5rem;">
+        <input type="text" id="trackerSearchInput" class="config-input" placeholder="Enter Order ID (e.g. CAT-889124)" value="CAT-889124" style="font-family:var(--font-mono);font-size:0.9rem;">
+        <button type="button" class="btn-primary-hero" onclick="searchOrderTracker()" style="white-space:nowrap;font-size:0.82rem;padding:0.5rem 1rem;">
+          <span>🔍</span> <span>Locate</span>
+        </button>
+      </div>
+
+      <!-- Live Waypoint Telemetry Graphic -->
+      <div class="telemetry-card">
+        <div class="telemetry-header-row">
+          <div>
+            <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted);">CANONICAL ORDER SERIAL:</span>
+            <strong style="color:var(--accent-gold);font-family:var(--font-mono);font-size:1rem;margin-left:0.4rem;" id="trackerOrderSerial">CAT-889124</strong>
+          </div>
+          <div class="telemetry-status-pill" id="trackerStatusPill">
+            <span class="telemetry-pulse-dot"></span> <span id="trackerStatusText">IN TRANSIT · THIRD MAINLAND CORRIDOR</span>
+          </div>
+        </div>
+
+        <!-- 5-Stage Animated Waypoint Track -->
+        <div class="waypoint-track-container">
+          <div class="waypoint-progress-line" id="waypointProgressLine" style="width: 60%;"></div>
+
+          <div class="waypoint-node active" id="node1">
+            <div class="node-circle">1</div>
+            <div class="node-label">Mushin Forge<br><small>Sealed &amp; Packaged</small></div>
+          </div>
+          <div class="waypoint-node active" id="node2">
+            <div class="node-circle">2</div>
+            <div class="node-label">Ojuelegba Grid<br><small>Courier Hand-off</small></div>
+          </div>
+          <div class="waypoint-node active" id="node3">
+            <div class="node-circle">3</div>
+            <div class="node-label">Third Mainland<br><small>High-Speed Transit</small></div>
+          </div>
+          <div class="waypoint-node" id="node4">
+            <div class="node-circle">4</div>
+            <div class="node-label">Eko Atlantic Hub<br><small>Sorting / Air Freight</small></div>
+          </div>
+          <div class="waypoint-node" id="node5">
+            <div class="node-circle">5</div>
+            <div class="node-label">Final Delivery<br><small>Destination Hub</small></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rider & Telemetry Details Box -->
+      <div class="rider-telemetry-grid">
+        <div class="rider-info-card">
+          <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent-gold);margin-bottom:0.4rem;">DISPATCH OPERATIVE</div>
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div style="width:42px;height:42px;border-radius:50%;background:rgba(244,184,0,0.2);border:1px solid var(--accent-gold);color:var(--accent-gold);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.9rem;">
+              TO
+            </div>
+            <div>
+              <h4 style="font-size:0.92rem;font-weight:700;color:#fff;" id="trackerRiderName">Tunde O. (Unit #CK-2031)</h4>
+              <p style="font-size:0.72rem;color:var(--text-muted);font-family:var(--font-mono);">Electric High-Torque Courier · Lagos Central</p>
+            </div>
+          </div>
+          <div style="margin-top:0.8rem;display:flex;gap:0.5rem;">
+            <a href="https://wa.me/2348123456789?text=Hello%20Catalyst%20Dispatch%20Courier%20Order%20CAT-889124" target="_blank" rel="noopener" class="btn-whatsapp-order" style="padding:0.4rem 0.8rem;font-size:0.75rem;margin:0;flex:1;justify-content:center;text-decoration:none;">
+              <span>💬</span> <span>Direct Rider WhatsApp Ping</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="rider-info-card">
+          <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent-cyan);margin-bottom:0.4rem;">LOGISTICS TELEMETRY</div>
+          <div style="font-size:0.8rem;display:flex;flex-direction:column;gap:0.35rem;font-family:var(--font-mono);">
+            <div><span style="color:var(--text-muted);">DESTINATION:</span> <span id="trackerDest" style="color:#fff;">14 Paul St, Mushin, Lagos</span></div>
+            <div><span style="color:var(--text-muted);">ESTIMATED WINDOW:</span> <span id="trackerEta" style="color:var(--accent-gold);">Today, 15:30 – 17:00 WAT</span></div>
+            <div><span style="color:var(--text-muted);">SECURITY SEAL:</span> <span style="color:#25D366;">Biometric Tamper-Evident</span></div>
+          </div>
+          <button type="button" class="btn-secondary-hero" onclick="printOfficialOrderSlip(document.getElementById('trackerOrderSerial').textContent)" style="width:100%;font-size:0.75rem;padding:0.45rem;justify-content:center;margin-top:0.6rem;">
+            <span>🖨️</span> <span>Print Official Sovereign Dispatch Slip</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       11D. OFFICIAL TAX INVOICE & PACKING SLIP MODAL
+       ═══════════════════════════════════════ -->
+  <div class="relic-modal-backdrop" id="invoiceModalBackdrop" onclick="if(event.target===this)closeInvoiceModal()">
+    <div class="invoice-container-modal" role="dialog" aria-modal="true" aria-label="Official Invoice Slip">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;" class="no-print">
+        <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--accent-gold);">
+          ⚡ CATALYST FORGE // SOVEREIGN COMMERCIAL INVOICE
+        </span>
+        <div style="display:flex;gap:0.5rem;">
+          <button type="button" class="btn-primary-hero" onclick="window.print()" style="font-size:0.8rem;padding:0.45rem 0.9rem;">
+            <span>🖨️</span> <span>Print / Save as PDF</span>
+          </button>
+          <button type="button" class="cart-close-btn" onclick="closeInvoiceModal()" aria-label="Close Invoice">✕</button>
+        </div>
+      </div>
+
+      <div class="invoice-paper" id="invoicePaper">
+        <!-- Invoice Header -->
+        <div class="invoice-header-row">
+          <div>
+            <h2 class="invoice-brand-title">CATALYST<span>:</span>THE AWAKENING</h2>
+            <div class="invoice-brand-sub">CATALYST COMICS STUDIO · CATALYST FORGE</div>
+            <div class="invoice-brand-sub">Mushin Sovereign Sector 4 · Lagos, Nigeria</div>
+            <div class="invoice-brand-sub">Executive Direction: Oluwatobiloba (@catalystggg)</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="invoice-num-title">OFFICIAL INVOICE</div>
+            <div class="invoice-num-val" id="invoiceSerialDisplay">#CAT-INV-889124</div>
+            <div class="invoice-brand-sub" id="invoiceDateDisplay">October 15, 2026</div>
+            <div class="invoice-brand-sub">Shopify Bridge: Level 1 PCI</div>
+          </div>
+        </div>
+
+        <!-- Billed & Shipped Row -->
+        <div class="invoice-parties-row">
+          <div>
+            <div class="invoice-party-label">BILLED &amp; DISPATCHED TO:</div>
+            <div class="invoice-party-val" id="invoiceCustomerName">Adebayo Adeyemi</div>
+            <div class="invoice-party-sub" id="invoiceCustomerEmail">reader@catalystverse.com</div>
+            <div class="invoice-party-sub" id="invoiceCustomerAddress">14 Paul Street, Mushin, Lagos</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="invoice-party-label">AUTHENTICATION LEDGER:</div>
+            <div class="invoice-party-val" style="color:#00F0FF;">LAGOS SOVEREIGN ARCHIVE</div>
+            <div class="invoice-party-sub">Payment: Verified Secured</div>
+            <div class="invoice-party-sub">Dispatch Protocol: Express Courier</div>
+          </div>
+        </div>
+
+        <!-- Items Table -->
+        <table class="invoice-items-table">
+          <thead>
+            <tr>
+              <th style="text-align:left;">DESCRIPTION / RELIC</th>
+              <th style="text-align:center;">SKU</th>
+              <th style="text-align:center;">QTY</th>
+              <th style="text-align:right;">UNIT PRICE</th>
+              <th style="text-align:right;">LINE TOTAL</th>
+            </tr>
+          </thead>
+          <tbody id="invoiceTableBody">
+            <!-- Rendered by store.js -->
+          </tbody>
+        </table>
+
+        <!-- Totals & Calculations -->
+        <div class="invoice-totals-section">
+          <div class="invoice-seal-box">
+            <div class="invoice-seal-circle">AṢẸ</div>
+            <div style="font-size:0.68rem;font-family:var(--font-mono);color:#555;text-align:center;margin-top:0.3rem;">
+              VERIFIED SOVEREIGN LEDGER<br>MUSHIN · EKO ATLANTIC
+            </div>
+          </div>
+
+          <div class="invoice-totals-table">
+            <div class="invoice-total-row">
+              <span>Subtotal:</span>
+              <strong id="invoiceSubtotal">₦0</strong>
+            </div>
+            <div class="invoice-total-row">
+              <span>Shipping (Lagos Tracked Express):</span>
+              <strong style="color:#25D366;">FREE / COMPLIMENTARY</strong>
+            </div>
+            <div class="invoice-total-row">
+              <span>Tax / VAT (Inclusive):</span>
+              <span>₦0.00</span>
+            </div>
+            <div class="invoice-total-row grand-total">
+              <span>GRAND TOTAL DUE:</span>
+              <strong id="invoiceGrandTotal" style="color:#000;">₦0</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Authorized Signature -->
+        <div class="invoice-footer-signatures">
+          <div>
+            <div class="invoice-sig-line">OLUWATOBILOBA — THE CATALYST</div>
+            <div class="invoice-sig-sub">Executive Authority · Catalyst OS &amp; Catalyst Comics Studio</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="invoice-sig-line">CATALYST FORGE LEDGER</div>
+            <div class="invoice-sig-sub">Cryptographically Signed on Lagos Sovereign Grid</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       11E. AMBIENT SOUNDSCAPE SELECTOR MODAL
+       ═══════════════════════════════════════ -->
+  <div class="relic-modal-backdrop" id="soundscapeModalBackdrop" onclick="if(event.target===this)closeSoundscapeModal()">
+    <div class="shopify-config-modal" style="max-width:520px;" role="dialog" aria-modal="true" aria-label="Soundscape Selector">
+      <div class="shopify-modal-header">
+        <h3 class="shopify-title" style="color:var(--accent-gold);">
+          <span>🎧</span> <span>LAGOS NOIR 2031 // SOUNDSCAPES</span>
+        </h3>
+        <button type="button" class="cart-close-btn" onclick="closeSoundscapeModal()" aria-label="Close Soundscape">✕</button>
+      </div>
+
+      <p style="color:var(--text-secondary);font-size:0.82rem;margin-bottom:1.2rem;">
+        Immerse yourself into the atmosphere of Catalyst: The Awakening. Procedural Web Audio synthesizers generate real-time rain, thunder, and cyber-Aṣẹ frequencies.
+      </p>
+
+      <div class="soundscape-tracks-list">
+        <div class="soundscape-track-item active" id="trackItem_mushin" onclick="selectSoundscapeTrack('mushin')">
+          <div class="track-icon">🌧️</div>
+          <div class="track-info">
+            <h4 class="track-title">Mushin Midnight Rain &amp; Ṣàngó Thunder</h4>
+            <p class="track-desc">Rain over zinc roofs with low-frequency distant celestial thunder.</p>
+          </div>
+          <span class="track-badge">ACTIVE</span>
+        </div>
+
+        <div class="soundscape-track-item" id="trackItem_apapa" onclick="selectSoundscapeTrack('apapa')">
+          <div class="track-icon">⚙️</div>
+          <div class="track-info">
+            <h4 class="track-title">Apapa Sub-Grid Industrial Cyber-Drone</h4>
+            <p class="track-desc">Analog detuned saw synthesis with resonant Ògún forge frequencies.</p>
+          </div>
+          <span class="track-badge">PLAY</span>
+        </div>
+
+        <div class="soundscape-track-item" id="trackItem_eko" onclick="selectSoundscapeTrack('eko')">
+          <div class="track-icon">🌊</div>
+          <div class="track-info">
+            <h4 class="track-title">Eko Atlantic Midnight Waves</h4>
+            <p class="track-desc">Ocean swells and calm synth pads reflecting the neon towers.</p>
+          </div>
+          <span class="track-badge">PLAY</span>
+        </div>
+      </div>
+
+      <!-- Volume & Main Control -->
+      <div style="margin-top:1.5rem;padding-top:1.2rem;border-top:1px solid rgba(255,255,255,0.08);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.6rem;">
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-secondary);">MASTER AMBIENCE VOLUME:</span>
+          <span id="soundscapeVolDisplay" style="font-family:var(--font-mono);font-size:0.75rem;color:var(--accent-gold);">40%</span>
+        </div>
+        <input type="range" id="soundscapeVolumeSlider" min="0" max="100" value="40" oninput="handleSoundscapeVolume(this.value)" style="width:100%;accent-color:var(--accent-gold);">
+
+        <div style="display:flex;gap:0.8rem;margin-top:1rem;">
+          <button type="button" class="btn-primary-hero" id="soundscapeToggleBtn" onclick="toggleStoreAmbientSound()" style="flex:1;justify-content:center;padding:0.65rem;">
+            <span>▶</span> <span>Toggle Ambience Play/Pause</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       11F. VERIFIED COLLECTOR REVIEW SUBMISSION MODAL
+       ═══════════════════════════════════════ -->
+  <div class="relic-modal-backdrop" id="reviewModalBackdrop" onclick="if(event.target===this)closeReviewModal()">
+    <div class="shopify-config-modal" style="max-width:560px;" role="dialog" aria-modal="true" aria-label="Submit Review">
+      <div class="shopify-modal-header">
+        <h3 class="shopify-title" style="color:var(--accent-gold);">
+          <span>✍️</span> <span>SUBMIT VERIFIED READER REVIEW</span>
+        </h3>
+        <button type="button" class="cart-close-btn" onclick="closeReviewModal()" aria-label="Close Review Modal">✕</button>
+      </div>
+
+      <form onsubmit="handleReviewSubmit(event)">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:0.8rem;">
+          <div>
+            <label class="config-label">Collector Name</label>
+            <input type="text" id="reviewAuthorInput" class="config-input" placeholder="e.g. Oluwaseun A." required>
+          </div>
+          <div>
+            <label class="config-label">Location / City</label>
+            <input type="text" id="reviewCityInput" class="config-input" placeholder="e.g. Lekki, Lagos / London" required>
+          </div>
+        </div>
+
+        <!-- Rating Stars Picker -->
+        <div style="margin-bottom:0.8rem;">
+          <label class="config-label">Your Rating</label>
+          <div class="star-rating-picker" id="starRatingPicker">
+            <span class="picker-star active" data-rating="1" onclick="setReviewRating(1)">★</span>
+            <span class="picker-star active" data-rating="2" onclick="setReviewRating(2)">★</span>
+            <span class="picker-star active" data-rating="3" onclick="setReviewRating(3)">★</span>
+            <span class="picker-star active" data-rating="4" onclick="setReviewRating(4)">★</span>
+            <span class="picker-star active" data-rating="5" onclick="setReviewRating(5)">★</span>
+            <span id="starRatingLabel" style="font-family:var(--font-mono);font-size:0.75rem;color:var(--accent-gold);margin-left:0.5rem;">5.0 / 5.0 (Masterpiece)</span>
+          </div>
+          <input type="hidden" id="reviewRatingVal" value="5">
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:0.8rem;">
+          <div>
+            <label class="config-label">Orisha Pantheon Affinity</label>
+            <select id="reviewAffinitySelect" class="config-input" style="background:#121a2c;">
+              <option value="sango">⚡ Ṣàngó (Thunder &amp; Fire)</option>
+              <option value="ogun">⚙️ Ògún (Iron &amp; Technology)</option>
+              <option value="esu">🔮 Èṣù (Crossroads &amp; Code)</option>
+              <option value="obatala">🕊️ Obatàlá (Creation &amp; Canvas)</option>
+            </select>
+          </div>
+          <div>
+            <label class="config-label">Verified Backer Badge</label>
+            <select id="reviewBadgeSelect" class="config-input" style="background:#121a2c;">
+              <option value="Verified Hardcover Collector">Verified Hardcover Collector</option>
+              <option value="Digital Master Reader">Digital Master Reader</option>
+              <option value="Supreme Box Set Backer">Supreme Box Set Backer</option>
+              <option value="Lagos Noir Backer">Lagos Noir Backer</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-bottom:1.2rem;">
+          <label class="config-label">Review / Collector Testimonial</label>
+          <textarea id="reviewTextInput" class="config-input" rows="4" placeholder="Share your experience reading Catalyst: The Awakening, the packaging quality, artwork, or script pacing..." required style="resize:vertical;"></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary-hero" style="width:100%;justify-content:center;padding:0.75rem;">
+          <span>🔖</span> <span>Save My Review Draft</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       12. STORE FOOTER
+       ═══════════════════════════════════════ -->
+  <footer class="store-footer">
+    <div class="footer-container">
+      <div class="footer-col-brand">
+        <h3 class="footer-logo">CATALYST<span>:</span>THE AWAKENING</h3>
+        <p class="footer-bio">
+          Where the blood of the Orishas meets the concrete of Lagos. Built in Mushin, engineered for the world.
+          Under the executive authority of Oluwatobiloba — The Catalyst.
+        </p>
+        <div class="footer-socials">
+          <a href="https://instagram.com/catalystcomicshq" target="_blank" rel="noopener" class="social-icon-btn" title="Instagram">IG</a>
+          <a href="https://tiktok.com/@catalystcomicshq" target="_blank" rel="noopener" class="social-icon-btn" title="TikTok">TT</a>
+          <a href="https://youtube.com/@CatalystComicsHQ" target="_blank" rel="noopener" class="social-icon-btn" title="YouTube">YT</a>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="footer-col-title">Store Catalog</h4>
+        <ul class="footer-link-list">
+          <li><a href="#catalog" class="footer-link" onclick="resetFilters()">Issue #01 Digital Master</a></li>
+          <li><a href="#catalog" class="footer-link" onclick="resetFilters()">Issue #01 Deluxe Foil Hardcover</a></li>
+          <li><a href="#catalog" class="footer-link" onclick="resetFilters()">Issue #02 Pre-Order</a></li>
+          <li><a href="#catalog" class="footer-link" onclick="resetFilters()">Supreme Collector Box Set</a></li>
+          <li><a href="#catalog" class="footer-link" onclick="resetFilters()">Ogun Heavyweight Forge Tee</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-col-title">Universe &amp; Lore</h4>
+        <ul class="footer-link-list">
+          <li><a href="./index.html#hero" class="footer-link">Lagos 2031 Universe Hub</a></li>
+          <li><a href="./index.html#characters" class="footer-link">The Orisha Pantheon</a></li>
+          <li><a href="./index.html#villains" class="footer-link">The Pale Council</a></li>
+          <li><a href="./read/issue-1-comic.html" class="footer-link">Illustrated Web Reader</a></li>
+          <li><a href="./script-studio/index.html" class="footer-link">Script Studio &amp; Production</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-col-title">Your Reader Account</h4>
+        <ul class="footer-link-list">
+          <li><span class="footer-link">🔒 Personal account data stays private</span></li>
+          <li><span class="footer-link">🔖 Save your cart with Reader Passport</span></li>
+          <li><span class="footer-link">💳 Checkout is coming soon</span></li>
+          <li><a href="mailto:catalystcomicstudio@gmail.com" class="footer-link">Contact the studio</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom-row">
+      <span>© 2026 Catalyst Comics Studio &amp; Catalyst OS. All rights reserved.</span>
+      <span>Executive Direction: Oluwatobiloba (@catalystggg)</span>
+      <span>Built in Lagos, Nigeria.</span>
+    </div>
+  </footer>
+
+  <!-- Three.js 3D WebGL Library (Pinned Version with Offline Graceful Fallback) -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+  <!-- Store Controller Script -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/dist/umd/supabase.js" defer></script>
+  <script src="reader-account.js" defer></script>
+  <script src="store.js" defer></script>
+</body>
+</html>

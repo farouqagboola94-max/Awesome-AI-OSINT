@@ -3,7 +3,7 @@
   'use strict';
   const URL = 'https://oxnpmgbwwsjfseirfxej.supabase.co';
   const KEY = 'sb_publishable_Ac7QJhrz4teLLONsAoU1_Q_MT6o9Yk4';
-  const MANAGED = /^catalyst_(?:(?:page_i|pages_i|read_|comic_page_i|bookmarks_i|notes_i)\d{1,4}|field_notes_v1|reader_scale|reader_focus|reader_theme|reader_fontsize|reader_layout|comic_theme|last_scene_idx|last_scene_title|choice_endings_v1)$/;
+  const MANAGED = /^catalyst_(?:(?:page_i|pages_i|read_|comic_page_i|bookmarks_i|notes_i)\d{1,4}|field_notes_v1|reader_scale|reader_focus|reader_theme|reader_fontsize|reader_layout|comic_theme|last_scene_idx|last_scene_title|choice_endings_v1|cart|currency|user_reviews)$/;
   const raw = window.localStorage;
   let client = null, user = null, profile = null, generation = 0;
   let restoring = false, timer = null, pending = {}, syncStatus = 'guest';
@@ -184,6 +184,15 @@
       await requireUser();
       const { error } = await client.auth.updateUser({ password });
       if (error) throw new Error(error.message);
+    },
+    async getOrders(reference) {
+      const owner = await requireUser();
+      let query = client.from('reader_orders').select('reference,status,currency,amount_minor,items,created_at').eq('user_id', owner.id);
+      if (reference) query = query.eq('reference', String(reference).trim().slice(0, 80));
+      const { data, error } = await query.order('created_at', { ascending: false }).limit(20);
+      if (error) throw new Error('Your orders could not be loaded. Please try again.');
+      if (user?.id !== owner.id) return [];
+      return data || [];
     },
     async importDeviceHistory() {
       await requireUser();

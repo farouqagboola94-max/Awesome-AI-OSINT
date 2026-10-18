@@ -337,10 +337,21 @@
       </button>
     </div>
 
+    <div style="margin-top:0.9rem;display:grid;grid-template-columns:repeat(4,1fr);gap:0.4rem;">
+      <a href="/read/issue-1" class="profile-btn-export" style="text-align:center;text-decoration:none;font-size:0.7rem;padding:0.45rem 0.25rem;">📖 #01</a>
+      <a href="/read/issue-2" class="profile-btn-export" style="text-align:center;text-decoration:none;font-size:0.7rem;padding:0.45rem 0.25rem;">📖 #02</a>
+      <a href="/read/issue-3" class="profile-btn-export" style="text-align:center;text-decoration:none;font-size:0.7rem;padding:0.45rem 0.25rem;">📖 #03</a>
+      <a href="/read/issue-4" class="profile-btn-export" style="text-align:center;text-decoration:none;font-size:0.7rem;padding:0.45rem 0.25rem;">📖 #04</a>
+    </div>
+
     <div class="profile-hud-actions">
       <button type="button" class="profile-btn-primary" onclick="closeUserProfileModal(); document.getElementById('artwork-gallery').scrollIntoView({behavior:'smooth'});">Inspect 50 Artworks Unveiled →</button>
+      <a href="/store.html" class="profile-btn-upgrade" style="display:block;text-align:center;text-decoration:none;">⚡ Open 3D Relic &amp; Graphic Novel Store →</a>
+      <a href="/script-studio/" class="profile-btn-export" style="display:block;text-align:center;text-decoration:none;">🎬 Interactive Script Studio →</a>
+      <a href="https://catalyst-world.netlify.app/" target="_blank" rel="noopener noreferrer" class="profile-btn-export" style="display:block;text-align:center;text-decoration:none;border-color:rgba(0,201,177,0.45);color:#00C9B1;">🌐 Official Master Portal (Catalyst World) ↗</a>
       <button type="button" class="profile-btn-export" onclick="exportReaderIdCard()">🪪 Copy Digital Reader Pass</button>
       <button type="button" class="profile-btn-upgrade" onclick="closeUserProfileModal(); openPaymentModal();">Upgrade to Ìmọ̀lẹ̀ Circle VIP</button>
+      <button type="button" class="profile-btn-export" onclick="closeUserProfileModal(); openAuthModal('signup');">🔑 Switch / Link Operative Account</button>
       <button type="button" class="profile-btn-signout" onclick="handleSignOut()">Sign Out</button>
       <button type="button" class="profile-btn-export" onclick="importReaderHistory()">Import this device’s reading history</button>
       <button type="button" class="profile-btn-export" onclick="exportReaderData()">Download my saved data</button>
@@ -968,12 +979,14 @@
         <li><a href="/read/issue-3">Issue #3 — Iron in the Blood</a></li>
         <li><a href="/read/issue-4">Issue #4 — The Price of Aṣẹ</a></li>
         <li><a href="/script-studio/">Script Studio</a></li>
+        <li><a href="/store.html">3D Relic Store</a></li>
         <li><a href="/#newsletter">Coming Next</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h3>Connect</h3>
       <ul>
+        <li><a href="https://catalyst-world.netlify.app/" target="_blank" rel="noopener">Official Master Portal ↗</a></li>
         <li><a href="/#newsletter">Newsletter</a></li>
         <li><a href="https://instagram.com/catalystcomicshq" target="_blank" rel="noopener">Instagram</a></li>
         <li><a href="https://tiktok.com/@catalystcomicshq" target="_blank" rel="noopener">TikTok</a></li>

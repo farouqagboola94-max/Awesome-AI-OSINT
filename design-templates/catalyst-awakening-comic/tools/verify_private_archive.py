@@ -7,7 +7,7 @@ site = Path(__file__).resolve().parents[1]
 archive = site / 'private' / 'issue01'
 manifest = archive / 'manifest.json'
 if not manifest.is_file() or not (archive / 'cover.webp').is_file():
-    raise SystemExit('Release blocked: restore the existing private/issue01 archive, including cover.webp and manifest.json. Keep team SSO enabled.')
+    raise SystemExit('Release blocked: restore the existing private/issue01 artwork, including cover.webp and manifest.json, before deploying.')
 pages = json.loads(manifest.read_text())['pages']
 if len(pages) != 88 or [p['page'] for p in pages] != list(range(1, 89)):
     raise SystemExit('Release blocked: the private comic must contain its existing 88-page sequence.')

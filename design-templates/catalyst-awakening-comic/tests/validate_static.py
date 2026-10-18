@@ -7,6 +7,10 @@ page that no longer exists, or an issue page pointing at a cover that was
 renamed. Run from anywhere:
 
     python3 tests/validate_static.py
+
+Add --with-archive for a complete deployment package. Source-only CI excludes
+the separately supplied artwork, which tools/verify_private_archive.py checks
+before Netlify builds can publish.
 """
 
 import collections
@@ -130,6 +134,8 @@ def main():
         missing = []
         for m in re.finditer(r'(?:src|href)="(?!https?:|mailto:|data:|#)([^"?#]+)', html):
             target = m.group(1)
+            if target.startswith('/private/issue01/') and '--with-archive' not in sys.argv:
+                continue
             base = SITE if target.startswith('/') else os.path.dirname(os.path.join(SITE, page))
             path = os.path.normpath(os.path.join(base, target.lstrip('/')))
             if os.path.exists(path) or os.path.exists(path + '.html'):

@@ -6,13 +6,14 @@ Audience identity uses verified Supabase Auth users in project `oxnpmgbwwsjfseir
 
 - Email/password sign-in, signup with confirmation, password recovery and Google PKCE callback handling.
 - Reader Passport with saved callsign, affinity, actual reading progress and notes count.
-- Account-owned progress, field notes, bookmarks, comic notes, reading display preferences and story choices. The 88-page comic uses separate progress and theme keys from the prose reader.
+- Account-owned progress, field notes, bookmarks, comic notes, reading display preferences, story choices, carts, currency and review drafts. The 88-page comic uses separate progress and theme keys from the prose reader.
+- Owner-only order reads. Only a trusted backend can create orders or set payment status. Closing a payment window cannot grant membership or confirm an order.
 - Explicit import of existing device history, per-account offline queues and JSON data export. Guest history is never silently assigned to a new account.
 - Passwords are sent only to Supabase Auth. Auth forms aren't Netlify lead forms. Recovery URLs aren't cached by the service worker.
 
 ## Database setup
 
-`reader_accounts.sql` is the complete schema for a fresh project. The live Catalyst project has already applied the initial account migration and `reader_comic_state_upgrade.sql`. Don't reapply the fresh schema to that project.
+For a fresh project, apply `reader_accounts.sql` followed by `reader_store_state.sql`. The live Catalyst project has already applied the initial account migration, `reader_comic_state_upgrade.sql` and `catalystverse_store_accounts`. Don't reapply these migrations to that project.
 
 `test_reader_rls.sql` runs owner, cross-user, anonymous and ownership-reassignment checks in a transaction, then rolls back its disposable test users and records. It passed against the restored Catalyst database. It must be run with an administrator connection, never exposed as an audience endpoint.
 
@@ -29,11 +30,11 @@ The frontend checks public provider availability before redirecting, so a disabl
 
 ## Release and access controls
 
-Netlify project `63501cea-b8a2-4cd5-b9af-05cc42acaeb4` has team SSO enabled for production, branch deploys and previews. Keep it enabled. A Supabase reader account does not grant Netlify team membership or bypass that gate.
+On 18 October 2026 the owner explicitly requested public visitor access, superseding the earlier site-wide team SSO requirement. Netlify project `63501cea-b8a2-4cd5-b9af-05cc42acaeb4` now has visitor SSO and password gates disabled. Keep the audience site public. Supabase row-level security still protects personal profiles, notes, saved items and order records.
 
-Public audience onboarding cannot work across a site that requires Netlify team membership for every visitor. A separate public audience portal is the recommended next release, with team SSO retained for private comic proofs and team tools. Creating that portal or changing the gate requires a separate access decision.
+The matching 88-page lettered artwork was recovered from `Catalyst_Awakening_Issue01_Private_Reader_v6_Compact_Lettering.zip`. Include its existing `/private/issue01/` directory in the complete deployment package. That historical path is not an access-control boundary. The artwork remains excluded from the public Git repository; don't substitute another story's archive. The build guard prevents an incomplete Git deployment from removing the illustrated reader.
 
-The Git source is missing the deployed `/private/issue01/` artwork package. Don't replace it with another story's archive. The Netlify build guard stops incomplete Git builds until the existing manifest, cover and all 88 page images are restored to the release package. The current live deployment is preserved while this change is reviewed.
+The storefront is a preview until a real merchant integration and server-verified payment webhook are configured. It does not collect payment, create client-side orders, grant paid membership or invent dispatch records. Review drafts are private saved state, not public verified testimonials. Do not present the catalog's proposed products as fulfilled orders.
 
 ## Feature recommendations
 
@@ -49,4 +50,4 @@ The Git source is missing the deployed `/private/issue01/` artwork package. Don'
 
 ## Local checks
 
-Run `npm run test:accounts`, `npm test`, `npm run check:pages`, `npm run check:css` and `npm run check:static`. The existing missing private cover must be restored before the full static/release checks can pass. Generated issue pages and issue.css must be rebuilt from their source after changes.
+Run `npm run test:accounts`, `npm test`, `npm run check:pages`, `npm run check:css` and `npm run check:static` for source checks. For a complete deployment, also run `python3 design-templates/catalyst-awakening-comic/tests/validate_static.py --with-archive` and `python3 design-templates/catalyst-awakening-comic/tools/verify_private_archive.py`; CI does not contain the separately supplied artwork. Run `database/test_reader_store_rls.sql` against a test or administrator database connection; its records are rolled back. Generated issue pages and issue.css must be rebuilt from their source after changes.

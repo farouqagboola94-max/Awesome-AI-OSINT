@@ -94,11 +94,18 @@ test('reader data stays with its verified owner and device import is explicit', 
   await account.importDeviceHistory(); assert.equal(store.getItem('catalyst_page_i1'), '9');
   store.setItem('catalyst_field_notes_v1', '[{"quote":"private A note"}]'); await account.flush();
   store.setItem('catalyst_notes_i1', '{"12":"private comic note"}'); await account.flush();
+  store.setItem('catalyst_cart', '[{"productId":"reader-a-favorite"}]');
+  store.setItem('catalyst_currency', 'NGN');
+  store.setItem('catalyst_user_reviews', '[{"text":"private review draft"}]'); await account.flush();
+  assert.equal(db.reader_state.get('user-a:catalyst_currency').value, 'NGN');
   assert.equal(db.reader_state.get('user-a:catalyst_page_i1').value, '9');
   await account.signIn('b@example.invalid', 'correct-password');
   assert.equal(store.getItem('catalyst_field_notes_v1'), null);
   assert.equal(store.getItem('catalyst_notes_i1'), null);
   assert.equal(store.getItem('catalyst_page_i1'), null);
+  assert.equal(store.getItem('catalyst_cart'), null);
+  assert.equal(store.getItem('catalyst_currency'), null);
+  assert.equal(store.getItem('catalyst_user_reviews'), null);
   store.setItem('catalyst_page_i1', '2'); await account.flush();
   assert.equal(db.reader_state.get('user-b:catalyst_page_i1').value, '2');
   await account.signOut(); assert.equal(account.user, null);

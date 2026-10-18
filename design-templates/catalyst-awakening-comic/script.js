@@ -487,6 +487,10 @@
     window.addEventListener('catalyst:sync', syncProfileStatus);
     window.addEventListener('catalyst:reader-state', initAuth);
     account.ready.then(initAuth);
+    account.ready.then(function() {
+      const params = new URLSearchParams(location.search);
+      if (params.get('account') === 'profile') openUserProfileModal();
+    });
   }
   initAuth();
 
@@ -510,7 +514,10 @@
     catch (err) { showToast(err.message, 'error'); }
   }
   function openAuthModal(tab) {
-    try { sessionStorage.setItem('catalystverse:auth-return', location.pathname + location.search + location.hash); } catch (_) {}
+    try {
+      const requested = new URLSearchParams(location.search).get('return');
+      sessionStorage.setItem('catalystverse:auth-return', requested && account ? account.safeReturn(requested) : location.pathname + location.search + location.hash);
+    } catch (_) {}
     const backdrop = document.getElementById('authBackdrop');
     if (!backdrop) return;
     backdrop.classList.add('open'); backdrop.setAttribute('aria-hidden', 'false');
@@ -552,6 +559,8 @@
       if (!account) throw new Error('Sign-in is unavailable. Please reload.');
       await account.signIn(form.elements.email.value.trim(), form.elements.password.value);
       closeAuthModal(); showToast('Welcome back. Your saved reading is ready.', 'success');
+      const requested = new URLSearchParams(location.search).get('return');
+      if (requested) location.assign(account.safeReturn(requested));
     } catch (err) { showToast(err.message, 'error'); }
     finally { form.elements.password.value = ''; btn.disabled = false; btn.textContent = 'Enter the Universe →'; }
   }
@@ -9433,28 +9442,8 @@ var TC_ENDINGS = {
   };
 
   window.processStoreCheckout = function(e) {
-    const name = document.getElementById('checkoutName')?.value || 'Operative';
-    const email = document.getElementById('checkoutEmail')?.value || 'reader@catalystverse.com';
-    const method = document.querySelector('input[name="payMethod"]:checked')?.value || 'paystack';
-    const submitBtn = document.getElementById('checkoutSubmitBtn');
-
-    if (submitBtn) {
-      submitBtn.textContent = 'CONNECTING TO ENCRYPTED GATEWAY...';
-      submitBtn.disabled = true;
-    }
-
-    setTimeout(() => {
-      window.closeCheckoutModal();
-      if (submitBtn) {
-        submitBtn.textContent = 'PROCEED TO SECURE PAYMENT →';
-        submitBtn.disabled = false;
-      }
-
-      // Generate instantaneous VIP Receipt Pass
-      const orderRef = 'CAT-2031-' + Math.floor(100000 + Math.random() * 900000);
-      alert('⚡ DISPATCH AUTHORIZED!\n\nOrder Reference: ' + orderRef + '\nItem: ' + activeCheckoutItem.title + '\nTotal: ' + activeCheckoutItem.priceStr + '\nRecipient: ' + name + ' (' + email + ')\n\nYour archival confirmation and tracking pass have been encrypted and transmitted. Welcome to the Ọ̀run Vanguard!');
-      if (typeof window.playHudSound === 'function') window.playHudSound('success');
-    }, 1200);
+    if (e && e.preventDefault) e.preventDefault();
+    showToast('Checkout is coming soon. No payment or order has been confirmed. Your reader account remains available.', 'info', 7000);
   };
 
   /* ── 4. PWA NATIVE APP INSTALL ENGINE ── */

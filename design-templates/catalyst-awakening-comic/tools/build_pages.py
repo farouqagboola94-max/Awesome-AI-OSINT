@@ -175,6 +175,7 @@ def to_subdir(fragment):
     fragment = fragment.replace('"styles.css"', '"../issue.css"')
     fragment = fragment.replace('"script.js"', '"../script.js"')
     fragment = fragment.replace('"reader-account.js"', '"../reader-account.js"')
+    fragment = fragment.replace('href="./store.html"', 'href="/store.html"')
     return fragment
 
 
