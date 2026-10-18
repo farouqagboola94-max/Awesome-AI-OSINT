@@ -1,6 +1,6 @@
 [build]
   publish = "design-templates/catalyst-awakening-comic"
-  command = ""
+  command = "python3 design-templates/catalyst-awakening-comic/tools/verify_private_archive.py"
 
 [build.environment]
   NODE_VERSION = "20"
@@ -135,6 +135,22 @@
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
     X-XSS-Protection = "1; mode=block"
     Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://js.paystack.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://paystack.com https://*.paystack.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://*.cloudfront.net; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.paystack.co https://*.paystack.co https://*.myshopify.com; frame-src https://checkout.paystack.com https://*.paystack.co https://*.paystack.com; frame-ancestors 'none';"
+
+# Account responses and recovery links must never be cached.
+[[headers]]
+  for = "/auth/*"
+  [headers.values]
+    Cache-Control = "private, no-store, max-age=0"
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self'; connect-src 'self' https://oxnpmgbwwsjfseirfxej.supabase.co; frame-ancestors 'none'; form-action 'self'; base-uri 'self';"
+
+[[headers]]
+  for = "/reset-password*"
+  [headers.values]
+    Cache-Control = "private, no-store, max-age=0"
+    Referrer-Policy = "no-referrer"
 
 # SPA fallback — keeps hash routing + deep links working
 [[redirects]]

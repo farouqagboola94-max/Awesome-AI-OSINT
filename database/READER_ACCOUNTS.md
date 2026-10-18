@@ -1,0 +1,53 @@
+# Catalystverse reader accounts
+
+Audience identity uses verified Supabase Auth users in project `oxnpmgbwwsjfseirfxej`. Reader records use `auth.uid()` ownership policies. Neither local profiles nor editable user metadata can grant access or paid membership.
+
+## Available in this change
+
+- Email/password sign-in, signup with confirmation, password recovery and Google PKCE callback handling.
+- Reader Passport with saved callsign, affinity, actual reading progress and notes count.
+- Account-owned progress, field notes, bookmarks, comic notes, reading display preferences, story choices, carts, currency and review drafts. The 88-page comic uses separate progress and theme keys from the prose reader.
+- Owner-only order reads. Only a trusted backend can create orders or set payment status. Closing a payment window cannot grant membership or confirm an order.
+- Explicit import of existing device history, per-account offline queues and JSON data export. Guest history is never silently assigned to a new account.
+- Passwords are sent only to Supabase Auth. Auth forms aren't Netlify lead forms. Recovery URLs aren't cached by the service worker.
+
+## Database setup
+
+For a fresh project, apply `reader_accounts.sql` followed by `reader_store_state.sql`. The live Catalyst project has already applied the initial account migration, `reader_comic_state_upgrade.sql` and `catalystverse_store_accounts`. Don't reapply these migrations to that project.
+
+`test_reader_rls.sql` runs owner, cross-user, anonymous and ownership-reassignment checks in a transaction, then rolls back its disposable test users and records. It passed against the restored Catalyst database. It must be run with an administrator connection, never exposed as an audience endpoint.
+
+## Provider configuration still required
+
+The public Auth settings confirmed email is enabled, signup requires email confirmation, and Google is disabled. The Supabase dashboard currently requires an administrator sign-in before URL/provider settings can be changed.
+
+1. Set Site URL to `https://catalyst-awakening.netlify.app`.
+2. Allow the exact redirect URLs `https://catalyst-awakening.netlify.app/auth/callback.html` and `https://catalyst-awakening.netlify.app/auth/reset-password.html`. Add future custom-domain URLs explicitly. Avoid broad wildcard redirects.
+3. Configure the existing Google OAuth application's client ID and secret directly in Supabase's Google provider settings. Google must authorize Supabase's callback `https://oxnpmgbwwsjfseirfxej.supabase.co/auth/v1/callback`. Never commit the secret or put it in frontend code.
+4. Verify production SMTP sender/domain and email delivery. Run a real confirmation, sign-in, reset and Google round trip using a consenting test account after configuration. Mock browser tests don't prove provider or email delivery readiness.
+
+The frontend checks public provider availability before redirecting, so a disabled Google provider gives an email fallback instead of fabricating a user or opening an error page.
+
+## Release and access controls
+
+On 18 October 2026 the owner explicitly requested public visitor access, superseding the earlier site-wide team SSO requirement. Netlify project `63501cea-b8a2-4cd5-b9af-05cc42acaeb4` now has visitor SSO and password gates disabled. Keep the audience site public. Supabase row-level security still protects personal profiles, notes, saved items and order records.
+
+The matching 88-page lettered artwork was recovered from `Catalyst_Awakening_Issue01_Private_Reader_v6_Compact_Lettering.zip`. Include its existing `/private/issue01/` directory in the complete deployment package. That historical path is not an access-control boundary. The artwork remains excluded from the public Git repository; don't substitute another story's archive. The build guard prevents an incomplete Git deployment from removing the illustrated reader.
+
+The storefront is a preview until a real merchant integration and server-verified payment webhook are configured. It does not collect payment, create client-side orders, grant paid membership or invent dispatch records. Review drafts are private saved state, not public verified testimonials. Do not present the catalog's proposed products as fulfilled orders.
+
+## Feature recommendations
+
+| Add | Reader benefit |
+| --- | --- |
+| Reader Passport | A personal, synced identity with a clear continue-reading entry and private saved notes. Implemented here. |
+| Spoiler-aware Codex | Reveal character dossiers, maps and lore as readers finish the relevant chapters. Keep a reader-controlled spoiler switch. Proposed next. |
+
+| Remove from the audience journey | Reason |
+| --- | --- |
+| Developer Skills Vault | Move developer downloads and OS setup instructions into team resources to keep the comic journey focused. |
+| Preset XP, VIP credentials and duplicate badges | Show earned milestones based on real activity. This change removes fabricated rewards and access claims from the account profile. |
+
+## Local checks
+
+Run `npm run test:accounts`, `npm test`, `npm run check:pages`, `npm run check:css` and `npm run check:static` for source checks. For a complete deployment, also run `python3 design-templates/catalyst-awakening-comic/tests/validate_static.py --with-archive` and `python3 design-templates/catalyst-awakening-comic/tools/verify_private_archive.py`; CI does not contain the separately supplied artwork. Run `database/test_reader_store_rls.sql` against a test or administrator database connection; its records are rolled back. Generated issue pages and issue.css must be rebuilt from their source after changes.

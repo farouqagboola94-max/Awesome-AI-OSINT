@@ -3,6 +3,7 @@
   "private": true,
   "description": "Dev-only: browser checks for the Catalyst: The Awakening site. The site itself has no build step and ships no JavaScript dependencies.",
   "scripts": {
+    "test:accounts": "node --test design-templates/catalyst-awakening-comic/tests/account-state.test.js",
     "test": "node design-templates/catalyst-awakening-comic/tests/run.js",
     "build:pages": "python3 design-templates/catalyst-awakening-comic/tools/build_pages.py",
     "check:pages": "python3 design-templates/catalyst-awakening-comic/tools/build_pages.py --check",

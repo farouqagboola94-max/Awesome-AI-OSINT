@@ -434,6 +434,24 @@
   font-weight: 400;
 }
   .nav-logo span { color: var(--blood-red); }
+  .nav-logo, .nav-controls { flex-shrink: 0; }
+  .nav-controls { display: flex; align-items: center; gap: 0.65rem; }
+  .nav-profile-btn {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: rgba(244,184,0,0.12); border: 1px solid rgba(244,184,0,0.35);
+    color: var(--bone-white); padding: 0.45rem 0.75rem; border-radius: 4px;
+    font: 0.75rem 'Space Mono', monospace; cursor: pointer; white-space: nowrap;
+  }
+  .nav-auth-btn { max-width: 9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  @media (max-width: 700px) {
+    nav:not([class]) { gap: 0.4rem; padding: 1rem 0.8rem; }
+    nav:not([class]) .nav-logo { font-size: 1.3rem; letter-spacing: 0.08em; }
+    .nav-controls { gap: 0.4rem; }
+    .nav-controls .nav-lang-picker, .nav-controls .nav-audio-btn { display: none; }
+    .nav-profile-label { display: none; }
+    .nav-profile-btn { padding: 0.45rem; }
+    .nav-controls .nav-auth-btn { max-width: 5.5rem; padding: 0.5rem; }
+  }
   /* The link row has to survive from the hamburger breakpoint up to
      wide desktop without pushing the right-hand controls off-screen,
      so both the gap and the tracking scale with the viewport. */
@@ -2130,7 +2148,7 @@
 
   /* Mobile */
   @media (max-width: 900px) {
-    nav:not([class]) { padding: 1rem 1.5rem; }
+    nav:not([class]) { padding: 1rem clamp(0.8rem, 2vw, 1.5rem); }
     .nav-links { display: none; }
     .hamburger { display: flex; }
     #universe, #locations, #characters, #comics, #lore, #community, #newsletter { padding: 5rem 1.5rem; }
@@ -13305,18 +13323,19 @@ body.reader-layout-webtoon #read .story-chapter {
 
 .cpg-stage {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 2rem;
   align-items: start;
 }
 
 @media (max-width: 950px) {
   .cpg-stage {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
 .cpg-canvas-panel {
+  min-width: 0;
   background: rgba(6, 6, 13, 0.9);
   border: 1px solid rgba(0, 201, 177, 0.3);
   border-radius: 8px;
@@ -13332,6 +13351,9 @@ body.reader-layout-webtoon #read .story-chapter {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  overflow-wrap: anywhere;
   margin-bottom: 1rem;
   border-bottom: 1px solid rgba(240, 237, 229, 0.1);
   padding-bottom: 0.6rem;
@@ -13395,6 +13417,7 @@ body.reader-layout-webtoon #read .story-chapter {
 }
 
 .cpg-telemetry-panel {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;

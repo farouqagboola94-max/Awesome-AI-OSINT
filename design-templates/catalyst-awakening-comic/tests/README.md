@@ -37,6 +37,9 @@ CI runs all four steps on any change under the site directory
 | `css-subset.test.js` | That `issue.css` — styles.css minus rules that cannot match on an issue page — renders those pages *identically*: every computed property and box on every element, under both stylesheets |
 | `home.test.js` | index.html is unharmed by changes made for the issue pages: nav geometry, mobile nav, the tabbed reader, search, deep links cold and warm, no horizontal overflow |
 | `a11y.test.js` | Invariants on all five pages: no invisible dialog is keyboard-reachable, one `h1` and it comes first, no placeholder headings, every visible control has a name, every dialog has an accessible name |
+| `auth.test.js` | Failed login, confirmation-aware signup, provider failure, verified password recovery, callback cleanup and forged local identities |
+| `store-account.test.js` | Rejected fake VIP access and cart prices, escaped review drafts, closed checkout without fabricated orders, owner-order display and unavailable delivery details |
+| `account-state.test.js` | Account isolation including cart, currency and review drafts; explicit guest import, offline queues and profile validation |
 
 ## The bugs these exist to prevent
 

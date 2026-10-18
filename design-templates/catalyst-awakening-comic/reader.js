@@ -20,7 +20,7 @@
   });
   art.addEventListener('error', () => {
     viewport.setAttribute('aria-busy', 'false');
-    status.textContent = 'Artwork could not load. The complete dialogue is still available below. Retry, or check your private-site access.';
+    status.textContent = 'Artwork could not load. The complete dialogue is still available below. Retry, or check your connection.';
     el('retry-art').hidden = false;
   });
   function show(n, scroll = true) {

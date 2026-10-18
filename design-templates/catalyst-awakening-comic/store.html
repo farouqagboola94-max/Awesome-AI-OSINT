@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
   <title>Comic Store — Catalyst: The Awakening | Official Graphic Novels & Merch</title>
   <meta name="description" content="Shop official graphic novels, digital editions, deluxe foil hardcovers, collector box sets, and cyber-afrofuturist apparel from Catalyst: The Awakening.">
   <meta name="keywords" content="Catalyst The Awakening store, buy African comics, Lagos noir graphic novel, Yoruba mythology comic, Bayo Adeyemi, comic merch, African superhero merchandise, Shopify comic store">
@@ -33,7 +33,7 @@
   <aside class="store-ticker" aria-label="Store Announcement">
     <div class="store-ticker-left">
       <span class="store-ticker-badge">COMMERCE INTEL</span>
-      <span>⚡ LIMITED COLLECTOR RUN: FIRST 250 PHYSICAL HARDCOVERS INCLUDE NUMBERED FOIL BOOKPLATE</span>
+      <span id="storeSyncStatus" role="status" aria-live="polite">Store preview. Checkout is coming soon.</span>
     </div>
     <div class="store-ticker-right">
       <a href="./index.html" class="store-ticker-link">← Return to Main Universe</a>
@@ -44,11 +44,11 @@
 
   <!-- Vault Velocity Scarcity Ribbon -->
   <div class="vault-velocity-ribbon" role="region" aria-label="Vault Status">
-    <span>⚡ <strong>VAULT ALLOCATION:</strong> 218 / 250 SUPREME BOX SETS CLAIMED</span>
+    <span>⚡ <strong>COLLECTOR CATALOG:</strong> EXPLORE UPCOMING EDITIONS</span>
     <span>◈</span>
-    <span>📦 <strong>BATCH 1 DISPATCH:</strong> 88.4% PACKED FOR WORLDWIDE COURIER</span>
+    <span>📦 <strong>CHECKOUT:</strong> COMING SOON</span>
     <span>◈</span>
-    <span>🔒 <strong>CRYPTOGRAPHIC PROOF:</strong> NUMBERED ARCHIVAL BOOKPLATES INCLUDED</span>
+    <span>🔖 <strong>READER PASSPORT:</strong> SAVE YOUR FAVORITES</span>
   </div>
 
   <!-- ═══════════════════════════════════════
@@ -75,6 +75,7 @@
       </nav>
 
       <div class="store-nav-actions">
+        <a id="storeAccountLink" class="btn-shopify-hud" href="/?account=profile&amp;return=/store.html">Reader Passport</a>
         <!-- Ambience Synthesizer & Soundscape Selector -->
         <button type="button" class="btn-audio-toggle" id="storeAudioBtn" onclick="toggleStoreAmbientSound()" title="Lagos Noir Synth Ambience">
           <span class="audio-bars-mini" id="navAudioBars"><span class="audio-bar"></span><span class="audio-bar"></span><span class="audio-bar"></span></span>
@@ -85,8 +86,8 @@
         </button>
 
         <!-- Live Lagos Dispatch & Order Tracker -->
-        <button type="button" class="btn-shopify-hud" onclick="openOrderTrackerModal()" title="Track Lagos Dispatch & Logistics Telemetry" style="border-color:var(--accent-cyan);color:var(--accent-cyan);background:rgba(0,240,255,0.08);">
-          <span>📍</span> <span>Track Dispatch</span>
+        <button type="button" class="btn-shopify-hud" onclick="openOrderTrackerModal()" title="View your orders" style="border-color:var(--accent-cyan);color:var(--accent-cyan);background:rgba(0,240,255,0.08);">
+          <span>📍</span> <span>My Orders</span>
         </button>
 
         <!-- Command Hub (Ctrl+K) -->
@@ -103,7 +104,7 @@
         </select>
 
         <!-- Shopify HUD Trigger -->
-        <button type="button" class="btn-shopify-hud" onclick="openShopifyConfigModal()" title="Catalyst Forge Shopify Settings" style="border-color:#25D366;color:#25D366;background:rgba(37,211,102,0.1);">
+        <button type="button" hidden class="btn-shopify-hud" onclick="openShopifyConfigModal()" title="Catalyst Forge Shopify Settings" style="display:none;">
           <span>🟢</span> <span>Catalyst Forge Live</span>
         </button>
 
@@ -128,8 +129,8 @@
           THE ARCHITECTURE OF <span class="highlight">LAGOS NOIR</span>. OWN THE SAGA.
         </h1>
         <p class="hero-desc">
-          From the nocturnal alleys of Mushin to the shimmering cybernetic towers of Eko Atlantic. 
-          Experience <strong>88 lettered master pages</strong> of Yoruba mythology, raw Aṣẹ, and cybernetic revolution. 
+          From the nocturnal alleys of Mushin to the shimmering cybernetic towers of Eko Atlantic.
+          Experience <strong>88 lettered master pages</strong> of Yoruba mythology, raw Aṣẹ, and cybernetic revolution.
           Available now in DRM-Free Digital Master Edition and Deluxe Foil-Stamped Hardcover.
         </p>
 
@@ -177,7 +178,7 @@
           <!-- 3D Canvas Viewport -->
           <div class="holo-canvas-wrap" id="holoCanvasWrap" title="Click and drag to rotate in 360°">
             <canvas id="relic3dCanvas" role="img" aria-label="Interactive 3D Hardcover Comic Relic. Drag to rotate in 360 degrees."></canvas>
-            
+
             <!-- Spatial Fallback (Active if WebGL is initializing or disabled) -->
             <div class="hero-book-wrap" id="heroBookFallback" onclick="openPreviewModal(0)" style="cursor:pointer;" title="Click to Peek Inside">
               <span class="hero-book-badge" id="fallbackBadge">MASTER ISSUE #01</span>
@@ -349,7 +350,7 @@
       </div>
 
       <!-- Catalyst Forge Merchant Export & Sync Hub -->
-      <div class="vault-dossier-banner" style="border-color: rgba(37, 211, 102, 0.35);">
+      <div class="vault-dossier-banner" hidden style="display:none;">
         <span class="hero-tag" style="color: #25D366; border-color: #25D366; background: rgba(37,211,102,0.1);">🟢 CATALYST FORGE // MERCHANT ADMIN</span>
         <h3 style="font-family: var(--font-display); font-size: 2rem; margin: 0.4rem 0; color: #fff;">
           12-PRODUCT SHOPIFY MASTER FEED
@@ -399,9 +400,9 @@
             <div class="vault-keycard" id="vaultKeycardInteractive" title="Aṣẹ Guild Sovereign Access Card">
               <div class="keycard-chip"></div>
               <div class="keycard-logo">AṢẸ GUILD</div>
-              <div class="keycard-tier">TIER 04 // ARCHITECT</div>
-              <div class="keycard-holder" id="keycardHolderDisplay">AUTHENTICATED PATRON</div>
-              <div class="keycard-serial" id="keycardSerialDisplay">KEY-2031-7789</div>
+              <div class="keycard-tier">READER MEMBERSHIP</div>
+              <div class="keycard-holder" id="keycardHolderDisplay">SIGN IN TO CHECK</div>
+              <div class="keycard-serial" id="keycardSerialDisplay">CATALYSTVERSE</div>
             </div>
             <p style="font-size:0.75rem;font-family:var(--font-mono);color:var(--text-muted);text-align:center;margin-top:0.6rem;">
               Hover or touch card for holographic security shimmer
@@ -410,16 +411,14 @@
 
           <div class="vault-auth-form">
             <h4 style="font-family:var(--font-display);font-size:1.5rem;color:var(--accent-gold);margin-bottom:0.5rem;">
-              ENTER SOVEREIGN PASSKEY
+              YOUR READER MEMBERSHIP
             </h4>
             <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.6;margin-bottom:1.2rem;">
-              Holders of the <em>Supreme Collector Box Set</em>, <em>Deluxe Hardcover</em>, or direct patrons of Oluwatobiloba enter your passkey below.
-              <br><small style="color:var(--accent-cyan);">(Demo Passkeys: <strong>CATALYST2031</strong> or <strong>ASE2031</strong>)</small>
+              Sign in to your Reader Passport to check your membership. Access follows your verified account.
             </p>
             <form onsubmit="handleVaultPasskeySubmit(event)" style="display:flex;flex-direction:column;gap:0.8rem;">
-              <input type="text" id="vaultPasskeyInput" class="config-input" placeholder="Enter Sovereign Passkey (e.g. CATALYST2031)" style="font-size:1rem;padding:0.75rem;text-transform:uppercase;letter-spacing:0.1em;" required>
               <button type="submit" class="btn-primary-hero" style="justify-content:center;padding:0.8rem;font-size:0.95rem;">
-                <span>⚡</span> <span>Unlock Sovereign Vault Relics</span>
+                <span>⚡</span> <span>Check My Membership</span>
               </button>
             </form>
           </div>
@@ -493,7 +492,7 @@
           ⚡ How do I receive my digital comic after checkout?
         </summary>
         <p style="color: var(--text-secondary); font-size: 0.88rem; margin-top: 0.8rem; line-height: 1.6;">
-          Immediately after your checkout completes, you will receive an automated confirmation email with a secure, instant download link for the DRM-Free 1024x1536 Master PDF, as well as an activation code for the private Catalyst Web Reader HUD.
+          The illustrated web reader is available to browse. Digital purchases and automated delivery are coming soon; a saved cart does not confirm a purchase.
         </p>
       </details>
 
@@ -502,7 +501,7 @@
           📦 What are the delivery timelines for physical books &amp; merch?
         </summary>
         <p style="color: var(--text-secondary); font-size: 0.88rem; margin-top: 0.8rem; line-height: 1.6;">
-          For Lagos orders, dispatch couriers deliver in 24 to 48 hours. Nationwide deliveries across Nigeria take 2 to 4 business days. International orders are shipped via DHL or FedEx Express with end-to-end tracking (estimated 5 to 7 business days).
+          Physical editions are shown as a catalog preview. Contact catalystcomicstudio@gmail.com to confirm availability, shipping cost and delivery timing before ordering.
         </p>
       </details>
 
@@ -511,7 +510,7 @@
           💳 What payment methods are accepted on the Shopify store?
         </summary>
         <p style="color: var(--text-secondary); font-size: 0.88rem; margin-top: 0.8rem; line-height: 1.6;">
-          Through our Shopify checkout integration, we accept Nigerian debit cards (Mastercard, Visa, Verve), bank transfers, and USSD via Paystack/Flutterwave, as well as global credit cards, Apple Pay, Google Pay, and PayPal for international fans.
+          Online checkout is coming soon. This preview does not accept payment or ask for card details. Confirm available payment methods with the studio before placing an order.
         </p>
       </details>
     </div>
@@ -556,14 +555,14 @@
           <span>Subtotal:</span>
           <span class="cart-subtotal-val" id="cartSubtotalVal">₦0</span>
         </div>
-        <p class="cart-shipping-note">Taxes &amp; shipping calculated during Shopify checkout.</p>
+        <p class="cart-shipping-note">Store preview. Checkout is coming soon; your saved cart is not an order.</p>
 
         <button type="button" class="btn-checkout-shopify" onclick="proceedToCheckout()">
-          <span>⚡</span> <span>Proceed to Shopify Checkout</span>
+          <span>🔖</span> <span>View Saved Cart Summary</span>
         </button>
 
         <button type="button" class="btn-whatsapp-order" onclick="checkoutViaWhatsApp()">
-          <span>💬</span> <span>Order via WhatsApp Lagos Concierge</span>
+          <span>💬</span> <span>Contact the Studio</span>
         </button>
 
         <div style="display:flex;gap:0.5rem;margin-top:0.4rem;">
@@ -593,7 +592,7 @@
 
       <div class="preview-body">
         <button type="button" class="preview-nav-btn preview-nav-prev" onclick="prevPreviewPage()" aria-label="Previous Page">❮</button>
-        
+
         <div class="preview-img-container">
           <img src="./private/issue01/lettered/pages/p01.webp" alt="Catalyst Issue 1 Sample Page" id="previewPageImg" class="preview-page-img" onerror="this.src='./assets/cover-issue1.webp'">
         </div>
@@ -679,12 +678,13 @@
         <div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted);margin-bottom:0.5rem;">ORDER SUMMARY</div>
         <div id="forgeCheckoutSummary" style="max-height:140px;overflow-y:auto;margin-bottom:0.6rem;"></div>
         <div style="display:flex;justify-content:space-between;align-items:center;padding-top:0.5rem;border-top:1px solid rgba(244,184,0,0.25);">
-          <span style="font-family:var(--font-mono);font-size:0.85rem;color:#fff;">TOTAL DUE:</span>
+          <span style="font-family:var(--font-mono);font-size:0.85rem;color:#fff;">PREVIEW TOTAL:</span>
           <span id="forgeCheckoutTotal" style="font-family:var(--font-display);font-size:1.8rem;color:var(--accent-gold);">₦0</span>
         </div>
       </div>
 
-      <form onsubmit="completeExpressForgeOrder(event)">
+      <p role="status">Checkout is coming soon. Your cart is saved, and no payment or order has been confirmed.</p>
+      <form hidden style="display:none;" onsubmit="completeExpressForgeOrder(event)">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:0.8rem;">
           <div>
             <label class="config-label">Full Name</label>
@@ -869,12 +869,12 @@
       <div class="cert-card">
         <button type="button" class="cart-close-btn" onclick="closeCertificateModal()" style="position:absolute;top:1rem;right:1rem;">✕</button>
         <div class="cert-seal">AṢẸ</div>
-        <h3 class="cert-title">CERTIFICATE OF AUTHENTICITY</h3>
+        <h3 class="cert-title">PERSONAL COLLECTOR CARD</h3>
         <p class="cert-sub">CATALYST: THE AWAKENING // ARCHIVAL SAGA LEDGER</p>
-        
+
         <p style="font-size:0.92rem;line-height:1.6;color:var(--text-secondary);max-width:480px;margin:0 auto 1.5rem;">
-          This document certifies that this relic was produced under the canonical direct supervision of 
-          <strong>Catalyst Comics Studio</strong> and authenticated on the sovereign Lagos Noir ledger.
+          A personal keepsake from <strong>Catalyst Comics Studio</strong>.
+          This card is not proof of purchase, membership or delivery.
         </p>
 
         <div style="display:flex;justify-content:space-around;border-top:1px dashed rgba(244,184,0,0.3);border-bottom:1px dashed rgba(244,184,0,0.3);padding:0.75rem 0;margin-bottom:1.2rem;font-family:var(--font-mono);font-size:0.75rem;">
@@ -952,7 +952,7 @@
         <!-- 5-Stage Animated Waypoint Track -->
         <div class="waypoint-track-container">
           <div class="waypoint-progress-line" id="waypointProgressLine" style="width: 60%;"></div>
-          
+
           <div class="waypoint-node active" id="node1">
             <div class="node-circle">1</div>
             <div class="node-label">Mushin Forge<br><small>Sealed &amp; Packaged</small></div>
@@ -1173,7 +1173,7 @@
           <span id="soundscapeVolDisplay" style="font-family:var(--font-mono);font-size:0.75rem;color:var(--accent-gold);">40%</span>
         </div>
         <input type="range" id="soundscapeVolumeSlider" min="0" max="100" value="40" oninput="handleSoundscapeVolume(this.value)" style="width:100%;accent-color:var(--accent-gold);">
-        
+
         <div style="display:flex;gap:0.8rem;margin-top:1rem;">
           <button type="button" class="btn-primary-hero" id="soundscapeToggleBtn" onclick="toggleStoreAmbientSound()" style="flex:1;justify-content:center;padding:0.65rem;">
             <span>▶</span> <span>Toggle Ambience Play/Pause</span>
@@ -1248,7 +1248,7 @@
         </div>
 
         <button type="submit" class="btn-primary-hero" style="width:100%;justify-content:center;padding:0.75rem;">
-          <span>⚡</span> <span>Post Review to Sovereign Ledger</span>
+          <span>🔖</span> <span>Save My Review Draft</span>
         </button>
       </form>
     </div>
@@ -1262,7 +1262,7 @@
       <div class="footer-col-brand">
         <h3 class="footer-logo">CATALYST<span>:</span>THE AWAKENING</h3>
         <p class="footer-bio">
-          Where the blood of the Orishas meets the concrete of Lagos. Built in Mushin, engineered for the world. 
+          Where the blood of the Orishas meets the concrete of Lagos. Built in Mushin, engineered for the world.
           Under the executive authority of Oluwatobiloba — The Catalyst.
         </p>
         <div class="footer-socials">
@@ -1289,19 +1289,18 @@
           <li><a href="./index.html#hero" class="footer-link">Lagos 2031 Universe Hub</a></li>
           <li><a href="./index.html#characters" class="footer-link">The Orisha Pantheon</a></li>
           <li><a href="./index.html#villains" class="footer-link">The Pale Council</a></li>
-          <li><a href="./read/issue-1-comic.html" class="footer-link">Private Web Reader HUD</a></li>
+          <li><a href="./read/issue-1-comic.html" class="footer-link">Illustrated Web Reader</a></li>
           <li><a href="./script-studio/index.html" class="footer-link">Script Studio &amp; Production</a></li>
         </ul>
       </div>
 
       <div>
-        <h4 class="footer-col-title">Commerce Security</h4>
+        <h4 class="footer-col-title">Your Reader Account</h4>
         <ul class="footer-link-list">
-          <li><span class="footer-link">🔒 256-Bit SSL Encryption</span></li>
-          <li><span class="footer-link">💳 Shopify PCI-DSS Level 1</span></li>
-          <li><span class="footer-link">🇳🇬 Paystack / Flutterwave Ready</span></li>
-          <li><span class="footer-link">📦 Tracked Worldwide Shipping</span></li>
-          <li><span class="footer-link">⚡ Instant Digital DRM-Free PDF</span></li>
+          <li><span class="footer-link">🔒 Personal account data stays private</span></li>
+          <li><span class="footer-link">🔖 Save your cart with Reader Passport</span></li>
+          <li><span class="footer-link">💳 Checkout is coming soon</span></li>
+          <li><a href="mailto:catalystcomicstudio@gmail.com" class="footer-link">Contact the studio</a></li>
         </ul>
       </div>
     </div>
@@ -1316,6 +1315,8 @@
   <!-- Three.js 3D WebGL Library (Pinned Version with Offline Graceful Fallback) -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
   <!-- Store Controller Script -->
-  <script src="store.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/dist/umd/supabase.js" defer></script>
+  <script src="reader-account.js" defer></script>
+  <script src="store.js" defer></script>
 </body>
 </html>

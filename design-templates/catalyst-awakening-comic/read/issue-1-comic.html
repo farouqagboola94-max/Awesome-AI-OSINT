@@ -39,7 +39,7 @@
       <aside class="comic-script" aria-labelledby="cue-heading"><p id="scene-label"></p><h2 id="cue-heading">Source lettering and notes</h2><div id="cues"></div></aside>
     </div>
     <nav class="comic-nav comic-nav-bottom" aria-label="More comic pages"><button id="prev-bottom" type="button">← Previous</button><span id="progress">01 / 88</span><button id="next-bottom" type="button">Next →</button></nav>
-    <p class="comic-status" id="status" role="status">Loading the private reader…</p>
+    <p class="comic-status" id="status" role="status">Loading the illustrated reader…</p>
     <footer class="release-footer"><a href="./issue-1-book">Story book</a><a href="./issue-2">Next issue →</a></footer>
       <!-- ── BOOKMARKS & FIELD NOTES DRAWER ── -->
     <div id="bm-drawer" class="bm-drawer" role="dialog" aria-modal="true" aria-label="Saved Bookmarks and Field Notes" hidden>
@@ -59,7 +59,7 @@
     <div id="note-modal" class="note-modal" role="dialog" aria-modal="true" aria-label="Add Field Note" hidden>
       <div class="note-modal-content">
         <h3 id="note-title">FIELD NOTE · PAGE</h3>
-        <textarea id="note-text" placeholder="Record your observations, secret Ifá cues, or notes on this page..." rows="5"></textarea>
+        <textarea id="note-text" placeholder="Record your observations, secret Ifá cues, or notes on this page..." rows="5" maxlength="1500"></textarea>
         <div class="note-modal-actions">
           <button type="button" class="theme-btn" onclick="closeNoteDialog()">CANCEL</button>
           <button type="button" class="theme-btn active" onclick="savePageNote()">SAVE NOTE</button>
@@ -68,8 +68,15 @@
     </div>
 
   </main>
+  <p class="comic-status" id="reader-account-status" role="status"></p>
+  <p class="comic-status"><a href="./issue-1">Open Reader Passport to sign in or manage your account →</a></p>
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/dist/umd/supabase.js"></script>
+  <script defer src="../reader-account.js"></script>
   <script>
-  (() => {
+  document.addEventListener('DOMContentLoaded', async () => {
+    await window.CatalystAccount.ready;
+    const storage = window.CatalystStorage;
+    const escapeText = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const status = document.getElementById('status');
     const art = document.getElementById('page-art');
     const cues = document.getElementById('cues');
@@ -79,7 +86,7 @@
     let pages = [];
     let current = 1;
     const safePage = n => Math.max(1, Math.min(pages.length, n));
-    function show(n, scroll = true) {
+    function show(n, scroll = true, restoring = false) {
       if (!pages.length) return;
       current = safePage(n);
       const page = pages[current - 1];
@@ -108,8 +115,10 @@
       for (const id of ['prev','prev-bottom']) document.getElementById(id).disabled = current === 1;
       for (const id of ['next','next-bottom']) document.getElementById(id).disabled = current === pages.length;
       history.replaceState(null, '', `#page-${current}`);
+      if (!restoring) storage.setItem('catalyst_comic_page_i1', current);
       if (scroll) document.querySelector('.comic-page-grid').scrollIntoView({block:'start'});
     }
+    window.goToComicPage = n => show(Number(n));
     for (const id of ['prev','prev-bottom']) document.getElementById(id).addEventListener('click', () => show(current - 1));
     for (const id of ['next','next-bottom']) document.getElementById(id).addEventListener('click', () => show(current + 1));
     select.addEventListener('change', () => show(Number(select.value)));
@@ -119,17 +128,23 @@
     const STORAGE_KEY_NOTES = 'catalyst_notes_i1';
 
     function getBookmarks() {
-      try { return JSON.parse(localStorage.getItem(STORAGE_KEY_BM)) || []; } catch(e) { return []; }
+      try {
+        const saved = JSON.parse(storage.getItem(STORAGE_KEY_BM));
+        return Array.isArray(saved) ? saved.filter(n => Number.isInteger(n) && n >= 1 && n <= 88) : [];
+      } catch(e) { return []; }
     }
     function saveBookmarks(arr) {
-      try { localStorage.setItem(STORAGE_KEY_BM, JSON.stringify(arr)); } catch(e) {}
+      storage.setItem(STORAGE_KEY_BM, JSON.stringify(arr));
       updateBookmarkUI();
     }
     function getNotes() {
-      try { return JSON.parse(localStorage.getItem(STORAGE_KEY_NOTES)) || {}; } catch(e) { return {}; }
+      try {
+        const saved = JSON.parse(storage.getItem(STORAGE_KEY_NOTES));
+        return saved && typeof saved === 'object' && !Array.isArray(saved) ? saved : {};
+      } catch(e) { return {}; }
     }
     function saveNotes(obj) {
-      try { localStorage.setItem(STORAGE_KEY_NOTES, JSON.stringify(obj)); } catch(e) {}
+      storage.setItem(STORAGE_KEY_NOTES, JSON.stringify(obj));
     }
 
     function updateBookmarkUI() {
@@ -179,11 +194,11 @@
         return `<div class="bm-card">
           <div class="bm-card-top">
             <strong>PAGE ${String(p).padStart(2,'0')}</strong>
-            <span class="bm-scene-title">${pageData.title || ''}</span>
+            <span class="bm-scene-title">${escapeText(pageData.title || '')}</span>
           </div>
-          ${note ? `<div class="bm-card-note"><em>“${note}”</em></div>` : ''}
+          ${note ? `<div class="bm-card-note"><em>“${escapeText(note)}”</em></div>` : ''}
           <div class="bm-card-actions">
-            <button type="button" class="theme-btn active" onclick="show(${p}); toggleBookmarksDrawer();">GOTO PAGE</button>
+            <button type="button" class="theme-btn active" onclick="goToComicPage(${p}); toggleBookmarksDrawer();">GOTO PAGE</button>
             <button type="button" class="theme-btn" onclick="removeBookmark(${p})">REMOVE</button>
           </div>
         </div>`;
@@ -199,7 +214,7 @@
     window.clearAllBookmarks = function() {
       if (confirm('Clear all bookmarks and notes for Issue 01?')) {
         saveBookmarks([]);
-        localStorage.removeItem(STORAGE_KEY_NOTES);
+        storage.removeItem(STORAGE_KEY_NOTES);
         renderBookmarksList();
       }
     };
@@ -243,14 +258,15 @@
       updateBookmarkUI();
     };
 
-    window.setReaderTheme = function(mode) {
+    window.setReaderTheme = function(mode, restoring = false) {
+      if (!['noir', 'oled', 'sepia'].includes(mode)) mode = 'noir';
       document.body.classList.remove('theme-oled', 'theme-sepia');
       if (mode === 'oled') document.body.classList.add('theme-oled');
       if (mode === 'sepia') document.body.classList.add('theme-sepia');
       document.querySelectorAll('.theme-btn[data-theme]').forEach(b => {
         b.classList.toggle('active', b.getAttribute('data-theme') === mode);
       });
-      try { localStorage.setItem('catalyst_reader_theme', mode); } catch(e) {}
+      if (!restoring) storage.setItem('catalyst_comic_theme', mode);
     };
 
     window.toggleComicFullscreen = function() {
@@ -268,10 +284,21 @@
       if (btn) btn.textContent = document.fullscreenElement ? '✕ EXIT FULL' : '⛶ FULLSCREEN';
     });
 
-    try {
-      const savedTheme = localStorage.getItem('catalyst_reader_theme');
-      if (savedTheme) window.setReaderTheme(savedTheme);
-    } catch(e) {}
+    function restoreAccountState() {
+      window.setReaderTheme(storage.getItem('catalyst_comic_theme') || 'noir', true);
+      updateBookmarkUI(); renderBookmarksList();
+      document.getElementById('note-modal').hidden = true;
+      document.getElementById('note-text').value = '';
+      show(Number(storage.getItem('catalyst_comic_page_i1')) || 1, false, true);
+    }
+    window.addEventListener('catalyst:reader-state', restoreAccountState);
+    function updateSyncStatus() {
+      const a = window.CatalystAccount;
+      const messages = { saved: 'Saved to your reader account.', pending: 'Saving your reading…', loading: 'Loading your saved reading…', offline: 'Saved on this device. Cloud sync will retry when online.', error: 'Account changes could not be saved. Please try again.' };
+      document.getElementById('reader-account-status').textContent = a.user ? messages[a.status] || 'Your reader account is connected.' : 'Saved on this device. Sign in through Reader Passport to sync across devices.';
+    }
+    window.addEventListener('catalyst:sync', updateSyncStatus);
+    restoreAccountState(); updateSyncStatus();
 
     zoomButton.addEventListener('click', () => {
       const zoomed = viewport.classList.toggle('zoomed');
@@ -291,9 +318,9 @@
       if (pages.length !== 88 || pages.some((p, i) => p.page !== i + 1)) throw new Error('The 88-page sequence failed validation.');
       for (let i = 1; i <= pages.length; i++) select.add(new Option(String(i).padStart(2,'0'), String(i)));
       status.remove();
-      show(Number(location.hash.match(/^#page-(\d+)$/)?.[1] || 1), false);
+      show(Number(location.hash.match(/^#page-(\d+)$/)?.[1] || storage.getItem('catalyst_comic_page_i1') || 1), false);
     }).catch(error => {status.textContent = error.message;});
-  })();
+  });
   </script>
 </body>
 </html>

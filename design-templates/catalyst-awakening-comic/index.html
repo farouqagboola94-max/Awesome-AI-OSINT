@@ -6,9 +6,9 @@
   <!-- Resource hints for performance -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="preconnect" href="https://js.paystack.co" crossorigin>
-  <link rel="preconnect" href="https://qeoqxowpnrmttjupxkeb.supabase.co" crossorigin>
+  <link rel="preconnect" href="https://oxnpmgbwwsjfseirfxej.supabase.co" crossorigin>
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
-  <link rel="dns-prefetch" href="https://qeoqxowpnrmttjupxkeb.supabase.co">
+  <link rel="dns-prefetch" href="https://oxnpmgbwwsjfseirfxej.supabase.co">
   <!-- Hero image preload for LCP -->
   <link rel="preload" as="image" href="./assets/bayo-bridge.webp"
         imagesrcset="./assets/bayo-bridge-640w.webp 640w, ./assets/bayo-bridge-1024w.webp 1024w, ./assets/bayo-bridge.webp 1280w"
@@ -283,6 +283,7 @@
     document.body.style.overflow = '';
   };
   window.openUserProfileModal = window.openUserProfileModal || function() {
+    if (!window.CatalystAccount || !window.CatalystAccount.user) { window.openAuthModal('signin'); return; }
     var b = document.getElementById('userProfileBackdrop');
     if (b) { b.classList.add('open'); b.setAttribute('aria-hidden', 'false'); }
     document.body.style.overflow = 'hidden';
@@ -295,11 +296,11 @@
 </script>
 
 <!-- ============================================================ AUTH MODAL -->
-<div class="modal-backdrop" id="authBackdrop">
+<div class="modal-backdrop" id="authBackdrop" aria-hidden="true" role="dialog" aria-label="Catalystverse account">
   <div class="auth-modal">
     <button class="modal-close" onclick="closeAuthModal()" aria-label="Close">✕</button>
     <div class="auth-modal-logo">CATALYST<span>:</span>TA</div>
-    <p class="auth-modal-sub">Enter the Ọ̀run. Own the universe.</p>
+    <p class="auth-modal-sub">Your reading, notes and identity. One Catalystverse account.</p>
     <div class="auth-tabs">
       <button class="auth-tab active" id="tab-signup" onclick="switchAuthTab('signup',this)">Join Free</button>
       <button class="auth-tab" id="tab-signin" onclick="switchAuthTab('signin',this)">Sign In</button>
@@ -344,10 +345,9 @@
   <div class="user-profile-modal">
     <button class="modal-close" onclick="closeUserProfileModal()" aria-label="Close">✕</button>
     <div class="profile-hud-header">
-      <div class="profile-hud-tag">CATALYST OS // READER HUD v4.2</div>
-      <div class="profile-hud-status"><span class="profile-status-dot"></span> Ọ̀RUN SYNCED</div>
+      <div class="profile-hud-tag">CATALYSTVERSE // READER PASSPORT</div>
+      <div class="profile-hud-status" id="profileSyncStatus" role="status" aria-live="polite">Sign in to save across devices</div>
     </div>
-    
     <div class="profile-hud-identity">
       <div class="profile-avatar-box" id="profileAvatarBox">
         <span class="profile-avatar-initial" id="profileAvatarInitial">C</span>
@@ -356,14 +356,14 @@
       <div class="profile-identity-info">
         <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
           <h3 class="profile-user-name" id="profileUserName">Catalyst Reader</h3>
-          <span class="profile-xp-pill" id="profileXpPill">LVL 3 · 1,850 AṢẸ</span>
+          <span class="profile-xp-pill" id="profileXpPill">CATALYSTVERSE PASSPORT</span>
         </div>
-        <p class="profile-user-email" id="profileUserEmail">reader@catalystverse.com</p>
+        <p class="profile-user-email" id="profileUserEmail"></p>
         <div style="display:flex;align-items:center;gap:0.4rem;margin-top:0.3rem;">
-          <span class="profile-tier-badge" id="profileTierBadge">✦ REGISTERED READER · FULL UNIVERSE ACCESS</span>
+          <span class="profile-tier-badge" id="profileTierBadge">READER ACCOUNT</span>
         </div>
         <div style="margin-top:0.5rem;">
-          <input type="text" id="profileCallSignInput" class="profile-callsign-input" placeholder="Callsign: e.g. Mushin_Oracle" onchange="saveProfileCallSign(this.value)">
+          <input type="text" id="profileCallSignInput" class="profile-callsign-input" maxlength="32" aria-label="Your reader callsign" placeholder="Callsign: e.g. Mushin_Oracle" onchange="saveProfileCallSign(this.value)">
         </div>
       </div>
     </div>
@@ -371,13 +371,13 @@
     <!-- Reading Progress Bar -->
     <div class="profile-progress-wrap">
       <div class="profile-progress-header">
-        <span>ISSUE #01 READING PROGRESS</span>
-        <span id="profileProgressPct">88 / 88 PAGES (100%)</span>
+        <span>ISSUE #01 READING POSITION</span>
+        <span id="profileProgressPct">START READING TO SAVE YOUR PLACE</span>
       </div>
       <div class="profile-progress-bar">
-        <div class="profile-progress-fill" style="width:100%"></div>
+        <div class="profile-progress-fill" style="width:0%"></div>
       </div>
-      <div class="profile-progress-sub">Arc I: Awakening Complete · Arc II Production Dossiers Unlocked</div>
+      <div class="profile-progress-sub">Your reading position and notes are private to your account.</div>
     </div>
 
     <!-- Orisha Affinity Selector -->
@@ -395,28 +395,23 @@
     <!-- Unlocked Archives Tracker -->
     <div class="profile-archives-grid">
       <div class="profile-archive-card">
-        <div class="profile-archive-val" id="profileArtworksCount">50 / 50</div>
-        <div class="profile-archive-lbl">Canonical Artworks Unlocked</div>
+        <div class="profile-archive-val" id="profileArtworksCount">0</div>
+        <div class="profile-archive-lbl">Saved Field Notes</div>
       </div>
       <div class="profile-archive-card">
-        <div class="profile-archive-val">88 Pgs</div>
-        <div class="profile-archive-lbl">Issue #01 Graphic Novel</div>
+        <div class="profile-archive-val" id="profileIssuesRead">0</div>
+        <div class="profile-archive-lbl">Issues Completed</div>
       </div>
       <div class="profile-archive-card">
-        <div class="profile-archive-val">2,393</div>
-        <div class="profile-archive-lbl">Catalyst OS Skills Vault</div>
+        <div class="profile-archive-val">1</div>
+        <div class="profile-archive-lbl">Reader Identity</div>
       </div>
     </div>
 
     <!-- OPERATIVE CODEX ACHIEVEMENTS -->
     <div class="profile-achievements-section">
       <label class="profile-section-label">OPERATIVE CODEX ACHIEVEMENTS</label>
-      <div class="profile-badges-row" id="profileBadgesRow">
-        <div class="profile-badge-chip active" title="Issue #01 Reader"><span class="badge-icon">⚡</span> Ṣàngó Initiate</div>
-        <div class="profile-badge-chip active" title="50 Artworks Explored"><span class="badge-icon">⚔</span> Ògún Ironheart</div>
-        <div class="profile-badge-chip active" title="Soundscape Attuned"><span class="badge-icon">🌊</span> Ọ̀ṣun Diviner</div>
-        <div class="profile-badge-chip active" title="Tactical Simulation Cleared"><span class="badge-icon">🌀</span> Eṣu Cipher</div>
-      </div>
+      <div class="profile-badges-row" id="profileBadgesRow">Your journey starts with your first chapter.</div>
     </div>
 
     <!-- RESUME LAST READ SCENE -->
@@ -431,7 +426,7 @@
     <!-- HIGH-DPI CANVAS DIGITAL PASS EXPORTER -->
     <div style="margin-top:1rem;text-align:center;">
       <button type="button" class="profile-export-canvas-btn" id="profileExportCanvasBtn" onclick="exportDigitalReaderPassCanvas()">
-        ✦ EXPORT HOLOGRAPHIC VIP CREDENTIAL (PNG)
+        ✦ EXPORT READER CARD (PNG)
       </button>
     </div>
 
@@ -451,7 +446,10 @@
       <button type="button" class="profile-btn-upgrade" onclick="closeUserProfileModal(); openPaymentModal();">Upgrade to Ìmọ̀lẹ̀ Circle VIP</button>
       <button type="button" class="profile-btn-export" onclick="closeUserProfileModal(); openAuthModal('signup');">🔑 Switch / Link Operative Account</button>
       <button type="button" class="profile-btn-signout" onclick="handleSignOut()">Sign Out</button>
+      <button type="button" class="profile-btn-export" onclick="importReaderHistory()">Import this device’s reading history</button>
+      <button type="button" class="profile-btn-export" onclick="exportReaderData()">Download my saved data</button>
     </div>
+    <p class="profile-progress-sub">Callsign, affinity, reading position, notes and reader settings are saved to your account. Device history is imported only when you choose it.</p>
   </div>
 </div>
 
@@ -525,28 +523,17 @@
 <!-- ============================================================ NAV -->
 <nav>
   <a href="#hero" class="nav-logo">CATALYST</a>
-  <!-- Desktop bar carries the primary destinations only: fifteen links
-       plus the search and account controls cannot share a bar narrower
-       than ~1900px without overlapping. Covers, Combat Sim, Codex, Lore
-       and Gallery still live in the mobile nav, on the page, and one
-       ⌘K away in the archive search. -->
+  <!-- Keep primary destinations beside the account controls. The full
+       archive is also available through search and the mobile menu. -->
   <ul class="nav-links">
     <li><a href="#world-2031">Lagos 2031</a></li>
-    <li><a href="#arcs">Arcs</a></li>
     <li><a href="#characters">Heroes</a></li>
-    <li><a href="#villains">Villains</a></li>
-    <li><a href="#realms">Realms</a></li>
     <li><a href="#glossary">Glossary</a></li>
     <li><a href="#read">Read Free</a></li>
-    <li><a href="#motion-comic-player" class="nav-motion-link">Motion Comic</a></li>
     <li><a href="#preorder-store" class="nav-store-link">Store</a></li>
-    <li><a href="#the-choice">The Choice</a></li>
-    <li><a href="#clearance">Clearance</a></li>
-    <li><a href="#architects-vault">Vault</a></li>
-    <li><a href="#catalyst-os">Catalyst OS</a></li>
     <li><a href="#access" class="nav-cta">Subscribe</a></li>
   </ul>
-  <div style="display:flex;align-items:center;gap:0.8rem;">
+  <div class="nav-controls">
     <!-- TRI-LINGUAL CULTURAL LANGUAGE SELECTOR -->
     <div class="nav-lang-picker" id="navLangPicker">
       <button type="button" class="lang-btn active" onclick="setLanguage('en', this)" title="Standard English">EN</button>
@@ -564,7 +551,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
       <kbd class="nav-search-kbd">⌘K</kbd>
     </button>
-    <button class="nav-profile-btn" id="navProfileBtn" onclick="openUserProfileModal()" type="button" aria-label="Open Reader Profile" title="Operative Reader Profile" style="background:rgba(244,184,0,0.12);border:1px solid rgba(244,184,0,0.35);color:var(--pure-white);padding:0.45rem 0.85rem;border-radius:4px;font-family:'Space Mono',monospace;font-size:0.75rem;cursor:pointer;display:inline-flex;align-items:center;gap:4px;transition:all 0.2s ease;">👤 PROFILE</button>
+    <button class="nav-profile-btn" id="navProfileBtn" onclick="openUserProfileModal()" type="button" aria-label="Open Reader Profile" title="Reader Passport">👤 <span class="nav-profile-label">PROFILE</span></button>
     <button class="nav-auth-btn" id="navAuthBtn" onclick="openAuthModal()">Sign In</button>
     <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -2916,7 +2903,7 @@
       <button type="button" class="quick-chip" onclick="askQuickQuestion('Tell me about Bayo Adeyemi mother and lineage.')">👑 Bayo Lineage</button>
     </div>
     <form class="terminal-input-bar" id="terminalForm" onsubmit="event.preventDefault(); submitTerminalQuery();">
-      <input type="text" id="terminalUserInput" class="term-input" placeholder="Type query for the selected intelligence..." autocomplete="off">
+      <input type="text" id="terminalUserInput" class="term-input" aria-label="Ask the selected intelligence" placeholder="Type query for the selected intelligence..." autocomplete="off">
       <button type="submit" class="term-send-btn" id="termSendBtn">TRANSMIT ↵</button>
     </form>
   </div>
@@ -5196,7 +5183,7 @@
   </div>
 
   <!-- 19-SCENE FILMSTRIP QUICK-JUMP DRAWER -->
-  <div class="read-filmstrip-drawer reveal" id="readFilmstripDrawer">
+  <div class="read-filmstrip-drawer" id="readFilmstripDrawer">
     <div class="filmstrip-header">
       <span class="filmstrip-tag">ISSUE #01 // 19-SCENE FILMSTRIP QUICK-NAVIGATOR</span>
       <span class="filmstrip-sub">CLICK TO JUMP DIRECTLY TO SCENE</span>
@@ -5460,7 +5447,7 @@
         <div class="reader-issue-label">Arc I: The Catalyst · Issue 01</div>
         <div class="reader-issue-title">AWAKEN, O CITY</div>
         <div class="reader-pages">88 Pages &middot; Free &middot; Expanding toward 100</div>
-        <p class="reader-permalink"><a href="/read/issue-1-comic">Read the 88-page comic proof</a> · <a href="/read/issue-1-book">Original story book</a></p>
+        <p class="reader-editions"><a href="/read/issue-1-comic">Read the 88-page comic proof</a> · <a href="/read/issue-1-book">Original story book</a></p>
         <a class="reader-permalink" href="/read/issue-1">Open Issue #01 as its own page &#x2197;</a>
         <a class="script-studio-link" href="/script-studio/?issue=i1">Plan Issue #01 in Script Studio &#x2197;</a>
         <button class="open-panel-viewer-btn" onclick="openPanelViewer(ISSUE1_PANELS, 0)">
@@ -6826,11 +6813,11 @@
       <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.85rem;letter-spacing:0.04em;color:var(--pure-white);margin:0 0 0.5rem;line-height:1.1;">LOOKING TO BUY OUR COMICS, MERCHES &amp; LICENSED GEAR?</h3>
       <p style="font-size:0.88rem;color:rgba(240,237,229,0.75);margin:0;line-height:1.65;">Explore the interactive 12-item 3D Relic &amp; Graphic Novel Store or visit the official Catalyst World master portal for global merchandise shipments, the Catalyst Cave archive, and executive licensing.</p>
     </div>
-    <div style="display:flex;flex-wrap:wrap;gap:0.85rem;align-items:center;">
-      <a href="./store.html" style="display:inline-flex;align-items:center;gap:0.6rem;background:rgba(0,201,177,0.14);border:1.5px solid var(--orisha-teal);color:var(--orisha-teal);font-family:'Space Mono',monospace;font-size:0.8rem;font-weight:700;letter-spacing:0.08em;padding:0.95rem 1.4rem;border-radius:6px;text-decoration:none;transition:all 0.25s ease;text-transform:uppercase;white-space:nowrap;">
+    <div style="display:flex;flex-wrap:wrap;gap:0.85rem;align-items:center;min-width:0;max-width:100%;">
+      <a href="./store.html" style="display:inline-flex;align-items:center;gap:0.6rem;background:rgba(0,201,177,0.14);border:1.5px solid var(--orisha-teal);color:var(--orisha-teal);font-family:'Space Mono',monospace;font-size:0.8rem;font-weight:700;letter-spacing:0.08em;padding:0.95rem 1.4rem;border-radius:6px;text-decoration:none;transition:all 0.25s ease;text-transform:uppercase;white-space:normal;max-width:100%;text-align:center;">
         OPEN 3D RELIC STORE (12 ITEMS) ➔
       </a>
-      <a href="https://catalyst-world.netlify.app/" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:0.75rem;background:var(--danfo-gold);color:var(--black);font-family:'Space Mono',monospace;font-size:0.82rem;font-weight:700;letter-spacing:0.08em;padding:1rem 1.8rem;border-radius:6px;text-decoration:none;transition:all 0.25s ease;text-transform:uppercase;white-space:nowrap;box-shadow:0 4px 15px rgba(244,184,0,0.3);" onmouseover="this.style.background='#ffffff';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='var(--danfo-gold)';this.style.transform='none'">
+      <a href="https://catalyst-world.netlify.app/" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:0.75rem;background:var(--danfo-gold);color:var(--black);font-family:'Space Mono',monospace;font-size:0.82rem;font-weight:700;letter-spacing:0.08em;padding:1rem 1.8rem;border-radius:6px;text-decoration:none;transition:all 0.25s ease;text-transform:uppercase;white-space:normal;max-width:100%;text-align:center;box-shadow:0 4px 15px rgba(244,184,0,0.3);" onmouseover="this.style.background='#ffffff';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='var(--danfo-gold)';this.style.transform='none'">
         VISIT OFFICIAL MASTER PORTAL ➔
       </a>
     </div>
@@ -7272,11 +7259,11 @@
         <!-- Holo Effect Controls -->
         <div class="cyber-toggles-row">
           <label class="cyber-toggle-lbl">
-            <input type="checkbox" id="cyberScanlineToggle" checked onchange="toggleIdScanlines(this.checked)">
+            <input type="checkbox" id="cyberScanlineToggle" aria-label="Show card scanlines" checked onchange="toggleIdScanlines(this.checked)">
             <span>Holographic Scanline Sheen</span>
           </label>
           <label class="cyber-toggle-lbl">
-            <input type="checkbox" id="cyberParticlesToggle" checked onchange="toggleIdParticles(this.checked)">
+            <input type="checkbox" id="cyberParticlesToggle" aria-label="Show card particles" checked onchange="toggleIdParticles(this.checked)">
             <span>Aṣẹ Particle Glow</span>
           </label>
         </div>
@@ -8225,7 +8212,7 @@
 
       <div class="studio-control-group">
         <label>2. OPERATIVE CALLSIGN</label>
-        <input type="text" id="studioCallsignInput" class="studio-text-input" value="MUSHIN_ORACLE" oninput="updatePosterPreview()">
+        <input type="text" id="studioCallsignInput" class="studio-text-input" aria-label="Poster callsign" value="MUSHIN_ORACLE" oninput="updatePosterPreview()">
       </div>
 
       <div class="studio-control-group">
@@ -8464,7 +8451,7 @@
 
         <div class="beat-tempo-group">
           <span class="beat-ctrl-lbl">TEMPO: <strong id="beatBpmVal">108 BPM</strong></span>
-          <input type="range" id="beatBpmSlider" min="80" max="144" value="108" class="beat-slider" oninput="setBeatBpm(this.value)">
+          <input type="range" id="beatBpmSlider" aria-label="Beat tempo" min="80" max="144" value="108" class="beat-slider" oninput="setBeatBpm(this.value)">
         </div>
 
         <!-- Rhythmic Presets -->
@@ -8858,7 +8845,7 @@
   <div class="council-wrap reveal">
     <!-- Search & Filter Controls -->
     <div class="council-search-box">
-      <input type="text" id="councilSearchInput" class="council-search-input" placeholder="🔍 Search theories by keyword (Bayo, Pale Council, Orisha Vaccine, Void, Mother Storm)..." oninput="searchCouncilTheories(this.value)">
+      <input type="text" id="councilSearchInput" class="council-search-input" aria-label="Search reader theories" placeholder="🔍 Search theories by keyword (Bayo, Pale Council, Orisha Vaccine, Void, Mother Storm)..." oninput="searchCouncilTheories(this.value)">
     </div>
     <!-- Sort & Filter Tabs -->
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.8rem;margin-bottom:1.5rem;">
@@ -8886,7 +8873,7 @@
       <p class="council-submit-sub">Have a theory on Bayo's dual lineage or Pale Council motives? Submit your thesis to the Ọ̀run Council.</p>
       <form id="theoryForm" onsubmit="event.preventDefault(); submitTheory(event);" class="council-form">
         <div class="council-form-row">
-          <input type="text" name="author" class="council-input" placeholder="Operative Name / Callsign" required>
+          <input type="text" name="author" class="council-input" aria-label="Theory author name or callsign" placeholder="Operative Name / Callsign" required>
           <select name="category" class="council-select">
             <option value="lore">Orisha Lore Analysis</option>
             <option value="arc2">Arc II Prediction</option>
@@ -9066,7 +9053,8 @@
      paint once the fonts came in-house. Deferring also means script.js now
      runs against a fully parsed document, so markup declared below this point
      exists when it looks for it. -->
-<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/dist/umd/supabase.js"></script>
+<script defer src="reader-account.js"></script>
 <script defer src="https://js.paystack.co/v1/inline.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 
@@ -9352,7 +9340,7 @@
     <div class="omni-search-box">
       <div class="omni-input-row">
         <span class="omni-prompt-icon">🔍</span>
-        <input type="text" id="omniSearchInput" class="omni-input" placeholder="Search anything in the Catalyst universe (e.g. Bayo, Ògún, Third Mainland, 1420 CE, Drum, Relic)..." oninput="handleOmniSearch(this.value)">
+        <input type="text" id="omniSearchInput" class="omni-input" aria-label="Search the Catalyst universe" placeholder="Search anything in the Catalyst universe (e.g. Bayo, Ògún, Third Mainland, 1420 CE, Drum, Relic)..." oninput="handleOmniSearch(this.value)">
         <span class="omni-count-badge" id="omniCountBadge">84 ENTRIES</span>
       </div>
 

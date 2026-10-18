@@ -12,6 +12,9 @@ const path = require('path');
 const { startServer, chromium } = require('./lib/harness');
 
 const SUITES = {
+  auth: require('./auth.test.js'),
+  store: require('./store-account.test.js'),
+  'comic-account': require('./comic-account.test.js'),
   'issue-pages': require('./issue-pages.test.js'),
   home: require('./home.test.js'),
   a11y: require('./a11y.test.js'),

@@ -223,12 +223,41 @@ const PREVIEW_PAGES = [
 // ═══════════════════════════════════════════════════════════
 // 2. STATE MANAGEMENT
 // ═══════════════════════════════════════════════════════════
+const storeStorage = window.CatalystStorage || window.localStorage;
+function readStoreValue(key, fallback) {
+  try { return JSON.parse(storeStorage.getItem(key) || 'null') || fallback; } catch (_) { return fallback; }
+}
+function normalizeStoreCart(value) {
+  if (!Array.isArray(value)) return [];
+  return value.slice(0, 50).flatMap(item => {
+    if (!item || typeof item !== 'object') return [];
+    const quantity = Math.min(20, Math.max(1, Math.floor(Number(item.quantity || item.qty) || 1)));
+    if (item.sku === 'CAT-VAR-3CRATE-CUSTOM') {
+      return [{ productId: 'catalyst-variant-covers-pack', title: 'Custom 3-Cover Holofoil Collector Crate',
+        variantName: String(item.variantName || 'Custom 3-cover selection').replace(/[<>&"']/g, '').slice(0, 200),
+        sku: item.sku, image: './assets/cover-issue1.webp',
+        prices: { USD: 34.99, NGN: 42000, GBP: 28, EUR: 32.5 }, quantity }];
+    }
+    const relic = VAULT_RELICS.find(r => r.id === item.productId);
+    if (relic && window.CatalystAccount?.user?.app_metadata?.is_premium === true) {
+      return [{ productId: relic.id, title: relic.title, variantName: 'Exclusive Vault Edition',
+        sku: 'VAULT-' + relic.id.toUpperCase(), image: relic.image, prices: relic.prices, quantity }];
+    }
+    const product = CATALYST_PRODUCTS.find(p => p.id === item.productId);
+    const index = product ? product.variants.findIndex(v => v.sku === item.sku) : -1;
+    if (index < 0) return [];
+    const variant = product.variants[index];
+    return [{ productId: product.id, title: product.title, variantName: variant.name,
+      variantIndex: index, sku: variant.sku, image: product.image, prices: variant.prices,
+      quantity }];
+  });
+}
 const StoreState = {
-  currency: localStorage.getItem("catalyst_currency") || "NGN",
+  currency: ['NGN','USD','GBP','EUR'].includes(storeStorage.getItem('catalyst_currency')) ? storeStorage.getItem('catalyst_currency') : 'NGN',
   currentFilter: "all",
   currentAffinity: "all",
   searchQuery: "",
-  cart: JSON.parse(localStorage.getItem("catalyst_cart") || "[]"),
+  cart: [],
   appliedCoupon: null,
   activePreviewPage: 0,
   customCrateCovers: [],
@@ -250,7 +279,9 @@ const CURRENCY_SYMBOLS = {
 // ═══════════════════════════════════════════════════════════
 // 3. INITIALIZATION
 // ═══════════════════════════════════════════════════════════
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  await window.CatalystAccount.ready;
+  restoreStoreAccount();
   initCurrencySelector();
   initFilterTabs();
   initSearch();
@@ -269,7 +300,7 @@ function initCurrencySelector() {
   sel.value = StoreState.currency;
   sel.addEventListener("change", (e) => {
     StoreState.currency = e.target.value;
-    localStorage.setItem("catalyst_currency", StoreState.currency);
+    storeStorage.setItem("catalyst_currency", StoreState.currency);
     renderProducts();
     updateCartUI();
     showToast(`Currency switched to ${StoreState.currency} (${CURRENCY_SYMBOLS[StoreState.currency]})`);
@@ -330,8 +361,8 @@ function renderProducts() {
   const filtered = CATALYST_PRODUCTS.filter(p => {
     const matchesCategory = StoreState.currentFilter === "all" || p.category === StoreState.currentFilter;
     const matchesAffinity = StoreState.currentAffinity === "all" || p.affinity === StoreState.currentAffinity;
-    const matchesSearch = !StoreState.searchQuery || 
-                          p.title.toLowerCase().includes(StoreState.searchQuery) || 
+    const matchesSearch = !StoreState.searchQuery ||
+                          p.title.toLowerCase().includes(StoreState.searchQuery) ||
                           p.excerpt.toLowerCase().includes(StoreState.searchQuery) ||
                           p.specs.some(s => s.toLowerCase().includes(StoreState.searchQuery));
     return matchesCategory && matchesAffinity && matchesSearch;
@@ -355,7 +386,7 @@ function renderProducts() {
     return `
       <article class="product-card" data-product-id="${product.id}" onmousemove="handleCardTilt(event, this)" onmouseleave="resetCardTilt(this)">
         <span class="card-badge ${product.badgeType}">${product.badge}</span>
-        
+
         <div class="product-img-wrap" onclick="handleCardImageClick('${product.id}')">
           <img src="${product.image}" alt="${product.title}" class="product-img" loading="lazy" onerror="this.src='./assets/cover-issue1.webp'">
           ${product.hasPreview ? `
@@ -385,7 +416,7 @@ function renderProducts() {
               <label class="variant-label">Select Edition / Size:</label>
               <div class="variant-options">
                 ${product.variants.map((v, idx) => `
-                  <button type="button" class="variant-opt-btn ${idx === 0 ? 'active' : ''}" 
+                  <button type="button" class="variant-opt-btn ${idx === 0 ? 'active' : ''}"
                           onclick="selectVariant('${product.id}', ${idx}, this)">
                     ${v.name}
                   </button>
@@ -539,8 +570,34 @@ function removeCartItem(cartIndex) {
 }
 
 function saveCart() {
-  localStorage.setItem("catalyst_cart", JSON.stringify(StoreState.cart));
+  StoreState.cart = normalizeStoreCart(StoreState.cart);
+  storeStorage.setItem("catalyst_cart", JSON.stringify(StoreState.cart));
 }
+
+function restoreStoreAccount() {
+  StoreState.cart = normalizeStoreCart(readStoreValue('catalyst_cart', []));
+  const currency = storeStorage.getItem('catalyst_currency');
+  StoreState.currency = ['NGN','USD','GBP','EUR'].includes(currency) ? currency : 'NGN';
+  StoreState.appliedCoupon = null;
+  const selector = document.getElementById('currencySelector');
+  if (selector) selector.value = StoreState.currency;
+  const link = document.getElementById('storeAccountLink'), a = window.CatalystAccount;
+  if (link) link.textContent = a.user ? (a.profile?.display_name || 'Reader Passport') : 'Sign In / Reader Passport';
+  closeCatalystForgeCheckoutModal(); closeOrderTrackerModal();
+  ['forgeOrderFullName','forgeOrderEmail','forgeOrderAddress'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  updateCartUI(); renderProducts(); initVipVault();
+  renderReviews();
+}
+function updateStoreSyncStatus() {
+  const el = document.getElementById('storeSyncStatus'), account = window.CatalystAccount;
+  if (!el) return;
+  const labels = { loading: 'Loading your saved items…', pending: 'Saving your items…', saved: 'Your items are saved to your account.', offline: 'Offline. Changes are saved on this device and waiting to sync.', error: 'Sync needs attention. Your device changes are still available.' };
+  el.textContent = 'Store preview. Checkout is coming soon. ' + (account?.user ? (labels[account.status] || 'Signed in with Reader Passport.') : 'Sign in to sync your saved items.');
+}
+window.addEventListener('catalyst:reader-state', restoreStoreAccount);
+window.addEventListener('catalyst:account', () => { initVipVault(); });
+window.addEventListener('catalyst:sync', updateStoreSyncStatus);
+window.addEventListener('DOMContentLoaded', updateStoreSyncStatus);
 
 function updateCartUI() {
   // Update badge
@@ -580,14 +637,14 @@ function updateCartUI() {
         <div class="cart-item-info">
           <h4 class="cart-item-title">${item.title}</h4>
           <span class="cart-item-variant">${item.variantName}</span>
-          
+
           <div class="cart-item-bottom">
             <div class="cart-qty-ctrls">
               <button class="qty-btn" onclick="updateCartQty(${idx}, -1)">−</button>
               <span class="qty-val">${item.quantity}</span>
               <button class="qty-btn" onclick="updateCartQty(${idx}, 1)">+</button>
             </div>
-            
+
             <div>
               <span class="cart-item-price">${formatPrice(linePrice)}</span>
               <button class="btn-remove-item" onclick="removeCartItem(${idx})">✕</button>
@@ -701,122 +758,16 @@ function closeCatalystForgeCheckoutModal() {
 }
 
 function redirectToShopifyStorefront() {
-  const shopDomain = (StoreState.shopifyConfig.shopDomain || "").trim();
-  if (!shopDomain || shopDomain === "catalyst-forge.myshopify.com") {
-    showToast("⚡ Routing to Official Catalyst Master Portal...");
-    window.open("https://catalyst-world.netlify.app/", "_blank", "noopener");
-    return;
-  }
-  const cleanDomain = shopDomain.replace(/^https?:\/\//, "").replace(/\/$/, "");
-  const permalinkItems = StoreState.cart.map(item => `${item.sku}:${item.quantity || item.qty || 1}`).join(",");
-  const checkoutUrl = `https://${cleanDomain}/cart/${permalinkItems}`;
-  showToast(`Routing to ${cleanDomain}...`);
-  window.open(checkoutUrl, "_blank", "noopener");
+  showToast('Checkout is coming soon. Contact catalystcomicstudio@gmail.com for availability.');
 }
 
 function completeExpressForgeOrder(e) {
   if (e) e.preventDefault();
-  playHapticSound('thunder');
-
-  const fullName = document.getElementById("forgeOrderFullName")?.value.trim() || "Adebayo Adeyemi";
-  const email = document.getElementById("forgeOrderEmail")?.value.trim() || "reader@catalystverse.com";
-  const address = document.getElementById("forgeOrderAddress")?.value.trim() || "14 Paul Street, Mushin, Lagos";
-  const newSerial = "CAT-" + Math.floor(100000 + Math.random() * 900000);
-
-  // Capture current cart items
-  const itemsSnapshot = StoreState.cart.map(i => ({
-    title: i.title,
-    sku: i.sku,
-    qty: i.qty || i.quantity || 1,
-    price: i.prices[StoreState.currency]
-  }));
-
-  const finalizeLedgerOrder = (paymentRef) => {
-    const orders = JSON.parse(localStorage.getItem("catalyst_orders") || JSON.stringify(SAMPLE_DISPATCH_ORDERS));
-    orders[newSerial] = {
-      serial: newSerial,
-      paymentRef: paymentRef || newSerial,
-      customer: fullName,
-      email: email,
-      dest: address,
-      rider: "Tunde O. (Unit #CK-2031)",
-      eta: "Today, 15:30 – 17:00 WAT",
-      step: 2,
-      status: "SEALED & PROCESSED AT MUSHIN SOVEREIGN FORGE",
-      items: itemsSnapshot.length > 0 ? itemsSnapshot : [
-        { title: "Issue #01: Awaken, O City (Physical Deluxe Print)", sku: "CAT-AWK-01-HC", qty: 1, price: 36000 }
-      ]
-    };
-    localStorage.setItem("catalyst_orders", JSON.stringify(orders));
-
-    // Automatically unlock Sovereign Digital Vault (Passkey CATALYST2031)
-    localStorage.setItem("catalyst_vault_unlocked", "true");
-    if (typeof initVipVault === "function") initVipVault();
-
-    // Pre-fill Certificate with customer's authentic details
-    const collectorInput = document.getElementById("certCollectorInput");
-    if (collectorInput) collectorInput.value = fullName;
-    updateCertCollectorName(fullName);
-    const certSerialEl = document.getElementById("certSerial");
-    if (certSerialEl) certSerialEl.textContent = newSerial;
-
-    // Clear cart cache
-    StoreState.cart = [];
-    saveCart();
-    updateCartUI();
-
-    closeCatalystForgeCheckoutModal();
-    showToast(`🎉 Order ${newSerial} Confirmed! VIP Collector Vault Unlocked.`);
-
-    // Reveal certificate with options to track live or download invoice
-    setTimeout(() => {
-      openCertificateModal();
-    }, 500);
-  };
-
-  const paystackKey = window.CATALYST_PAYSTACK_PUBLIC_KEY || localStorage.getItem("catalyst_paystack_pk");
-  if (paystackKey && window.PaystackPop) {
-    const subtotal = StoreState.cart.reduce((sum, item) => sum + (item.prices.NGN * (item.quantity || item.qty || 1)), 0) || 36000;
-    const totalNgn = StoreState.appliedCoupon ? Math.round(subtotal * (1 - StoreState.appliedCoupon.discount)) : subtotal;
-    const handler = window.PaystackPop.setup({
-      key: paystackKey,
-      email: email,
-      amount: totalNgn * 100,
-      currency: "NGN",
-      ref: newSerial,
-      callback: function(response) {
-        finalizeLedgerOrder(response.reference);
-      },
-      onClose: function() {
-        showToast("Payment window closed — order saved to Sovereign Reservation Ledger.");
-        finalizeLedgerOrder(newSerial);
-      }
-    });
-    handler.openIframe();
-    return;
-  }
-
-  finalizeLedgerOrder(newSerial);
+  showToast('Checkout is coming soon. Your cart is saved; no payment or order has been confirmed.');
 }
 
 function checkoutViaWhatsApp() {
-  const itemsText = StoreState.cart.map(
-    item => `• ${item.title} (${item.variantName}) x${item.quantity} = ${formatPrice(item.prices[StoreState.currency] * item.quantity)}`
-  ).join("%0A");
-
-  const subtotal = StoreState.cart.reduce((sum, item) => sum + (item.prices[StoreState.currency] * item.quantity), 0);
-  const total = StoreState.appliedCoupon ? subtotal * (1 - StoreState.appliedCoupon.discount) : subtotal;
-
-  const msg = `⚡ *CATALYST: THE AWAKENING COMIC ORDER*%0A%0A` +
-              `Hello Catalyst Comics Studio,%0A` +
-              `I would like to place an order for the following items:%0A%0A` +
-              `${itemsText}%0A%0A` +
-              `*Total: ${formatPrice(total)} (${StoreState.currency})*%0A` +
-              (StoreState.appliedCoupon ? `*Coupon Applied:* ${StoreState.appliedCoupon.code}%0A` : '') +
-              `%0APlease provide payment instructions & delivery details.`;
-
-  const waUrl = `https://wa.me/2348123456789?text=${msg}`;
-  window.open(waUrl, "_blank");
+  showToast('For availability, contact catalystcomicstudio@gmail.com. Checkout is coming soon.');
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -968,19 +919,19 @@ function generateCatalystAiResponse(question) {
     return "🎁 You carry the sharp eye of an architect! Use coupon code <strong>CATALYSTOS10</strong> at checkout for 10% off your entire order, or <strong>SOLEDOMINANCE</strong> for VIP collector rates!";
   }
   if (q.includes("ship") || q.includes("delivery") || q.includes("lagos")) {
-    return "📦 We deliver globally! In Lagos, physical prints and merch arrive in 24-48 hours via dispatch courier. Nationwide in Nigeria takes 2-4 days. International orders ship tracked DHL/FedEx (5-7 business days). Digital comics are delivered instantly to your email!";
+    return "Checkout is coming soon. Contact <strong>catalystcomicstudio@gmail.com</strong> to ask about availability, shipping and digital editions before ordering.";
   }
   if (q.includes("bayo") || q.includes("orisha") || q.includes("sango") || q.includes("ogun") || q.includes("power")) {
     return "⚔ Adebayo Adeyemi is 19 from Mushin. Unlike past warriors who bonded with single deities, Bayo holds the combined Aṣẹ of the Orisha pantheon: the thunder of <strong>Ṣàngó</strong>, the iron manipulation of <strong>Ògún</strong>, and the pure spiritual balance of <strong>Obatàlá</strong>. That is why the Pale Council in Eko Atlantic is terrified.";
   }
   if (q.includes("track") || q.includes("dispatch") || q.includes("where is my order") || q.includes("courier")) {
-    return "📍 You can track live Lagos courier telemetry anytime! Click <strong>Track Dispatch</strong> in the navigation or use Order ID <strong>CAT-889124</strong> to view our 5-stage transit grid from Mushin Forge across Third Mainland to your doorstep.";
+    return "Open <strong>My Orders</strong> after signing in with Reader Passport to view your confirmed order status. Checkout is coming soon; no sample delivery is treated as a real order.";
   }
   if (q.includes("vault") || q.includes("vip") || q.includes("secret") || q.includes("keycard") || q.includes("passkey")) {
-    return "🔒 The <strong>Aṣẹ VIP Collector Vault</strong> holds restricted items including the <em>Issue #05 Storyboard Book</em> and <em>Pale Council Mirror Mask</em>! If you are an initiated backer, enter Sovereign Passkey <strong>CATALYST2056</strong> or <strong>ASE2031</strong> to authenticate your keycard.";
+    return "Your Reader Passport shows membership from your verified account. Sign in to check your access. Checkout is coming soon.";
   }
   if (q.includes("invoice") || q.includes("receipt") || q.includes("tax")) {
-    return "🖨️ Every order generates an official cryptographic commercial invoice! You can click <strong>Print Invoice Slip</strong> in your cart drawer or after checkout to produce a print/PDF-ready sovereign receipt.";
+    return "Receipts will be issued with verified checkout. A saved cart or personal collector card is not a payment receipt.";
   }
   if (q.includes("sound") || q.includes("music") || q.includes("rain") || q.includes("ambient")) {
     return "🎧 Our built-in procedural Web Audio synthesizer generates authentic Lagos 2031 rain, Ṣàngó thunder, and Apapa industrial drones with zero latency. Click the <strong>Ambience</strong> button in the navbar to activate!";
@@ -1268,8 +1219,8 @@ function renderCmdResults(query) {
   // 1. Navigation & Hub Commands
   if (!query || query.includes("track") || query.includes("dispatch") || query.includes("logistics")) {
     results.push({
-      title: "📍 Track Lagos Dispatch & Order Telemetry",
-      desc: "Real-time 5-stage waypoint GPS & rider contact",
+      title: "📍 My Orders",
+      desc: "View confirmed status for orders on your reader account",
       action: () => { openOrderTrackerModal(); closeCommandPalette(); }
     });
   }
@@ -1778,7 +1729,7 @@ function openCertificateModal() {
   const certNumber = "CAT-" + Math.floor(100000 + Math.random() * 900000);
   document.getElementById("certSerial").textContent = certNumber;
   document.getElementById("certDate").textContent = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-  
+
   const currentCollector = document.getElementById("certCollectorInput")?.value || "Adebayo Adeyemi";
   updateCertCollectorName(currentCollector);
 
@@ -1847,7 +1798,7 @@ function downloadCertificatePng() {
 
   ctx.fillStyle = "#F4B800";
   ctx.font = "bold 58px 'Cinzel Decorative', Georgia, serif";
-  ctx.fillText("CERTIFICATE OF AUTHENTICITY", 800, 210);
+  ctx.fillText("PERSONAL COLLECTOR CARD", 800, 210);
 
   ctx.fillStyle = "rgba(255, 255, 255, 0.75)";
   ctx.font = "500 20px 'Space Grotesk', -apple-system, sans-serif";
@@ -1871,8 +1822,8 @@ function downloadCertificatePng() {
   // 7. Authentication Statement
   ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
   ctx.font = "18px 'Space Grotesk', sans-serif";
-  ctx.fillText("This document certifies that this relic was produced under the canonical direct supervision", 800, 460);
-  ctx.fillText("of Catalyst Comics Studio and authenticated on the sovereign Lagos Noir ledger.", 800, 490);
+  ctx.fillText("A personal keepsake from Catalyst: The Awakening.", 800, 460);
+  ctx.fillText("This card is not proof of purchase, membership or delivery.", 800, 490);
 
   // 8. Registered Collector Box
   const collector = document.getElementById("certCollectorInput")?.value.trim() || "Adebayo Adeyemi";
@@ -2114,7 +2065,7 @@ function init3dRelicEngine() {
 
     // 3. 3D Hardcover Book Mesh
     const bookGeo = new THREE.BoxGeometry(1.95, 2.75, 0.26);
-    
+
     // Create materials for book sides
     const textureLoader = new THREE.TextureLoader();
     const coverTex = textureLoader.load(RELIC_3D_CATALOG.issue1.img, () => renderer.render(scene, camera));
@@ -2133,9 +2084,9 @@ function init3dRelicEngine() {
 
     // 4. Bronze Talisman 3D Mesh (Cylinder)
     const talismanGeo = new THREE.CylinderGeometry(1.05, 1.05, 0.15, 36);
-    const talismanMat = new THREE.MeshStandardMaterial({ 
-      color: 0xCD7F32, 
-      roughness: 0.35, 
+    const talismanMat = new THREE.MeshStandardMaterial({
+      color: 0xCD7F32,
+      roughness: 0.35,
       metalness: 0.75,
       bumpScale: 0.05
     });
@@ -2393,7 +2344,7 @@ function toggle3dWireframe() {
 function trigger3dAsePulse() {
   Relic3DState.pulseScale = 1.25;
   playHapticSound('thunder');
-  
+
   // Flash lighting briefly
   const wrap = document.getElementById("holoCanvasWrap");
   if (wrap) {
@@ -2486,7 +2437,7 @@ const VAULT_RELICS = [
 ];
 
 function initVipVault() {
-  const isUnlocked = localStorage.getItem("catalyst_vault_unlocked") === "true";
+  const isUnlocked = window.CatalystAccount?.user?.app_metadata?.is_premium === true;
   const lockedView = document.getElementById("vaultLockedView");
   const unlockedView = document.getElementById("vaultUnlockedView");
   const pill = document.getElementById("vaultStatusPill");
@@ -2507,20 +2458,12 @@ function initVipVault() {
 }
 
 function handleVaultPasskeySubmit(e) {
-  e.preventDefault();
-  const input = document.getElementById("vaultPasskeyInput");
-  if (!input) return;
-  const key = input.value.trim().toUpperCase();
-
-  const VALID_KEYS = ["CATALYST2031", "CATALYST2056", "ASE2031", "LAGOSNOIR", "OLUWATOBILOBA", "CATALYST"];
-  if (VALID_KEYS.includes(key)) {
-    localStorage.setItem("catalyst_vault_unlocked", "true");
-    initVipVault();
-    playHapticSound('thunder');
-    showToast("⚡ ACCESS GRANTED: Sovereign VIP Collector Vault Unlocked!");
-  } else {
-    playHapticSound('swoosh');
-    showToast("❌ Access Denied: Invalid Sovereign Passkey. Check case or ask Concierge.");
+  if (e) e.preventDefault();
+  initVipVault();
+  if (!window.CatalystAccount?.user) {
+    showToast('Sign in through Reader Passport to check your membership.');
+  } else if (window.CatalystAccount.user.app_metadata?.is_premium !== true) {
+    showToast('Your account does not have a verified membership yet.');
   }
 }
 
@@ -2584,13 +2527,16 @@ function renderVaultRelics() {
 }
 
 function addVaultRelicToCart(relicId) {
+  if (window.CatalystAccount?.user?.app_metadata?.is_premium !== true) {
+    showToast('This collection is available to verified members.'); return;
+  }
   const relic = VAULT_RELICS.find(r => r.id === relicId);
   if (!relic) return;
 
   const cartKey = `${relic.id}::vault`;
-  const existing = StoreState.cart.find(item => item.cartKey === cartKey);
+  const existing = StoreState.cart.find(item => item.productId === relicId);
   if (existing) {
-    existing.qty += 1;
+    existing.quantity = Math.min(20, existing.quantity + 1);
   } else {
     StoreState.cart.push({
       cartKey,
@@ -2600,7 +2546,7 @@ function addVaultRelicToCart(relicId) {
       sku: `VAULT-${relicId.toUpperCase()}`,
       image: relic.image,
       prices: relic.prices,
-      qty: 1
+      quantity: 1
     });
   }
   saveCart();
@@ -2613,62 +2559,34 @@ function addVaultRelicToCart(relicId) {
 // ═══════════════════════════════════════════════════════════
 // 20. LAGOS SOVEREIGN LOGISTICS & DISPATCH TRACKER HUD
 // ═══════════════════════════════════════════════════════════
-const SAMPLE_DISPATCH_ORDERS = {
-  "CAT-889124": {
-    serial: "CAT-889124",
-    customer: "Adebayo Adeyemi",
-    dest: "14 Paul Street, Mushin, Lagos",
-    rider: "Tunde O. (Unit #CK-2031)",
-    eta: "Today, 15:30 – 17:00 WAT",
-    step: 3,
-    status: "IN TRANSIT · THIRD MAINLAND EXPRESSWAY CORRIDOR",
-    items: [
-      { title: "Issue #01: Awaken, O City (Physical Deluxe Print)", sku: "CAT-AWK-01-HC", qty: 1, price: 36000 },
-      { title: "Lagos 2031 Cyber-Streetwear — Ògún Forge Tee", sku: "CAT-TEE-OGUN-L", qty: 1, price: 42000 }
-    ]
-  }
-};
-
 function initOrderTracker() {
-  const stored = localStorage.getItem("catalyst_orders");
-  if (!stored) {
-    localStorage.setItem("catalyst_orders", JSON.stringify(SAMPLE_DISPATCH_ORDERS));
-  }
+  // Order records come only from the owner's authenticated database query.
 }
 
-function openOrderTrackerModal(orderId = "CAT-889124") {
-  const modal = document.getElementById("orderTrackerModalBackdrop");
+async function openOrderTrackerModal(orderId = '') {
+  const account = window.CatalystAccount;
+  await account.ready;
+  if (!account.user) { showToast('Sign in through Reader Passport to view your orders.'); return; }
+  let orders;
+  try { orders = await account.getOrders(orderId); }
+  catch (error) { showToast(error.message); return; }
+  const order = orders[0], modal = document.getElementById('orderTrackerModalBackdrop');
+  if (!order) { showToast(orderId ? 'No order with that reference belongs to your account.' : 'Your account has no orders yet.'); return; }
   if (!modal) return;
-
-  const orders = JSON.parse(localStorage.getItem("catalyst_orders") || JSON.stringify(SAMPLE_DISPATCH_ORDERS));
-  const order = orders[orderId] || Object.values(orders)[0] || SAMPLE_DISPATCH_ORDERS["CAT-889124"];
-
-  document.getElementById("trackerSearchInput").value = order.serial;
-  document.getElementById("trackerOrderSerial").textContent = order.serial;
-  document.getElementById("trackerStatusText").textContent = order.status;
-  document.getElementById("trackerRiderName").textContent = order.rider;
-  document.getElementById("trackerDest").textContent = order.dest;
-  document.getElementById("trackerEta").textContent = order.eta;
-
-  // Update progress line & nodes
-  const pct = Math.min(100, Math.max(10, (order.step / 5) * 100));
-  const line = document.getElementById("waypointProgressLine");
-  if (line) line.style.width = `${pct}%`;
-
+  document.getElementById('trackerSearchInput').value = order.reference;
+  document.getElementById('trackerOrderSerial').textContent = order.reference;
+  document.getElementById('trackerStatusText').textContent = String(order.status).toUpperCase();
+  document.getElementById('trackerRiderName').textContent = 'Courier details are not available here.';
+  document.getElementById('trackerDest').textContent = 'See your confirmed order receipt.';
+  document.getElementById('trackerEta').textContent = 'No delivery estimate is available.';
+  const step = { pending: 0, paid: 1, processing: 2, shipped: 4, delivered: 5 }[order.status] || 0;
+  const line = document.getElementById('waypointProgressLine');
+  if (line) line.style.width = (step / 5 * 100) + '%';
   for (let i = 1; i <= 5; i++) {
-    const node = document.getElementById(`node${i}`);
-    if (node) {
-      node.classList.remove("active", "complete");
-      if (i < order.step) {
-        node.classList.add("complete");
-      } else if (i === order.step) {
-        node.classList.add("active");
-      }
-    }
+    const node = document.getElementById('node' + i);
+    if (node) { node.classList.toggle('complete', i < step); node.classList.toggle('active', i === step); }
   }
-
-  modal.classList.add("open");
-  playHapticSound('chime');
+  modal.classList.add('open');
 }
 
 function closeOrderTrackerModal() {
@@ -2676,84 +2594,19 @@ function closeOrderTrackerModal() {
 }
 
 function searchOrderTracker() {
-  const input = document.getElementById("trackerSearchInput");
-  const q = (input?.value || "").trim().toUpperCase();
-  if (!q) return;
-
-  const orders = JSON.parse(localStorage.getItem("catalyst_orders") || JSON.stringify(SAMPLE_DISPATCH_ORDERS));
-  if (orders[q]) {
-    openOrderTrackerModal(q);
-    showToast(`📍 Tracking located for order ${q}`);
-  } else {
-    // Generate a live tracking simulation for this new code
-    orders[q] = {
-      serial: q,
-      customer: "Verified Backer",
-      dest: "Lagos Mainland Central Hub",
-      rider: "Chuka K. (Unit #CK-4022)",
-      eta: "Within 24 Hours",
-      step: 2,
-      status: "SEALED & PROCESSED AT MUSHIN SOVEREIGN FORGE",
-      items: [
-        { title: "Issue #01: Awaken, O City (Digital Master)", sku: "CAT-AWK-01-DIGI", qty: 1, price: 9500 }
-      ]
-    };
-    localStorage.setItem("catalyst_orders", JSON.stringify(orders));
-    openOrderTrackerModal(q);
-    showToast(`📍 Active sovereign telemetry initialized for ${q}`);
-  }
+  const reference = (document.getElementById('trackerSearchInput')?.value || '').trim();
+  if (reference) openOrderTrackerModal(reference);
 }
 
 // ═══════════════════════════════════════════════════════════
 // 21. OFFICIAL TAX INVOICE & DISPATCH SLIP GENERATOR
 // ═══════════════════════════════════════════════════════════
 function generateCartInvoice() {
-  if (StoreState.cart.length === 0) {
-    showToast("Your cache is empty! Add an issue or relic first to generate an invoice.");
-    return;
-  }
-
-  const invoiceSerial = "CAT-INV-" + Math.floor(100000 + Math.random() * 900000);
-  const items = StoreState.cart.map(item => ({
-    title: item.title,
-    sku: item.sku,
-    qty: item.qty,
-    price: item.prices[StoreState.currency]
-  }));
-
-  const customerName = "Adebayo Adeyemi";
-  const customerEmail = "reader@catalystverse.com";
-  const customerAddress = "14 Paul Street, Mushin, Lagos";
-
-  openInvoiceModal({
-    serial: invoiceSerial,
-    date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
-    customerName,
-    customerEmail,
-    customerAddress,
-    items
-  });
+  showToast('Official receipts will be available with verified checkout. View your saved items in the cart.');
 }
 
-function printOfficialOrderSlip(orderId) {
-  const orders = JSON.parse(localStorage.getItem("catalyst_orders") || JSON.stringify(SAMPLE_DISPATCH_ORDERS));
-  const order = orders[orderId] || SAMPLE_DISPATCH_ORDERS["CAT-889124"];
-
-  const items = (order.items || []).map(item => ({
-    title: item.title,
-    sku: item.sku,
-    qty: item.qty,
-    price: item.price
-  }));
-
-  openInvoiceModal({
-    serial: `INV-${order.serial}`,
-    date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
-    customerName: order.customer,
-    customerEmail: "reader@catalystverse.com",
-    customerAddress: order.dest,
-    items
-  });
+function printOfficialOrderSlip() {
+  showToast('Official receipts will be available after verified payment. Contact catalystcomicstudio@gmail.com for help.');
 }
 
 function openInvoiceModal(data) {
@@ -3045,11 +2898,16 @@ function renderReviews(filterAffinity = 'all') {
   const container = document.getElementById("reviewsContainer");
   if (!container) return;
 
-  const userReviews = JSON.parse(localStorage.getItem("catalyst_user_reviews") || "[]");
-  const allReviews = [...userReviews, ...CANONICAL_REVIEWS];
+  const userReviews = readStoreValue('catalyst_user_reviews', []);
+  const escape = value => String(value || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const allReviews = (Array.isArray(userReviews) ? userReviews : []).map(r => ({
+    author: escape(r.author), text: escape(r.text), location: escape(r.location), initials: escape(r.initials),
+    affinity: ['sango','ogun','osun','obatala','esu'].includes(r.affinity) ? r.affinity : 'sango',
+    rating: Math.min(5, Math.max(1, Number(r.rating) || 1)), badge: 'Your saved review draft'
+  }));
 
-  const filtered = filterAffinity === 'all' 
-    ? allReviews 
+  const filtered = filterAffinity === 'all'
+    ? allReviews
     : allReviews.filter(r => r.affinity === filterAffinity);
 
   container.innerHTML = filtered.map(r => `
@@ -3131,14 +2989,15 @@ function handleReviewSubmit(e) {
     text
   };
 
-  const stored = JSON.parse(localStorage.getItem("catalyst_user_reviews") || "[]");
+  const saved = readStoreValue('catalyst_user_reviews', []);
+  const stored = Array.isArray(saved) ? saved : [];
   stored.unshift(newReview);
-  localStorage.setItem("catalyst_user_reviews", JSON.stringify(stored));
+  storeStorage.setItem("catalyst_user_reviews", JSON.stringify(stored));
 
   closeReviewModal();
   renderReviews('all');
   playHapticSound('chime');
-  showToast("⚡ Thank you! Your review has been added to the Sovereign Ledger.");
+  showToast('Review draft saved. It has not been published.');
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -3149,4 +3008,3 @@ window.addEventListener("DOMContentLoaded", () => {
   initOrderTracker();
   initReviews();
 });
-

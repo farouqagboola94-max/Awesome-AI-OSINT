@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="preconnect" href="https://js.paystack.co" crossorigin>
-  <link rel="preconnect" href="https://qeoqxowpnrmttjupxkeb.supabase.co" crossorigin>
+  <link rel="preconnect" href="https://oxnpmgbwwsjfseirfxej.supabase.co" crossorigin>
   <link rel="preload" as="image" href="../assets/cover-issue2.webp" fetchpriority="high">
 
 <!-- ═══════════════════════════════════════════════════════════
@@ -130,6 +130,8 @@
 </head>
 <body data-page="issue" data-issue="2">
 
+  <!-- PERSISTENT LASER READING PROGRESS BAR -->
+  <div class="laser-reading-bar" id="laserReadingBar" aria-hidden="true"></div>
 
 <a class="skip-link" href="#read">Skip to main content</a>
 
@@ -171,24 +173,52 @@
 <div class="cursor-ring" id="cursorRing"></div>
 <canvas id="bg3d"></canvas>
 
+<script>
+  window.openAuthModal = window.openAuthModal || function(tab) {
+    var b = document.getElementById('authBackdrop');
+    if (b) { b.classList.add('open'); b.setAttribute('aria-hidden', 'false'); }
+    var t = tab || 'signup';
+    var tabBtn = document.getElementById('tab-' + t);
+    var panel = document.getElementById('auth-' + t);
+    if (tabBtn) { document.querySelectorAll('.auth-tab').forEach(function(x){x.classList.remove('active');}); tabBtn.classList.add('active'); }
+    if (panel) { document.querySelectorAll('.auth-panel').forEach(function(x){x.classList.remove('active');}); panel.classList.add('active'); }
+    document.body.style.overflow = 'hidden';
+  };
+  window.closeAuthModal = window.closeAuthModal || function() {
+    var b = document.getElementById('authBackdrop');
+    if (b) { b.classList.remove('open'); b.setAttribute('aria-hidden', 'true'); }
+    document.body.style.overflow = '';
+  };
+  window.openUserProfileModal = window.openUserProfileModal || function() {
+    if (!window.CatalystAccount || !window.CatalystAccount.user) { window.openAuthModal('signin'); return; }
+    var b = document.getElementById('userProfileBackdrop');
+    if (b) { b.classList.add('open'); b.setAttribute('aria-hidden', 'false'); }
+    document.body.style.overflow = 'hidden';
+  };
+  window.closeUserProfileModal = window.closeUserProfileModal || function() {
+    var b = document.getElementById('userProfileBackdrop');
+    if (b) { b.classList.remove('open'); b.setAttribute('aria-hidden', 'true'); }
+    document.body.style.overflow = '';
+  };
+</script>
+
 <!-- ============================================================ AUTH MODAL -->
-<div class="modal-backdrop" id="authBackdrop">
+<div class="modal-backdrop" id="authBackdrop" aria-hidden="true" role="dialog" aria-label="Catalystverse account">
   <div class="auth-modal">
     <button class="modal-close" onclick="closeAuthModal()" aria-label="Close">✕</button>
     <div class="auth-modal-logo">CATALYST<span>:</span>TA</div>
-    <p class="auth-modal-sub">Enter the Ọ̀run. Own the universe.</p>
+    <p class="auth-modal-sub">Your reading, notes and identity. One Catalystverse account.</p>
     <div class="auth-tabs">
       <button class="auth-tab active" id="tab-signup" onclick="switchAuthTab('signup',this)">Join Free</button>
       <button class="auth-tab" id="tab-signin" onclick="switchAuthTab('signin',this)">Sign In</button>
     </div>
     <div id="auth-signup" class="auth-panel active">
-      <button class="social-btn google-btn" onclick="signInWithGoogle()">
+      <button class="social-btn google-btn" type="button" onclick="signInWithGoogle()" title="Sign in with Google">
         <svg width="18" height="18" viewBox="0 0 48 48" style="margin-right:0.6rem;flex-shrink:0"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
         Continue with Google
       </button>
       <div class="auth-or"><span>or</span></div>
-      <form id="signup-form" method="post" onsubmit="handleSignUp(event)" data-netlify="true" name="catalyst-signup" netlify-honeypot="bot-field">
-        <input type="hidden" name="form-name" value="catalyst-signup">
+      <form id="signup-form" onsubmit="event.preventDefault(); handleSignUp(event)" data-netlify-ignore="true">
         <input type="hidden" name="bot-field" style="display:none">
         <input type="text" class="auth-input" name="fullname" placeholder="Full Name" aria-label="Full Name" required autocomplete="name">
         <input type="email" class="auth-input" name="email" placeholder="Email Address" aria-label="Email Address" required autocomplete="email">
@@ -199,13 +229,12 @@
       </form>
     </div>
     <div id="auth-signin" class="auth-panel">
-      <button class="social-btn google-btn" onclick="signInWithGoogle()">
+      <button class="social-btn google-btn" type="button" onclick="signInWithGoogle()" title="Sign in with Google">
         <svg width="18" height="18" viewBox="0 0 48 48" style="margin-right:0.6rem;flex-shrink:0"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
         Continue with Google
       </button>
       <div class="auth-or"><span>or</span></div>
-      <form id="signin-form" method="post" onsubmit="handleSignIn(event)" data-netlify="true" name="catalyst-signin" netlify-honeypot="bot-field">
-        <input type="hidden" name="form-name" value="catalyst-signin">
+      <form id="signin-form" onsubmit="event.preventDefault(); handleSignIn(event)" data-netlify-ignore="true">
         <input type="hidden" name="bot-field" style="display:none">
         <input type="email" class="auth-input" name="email" placeholder="Email Address" aria-label="Email Address" required autocomplete="email">
         <div class="pw-wrap">
@@ -215,6 +244,119 @@
         <button type="submit" class="auth-submit-btn" id="signin-btn">Enter the Universe →</button>
       </form>
     </div>
+  </div>
+</div>
+
+<!-- ============================================================ CATALYST OS READER HUD PROFILE MODAL -->
+<div class="modal-backdrop" id="userProfileBackdrop" aria-hidden="true" role="dialog" aria-label="Catalyst OS Reader Profile">
+  <div class="user-profile-modal">
+    <button class="modal-close" onclick="closeUserProfileModal()" aria-label="Close">✕</button>
+    <div class="profile-hud-header">
+      <div class="profile-hud-tag">CATALYSTVERSE // READER PASSPORT</div>
+      <div class="profile-hud-status" id="profileSyncStatus" role="status" aria-live="polite">Sign in to save across devices</div>
+    </div>
+    <div class="profile-hud-identity">
+      <div class="profile-avatar-box" id="profileAvatarBox">
+        <span class="profile-avatar-initial" id="profileAvatarInitial">C</span>
+        <div class="profile-aura-glow" id="profileAuraGlow"></div>
+      </div>
+      <div class="profile-identity-info">
+        <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
+          <h3 class="profile-user-name" id="profileUserName">Catalyst Reader</h3>
+          <span class="profile-xp-pill" id="profileXpPill">CATALYSTVERSE PASSPORT</span>
+        </div>
+        <p class="profile-user-email" id="profileUserEmail"></p>
+        <div style="display:flex;align-items:center;gap:0.4rem;margin-top:0.3rem;">
+          <span class="profile-tier-badge" id="profileTierBadge">READER ACCOUNT</span>
+        </div>
+        <div style="margin-top:0.5rem;">
+          <input type="text" id="profileCallSignInput" class="profile-callsign-input" maxlength="32" aria-label="Your reader callsign" placeholder="Callsign: e.g. Mushin_Oracle" onchange="saveProfileCallSign(this.value)">
+        </div>
+      </div>
+    </div>
+
+    <!-- Reading Progress Bar -->
+    <div class="profile-progress-wrap">
+      <div class="profile-progress-header">
+        <span>ISSUE #01 READING POSITION</span>
+        <span id="profileProgressPct">START READING TO SAVE YOUR PLACE</span>
+      </div>
+      <div class="profile-progress-bar">
+        <div class="profile-progress-fill" style="width:0%"></div>
+      </div>
+      <div class="profile-progress-sub">Your reading position and notes are private to your account.</div>
+    </div>
+
+    <!-- Orisha Affinity Selector -->
+    <div class="profile-affinity-section">
+      <label class="profile-section-label">CHOOSE ORISHA AFFINITY RESONANCE</label>
+      <div class="profile-affinity-chips" id="profileAffinityChips">
+        <button type="button" class="affinity-chip active" onclick="setOrishaAffinity('Ṣàngó')">⚡ Ṣàngó (Lightning)</button>
+        <button type="button" class="affinity-chip" onclick="setOrishaAffinity('Ògún')">⚔ Ògún (Iron &amp; Forge)</button>
+        <button type="button" class="affinity-chip" onclick="setOrishaAffinity('Ọ̀ṣun')">🌊 Ọ̀ṣun (Flow &amp; Memory)</button>
+        <button type="button" class="affinity-chip" onclick="setOrishaAffinity('Obatàlá')">⚖ Obatàlá (Creation)</button>
+        <button type="button" class="affinity-chip" onclick="setOrishaAffinity('Ẹṣù')">🌀 Ẹṣù (Crossroads)</button>
+      </div>
+    </div>
+
+    <!-- Unlocked Archives Tracker -->
+    <div class="profile-archives-grid">
+      <div class="profile-archive-card">
+        <div class="profile-archive-val" id="profileArtworksCount">0</div>
+        <div class="profile-archive-lbl">Saved Field Notes</div>
+      </div>
+      <div class="profile-archive-card">
+        <div class="profile-archive-val" id="profileIssuesRead">0</div>
+        <div class="profile-archive-lbl">Issues Completed</div>
+      </div>
+      <div class="profile-archive-card">
+        <div class="profile-archive-val">1</div>
+        <div class="profile-archive-lbl">Reader Identity</div>
+      </div>
+    </div>
+
+    <!-- OPERATIVE CODEX ACHIEVEMENTS -->
+    <div class="profile-achievements-section">
+      <label class="profile-section-label">OPERATIVE CODEX ACHIEVEMENTS</label>
+      <div class="profile-badges-row" id="profileBadgesRow">Your journey starts with your first chapter.</div>
+    </div>
+
+    <!-- RESUME LAST READ SCENE -->
+    <div class="profile-resume-box">
+      <div class="profile-resume-info">
+        <span class="resume-label">LAST SAVED READING POSITION:</span>
+        <strong id="profileResumeScene">Scene 01: Before Everything (Mushin, Lagos)</strong>
+      </div>
+      <button type="button" class="profile-resume-btn" onclick="resumeLastReadingScene()">RESUME READING ➔</button>
+    </div>
+
+    <!-- HIGH-DPI CANVAS DIGITAL PASS EXPORTER -->
+    <div style="margin-top:1rem;text-align:center;">
+      <button type="button" class="profile-export-canvas-btn" id="profileExportCanvasBtn" onclick="exportDigitalReaderPassCanvas()">
+        ✦ EXPORT READER CARD (PNG)
+      </button>
+    </div>
+
+    <div style="margin-top:0.9rem;display:grid;grid-template-columns:repeat(4,1fr);gap:0.4rem;">
+      <a href="/read/issue-1" class="profile-btn-export" style="text-align:center;text-decoration:none;font-size:0.7rem;padding:0.45rem 0.25rem;">📖 #01</a>
+      <a href="/read/issue-2" class="profile-btn-export" style="text-align:center;text-decoration:none;font-size:0.7rem;padding:0.45rem 0.25rem;">📖 #02</a>
+      <a href="/read/issue-3" class="profile-btn-export" style="text-align:center;text-decoration:none;font-size:0.7rem;padding:0.45rem 0.25rem;">📖 #03</a>
+      <a href="/read/issue-4" class="profile-btn-export" style="text-align:center;text-decoration:none;font-size:0.7rem;padding:0.45rem 0.25rem;">📖 #04</a>
+    </div>
+
+    <div class="profile-hud-actions">
+      <button type="button" class="profile-btn-primary" onclick="closeUserProfileModal(); document.getElementById('artwork-gallery').scrollIntoView({behavior:'smooth'});">Inspect 50 Artworks Unveiled →</button>
+      <a href="/store.html" class="profile-btn-upgrade" style="display:block;text-align:center;text-decoration:none;">⚡ Open 3D Relic &amp; Graphic Novel Store →</a>
+      <a href="/script-studio/" class="profile-btn-export" style="display:block;text-align:center;text-decoration:none;">🎬 Interactive Script Studio →</a>
+      <a href="https://catalyst-world.netlify.app/" target="_blank" rel="noopener noreferrer" class="profile-btn-export" style="display:block;text-align:center;text-decoration:none;border-color:rgba(0,201,177,0.45);color:#00C9B1;">🌐 Official Master Portal (Catalyst World) ↗</a>
+      <button type="button" class="profile-btn-export" onclick="exportReaderIdCard()">🪪 Copy Digital Reader Pass</button>
+      <button type="button" class="profile-btn-upgrade" onclick="closeUserProfileModal(); openPaymentModal();">Upgrade to Ìmọ̀lẹ̀ Circle VIP</button>
+      <button type="button" class="profile-btn-export" onclick="closeUserProfileModal(); openAuthModal('signup');">🔑 Switch / Link Operative Account</button>
+      <button type="button" class="profile-btn-signout" onclick="handleSignOut()">Sign Out</button>
+      <button type="button" class="profile-btn-export" onclick="importReaderHistory()">Import this device’s reading history</button>
+      <button type="button" class="profile-btn-export" onclick="exportReaderData()">Download my saved data</button>
+    </div>
+    <p class="profile-progress-sub">Callsign, affinity, reading position, notes and reader settings are saved to your account. Device history is imported only when you choose it.</p>
   </div>
 </div>
 
@@ -235,6 +377,7 @@
       <div class="payment-price" id="paymentPrice">₦5,000</div>
       <div class="payment-period" id="paymentPeriod">per month</div>
     </div>
+    <p class="payment-note">Planned membership benefits — subject to release readiness.</p>
     <div class="payment-features">
       <div class="pf"><span>✓</span> Full illustrated issues 5–12 (Arc II) + beyond</div>
       <div class="pf"><span>✓</span> Motion comics — key scenes fully animated</div>
@@ -248,12 +391,29 @@
 <div id="paymentEmailCapture" style="display:none;margin-top:0.75rem;">
   <div style="font-size:0.72rem;letter-spacing:0.12em;color:rgba(240,237,229,0.5);margin-bottom:0.6rem;text-align:center;">JOIN THE WAITLIST &middot; BE FIRST WHEN WE LAUNCH</div>
   <div style="display:flex;gap:0.5rem;">
-    <input type="email" id="waitlistEmail" placeholder="your@email.com" aria-label="Email address for waitlist" style="flex:1;background:rgba(240,237,229,0.06);border:1px solid rgba(244,184,0,0.25);color:#F0EDE5;padding:0.6rem 0.8rem;border-radius:3px;font-size:0.85rem;font-family:inherit;outline:none;">
-    <button onclick="submitWaitlist()" style="background:rgba(244,184,0,0.15);border:1px solid rgba(244,184,0,0.4);color:#F4B800;padding:0.6rem 1rem;border-radius:3px;cursor:pointer;font-family:'Oswald',sans-serif;font-size:0.7rem;letter-spacing:0.15em;white-space:nowrap;transition:background 0.2s;">JOIN &#x2726;</button>
+    <input type="email" id="waitlistEmail" required maxlength="254" placeholder="your@email.com" aria-label="Email address for waitlist" style="flex:1;background:rgba(240,237,229,0.06);border:1px solid rgba(244,184,0,0.25);color:#F0EDE5;padding:0.6rem 0.8rem;border-radius:3px;font-size:0.85rem;font-family:inherit;outline:none;">
+    <input id="waitlistBot" name="bot-field" tabindex="-1" autocomplete="off" hidden><button id="waitlistSubmit" type="button" onclick="submitWaitlist()" style="background:rgba(244,184,0,0.15);border:1px solid rgba(244,184,0,0.4);color:#F4B800;padding:0.6rem 1rem;border-radius:3px;cursor:pointer;font-family:'Oswald',sans-serif;font-size:0.7rem;letter-spacing:0.15em;white-space:nowrap;transition:background 0.2s;">JOIN &#x2726;</button>
   </div>
 </div>
-    <button class="payment-cta-btn" id="paystackBtn" onclick="initiatePayment()">Activate Ìᴹᵠʝẹ̀ Access ⚡</button>
-    <p class="payment-note">Secured by Paystack · Cancel anytime · Supports Nigerian creators directly</p>
+    <button class="payment-cta-btn" id="paystackBtn" onclick="initiatePayment()">Join the access waitlist</button>
+    <p class="payment-note">Paid access is not open. Registration saves your interest only; no charge or subscription is created.</p>
+  </div>
+
+  <!-- ── 50 ARTWORKS DYNAMIC FILTER & LIVE SEARCH TOOLBAR ── -->
+  <div class="ag-controls-bar reveal">
+    <div class="ag-filter-pills" role="tablist">
+      <button type="button" class="ag-filter-pill active" onclick="filterArtworkGroup('all', this)">⚡ ALL (50)</button>
+      <button type="button" class="ag-filter-pill" onclick="filterArtworkGroup('character', this)">👤 CHARACTERS (8)</button>
+      <button type="button" class="ag-filter-pill" onclick="filterArtworkGroup('scene', this)">🎬 SCENES (12)</button>
+      <button type="button" class="ag-filter-pill" onclick="filterArtworkGroup('world', this)">🌐 WORLD (5)</button>
+      <button type="button" class="ag-filter-pill" onclick="filterArtworkGroup('symbol', this)">🛡️ EMBLEMS (6)</button>
+      <button type="button" class="ag-filter-pill" onclick="filterArtworkGroup('cover', this)">📖 COVERS (13)</button>
+      <button type="button" class="ag-filter-pill" onclick="filterArtworkGroup('action', this)">⚔️ ACTION (6)</button>
+    </div>
+    <div class="ag-search-wrap">
+      <input type="text" id="agSearchInput" class="ag-search-input" placeholder="Search 50 artworks by code, title, or tag (e.g. Bayo, Ṣàngó, Bridge, CHAR-01)..." oninput="handleArtworkSearch(this.value)" aria-label="Search 50 artworks">
+      <span class="ag-counter" id="agCounter">50 / 50 UNVEILED</span>
+    </div>
   </div>
 </div>
 
@@ -270,25 +430,23 @@
 <!-- ============================================================ NAV -->
 <nav>
   <a href="/#hero" class="nav-logo">CATALYST</a>
-  <!-- Desktop bar carries the primary destinations only: fifteen links
-       plus the search and account controls cannot share a bar narrower
-       than ~1900px without overlapping. Covers, Combat Sim, Codex, Lore
-       and Gallery still live in the mobile nav, on the page, and one
-       ⌘K away in the archive search. -->
+  <!-- Keep primary destinations beside the account controls. The full
+       archive is also available through search and the mobile menu. -->
   <ul class="nav-links">
     <li><a href="/#world-2031">Lagos 2031</a></li>
-    <li><a href="/#arcs">Arcs</a></li>
     <li><a href="/#characters">Heroes</a></li>
-    <li><a href="/#villains">Villains</a></li>
-    <li><a href="/#realms">Realms</a></li>
     <li><a href="/#glossary">Glossary</a></li>
     <li><a href="#read">Read Free</a></li>
-    <li><a href="/#the-choice">The Choice</a></li>
-    <li><a href="/#clearance">Clearance</a></li>
-    <li><a href="/#architects-vault">Vault</a></li>
+    <li><a href="/#preorder-store" class="nav-store-link">Store</a></li>
     <li><a href="/#access" class="nav-cta">Subscribe</a></li>
   </ul>
-  <div style="display:flex;align-items:center;gap:0.8rem;">
+  <div class="nav-controls">
+    <!-- TRI-LINGUAL CULTURAL LANGUAGE SELECTOR -->
+    <div class="nav-lang-picker" id="navLangPicker">
+      <button type="button" class="lang-btn active" onclick="setLanguage('en', this)" title="Standard English">EN</button>
+      <button type="button" class="lang-btn" onclick="setLanguage('pidgin', this)" title="Nigerian Pidgin English">PIDGIN</button>
+      <button type="button" class="lang-btn" onclick="setLanguage('yoruba', this)" title="Èdè Yorùbá">YORÙBÁ</button>
+    </div>
     <button class="nav-audio-btn" id="navAudioBtn" onclick="toggleAmbientSound()" type="button" aria-label="Toggle ambient Lagos noir soundscape" title="Lagos Noir Soundscape">
       <span class="audio-icon">🎧</span>
       <span class="audio-bars" aria-hidden="true">
@@ -300,6 +458,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
       <kbd class="nav-search-kbd">⌘K</kbd>
     </button>
+    <button class="nav-profile-btn" id="navProfileBtn" onclick="openUserProfileModal()" type="button" aria-label="Open Reader Profile" title="Reader Passport">👤 <span class="nav-profile-label">PROFILE</span></button>
     <button class="nav-auth-btn" id="navAuthBtn" onclick="openAuthModal()">Sign In</button>
     <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -312,6 +471,10 @@
 
 <!-- ── Back to Top ── -->
 <button id="back-to-top" aria-label="Back to top" title="Back to top">&#8679;</button>
+
+<!-- ── Universal Accessibility Trigger & Reading Ruler ── -->
+<div id="readingRuler" class="reading-ruler" style="display:none;" aria-hidden="true"></div>
+<button id="a11y-trigger-btn" class="a11y-float-btn" aria-label="Open Universal Accessibility &amp; Ergonomics Suite" title="Universal Accessibility (A)" onclick="toggleA11yDrawer()">♿</button>
 
 <!-- ── Toast Container ── -->
 <div id="toast-container" aria-live="polite" aria-atomic="false"></div>
@@ -363,18 +526,12 @@
   </div>
 </div>
 
-<!-- Hidden Netlify form declaration: payment-intent submissions are posted
-     via JS (netlifyCapture) and Netlify only accepts forms present in static HTML -->
-<form name="catalyst-payment-intent" data-netlify="true" netlify-honeypot="bot-field" hidden aria-hidden="true">
-  <input type="hidden" name="form-name" value="catalyst-payment-intent">
+
+<form name="catalyst-waitlist" data-netlify="true" netlify-honeypot="bot-field" hidden aria-hidden="true">
+  <input type="hidden" name="form-name" value="catalyst-waitlist">
   <input type="hidden" name="bot-field">
   <input type="email" name="email">
   <input type="text" name="plan">
-  <input type="text" name="status">
-  <input type="text" name="is_premium">
-  <input type="text" name="premium_plan">
-  <input type="text" name="premium_since">
-  <input type="text" name="paystack_ref">
 </form>
 
 <!-- ── Covenant member chip ── -->
@@ -437,6 +594,7 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
     Search the archive
   </button>
+  <a href="/#world-2031" onclick="toggleMobileNav()">Lagos 2031 Hub</a>
   <a href="/#arcs" onclick="toggleMobileNav()">Arcs</a>
   <a href="/#characters" onclick="toggleMobileNav()">Heroes</a>
   <a href="/#cover-gallery" onclick="toggleMobileNav()">Covers</a>
@@ -449,8 +607,10 @@
   <a href="/#the-choice" onclick="toggleMobileNav()">The Choice</a>
   <a href="/#lore" onclick="toggleMobileNav()">Lore</a>
   <a href="/#illustrated" onclick="toggleMobileNav()">Gallery</a>
-  <a href="/#clearance" onclick="toggleMobileNav()">Clearance</a>
+  <a href="/#preorder-store" onclick="toggleMobileNav()">Official Store 🛒</a>
   <a href="/#architects-vault" onclick="toggleMobileNav()">Vault 🔓</a>
+  <button type="button" class="mobile-nav-btn" onclick="toggleMobileNav(); openUserProfileModal();" style="display:block;width:100%;text-align:left;background:none;border:none;color:var(--danfo-gold);font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;padding:0.75rem 0;cursor:pointer;">👤 Operative Profile</button>
+  <button type="button" class="mobile-nav-btn" onclick="toggleMobileNav(); openAuthModal();" style="display:block;width:100%;text-align:left;background:none;border:none;color:var(--cyan);font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;padding:0.75rem 0;cursor:pointer;">🔑 Sign In / Join</button>
   <a href="/#access" class="nav-cta-mobile" onclick="toggleMobileNav()">Subscribe ✦</a>
 </nav>
 
@@ -819,12 +979,14 @@
         <li><a href="/read/issue-3">Issue #3 — Iron in the Blood</a></li>
         <li><a href="/read/issue-4">Issue #4 — The Price of Aṣẹ</a></li>
         <li><a href="/script-studio/">Script Studio</a></li>
+        <li><a href="/store.html">3D Relic Store</a></li>
         <li><a href="/#newsletter">Coming Next</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h3>Connect</h3>
       <ul>
+        <li><a href="https://catalyst-world.netlify.app/" target="_blank" rel="noopener">Official Master Portal ↗</a></li>
         <li><a href="/#newsletter">Newsletter</a></li>
         <li><a href="https://instagram.com/catalystcomicshq" target="_blank" rel="noopener">Instagram</a></li>
         <li><a href="https://tiktok.com/@catalystcomicshq" target="_blank" rel="noopener">TikTok</a></li>
@@ -907,7 +1069,8 @@
      paint once the fonts came in-house. Deferring also means script.js now
      runs against a fully parsed document, so markup declared below this point
      exists when it looks for it. -->
-<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/dist/umd/supabase.js"></script>
+<script defer src="../reader-account.js"></script>
 <script defer src="https://js.paystack.co/v1/inline.js"></script>
 
 <script defer src="../script.js"></script>
@@ -1078,5 +1241,310 @@
      adding a second competing mousemove handler there would just make
      the two fight over the same transform property.) ── -->
 
+<!-- ============================================================ AMBIENT COMIC READING SOUNDSCAPE DOCK -->
+<div class="ambient-sound-dock" id="ambientSoundDock" aria-label="Ambient Reading Soundscape">
+  <div class="sound-dock-inner">
+    <button type="button" class="sound-dock-toggle-btn" id="soundDockToggleBtn" onclick="toggleAmbientSound()" title="Toggle Ambient Soundscape">
+      <span class="sound-dock-icon" id="soundDockIcon">🎧</span>
+      <span class="sound-dock-label" id="soundDockLabel">SOUNDSCAPE: OFF</span>
+    </button>
+    <!-- REAL-TIME AUDIO FREQUENCY SPECTRUM BARS -->
+    <div class="sound-dock-eq" id="soundDockEq" aria-hidden="true" title="Real-time Audio Spectrum">
+      <span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span>
+      <span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span>
+      <span class="eq-bar"></span><span class="eq-bar"></span>
+    </div>
+    <div class="sound-dock-presets" id="soundDockPresets">
+      <button type="button" class="preset-btn active" onclick="setAmbientPreset('sango', this)" title="Ṣàngó Tempest: Rain &amp; Thunder">⚡ Ṣàngó</button>
+      <button type="button" class="preset-btn" onclick="setAmbientPreset('ogun', this)" title="Ògún Forge: Industrial Resonance">⚔ Ògún</button>
+      <button type="button" class="preset-btn" onclick="setAmbientPreset('osun', this)" title="Ọ̀ṣun Tide: Water Flow &amp; Binaural">🌊 Ọ̀ṣun</button>
+      <button type="button" class="preset-btn" onclick="setAmbientPreset('noir', this)" title="Lagos Noir: Subterranean Drone">🌃 Noir</button>
+      <button type="button" class="preset-btn" onclick="setAmbientPreset('obatala', this)" title="Obatàlá Zenith: Ethereal High Harmonics">⚖ Obatàlá</button>
+    </div>
+    <!-- LIVE AṢẸ FX SOUNDBOARD TRAY -->
+    <div class="sound-fx-tray" id="soundFxTray">
+      <button type="button" class="sound-fx-btn" onclick="playOneShotFx('thunder')" title="Trigger Thunderstrike">⚡ THUNDER</button>
+      <button type="button" class="sound-fx-btn" onclick="playOneShotFx('steel')" title="Trigger Iron Clang">⚔ STEEL</button>
+      <button type="button" class="sound-fx-btn" onclick="playOneShotFx('tide')" title="Trigger Mystic Tide">🌊 TIDE</button>
+      <button type="button" class="sound-fx-btn" onclick="playOneShotFx('radio')" title="Trigger Radio Recon">📻 RECON</button>
+    </div>
+    <!-- AUTO-ZONE NARRATIVE SYNC TOGGLE -->
+    <button type="button" class="sound-autozone-btn active" id="soundAutoZoneBtn" onclick="toggleAutoZoneSound()" title="Automatically sync ambient music with page sections as you read">
+      AUTO-ZONE: ON
+    </button>
+    <!-- 3D BINAURAL SPATIAL ACOUSTIC TOGGLE -->
+    <button type="button" class="sound-spatial-btn" id="soundSpatialBtn" onclick="toggle3DSpatialSound()" title="Toggle 3D Binaural Acoustic Simulation">
+      3D SPATIAL: ON
+    </button>
+    <div class="sound-dock-volume">
+      <span class="sound-vol-label" id="soundVolLabel">40%</span>
+      <input type="range" id="soundVolumeSlider" min="0" max="1" step="0.05" value="0.4" oninput="setAmbientVolume(this.value)" aria-label="Soundscape Volume">
+    </div>
+  </div>
+</div>
+
+
+
+<!-- ============================================================ AṢẸ UNIVERSAL ACCESSIBILITY DRAWER & CONTROLS -->
+<div class="a11y-drawer-backdrop" id="a11yBackdrop" style="display:none;" onclick="toggleA11yDrawer()"></div>
+<div class="a11y-drawer" id="a11yDrawer" style="display:none;" role="dialog" aria-label="Universal Accessibility Suite">
+  <div class="a11y-drawer-hdr">
+    <div class="a11y-hdr-title">♿ UNIVERSAL ACCESSIBILITY &amp; ERGONOMICS SUITE</div>
+    <button type="button" class="a11y-close-btn" onclick="toggleA11yDrawer()">✕</button>
+  </div>
+  <div class="a11y-body">
+    <div class="a11y-opt-row">
+      <div class="a11y-opt-info">
+        <strong>Dyslexia-Optimized Typography</strong>
+        <span>Enhances character spacing, height, and letterform weighting for effortless reading.</span>
+      </div>
+      <button type="button" class="a11y-toggle-btn" id="a11yDyslexiaBtn" onclick="toggleA11yDyslexia()">OFF</button>
+    </div>
+
+    <div class="a11y-opt-row">
+      <div class="a11y-opt-info">
+        <strong>Photophobia &amp; Epilepsy Flash Guard</strong>
+        <span>Suppresses high-frequency neon strobes, lightning animations, and rapid particle pulses.</span>
+      </div>
+      <button type="button" class="a11y-toggle-btn" id="a11yFlashBtn" onclick="toggleA11yFlashGuard()">OFF</button>
+    </div>
+
+    <div class="a11y-opt-row">
+      <div class="a11y-opt-info">
+        <strong>Reduced Motion Engine</strong>
+        <span>Disables parallax camera transforms, smooth scroll drifts, and 3D gyroscope sweeps.</span>
+      </div>
+      <button type="button" class="a11y-toggle-btn" id="a11yMotionBtn" onclick="toggleA11yReducedMotion()">OFF</button>
+    </div>
+
+    <div class="a11y-opt-row">
+      <div class="a11y-opt-info">
+        <strong>Laser Line-Focus Reading Ruler</strong>
+        <span>Translucent high-contrast tracking guide that follows mouse cursor or touch finger.</span>
+      </div>
+      <button type="button" class="a11y-toggle-btn" id="a11yRulerBtn" onclick="toggleA11yRuler()">OFF</button>
+    </div>
+
+    <div class="a11y-opt-row">
+      <div class="a11y-opt-info">
+        <strong>Voice-Command Hands-Free Navigator</strong>
+        <span>Control pages hands-free via microphone: "next", "previous", "open map", "play audio".</span>
+      </div>
+      <button type="button" class="a11y-toggle-btn" id="a11yVoiceBtn" onclick="toggleA11yVoiceCommands()">OFF</button>
+    </div>
+
+    <div class="a11y-voice-status" id="a11yVoiceStatus" style="display:none;">
+      🎙️ Listening for commands: <em>"next"</em>, <em>"previous"</em>, <em>"open map"</em>, <em>"play audio"</em>...
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================ OMNI-ARCHIVE COMMAND PALETTE & DEEP LORE SEARCH -->
+<section id="omni-search">
+  <div class="omni-wrap reveal">
+    <div class="omni-header">
+      <p class="section-label" style="justify-content:center">Universal Knowledge Retrieval // ⌘K Deep Lore Index</p>
+      <h2 class="section-title" style="text-align:center">OMNI-ARCHIVE<br><em>DEEP LORE SEARCH</em></h2>
+      <p style="max-width:620px;margin:1rem auto 0;font-size:0.9rem;line-height:1.8;color:rgba(240,237,229,0.55);text-align:center;">
+        Instant multi-layer indexing across all 88 graphic novel pages, 50 canonical artworks, 600 years of chronology, hero dossiers, combat telemetry, relics, and cultural annotations.
+      </p>
+    </div>
+
+    <!-- Search Input Bar & Category Tabs -->
+    <div class="omni-search-box">
+      <div class="omni-input-row">
+        <span class="omni-prompt-icon">🔍</span>
+        <input type="text" id="omniSearchInput" class="omni-input" aria-label="Search the Catalyst universe" placeholder="Search anything in the Catalyst universe (e.g. Bayo, Ògún, Third Mainland, 1420 CE, Drum, Relic)..." oninput="handleOmniSearch(this.value)">
+        <span class="omni-count-badge" id="omniCountBadge">84 ENTRIES</span>
+      </div>
+
+      <div class="omni-filter-tabs" role="tablist">
+        <button type="button" class="omni-tab-btn active" onclick="filterOmniCategory('all', this)">⚡ ALL (84)</button>
+        <button type="button" class="omni-tab-btn" onclick="filterOmniCategory('characters', this)">👤 CHARACTERS (10)</button>
+        <button type="button" class="omni-tab-btn" onclick="filterOmniCategory('lore', this)">📜 LORE &amp; CHRONOLOGY (18)</button>
+        <button type="button" class="omni-tab-btn" onclick="filterOmniCategory('scenes', this)">🎬 SCENES &amp; ISSUES (19)</button>
+        <button type="button" class="omni-tab-btn" onclick="filterOmniCategory('artworks', this)">🎨 50 ARTWORKS (22)</button>
+        <button type="button" class="omni-tab-btn" onclick="filterOmniCategory('tools', this)">⚙️ APPS &amp; TOOLS (15)</button>
+      </div>
+    </div>
+
+    <!-- Live Search Results Grid -->
+    <div class="omni-results-grid" id="omniResultsGrid">
+      <!-- Populated dynamically via script.js -->
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ============================================================ PWA OFFLINE-FIRST CACHING & RECON SAVE STATES -->
+<section id="pwa-offline" style="padding:6rem 1.5rem 6.5rem;background:rgba(4,6,12,0.96);border-top:1px solid rgba(0,201,177,0.22);border-bottom:1px solid rgba(244,184,0,0.22);position:relative;overflow:hidden;">
+  <div class="pwa-container" style="max-width:1200px;margin:0 auto;position:relative;z-index:2;">
+    <!-- Section Header -->
+    <div style="text-align:center;margin-bottom:3rem;">
+      <p class="section-label reveal" style="justify-content:center;">Offline PWA Architecture // Zero-Network Telemetry</p>
+      <h2 class="section-title reveal" style="text-align:center;">PWA OFFLINE STORAGE &amp;<br><em>LOCAL RECON SAVE STATES</em></h2>
+      <p class="reveal" style="max-width:680px;margin:1rem auto 0;font-size:0.92rem;line-height:1.8;color:rgba(240,237,229,0.7);text-align:center;">
+        Read anywhere without an internet connection. The Catalyst OS Service Worker precaches all 4 comic issues, Web Audio synthesizers, and canonical artworks directly to your device storage.
+      </p>
+    </div>
+
+    <!-- Main PWA Workstation Grid -->
+    <div class="pwa-grid">
+      <!-- Left: Network & Cache Monitor -->
+      <div class="pwa-card">
+        <div class="pwa-card-header">
+          <div class="pwa-title">
+            <span class="pwa-pulse-dot" id="pwaNetworkDot"></span>
+            <span id="pwaNetworkLabel">NETWORK STATUS: ONLINE</span>
+          </div>
+          <span class="pwa-badge" id="pwaSwStatusBadge">SERVICE WORKER: ACTIVE</span>
+        </div>
+
+        <div class="pwa-storage-meter-box">
+          <div class="pwa-meter-info">
+            <span class="pwa-meter-lbl">OFFLINE CACHED ASSETS:</span>
+            <strong class="pwa-meter-val" id="pwaCachedVal">48.2 MB / 66 ASSETS CACHED</strong>
+          </div>
+          <div class="pwa-meter-bar">
+            <div class="pwa-meter-fill" id="pwaMeterFill" style="width:78%;"></div>
+          </div>
+          <div class="pwa-meter-sub">Includes 4 full comic issues, offline procedural soundscapes, and typography.</div>
+        </div>
+
+        <div class="pwa-actions-list">
+          <button type="button" class="pwa-btn primary" id="pwaPrecacheBtn" onclick="triggerPwaPrecache()">
+            ⚡ 1-CLICK PRE-CACHE UNIVERSE FOR OFFLINE
+          </button>
+          <button type="button" class="pwa-btn secondary" onclick="purgePwaCache()">
+            🧹 CLEAR OFFLINE CACHE STORAGE
+          </button>
+        </div>
+      </div>
+
+      <!-- Right: Local Storage Recon Save States -->
+      <div class="pwa-card">
+        <div class="pwa-card-header">
+          <div class="pwa-title">LOCAL RECON SAVE STATE</div>
+          <span class="pwa-badge gold" id="pwaLastSyncBadge">LAST SYNC: JUST NOW</span>
+        </div>
+
+        <!-- Telemetry Data Preview -->
+        <div class="pwa-state-dossier">
+          <div class="pwa-state-row">
+            <span class="psr-lbl">ACTIVE ISSUE &amp; PAGE:</span>
+            <strong class="psr-val" id="psrIssueVal">Issue #1 · Page 14</strong>
+          </div>
+          <div class="pwa-state-row">
+            <span class="psr-lbl">AṢẸ OPERATIVE LEVEL:</span>
+            <strong class="psr-val" id="psrLevelVal">Level 3 (1,850 Aṣẹ Points)</strong>
+          </div>
+          <div class="pwa-state-row">
+            <span class="psr-lbl">ACTIVE FACTION ALIGNMENT:</span>
+            <strong class="psr-val" id="psrFactionVal">Mushin Resistance Enclave</strong>
+          </div>
+          <div class="pwa-state-row">
+            <span class="psr-lbl">DAILY DIRECTIVES COMPLETED:</span>
+            <strong class="psr-val" id="psrDirectivesVal">2 of 3 Logged</strong>
+          </div>
+        </div>
+
+        <!-- Backup & Restore Buttons -->
+        <div class="pwa-actions-list">
+          <div style="display:flex;gap:0.6rem;width:100%;">
+            <button type="button" class="pwa-btn" style="flex:1;" onclick="saveReconStateLocal()">
+              💾 SAVE STATE
+            </button>
+            <button type="button" class="pwa-btn" style="flex:1;" onclick="exportReconStateJson()">
+              📥 EXPORT JSON
+            </button>
+          </div>
+          <label class="pwa-file-upload-btn">
+            📤 IMPORT SAVE STATE BACKUP
+            <input type="file" id="pwaStateFileInput" accept=".json" onchange="importReconStateJson(event)" style="display:none;">
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================ UNIVERSAL ACCESSIBILITY SECTION -->
+<section id="accessibility-suite">
+  <div class="a11y-section-wrap reveal">
+    <div class="a11y-section-header">
+      <p class="section-label" style="justify-content:center">Aṣẹ Universal Access // WCAG 2.1 AAA Standard</p>
+      <h2 class="section-title" style="text-align:center">ACCESSIBLE FOR<br><em>EVERY OPERATIVE</em></h2>
+      <p style="max-width:580px;margin:1rem auto 0;font-size:0.9rem;line-height:1.8;color:rgba(240,237,229,0.55);text-align:center;">
+        Catalyst Awakening is engineered for universal inclusion. Photophobia shields, dyslexia-friendly typography, sensory audio tuners, and hands-free speech navigation ensure our world welcomes every mind.
+      </p>
+    </div>
+    <div style="text-align:center;margin-top:2rem;">
+      <button type="button" class="a11y-open-drawer-btn" onclick="toggleA11yDrawer()">
+        ♿ LAUNCH UNIVERSAL ACCESSIBILITY CONTROLS
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ PWA NATIVE APP INSTALL HUD BANNER -->
+<div class="pwa-install-banner" id="pwaInstallBanner" style="display:none;" aria-label="Install Catalyst Native Web App">
+  <div class="pwa-banner-inner">
+    <div class="pwa-banner-icon">⚡</div>
+    <div class="pwa-banner-text">
+      <strong>CATALYST OS // INSTALL NATIVE APP</strong>
+      <span>Save to your home screen for zero-data offline reading of all 88 pages &amp; soundscapes.</span>
+    </div>
+    <div class="pwa-banner-actions">
+      <button type="button" class="pwa-install-btn" onclick="installCatalystPwa()">INSTALL NOW</button>
+      <button type="button" class="pwa-dismiss-btn" onclick="dismissPwaBanner()">✕</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ PAYSTACK / STRIPE PRE-ORDER CHECKOUT MODAL -->
+<div class="modal-backdrop" id="checkoutModalBackdrop" aria-hidden="true" role="dialog" aria-label="Pre-Order Checkout">
+  <div class="checkout-modal">
+    <button class="modal-close" onclick="closeCheckoutModal()" aria-label="Close Checkout">✕</button>
+    <div class="checkout-header">
+      <div class="checkout-tag">ORACLE COMMERCE // SECURE DISPATCH PROTOCOL</div>
+      <h3 class="checkout-title" id="checkoutItemTitle">Item Title</h3>
+      <div class="checkout-price-row">
+        <span>TOTAL DUE:</span>
+        <strong id="checkoutPriceDisplay">₦15,000</strong>
+      </div>
+    </div>
+
+    <form id="checkoutForm" onsubmit="event.preventDefault(); processStoreCheckout(event);" class="checkout-form">
+      <div class="form-group">
+        <label>FULL NAME</label>
+        <input type="text" id="checkoutName" required placeholder="Bayo Adeyemi" class="checkout-input">
+      </div>
+      <div class="form-group">
+        <label>EMAIL ADDRESS (RECEIPT &amp; TRACKING)</label>
+        <input type="email" id="checkoutEmail" required placeholder="operative@catalystverse.com" class="checkout-input">
+      </div>
+      <div class="form-group" id="checkoutAddressGroup">
+        <label>DELIVERY ADDRESS (LAGOS OR INTERNATIONAL)</label>
+        <input type="text" id="checkoutAddress" placeholder="14 Paul Street, Mushin, Lagos / Worldwide" class="checkout-input">
+      </div>
+      <div class="form-group">
+        <label>SELECT PAYMENT CHANNEL</label>
+        <div class="payment-method-chips">
+          <label class="pay-chip active">
+            <input type="radio" name="payMethod" value="paystack" checked> 💳 Paystack / Card / Transfer / USSD
+          </label>
+          <label class="pay-chip">
+            <input type="radio" name="payMethod" value="stripe"> 🌐 International Stripe Card
+          </label>
+        </div>
+      </div>
+      <button type="submit" class="checkout-submit-btn" id="checkoutSubmitBtn">PROCEED TO SECURE PAYMENT →</button>
+    </form>
+    <div class="checkout-security-notice">🔒 256-Bit SSL Encrypted · Paystack &amp; Stripe Verified · Direct Dispatch</div>
+  </div>
+</div>
 </body>
 </html>

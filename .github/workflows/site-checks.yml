@@ -12,6 +12,7 @@ on:
       - 'design-templates/catalyst-awakening-comic/**'
       - 'netlify.toml'
       - 'package.json'
+      - 'database/**'
       - '.github/workflows/site-checks.yml'
   pull_request:
     paths: *paths
@@ -43,6 +44,9 @@ jobs:
 
       - name: issue.css is in sync with styles.css
         run: python3 design-templates/catalyst-awakening-comic/tools/split_css.py --check
+
+      - name: Reader account ownership and auth state
+        run: npm run test:accounts
 
       - name: Static files (XML, JSON-LD, links, canonicals)
         run: python3 design-templates/catalyst-awakening-comic/tests/validate_static.py
