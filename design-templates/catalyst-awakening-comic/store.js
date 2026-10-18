@@ -691,7 +691,7 @@ function openCatalystForgeCheckoutModal() {
   if (totalEl) totalEl.textContent = formatPrice(total);
 
   const domainEl = document.getElementById("forgeActiveDomain");
-  if (domainEl) domainEl.textContent = StoreState.shopifyConfig.shopDomain || "catalyst-forge.myshopify.com";
+  if (domainEl) domainEl.textContent = (StoreState.shopifyConfig.shopDomain && StoreState.shopifyConfig.shopDomain !== "catalyst-forge.myshopify.com") ? StoreState.shopifyConfig.shopDomain : "catalyst-world.netlify.app (Official Master Portal)";
 
   modal.classList.add("open");
 }
@@ -701,12 +701,17 @@ function closeCatalystForgeCheckoutModal() {
 }
 
 function redirectToShopifyStorefront() {
-  const shopDomain = StoreState.shopifyConfig.shopDomain || "catalyst-forge.myshopify.com";
+  const shopDomain = (StoreState.shopifyConfig.shopDomain || "").trim();
+  if (!shopDomain || shopDomain === "catalyst-forge.myshopify.com") {
+    showToast("⚡ Routing to Official Catalyst Master Portal...");
+    window.open("https://catalyst-world.netlify.app/", "_blank", "noopener");
+    return;
+  }
   const cleanDomain = shopDomain.replace(/^https?:\/\//, "").replace(/\/$/, "");
-  const permalinkItems = StoreState.cart.map(item => `${item.sku}:${item.quantity}`).join(",");
+  const permalinkItems = StoreState.cart.map(item => `${item.sku}:${item.quantity || item.qty || 1}`).join(",");
   const checkoutUrl = `https://${cleanDomain}/cart/${permalinkItems}`;
   showToast(`Routing to ${cleanDomain}...`);
-  window.open(checkoutUrl, "_blank");
+  window.open(checkoutUrl, "_blank", "noopener");
 }
 
 function completeExpressForgeOrder(e) {
@@ -722,46 +727,76 @@ function completeExpressForgeOrder(e) {
   const itemsSnapshot = StoreState.cart.map(i => ({
     title: i.title,
     sku: i.sku,
-    qty: i.qty,
+    qty: i.qty || i.quantity || 1,
     price: i.prices[StoreState.currency]
   }));
 
-  // Build live tracking record
-  const orders = JSON.parse(localStorage.getItem("catalyst_orders") || JSON.stringify(SAMPLE_DISPATCH_ORDERS));
-  orders[newSerial] = {
-    serial: newSerial,
-    customer: fullName,
-    email: email,
-    dest: address,
-    rider: "Tunde O. (Unit #CK-2031)",
-    eta: "Today, 15:30 – 17:00 WAT",
-    step: 2,
-    status: "SEALED & PROCESSED AT MUSHIN SOVEREIGN FORGE",
-    items: itemsSnapshot.length > 0 ? itemsSnapshot : [
-      { title: "Issue #01: Awaken, O City (Physical Deluxe Print)", sku: "CAT-AWK-01-HC", qty: 1, price: 36000 }
-    ]
+  const finalizeLedgerOrder = (paymentRef) => {
+    const orders = JSON.parse(localStorage.getItem("catalyst_orders") || JSON.stringify(SAMPLE_DISPATCH_ORDERS));
+    orders[newSerial] = {
+      serial: newSerial,
+      paymentRef: paymentRef || newSerial,
+      customer: fullName,
+      email: email,
+      dest: address,
+      rider: "Tunde O. (Unit #CK-2031)",
+      eta: "Today, 15:30 – 17:00 WAT",
+      step: 2,
+      status: "SEALED & PROCESSED AT MUSHIN SOVEREIGN FORGE",
+      items: itemsSnapshot.length > 0 ? itemsSnapshot : [
+        { title: "Issue #01: Awaken, O City (Physical Deluxe Print)", sku: "CAT-AWK-01-HC", qty: 1, price: 36000 }
+      ]
+    };
+    localStorage.setItem("catalyst_orders", JSON.stringify(orders));
+
+    // Automatically unlock Sovereign Digital Vault (Passkey CATALYST2031)
+    localStorage.setItem("catalyst_vault_unlocked", "true");
+    if (typeof initVipVault === "function") initVipVault();
+
+    // Pre-fill Certificate with customer's authentic details
+    const collectorInput = document.getElementById("certCollectorInput");
+    if (collectorInput) collectorInput.value = fullName;
+    updateCertCollectorName(fullName);
+    const certSerialEl = document.getElementById("certSerial");
+    if (certSerialEl) certSerialEl.textContent = newSerial;
+
+    // Clear cart cache
+    StoreState.cart = [];
+    saveCart();
+    updateCartUI();
+
+    closeCatalystForgeCheckoutModal();
+    showToast(`🎉 Order ${newSerial} Confirmed! VIP Collector Vault Unlocked.`);
+
+    // Reveal certificate with options to track live or download invoice
+    setTimeout(() => {
+      openCertificateModal();
+    }, 500);
   };
-  localStorage.setItem("catalyst_orders", JSON.stringify(orders));
 
-  // Pre-fill Certificate with customer's authentic details
-  const collectorInput = document.getElementById("certCollectorInput");
-  if (collectorInput) collectorInput.value = fullName;
-  updateCertCollectorName(fullName);
-  const certSerialEl = document.getElementById("certSerial");
-  if (certSerialEl) certSerialEl.textContent = newSerial;
+  const paystackKey = window.CATALYST_PAYSTACK_PUBLIC_KEY || localStorage.getItem("catalyst_paystack_pk");
+  if (paystackKey && window.PaystackPop) {
+    const subtotal = StoreState.cart.reduce((sum, item) => sum + (item.prices.NGN * (item.quantity || item.qty || 1)), 0) || 36000;
+    const totalNgn = StoreState.appliedCoupon ? Math.round(subtotal * (1 - StoreState.appliedCoupon.discount)) : subtotal;
+    const handler = window.PaystackPop.setup({
+      key: paystackKey,
+      email: email,
+      amount: totalNgn * 100,
+      currency: "NGN",
+      ref: newSerial,
+      callback: function(response) {
+        finalizeLedgerOrder(response.reference);
+      },
+      onClose: function() {
+        showToast("Payment window closed — order saved to Sovereign Reservation Ledger.");
+        finalizeLedgerOrder(newSerial);
+      }
+    });
+    handler.openIframe();
+    return;
+  }
 
-  // Clear cart cache
-  StoreState.cart = [];
-  saveCart();
-  updateCartUI();
-
-  closeCatalystForgeCheckoutModal();
-  showToast(`🎉 Order ${newSerial} Confirmed! Saved to Sovereign Ledger.`);
-
-  // Reveal certificate with options to track live or download invoice
-  setTimeout(() => {
-    openCertificateModal();
-  }, 500);
+  finalizeLedgerOrder(newSerial);
 }
 
 function checkoutViaWhatsApp() {
@@ -2493,7 +2528,7 @@ function renderVaultRelics() {
   const container = document.getElementById("vaultUnlockedView");
   if (!container) return;
 
-  container.innerHTML = VAULT_RELICS.map(relic => {
+  const relicCardsHtml = VAULT_RELICS.map(relic => {
     const priceStr = formatPrice(relic.prices[StoreState.currency]);
     return `
       <div class="vault-relic-card">
@@ -2520,6 +2555,32 @@ function renderVaultRelics() {
       </div>
     `;
   }).join("");
+
+  const digitalReaderVaultCard = `
+    <div class="vault-relic-card" style="border-color:rgba(0,240,255,0.4);background:linear-gradient(160deg,rgba(12,18,34,0.96),rgba(6,10,20,0.98));">
+      <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent-cyan);margin-bottom:0.4rem;">
+        SOVEREIGN DIGITAL ARCHIVE // UNLOCKED
+      </div>
+      <h3 style="font-family:var(--font-display);font-size:1.35rem;color:#fff;margin-bottom:0.5rem;line-height:1.2;">
+        Arc I Complete Digital Reader &amp; Script Studio
+      </h3>
+      <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.5;margin-bottom:1rem;">
+        Direct operative access to all four canonical Arc I graphic novel issues, the Interactive Script Studio, and the Official Master Portal.
+      </p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.45rem;margin-bottom:0.8rem;">
+        <a href="./read/issue-1.html" style="text-align:center;background:rgba(244,184,0,0.12);border:1px solid rgba(244,184,0,0.35);color:var(--accent-gold);padding:0.45rem 0.5rem;border-radius:6px;font-family:var(--font-mono);font-size:0.72rem;text-decoration:none;font-weight:700;">📖 ISSUE #01</a>
+        <a href="./read/issue-2.html" style="text-align:center;background:rgba(244,184,0,0.12);border:1px solid rgba(244,184,0,0.35);color:var(--accent-gold);padding:0.45rem 0.5rem;border-radius:6px;font-family:var(--font-mono);font-size:0.72rem;text-decoration:none;font-weight:700;">📖 ISSUE #02</a>
+        <a href="./read/issue-3.html" style="text-align:center;background:rgba(244,184,0,0.12);border:1px solid rgba(244,184,0,0.35);color:var(--accent-gold);padding:0.45rem 0.5rem;border-radius:6px;font-family:var(--font-mono);font-size:0.72rem;text-decoration:none;font-weight:700;">📖 ISSUE #03</a>
+        <a href="./read/issue-4.html" style="text-align:center;background:rgba(244,184,0,0.12);border:1px solid rgba(244,184,0,0.35);color:var(--accent-gold);padding:0.45rem 0.5rem;border-radius:6px;font-family:var(--font-mono);font-size:0.72rem;text-decoration:none;font-weight:700;">📖 ISSUE #04</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.45rem;margin-top:auto;">
+        <a href="./script-studio/index.html" style="text-align:center;background:rgba(0,240,255,0.12);border:1px solid rgba(0,240,255,0.4);color:var(--accent-cyan);padding:0.55rem 0.75rem;border-radius:6px;font-family:var(--font-mono);font-size:0.74rem;text-decoration:none;font-weight:700;">🎬 OPEN INTERACTIVE SCRIPT STUDIO ➔</a>
+        <a href="https://catalyst-world.netlify.app/" target="_blank" rel="noopener noreferrer" style="text-align:center;background:var(--accent-gold);color:#05070c;padding:0.55rem 0.75rem;border-radius:6px;font-family:var(--font-mono);font-size:0.74rem;text-decoration:none;font-weight:800;">🌐 OFFICIAL MASTER PORTAL ➔</a>
+      </div>
+    </div>
+  `;
+
+  container.innerHTML = relicCardsHtml + digitalReaderVaultCard;
 }
 
 function addVaultRelicToCart(relicId) {

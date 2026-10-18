@@ -49,7 +49,7 @@
       "src": "/assets/cover-issue2.webp",
       "sizes": "1280x1920",
       "type": "image/webp",
-      "label": "Issue #2 Cover — Sango's Daughter",
+      "label": "Issue #2 Cover — Ṣàngó's Daughter",
       "form_factor": "narrow"
     },
     {
@@ -63,8 +63,31 @@
       "src": "/assets/cover-issue4.webp",
       "sizes": "1280x1920",
       "type": "image/webp",
-      "label": "Issue #4 Cover — The Price of Ase",
+      "label": "Issue #4 Cover — The Price of Aṣẹ",
       "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Read Issue #01",
+      "short_name": "Issue #01",
+      "description": "Read Catalyst: The Awakening Issue #01 — Awaken, O City",
+      "url": "/read/issue-1",
+      "icons": [{ "src": "/assets/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "3D Relic Store",
+      "short_name": "Store",
+      "description": "Explore 3D Hardcovers, Variant Covers & Collector Relics",
+      "url": "/store",
+      "icons": [{ "src": "/assets/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Script Studio",
+      "short_name": "Scripts",
+      "description": "Open the Interactive Script Studio & Production Dossier",
+      "url": "/script-studio/",
+      "icons": [{ "src": "/assets/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     }
   ]
 }

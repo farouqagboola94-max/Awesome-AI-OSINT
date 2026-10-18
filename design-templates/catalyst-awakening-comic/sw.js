@@ -4,7 +4,7 @@
 // activate handler below evicts the previous generation. IMG_CACHE is versioned
 // separately and deliberately left behind: image bytes are immutable per URL, so
 // there's no reason to make returning visitors re-download them on a code change.
-const CACHE = 'catalyst-v21';
+const CACHE = 'catalyst-v22';
 const IMG_CACHE = 'catalyst-img-v5';
 const IMG_CACHE_MAX = 60;
 const PRECACHE = [
@@ -13,6 +13,9 @@ const PRECACHE = [
   // cannot match there. See tools/split_css.py.
   '/issue.css',
   '/script.js',
+  '/store.html',
+  '/store.css',
+  '/store.js',
   '/favicon.svg',
   // The two faces above the fold; the rest arrive on demand per unicode-range
   '/assets/fonts/bebas-neue-400-normal-latin.woff2',

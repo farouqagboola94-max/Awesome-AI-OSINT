@@ -652,8 +652,15 @@
               '<button type="button" class="affinity-chip" style="background:rgba(244,184,0,0.12);border:1px solid rgba(244,184,0,0.35);color:#F0EDE5;padding:0.35rem 0.65rem;border-radius:4px;font-size:0.75rem;cursor:pointer;" onclick="setOrishaAffinity(\'Ẹṣù\')">🌀 Ẹṣù</button>' +
             '</div>' +
           '</div>' +
+          '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.4rem;margin-bottom:0.6rem;">' +
+            '<a href="/read/issue-1" style="text-align:center;background:rgba(244,184,0,0.12);border:1px solid rgba(244,184,0,0.35);color:#F4B800;font-family:\'Space Mono\',monospace;font-size:0.7rem;padding:0.45rem 0.25rem;border-radius:4px;text-decoration:none;font-weight:700;">📖 #01</a>' +
+            '<a href="/read/issue-2" style="text-align:center;background:rgba(244,184,0,0.12);border:1px solid rgba(244,184,0,0.35);color:#F4B800;font-family:\'Space Mono\',monospace;font-size:0.7rem;padding:0.45rem 0.25rem;border-radius:4px;text-decoration:none;font-weight:700;">📖 #02</a>' +
+            '<a href="/read/issue-3" style="text-align:center;background:rgba(244,184,0,0.12);border:1px solid rgba(244,184,0,0.35);color:#F4B800;font-family:\'Space Mono\',monospace;font-size:0.7rem;padding:0.45rem 0.25rem;border-radius:4px;text-decoration:none;font-weight:700;">📖 #03</a>' +
+            '<a href="/read/issue-4" style="text-align:center;background:rgba(244,184,0,0.12);border:1px solid rgba(244,184,0,0.35);color:#F4B800;font-family:\'Space Mono\',monospace;font-size:0.7rem;padding:0.45rem 0.25rem;border-radius:4px;text-decoration:none;font-weight:700;">📖 #04</a>' +
+          '</div>' +
           '<div style="display:flex;flex-direction:column;gap:0.55rem;">' +
             '<a href="/store.html" style="display:block;text-align:center;background:#F4B800;color:#06060d;font-family:\'Space Mono\',monospace;font-size:0.76rem;font-weight:700;padding:0.7rem 1rem;border-radius:4px;text-decoration:none;letter-spacing:0.08em;">OPEN CATALYST FORGE STORE ➔</a>' +
+            '<a href="/script-studio/" style="display:block;text-align:center;background:rgba(244,184,0,0.1);border:1px solid rgba(244,184,0,0.35);color:#F4B800;font-family:\'Space Mono\',monospace;font-size:0.74rem;font-weight:700;padding:0.6rem 1rem;border-radius:4px;text-decoration:none;letter-spacing:0.08em;">🎬 INTERACTIVE SCRIPT STUDIO ➔</a>' +
             '<a href="https://catalyst-world.netlify.app/" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;background:rgba(0,201,177,0.12);border:1px solid rgba(0,201,177,0.4);color:#00C9B1;font-family:\'Space Mono\',monospace;font-size:0.75rem;font-weight:700;padding:0.65rem 1rem;border-radius:4px;text-decoration:none;letter-spacing:0.08em;">OFFICIAL MASTER PORTAL ➔</a>' +
             '<button type="button" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);color:#F0EDE5;padding:0.6rem 1rem;border-radius:4px;font-size:0.75rem;cursor:pointer;" onclick="closeUserProfileModal(); openAuthModal(\'signup\');">🔑 Switch / Link Operative Account</button>' +
             '<button type="button" style="background:rgba(196,30,58,0.15);border:1px solid rgba(196,30,58,0.4);color:#ff6b81;padding:0.6rem 1rem;border-radius:4px;font-size:0.75rem;cursor:pointer;" onclick="handleSignOut()">Sign Out</button>' +
@@ -9729,28 +9736,86 @@ var TC_ENDINGS = {
   };
 
   window.processStoreCheckout = function(e) {
+    if (e && e.preventDefault) e.preventDefault();
     const name = document.getElementById('checkoutName')?.value || 'Operative';
     const email = document.getElementById('checkoutEmail')?.value || 'reader@catalystverse.com';
+    const address = document.getElementById('checkoutAddress')?.value || 'Lagos Sovereign Sector';
     const method = document.querySelector('input[name="payMethod"]:checked')?.value || 'paystack';
     const submitBtn = document.getElementById('checkoutSubmitBtn');
+    const orderRef = 'CAT-2031-' + Math.floor(100000 + Math.random() * 900000);
 
     if (submitBtn) {
       submitBtn.textContent = 'CONNECTING TO ENCRYPTED GATEWAY...';
       submitBtn.disabled = true;
     }
 
-    setTimeout(() => {
+    const completeOrderDispatch = function(refCode) {
       window.closeCheckoutModal();
       if (submitBtn) {
         submitBtn.textContent = 'PROCEED TO SECURE PAYMENT →';
         submitBtn.disabled = false;
       }
 
-      // Generate instantaneous VIP Receipt Pass
-      const orderRef = 'CAT-2031-' + Math.floor(100000 + Math.random() * 900000);
-      alert('⚡ DISPATCH AUTHORIZED!\n\nOrder Reference: ' + orderRef + '\nItem: ' + activeCheckoutItem.title + '\nTotal: ' + activeCheckoutItem.priceStr + '\nRecipient: ' + name + ' (' + email + ')\n\nYour archival confirmation and tracking pass have been encrypted and transmitted. Welcome to the Ọ̀run Vanguard!');
+      // Persist order to Sovereign Dispatch Ledger & unlock VIP Vault
+      try {
+        const existingOrders = JSON.parse(localStorage.getItem('catalyst_orders') || '{}');
+        existingOrders[refCode] = {
+          serial: refCode,
+          customer: name,
+          email: email,
+          dest: address,
+          rider: 'Tunde O. (Unit #CK-2031)',
+          eta: 'Today, 15:30 – 17:00 WAT',
+          step: 2,
+          status: 'SEALED & PROCESSED AT MUSHIN SOVEREIGN FORGE',
+          items: [{ title: activeCheckoutItem.title || 'Catalyst Collector Edition', sku: activeCheckoutItem.id || 'CAT-AWK-01', qty: 1, price: 15000 }]
+        };
+        localStorage.setItem('catalyst_orders', JSON.stringify(existingOrders));
+        localStorage.setItem('catalyst_vault_unlocked', 'true');
+      } catch (_) {}
+
+      // Background Netlify Form capture
+      Promise.resolve().then(async function() {
+        try {
+          if (typeof netlifyCapture === 'function') {
+            await netlifyCapture('catalyst-waitlist', {
+              email: email,
+              plan: (activeCheckoutItem.id || 'store_order') + ' (' + refCode + ' · ' + method + ')'
+            });
+          }
+        } catch (_) {}
+      });
+
+      if (typeof showToast === 'function') {
+        showToast('⚡ Dispatch ' + refCode + ' Confirmed! VIP Vault Passkey CATALYST2031 Unlocked.', 'success', 4500);
+      }
+      alert('⚡ DISPATCH AUTHORIZED!\n\nOrder Reference: ' + refCode + '\nItem: ' + activeCheckoutItem.title + '\nTotal: ' + activeCheckoutItem.priceStr + '\nRecipient: ' + name + ' (' + email + ')\nSovereign Vault Passkey: CATALYST2031 (Unlocked)\n\nTrack live courier telemetry in the 3D Relic Store (/store) or visit the Official Master Portal (https://catalyst-world.netlify.app/).');
       if (typeof window.playHudSound === 'function') window.playHudSound('success');
-    }, 1200);
+    };
+
+    const paystackKey = window.CATALYST_PAYSTACK_PUBLIC_KEY || localStorage.getItem('catalyst_paystack_pk');
+    if (paystackKey && window.PaystackPop && method === 'paystack') {
+      const rawDigits = parseInt(String(activeCheckoutItem.priceStr || '15000').replace(/[^0-9]/g, ''), 10) || 15000;
+      const handler = window.PaystackPop.setup({
+        key: paystackKey,
+        email: email,
+        amount: rawDigits * 100,
+        currency: activeCurrency || 'NGN',
+        ref: orderRef,
+        callback: function(response) {
+          completeOrderDispatch(response.reference || orderRef);
+        },
+        onClose: function() {
+          completeOrderDispatch(orderRef);
+        }
+      });
+      handler.openIframe();
+      return;
+    }
+
+    setTimeout(() => {
+      completeOrderDispatch(orderRef);
+    }, 800);
   };
 
   /* ── 4. PWA NATIVE APP INSTALL ENGINE ── */
