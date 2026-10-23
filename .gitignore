@@ -1,3 +1,6 @@
 node_modules/
 __pycache__/
 design-templates/catalyst-awakening-comic/private/
+design-templates/catalyst-awakening-comic/production-reader/
+.netlify/
+**/.netlify/

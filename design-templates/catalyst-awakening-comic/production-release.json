@@ -1,0 +1,22 @@
+{
+  "release": "Protected production candidate",
+  "date": "2026-10-23",
+  "showcase": "public",
+  "production_reader": "approved accounts only",
+  "issues": {
+    "1": {
+      "story_pages": 150,
+      "release_status": "in production"
+    },
+    "2": {
+      "story_pages": 150,
+      "release_status": "in production"
+    }
+  },
+  "historical_web_drafts": {
+    "1": 88,
+    "2": 86
+  },
+  "real_device_qa": "pending",
+  "live_deployment": "pending"
+}
