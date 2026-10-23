@@ -8,6 +8,7 @@ for(const issue of data.issues){
  assert.equal(issue.pages.filter(p=>p.isStory).length,150);
  assert.equal(new Set(issue.pages.map(p=>p.folioId)).size,issue.pages.length);
  for(const page of issue.pages){
+  if(page.artReview)throw Error('Visual correction pending: Issue '+issue.number+' / '+page.folioId);
   if(!page.image)throw Error('Illustration missing: Issue '+issue.number+' / '+page.folioId);
   const target=path.resolve(root,page.image);assert.ok(target.startsWith(root+path.sep));assert.ok(fs.statSync(target).size>10000);count++;
  }
