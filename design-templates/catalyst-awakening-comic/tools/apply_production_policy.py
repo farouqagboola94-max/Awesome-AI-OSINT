@@ -37,10 +37,15 @@ def apply():
  s=s.replace('Neo-Lagos, 2047.','Lagos. The current story calendar is under editorial review.')
  def structured(m):
   def clean(value):
-   if isinstance(value,dict):return {k:clean(v) for k,v in value.items() if k!='datePublished'}
+   if isinstance(value,dict):
+    result={k:clean(v) for k,v in value.items() if k!='datePublished'}
+    if result.get('@type')=='ComicIssue' and str(result.get('issueNumber')) in ('1','2'):
+     result['isAccessibleForFree']=False
+     result['creativeWorkStatus']='InProduction'
+    return result
    if isinstance(value,list):return [clean(v) for v in value]
    return value
-  try:return m.group(1)+json.dumps(clean(json.loads(m.group(2))),ensure_ascii=False)+m.group(3)
+  try:return m.group(1)+json.dumps(clean(json.loads(m.group(2).replace("\\'","'"))),ensure_ascii=False)+m.group(3)
   except json.JSONDecodeError:return m.group(0)
  s=re.sub(r'(<script type="application/ld\+json">)(.*?)(</script>)',structured,s,flags=re.S)
  p.write_text('\n'.join(line.rstrip() for line in s.splitlines())+'\n')
