@@ -351,6 +351,15 @@
     --bone-white: #F0EDE5;
     --ash-grey: #8a8a9a;
     --iron-grey: #2a2a3a;
+    --threat-critical: #FF0000;
+    --threat-high: #FF4500;
+    --threat-escalating: #FF6B00;
+    --threat-moderate: #FFC107;
+    --threat-low: #4FC3F7;
+    --ase-ember: #FFC107;
+    --ase-forge: #FF6B00;
+    --ase-tempest: #FF3D00;
+    --ase-sovereign: #8B0000;
   }
 
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -376,16 +385,6 @@
     transition: transform 0.1s ease, width 0.3s, height 0.3s, background 0.3s;
     mix-blend-mode: difference;
   }
-  .cursor-ring {
-    width: 36px; height: 36px;
-    border: 1.5px solid var(--danfo-gold);
-    border-radius: 50%;
-    position: fixed; top: 0; left: 0;
-    pointer-events: none; z-index: 9998;
-    transform: translate(-50%, -50%);
-    transition: transform 0.15s ease, width 0.3s, height 0.3s;
-    opacity: 0.6;
-  }
   a:hover ~ .cursor, button:hover ~ .cursor { width: 20px; height: 20px; }
 
   /* 3D BACKGROUND CANVAS */
@@ -406,45 +405,10 @@
     background: linear-gradient(to bottom, rgba(6,6,13,0.98), transparent);
     backdrop-filter: blur(2px);
   }
-  .nav-logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.6rem;
-    letter-spacing: 0.15em;
-    color: var(--danfo-gold);
-    text-decoration: none;
-  /* Bebas Neue ships one weight (400). Without pinning it, headings and
-     <strong> inherit the UA default bold and the browser fakes it by
-     smearing the outlines. */
-  font-weight: 400;
-}
-  .nav-logo span { color: var(--blood-red); }
   /* The link row has to survive from the hamburger breakpoint up to
      wide desktop without pushing the right-hand controls off-screen,
      so both the gap and the tracking scale with the viewport. */
   .nav-links { display: flex; gap: clamp(0.55rem, 1.05vw, 2.5rem); list-style: none; min-width: 0; }
-  .nav-links a {
-    color: var(--bone-white);
-    text-decoration: none;
-    font-size: clamp(0.66rem, 0.54vw, 0.75rem);
-    letter-spacing: clamp(0.06em, 0.14vw, 0.2em);
-    text-transform: uppercase;
-    font-weight: 600;
-    opacity: 0.7;
-    white-space: nowrap;
-    transition: opacity 0.3s, color 0.3s;
-  }
-  .nav-links a:hover { opacity: 1; color: var(--danfo-gold); }
-  .nav-links a.nav-active { opacity: 1; color: var(--danfo-gold); position: relative; }
-  .nav-links a.nav-active::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 2px; background: var(--danfo-gold); border-radius: 2px; }
-  .nav-cta {
-    background: var(--blood-red);
-    color: #fff !important;
-    opacity: 1 !important;
-    padding: 0.5rem clamp(0.7rem, 1vw, 1.4rem);
-    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-    font-size: clamp(0.62rem, 0.5vw, 0.7rem) !important;
-  }
-  .nav-cta:hover { background: var(--danfo-gold) !important; color: var(--black) !important; }
 
   /* ============================================================
      HERO
@@ -497,33 +461,6 @@
     pointer-events: none;
   }
 
-  .section-label {
-    font-size: 0.65rem;
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    color: var(--danfo-gold);
-    margin-bottom: 1rem;
-    display: flex; align-items: center; gap: 1rem;
-  }
-  .section-label::before {
-    content: '';
-    width: 30px; height: 1px;
-    background: var(--danfo-gold);
-  }
-
-  .section-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(3rem, 7vw, 6rem);
-    line-height: 0.9;
-    margin-bottom: 2rem;
-    color: var(--bone-white);
-  /* Bebas Neue ships one weight (400). Without pinning it, headings and
-     <strong> inherit the UA default bold and the browser fakes it by
-     smearing the outlines. */
-  font-weight: 400;
-}
-  .section-title em { font-style: normal; color: var(--danfo-gold); }
-
   /* ============================================================
      LOCATIONS
   ============================================================ */
@@ -566,14 +503,6 @@
     background: linear-gradient(to bottom, var(--deep-navy), var(--black));
     position: relative;
     overflow: hidden;
-  }
-  .orisha-name {
-    font-family: 'Oswald', sans-serif;
-    font-size: 1rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--bone-white);
-    margin-bottom: 0.2rem;
   }
   .orisha-domain {
     font-size: 0.72rem;
@@ -622,54 +551,6 @@
     padding: 4rem 4rem 2rem;
     background: var(--black);
     border-top: 1px solid rgba(255,255,255,0.05);
-  }
-  .footer-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 3rem;
-    max-width: 1200px;
-    margin: 0 auto 3rem;
-  }
-  .footer-brand .nav-logo { font-size: 2rem; display: block; margin-bottom: 1rem; }
-  .footer-brand p {
-    font-size: 0.82rem;
-    color: var(--ash-grey);
-    line-height: 1.6;
-    max-width: 260px;
-  }
-  .footer-col h3 {
-    font-family: 'Oswald', sans-serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--danfo-gold);
-    margin-bottom: 1.2rem;
-  }
-  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
-  .footer-col ul a {
-    color: var(--ash-grey);
-    text-decoration: none;
-    font-size: 0.85rem;
-    transition: color 0.3s;
-  }
-  .footer-col ul a:hover { color: var(--bone-white); }
-  .footer-bottom {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(255,255,255,0.05);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.72rem;
-    color: var(--ash-grey);
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-  .footer-tagline {
-    font-family: 'Crimson Pro', serif;
-    font-style: italic;
-    color: rgba(244,184,0,0.5);
   }
 
   /* ============================================================
@@ -733,76 +614,6 @@
   .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--danfo-gold); }
   .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
   .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--danfo-gold); }
-
-  /* Mobile drawer */
-  .mobile-nav {
-    position: fixed;
-    top: 0; right: -100%;
-    width: min(320px, 80vw);
-    height: 100vh;
-    background: rgba(6,6,13,0.98);
-    backdrop-filter: blur(24px);
-    border-left: 1px solid rgba(244,184,0,0.15);
-    z-index: 1050;
-    padding: 6rem 2.5rem 3rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow-y: auto;
-  }
-  .mobile-nav.open { right: 0; }
-  .mobile-nav-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(6,6,13,0.6);
-    z-index: 1040;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease;
-    backdrop-filter: blur(2px);
-  }
-  .mobile-nav-overlay.open { opacity: 1; pointer-events: all; }
-  .mobile-nav a {
-    display: block;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2rem;
-    letter-spacing: 0.1em;
-    color: var(--bone-white);
-    text-decoration: none;
-    padding: 0.6rem 0;
-    border-bottom: 1px solid rgba(240,237,229,0.06);
-    transition: color 0.3s, padding-left 0.3s;
-    opacity: 0.8;
-  /* Bebas Neue ships one weight (400). Without pinning it, headings and
-     <strong> inherit the UA default bold and the browser fakes it by
-     smearing the outlines. */
-  font-weight: 400;
-}
-  .mobile-nav a:hover { color: var(--danfo-gold); padding-left: 0.5rem; opacity: 1; }
-  .mobile-nav a.nav-cta-mobile {
-    margin-top: 1.5rem;
-    background: var(--blood-red);
-    color: #fff !important;
-    opacity: 1 !important;
-    padding: 0.8rem 1.5rem;
-    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-    font-size: 1rem;
-    text-align: center;
-    border-bottom: none;
-  }
-  .mobile-nav-logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.2rem;
-    letter-spacing: 0.2em;
-    color: var(--danfo-gold);
-    margin-bottom: 2rem;
-    opacity: 0.6;
-  /* Bebas Neue ships one weight (400). Without pinning it, headings and
-     <strong> inherit the UA default bold and the browser fakes it by
-     smearing the outlines. */
-  font-weight: 400;
-}
 
   /* ── GLITCH ENHANCED ─────────────────────────────────────────── */
   @keyframes glitch-shift {
@@ -872,10 +683,6 @@
     .footer-grid { grid-template-columns: 1fr 1fr; }
     footer { padding: 3rem 1.5rem 1.5rem; }
   }
-  @media (max-width: 600px) {
-    .footer-grid { grid-template-columns: 1fr; }
-}
-
 
   /* ── Reading progress bar ── */
   #reading-progress {
@@ -961,81 +768,6 @@
   padding: 8rem 0;
   background: linear-gradient(180deg, var(--black) 0%, rgba(10,10,31,0.95) 100%);
 }
-.read-header {
-  max-width: 1200px;
-  margin: 0 auto 3rem;
-  padding: 0 4rem;
-}
-.read-free-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: rgba(0,201,177,0.1);
-  border: 1px solid var(--orisha-teal);
-  color: var(--orisha-teal);
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  font-weight: 700;
-  padding: 0.4rem 1rem;
-  margin-bottom: 1.5rem;
-}
-.issue-tabs {
-  display: flex;
-  gap: 0.75rem;
-  padding: 0 4rem;
-  margin-bottom: 2.5rem;
-  overflow-x: auto;
-}
-.issue-reader-panel {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 4rem;
-  display: none;
-}
-.issue-reader-panel.active { display: block; }
-.reader-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.6fr;
-  gap: 4rem;
-  align-items: start;
-}
-.reader-cover {
-  position: sticky;
-  top: 6rem;
-}
-.reader-cover-art {
-  background: var(--iron-grey);
-  aspect-ratio: 2/3;
-  clip-path: polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(244,184,0,0.2);
-  margin-bottom: 1rem;
-  position: relative;
-  overflow: hidden;
-}
-.reader-issue-label {
-  font-size: 0.68rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--ash-grey);
-  margin-bottom: 0.25rem;
-}
-.reader-issue-title {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.5rem;
-  letter-spacing: 0.08em;
-  color: var(--bone-white);
-  margin-bottom: 0.25rem;
-  /* Bebas Neue ships one weight (400). Without pinning it, headings and
-     <strong> inherit the UA default bold and the browser fakes it by
-     smearing the outlines. */
-  font-weight: 400;
-}
-.reader-pages { font-size: 0.72rem; color: var(--ash-grey); }
-.story-content { max-width: 100%; }
 .story-chapter {
   margin-bottom: 3rem;
   padding-bottom: 3rem;
@@ -1130,30 +862,16 @@
      smearing the outlines. */
   font-weight: 400;
 }
-.read-more-block {
-  background: linear-gradient(to bottom, transparent, rgba(6,6,13,0.98) 60%);
-  padding: 4rem 0 2rem;
-  text-align: center;
-  margin-top: -2rem;
-}
-.read-more-block p { color: var(--ash-grey); font-size: 0.85rem; margin-bottom: 1.25rem; }
-.read-more-block .cta-btn { display: inline-block; }
 
 /* ============================================================ ACCESS / FREEMIUM */
 #access {
   padding: 8rem 4rem;
   background: var(--deep-navy);
 }
-.social-btn { display:inline-flex;align-items:center;gap:0.4rem;padding:0.7rem 1.4rem;border-radius:4px;font-family:monospace;font-size:0.7rem;letter-spacing:0.1em;text-decoration:none;cursor:pointer;transition:all 0.25s;border:1px solid transparent; }
 
 @media (max-width: 900px) {
   #arcs { padding: 6rem 0; }
-  .reader-grid { grid-template-columns: 1fr; }
-  .reader-cover { position: static; }
   #read { padding: 5rem 0; }
-  .read-header, .issue-reader-panel { padding: 0 1.5rem; }
-  .issue-tabs { padding: 0 1.5rem; }
-.social-btn { display:inline-flex;align-items:center;gap:0.4rem;padding:0.7rem 1.4rem;border-radius:4px;font-family:monospace;font-size:0.7rem;letter-spacing:0.1em;text-decoration:none;cursor:pointer;transition:all 0.25s;border:1px solid transparent; }
   #access, #ase-system { padding: 5rem 1.5rem; }
 }
 
@@ -1203,94 +921,6 @@
   transition: color 0.2s;
 }
 .modal-close:hover { color: var(--bone-white); }
-.auth-tabs {
-  display: flex;
-  gap: 0;
-  margin-bottom: 2rem;
-  border-bottom: 1px solid rgba(240,237,229,0.1);
-}
-.auth-tab {
-  flex: 1;
-  background: none;
-  border: none;
-  padding: 0.75rem;
-  font-family: 'Space Mono', monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(240,237,229,0.35);
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -1px;
-  transition: all 0.2s;
-}
-.auth-tab.active { color: var(--danfo-gold); border-bottom-color: var(--danfo-gold); }
-.auth-input {
-  width: 100%;
-  padding: 0.85rem 1rem;
-  background: rgba(240,237,229,0.04);
-  border: 1px solid rgba(240,237,229,0.12);
-  color: var(--bone-white);
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.95rem;
-  outline: none;
-  transition: border-color 0.2s;
-  box-sizing: border-box;
-}
-.auth-input:focus { border-color: var(--danfo-gold); }
-.auth-input::placeholder { color: rgba(240,237,229,0.25); }
-
-/* ─── PAYMENT MODAL ─── */
-.payment-modal {
-  background: #0a0005;
-  border: 1px solid rgba(196,30,58,0.25);
-  width: 100%;
-  max-width: 520px;
-  padding: 3rem 2.5rem;
-  position: relative;
-  clip-path: polygon(0 0,calc(100% - 24px) 0,100% 24px,100% 100%,24px 100%,0 calc(100% - 24px));
-  animation: modalSlideIn 0.4s cubic-bezier(0.22,1,0.36,1);
-}
-.payment-header {
-  margin-bottom: 2rem;
-}
-.payment-features {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-.payment-features li {
-  font-size: 0.85rem;
-  color: rgba(240,237,229,0.65);
-  display: flex;
-  gap: 0.6rem;
-}
-.payment-features li::before {
-  content: '✓';
-  color: var(--orisha-teal);
-  font-weight: 700;
-  flex-shrink: 0;
-}
-
-/* ─── NAV USER STATE ─── */
-.nav-auth-btn {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.65rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  padding: 0.5rem 1rem;
-  border: 1px solid rgba(244,184,0,0.4);
-  color: var(--danfo-gold);
-  background: none;
-  cursor: pointer;
-  clip-path: polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
-  transition: all 0.2s;
-  text-decoration: none;
-}
-.nav-auth-btn:hover { background: rgba(244,184,0,0.1); border-color: var(--danfo-gold); }
 .nav-premium-dot { background: var(--danfo-gold); }
 
 
@@ -1302,12 +932,6 @@
   padding: 7rem 2rem 6rem;
   background: #06060d;
   overflow: hidden;
-}
-#illustrated .section-photo-bg {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: cover; z-index: 0;
-  opacity: 0.04;
-  filter: saturate(0) contrast(1.4) brightness(0.5);
 }
 
 /* halftone texture overlay */
@@ -1328,241 +952,6 @@
   .gallery-grid { grid-template-columns: repeat(2, 1fr); }
   .gp-wide { grid-column: span 2; }
   .gp-tall { grid-row: span 1; }
-}
-
-/* ─── AUTH MODAL LOGO / SUB ─── */
-.auth-modal-logo {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.4rem;
-  letter-spacing: 0.2em;
-  color: var(--danfo-gold);
-  margin-bottom: 0.3rem;
-  /* Bebas Neue ships one weight (400). Without pinning it, headings and
-     <strong> inherit the UA default bold and the browser fakes it by
-     smearing the outlines. */
-  font-weight: 400;
-}
-.auth-modal-logo span { color: var(--blood-red); }
-.auth-modal-sub {
-  font-size: 0.78rem;
-  color: rgba(240,237,229,0.4);
-  font-family: 'Space Mono', monospace;
-  letter-spacing: 0.05em;
-  margin-bottom: 1.8rem;
-}
-
-/* ─── AUTH PANEL SHOW/HIDE ─── */
-.auth-panel { display: none; }
-.auth-panel.active { display: block; }
-
-/* ─── SOCIAL SIGN-IN BUTTON ─── */
-.social-btn {
-  width: 100%;
-  padding: 0.85rem 1rem;
-  background: rgba(240,237,229,0.04);
-  border: 1px solid rgba(240,237,229,0.12);
-  color: var(--bone-white);
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.9rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s, border-color 0.2s;
-  margin-bottom: 0.75rem;
-}
-.social-btn:hover { background: rgba(240,237,229,0.08); border-color: rgba(240,237,229,0.25); }
-
-/* ─── AUTH OR DIVIDER ─── */
-.auth-or {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin: 0.5rem 0 1rem;
-}
-.auth-or::before, .auth-or::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: rgba(240,237,229,0.1);
-}
-.auth-or span {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.62rem;
-  color: rgba(240,237,229,0.3);
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-}
-
-/* ─── AUTH FORM SUBMIT BUTTON ─── */
-.auth-submit-btn {
-  width: 100%;
-  padding: 1rem;
-  background: var(--danfo-gold);
-  color: #06060d;
-  border: none;
-  font-family: 'Oswald', sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  cursor: pointer;
-  clip-path: polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);
-  transition: background 0.2s, transform 0.1s;
-  margin-top: 0.75rem;
-}
-.auth-submit-btn:hover { background: #f5c400; }
-.auth-submit-btn:active { transform: scale(0.98); }
-.auth-submit-btn:disabled { background: rgba(244,184,0,0.3); cursor: not-allowed; }
-
-/* ─── FORGOT PASSWORD LINK ─── */
-.auth-forgot {
-  display: block;
-  text-align: right;
-  font-size: 0.78rem;
-  color: rgba(244,184,0,0.6);
-  text-decoration: none;
-  margin-top: -0.25rem;
-  transition: color 0.2s;
-}
-.auth-forgot:hover { color: var(--danfo-gold); }
-
-/* ─── PAYMENT ICON ─── */
-.payment-icon {
-  font-size: 2rem;
-  color: var(--danfo-gold);
-  margin-bottom: 0.5rem;
-  font-family: 'Bebas Neue', sans-serif;
-  /* Bebas Neue ships one weight (400). Without pinning it, headings and
-     <strong> inherit the UA default bold and the browser fakes it by
-     smearing the outlines. */
-  font-weight: 400;
-}
-.payment-header h3 {
-  font-family: 'Oswald', sans-serif;
-  font-size: 1.8rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  color: var(--bone-white);
-  margin-bottom: 0.3rem;
-}
-.payment-header p {
-  font-size: 0.82rem;
-  color: rgba(240,237,229,0.5);
-}
-
-/* ─── PLAN TOGGLE ─── */
-.plan-toggle {
-  display: flex;
-  gap: 0;
-  margin: 1.5rem 0;
-  border: 1px solid rgba(240,237,229,0.12);
-}
-.plan-btn {
-  flex: 1;
-  padding: 0.65rem;
-  background: none;
-  border: none;
-  font-family: 'Space Mono', monospace;
-  font-size: 0.68rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: rgba(240,237,229,0.4);
-  cursor: pointer;
-  transition: all 0.2s;
-  position: relative;
-}
-.plan-btn.active {
-  background: rgba(244,184,0,0.12);
-  color: var(--danfo-gold);
-}
-.save-badge {
-  display: inline-block;
-  background: var(--blood-red);
-  color: #fff;
-  font-size: 0.55rem;
-  letter-spacing: 0.1em;
-  padding: 0.15rem 0.4rem;
-  margin-left: 0.4rem;
-  vertical-align: middle;
-}
-
-/* ─── PAYMENT PRICE DISPLAY ─── */
-.payment-price-wrap {
-  text-align: center;
-  margin: 1.5rem 0;
-  padding: 1.5rem;
-  border: 1px solid rgba(244,184,0,0.15);
-  background: rgba(244,184,0,0.04);
-}
-.payment-price {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 3rem;
-  color: var(--danfo-gold);
-  letter-spacing: 0.05em;
-  line-height: 1;
-  /* Bebas Neue ships one weight (400). Without pinning it, headings and
-     <strong> inherit the UA default bold and the browser fakes it by
-     smearing the outlines. */
-  font-weight: 400;
-}
-.payment-period {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.68rem;
-  color: rgba(240,237,229,0.4);
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  margin-top: 0.3rem;
-}
-
-/* ─── PAYMENT FEATURES LIST ─── */
-.payment-features {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  margin: 1.5rem 0;
-}
-.pf {
-  display: flex;
-  gap: 0.75rem;
-  font-size: 0.85rem;
-  color: rgba(240,237,229,0.75);
-  line-height: 1.4;
-}
-.pf span {
-  color: var(--orisha-teal);
-  font-weight: 700;
-  flex-shrink: 0;
-}
-
-/* ─── PAYMENT CTA BUTTON ─── */
-.payment-cta-btn {
-  width: 100%;
-  padding: 1.1rem;
-  background: linear-gradient(135deg, var(--danfo-gold), var(--neon-orange));
-  color: #06060d;
-  border: none;
-  font-family: 'Oswald', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  cursor: pointer;
-  clip-path: polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);
-  transition: opacity 0.2s, transform 0.1s;
-  margin-bottom: 1rem;
-}
-.payment-cta-btn:hover { opacity: 0.92; }
-.payment-cta-btn:active { transform: scale(0.98); }
-
-/* ─── PAYMENT FOOTER NOTE ─── */
-.payment-note {
-  text-align: center;
-  font-size: 0.72rem;
-  font-family: 'Space Mono', monospace;
-  color: rgba(240,237,229,0.3);
-  letter-spacing: 0.05em;
-  line-height: 1.6;
 }
 
 /* ─── NAV USER INITIAL PILL ─── */
@@ -1587,7 +976,6 @@
 
 @media (max-width: 500px) {
   .auth-modal, .payment-modal { padding: 2rem 1.5rem; }
-  .plan-toggle { flex-direction: column; }
 }
 
 
@@ -1772,39 +1160,9 @@
   0%,100% { text-shadow: 0 0 8px rgba(244,184,0,0.25); }
   50%      { text-shadow: 0 0 22px rgba(244,184,0,0.7), 0 0 45px rgba(244,184,0,0.3); }
 }
-
-/* ── NAV LOGO SHIMMER ─────────────────────────────────── */
-.nav-logo {
-  position: relative;
-  background: linear-gradient(90deg, var(--danfo-gold) 0%, #fff8d6 40%, var(--danfo-gold) 80%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: logo-shimmer 5s linear infinite;
-}
-.nav-logo span {
-  -webkit-text-fill-color: var(--blood-red);
-  background: none;
-}
 @keyframes logo-shimmer {
   from { background-position: 0% center; }
   to   { background-position: 200% center; }
-}
-
-/* ── SECTION LABEL LINE ───────────────────────────────── */
-.section-label {
-  position: relative;
-  overflow: visible;
-}
-.section-label::after {
-  content: '';
-  position: absolute;
-  left: 0; bottom: -2px;
-  height: 1px; width: 0;
-  background: var(--danfo-gold);
-  opacity: 0.6;
-  transition: width 1.2s ease;
 }
 
 
@@ -1814,8 +1172,6 @@
    "center top" lands on the top of the skull. Pull the framing down so the
    face sits in the visible band. */
 .villain-card.featured .villain-photo-portrait { object-position: center 30%; }
-
-.section-label.visible::after { width: 100%; }
 @keyframes mfs-drift {
   0%   { opacity:0;    transform: translateY(0px) rotate(0deg)   scale(1); }
   5%   { opacity:0.22; }
@@ -1874,13 +1230,6 @@
   .pv-next { right: 0.1rem; }
 }
 
-/* ── PANEL VIEWER LIGHTBOX ── */
-.pv-share { display:flex;gap:0.5rem;margin-top:0.8rem;flex-wrap:wrap;justify-content:center; }
-.pv-share-btn { background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);color:rgba(240,237,229,0.7);font-family:monospace;font-size:0.65rem;letter-spacing:1px;padding:0.35rem 0.9rem;cursor:pointer;border-radius:3px;transition:all 0.2s; }
-.pv-share-btn:hover { background:rgba(244,184,0,0.12);border-color:#F4B800;color:#F4B800; }
-.pv-share-wa:hover { background:rgba(37,211,102,0.12);border-color:#25d366;color:#25d366; }
-.pv-share-copy:hover { background:rgba(0,201,177,0.12);border-color:#00C9B1;color:#00C9B1; }
-
 /* visibility, not just opacity: an element at opacity:0 is still in the
    accessibility tree and still a tab stop, so a closed dialog left buttons
    reachable by keyboard and announced by screen readers. visibility
@@ -1893,143 +1242,13 @@
   opacity: 0; pointer-events: none; visibility: hidden;
   transition: opacity 0.25s ease, visibility 0.25s ease;
 }
-#panel-viewer.pv-open { opacity: 1; pointer-events: all; visibility: visible; }
-.pv-stage {
-  position: relative;
-  max-width: min(90vw, 700px);
-  max-height: 90vh;
-  display: flex; flex-direction: column; align-items: center;
-}
-.pv-img {
-  max-width: 100%; max-height: 80vh;
-  object-fit: contain;
-  border: 1px solid rgba(244,184,0,0.15);
-  border-radius: 4px;
-  box-shadow: 0 0 60px rgba(0,0,0,0.8);
-  transition: opacity 0.2s ease;
-}
-.pv-caption {
-  margin-top: 0.75rem;
-  font-family: 'Oswald', sans-serif;
-  font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
-  color: rgba(244,184,0,0.75); text-align: center;
-}
-.pv-nav {
-  position: fixed; top: 50%; transform: translateY(-50%);
-  background: rgba(244,184,0,0.08); border: 1px solid rgba(244,184,0,0.2);
-  color: rgba(244,184,0,0.85); font-size: 2.5rem; line-height: 1;
-  width: 3rem; height: 5rem; cursor: pointer; border-radius: 4px;
-  transition: background 0.2s, color 0.2s;
-  display: flex; align-items: center; justify-content: center;
-}
-.pv-prev { left: 1rem; }
-.pv-next { right: 1rem; }
-.pv-nav:hover { background: rgba(244,184,0,0.2); color: #F4B800; }
-.pv-nav:disabled { opacity: 0.2; cursor: default; }
-.pv-close {
-  position: fixed; top: 1rem; right: 1.25rem;
-  background: none; border: none; color: rgba(240,237,229,0.5);
-  font-size: 1.5rem; cursor: pointer; line-height: 1;
-  transition: color 0.2s;
-}
-.pv-close:hover { color: #F4B800; }
-.pv-counter {
-  position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
-  font-family: 'Oswald', sans-serif; font-size: 0.65rem; letter-spacing: 0.2em;
-  color: rgba(240,237,229,0.4); text-transform: uppercase;
-}
-.pv-hint {
-  position: fixed; bottom: 3.5rem; left: 50%; transform: translateX(-50%);
-  font-size: 0.58rem; letter-spacing: 0.15em; color: rgba(240,237,229,0.25);
-  text-transform: uppercase; white-space: nowrap;
-}
-@media (max-width: 600px) {
-  .pv-nav { font-size: 1.8rem; width: 2.4rem; height: 4rem; }
-  .pv-prev { left: 0.25rem; }
-  .pv-next { right: 0.25rem; }
-  .pv-hint { display: none; }
-}
-
-
-/* ── "Open Panel Viewer" button on reader cards ── */
-.open-panel-viewer-btn {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  margin-top: 1.25rem;
-  background: rgba(244,184,0,0.1); border: 1px solid rgba(244,184,0,0.3);
-  color: #F4B800; font-family: 'Oswald', sans-serif;
-  font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
-  padding: 0.6rem 1.25rem; border-radius: 3px; cursor: pointer;
-  transition: background 0.25s, border-color 0.25s, transform 0.2s;
-}
-.open-panel-viewer-btn:hover {
-  background: rgba(244,184,0,0.2); border-color: rgba(244,184,0,0.6);
-  transform: translateY(-1px);
-} /* hide emoji, show SVG instead */
+#panel-viewer.pv-open { opacity: 1; pointer-events: all; visibility: visible; } /* hide emoji, show SVG instead */
 
 /* ── Real Cinematic Photo Upgrades ───────────────────────── */
 .hero-canva-bg { opacity: 0.28 !important; mix-blend-mode: luminosity !important; }
 /* ── Illustrated character portraits — full-render art, no blend mode needed ── */
 .illustrated-portrait { opacity: 0.88 !important; mix-blend-mode: normal !important; object-position: center top !important; object-fit: cover !important; }
-
-/* ╔══════════════════════════════════════════════════════╗
-   ║  CATALYST — FEATURE LAYER v2                        ║
-   ╚══════════════════════════════════════════════════════╝ */
-
-/* ── THREAT TICKER ─────────────────────────────────────── */
-#threat-ticker {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 9999;
-  background: rgba(10,2,4,0.96);
-  backdrop-filter: blur(4px);
-  border-bottom: 1px solid rgba(196,30,58,0.35);
-  height: 26px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-}
-.ticker-badge {
-  flex-shrink: 0;
-  padding: 0 12px;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 0.7rem;
-  letter-spacing: 3px;
-  color: #fff;
-  background: #C41E3A;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  border-right: 1px solid rgba(255,255,255,0.15);
-  white-space: nowrap;
-  /* Bebas Neue ships one weight (400). Without pinning it, headings and
-     <strong> inherit the UA default bold and the browser fakes it by
-     smearing the outlines. */
-  font-weight: 400;
-}
-.ticker-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: #fff;
-  animation: ticker-blink 1.2s ease infinite;
-}
 @keyframes ticker-blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
-.ticker-track { flex: 1; overflow: hidden; }
-.ticker-inner {
-  display: inline-flex;
-  animation: ticker-scroll 55s linear infinite;
-  white-space: nowrap;
-}
-.ticker-item {
-  font-family: 'Space Grotesk', monospace;
-  font-size: 0.62rem;
-  color: rgba(240,237,229,0.65);
-  padding: 0 20px;
-  letter-spacing: 0.5px;
-}
-.ticker-item .t-gold { color: #F4B800; }
-.ticker-item .t-red  { color: #C41E3A; }
-.ticker-item .t-sep  { color: rgba(244,184,0,0.4); margin: 0 6px; }
 @keyframes ticker-scroll {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -2104,25 +1323,6 @@ body { padding-top: 26px; }
   transition:opacity 0.35s ease, visibility 0.35s ease;
 }
 #dossier-overlay.open { opacity:1; pointer-events:all; visibility:visible; }
-.dossier-modal {
-  background:#06060A;
-  border:1px solid rgba(196,30,58,0.25);
-  max-width:680px;
-  width:100%;
-  max-height:88vh;
-  overflow-y:auto;
-  position:relative;
-  padding:2.5rem;
-  scrollbar-width:thin;
-  scrollbar-color:rgba(196,30,58,0.3) transparent;
-}
-.dossier-modal::before {
-  content:'';
-  position:absolute;
-  inset:0;
-  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(240,237,229,0.006) 3px,rgba(240,237,229,0.006) 4px);
-  pointer-events:none;
-}
 .dos-stamp {
   position:absolute;
   top:1.8rem;
@@ -2139,13 +1339,6 @@ body { padding-top: 26px; }
      <strong> inherit the UA default bold and the browser fakes it by
      smearing the outlines. */
   font-weight: 400;
-}
-.dos-agency {
-  font-family:monospace;
-  font-size:0.58rem;
-  color:rgba(240,237,229,0.25);
-  letter-spacing:3px;
-  margin-bottom:0.4rem;
 }
 .dos-name {
   font-family:'Bebas Neue',sans-serif;
@@ -2166,7 +1359,6 @@ body { padding-top: 26px; }
   letter-spacing:2px;
   margin-bottom:1.5rem;
 }
-.dos-divider { border:none; border-top:1px solid rgba(196,30,58,0.15); margin:1.5rem 0; }
 .dos-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem 2rem; margin-bottom:1.5rem; }
 .dos-field label { display:block; font-family:monospace; font-size:0.57rem; color:rgba(240,237,229,0.28); letter-spacing:2px; margin-bottom:0.2rem; text-transform:uppercase; }
 .dos-field .dos-val { font-family:'Space Grotesk',sans-serif; font-size:0.82rem; color:rgba(240,237,229,0.82); }
@@ -2180,8 +1372,6 @@ body { padding-top: 26px; }
 .sf-teal   { background:linear-gradient(90deg,#00C9B1,#06D6A0); }
 .dos-notes { border:1px dashed rgba(240,237,229,0.08); padding:1rem; margin-top:0.5rem; font-family:'Space Grotesk',sans-serif; font-size:0.78rem; line-height:1.75; color:rgba(240,237,229,0.5); }
 .dos-notes strong { font-family:monospace; font-size:0.58rem; color:rgba(196,30,58,0.6); letter-spacing:2px; display:block; margin-bottom:0.5rem; }
-.dos-close { display:block; width:100%; margin-top:2rem; background:rgba(196,30,58,0.1); border:1px solid rgba(196,30,58,0.3); color:rgba(240,237,229,0.6); font-family:monospace; font-size:0.68rem; letter-spacing:3px; padding:0.75rem; cursor:pointer; text-align:center; transition:all 0.2s; }
-.dos-close:hover { background:rgba(196,30,58,0.25); color:#fff; }
 
 /* ── HERO QUIZ ─────────────────────────────────────────── */
 #hero-quiz {
@@ -2268,45 +1458,6 @@ body { padding-top: 26px; }
 #audio-btn:hover { border-color:#F4B800;box-shadow:0 0 20px rgba(244,184,0,0.15); }
 #audio-btn.on { border-color:#F4B800;animation:audio-ring 2.5s ease infinite; }
 @keyframes audio-ring{0%,100%{box-shadow:0 0 0 0 rgba(244,184,0,0.3)}50%{box-shadow:0 0 0 10px rgba(244,184,0,0)}}
-.audio-tip {
-  position:absolute;
-  right:56px;
-  top:50%;
-  transform:translateY(-50%);
-  background:rgba(6,4,14,0.95);
-  border:1px solid rgba(244,184,0,0.18);
-  padding:0.25rem 0.55rem;
-  font-family:monospace;
-  font-size:0.6rem;
-  color:rgba(244,184,0,0.6);
-  white-space:nowrap;
-  letter-spacing:1px;
-  opacity:0;
-  pointer-events:none;
-  transition:opacity 0.2s;
-}
-#audio-btn:hover .audio-tip { opacity:1; }
-
-/* ── Section photo backgrounds ─────────────────────────────────────────── */
-.section-photo-bg {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  object-position: center center;
-  pointer-events: none;
-  z-index: 0;
-  transition: opacity 0.4s;
-}
-#universe        .section-photo-bg { opacity: 0.18; filter: saturate(0.6) brightness(0.5); }
-#lagos-map       .section-photo-bg { opacity: 0.08; filter: saturate(0.4) brightness(0.6) hue-rotate(180deg); object-position: center 60%; }
-#characters      .section-photo-bg { opacity: 0.16; filter: saturate(0.65) brightness(0.45); }
-#oracle-terminal .section-photo-bg { opacity: 0.06; filter: saturate(0.3) brightness(0.5) hue-rotate(150deg); }
-#arcs            .section-photo-bg { opacity: 0.08; filter: saturate(0.4) brightness(0.55); }
-#ase-system      .section-photo-bg { opacity: 0.07; filter: saturate(0.35) brightness(0.6); }
-#read            .section-photo-bg { opacity: 0.09; filter: saturate(0.45) brightness(0.65) hue-rotate(170deg); }
-#realms          .section-photo-bg { opacity: 0.09; filter: saturate(0.4) brightness(0.6) hue-rotate(200deg); }
-#codex           .section-photo-bg { opacity: 0.07; filter: saturate(0.35) brightness(0.55); object-position: center 40%; }
-#lore            .section-photo-bg { opacity: 0.08; filter: saturate(0.4) brightness(0.6) hue-rotate(220deg); }
 /* ensure relative positioning for sections that don't already have it */
 #manifesto, #universe, #lagos-map, #characters, #oracle-terminal,
 #arcs, #ase-system, #read, #realms, #codex, #lore {
@@ -2338,166 +1489,12 @@ body { padding-top: 26px; }
   content:'|';color:#C41E3A;animation:blinkCursor 0.8s step-end infinite;
 }
 @keyframes blinkCursor { 0%,100%{opacity:1} 50%{opacity:0} }
-
-/* ── LAGOS INTEL WIRE ─────────────────────────────────────────────────────── */
-.lagos-intel-wire {
-  position:fixed;top:0;left:0;right:0;height:36px;
-  background:rgba(184,20,20,0.9);backdrop-filter:blur(8px);
-  z-index:1001;
-  display:flex;align-items:center;gap:0.75rem;
-  padding:0 1.2rem;
-  font-family:monospace;font-size:0.6rem;letter-spacing:0.12em;
-  border-bottom:1px solid rgba(255,100,100,0.3);
-  overflow:hidden;
-}
-.liw-live {
-  display:flex;align-items:center;gap:0.35rem;
-  color:#fff;font-weight:700;letter-spacing:0.15em;
-  flex-shrink:0;
-}
-.liw-dot {
-  width:6px;height:6px;border-radius:50%;background:#fff;
-  animation:liwDotPulse 1s ease-in-out infinite;
-}
 @keyframes liwDotPulse { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,255,255,0.6)} 50%{opacity:0.4;box-shadow:0 0 0 4px rgba(255,255,255,0)} }
-.liw-label {
-  color:rgba(255,200,200,0.8);flex-shrink:0;letter-spacing:0.2em;
-}
-.liw-scroll-track {
-  flex:1;overflow:hidden;white-space:nowrap;position:relative;
-}
-.liw-msg {
-  display:inline-block;color:#fff;font-size:0.6rem;
-  animation:liwSlide 0.5s ease;
-}
 @keyframes liwSlide { 0%{opacity:0;transform:translateY(8px)} 100%{opacity:1;transform:translateY(0)} }
-.liw-counter {
-  flex-shrink:0;color:rgba(255,200,200,0.5);
-  font-size:0.55rem;letter-spacing:0.15em;
-}
 @keyframes avtPulse { 0%,100%{opacity:0.5} 50%{opacity:1} }
-/* ── OPERATIVE RECRUITMENT MODAL ─────────────────────────────────────────── */
-.op-overlay {
-  display:none;position:fixed;inset:0;z-index:9000;
-  background:rgba(0,0,0,0.88);
-  align-items:center;justify-content:center;
-  padding:2rem;
-}
-.op-overlay.open { display:flex; }
-.op-modal {
-  background:linear-gradient(135deg,#050510,#0a050f);
-  border:1px solid rgba(196,30,58,0.5);
-  border-radius:4px;
-  max-width:480px;width:100%;padding:2rem;
-  position:relative;
-  box-shadow:0 0 60px rgba(196,30,58,0.2),0 0 120px rgba(0,0,0,0.8);
-  animation:opSlideIn 0.5s cubic-bezier(0.34,1.56,0.64,1);
-}
 @keyframes opSlideIn {
   0%{ opacity:0;transform:translateY(30px) scale(0.95); }
   100%{ opacity:1;transform:translateY(0) scale(1); }
-}
-.op-stamp {
-  font-family:monospace;font-size:0.55rem;letter-spacing:0.3em;
-  color:rgba(196,30,58,0.7);text-transform:uppercase;margin-bottom:0.2rem;
-}
-.op-agency {
-  font-family:monospace;font-size:0.5rem;letter-spacing:0.2em;
-  color:rgba(240,237,229,0.3);margin-bottom:0.8rem;
-}
-.op-divider { height:1px;background:rgba(196,30,58,0.25);margin:0.8rem 0; }
-.op-num-row {
-  display:flex;align-items:baseline;gap:0.8rem;margin:0.8rem 0 0.4rem;
-}
-.op-num-label {
-  font-family:monospace;font-size:0.6rem;letter-spacing:0.2em;
-  color:rgba(240,237,229,0.4);
-}
-.op-num {
-  font-family:'Bebas Neue',sans-serif;font-size:2.8rem;
-  color:#C41E3A;letter-spacing:0.1em;line-height:1;
-  text-shadow:0 0 30px rgba(196,30,58,0.5);
-  /* Bebas Neue ships one weight (400). Without pinning it, headings and
-     <strong> inherit the UA default bold and the browser fakes it by
-     smearing the outlines. */
-  font-weight: 400;
-}
-.op-classification {
-  font-family:monospace;font-size:0.62rem;letter-spacing:0.15em;
-  color:#F4B800;margin-bottom:0.6rem;
-}
-.op-welcome {
-  font-family:'Space Mono',monospace;font-size:0.78rem;
-  line-height:1.8;color:rgba(240,237,229,0.75);
-  margin:0.8rem 0;font-style:italic;
-}
-.op-directive {
-  background:rgba(196,30,58,0.06);border:1px solid rgba(196,30,58,0.2);
-  padding:0.7rem 0.9rem;margin:0.8rem 0;
-  font-family:monospace;font-size:0.65rem;
-}
-.op-dir-label { color:rgba(196,30,58,0.7);letter-spacing:0.15em;margin-right:0.5rem; }
-.op-dir-text  { color:rgba(240,237,229,0.7); }
-.op-footer-row {
-  display:flex;justify-content:space-between;
-  font-family:monospace;font-size:0.52rem;
-  color:rgba(240,237,229,0.3);letter-spacing:0.1em;
-  margin:0.8rem 0;
-}
-.op-actions { display:flex;gap:0.8rem;margin-top:1.2rem;flex-wrap:wrap; }
-.op-share-btn {
-  flex:1;background:rgba(196,30,58,0.12);border:1px solid rgba(196,30,58,0.4);
-  color:#C41E3A;font-family:monospace;font-size:0.62rem;letter-spacing:0.12em;
-  padding:0.7rem 1rem;cursor:pointer;transition:all 0.25s;
-}
-.op-share-btn:hover { background:rgba(196,30,58,0.22);border-color:#C41E3A; }
-.op-close-btn {
-  background:transparent;border:1px solid rgba(240,237,229,0.15);
-  color:rgba(240,237,229,0.4);font-family:monospace;font-size:0.6rem;
-  letter-spacing:0.12em;padding:0.7rem 1rem;cursor:pointer;transition:all 0.25s;
-}
-.op-close-btn:hover { border-color:rgba(240,237,229,0.4);color:rgba(240,237,229,0.7); }
-
-/* ── ORISHA DOSSIER MODAL ─────────────────────────────────────────────────── */
-.orisha-overlay {
-  display:none;position:fixed;inset:0;z-index:9000;
-  background:rgba(0,0,0,0.9);
-  align-items:center;justify-content:center;
-  padding:2rem;overflow-y:auto;
-}
-.orisha-overlay.open { display:flex; }
-.orisha-modal {
-  background:linear-gradient(135deg,#04040e,#080418);
-  border:1px solid rgba(244,184,0,0.3);border-radius:4px;
-  max-width:680px;width:100%;padding:2rem;position:relative;
-  box-shadow:0 0 60px rgba(244,184,0,0.1);
-  animation:opSlideIn 0.45s cubic-bezier(0.34,1.56,0.64,1);
-}
-.orisha-close {
-  position:absolute;top:1rem;right:1rem;
-  background:transparent;border:1px solid rgba(244,184,0,0.2);
-  color:rgba(244,184,0,0.5);font-family:monospace;font-size:0.58rem;
-  letter-spacing:0.1em;padding:0.3rem 0.7rem;cursor:pointer;
-  transition:all 0.2s;
-}
-.orisha-close:hover { border-color:#F4B800;color:#F4B800; }
-.orisha-stamp {
-  font-family:monospace;font-size:0.52rem;letter-spacing:0.25em;
-  color:rgba(244,184,0,0.45);margin-bottom:1rem;
-}
-.orisha-name-block { margin-bottom:0.4rem; }
-.orisha-name {
-  font-family:'Bebas Neue',sans-serif;font-size:2.8rem;
-  color:#F4B800;letter-spacing:0.1em;line-height:1;
-  text-shadow:0 0 30px rgba(244,184,0,0.3);
-  /* Bebas Neue ships one weight (400). Without pinning it, headings and
-     <strong> inherit the UA default bold and the browser fakes it by
-     smearing the outlines. */
-  font-weight: 400;
-}
-.orisha-yoruba {
-  font-family:monospace;font-size:0.65rem;color:rgba(244,184,0,0.5);
-  letter-spacing:0.1em;margin-top:0.3rem;
 }
 .orisha-domain-tag {
   display:inline-block;
@@ -2507,17 +1504,6 @@ body { padding-top: 26px; }
   color:rgba(244,184,0,0.7);
   background:rgba(244,184,0,0.06);
   margin:0.7rem 0 1.2rem;
-}
-.orisha-body-grid {
-  display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;
-}
-.orisha-section-lbl {
-  font-family:monospace;font-size:0.52rem;letter-spacing:0.2em;
-  color:rgba(244,184,0,0.45);margin-bottom:0.4rem;
-}
-.orisha-text {
-  font-size:0.82rem;line-height:1.75;color:rgba(240,237,229,0.7);
-  font-family:'Space Mono',monospace;
 }
 .orisha-vessel {
   font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;
@@ -2536,9 +1522,6 @@ body { padding-top: 26px; }
   font-family:monospace;font-size:0.62rem;color:rgba(240,237,229,0.45);
   line-height:1.8;margin-top:0.4rem;
 }
-@media(max-width:600px){ .orisha-body-grid { grid-template-columns:1fr; }
-}
-
 @keyframes danRing {
   0%,100%{ transform:scale(1);opacity:0.5; }
   50%{ transform:scale(1.08);opacity:1; }
@@ -2563,10 +1546,6 @@ body { padding-top: 26px; }
   background-image: radial-gradient(rgba(240,236,228,0.16) 1px, transparent 1px);
   background-size: 5px 5px;
   mix-blend-mode: overlay; opacity: 0.4;
-}
-#ase-battle .section-label, #hero-quiz .section-label, #ase-scanner .section-label,
-#oracle-terminal .section-label, #cipher-terminal .section-label, #case-file .section-label {
-  color: var(--ink-line); letter-spacing: 0.22em;
 }
 .quiz-pip.done { background: var(--ink-accent); box-shadow: none; }
 .quiz-pip.cur  { background: var(--ink-gold); box-shadow: none; }
@@ -2622,22 +1601,6 @@ body { padding-top: 26px; }
 #cookie-banner p { margin: 0; flex: 1; min-width: 180px; line-height: 1.5; }
 #cookie-banner a { color: var(--danfo-gold); text-decoration: none; }
 #cookie-banner a:hover { text-decoration: underline; }
-.cookie-btns { display: flex; gap: 0.5rem; flex-shrink: 0; }
-.cookie-btn {
-  padding: 0.45rem 1rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  border-radius: 3px;
-  cursor: pointer;
-  border: 1px solid;
-  font-family: 'Space Mono', monospace;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-  transition: opacity 0.15s;
-}
-.cookie-btn:hover { opacity: 0.82; }
-.cookie-btn-accept { background: var(--danfo-gold); color: #06060d; border-color: var(--danfo-gold); }
-.cookie-btn-reject { background: transparent; color: rgba(240,237,229,0.55); border-color: rgba(240,237,229,0.2); }
 
 /* ── Keyboard shortcuts panel ── */
 #kb-backdrop {
@@ -2669,33 +1632,11 @@ body { padding-top: 26px; }
   backdrop-filter: blur(16px);
 }
 #kb-panel.open { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
-.kb-panel-title {
-  font-family: 'Oswald', sans-serif;
-  font-size: 0.95rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--danfo-gold);
-  margin: 0 0 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 .kb-close-btn { cursor: pointer; opacity: 0.55; font-size: 1.1rem; background: none; border: none; color: inherit; padding: 0; }
 .kb-close-btn:hover { opacity: 1; }
-.kb-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.9rem;
-  padding: 0.38rem 0;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  font-size: 0.78rem;
-}
 /* Rows that show a key pair (← →, ↑ ↓) keep the two keys together on the
    left instead of letting space-between push them to opposite edges. */
 .kb-row kbd + kbd { margin-left: -0.55rem; }
-.kb-row .kb-desc { margin-left: auto; text-align: right; }
-.kb-row:last-child { border-bottom: none; }
 kbd {
   font-family: 'Space Mono', monospace;
   font-size: 0.68rem;
@@ -2707,15 +1648,6 @@ kbd {
   min-width: 1.5rem;
   text-align: center;
   display: inline-block;
-}
-.kb-desc { color: rgba(240,237,229,0.6); }
-.kb-sep {
-  font-family: 'Oswald', sans-serif;
-  font-size: 0.65rem;
-  letter-spacing: 0.2em;
-  color: rgba(244,184,0,0.5);
-  text-transform: uppercase;
-  padding: 0.6rem 0 0.2rem;
 }
 
 /* ── KB trigger button ── */
@@ -2794,7 +1726,6 @@ kbd {
 
 /* ── Batch 3: Password toggle ── */
 .pw-wrap { position: relative; }
-.pw-wrap .auth-input { padding-right: 2.8rem; }
 .pw-toggle {
   position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%);
   background: none; border: none; color: rgba(240,237,229,0.4);
@@ -2850,7 +1781,6 @@ kbd {
 #resume-banner.show { transform: translateY(0); opacity: 1; pointer-events: auto; }
 #resume-banner p { margin: 0 0 0.6rem; font-size: 0.82rem; color: rgba(240,237,229,0.8); line-height: 1.5; }
 #resume-banner p strong { color: #00C9B1; }
-#resume-banner .resume-actions { display: flex; gap: 0.5rem; }
 #resume-banner .resume-go {
   background: rgba(0,201,177,0.15); border: 1px solid rgba(0,201,177,0.4);
   color: #00C9B1; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
@@ -2976,28 +1906,6 @@ kbd {
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 #covenant-overlay.open { opacity: 1; pointer-events: auto; visibility: visible; }
-#covenant-card {
-  max-width: 480px; width: 100%; text-align: center;
-  background: linear-gradient(165deg, #0d0d1c 0%, #0a0a14 60%, #100c06 100%);
-  border: 1px solid rgba(244,184,0,0.4); border-radius: 8px;
-  padding: 2.6rem 2.2rem 2.2rem;
-  box-shadow: 0 0 90px rgba(244,184,0,0.14), 0 30px 80px rgba(0,0,0,0.8);
-  transform: scale(0.92) translateY(12px); transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2);
-}
-#covenant-overlay.open #covenant-card { transform: scale(1) translateY(0); }
-.cov-eyebrow {
-  font-family: 'Space Grotesk', sans-serif; font-size: 0.6rem;
-  letter-spacing: 0.34em; color: #00C9B1; margin-bottom: 1.5rem;
-}
-.cov-no {
-  font-family: 'Bebas Neue', sans-serif; font-size: 1rem;
-  letter-spacing: 0.3em; color: rgba(240,237,229,0.5); margin-bottom: 0.4rem;
-  /* Bebas Neue ships one weight (400). Without pinning it, headings and
-     <strong> inherit the UA default bold and the browser fakes it by
-     smearing the outlines. */
-  font-weight: 400;
-}
-.cov-no strong { color: #F4B800; font-weight: 400; font-size: 2.6rem; display: block; line-height: 1.1; letter-spacing: 0.06em; }
 .cov-name {
   font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.9rem, 5vw, 2.6rem);
   color: #F0EDE5; margin: 0.8rem 0 0.2rem; letter-spacing: 0.04em; line-height: 1.05;
@@ -3009,21 +1917,6 @@ kbd {
 .cov-district {
   font-family: 'Space Grotesk', sans-serif; font-size: 0.78rem;
   letter-spacing: 0.22em; text-transform: uppercase; color: rgba(244,184,0,0.75);
-}
-.cov-rule { height: 1px; background: linear-gradient(90deg, transparent, rgba(244,184,0,0.5), transparent); margin: 1.6rem 0; }
-.cov-vow {
-  font-size: 0.86rem; line-height: 1.85; color: rgba(240,237,229,0.68);
-  margin-bottom: 1.7rem;
-}
-.cov-vow em { color: #F4B800; font-style: italic; }
-.cov-actions { display: flex; gap: 0.7rem; justify-content: center; flex-wrap: wrap; }
-.cov-actions button {
-  font-family: 'Bebas Neue', sans-serif; font-size: 0.82rem; letter-spacing: 0.18em;
-  padding: 0.7rem 1.3rem; border-radius: 3px; cursor: pointer; transition: all 0.2s ease;
-  /* Bebas Neue ships one weight (400). Without pinning it, headings and
-     <strong> inherit the UA default bold and the browser fakes it by
-     smearing the outlines. */
-  font-weight: 400;
 }
 #cov-share { background: rgba(244,184,0,0.12); border: 1px solid rgba(244,184,0,0.5); color: #F4B800; }
 #cov-share:hover { background: rgba(244,184,0,0.22); }
@@ -3196,10 +2089,6 @@ kbd {
   transition: bottom 0.5s cubic-bezier(0.2,0.9,0.3,1.1), visibility 0.5s;
 }
 #welcome-back-banner.show { bottom: 1.4rem; visibility: visible; }
-#welcome-back-banner .wb-eyebrow {
-  font-family: 'Space Grotesk', sans-serif; font-size: 0.6rem; letter-spacing: 0.24em;
-  color: #00C9B1; text-transform: uppercase; margin-bottom: 0.4rem;
-}
 #welcome-back-banner .wb-title {
   font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; letter-spacing: 0.03em;
   color: #F0EDE5; margin-bottom: 0.3rem; line-height: 1.2;
@@ -3211,7 +2100,6 @@ kbd {
 #welcome-back-banner .wb-sub {
   font-size: 0.78rem; line-height: 1.6; color: rgba(240,237,229,0.6); margin-bottom: 0.9rem;
 }
-#welcome-back-banner .wb-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
 #welcome-back-banner button {
   font-family: 'Bebas Neue', sans-serif; font-size: 0.76rem; letter-spacing: 0.14em;
   padding: 0.55rem 1.1rem; border-radius: 3px; cursor: pointer; transition: all 0.2s ease;
@@ -3246,31 +2134,6 @@ kbd {
   transition: opacity 0.25s ease, visibility 0.25s ease;
 }
 #memory-bank-overlay.open { opacity: 1; pointer-events: auto; visibility: visible; }
-#memory-bank-card {
-  max-width: 440px; width: 100%; background: #0d0d1c;
-  border: 1px solid rgba(0,201,177,0.4); border-radius: 8px; padding: 2rem 1.8rem;
-  text-align: center; box-shadow: 0 0 60px rgba(0,201,177,0.1);
-}
-#memory-bank-card .mb-eyebrow {
-  font-family: 'Space Grotesk', sans-serif; font-size: 0.6rem; letter-spacing: 0.26em;
-  color: #00C9B1; margin-bottom: 1.2rem;
-}
-#memory-bank-card .mb-memory {
-  font-size: 1rem; line-height: 1.7; color: #F0EDE5; margin-bottom: 0.6rem; font-style: italic;
-}
-#memory-bank-card .mb-when {
-  font-family: 'Space Grotesk', sans-serif; font-size: 0.66rem; letter-spacing: 0.12em;
-  color: rgba(240,237,229,0.4); text-transform: uppercase; margin-bottom: 1.6rem;
-}
-#memory-bank-card .mb-empty { color: rgba(240,237,229,0.45); font-size: 0.85rem; margin-bottom: 1.6rem; }
-#memory-bank-card button {
-  font-family: 'Bebas Neue', sans-serif; font-size: 0.78rem; letter-spacing: 0.16em;
-  padding: 0.6rem 1.3rem; border-radius: 3px; cursor: pointer; margin: 0 0.3rem;
-  /* Bebas Neue ships one weight (400). Without pinning it, headings and
-     <strong> inherit the UA default bold and the browser fakes it by
-     smearing the outlines. */
-  font-weight: 400;
-}
 #mb-another { background: rgba(0,201,177,0.12); border: 1px solid rgba(0,201,177,0.5); color: #00C9B1; }
 #mb-another:hover { background: rgba(0,201,177,0.22); }
 #mb-close { background: none; border: 1px solid rgba(240,237,229,0.25); color: rgba(240,237,229,0.75); }
@@ -3300,13 +2163,6 @@ html { scrollbar-color: #2a2a3e #0a0a14; }
 ::-webkit-scrollbar-track { background: #0a0a14; }
 ::-webkit-scrollbar-thumb { background: #2a2a3e; border-radius: 6px; border: 2px solid #0a0a14; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(244,184,0,0.55); }
-
-/* ── Batch 9: Reader type scale + focus mode ── */
-.story-content { --rs: 1; }
-.story-content .story-prose { font-size: calc(0.88rem * var(--rs)); }
-.story-content .speech-bubble { font-size: calc(0.88rem * var(--rs)); }
-.story-content .panel-narration { font-size: calc(0.82rem * var(--rs)); }
-.story-content .rt-open { font-size: calc(0.95rem * var(--rs)); }
 .reader-tools { display: inline-flex; gap: 0.35rem; margin-left: 0.6rem; }
 .reader-tools button {
   background: none; border: 1px solid rgba(240,237,229,0.2);
@@ -3355,10 +2211,6 @@ html { scrollbar-color: #2a2a3e #0a0a14; }
 .reader-contents-page:hover, .reader-contents-page:focus-visible,
 .reader-contents-page.is-current { border-color: rgba(244,184,0,0.55); color: #F0EDE5; background: rgba(244,184,0,0.07); }
 .rc-time { color: rgba(240,237,229,0.35); font-family: 'Space Grotesk', sans-serif; font-size: 0.62rem; letter-spacing: 0.1em; margin-left: 0.5rem; }
-body.reader-focus .reader-cover { display: none; }
-body.reader-focus .reader-grid { grid-template-columns: 1fr !important; }
-body.reader-focus .issue-reader-panel .story-content { max-width: 68ch; margin: 0 auto; }
-body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 
 /* ── Batch 9: Universe Pulse widget ── */
 #universe-pulse {
@@ -3447,12 +2299,6 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 /* 3D tilt — issue cards only (character cards use a click-flip transform
    this would fight with, so they're deliberately left alone) */
 .issue-card.tilt-armed { transform-style: preserve-3d; transition: transform 0.12s ease-out; will-change: transform; }
-
-/* Scroll parallax for section background photography */
-.section-photo-bg.parallax-armed { will-change: transform; }
-@media (prefers-reduced-motion: reduce) { .section-photo-bg.parallax-armed { transform: none !important; }
-}
-
 
 /* ── Batch 17: cinematic depth for the cover gallery — same tilt
    approach as the issue cards above, plus a cursor-tracking glare
@@ -3632,42 +2478,6 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 .gloss-term:hover, .gloss-term:focus-visible { color: var(--danfo-gold); border-bottom-color: var(--danfo-gold); }
 .gloss-term:focus-visible { outline: 2px solid var(--danfo-gold); outline-offset: 2px; }
 
-/* shared popover */
-.gl-pop {
-  position: absolute; z-index: 10050; width: 270px; max-width: calc(100vw - 16px);
-  background: #0b0b16; border: 1px solid rgba(244,184,0,0.45);
-  padding: 0.9rem 1rem 0.85rem; opacity: 0; transform: translateY(-4px);
-  transition: opacity 0.18s ease, transform 0.18s ease;
-  box-shadow: 0 12px 34px rgba(0,0,0,0.65);
-}
-.gl-pop.open { opacity: 1; transform: translateY(0); }
-.gl-pop-close {
-  position: absolute; top: 0.35rem; right: 0.5rem;
-  background: none; border: none; color: rgba(240,237,229,0.4);
-  font-size: 1.1rem; line-height: 1; cursor: pointer; padding: 0.2rem;
-}
-.gl-pop-close:hover { color: var(--danfo-gold); }
-.gl-pop-term {
-  font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem;
-  color: var(--danfo-gold); letter-spacing: 0.03em; padding-right: 1rem;
-  /* Bebas Neue ships one weight (400). Without pinning it, headings and
-     <strong> inherit the UA default bold and the browser fakes it by
-     smearing the outlines. */
-  font-weight: 400;
-}
-.gl-pop-pron { font-family: monospace; font-size: 0.66rem; color: rgba(240,237,229,0.45); margin-bottom: 0.5rem; }
-.gl-pop-short { font-size: 0.82rem; line-height: 1.6; color: rgba(240,237,229,0.85); }
-.gl-pop-more {
-  display: inline-block; margin-top: 0.7rem;
-  font-family: 'Bebas Neue', sans-serif; font-size: 0.68rem; letter-spacing: 0.12em;
-  color: var(--orisha-teal); text-decoration: none;
-  /* Bebas Neue ships one weight (400). Without pinning it, headings and
-     <strong> inherit the UA default bold and the browser fakes it by
-     smearing the outlines. */
-  font-weight: 400;
-}
-.gl-pop-more:hover { color: var(--danfo-gold); }
-
 /* ── THE CHOICE ───────────────────────────────────────────── */
 #the-choice { padding: 7rem 1.5rem; background: rgba(0,0,0,0.4); }
 .tc-end-count {
@@ -3712,133 +2522,6 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
      smearing the outlines. */
   font-weight: 400;
 }
-
-/* ══════════════════════════════════════════════════════════════════
-   UNIVERSAL SEARCH — ORACLE ARCHIVE (⌘K)
-   A terminal-styled command palette over the whole site. Trigger lives
-   in the nav; the overlay itself is a single fixed layer above every
-   other modal on the page (dossier overlay sits at 3000).
-   ══════════════════════════════════════════════════════════════════ */
-
-/* --- nav trigger --- */
-.nav-search-btn {
-  display: flex; align-items: center; gap: 0.45rem;
-  padding: 0.42rem 0.7rem;
-  background: none;
-  border: 1px solid rgba(240,237,229,0.18);
-  color: rgba(240,237,229,0.72);
-  cursor: pointer;
-  clip-path: polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
-  transition: border-color 0.2s, color 0.2s, background 0.2s;
-}
-.nav-search-btn svg { width: 15px; height: 15px; }
-.nav-search-kbd {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.58rem; letter-spacing: 0.08em;
-  color: rgba(240,237,229,0.55);
-  border: 1px solid rgba(240,237,229,0.2);
-  border-radius: 3px;
-  padding: 0.1rem 0.3rem;
-}
-.nav-search-btn:hover,
-.nav-search-btn:focus-visible {
-  border-color: var(--danfo-gold);
-  color: var(--danfo-gold);
-  background: rgba(244,184,0,0.07);
-}
-.nav-search-btn:hover .nav-search-kbd { color: var(--danfo-gold); border-color: rgba(244,184,0,0.45); }
-
-.mobile-nav-search {
-  display: flex; align-items: center; gap: 0.6rem;
-  width: 100%; max-width: 320px;
-  margin: 0 auto 0.6rem;
-  padding: 0.75rem 1rem;
-  font-family: 'Space Mono', monospace;
-  font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
-  background: rgba(244,184,0,0.06);
-  border: 1px solid rgba(244,184,0,0.32);
-  color: var(--danfo-gold);
-  cursor: pointer;
-}
-.mobile-nav-search svg { width: 15px; height: 15px; flex: none; }
-
-/* --- overlay --- */
-.cmdk-overlay {
-  position: fixed; inset: 0;
-  /* Above the threat ticker (9999), the nav (1000) and the cookie
-     banner (50000); below the keyboard-shortcuts modal (60000), which
-     the palette can open, and the skip link (99999). */
-  z-index: 55000;
-  display: flex; align-items: flex-start; justify-content: center;
-  padding: clamp(3rem, 12vh, 9rem) 1rem 2rem;
-  background: rgba(3,3,8,0.82);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  opacity: 0;
-  /* Transparent for the length of the fade-out, so a full-screen overlay
-     that is on its way out never swallows a click meant for the page. */
-  pointer-events: none;
-  transition: opacity 0.18s ease;
-}
-.cmdk-overlay[hidden] { display: none; }
-.cmdk-overlay.open { opacity: 1; pointer-events: auto; }
-
-.cmdk-panel {
-  width: min(680px, 100%);
-  max-height: min(70vh, 620px);
-  display: flex; flex-direction: column;
-  background: linear-gradient(180deg, #0b0b16 0%, #07070f 100%);
-  border: 1px solid rgba(244,184,0,0.34);
-  box-shadow: 0 30px 90px rgba(0,0,0,0.75), 0 0 0 1px rgba(0,0,0,0.6);
-  transform: translateY(-10px) scale(0.985);
-  transition: transform 0.18s cubic-bezier(0.2,0.9,0.3,1);
-}
-.cmdk-overlay.open .cmdk-panel { transform: translateY(0) scale(1); }
-
-/* --- input row --- */
-.cmdk-inputrow {
-  display: flex; align-items: center; gap: 0.7rem;
-  padding: 1rem 1.1rem;
-  border-bottom: 1px solid rgba(244,184,0,0.18);
-  flex: none;
-}
-.cmdk-prompt {
-  font-family: 'Space Mono', monospace;
-  font-size: 1rem; font-weight: 700;
-  color: var(--danfo-gold);
-  line-height: 1;
-}
-.cmdk-input {
-  flex: 1; min-width: 0;
-  background: none; border: none; outline: none;
-  font-family: 'Space Mono', monospace;
-  font-size: 0.95rem;
-  color: var(--bone-white);
-  letter-spacing: 0.02em;
-  caret-color: var(--danfo-gold);
-}
-.cmdk-input::placeholder { color: rgba(240,237,229,0.34); }
-.cmdk-esc {
-  flex: none;
-  font-family: 'Space Mono', monospace;
-  font-size: 0.55rem; letter-spacing: 0.14em;
-  color: rgba(240,237,229,0.4);
-  border: 1px solid rgba(240,237,229,0.16);
-  border-radius: 3px;
-  padding: 0.15rem 0.38rem;
-}
-
-/* --- results --- */
-.cmdk-results {
-  flex: 1 1 auto;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding: 0.5rem 0;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(244,184,0,0.3) transparent;
-}
-.cmdk-results::-webkit-scrollbar { width: 8px; }
-.cmdk-results::-webkit-scrollbar-thumb { background: rgba(244,184,0,0.28); }
 
 .cmdk-group {
   font-family: 'Space Mono', monospace;
@@ -3908,34 +2591,6 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 }
 .cmdk-empty strong { display: block; color: var(--blood-red); letter-spacing: 0.2em; margin-bottom: 0.6rem; }
 
-/* --- footer --- */
-.cmdk-foot {
-  flex: none;
-  display: flex; align-items: center; gap: 1.1rem; flex-wrap: wrap;
-  padding: 0.6rem 1.15rem;
-  border-top: 1px solid rgba(244,184,0,0.14);
-  font-family: 'Space Mono', monospace;
-  font-size: 0.55rem; letter-spacing: 0.14em; text-transform: uppercase;
-  color: rgba(240,237,229,0.32);
-}
-.cmdk-foot kbd {
-  display: inline-block;
-  border: 1px solid rgba(240,237,229,0.18);
-  border-radius: 3px;
-  padding: 0 0.25rem;
-  margin-right: 0.15rem;
-  font-size: 0.6rem;
-}
-.cmdk-foot-brand { margin-left: auto; color: rgba(244,184,0,0.42); }
-.cmdk-status {
-  position: absolute;
-  width: 1px; height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
 /* --- target flash when search jumps to a specific card --- */
 @keyframes cmdk-flash {
   0%, 100% { box-shadow: 0 0 0 0 rgba(244,184,0,0); }
@@ -3943,20 +2598,7 @@ body.reader-focus #read .section-photo-bg { opacity: 0.04 !important; }
 }
 .cmdk-target-flash { animation: cmdk-flash 1.5s ease-in-out 1; }
 
-@media (max-width: 900px) {
-  .nav-search-btn .nav-search-kbd { display: none; }
-}
-
-@media (max-width: 600px) {
-  .cmdk-overlay { padding: 0; }
-  .cmdk-panel { width: 100%; max-height: 100%; height: 100%; border: none; }
-  .cmdk-foot span:not(.cmdk-foot-brand) { display: none; }
-  .cmdk-foot-brand { margin-left: 0; }
-}
-
-
 @media (prefers-reduced-motion: reduce) {
-  .cmdk-overlay, .cmdk-panel { transition: none; }
   .cmdk-target-flash { animation: none; outline: 3px solid var(--danfo-gold); }
 }
 
@@ -3981,36 +2623,6 @@ mark.fn-hl.fn-flash { animation: fn-flash 1.6s ease-in-out 1; }
   30%, 70% { background: rgba(244,184,0,0.62); }
 }
 
-/* --- selection toolbar --- */
-.fn-bar {
-  position: absolute;
-  z-index: 54000;
-  display: flex;
-  background: #0b0b16;
-  border: 1px solid rgba(244,184,0,0.4);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-  overflow: hidden;
-}
-.fn-bar[hidden] { display: none; }
-.fn-bar-btn {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  padding: 0.55rem 0.85rem;
-  background: none;
-  border: none;
-  color: var(--danfo-gold);
-  cursor: pointer;
-  white-space: nowrap;
-}
-.fn-bar-btn:hover { background: rgba(244,184,0,0.14); }
-.fn-bar-alt {
-  color: rgba(240,237,229,0.65);
-  border-left: 1px solid rgba(244,184,0,0.22);
-}
-.fn-bar-alt:hover { background: rgba(240,237,229,0.08); color: var(--bone-white); }
-
 /* --- reader chrome trigger --- */
 .rt-notes { position: relative; }
 .rt-notes-count {
@@ -4028,76 +2640,6 @@ mark.fn-hl.fn-flash { animation: fn-flash 1.6s ease-in-out 1; }
   font-weight: 700;
 }
 .rt-notes-count[hidden] { display: none; }
-
-/* --- drawer --- */
-.fn-drawer {
-  position: fixed; inset: 0;
-  z-index: 56000;
-  display: flex; justify-content: flex-end;
-  background: rgba(3,3,8,0.7);
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-  opacity: 0;
-  pointer-events: none;            /* see .cmdk-overlay */
-  transition: opacity 0.2s ease;
-}
-.fn-drawer[hidden] { display: none; }
-.fn-drawer.open { opacity: 1; pointer-events: auto; }
-
-.fn-drawer-panel {
-  width: min(440px, 100%);
-  height: 100%;
-  display: flex; flex-direction: column;
-  background: linear-gradient(180deg, #0b0b16 0%, #07070f 100%);
-  border-left: 1px solid rgba(244,184,0,0.3);
-  box-shadow: -30px 0 80px rgba(0,0,0,0.7);
-  transform: translateX(24px);
-  transition: transform 0.22s cubic-bezier(0.2,0.9,0.3,1);
-}
-.fn-drawer.open .fn-drawer-panel { transform: translateX(0); }
-
-.fn-head {
-  flex: none;
-  display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
-  padding: 1.4rem 1.3rem 1rem;
-  border-bottom: 1px solid rgba(244,184,0,0.16);
-}
-.fn-title {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.5rem;
-  letter-spacing: 0.18em;
-  color: var(--danfo-gold);
-  /* Bebas Neue ships one weight (400). Without pinning it, headings and
-     <strong> inherit the UA default bold and the browser fakes it by
-     smearing the outlines. */
-  font-weight: 400;
-}
-.fn-sub {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.62rem;
-  line-height: 1.7;
-  color: rgba(240,237,229,0.45);
-  margin-top: 0.3rem;
-}
-.fn-close {
-  flex: none;
-  background: none;
-  border: 1px solid rgba(240,237,229,0.2);
-  color: rgba(240,237,229,0.6);
-  width: 30px; height: 30px;
-  cursor: pointer;
-  font-size: 0.8rem;
-}
-.fn-close:hover { border-color: var(--danfo-gold); color: var(--danfo-gold); }
-
-.fn-list {
-  flex: 1 1 auto;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding: 0.6rem 0 1rem;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(244,184,0,0.3) transparent;
-}
 .fn-issue-head {
   font-family: 'Space Mono', monospace;
   font-size: 0.55rem;
@@ -4178,34 +2720,7 @@ mark.fn-hl.fn-flash { animation: fn-flash 1.6s ease-in-out 1; }
   letter-spacing: 0.2em;
   margin-bottom: 0.7rem;
 }
-
-.fn-foot {
-  flex: none;
-  display: flex; gap: 0.8rem;
-  padding: 0.8rem 1.3rem;
-  border-top: 1px solid rgba(244,184,0,0.14);
-}
-.fn-foot-btn {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.58rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  padding: 0.5rem 0.9rem;
-  background: none;
-  border: 1px solid rgba(240,237,229,0.2);
-  color: rgba(240,237,229,0.62);
-  cursor: pointer;
-}
-.fn-foot-btn:hover { border-color: var(--danfo-gold); color: var(--danfo-gold); }
-.fn-foot-danger:hover { border-color: var(--blood-red); color: var(--blood-red); }
-
-@media (max-width: 600px) {
-  .fn-drawer-panel { width: 100%; border-left: none; }
-  .fn-bar-btn { font-size: 0.58rem; padding: 0.6rem 0.7rem; }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .fn-drawer, .fn-drawer-panel { transition: none; }
   mark.fn-hl.fn-flash { animation: none; outline: 2px solid var(--danfo-gold); }
 }
 
@@ -4239,40 +2754,6 @@ mark.fn-hl.fn-flash { animation: fn-flash 1.6s ease-in-out 1; }
   padding-top: 5.5rem;
 }
 
-.issue-crumbs {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 4rem 1.25rem;
-}
-.issue-crumbs ol {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  font-family: 'Space Mono', monospace;
-  font-size: 0.68rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(240,237,229,0.45);
-}
-.issue-crumbs li + li::before {
-  content: '/';
-  margin-right: 0.5rem;
-  color: rgba(244,184,0,0.35);
-}
-.issue-crumbs a {
-  color: rgba(240,237,229,0.6);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: color 0.2s, border-color 0.2s;
-}
-.issue-crumbs a:hover,
-.issue-crumbs a:focus-visible { color: var(--danfo-gold); border-bottom-color: currentColor; }
-.issue-crumbs [aria-current='page'] { color: rgba(240,237,229,0.85); }
-
 /* The tab bar, as links. Inherits .issue-tab's look; only the bits that
    differ between a <button> and an <a> are restated. */
 .issue-page-tab {
@@ -4289,13 +2770,6 @@ mark.fn-hl.fn-flash { animation: fn-flash 1.6s ease-in-out 1; }
   text-decoration: none;
   transition: background 0.3s, border-color 0.3s, color 0.3s;
   clip-path: polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
-}
-.issue-page-tab:hover,
-.issue-page-tab:focus-visible,
-.issue-page-tab.active {
-  background: var(--danfo-gold);
-  border-color: var(--danfo-gold);
-  color: var(--black);
 }
 
 /* What this reader has actually read, on the tabs that are already there.
@@ -4332,17 +2806,6 @@ mark.fn-hl.fn-flash { animation: fn-flash 1.6s ease-in-out 1; }
 .issue-page-tab.active .tab-progress,
 .issue-page-tab:hover .tab-progress,
 .issue-page-tab:focus-visible .tab-progress { background: rgba(6,6,13,0.2); }
-.issue-page-tab.active .tab-progress > span,
-.issue-page-tab:hover .tab-progress > span,
-.issue-page-tab:focus-visible .tab-progress > span { background: var(--black); }
-.issue-page-tab.tab-read::after {
-  content: ' \2713';
-  color: var(--danfo-gold);
-  margin-left: 0.4em;
-}
-.issue-page-tab.tab-read.active::after,
-.issue-page-tab.tab-read:hover::after,
-.issue-page-tab.tab-read:focus-visible::after { color: var(--black); }
 
 /* "You stopped on page 4 of 12" — shown only when this browser recorded it. */
 .fact-resume {
@@ -4369,40 +2832,6 @@ mark.fn-hl.fn-flash { animation: fn-flash 1.6s ease-in-out 1; }
   padding: 2.5rem 4rem 0;
   border-top: 1px solid rgba(244,184,0,0.15);
 }
-.handoff-eyebrow {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--danfo-gold);
-  margin: 0 0 1rem;
-}
-.handoff-card {
-  display: grid;
-  grid-template-columns: 200px minmax(0, 1fr);
-  gap: 2rem;
-  align-items: center;
-  padding: 1.5rem;
-  text-decoration: none;
-  background:
-    linear-gradient(135deg, rgba(244,184,0,0.07), rgba(0,0,0,0.42) 55%);
-  border: 1px solid rgba(244,184,0,0.22);
-  transition: border-color 0.35s, box-shadow 0.35s, transform 0.35s;
-}
-.handoff-card:hover,
-.handoff-card:focus-visible {
-  border-color: var(--danfo-gold);
-  box-shadow: 0 14px 40px rgba(0,0,0,0.45);
-  transform: translateY(-3px);
-}
-.handoff-cover {
-  width: 100%;
-  height: auto;
-  display: block;
-  border: 1px solid rgba(244,184,0,0.28);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
 /* Arc II has no cover to show yet, so the slot carries the arc numeral
    instead of a placeholder pretending to be artwork. */
 .handoff-sigil {
@@ -4418,134 +2847,1260 @@ mark.fn-hl.fn-flash { animation: fn-flash 1.6s ease-in-out 1; }
   background: repeating-linear-gradient(
     -45deg, rgba(244,184,0,0.05) 0 8px, transparent 8px 16px);
 }
-.handoff-body { display: block; max-width: 62ch; }
-.handoff-num {
-  display: block;
-  font-family: 'Space Mono', monospace;
-  font-size: 0.66rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--danfo-gold);
-  margin-bottom: 0.4rem;
-}
-.handoff-name {
-  display: block;
-  font-family: 'Bebas Neue', sans-serif;
-  font-weight: 400;
-  font-size: clamp(1.8rem, 3.6vw, 2.6rem);
-  line-height: 1.05;
-  letter-spacing: 0.03em;
-  color: var(--bone-white);
-  margin-bottom: 0.6rem;
-}
-.handoff-blurb {
-  display: block;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.95rem;
-  line-height: 1.65;
-  color: rgba(240,237,229,0.72);
-  margin-bottom: 0.9rem;
-}
-.handoff-facts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 0.6rem;
-  margin-bottom: 1.1rem;
-}
-.handoff-facts span {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(240,237,229,0.7);
-  padding: 0.3rem 0.6rem;
-  border: 1px solid rgba(244,184,0,0.2);
-}
-.handoff-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: 'Oswald', sans-serif;
-  font-weight: 700;
-  font-size: 0.85rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--black);
-  background: var(--danfo-gold);
-  padding: 0.7rem 1.4rem;
-}
-.handoff-card:hover .handoff-cta span,
-.handoff-card:focus-visible .handoff-cta span { transform: translateX(4px); }
-.handoff-cta span { transition: transform 0.3s; }
-
-.handoff-aside {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem 2rem;
-  justify-content: space-between;
-  margin-top: 1.1rem;
-}
-.handoff-back,
-.handoff-all {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.68rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(240,237,229,0.6);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: color 0.3s, border-color 0.3s;
-}
-.handoff-back:hover, .handoff-back:focus-visible,
-.handoff-all:hover, .handoff-all:focus-visible {
-  color: var(--danfo-gold);
-  border-bottom-color: currentColor;
-}
-
-@media (max-width: 768px) {
-  #issue-main { padding-top: 4.5rem; }
-  .issue-crumbs { padding: 0 1.5rem 1rem; }
-  .issue-handoff { padding: 2rem 1.5rem 0; }
-  .handoff-card { grid-template-columns: 1fr; gap: 1.25rem; }
-  .handoff-cover { max-width: 200px; }
-  .handoff-sigil { max-width: 200px; aspect-ratio: 2 / 3; }
-}
-
 
 /* On a standalone page the section follows a breadcrumb rather than another
    full section, so it does not need the 8rem of separation the home page uses. */
 #read.issue-standalone { padding-top: 2rem; padding-bottom: 4rem; }
-@media (max-width: 768px) {
-  #read.issue-standalone { padding-top: 1rem; }
-}
+\n
+/* ==================================================================
+   UPGRADE: AUDIO SOUNDSCAPE ENGINE, WORLD 2031 & TERMINAL HUD
+   ================================================================== */
 
-
-@media (prefers-reduced-motion: reduce) {
-  .handoff-card { transition: none; }
-  .handoff-card:hover { transform: none; }
-  .handoff-cta span { transition: none; }
-  .handoff-card:hover .handoff-cta span { transform: none; }
-}
-
-
-/* Link from the tabbed reader on the home page out to that issue's own page. */
-.reader-permalink,
-.script-studio-link {
-  display: inline-block;
-  margin-top: 0.75rem;
+/* NAV AUDIO BUTTON & REALTIME VISUALIZER */
+.nav-audio-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(10, 10, 31, 0.7);
+  border: 1px solid rgba(244, 184, 0, 0.35);
+  color: var(--bone-white);
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
   font-family: 'Space Mono', monospace;
-  font-size: 0.66rem;
+  font-size: 0.68rem;
   letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(240,237,229,0.5);
-  text-decoration: none;
-  border-bottom: 1px solid rgba(244,184,0,0.3);
-  padding-bottom: 2px;
-  transition: color 0.25s, border-color 0.25s;
+  cursor: pointer;
+  transition: border-color 0.25s, background-color 0.25s, box-shadow 0.25s;
 }
-.reader-permalink:hover,
-.reader-permalink:focus-visible,
-.script-studio-link:hover,
-.script-studio-link:focus-visible { color: var(--danfo-gold); border-bottom-color: var(--danfo-gold); }
-.issue-edition-links{margin:1rem 0;line-height:1.9;font-size:.95rem}
-.issue-edition-links a{color:#f4b800;text-underline-offset:.2em}
+@keyframes audioEq1 { 0% { height: 2px; } 100% { height: 11px; } }
+@keyframes audioEq2 { 0% { height: 4px; } 100% { height: 12px; } }
+@keyframes audioEq3 { 0% { height: 2px; } 100% { height: 9px; } }
+
+/* LAGOS 2031 INTELLIGENCE COMMAND HUB */
+#world-2031 {
+  position: relative;
+  padding: clamp(4rem, 8vw, 8rem) clamp(1.2rem, 4vw, 5rem);
+  background: linear-gradient(180deg, #06060d 0%, #0a0a1f 50%, #06060d 100%);
+  border-top: 1px solid rgba(244, 184, 0, 0.15);
+  border-bottom: 1px solid rgba(244, 184, 0, 0.15);
+  overflow: hidden;
+}
+
+/* THREAT BADGES */
+.threat-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 3px 8px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  display: inline-block;
+}
+.threat-tag.critical {
+  color: var(--threat-critical);
+  border: 1px solid rgba(255, 0, 0, 0.4);
+  background: rgba(255, 0, 0, 0.1);
+}
+.threat-tag.high {
+  color: var(--threat-high);
+  border: 1px solid rgba(255, 69, 0, 0.4);
+  background: rgba(255, 69, 0, 0.1);
+}
+.threat-tag.escalating {
+  color: var(--threat-escalating);
+  border: 1px solid rgba(255, 107, 0, 0.4);
+  background: rgba(255, 107, 0, 0.1);
+}
+.threat-tag.moderate {
+  color: var(--threat-moderate);
+  border: 1px solid rgba(255, 193, 7, 0.4);
+  background: rgba(255, 193, 7, 0.1);
+}
+.threat-tag.low {
+  color: var(--threat-low);
+  border: 1px solid rgba(79, 195, 247, 0.4);
+  background: rgba(79, 195, 247, 0.1);
+}
+.vault-modal-stamp {
+  display: inline-block;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--blood-red);
+  border: 1px solid var(--blood-red);
+  padding: 3px 8px;
+  margin-bottom: 0.8rem;
+  text-transform: uppercase;
+}
+.vault-modal-stamp.declassified {
+  color: var(--orisha-teal);
+  border-color: var(--orisha-teal);
+}
+.skill-card {
+  background: rgba(13, 17, 28, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.skill-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(192, 132, 252, 0.4);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+}
+.skill-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+.skill-card-name {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #f0ede5;
+}
+.skill-card-source {
+  font-size: 0.65rem;
+  font-family: 'Space Grotesk', monospace;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  font-weight: 600;
+}
+.skill-card-desc {
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: rgba(240, 237, 229, 0.65);
+  margin-bottom: 1rem;
+}
+.skill-card-caps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+.skill-cap-tag {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.15rem 0.45rem;
+  border-radius: 2px;
+  font-size: 0.65rem;
+  color: rgba(240, 237, 229, 0.75);
+}
+.skill-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+.skill-card-category {
+  font-size: 0.7rem;
+  color: #F4B800;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.skill-card-btn {
+  background: transparent;
+  border: 1px solid rgba(192, 132, 252, 0.4);
+  color: #C084FC;
+  padding: 0.25rem 0.6rem;
+  border-radius: 3px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.skill-card-btn:hover {
+  background: #C084FC;
+  color: #050508;
+}
+@keyframes pulseGold {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.08); opacity: 1; filter: drop-shadow(0 0 10px rgba(244, 184, 0, 0.6)); }
+}
+.affinity-chip {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.75rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--ash-grey);
+  padding: 0.4rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.affinity-chip:hover {
+  border-color: var(--danfo-gold);
+  color: var(--bone-white);
+}
+.affinity-chip.active {
+  background: rgba(244, 184, 0, 0.15);
+  border-color: var(--danfo-gold);
+  color: var(--danfo-gold);
+  box-shadow: 0 0 10px rgba(244, 184, 0, 0.2);
+}
+.profile-btn-primary {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: var(--danfo-gold);
+  color: var(--black);
+  border: none;
+  padding: 0.8rem;
+  border-radius: 4px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+.profile-btn-primary:hover {
+  background: #ffc926;
+  box-shadow: 0 0 15px rgba(244, 184, 0, 0.4);
+}
+.sim-step-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--danfo-gold);
+  margin-bottom: 0.4rem;
+}
+.sim-question-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--bone-white);
+  margin-bottom: 0.6rem;
+}
+.sim-question-desc {
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--ash-grey);
+  margin-bottom: 1.5rem;
+}
+.sim-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.sim-opt-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1rem 1.2rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  color: var(--bone-white);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.86rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.sim-opt-btn:hover {
+  border-color: var(--danfo-gold);
+  background: rgba(244, 184, 0, 0.08);
+  transform: translateX(4px);
+}
+.sim-opt-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 2px;
+  background: rgba(244, 184, 0, 0.15);
+  color: var(--danfo-gold);
+  white-space: nowrap;
+}
+.sim-result-card {
+  text-align: center;
+  padding: 1.2rem;
+}
+.sim-result-badge {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--danfo-gold);
+  margin-bottom: 0.5rem;
+}
+.sim-result-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.8rem;
+  color: var(--danfo-gold);
+  margin-bottom: 0.8rem;
+  letter-spacing: 0.05em;
+}
+.sim-result-oath {
+  font-size: 0.92rem;
+  line-height: 1.85;
+  color: var(--bone-white);
+  max-width: 580px;
+  margin: 0 auto 1.8rem;
+  font-style: italic;
+}
+.sim-restart-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  padding: 0.65rem 1.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: none;
+  color: var(--ash-grey);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.sim-restart-btn:hover {
+  border-color: var(--danfo-gold);
+  color: var(--bone-white);
+}
+.council-card {
+  background: rgba(10, 13, 24, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 1.3rem;
+  transition: all 0.25s ease;
+}
+.council-card:hover {
+  border-color: var(--orisha-teal);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+}
+.council-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--ash-grey);
+  margin-bottom: 0.65rem;
+}
+.council-card-author {
+  color: var(--danfo-gold);
+}
+.council-card-tag {
+  color: var(--orisha-teal);
+  background: rgba(0, 201, 177, 0.1);
+  padding: 0.15rem 0.45rem;
+  border-radius: 2px;
+}
+.council-card-text {
+  font-size: 0.84rem;
+  line-height: 1.65;
+  color: var(--bone-white);
+}
+@keyframes radarRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes eqBounce {
+  0% { height: 4px; background: var(--orisha-teal); }
+  50% { height: 18px; background: var(--danfo-gold); }
+  100% { height: 8px; background: var(--neon-orange); }
+}
+
+/* 7. Ọ̀RUN COUNCIL: UPVOTES & CLASSIFIED REDACTED SPOILERS */
+.theory-upvote-btn {
+  background: rgba(244, 184, 0, 0.08);
+  border: 1px solid rgba(244, 184, 0, 0.3);
+  color: var(--danfo-gold);
+  padding: 0.3rem 0.65rem;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  border-radius: 3px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.2s ease;
+}
+.theory-upvote-btn:hover, .theory-upvote-btn.voted {
+  background: var(--danfo-gold);
+  color: var(--black);
+  box-shadow: 0 0 10px rgba(244, 184, 0, 0.4);
+}
+
+.redacted-lore {
+  background: #000;
+  color: var(--orisha-teal);
+  padding: 0.2rem 0.5rem;
+  border-radius: 2px;
+  font-family: 'Space Grotesk', monospace;
+  cursor: pointer;
+  border: 1px dashed rgba(0, 201, 177, 0.5);
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  transition: all 0.2s ease;
+}
+.redacted-lore.decrypted {
+  background: rgba(0, 201, 177, 0.12);
+  color: var(--bone-white);
+  border-style: solid;
+}
+@keyframes heatPulse {
+  0% { transform: scale(0.95); opacity: 0.7; }
+  100% { transform: scale(1.15); opacity: 1; }
+}
+.theme-btn {
+  background: rgba(10, 10, 31, 0.8);
+  border: 1px solid rgba(244, 184, 0, 0.3);
+  color: rgba(240, 237, 229, 0.8);
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  padding: 0.35rem 0.75rem;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.theme-btn:hover, .theme-btn.active {
+  background: rgba(244, 184, 0, 0.2);
+  border-color: var(--danfo-gold);
+  color: var(--danfo-gold);
+  box-shadow: 0 0 10px rgba(244, 184, 0, 0.3);
+}
+body.reader-theme-sepia #read .story-prose {
+  color: #eedcc0 !important;
+}
+body.reader-theme-sepia #read .speech-bubble {
+  background: #36291a !important;
+  color: #fff2db !important;
+  border-color: #aa8657 !important;
+}
+body.reader-theme-matrix #read .story-prose {
+  color: #a3ffc2 !important;
+}
+body.reader-theme-matrix #read .speech-bubble {
+  background: #041c0c !important;
+  color: #33ff77 !important;
+  border-color: #00ff66 !important;
+  box-shadow: 0 0 12px rgba(0, 255, 102, 0.2) !important;
+}
+
+/* 3. CINEMA THEATRE MODE */
+body.hud-cinema-active #hudLightboxBackdrop {
+  background: rgba(0, 0, 0, 0.98) !important;
+}
+@keyframes leyLineFlow {
+  0% { stroke-dashoffset: 24; opacity: 0.25; }
+  50% { opacity: 0.85; }
+  100% { stroke-dashoffset: 0; opacity: 0.25; }
+}
+.screen-shake {
+  animation: screenShakeFx 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+@keyframes screenShakeFx {
+  10%, 90% { transform: translate3d(-3px, 0, 0); }
+  20%, 80% { transform: translate3d(4px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+  40%, 60% { transform: translate3d(6px, 0, 0); }
+}
+.term-msg {
+  padding: 0.65rem 1rem;
+  border-radius: 4px;
+}
+.term-msg.system {
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(240, 237, 229, 0.6);
+  border-left: 2px solid var(--iron-grey);
+}
+.term-msg.entity {
+  background: rgba(0, 201, 177, 0.08);
+  color: var(--bone-white);
+  border-left: 3px solid var(--orisha-teal);
+}
+.term-msg.user {
+  background: rgba(244, 184, 0, 0.1);
+  color: var(--danfo-gold);
+  border-left: 3px solid var(--danfo-gold);
+  align-self: flex-end;
+  max-width: 85%;
+}
+.term-prefix {
+  font-weight: 700;
+  color: var(--orisha-teal);
+  margin-right: 0.4rem;
+}
+.term-msg.user .term-prefix {
+  color: var(--danfo-gold);
+}
+body.reader-layout-webtoon #read .story-chapter {
+  margin-bottom: 3.5rem !important;
+  border-bottom: 1px solid rgba(244, 184, 0, 0.25) !important;
+  padding-bottom: 2.5rem !important;
+}
+
+@keyframes dramaticPulse {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  100% { transform: scale(1.3); opacity: 1; }
+}
+
+.dramatic-scene-chip {
+  background: rgba(240, 237, 229, 0.04);
+  border: 1px solid rgba(240, 237, 229, 0.12);
+  color: var(--bone-white);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.dramatic-scene-chip:hover {
+  border-color: var(--orisha-teal);
+  color: var(--orisha-teal);
+}
+
+.dramatic-scene-chip.active {
+  background: rgba(0, 201, 177, 0.2);
+  border-color: var(--orisha-teal);
+  color: var(--orisha-teal);
+  font-weight: 700;
+}
+
+.cpg-attr-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.cpg-attr-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+}
+
+.cpg-attr-name {
+  color: var(--bone-white);
+  font-weight: 700;
+}
+
+.cpg-attr-scores {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.cpg-score-a {
+  color: var(--orisha-teal);
+  font-weight: 700;
+}
+
+.cpg-score-b {
+  color: var(--danfo-gold);
+  font-weight: 700;
+}
+
+.cpg-score-delta {
+  color: var(--ash-grey);
+}
+
+.cpg-bars-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  height: 8px;
+}
+
+.cpg-bar-track {
+  background: rgba(240, 237, 229, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+  height: 100%;
+}
+
+.cpg-bar-fill-a {
+  height: 100%;
+  background: var(--orisha-teal);
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+.cpg-bar-fill-b {
+  height: 100%;
+  background: var(--danfo-gold);
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+@keyframes fasSlideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fas-art-card {
+  background: rgba(6, 6, 13, 0.95);
+  border: 1px solid rgba(0, 201, 177, 0.25);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.fas-art-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--orisha-teal);
+  box-shadow: 0 12px 30px rgba(0, 201, 177, 0.2);
+}
+
+.fas-art-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.fas-art-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.fas-art-card:hover .fas-art-img {
+  transform: scale(1.05);
+}
+
+.fas-art-badge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  background: rgba(6, 6, 13, 0.85);
+  border: 1px solid rgba(0, 201, 177, 0.5);
+  color: var(--orisha-teal);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: 3px;
+}
+
+.fas-hologram-border {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: 1px solid transparent;
+  background: linear-gradient(135deg, rgba(0, 201, 177, 0.3) 0%, transparent 40%, rgba(244, 184, 0, 0.3) 100%) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.fas-art-info {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.fas-art-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--bone-white);
+  line-height: 1.3;
+}
+
+.fas-art-creator {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--danfo-gold);
+}
+
+.fas-art-desc {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.82rem;
+  color: var(--ash-grey);
+  line-height: 1.5;
+  margin-top: 0.25rem;
+  flex: 1;
+}
+
+.fas-art-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(240, 237, 229, 0.08);
+  padding-top: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.fas-art-id-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--ash-grey);
+}
+
+.fas-like-btn {
+  background: rgba(240, 237, 229, 0.05);
+  border: 1px solid rgba(240, 237, 229, 0.15);
+  color: var(--bone-white);
+  padding: 0.3rem 0.65rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.fas-like-btn:hover {
+  background: rgba(196, 30, 58, 0.2);
+  border-color: var(--blood-red);
+  color: var(--blood-red);
+}
+
+.fas-modal-dialog {
+  background: rgba(10, 10, 31, 0.98);
+  border: 1px solid var(--orisha-teal);
+  border-radius: 8px;
+  max-width: 900px;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 30px rgba(0, 201, 177, 0.2);
+}
+
+.timeline-epoch-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.timeline-epoch-badge {
+  display: inline-block;
+  background: rgba(0, 201, 177, 0.15);
+  border: 1px solid rgba(0, 201, 177, 0.4);
+  color: var(--orisha-teal);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: 3px;
+  width: fit-content;
+}
+
+.timeline-epoch-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.2rem;
+  letter-spacing: 0.08em;
+  color: var(--bone-white);
+  line-height: 1.1;
+  font-weight: 400;
+}
+
+.timeline-epoch-desc {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.92rem;
+  line-height: 1.75;
+  color: var(--ash-grey);
+}
+
+.timeline-epoch-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  background: rgba(10, 10, 31, 0.6);
+  border: 1px solid rgba(240, 237, 229, 0.1);
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.timeline-metric-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.timeline-metric-lbl {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--ash-grey);
+  letter-spacing: 0.1em;
+}
+
+.timeline-metric-val {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--danfo-gold);
+}
+
+.timeline-epoch-media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 201, 177, 0.25);
+}
+
+.timeline-epoch-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.annot-card-badge {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  color: var(--danfo-gold);
+  font-weight: 700;
+}
+
+.annot-card-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--bone-white);
+  line-height: 1.2;
+}
+
+.annot-card-content {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--bone-white);
+  opacity: 0.9;
+  flex: 1;
+}
+
+.annot-reactions-row {
+  display: flex;
+  gap: 0.5rem;
+  border-top: 1px solid rgba(240, 237, 229, 0.1);
+  padding-top: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.annot-react-btn {
+  background: rgba(240, 237, 229, 0.05);
+  border: 1px solid rgba(240, 237, 229, 0.15);
+  color: var(--bone-white);
+  padding: 0.3rem 0.6rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.annot-react-btn:hover {
+  border-color: var(--danfo-gold);
+  color: var(--danfo-gold);
+  transform: scale(1.05);
+}
+
+.quest-card {
+  background: rgba(6, 6, 13, 0.95);
+  border: 1px solid rgba(240, 237, 229, 0.15);
+  border-radius: 8px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+.quest-card:hover {
+  border-color: var(--orisha-teal);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 201, 177, 0.15);
+}
+
+.quest-card.completed {
+  border-color: var(--danfo-gold);
+  background: rgba(244, 184, 0, 0.05);
+}
+
+.quest-type-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--danfo-gold);
+  letter-spacing: 0.14em;
+  font-weight: 700;
+}
+
+.quest-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--bone-white);
+  line-height: 1.25;
+}
+
+.quest-desc {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--ash-grey);
+  flex: 1;
+}
+
+.quest-reward-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--orisha-teal);
+  font-weight: 700;
+}
+
+.quest-action-btn {
+  background: rgba(0, 201, 177, 0.15);
+  border: 1px solid var(--orisha-teal);
+  color: var(--orisha-teal);
+  padding: 0.65rem 1rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.quest-action-btn:hover {
+  background: var(--orisha-teal);
+  color: var(--black);
+}
+
+.quest-card.completed .quest-action-btn {
+  background: var(--danfo-gold);
+  border-color: var(--danfo-gold);
+  color: var(--black);
+}
+
+/* ── ACCESSIBILITY ACTIVE MODES ON BODY ── */
+body.dyslexia-mode {
+  letter-spacing: 0.06em;
+  word-spacing: 0.16em;
+  line-height: 2 !important;
+}
+
+body.dyslexia-mode p,
+body.dyslexia-mode span,
+body.dyslexia-mode button,
+body.dyslexia-mode a {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
+body.photophobia-guard * {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+body.reduced-motion * {
+  scroll-behavior: auto !important;
+  transform: none !important;
+}
+
+.divine-chip-btn {
+  background: rgba(240, 237, 229, 0.05);
+  border: 1px solid rgba(240, 237, 229, 0.15);
+  color: var(--bone-white);
+  padding: 0.35rem 0.65rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.divine-chip-btn:hover {
+  border-color: var(--danfo-gold);
+  color: var(--danfo-gold);
+}
+
+.divine-chip-btn.active {
+  background: rgba(244, 184, 0, 0.2);
+  border-color: var(--danfo-gold);
+  color: var(--danfo-gold);
+  font-weight: 700;
+}
+
+.beat-step-led {
+  height: 6px;
+  border-radius: 2px;
+  background: rgba(240, 237, 229, 0.1);
+  transition: all 0.1s ease;
+}
+
+.beat-step-led.active-head {
+  background: var(--orisha-teal);
+  box-shadow: 0 0 10px var(--orisha-teal);
+}
+
+.beat-track-row {
+  display: grid;
+  grid-template-columns: 140px repeat(16, minmax(32px, 1fr));
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.beat-track-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.beat-track-name {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--bone-white);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.beat-track-play {
+  background: rgba(240, 237, 229, 0.08);
+  border: 1px solid rgba(240, 237, 229, 0.2);
+  color: var(--ash-grey);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 0.65rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.beat-track-play:hover {
+  color: var(--orisha-teal);
+  border-color: var(--orisha-teal);
+}
+
+.beat-pad {
+  aspect-ratio: 1 / 1;
+  background: rgba(240, 237, 229, 0.04);
+  border: 1px solid rgba(240, 237, 229, 0.12);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.beat-pad:hover {
+  border-color: rgba(0, 201, 177, 0.5);
+}
+
+.beat-pad.on {
+  background: var(--orisha-teal);
+  border-color: var(--orisha-teal);
+  box-shadow: 0 0 10px rgba(0, 201, 177, 0.6);
+}
+
+.omni-result-card {
+  background: rgba(10, 10, 31, 0.85);
+  border: 1px solid rgba(240, 237, 229, 0.12);
+  border-radius: 6px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.omni-result-card:hover {
+  border-color: var(--orisha-teal);
+  transform: translateY(-3px);
+  background: rgba(10, 10, 31, 0.98);
+  box-shadow: 0 8px 25px rgba(0, 201, 177, 0.15);
+}
+
+.omni-card-cat {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  color: var(--danfo-gold);
+  font-weight: 700;
+}
+
+.omni-card-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--bone-white);
+  line-height: 1.25;
+}
+
+.omni-card-desc {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--ash-grey);
+  flex: 1;
+}
+
+.omni-card-action {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--orisha-teal);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.25rem;
+}
+@keyframes swPulse {
+  0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 8px var(--teal, #00C9B1); }
+  50% { transform: scale(1.3); opacity: 0.6; box-shadow: 0 0 16px var(--teal, #00C9B1); }
+}
+#swRadarCanvas {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+#relicCanvas3d {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+@keyframes arScan {
+  0% { top: 0; opacity: 0; }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.8; }
+  100% { top: 100%; opacity: 0; }
+}
+@keyframes wrLivePulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.4); }
+}
+#wrCipherKeyVal {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--gold, #F4B800);
+  text-align: right;
+}
+.wr-cipher-result {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  color: rgba(240, 237, 229, 0.5);
+  text-align: center;
+  padding: 0.4rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 3px;
+}
+.wr-cipher-result.solved {
+  color: var(--teal, #00C9B1);
+  border: 1px solid var(--teal, #00C9B1);
+  background: rgba(0, 201, 177, 0.1);
+}
+.wr-msg-card {
+  background: rgba(12, 16, 28, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 3px solid var(--gold, #F4B800);
+  border-radius: 4px;
+  padding: 0.8rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.wr-msg-card.oracle {
+  border-left-color: var(--teal, #00C9B1);
+  background: rgba(0, 201, 177, 0.05);
+}
+.wr-msg-card.ade {
+  border-left-color: var(--gold, #F4B800);
+}
+.wr-msg-card.tunde {
+  border-left-color: #FF9500;
+}
+.wr-msg-card.user-dispatch {
+  border-left-color: #5AC8FA;
+  background: rgba(90, 200, 250, 0.05);
+}
+.wr-msg-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.wr-msg-sender {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--gold, #F4B800);
+}
+.wr-msg-card.oracle .wr-msg-sender {
+  color: var(--teal, #00C9B1);
+}
+.wr-msg-card.user-dispatch .wr-msg-sender {
+  color: #5AC8FA;
+}
+.wr-msg-time {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  color: rgba(240, 237, 229, 0.45);
+}
+.wr-msg-body {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #F0EDE5;
+}
+/* Camera Motions */
+.cam-pan {
+  animation: cameraPan 3.5s ease-in-out forwards;
+}
+@keyframes cameraPan {
+  0% { transform: scale(1.05) translateX(-20px); }
+  100% { transform: scale(1.05) translateX(20px); }
+}
+.cam-zoom {
+  animation: cameraZoom 3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes cameraZoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.2) translateY(-10px); }
+}
+.cam-shake {
+  animation: cameraShake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+@keyframes cameraShake {
+  10%, 90% { transform: translate3d(-3px, 0, 0); }
+  20%, 80% { transform: translate3d(4px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-6px, -2px, 0); }
+  40%, 60% { transform: translate3d(6px, 2px, 0); }
+}
+@keyframes pwaPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.6; }
+}
+
+#bossBattleCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.boss-log-row.system { color: #8a8a9a; }
+.boss-log-row.hero { color: #00C9B1; }
+.boss-log-row.boss { color: #FF6B6B; }
+.boss-log-row.crit { color: #F4B800; font-weight: bold; }
+
+#cyberIdCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
