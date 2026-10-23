@@ -89,7 +89,7 @@ def check_fonts(pages):
         text = open(path, encoding='utf-8').read()
         for m in re.finditer(r'font-family\s*:\s*([^;}"]*)', text):
             for raw in m.group(1).split(','):
-                fam = raw.strip().strip('\'"').strip()
+                fam = raw.replace("\\'", "'").replace('\\"', '"').strip().strip('\'"').strip()
                 if not fam or fam.startswith('var(') or fam.endswith(')'):
                     continue
                 key = fam.lower()
@@ -130,6 +130,8 @@ def main():
         missing = []
         for m in re.finditer(r'(?:src|href)="(?!https?:|mailto:|data:|#)([^"?#]+)', html):
             target = m.group(1)
+            if target.startswith('/private/') and '--with-archive' not in sys.argv:
+                continue
             base = SITE if target.startswith('/') else os.path.dirname(os.path.join(SITE, page))
             path = os.path.normpath(os.path.join(base, target.lstrip('/')))
             if os.path.exists(path) or os.path.exists(path + '.html'):
