@@ -47,10 +47,18 @@ jobs:
       - name: Static files (XML, JSON-LD, links, canonicals)
         run: python3 design-templates/catalyst-awakening-comic/tests/validate_static.py
 
+      - name: Production access boundary
+        run: node tests/production-access.test.mjs
+
       - name: Install Playwright chromium
         run: |
           npm install --no-audit --no-fund
           npx playwright install --with-deps chromium
 
       - name: Browser checks
-        run: npm test
+        run: |
+          if [ -f design-templates/catalyst-awakening-comic/production-release.json ]; then
+            node tests/production-showcase.cjs
+          else
+            npm test
+          fi

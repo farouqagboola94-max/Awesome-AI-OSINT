@@ -4,7 +4,7 @@
 // activate handler below evicts the previous generation. IMG_CACHE is versioned
 // separately and deliberately left behind: image bytes are immutable per URL, so
 // there's no reason to make returning visitors re-download them on a code change.
-const CACHE = 'catalyst-v22';
+const CACHE = 'catalyst-protected-production-v1';
 const IMG_CACHE = 'catalyst-img-v5';
 const IMG_CACHE_MAX = 60;
 const PRECACHE = [
@@ -46,13 +46,13 @@ self.addEventListener('activate', e => {
   e.waitUntil(
     Promise.all([
       caches.keys().then(keys => Promise.all(keys.map(async key => {
-        if (key !== CACHE && key !== IMG_CACHE) return caches.delete(key);
+        if (key !== CACHE) return caches.delete(key);
         // Clear any proof pages retained by the old image/document handlers.
         const cache = await caches.open(key);
         const requests = await cache.keys();
         await Promise.all(requests.filter(request => {
           const path = new URL(request.url).pathname;
-          return path.startsWith('/private/') || /^\/read\/issue-1-(comic|book)(?:\.html)?$/.test(path);
+          return path.startsWith('/private/') || path.startsWith('/production-') || path.startsWith('/read/issue-1') || path.startsWith('/read/issue-2') || path.startsWith('/script-studio');
         }).map(request => cache.delete(request)));
       }))),
       // Navigation preload: browser starts the network fetch in parallel
@@ -78,7 +78,7 @@ self.addEventListener('fetch', e => {
 
   // Let Netlify's owner SSO and no-store headers control every proof response.
   const path = new URL(e.request.url).pathname;
-  if (path.startsWith('/private/') || /^\/read\/issue-1-(comic|book)(?:\.html)?$/.test(path)) return;
+  if (path.startsWith('/private/') || path.startsWith('/production-') || path.startsWith('/read/issue-1') || path.startsWith('/read/issue-2') || path.startsWith('/script-studio')) return;
 
   const dest = e.request.destination;
 

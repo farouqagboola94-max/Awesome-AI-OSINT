@@ -1,0 +1,27 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+const source=fs.readFileSync(new URL('../netlify/edge-functions/production-access.js',import.meta.url),'utf8');
+const module=await import('data:text/javascript;base64,'+Buffer.from(source).toString('base64'));
+const token='header.payload.signature';
+function fake(status,rows=[{role:'reviewer'}],user={id:'test-owner'}){let calls=0;return async()=>{calls++;return new Response(JSON.stringify(calls===1?user:rows),{status:calls===1?status:200,headers:{'Content-Type':'application/json'}});};}
+assert.equal((await module.authorize('',fake(200))).status,401);
+assert.equal((await module.authorize(token,fake(401))).status,401);
+assert.equal((await module.authorize(token,fake(200,[]))).status,403);
+assert.equal((await module.authorize(token,fake(200,[{role:'reviewer'}]))).role,'reviewer');
+assert.equal((await module.authorize(token,fake(200,[{role:'admin'}]))).role,'admin');
+assert.equal((await module.authorize(token,fake(200,[{role:'admin'}],{id:'test',is_anonymous:true}))).status,401);
+assert.equal((await module.authorize(token,fake(200,[{role:'reader'}]))).status,403);
+assert.equal((await module.authorize(token,fake(200,[],{id:'test',user_metadata:{role:'admin'}}))).status,403);
+const oldFetch=globalThis.fetch;globalThis.fetch=fake(200,[{role:'reviewer'}]);
+let origin=await module.default(new Request('https://catalyst.test/production-session',{method:'POST',headers:{Origin:'https://evil.test',Authorization:'Bearer '+token}}),{});assert.equal(origin.status,403);
+const missing=await module.default(new Request('https://catalyst.test/private/issue01/pages/p01.webp'),{next(){throw Error('Must deny before origin');}});assert.equal(missing.status,401);
+globalThis.fetch=fake(200,[{role:'reviewer'}]);
+const ok=await module.default(new Request('https://catalyst.test/production-session',{method:'POST',headers:{Origin:'https://catalyst.test',Authorization:'Bearer '+token}}),{});assert.equal(ok.status,200);assert.match(ok.headers.get('set-cookie'),/HttpOnly; Secure; SameSite=Strict/);assert.match(ok.headers.get('cache-control'),/no-store/);
+globalThis.fetch=fake(200,[{role:'reviewer'}]);
+const admin=await module.default(new Request('https://catalyst.test/production-admin/',{headers:{Cookie:'__Host-catalyst-production='+token}}),{});assert.equal(admin.status,403);
+globalThis.fetch=fake(200,[{role:'reviewer'}]);
+const image=await module.default(new Request('https://catalyst.test/production-reader/folio-art/issue01/S01.webp',{headers:{Cookie:'__Host-catalyst-production='+token}}),{next:async()=>new Response('image-bytes',{headers:{'Cache-Control':'public, max-age=31536000'}})});assert.equal(image.status,200);assert.equal(await image.text(),'image-bytes');assert.match(image.headers.get('cache-control'),/private, no-store/);
+globalThis.fetch=async()=>{throw Error('outage');};
+const fail=await module.default(new Request('https://catalyst.test/production-reader/',{headers:{Cookie:'__Host-catalyst-production='+token}}),{});assert.equal(fail.status,503);
+globalThis.fetch=oldFetch;
+console.log('PASS: signed-out direct asset denial; verified reviewer/admin admission; anonymous, forged role, unapproved user and admin escalation denial; same-origin session; secure cookie; no-store; fail-closed outage.');

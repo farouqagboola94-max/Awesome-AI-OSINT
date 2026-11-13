@@ -572,6 +572,20 @@ def main():
                     help='verify the built pages match index.html; do not write')
     args = ap.parse_args()
 
+    if os.path.exists(os.path.join(ROOT, 'production-release.json')):
+        stale = []
+        for n, title in [(1, 'Awaken, O City'), (2, 'Ṣàngó’s Daughter'), (3, 'Iron in the Blood'), (4, 'The Price of Aṣẹ')]:
+            page = '''<!doctype html><html lang="en-NG"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="description" content="Protected Catalyst production draft. Public release is in development."><link rel="canonical" href="https://catalyst-awakening.netlify.app/read/issue-%d"><title>Issue %02d: %s · Production draft | Catalyst</title><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Catalyst production draft","isAccessibleForFree":false}</script><link rel="stylesheet" href="/production-access.css"></head><body><main><p>CATALYST · THE AWAKENING</p><h1>Issue %02d · %s</h1><p>This edition is in production. The full proof is available to approved reviewers and administrators after signing in.</p><p><a href="/production-access.html">Sign in for production access →</a></p><a href="/">Back to the public showcase</a></main></body></html>\n''' % (n,n,esc(title),n,esc(title))
+            out = os.path.join(OUTDIR, 'issue-%d.html' % n)
+            if args.check:
+                if not os.path.exists(out) or open(out, encoding='utf-8').read() != page:
+                    stale.append(out)
+            else:
+                with open(out,'w',encoding='utf-8') as f: f.write(page)
+        if stale:
+            print('Protected production entry pages need rebuilding:', ', '.join(stale)); return 1
+        print('Protected production entry pages are current. Full private proofs are assembled separately.'); return 0
+
     html = open(SRC, encoding='utf-8').read()
     parts = slice_source(html)
     canon = read_canonical_titles(html)
