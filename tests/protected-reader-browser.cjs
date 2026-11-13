@@ -9,7 +9,7 @@ const server=http.createServer((req,res)=>{
  const p=path.resolve(SITE,'.'+rel);if(!p.startsWith(SITE+path.sep)||!fs.existsSync(p)){res.writeHead(404);res.end();return;}
  res.writeHead(200,{'Content-Type':types[path.extname(p)]||'application/octet-stream'});fs.createReadStream(p).pipe(res);
 });
-(async()=>{await new Promise(r=>server.listen(0,'127.0.0.1',r));const base='http://127.0.0.1:'+server.address().port;const browser=await chromium.launch();let checks=0;const results=[];
+(async()=>{await new Promise(r=>server.listen(0,'127.0.0.1',r));const base='http://127.0.0.1:'+server.address().port;const browser=await chromium.launch(process.env.CHROMIUM_EXECUTABLE_PATH?{executablePath:process.env.CHROMIUM_EXECUTABLE_PATH,args:['--no-sandbox']}:{});let checks=0;const results=[];
  try{for(const spec of [{name:'desktop Chromium',viewport:{width:1440,height:1000}},{name:'phone emulation',...devices['Pixel 7']}]){
   const {name,...opts}=spec,ctx=await browser.newContext(opts),page=await ctx.newPage();await page.route(/cdn\.jsdelivr\.net/,r=>r.abort());const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(base+'/production-reader/',{waitUntil:'load'});await page.waitForSelector('#page-title');
@@ -17,6 +17,16 @@ const server=http.createServer((req,res)=>{
   await page.selectOption('#issue','1');await page.selectOption('#jump','1');await page.keyboard.press('ArrowRight');assert.equal(await page.locator('#jump').inputValue(),'2');checks++;
   await page.locator('#art-open').click();await page.locator('#zoom-in').click();assert.equal(await page.locator('#zoom-value').innerText(),'125%');await page.locator('#zoom-fit').click();assert.equal(await page.locator('#zoom-value').innerText(),'Fit');await page.locator('#art-close').click();checks+=2;
   await page.locator('#view-story').click();assert.ok(await page.locator('#story').isVisible());assert.ok((await page.locator('#story-content').innerText()).length>1000);checks++;
+  await page.locator('#view-comic').click();await page.selectOption('#chapter','2');assert.equal(await page.locator('#chapter').inputValue(),'2');checks++;
+  if(opts.hasTouch){
+   await page.selectOption('#jump','1');
+   await page.locator('#art-frame').evaluate(el=>{
+    const start=new Touch({identifier:1,target:el,clientX:300,clientY:300});
+    el.dispatchEvent(new TouchEvent('touchstart',{bubbles:true,touches:[start],changedTouches:[start]}));
+    el.dispatchEvent(new TouchEvent('touchend',{bubbles:true,changedTouches:[new Touch({identifier:1,target:el,clientX:80,clientY:305})]}));
+   });
+   assert.equal(await page.locator('#jump').inputValue(),'2');checks++;
+  }
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+2),false,'horizontal overflow');assert.deepEqual(errors,[]);checks+=2;
   results.push({surface:name,checks,authentication:'separate handler and database tests; no live account used',physical_device:false});await ctx.close();
  }}finally{await browser.close();await new Promise(r=>server.close(r));}

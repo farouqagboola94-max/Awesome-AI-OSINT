@@ -1,7 +1,7 @@
 {
-  "release": "Protected production candidate",
-  "date": "2026-10-23",
-  "showcase": "public",
+  "release": "Protected working-review candidate",
+  "date": "2026-11-13",
+  "showcase": "team protected during production acceptance",
   "production_reader": "approved accounts only",
   "issues": {
     "1": {
@@ -17,6 +17,9 @@
     "1": 88,
     "2": 86
   },
-  "real_device_qa": "pending",
-  "live_deployment": "pending"
+  "real_device_qa": "not run",
+  "live_deployment": "pending",
+  "print": "not approved",
+  "motion": "not approved",
+  "publishing": "blocked"
 }

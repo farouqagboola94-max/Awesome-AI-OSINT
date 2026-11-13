@@ -6,6 +6,7 @@ SITE=ROOT/'design-templates/catalyst-awakening-comic'
 def build(source):
  source=Path(source).resolve();target=SITE/'production-reader';target.mkdir(exist_ok=True)
  data=json.loads((source/'reader/manifest.json').read_text())
+ data['visibility']='PROTECTED WORKING REVIEW. Approved accounts only. Release acceptance pending.'
  for issue in data['issues']:
   assert sum(p['isStory'] for p in issue['pages'])==150
   for page in issue['pages']:
@@ -28,7 +29,8 @@ def build(source):
    original=(source/'reader'/issue['cover']).resolve();assert original.is_file() and original.is_relative_to(source)
    rel=Path('covers')/f'issue{issue["number"]:02}'/original.name;dest=target/rel;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(original,dest);issue['cover']=rel.as_posix()
   else:remap(issue.get('cover',{}))
- html=(source/'reader/reader-source/index.template.html').read_text()
+ template=source/'reader/reader-source/index.template.html'
+ html=template.read_text() if template.exists() else (source/'reader/index.html').read_text()
  html=html.replace("connect-src 'none'","connect-src 'self' https://oxnpmgbwwsjfseirfxej.supabase.co")
  html=html.replace("script-src 'self'","script-src 'self' https://cdn.jsdelivr.net")
  html=html.replace('</head>','<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.min.js" defer></script><script src="/production-session.js" defer></script></head>')
@@ -36,6 +38,9 @@ def build(source):
  html=html.replace('</header>','<button id="production-sign-out">Sign out</button></header>',1)
  html=html.replace('This local proof has no sign-in or deployment protection; do not publish it to a public static host.','Production access is checked on every page and image request. This is a work in progress awaiting final art, lettering and device review.')
  html=html.replace('{{DATA}}',json.dumps(data,ensure_ascii=False).replace('</','<\\/'))
+ # Portable review archives already contain their JSON data script.
+ if '{{DATA}}' not in html:
+  html=re.sub(r'(<script[^>]*type="application/json"[^>]*>).*?(</script>)',lambda m:m.group(1)+json.dumps(data,ensure_ascii=False).replace('</','<\\/')+m.group(2),html,flags=re.S)
  (target/'index.html').write_text(html);(target/'manifest.json').write_text(json.dumps(data,ensure_ascii=False,indent=2))
  for name in ['reader.js','reader-core.js','reader.css']:shutil.copy2(source/'reader'/name,target/name)
  fonts=source/'reader/assets/fonts'
